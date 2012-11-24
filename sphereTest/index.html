@@ -1,0 +1,113 @@
+<html>
+    <head>
+        <title>Globe Test</title>
+        <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+        
+        <script id="vertexShader" type="x-shader/x-vertex">
+            attribute vec3 vertexPosition;
+            attribute vec3 vertexNormal;
+            attribute vec2 textureCoord;
+
+            uniform mat4 modelViewMat;
+            uniform mat4 projectionMat;
+            uniform mat4 normalMat;
+
+            varying vec4 vertPos;
+            varying vec4 vertNorm;
+            varying vec2 texCoord;
+
+            void main(void) {
+                vertPos = modelViewMat * vec4(vertexPosition, 1.0);
+                vertNorm = normalize(normalMat * vec4(vertexNormal, 1.0));
+                gl_Position = projectionMat * vertPos;
+                texCoord = textureCoord;
+            }
+        </script>
+        
+        <script id="fragmentShader" type="x-shader/x-fragment">
+            precision mediump float;
+
+            varying vec2 texCoord;
+            varying vec4 vertPos;
+            varying vec4 vertNorm;
+
+            uniform sampler2D texture;
+
+            void main(void) {
+                vec4 lightPos = vec4(-10.0, 10.0, 5.0, 1.0);
+                vec4 vertToLight = vec4(lightPos - vertPos);
+                float diff = dot(vertToLight, vertNorm);
+                
+                vec4 reflected = reflect(-vertToLight, vertNorm);
+                float spec = pow(max(reflected.z, 0.0), 50.0);
+
+                vec4 color = texture2D(texture, vec2(texCoord.s, texCoord.t));
+                gl_FragColor = vec4(color.rgb * 0.7 * vec3(diff + spec + 0.02), color.a);
+            }
+        </script>
+        
+        <script type="text/javascript" src="glContext.js"></script>
+        <script type="text/javascript" src="fileLoader.js"></script>
+        <script type="text/javascript" src="sphere.js"></script>
+        <script type="text/javascript" src="shaderProgram.js"></script>
+        <script type="text/javascript" src="matrix.js"></script>
+        
+        <script type="text/javascript">
+            var context; 
+            var program;
+            var canvas;
+            var globe = new sphere(3, 30, 30);
+            
+            window.requestAnimFrame = (function() {
+            	  return window.requestAnimationFrame ||
+            	         window.webkitRequestAnimationFrame ||
+            	         window.mozRequestAnimationFrame ||
+            	         window.oRequestAnimationFrame ||
+            	         window.msRequestAnimationFrame ||
+            	         function(/* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
+            	           window.setTimeout(callback, 1000/60);
+            	         };
+        	})();
+            
+            var pMatrix = mat4.create();
+            
+            function drawScene() {
+            	var gl = context.getContext();
+            	gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); 
+                
+                mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
+                
+                globe.draw(context, pMatrix);
+            }
+            
+            var lastTime = 0;
+            
+            function tick() {
+            	var timeNow = new Date().getTime();
+            	var elapsedTime = 0;
+                if (lastTime != 0) 
+                	elapsedTime = timeNow - lastTime;
+                lastTime = timeNow;
+                    
+                requestAnimFrame(tick);
+                globe.update(elapsedTime);
+                drawScene();
+            }
+            
+            function main() {
+            	canvas = document.getElementById("mainCanvas");
+            	context = new glContext(canvas);
+            	globe.uploadTo(context);
+            	
+            	tick();
+            }
+            
+        </script>
+    </head>
+    
+    <body onload="main();" bgcolor="black">
+        <canvas id="mainCanvas" style="border: none;" width="1024" height="800"></canvas>
+    </body>
+    
+</html>
