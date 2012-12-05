@@ -1,0 +1,180 @@
+/*----css page for user account---*/
+
+#aboutHG {
+  margin: 30px 130px 30px 130px;
+  text-align: justify;
+}
+
+.back {
+  float: right;
+  margin: 5px;
+  font-size: 1.2em;
+}
+
+.back a {
+  text-decoration: none;
+}
+
+
+/*Tab Menu - Buttons Login and Register*/
+.adminArea {
+	position: absolute ;
+	right:3px;
+	top:2px;
+	width:200px;
+	height:20px;
+	background-image: url(adminArea2.png);
+}
+
+.menu1 {
+	position: absolute ;
+	right:3px;
+	top:0px;
+	padding-right:10px;
+	background-image: url(adminArea2.png) bottom no-repeat;
+  } 
+
+div#registerErrorMessage{
+ position:absolute;
+ text-align:center;
+ color: red;
+}
+  
+div#register {
+  width: 220;
+  height: 74px;
+  padding: 0;
+  position: absolute;
+  top:20px;
+  left:47.5%;
+}
+  
+ /*Font color*/ 
+ body {
+  #background: #E5E0D9;
+  #background-image: url(logo.png);
+  color: #002200;
+}
+ 
+/*Image-Logo-...*/
+div#logo1 {
+  float: left;
+  margin: 5px 5px 5px 5px;
+  width: 105px;
+  height: 130px;
+  background-image:url(../images/hgLogo.png);
+  background-repeat: no-repeat;
+}
+
+div#whyshouldIregister{
+	position:absolute;
+	top:20%;
+	left:10%;
+	height:220px;
+	width: 325px;
+	background: #FCFAE1;
+	border: 3px solid grey;
+	padding: 5px;
+		}
+
+div#logo2 {
+  background-image:url(logo.png);
+  background-repeat: no-repeat;
+  width: 367px;
+  height: 437px;
+  padding: 0;
+  position: absolute;
+  top:12%;
+  right:5%;
+}
+
+div#about {
+  background-image:url(about.jpg);
+  background-repeat: no-repeat;
+  width: 220;
+  height: 74px;
+  padding: 0;
+  position: absolute;
+  top:20px;
+  left:46%;
+}
+
+/*Menu buttons*/
+.tab { 
+	margin:0px 5px 0px 20px ; 
+	padding:2px 0px 0px 0px ;
+	font-size : 15px ;
+	float:left ;
+	width:40px ; 	
+	text-decoration:none ;
+	text-align:center;
+  } 
+  
+/*Change the color when you hover the buttons*/
+a.tab:hover {color:green}
+ 
+ /*Login font style for connexion.php*/
+.form1{
+	position:absolute;
+	top:20%;
+	left:40%;
+	#height:120px;
+	width: 300px;
+	background: #FCFAE1;
+	border: 3px solid grey;
+}
+
+ /*Registration form font style for inscription.php*/
+		 /*For an individual*/
+		.form2{
+			position:absolute;
+			top:240px;
+			left:40%;
+			#height:220px;
+			width: 370px;
+			background: #FCFAE1;
+			border: 3px solid grey;
+		}
+		 /*For a private institution*/
+		.form3{
+			position:absolute;
+			top:240px;
+			left:40%;
+			#height:280px;
+			width: 370px;
+			background: #FCFAE1;
+			border: 3px solid grey;
+		}
+.registrationButtons{
+	position:absolute;
+	top:130px;
+	left:40%;
+	#height:100px;
+	width: 370px;
+	background: #FCFAE1;
+	border: 3px solid grey;
+}
+
+
+/*Confirmation message - confirmation.php*/
+.confirmation{
+	position:absolute;
+	top:10%;
+	left:40%;
+	height:140px;
+	width: 450px;
+	background: #FCFAE1;
+	border: 3px solid grey;
+}
+
+/*Footprint for copyright*/
+
+.footPrintCopyright {
+ position:absolute;
+ bottom: 1px;
+ left: 50%;
+ margin-left: -15px;
+ font-size:9px;
+ text-align:center;
+ color:grey;
+}

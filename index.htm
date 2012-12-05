@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>HistoGlobe</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico?v=2">
+  <!-- external libs -->
+    <script type="text/javascript" src="lib/jquery/jquery.171.min.js"></script>
+    <script type="text/javascript" src="lib/jquery/dateentry/jquery.dateentry.min.js"></script>
+    <script type="text/javascript" src="lib/nns/nns.js"></script>
+    <script type="text/javascript" src="lib/polymaps/polymaps.js"></script>
+  <!-- own javascript code -->
+    <script type="text/javascript" src="js/timeline.js"></script>
+    <script type="text/javascript" src="js/map.js"></script>
+    <script type="text/javascript" src="js/admin.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+  <!-- stylesheets -->
+    <link href='http://fonts.googleapis.com/css?family=Oswald:700|Doppio+One' rel='stylesheet' type='text/css'> <!-- country name font -->
+    <link rel="stylesheet" type="text/css" href="css/basic.css" />
+    <link rel="stylesheet" type="text/css" href="css/map.css" />
+    <link rel="stylesheet" type="text/css" href="css/timeline.css" />
+    <link rel="stylesheet" type="text/css" href="css/rightbox.css" />	  
+  </head>
+
+  <body id="mainpage">
+
+
+  <!-- 3 elements: Map with navigation tools, Timeline, RrightBox with AdminArea, CategoryArea and InfoBox -->
+
+  <!-- MAP -->
+	  <div id="map"></div>
+
+	  <div id="bigDateBox"></div>
+    <div id="copyright">
+    Courtesy <a target="_blank" href="http://earthobservatory.nasa.gov/">NASA Earth Observatory</a>.
+    &copy; 2009 <a target="_blank" href="http://thematicmapping.org/downloads/world_borders.php">thematicmapping.org</a>.
+    &copy; 2012 <a target="_blank" href="useracc/copyright.php">HistoGlobe</a>.
+	  </div>
+      
+  <!-- TIMELINE -->
+    <div id="tlContainer">
+      <div id="tlWrapperLeft"></div>
+	    <div id="tlWrapperRight"></div>
+      <div id="timeline">
+        <div id="tlZoom">
+          <div id="tlZoomIn"></div>
+          <div id="tlZoomOut"></div>
+        </div>
+        <div id="tlMoveLeft"></div>
+        <div id="tlMoveRight"></div>
+        <form id="tlPeriod" name="period" onsubmit="return false">
+          <input id="periodStart" type="text" name="periodStart" />
+          <input id="periodEnd" type="text" name="periodEnd" />
+        </form>
+        <div id="tlPlayer">
+  		    <div id="histPlayer" class="playerGo">Play History</div>
+        </div>	    
+        <div id="tlMain">
+          <div id="tlScroller">       <!-- all markers are in here -->
+            <div id="nowMarkerWrap">
+	            <div id="nowMarkerHead">
+	              <form id="nowDate" onsubmit="return false">
+                  <input id="polDate" type="text" name="now" value="" />
+	              </form>
+	            </div>
+              <div id="nowMarkerMain"></div>
+            </div>
+          </div>  
+        </div>
+      </div>
+    </div>
+
+  <!-- RIGHT BOX -->
+    <div id="rbShadow"></div>
+    <div id="rbContainer">    
+      <div id="rightbox">
+      
+  <!-- ADMIN AREA -->		      
+        <div id="adminArea">
+          <table id="loggedout">
+            <tr>
+              <td> <!--  <a href="useracc/login.php" onclick="return showlogin();">Login</a>--> </td>
+              <td> <!-- <td><a href="useracc/registration.php">Register</a></td>--> </td>
+              <td><a href="useracc/help.pdf" target="_blank">Help</a></td>
+              <td><a href="useracc/about.php">About</a></td>
+            </tr>
+          </table>
+          <table id="loggedin">
+            <tr>
+              <td><a href="useracc/logout.php" onclick="return logout()">Logout</a></td>
+              <td><a href="useracc/member.php">Account</a></td>
+              <td><a href="useracc/about.php">About</a></td>
+            </tr>
+          </table>
+          <div id="loginbox">
+            <form action="useracc/login.php" method="POST" id="loginform" name="connexion">
+            <div class="loginField"> <label for="loginUN">Username:</label> <input type="text" name="login" id="loginUN">    </div>
+              <div class="loginField"> <label for="loginPW">Password:</label> <input type="password" name="pass" id="loginPW"> </div>
+              <div id="loginButtons">
+                <input type="submit" name="connexion" value="Login">
+                <input type="button" name="cancel" value="Cancel" onclick="closeLogin()">
+              </div>                
+            </form>
+          </div>
+        </div>
+      
+  <!-- CATEGORY BOX -->  
+        <hr />    
+        <div id="catBox">
+          <p id="catHead">Show events in:</p>
+          <form>
+            <div class="catSelect"><input type="checkbox" id="catSociety" name="category" value="society" />
+              <label for="catSociety">Society<label>
+            </div>
+            <div class="catSelect"><input type="checkbox" id="catDomestic" name="category" value="domestic" />
+              <label for="catDomestic">Domestic Politics<label>
+            </div>
+            <div class="catSelect"><input type="checkbox" id="catForeign" name="category" checked value="foreign" />
+              <label for="catForeign">Foreign Politics<label>
+            </div>
+          </form>
+        </div>
+        
+  <!-- INFORMATION BOX -->
+        <hr />    
+        <div id="infoBox" class="infoBox-empty">
+          <div id="eventTitle"></div>
+          <div id="eventDate"></div>
+          <div id="eventAbstract"></div>
+          <div id="infoBoxHr"></div>
+          <div>
+            <div id="eventClose"><a id="closelink"></a></div>	        
+            <div id="eventInfo"><a></a></div>
+          </div>
+        </div>
+      </div>
+      <div id="rbEnd"></div>
+    </div>
+    
+  </body>
+</html>
