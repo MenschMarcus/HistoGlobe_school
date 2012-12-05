@@ -253,7 +253,7 @@ function loadCss(url) {
 $(function() {
 
   // initiate debug box
-  _d.addbox();
+  //_d.addbox();
 
   // profiling
   // main.ptimer = setInterval(function(){_d.log(__POLYPERF.printTot());},150);
