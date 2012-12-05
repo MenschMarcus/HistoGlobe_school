@@ -7,7 +7,7 @@ class DataBase {
 	function __construct() {
 		try {
 			// Open the database historyDatabase
-			$this->dbconnection = new PDO('mysql:dbname=histoglobe;host=localhost;charset=UTF-8','root','1234');
+			$this->dbconnection = new PDO('mysql:dbname=histoglobe;host=localhost;charset=UTF-8','__DATA__','__PASSWD__');
 			// TODO set options
 			$this->dbconnection -> exec("set names utf8");
 			//print_r($this->dbconnection->errorInfo());
