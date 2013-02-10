@@ -39,6 +39,14 @@
         
         <script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="globe/bootstrap.min.js"></script>
+        
+        <script type="text/javascript" src="globe/third-party/Three/ThreeWebGL.js"></script>
+        <script type="text/javascript" src="globe/third-party/Three/ThreeExtras.js"></script>
+        <script type="text/javascript" src="globe/third-party/Three/RequestAnimationFrame.js"></script>
+        <script type="text/javascript" src="globe/third-party/Three/Detector.js"></script>
+        <script type="text/javascript" src="globe/third-party/Tween.js"></script>
+        <script type="text/javascript" src="globe/globe.js"></script>
         
         <script type="text/javascript">
             jQuery(document).ready(function($) {
@@ -49,6 +57,21 @@
 	            
 	            $('#demo-link').tooltip();
             });
+            
+            function load_gl_header() {
+            	if(!Detector.webgl){
+                    Detector.addGetWebGLMessage();
+                } else {
+                    $('#default-header').css({visibility:"hidden"});
+                    $('.hero-unit').css({"background-image": "url('img/logo_normal.svg')",
+                                         "background-position": "bottom left"});
+                
+                    var container = document.getElementById('container');
+                    var globe = new DAT.Globe(container,"globe/");
+                      
+                    globe.animate();
+                }
+            }
         </script>
 
     </head>
@@ -89,10 +112,24 @@
 
         <div class="container" id="home">
             <div class="hero-unit">
-                <center>
-                    <img src="img/logo_big.svg" alt="logo">
-                    <!--<a href="#" id="demo-link" class="btn" data-placement="bottom" data-original-title="Warnung: Der Globus benötigt einen sehr aktuellen Browser."><small>3D-Globus anzeigen!</small></a>-->
-                </center>
+                <div class="banner">
+                    <img src="img/<?php locale('banner_img')?>" alt="preview">
+                </div>
+                <div id="container"></div>
+                <div id="default-header" style="">
+                    <center>
+                        <img src="img/logo_big.svg" alt="logo">
+                        <p>
+                            <a id="demo-link" class="btn" 
+                               data-placement="bottom" 
+                               data-original-title="Warnung: Der Globus benötigt einen sehr aktuellen Browser." 
+                               data-loading-text="Lädt..."
+                               onClick="load_gl_header()">
+                                <small>3D-Globus anzeigen!</small>
+                            </a>
+                        </p>
+                    </center>
+                </div>
             </div>
             
             <div class="info-box">

@@ -9,6 +9,8 @@
         'not_ready' => '<span class="hg">HistoGlobe</span> will be a platform visualising the course of history on a virtual world map. Next prototype expected: end of June 2013<br />
         The project is funded by the initiative <span style="font-style:italic">Herausforderung Unternehmertum 2013</span> ("Challenge of Entrepreneurship") from <span style="font-style:italic">Heinz Nixdorf Stiftung</span> ("Heinz Nixdorf Foundation") and <span style="font-style:italic">Stiftung der Deutschen Wirtschaft</span> ("Foundation of German Business").',
         
+        'banner_img' => 'banner.png',
+        
         'iconHome' => 'icon-home',
         'iconDetails' => 'icon-ok',
         'iconAbout' => 'icon-info-sign',
