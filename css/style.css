@@ -22,28 +22,49 @@ body {
 .hero-unit {
     color: #505050;
     box-shadow: 0px -3px 4px rgba(0, 0, 0, 0.1) inset;
-    background: #ececec;
     text-align: left;
     padding: 0px;
     margin-bottom: 20px;
     margin-top: 60px;
+    background:#ECECEC;
     background-image:url('../img/logo_bg.jpg');
     background-repeat:no-repeat;
     background-position:bottom right;
     line-height: 100%;
+    position: relative;
 }
 
-.btn {
-    margin: 10px;
-    box-shadow: 0px 0px 20px rgba(255, 255, 255, 1.0);
+.hero-unit img {
+    margin: 2% 0%;
+}
+
+.header-button {
+    right: 15px;
+    top: 10px;
+    position: absolute;
 }
 
 .banner {
+    background-image:url('../img/banner.png');
+    background-repeat:no-repeat;
     margin-left: -10px;
     margin-top: -10px;
     width:175px;
     height:175px;
     position: absolute;
+}
+
+.banner p {
+    font-family: roman_caps;
+    margin-top:20px;
+    margin-left:0px;
+    color: #aaa;
+    font-size:180%;
+    -o-transform: rotate(315deg);
+    -webkit-transform: rotate(315deg); 
+    -moz-transform: rotate(315deg);  
+    -ms-transform: rotate(315deg)
+    filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.71, M12=0.71, M21=-0.71, M22=0.71, SizingMethod="auto expand");
 }
 
 .span4 {

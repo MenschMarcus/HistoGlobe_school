@@ -9,8 +9,6 @@
         'not_ready' => '<span class="hg">HistoGlobe</span> wird eine Plattform, die den Verlauf der Geschichte auf einer Weltkarte visualisiert. Der nächste Prototyp wird Ende Juni 2013 erwartet.<br/>
         Das Projekt wird durch die Heinz Nixdorf Stiftung und die Stiftung der Deutschen Wirtschaft im Rahmen von Herausforderung Unternehmertum 2013 gefördert.',
         
-        'banner_img' => 'banner.png',
-        
         'iconHome' => 'icon-home',
         'iconDetails' => 'icon-ok',
         'iconAbout' => 'icon-info-sign',

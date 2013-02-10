@@ -56,13 +56,20 @@
 	            });
 	            
 	            $('#demo-link').tooltip();
+	            $('#beta-tag').tooltip();
             });
             
             function load_gl_header() {
             	if(!Detector.webgl){
                     Detector.addGetWebGLMessage();
                 } else {
-                    $('#default-header').css({visibility:"hidden"});
+                    $('#default-header').animate({opacity: 0.0}, 1000, 'linear', 
+                                                function() {   
+                                                    $('#default-header').css({visibility:"hidden"});
+                                                });
+                    $('#gl-header').css({visibility:"visible"});
+                    $('#demo-link').css({visibility:"hidden"});
+                                                
                     $('.hero-unit').css({"background-image": "url('img/logo_normal.svg')",
                                          "background-position": "bottom left"});
                 
@@ -112,22 +119,33 @@
 
         <div class="container" id="home">
             <div class="hero-unit">
-                <div class="banner">
-                    <img src="img/<?php locale('banner_img')?>" alt="preview">
-                </div>
                 <div id="container"></div>
-                <div id="default-header" style="">
+                <div id="gl-header" style="visibility:hidden">
+                    <div class="btn-toolbar header-button">
+                        <div class="btn-group">
+                            <a class="btn" href="#">2D</a>
+                            <a class="btn" href="#">3D</a>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="banner" >
+                    <p>Beta!</p>
+                </div>
+                
+                <a id="demo-link" class="btn header-button" 
+                   data-placement="left" 
+                   data-original-title="Warnung: Der Globus benötigt einen sehr aktuellen Browser." 
+                   data-loading-text="Lädt..."
+                   onClick="load_gl_header()"
+                   style="margin:10px">
+                    <small>3D-Globus!</small>
+                </a>
+                
+                <div id="default-header">
                     <center>
                         <img src="img/logo_big.svg" alt="logo">
-                        <p>
-                            <a id="demo-link" class="btn" 
-                               data-placement="bottom" 
-                               data-original-title="Warnung: Der Globus benötigt einen sehr aktuellen Browser." 
-                               data-loading-text="Lädt..."
-                               onClick="load_gl_header()">
-                                <small>3D-Globus anzeigen!</small>
-                            </a>
-                        </p>
                     </center>
                 </div>
             </div>
