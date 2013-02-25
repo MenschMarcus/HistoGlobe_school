@@ -46,8 +46,11 @@
         <script type="text/javascript" src="globe/third-party/Three/RequestAnimationFrame.js"></script>
         <script type="text/javascript" src="globe/third-party/Three/Detector.js"></script>
         <script type="text/javascript" src="globe/third-party/Tween.js"></script>
-        <script type="text/javascript" src="globe/globe.js"></script>
-        
+        <script type="text/javascript" src="globe/third-party/paper.js"></script>
+        <script type="text/javascript" src="globe/Display2D.js"></script>
+        <script type="text/javascript" src="globe/Display3D.js"></script>
+        <script type="text/javascript" src="globe/Map.js"></script>
+               
         <script type="text/javascript">
             jQuery(document).ready(function($) {
 	            $(".smooth").click(function(event){		
@@ -58,6 +61,9 @@
 	            $('#demo-link').tooltip();
 	            $('#beta-tag').tooltip();
             });
+            
+            var display2D, display3D;
+            var map = new HG.Map();
             
             function load_gl_header() {
             	if(!Detector.webgl){
@@ -71,14 +77,33 @@
                     $('#demo-link').css({visibility:"hidden"});
                                                 
                     $('.hero-unit').css({"background-image": "url('img/logo_normal.svg')",
-                                         "background-position": "bottom left"});
-                
+                                         "background-position": "bottom left"});                
+                                  
                     var container = document.getElementById('container');
-                    var globe = new DAT.Globe(container,"globe/");
+                    
+                    load3D();
                       
-                    globe.animate();
                 }
             }
+            
+            function load2D() {
+                if (display3D && display3D.isRunning())
+                    display3D.stop();
+                    
+                if (!display2D)
+                    display2D = new HG.Display2D(container, map);
+                display2D.start();            	    
+            }
+            
+            function load3D() {
+                if (display2D && display2D.isRunning())
+                    display2D.stop();
+                  
+                if (!display3D)  
+                    display3D = new HG.Display3D(container, map);
+                display3D.start();            	    
+            }
+            
         </script>
 
     </head>
@@ -118,13 +143,14 @@
         </div>
 
         <div class="container" id="home">
+        
             <div class="hero-unit">
                 <div id="container"></div>
                 <div id="gl-header" style="visibility:hidden">
                     <div class="btn-toolbar header-button">
                         <div class="btn-group">
-                            <a class="btn" href="#">2D</a>
-                            <a class="btn" href="#">3D</a>
+                            <a class="btn" onClick="load2D()">2D</a>
+                            <a class="btn" onClick="load3D()">3D</a>
                         </div>
                     </div>
                 </div>
@@ -149,7 +175,7 @@
                     </center>
                 </div>
             </div>
-            
+                        
             <div class="info-box">
                 <div class="row">
                     <p><i class="icon-warning-sign pull-left" style="font-size:300%"></i>  <?php locale("not_ready")?></p>
