@@ -36,7 +36,7 @@ HG.Display3D = function(container, inMap) {
         'void main() {',
           'vec3 diffuse = texture2D( texture, vUv ).xyz;',
           'float specular = max(0.0, pow(dot( vNormal, normalize(vec3( -0.3, 0.4, 0.7)) ), 30.0));',
-          'float atmosphere =  pow(1.0 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) ), 2.0) * 0.1;',
+          'float atmosphere =  pow(1.0 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) ), 2.0) * 0.5;',
           'gl_FragColor = vec4( diffuse + atmosphere + specular * 0.1, 1.0 );',
         '}'
       ].join('\n')
@@ -53,7 +53,7 @@ HG.Display3D = function(container, inMap) {
       fragmentShader: [
         'varying vec3 vNormal;',
         'void main() {',
-          'float intensity = max(0.0, -0.05 + pow( -dot( vNormal, vec3( 0, 0, 1.0 ) ) + 0.4, 10.0 ));',
+          'float intensity = max(0.0, -0.05 + pow( -dot( vNormal, vec3( 0, 0, 1.0 ) ) + 0.5, 5.0 ));',
           'gl_FragColor = vec4( 1.0, 1.0, 1.0, 0.8 * intensity );',
         '}'
       ].join('\n')
@@ -67,14 +67,14 @@ HG.Display3D = function(container, inMap) {
   var overRenderer;
 
   var curZoomSpeed = 0;
-  var zoomSpeed = 50;
+  var zoomSpeed = 0.1;
 
   var mouse = { x: 0, y: 0 }, mouseOnDown = { x: 0, y: 0 };
   var rotation = { x: 0, y: 0 },
       target = { x: Math.PI*3/2, y: Math.PI / 6.0 },
       targetOnDown = { x: 0, y: 0 };
 
-  var distance = 10000, distanceTarget = 800;
+  var fov = 90, fovTarget = 50;
   var padding = 40;
   var PI_HALF = Math.PI / 2;
 
@@ -109,9 +109,7 @@ HG.Display3D = function(container, inMap) {
     w = $(container.parentNode).innerWidth();
     h = $(container.parentNode).innerHeight();
 
-    camera = new THREE.Camera(
-        30, w / h, 1, 10000);
-    camera.position.z = distance;
+    camera = new THREE.Camera(fov, w / h, 1, 10000);
 
     vector = new THREE.Vector3();
 
@@ -222,10 +220,10 @@ HG.Display3D = function(container, inMap) {
         mouse.x = - event.clientX;
         mouse.y = event.clientY;
 
-        var zoomDamp = distance/1000;
+        var zoomDamp = fov/1000;
 
-        target.x = targetOnDown.x + (mouse.x - mouseOnDown.x) * 0.005 * zoomDamp;
-        target.y = targetOnDown.y + (mouse.y - mouseOnDown.y) * 0.005 * zoomDamp;
+        target.x = targetOnDown.x + (mouse.x - mouseOnDown.x) * 0.1 * zoomDamp;
+        target.y = targetOnDown.y + (mouse.y - mouseOnDown.y) * 0.1 * zoomDamp;
 
         target.y = target.y > PI_HALF ? PI_HALF : target.y;
         target.y = target.y < - PI_HALF ? - PI_HALF : target.y;
@@ -281,9 +279,9 @@ HG.Display3D = function(container, inMap) {
   }
 
   function zoom(delta) {
-    distanceTarget -= delta;
-    distanceTarget = distanceTarget > 1000 ? 1000 : distanceTarget;
-    distanceTarget = distanceTarget < 350 ? 350 : distanceTarget;
+    fovTarget -= delta*zoomSpeed;
+    fovTarget = fovTarget > 50 ? 50 : fovTarget;
+    fovTarget = fovTarget < 10 ? 10 : fovTarget;
   }
 
   function animate() {
@@ -300,11 +298,14 @@ HG.Display3D = function(container, inMap) {
 
     rotation.x += (target.x - rotation.x) * 0.1;
     rotation.y += (target.y - rotation.y) * 0.1;
-    distance += (distanceTarget - distance) * 0.3;
+    fov += (fovTarget - fov) * 0.1;
 
-    camera.position.x = distance * Math.sin(rotation.x) * Math.cos(rotation.y);
-    camera.position.y = distance * Math.sin(rotation.y);
-    camera.position.z = distance * Math.cos(rotation.x) * Math.cos(rotation.y);
+    camera.position.x = 500 * Math.sin(rotation.x) * Math.cos(rotation.y);
+    camera.position.y = 500 * Math.sin(rotation.y);
+    camera.position.z = 500 * Math.cos(rotation.x) * Math.cos(rotation.y);
+    
+    camera.fov = fov;
+    camera.updateProjectionMatrix();
 
     vector.copy(camera.position);
 

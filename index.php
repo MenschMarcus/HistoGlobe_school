@@ -52,6 +52,9 @@
         <script type="text/javascript" src="globe/Map.js"></script>
                
         <script type="text/javascript">
+        
+            var display2D, display3D, map;
+        
             jQuery(document).ready(function($) {
 	            $(".smooth").click(function(event){		
 		            event.preventDefault();
@@ -59,10 +62,9 @@
 	            });
 	            
 	            $('#demo-link').tooltip();
+	            
+	            map = new HG.Map();
             });
-            
-            var display2D, display3D;
-            var map = new HG.Map();
             
             function loadGLHeader() {
             	if(!Detector.webgl){

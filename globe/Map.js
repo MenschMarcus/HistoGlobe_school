@@ -1,11 +1,14 @@
 var HG = HG || {};
 
 HG.Map = function() {
-
+  
+  
+  var time;
+  
   var height = 512;
   var width = height*2;
   var canvas;
-  var islands = new Array();
+  var text;
   
   function init() {    
     canvas = document.createElement("canvas");
@@ -14,35 +17,25 @@ HG.Map = function() {
     
     paper.setup(canvas);
     
-    var rect = new paper.Path.Rectangle([0, 0], [width, height]);
-    rect.fillColor = 'white';
+    imgResource = document.createElement("img");
+    imgResource.setAttribute("id", "map-image");
+    imgResource.setAttribute("src", "img/map.jpg");
+    imgResource.setAttribute("style", "display:none");
+    document.body.appendChild(imgResource);
     
-    var lineCount = 9.0;
-    for (var i = 0; i < lineCount; ++i) {
-        var path = new paper.Path();
-        path.strokeColor = "#BBB";
-        var start = new paper.Point(0, i * height/lineCount);
-        path.moveTo(start);
-        path.lineTo(start.add([ width, 0 ]));
-    }
-    
-    lineCount *= 2.0;
-    for (var i = 0; i < lineCount; ++i) {
-        var path = new paper.Path();
-        path.strokeColor = "#BBB";
-        var start = new paper.Point(i * width/lineCount, 0);
-        path.moveTo(start);
-        path.lineTo(start.add([ 0, height ]));
-    }
+    var background = new paper.Raster('map-image');
+    background.position = new paper.Point(width/2, height/2);
       
-    var islandCount = 10.0;
-   
-    for (var i = 0; i < islandCount; ++i) {
-        var path = new paper.Path.Circle(paper.Point.random().multiply([width, height]), 500.0/islandCount);
-        path.fillColor = "#555";
-        islands[i] = path;
-    }
-
+    text = new paper.PointText(background.position);
+    text.content = 'HistoGlobe';
+    text.characterStyle = {
+        fontSize: 50,
+        font: 'roman_caps',
+        fillColor: 'black',
+    };
+    
+    var date = new Date();
+    time = date.getTime()
   }
   
   this.getCanvas = function() {
@@ -51,10 +44,12 @@ HG.Map = function() {
   
   this.redraw = function() {
     
-    var date = new Date();
-    for (var i = 0; i < islands.length; ++i) {
-        islands[i].translate([0, Math.sin(date.getTime()*0.01) * 10]); 
-    }
+    var currTime = new Date().getTime();
+    var frameTime = currTime - time;
+    time = currTime;
+    
+    //Math.sin(date.getTime()*0.01) * 10]
+    text.rotate(frameTime*0.02);
     paper.view.draw();
   }
 
