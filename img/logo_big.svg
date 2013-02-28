@@ -11,8 +11,8 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.2"
-   width="650"
-   height="380"
+   width="800"
+   height="465"
    id="svg2"
    inkscape:version="0.48.3.1 r9886"
    sodipodi:docname="logo_big.svg">
@@ -33,9 +33,9 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:zoom="1.2362122"
-     inkscape:cx="345.64198"
-     inkscape:cy="174.5815"
+     inkscape:zoom="0.6181061"
+     inkscape:cx="587.02783"
+     inkscape:cy="281.97942"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="0"
@@ -434,22 +434,6 @@
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(1,0,0,0.10539318,-15.65625,12.983335)"
        spreadMethod="repeat" />
-    <filter
-       inkscape:collect="always"
-       id="filter3888">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="1.8678759"
-         id="feGaussianBlur3890" />
-    </filter>
-    <filter
-       inkscape:collect="always"
-       id="filter3908">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="1.8678759"
-         id="feGaussianBlur3910" />
-    </filter>
   </defs>
   <metadata
      id="metadata7">
@@ -464,7 +448,7 @@
     </rdf:RDF>
   </metadata>
   <g
-     transform="matrix(1.311124,0,0,1.311124,-152.80892,-133.28384)"
+     transform="matrix(1.5913134,0,0,1.5913134,-178.069,-150.79433)"
      id="layer1">
     <g
        transform="matrix(1.3084244,0,0,1.3084244,83.923301,48.336628)"
