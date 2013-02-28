@@ -159,6 +159,9 @@ hr {
     color: #edc082;
 }
 
+.tooltip-inner {
+    white-space: pre-wrap;
+}
 
 @media (max-width: 979px) {
     .icon-feature.pull-left,
