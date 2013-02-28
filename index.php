@@ -52,14 +52,26 @@
         <script type="text/javascript" src="globe/Map.js"></script>
                
         <script type="text/javascript">
-        
             var display2D, display3D, map;
+            var container;
+			var webGLSupported = Detector.webgl;
+			var canvasSupported;
+        
+            function isCanvasSupported() {
+                var testCanvas = document.createElement("test-canvas");
+                return ! (testCanvas.getContext && testCanvas.getContext("2d"));
+            }            
         
             jQuery(document).ready(function($) {
 	            $(".smooth").click(function(event){		
 		            event.preventDefault();
 		            $('html,body').animate({scrollTop:$($(this).attr('href')).offset().top}, 500);
 	            });
+	            	            
+	            canvasSupported = isCanvasSupported();
+	            if (!canvasSupported) {
+	                $('#demo-link').addClass("btn disabled");
+	            }
 	            
 	            $('#demo-link').tooltip();
 	            
@@ -67,9 +79,7 @@
             });
             
             function loadGLHeader() {
-            	if(!Detector.webgl){
-                    Detector.addGetWebGLMessage();
-                } else {
+                if (canvasSupported) {
                     $('#default-header').animate({opacity: 0.0}, 1000, 'linear', 
                                                 function() {   
                                                     $('#default-header').css({visibility:"hidden"});
@@ -78,16 +88,19 @@
                     $('#demo-link').css({visibility:"hidden"});
                     $('#back-link').css({visibility:"visible"});
                     $('#back-link').tooltip();
+                    $('#logo-normal').css({visibility: "visible"});                 
                                                 
                     $('.hero-unit').css({"background-image": "none"});
-                    $('#logo-normal').css({visibility: "visible"});                 
-                                  
-                    var container = document.getElementById('container');
-                    
-                    load3D();
-                    $('#toggle-3D').addClass("btn active"); 
-                      
-                }
+                         
+				    if (!webGLSupported) {
+					    $('#toggle-3D').addClass("btn disabled");
+					    $('#toggle-3D').tooltip();
+				    }	
+                         
+                    container = document.getElementById('container');        
+                    load2D();
+                    $('#toggle-2D').addClass("active"); 
+                }       
             }
             
             
@@ -117,6 +130,7 @@
                 if (display3D && display3D.isRunning()) {
                     $(display3D.getCanvas()).animate({opacity: 0.0}, 1000, 'linear');
                     display3D.stop();
+					$('#toggle-3D').removeClass("active");
                 }
                     
                 if (!display2D) {
@@ -125,22 +139,27 @@
                 }
                 
                 display2D.start();   
-                $(display2D.getCanvas()).animate({opacity: 1.0}, 1000, 'linear');       	    
+                $(display2D.getCanvas()).animate({opacity: 1.0}, 1000, 'linear');
+				$('#toggle-2D').addClass("active");       	    
             }
             
             function load3D() {
-                if (display2D && display2D.isRunning()){
-                    $(display2D.getCanvas()).animate({opacity: 0.0}, 1000, 'linear'); 
-                    display2D.stop();
-                }
-                  
-                if (!display3D) {
-                    display3D = new HG.Display3D(container, map);
-                    $(display3D.getCanvas()).css({opacity: 0.0});
-                }
-              
-                display3D.start();    
-                $(display3D.getCanvas()).animate({opacity: 1.0}, 1000, 'linear');        	    
+				if (webGLSupported) {
+		            if (display2D && display2D.isRunning()){
+		                $(display2D.getCanvas()).animate({opacity: 0.0}, 1000, 'linear'); 
+		                display2D.stop();
+						$('#toggle-2D').removeClass("active");
+		            }
+		              
+		            if (!display3D) {
+		                display3D = new HG.Display3D(container, map);
+		                $(display3D.getCanvas()).css({opacity: 0.0});
+		            }
+		          
+		            display3D.start();    
+		            $(display3D.getCanvas()).animate({opacity: 1.0}, 1000, 'linear');
+					$('#toggle-3D').addClass("active"); 
+				}       	    
             }
             
         </script>
@@ -187,9 +206,11 @@
                 <div id="container"></div>
                 <div id="gl-header" style="visibility:hidden">
                     <div class="btn-toolbar header-button-bottom">
-                        <div class="btn-group" data-toggle="buttons-radio">
+                        <div class="btn-group">
                             <a id="toggle-2D" class="btn" onClick="load2D()">2D</a>
-                            <a id="toggle-3D" class="btn" onClick="load3D()">3D</a>
+                            <a id="toggle-3D" class="btn" onClick="load3D()"
+                               data-placement="left" 
+							   data-original-title="3D-Globus kann nicht angezeigt werden, da Ihr Browser zu alt ist oder Ihr Rechner kein WebGL unterstützt!">3D</a>
                         </div>
                     </div>
                 </div>
@@ -205,7 +226,7 @@
                    data-original-title="Warnung! Der Globus benötigt einen sehr aktuellen Browser." 
                    onClick="loadGLHeader()"
                    style="margin:10px">
-                    <small>3D-Globus!</small>
+                    <small>Demo</small>
                 </a>
                 
                 <a id="back-link" class="btn header-button-top" 
@@ -214,7 +235,7 @@
                    data-original-title="Zurück zum Start." 
                    onClick="loadDefaultHeader()"
                    style="margin:10px">
-                    <small>Zurück!</small>
+                    <small>Zurück</small>
                 </a>
                 
                 <div id="default-header">
