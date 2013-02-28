@@ -38,10 +38,29 @@ body {
     margin: 2% 0%;
 }
 
-.header-button {
+.header-button-top {
     right: 15px;
     top: 10px;
     position: absolute;
+}
+
+.header-button-bottom {
+    right: 15px;
+    bottom: 10px;
+    position: absolute;
+}
+
+.bottom-left-logo {
+    background-image:url('../img/logo_normal.svg');
+    background-repeat:no-repeat;
+    background-position:bottom left;
+    margin-bottom: 0px;
+    bottom: 10px;
+    position: absolute;
+    width: 244px;
+    height: 60px;
+    padding: 0px;
+    pointer-events: none;
 }
 
 .banner {
@@ -52,6 +71,7 @@ body {
     width:175px;
     height:175px;
     position: absolute;
+    pointer-events: none;
 }
 
 .banner p {

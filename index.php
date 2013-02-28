@@ -59,13 +59,12 @@
 	            });
 	            
 	            $('#demo-link').tooltip();
-	            $('#beta-tag').tooltip();
             });
             
             var display2D, display3D;
             var map = new HG.Map();
             
-            function load_gl_header() {
+            function loadGLHeader() {
             	if(!Detector.webgl){
                     Detector.addGetWebGLMessage();
                 } else {
@@ -75,33 +74,71 @@
                                                 });
                     $('#gl-header').css({visibility:"visible"});
                     $('#demo-link').css({visibility:"hidden"});
+                    $('#back-link').css({visibility:"visible"});
+                    $('#back-link').tooltip();
                                                 
-                    $('.hero-unit').css({"background-image": "url('img/logo_normal.svg')",
-                                         "background-position": "bottom left"});                
+                    $('.hero-unit').css({"background-image": "none"});
+                    $('#logo-normal').css({visibility: "visible"});                 
                                   
                     var container = document.getElementById('container');
                     
                     load3D();
+                    $('#toggle-3D').addClass("btn active"); 
                       
                 }
             }
             
-            function load2D() {
-                if (display3D && display3D.isRunning())
-                    display3D.stop();
+            
+            function loadDefaultHeader() {
+                $('#default-header').css({visibility:"visible"});
+                $('#default-header').animate({opacity: 1.0}, 1000, 'linear');
+                $('#gl-header').css({visibility:"hidden"});
+                $('#demo-link').css({visibility:"visible"});
+                $('#back-link').css({visibility:"hidden"}); 
+                
+                $('.hero-unit').css({"background-image": "url('img/logo_bg.jpg')",
+                                         "background-position": "bottom right"});
+                $('#logo-normal').css({visibility: "hidden"});      
+                
+                if (display3D && display3D.isRunning()) {
+                    $(display3D.getCanvas()).animate({opacity: 0.0}, 1000, 'linear');
+                    display3D.stop();                
+                }
                     
-                if (!display2D)
+                if (display2D && display2D.isRunning()) {
+                    $(display2D.getCanvas()).animate({opacity: 0.0}, 1000, 'linear');
+                    display2D.stop();                    
+                }   
+            }
+            
+            function load2D() {
+                if (display3D && display3D.isRunning()) {
+                    $(display3D.getCanvas()).animate({opacity: 0.0}, 1000, 'linear');
+                    display3D.stop();
+                }
+                    
+                if (!display2D) {
                     display2D = new HG.Display2D(container, map);
-                display2D.start();            	    
+                    $(display2D.getCanvas()).css({opacity: 0.0});
+                }
+                
+                display2D.start();   
+                $(display2D.getCanvas()).animate({opacity: 1.0}, 1000, 'linear');       	    
             }
             
             function load3D() {
-                if (display2D && display2D.isRunning())
+                if (display2D && display2D.isRunning()){
+                    $(display2D.getCanvas()).animate({opacity: 0.0}, 1000, 'linear'); 
                     display2D.stop();
+                }
                   
-                if (!display3D)  
+                if (!display3D) {
                     display3D = new HG.Display3D(container, map);
-                display3D.start();            	    
+                    $(display3D.getCanvas()).css({opacity: 0.0});
+                }
+              
+                display3D.start();    
+                $(display3D.getCanvas()).animate({opacity: 1.0}, 1000, 'linear');        	    
             }
             
         </script>
@@ -147,26 +184,35 @@
             <div class="hero-unit">
                 <div id="container"></div>
                 <div id="gl-header" style="visibility:hidden">
-                    <div class="btn-toolbar header-button">
-                        <div class="btn-group">
-                            <a class="btn" onClick="load2D()">2D</a>
-                            <a class="btn" onClick="load3D()">3D</a>
+                    <div class="btn-toolbar header-button-bottom">
+                        <div class="btn-group" data-toggle="buttons-radio">
+                            <a id="toggle-2D" class="btn" onClick="load2D()">2D</a>
+                            <a id="toggle-3D" class="btn" onClick="load3D()">3D</a>
                         </div>
                     </div>
                 </div>
                 
+                <div class="bottom-left-logo" id="logo-normal" style="visibility:hidden"></div>
                 
                 <div class="banner" >
                     <p>Beta!</p>
                 </div>
                 
-                <a id="demo-link" class="btn header-button" 
+                <a id="demo-link" class="btn header-button-top" 
                    data-placement="left" 
-                   data-original-title="Warnung: Der Globus benötigt einen sehr aktuellen Browser." 
-                   data-loading-text="Lädt..."
-                   onClick="load_gl_header()"
+                   data-original-title="Warnung! Der Globus benötigt einen sehr aktuellen Browser." 
+                   onClick="loadGLHeader()"
                    style="margin:10px">
                     <small>3D-Globus!</small>
+                </a>
+                
+                <a id="back-link" class="btn header-button-top" 
+                   style="visibility:hidden"
+                   data-placement="left" 
+                   data-original-title="Zurück zum Start." 
+                   onClick="loadDefaultHeader()"
+                   style="margin:10px">
+                    <small>Zurück!</small>
                 </a>
                 
                 <div id="default-header">

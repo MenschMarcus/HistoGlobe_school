@@ -49,6 +49,10 @@ HG.Display2D = function(container, inMap) {
     return running;
   } 
   
+  this.getCanvas = function() {
+    return canvas;
+  }
+  
   function init() {
 
     var width = $(container.parentNode).innerWidth();
@@ -62,7 +66,21 @@ HG.Display2D = function(container, inMap) {
     container.appendChild(canvas);
     
     container.addEventListener('mousedown', onMouseDown, false);
-    container.addEventListener('mousewheel', onMouseWheel, false);
+    
+    container.addEventListener('mousewheel', 
+                                function(event) {
+                                    event.preventDefault();
+                                    onMouseWheel(event.wheelDelta);
+                                    return false;
+                                }, false);
+                                
+    container.addEventListener('DOMMouseScroll', 
+                                function(event) {
+                                    event.preventDefault();
+                                    onMouseWheel(-event.detail*30);
+                                    return false;
+                                }, false);
+                                
     document.addEventListener('keydown', onDocumentKeyDown, false);
     window.addEventListener('resize', onWindowResize, false);
 
@@ -76,64 +94,74 @@ HG.Display2D = function(container, inMap) {
   }
 
   function onMouseDown(event) {
-    event.preventDefault();
+    if (running) { 
+        event.preventDefault();
 
-    container.addEventListener('mousemove', onMouseMove, false);
-    container.addEventListener('mouseup', onMouseUp, false);
-    container.addEventListener('mouseout', onMouseOut, false);
+        container.addEventListener('mousemove', onMouseMove, false);
+        container.addEventListener('mouseup', onMouseUp, false);
+        container.addEventListener('mouseout', onMouseOut, false);
 
-    mouseOnDown.x = - event.clientX;
-    mouseOnDown.y = event.clientY;
+        mouseOnDown.x = - event.clientX;
+        mouseOnDown.y = event.clientY;
 
-    targetOnDown.x = target.x;
-    targetOnDown.y = target.y;
+        targetOnDown.x = target.x;
+        targetOnDown.y = target.y;
 
-    container.style.cursor = 'move';
+        container.style.cursor = 'move';
+    }
   }
 
   function onMouseMove(event) {
-    mouse.x = - event.clientX;
-    mouse.y = event.clientY;
+    if (running) { 
+        mouse.x = - event.clientX;
+        mouse.y = event.clientY;
 
-    var zoomDamp = distance/1000;
+        var zoomDamp = distance/1000;
 
-    target.x = targetOnDown.x + (mouse.x - mouseOnDown.x) * 0.005 * zoomDamp;
-    target.y = targetOnDown.y + (mouse.y - mouseOnDown.y) * 0.005 * zoomDamp;
-
+        target.x = targetOnDown.x + (mouse.x - mouseOnDown.x) * 0.5 * zoomDamp;
+        target.y = targetOnDown.y + (mouse.y - mouseOnDown.y) * 0.5 * zoomDamp;
+    }
   }
 
   function onMouseUp(event) {
-    container.removeEventListener('mousemove', onMouseMove, false);
-    container.removeEventListener('mouseup', onMouseUp, false);
-    container.removeEventListener('mouseout', onMouseOut, false);
-    container.style.cursor = 'auto';
+    if (running) { 
+        container.removeEventListener('mousemove', onMouseMove, false);
+        container.removeEventListener('mouseup', onMouseUp, false);
+        container.removeEventListener('mouseout', onMouseOut, false);
+        container.style.cursor = 'auto';
+    }
   }
 
   function onMouseOut(event) {
-    container.removeEventListener('mousemove', onMouseMove, false);
-    container.removeEventListener('mouseup', onMouseUp, false);
-    container.removeEventListener('mouseout', onMouseOut, false);
+    if (running) { 
+        container.removeEventListener('mousemove', onMouseMove, false);
+        container.removeEventListener('mouseup', onMouseUp, false);
+        container.removeEventListener('mouseout', onMouseOut, false);
+    }
   }
 
-  function onMouseWheel(event) {
-    event.preventDefault();
-    if (overRenderer) {
-      zoom(event.wheelDeltaY * 0.3);
+  function onMouseWheel(delta) {
+    if (running) { 
+        if (overRenderer) {
+          zoom(delta * 0.3);
+        }
     }
     return false;
   }
 
   function onDocumentKeyDown(event) {
-    switch (event.keyCode) {
-      case 38:
-        zoom(100);
-        event.preventDefault();
-        break;
-      case 40:
-        zoom(-100);
-        event.preventDefault();
-        break;
-    }
+    if (running) { 
+        switch (event.keyCode) {
+          case 38:
+            zoom(100);
+            event.preventDefault();
+            break;
+          case 40:
+            zoom(-100);
+            event.preventDefault();
+            break;
+        }
+   }
   }
 
   function onWindowResize( event ) {
