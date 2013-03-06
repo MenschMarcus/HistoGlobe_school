@@ -94,7 +94,7 @@ body {
 h2, h3, h4 {
     font-family: roman_caps;
     color: #505050;
-     text-align: left;
+    text-align: left;
 }
 
 hr {
@@ -144,13 +144,13 @@ hr {
 
 .details{
     border-radius: 6px 6px 6px 6px;
-    padding: 50px 10% 50px 10%;
+    padding: 30px 5%;
     margin-top: 30px;
 }
 
 .summary{
     border-radius: 6px 6px 6px 6px;
-    padding: 5%;
+    padding: 20px 7%;
     margin-top: 10px;
 }
 
@@ -163,6 +163,12 @@ hr {
     white-space: pre-wrap;
 }
 
+@media (max-width: 1200px) {
+    #ut-seal {
+        width: 60%;
+    }
+}
+
 @media (max-width: 979px) {
     .icon-feature.pull-left,
     .icon-feature.pull-right {
@@ -171,6 +177,10 @@ hr {
     
     .hero-unit {
         margin-top: 0px;
+    }
+    
+    #ut-seal {
+        width: 100%;
     }
 }
 
@@ -181,5 +191,8 @@ hr {
         float: none;
         text-align:center;
         font-size:750%;
+    }
+    #ut-seal {
+        width: 100%;
     }
 }

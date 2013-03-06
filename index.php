@@ -39,7 +39,6 @@
         
         <script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="globe/bootstrap.min.js"></script>
         
         <script type="text/javascript" src="globe/third-party/Three/ThreeWebGL.js"></script>
         <script type="text/javascript" src="globe/third-party/Three/ThreeExtras.js"></script>
@@ -185,7 +184,7 @@
                             <li class=""><a class="smooth" href="#contact"><i class="<?php locale("iconContact")?>"></i> <?php locale("buttonContact")?></a></li>
                         </ul>
                     </div>
-                    <div class="nav-collapse collapse">
+                    <!--<div class="nav-collapse collapse">
                         <ul class="nav pull-right">
                             <li class="dropdown" id="fat-menu">
                                 <a data-toggle="dropdown" class="dropdown-toggle" role="button" id="language-drop" href="#"><i class="icon-comment-alt"></i> Language <b class="caret"></b></a>
@@ -195,7 +194,7 @@
                                 </ul>
                             </li>
                         </ul>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -254,23 +253,20 @@
             <div class="row">
                 <div class="span4">
                     <div class="gradient-down summary">
-                        <h3><i class="<?php locale("icon_1")?>"></i> <?php locale("feature_1a")?></h3>
+                        <h3><i class="<?php locale("icon_1")?>"></i> <?php locale("feature_1")?></h3>
                         <p><?php locale("summary_1")?> <br>
-                        <a class="smooth" href="#summary"> <?php locale("read_on")?></a></p>
                     </div>
                 </div>
                 <div class="span4">
                     <div class="gradient-down summary">
-                        <h3><i class="<?php locale("icon_2")?>"></i> <?php locale("feature_2a")?></h3>
+                        <h3><i class="<?php locale("icon_2")?>"></i> <?php locale("feature_2")?></h3>
                         <p><?php locale("summary_2")?> <br>
-                        <a class="smooth" href="#summary2"> <?php locale("read_on")?></a></p>
                     </div>
                 </div>
                 <div class="span4">
                     <div class="gradient-down summary">
-                        <h3><i class="<?php locale("icon_3")?>"></i> <?php locale("feature_3a")?></h3>
+                        <h3><i class="<?php locale("icon_3")?>"></i> <?php locale("feature_3")?></h3>
                         <p><?php locale("summary_3")?> <br>
-                        <a class="smooth" href="#summary3"> <?php locale("read_on")?></a></p>
                     </div>
                 </div>
             </div>
@@ -278,38 +274,31 @@
 
         <div class="container" id="summary">
             <div class="details gradient-up">
-                <div class="row">
-                    <i class="<?php locale("icon_1")?> pull-left icon-feature"></i> 
-                    <h2><?php locale("feature_1a")?> <span class="muted"><?php locale("feature_1b")?></span></h2> 
-                    <?php locale("explanation_1")?>
-                </div>
+                    <i class="<?php locale("icon_4")?> pull-left icon-feature"></i> 
+                    <h2>HistoGlobe <span class="muted"> <?php locale("heading_1")?></span></h2> 
+                    <p><?php locale("explanation_1")?> <br>
 
                 <hr id="summary2">
 
-                <div class="row">
-                    <i class="<?php locale("icon_2")?> pull-right icon-feature"></i> 
-                    <h2><?php locale("feature_2a")?> <span class="muted"><?php locale("feature_2b")?></span></h2> 
-                    <?php locale("explanation_2")?>
-                </div>
+                    <i class="<?php locale("icon_5")?> pull-right icon-feature"></i> 
+                    <h2>HistoGlobe <span class="muted"> <?php locale("heading_2")?></span></h2> 
+                   <p><?php locale("explanation_2")?> <br>
 
-                <hr id="summary3">
-
-                <div class="row">
-                    <i class="<?php locale("icon_3")?> pull-left icon-feature"></i> 
-                    <h2><?php locale("feature_3a")?> <span class="muted"><?php locale("feature_3b")?></span></h2> 
-                    <?php locale("explanation_3")?>
-                </div>
+                
             </div>
         </div>
 
-        <div class="container" id="about"> 
-            <div class="details gradient-down">
-                <div class="row">
-                    <h4><i class="<?php locale("iconAbout")?>"></i> <?php locale("buttonAbout")?></h4>
-                    <?php locale("about")?>
+       <div class="container" id="about"> 
+            <div class="row" >
+                <div class="span12">
+                    <div class="details gradient-down">
+                        <h4><i class="<?php locale("iconAbout")?>"></i> <?php locale("buttonAbout")?></h4>
+                        <?php locale("about")?>
+                    </div>
                 </div> 
-            </div>
-        </div> 
+            </div> 
+
+        </div>
             
         <div class="container" id="contact"> 
             <div class="row" >
