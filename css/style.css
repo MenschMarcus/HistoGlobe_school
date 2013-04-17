@@ -218,6 +218,11 @@ hr {
     color: #edc082;
 }
 
+.icon-summary {
+    font-size:220%;
+    color: #555;
+}
+
 .tooltip-inner {
     white-space: pre-wrap;
 }

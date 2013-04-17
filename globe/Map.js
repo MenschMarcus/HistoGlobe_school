@@ -36,6 +36,8 @@ HG.Map = function() {
     
     var date = new Date();
     time = date.getTime()
+    
+    paper.view.draw();
   }
   
   this.getCanvas = function() {
@@ -50,7 +52,7 @@ HG.Map = function() {
     
     //Math.sin(date.getTime()*0.01) * 10]
     text.rotate(frameTime*0.02);
-    paper.view.draw();
+   
   }
 
   init();

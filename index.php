@@ -40,9 +40,10 @@
         <script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         
-        
+        <!--
         <link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet">
         <script src="http://vjs.zencdn.net/c/video.js"></script>
+        -->
 
         <script type="text/javascript" src="globe/third-party/Three/ThreeWebGL.js"></script>
         <script type="text/javascript" src="globe/third-party/Three/ThreeExtras.js"></script>
@@ -79,6 +80,7 @@
 	            $('#demo-link').tooltip();
 	            
 	            map = new HG.Map();
+	            $('#toggle-3D').popover('toggle');
             });
             
             function loadGLHeader() {
@@ -89,17 +91,12 @@
                                                 });
                     $('#gl-header').css({visibility:"visible"});
                     $('#demo-link').css({visibility:"hidden"});
-                    $('#video-link').css({visibility:"hidden"});
+                    //$('#video-link').css({visibility:"hidden"});
                     $('#back-link').css({visibility:"visible"});
                     $('#logo-normal').css({visibility: "visible"});                 
                                                 
                     $('.hero-unit').css({"background-image": "none"});
-                         
-				    if (!webGLSupported) {
-					    $('#toggle-3D').addClass("btn disabled");
-					    $('#toggle-3D').tooltip();
-				    }	
-                         
+                                              
                     container = document.getElementById('container');        
                     load2D();
                     $('#toggle-2D').addClass("active"); 
@@ -114,7 +111,7 @@
                                             });
                 $('#video-header').css({visibility:"visible"});
                 $('#demo-link').css({visibility:"hidden"});
-                $('#video-link').css({visibility:"hidden"});
+               //'#video-link').css({visibility:"hidden"});
                 $('#back-link').css({visibility:"visible"});
                 $('.hero-unit').css({"background-image": "none"});
                 
@@ -132,7 +129,7 @@
                 $('#gl-header').css({visibility:"hidden"});
                 $('#video-header').css({visibility:"hidden"});
                 $('#demo-link').css({visibility:"visible"});
-                $('#video-link').css({visibility:"visible"});
+                //$('#video-link').css({visibility:"visible"});
                 $('#back-link').css({visibility:"hidden"}); 
                 
                 $('.hero-unit').css({"background-image": "url('img/logo_bg.jpg')",
@@ -183,7 +180,9 @@
 		            display3D.start();    
 		            $(display3D.getCanvas()).animate({opacity: 1.0}, 1000, 'linear');
 					$('#toggle-3D').addClass("active"); 
-				}       	    
+				} else {
+				    $('#toggle-3D').popover('toggle');
+				}      	    
             }
             
         </script>
@@ -204,7 +203,7 @@
                     <div class="nav-collapse collapse" id="mainNavigation">
                         <ul class="nav">
                             <li class=""><a class="smooth" href="#home"><i class="<?php locale("iconHome")?>"></i> <?php locale("buttonHome")?></a></li>
-                            <li class=""><a class="smooth" href="#summary"><i class="<?php locale("iconDetails")?>"></i> <?php locale("buttonDetails")?></a></li>
+                            <li class=""><a class="smooth" href="#details"><i class="<?php locale("iconDetails")?>"></i> <?php locale("buttonDetails")?></a></li>
                             <li class=""><a class="smooth" href="#about"><i class="<?php locale("iconAbout")?>"></i> <?php locale("buttonAbout")?></a></li>
                             <li class=""><a class="smooth" href="#contact"><i class="<?php locale("iconContact")?>"></i> <?php locale("buttonContact")?></a></li>
                         </ul>
@@ -233,18 +232,22 @@
                         <div class="btn-group">
                             <a id="toggle-2D" class="btn" onClick="load2D()">2D</a>
                             <a id="toggle-3D" class="btn" onClick="load3D()"
-                               data-placement="left" 
-							   data-original-title="3D-Globus kann nicht angezeigt werden, da Ihr Browser zu alt ist oder Ihr Rechner kein WebGL unterstützt!">3D</a>
+                               data-html="true"
+                               data-placement="left"
+                               data-title="Entschuldigung!" 
+                               data-content="Der 3D-Globus kann nicht angezeigt werden! Bitte aktualisieren Sie Ihren Browser oder laden Sie sich eine aktuelle Version von <a href='http://www.mozilla.org/'>Firefox</a> oder <a href='http://www.google.com/chrome/'>Chrome</a> herunter.">3D</a>
                         </div>
                     </div>
                 </div>
                 
+                <!--
                 <div id="video-header" style="visibility:hidden; position:absolute; width: 100%; height: 100%;">
                     <video id="teaser-video" class="video-js vjs-default-skin" controls height="100%"
                           preload="auto" data-setup="{}">
                           <source src="video/teaser.ogg" type='video/ogg'>
                     </video>
                 </div>
+                -->
                 
                 <div class="bottom-left-logo" id="logo-normal" style="visibility:hidden"></div>
 
@@ -261,11 +264,13 @@
                         <small><i class="icon-play"></i> Demo</small>
                     </a>
                     
+                    <!--
                     <a id="video-link"  
                         onClick="loadVideoHeader()"
                         style="margin:10px">
                         <small><i class="icon-play"></i> Video</small>
                     </a>
+                    -->
                 </p>
                 
                 <a id="back-link" class="header-button-top" 
@@ -291,37 +296,47 @@
             <div class="row">
                 <div class="span4">
                     <div class="gradient-down summary">
-                        <h3><i class="<?php locale("icon_1")?>"></i> <?php locale("feature_1")?></h3>
-                        <p><?php locale("summary_1")?> <br>
+                        <h3 style="text-align:center"><i class="<?php locale("icon_1")?> icon-summary"></i> <br> <?php locale("feature_1")?></h3>
+                        <p><?php locale("summary_1")?> <p>
+                        <a class="smooth" href="#details"><?php locale("readMore")?></a>
                     </div>
                 </div>
+                
                 <div class="span4">
                     <div class="gradient-down summary">
-                        <h3><i class="<?php locale("icon_2")?>"></i> <?php locale("feature_2")?></h3>
-                        <p><?php locale("summary_2")?> <br>
+                        <h3 style="text-align:center"><i class="<?php locale("icon_2")?> icon-summary"></i> <br> <?php locale("feature_2")?></h3>
+                        <p><?php locale("summary_2")?> <p>
+                        <a class="smooth" href="#details2"><?php locale("readMore")?></a>
                     </div>
                 </div>
+                
                 <div class="span4">
                     <div class="gradient-down summary">
-                        <h3><i class="<?php locale("icon_3")?>"></i> <?php locale("feature_3")?></h3>
-                        <p><?php locale("summary_3")?> <br>
+                        <h3 style="text-align:center"><i class="<?php locale("icon_3")?> icon-summary"></i> <br> <?php locale("feature_3")?></h3>
+                        <p><?php locale("summary_3")?> <p>
+                        <a class="smooth" href="#details3"><?php locale("readMore")?></a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="container" id="summary">
+        <div class="container" id="details">
             <div class="details gradient-up">
-                    <i class="<?php locale("icon_4")?> pull-left icon-feature"></i> 
-                    <h2>HistoGlobe <span class="muted"> <?php locale("heading_1")?></span></h2> 
+                    <i class="<?php locale("icon_1")?> pull-left icon-feature"></i> 
+                    <h2>HistoGlobe education<span class="muted"> <?php locale("heading_1")?></span></h2> 
                     <p><?php locale("explanation_1")?> <br>
 
-                <hr id="summary2">
+                <hr id="details2">
 
-                    <i class="<?php locale("icon_5")?> pull-right icon-feature"></i> 
-                    <h2>HistoGlobe <span class="muted"> <?php locale("heading_2")?></span></h2> 
+                    <i class="<?php locale("icon_2")?> pull-right icon-feature"></i> 
+                    <h2>HistoGlobe corporate<span class="muted"> <?php locale("heading_2")?></span></h2> 
                    <p><?php locale("explanation_2")?> <br>
 
+                <hr id="details3">
+
+                    <i class="<?php locale("icon_3")?> pull-left icon-feature"></i> 
+                    <h2>HistoGlobe free<span class="muted"> <?php locale("heading_3")?></span></h2> 
+                   <p><?php locale("explanation_3")?> <br>
                 
             </div>
         </div>
