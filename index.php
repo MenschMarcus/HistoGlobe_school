@@ -40,6 +40,10 @@
         <script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         
+        
+        <link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet">
+        <script src="http://vjs.zencdn.net/c/video.js"></script>
+
         <script type="text/javascript" src="globe/third-party/Three/ThreeWebGL.js"></script>
         <script type="text/javascript" src="globe/third-party/Three/ThreeExtras.js"></script>
         <script type="text/javascript" src="globe/third-party/Three/RequestAnimationFrame.js"></script>
@@ -85,8 +89,8 @@
                                                 });
                     $('#gl-header').css({visibility:"visible"});
                     $('#demo-link').css({visibility:"hidden"});
+                    $('#video-link').css({visibility:"hidden"});
                     $('#back-link').css({visibility:"visible"});
-                    $('#back-link').tooltip();
                     $('#logo-normal').css({visibility: "visible"});                 
                                                 
                     $('.hero-unit').css({"background-image": "none"});
@@ -103,11 +107,32 @@
             }
             
             
+            function loadVideoHeader() {
+                $('#default-header').animate({opacity: 0.0}, 1000, 'linear', 
+                                            function() {   
+                                                $('#default-header').css({visibility:"hidden"});
+                                            });
+                $('#video-header').css({visibility:"visible"});
+                $('#demo-link').css({visibility:"hidden"});
+                $('#video-link').css({visibility:"hidden"});
+                $('#back-link').css({visibility:"visible"});
+                $('.hero-unit').css({"background-image": "none"});
+                
+                _V_("teaser-video").ready(function(){
+                    var myPlayer = this;
+                    myPlayer.play();
+                    myPlayer.controlBar.fadeOut(); 
+                });
+            }
+            
+            
             function loadDefaultHeader() {
                 $('#default-header').css({visibility:"visible"});
                 $('#default-header').animate({opacity: 1.0}, 1000, 'linear');
                 $('#gl-header').css({visibility:"hidden"});
+                $('#video-header').css({visibility:"hidden"});
                 $('#demo-link').css({visibility:"visible"});
+                $('#video-link').css({visibility:"visible"});
                 $('#back-link').css({visibility:"hidden"}); 
                 
                 $('.hero-unit').css({"background-image": "url('img/logo_bg.jpg')",
@@ -214,27 +239,40 @@
                     </div>
                 </div>
                 
-                <div class="bottom-left-logo" id="logo-normal" style="visibility:hidden"></div>
-                
-                <div class="banner" >
-                    <p>Beta!</p>
+                <div id="video-header" style="visibility:hidden; position:absolute; width: 100%; height: 100%;">
+                    <video id="teaser-video" class="video-js vjs-default-skin" controls height="100%"
+                          preload="auto" data-setup="{}">
+                          <source src="video/teaser.ogg" type='video/ogg'>
+                    </video>
                 </div>
                 
-                <a id="demo-link" class="btn header-button-top" 
-                   data-placement="left" 
-                   data-original-title="Warnung! Der Globus benötigt einen sehr aktuellen Browser." 
-                   onClick="loadGLHeader()"
-                   style="margin:10px">
-                    <small>Demo</small>
-                </a>
+                <div class="bottom-left-logo" id="logo-normal" style="visibility:hidden"></div>
+
+                <div class="hero-unit-box-shadow" ></div>
                 
-                <a id="back-link" class="btn header-button-top" 
+                <div class="banner" ><p>Beta!</p></div>
+                
+                <p class="header-button-top">
+                    <a id="demo-link"  
+                       data-placement="bottom" 
+                       data-original-title="Warnung! Die Demo benötigt einen sehr aktuellen Browser." 
+                       onClick="loadGLHeader()"
+                       style="margin:10px">
+                        <small><i class="icon-play"></i> Demo</small>
+                    </a>
+                    
+                    <a id="video-link"  
+                        onClick="loadVideoHeader()"
+                        style="margin:10px">
+                        <small><i class="icon-play"></i> Video</small>
+                    </a>
+                </p>
+                
+                <a id="back-link" class="header-button-top" 
                    style="visibility:hidden"
-                   data-placement="left" 
-                   data-original-title="Zurück zum Start." 
                    onClick="loadDefaultHeader()"
                    style="margin:10px">
-                    <small>Zurück</small>
+                    <small><i class="icon-step-backward"></i> Zurück</small>
                 </a>
                 
                 <div id="default-header">
@@ -294,6 +332,16 @@
                     <div class="details gradient-down">
                         <h4><i class="<?php locale("iconAbout")?>"></i> <?php locale("buttonAbout")?></h4>
                         <?php locale("about")?>
+                    </div>
+                </div> 
+            </div> 
+
+        </div>
+        
+        <div class="container" id="group"> 
+            <div class="row" >
+                <div class="span12">
+                    <div class="details group-image">
                     </div>
                 </div> 
             </div> 
