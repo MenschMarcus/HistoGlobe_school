@@ -2,13 +2,13 @@ var HG = HG || {};
 
 HG.Map = function() {
   
-  
   var time;
   
   var height = 512;
   var width = height*2;
   var canvas;
   var text;
+  var coastlines;
   
   function init() {    
     canvas = document.createElement("canvas");
@@ -17,6 +17,33 @@ HG.Map = function() {
     
     paper.setup(canvas);
     
+    var backRect = paper.Path.Rectangle(new paper.Rectangle(
+                                        new paper.Point(0, 0), 
+                                        new paper.Point(canvas.width, canvas.height)));
+    backRect.fillColor = "white";
+    
+    $.getJSON("img/coastline.json", function(c){
+        coastlines = c;  
+
+        var cl,line;
+        for (cl=0; cl<coastlines.length; cl++) {
+            line = coastlines[cl];
+            var path = new paper.Path();
+            path.strokeColor = 'black';
+            path.fillColor = "#edc082"
+            for (i=0;i<line.length-1;i++) {
+                var x1 = (line[i][0] + 180)/360 * canvas.width;
+                var y1 = canvas.height - (line[i][1] + 90)/180 * canvas.height;
+                var x2 = (line[i+1][0] + 180)/360 * canvas.width;
+                var y2 = canvas.height - (line[i+1][1] + 90)/180 * canvas.height;
+                path.add(new paper.Point(x1, y1), new paper.Point(x2, y2));
+            }
+            path.closed = true;
+        }
+    });  
+    
+    
+    /*
     imgResource = document.createElement("img");
     imgResource.setAttribute("id", "map-image");
     imgResource.setAttribute("src", "img/map.jpg");
@@ -25,17 +52,18 @@ HG.Map = function() {
     
     var background = new paper.Raster('map-image');
     background.position = new paper.Point(width/2, height/2);
-      
-    text = new paper.PointText(background.position);
+    
+    text = new paper.PointText(new paper.Point(width/2, height/2));
     text.content = 'HistoGlobe';
     text.characterStyle = {
         fontSize: 50,
         font: 'roman_caps',
         fillColor: 'black',
     };
+    */  
     
     var date = new Date();
-    time = date.getTime()
+    time = date.getTime();
   }
   
   this.getCanvas = function() {
@@ -48,9 +76,12 @@ HG.Map = function() {
     var frameTime = currTime - time;
     time = currTime;
     
+    
     //Math.sin(date.getTime()*0.01) * 10]
-    text.rotate(frameTime*0.02);
-    paper.view.draw();
+    //text.rotate(frameTime*0.02);
+    //paper.view.draw();
+    
+    
   }
 
   init();

@@ -22,10 +22,11 @@ HG.Display2D = function(container, inMap) {
   var curZoomSpeed = 0;
   var zoomSpeed = 50;
 
-  var mouse = { x: 0, y: 0 }, mouseOnDown = { x: 0, y: 0 };
-  var panning = { x: 0, y: 0 },
-      target = { x: Math.PI*3/2, y: Math.PI / 6.0 },
-      targetOnDown = { x: 0, y: 0 };
+  var mouse;
+  var mouseOnDown;
+  var panning;
+  var target;
+  var targetOnDown;
 
   var distance = 10000, distanceTarget = 800;
   var padding = 40;
@@ -57,6 +58,11 @@ HG.Display2D = function(container, inMap) {
 
     var width = $(container.parentNode).innerWidth();
     var height = $(container.parentNode).innerHeight();
+    
+    mouse = { x: 0, y: 0 }, mouseOnDown = { x: 0, y: 0 };
+    panning = { x: 0, y: height };
+    target = { x:0, y: height };
+    targetOnDown = { x: 0, y: 0 };
 
     canvas = document.createElement("canvas");
     canvas.width = width;
@@ -191,7 +197,7 @@ HG.Display2D = function(container, inMap) {
     distance += (distanceTarget - distance) * 0.3;
     
     var sourceCtx = map.getCanvas().getContext("2d");
-    var imageData=sourceCtx.getImageData(panning.x, panning.y, canvas.width, canvas.height);
+    var imageData=sourceCtx.getImageData(panning.x, canvas.height - panning.y, canvas.width, canvas.height);
     var destinationCtx = canvas.getContext("2d");
     destinationCtx.putImageData(imageData,0,0);
 
