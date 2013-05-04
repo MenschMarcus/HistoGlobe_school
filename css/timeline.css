@@ -1,0 +1,360 @@
+/*** DIV STRUCTURE ***/
+
+#tlContainer {
+	position: absolute;
+	width: 100%;
+	height: 110px;
+  bottom: 0;
+  overflow: visible;
+}
+
+
+/** 1. LEVEL: syntactical timeline containers (structure) + wrapper **/
+
+#tlWrapperLeft {
+	position: relative;
+	float: left;
+	top: 10px;
+	height: 100px;
+	width: 20px;
+}
+
+#tlWrapperRight {
+	position: relative;
+	float: right;
+	top: 10px;
+	height: 100px;
+	width: 20px;
+}
+
+#timeline {
+	position: relative;
+	margin-left: 20px;
+	margin-right: 20px;
+	height: 110px;
+}
+
+/** 2. LEVEL: semantical timeline containers (content) **/
+
+/* ZOOM */
+
+#tlZoom {
+  position: relative;
+  float: left;
+  width: 40px;
+  height: 100%;
+}
+
+#tlZoomIn {
+  position: relative;
+  top: 20px;
+  left: 10px;
+  width: 14px;
+  height: 14px;
+  background: url(../img/timeline/tlZoom-P-nor.png) no-repeat;
+}
+
+#tlZoomIn:hover {
+  background: url(../img/timeline/tlZoom-P-hov.png) no-repeat;
+}
+
+#tlZoomIn:active {
+  background: url(../img/timeline/tlZoom-P-act.png) no-repeat;
+}
+
+#tlZoomOut {
+  position: relative;
+  top: 54px;
+  left: 10px;
+  width: 14px;
+  height: 14px;
+  background: url(../img/timeline/tlZoom-M-nor.png) no-repeat;
+}
+
+#tlZoomOut:hover {
+  background: url(../img/timeline/tlZoom-M-hov.png) no-repeat;
+}
+
+#tlZoomOut:active {
+  background: url(../img/timeline/tlZoom-M-act.png) no-repeat;
+}
+
+/* MOVE LEFT AND RIGHT */
+
+#tlMoveLeft {
+  position: relative;
+  float: left;
+  width: 30px;
+  height: 100%;
+}
+
+#tlMoveRight {
+  position: relative;
+  float: right;
+  width: 30px;
+  height: 100%;
+}
+
+/* PERIOD DATES */
+
+#tlPeriod {
+  position: absolute;
+  bottom: 10px;
+  left: 40px;
+  right: 0px;
+}
+
+/* PLAYER */
+
+#tlPlayer {
+  position: absolute;
+  bottom: 7px;
+  left: 50%;
+  margin-left: -35px;
+  width: 70px;
+  height: 18px;
+}
+
+/* MAIN */
+
+#tlMain {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+#tlScroller {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 110px;      /* higher than timeline, to let now marker stand out on top */
+  overflow: visible;
+}
+
+/*** BACKGROUND IMAGES ***/
+
+#timeline {
+	background: url(../img/timeline/tlMain.png) repeat-x 0 10px;
+}
+
+#tlWrapperLeft {
+	background: url(../img/timeline/tlLeft.png) right no-repeat;
+}
+
+#tlWrapperRight {
+	background: url(../img/timeline/tlRight.png) left no-repeat;
+}
+
+
+/*** CONTENT ***/
+
+/* NOW = POLITICAL DATE */
+
+#nowMarkerWrap {
+  position: absolute;
+  margin: 0 0 0 -50px;
+  border: 0;
+  padding: 0;
+  width: 100px;
+  height: 70px;
+  z-index: 4;
+}
+
+#nowMarkerHead {
+  position: relative;
+  height: 30px;
+  border: 2px solid #5c4200;
+  border-radius: 5px;  
+  background-color: #cd8e00;
+}
+
+#nowMarkerMain {
+  position: relative;
+  left: 37.5px;
+  width: 25px;
+  height: 30px;
+  background: url('../img/timeline/nowMarker.png') center no-repeat;
+  background-position: 0px -15px;
+  cursor: pointer;  
+}
+
+#nowDate {
+  position: relative;
+  top: 3px;
+  left: 3px;
+}
+
+#polDate {
+  margin: 0;
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: bold;
+  width: 84px;
+}
+
+
+/* PERIOD = HISTORICAL DATES */
+
+#periodStart, #periodEnd {
+  position: relative;
+  width: 33px;
+  height: 15px;
+  text-align: center;
+  font-size: 1.0em;
+}
+
+#periodStart {
+  float: left;
+}
+
+#periodEnd {
+  float: right;
+}
+
+/* PLAY HISTORY */
+
+#histPlayer {
+  width: 72px;
+  padding: 1.5px 18px 1.5px 8px;
+  border: 1px solid #222;
+  border-radius:4px;  
+  font-size: 0.8em;
+  cursor:pointer;
+  background-repeat:no-repeat;
+  background-position:92% 50%;
+}
+
+.playerGo {
+  color: #000;
+  background-color: #f2e0b2;
+  background-image:url('../img/timeline/playerPlay.png');
+}
+
+.playerStop {
+  color: #fff;
+  background-color: #110000;
+  background-image: url("../img/timeline/playerStop.png");
+}
+ 
+.playerGo:hover {
+  background-color:#fff3d2;
+  color: #110;
+}
+
+.playerStop:hover{
+  background-color: #332222;
+}
+ 
+
+/** ZOOM **/
+
+#tlZoom {
+  background: url('../img/timeline/tlZoom.png') center center no-repeat;
+}
+
+/** MOVE LEFT AND RIGHT **/
+
+#tlMoveLeft {
+  background: url('../img/timeline/moveLeft-nor.png') center no-repeat;
+  cursor:w-resize;
+}
+
+#tlMoveLeft:hover {
+  background: url('../img/timeline/moveLeft-hov.png') center no-repeat;
+  cursor:w-resize;
+}
+
+#tlMoveLeft:active {
+  background: url('../img/timeline/moveLeft-act.png') center no-repeat;
+  cursor:w-resize;
+}
+
+#tlMoveRight {
+  background: url('../img/timeline/moveRight-nor.png') center no-repeat;
+  cursor:e-resize;
+}
+
+#tlMoveRight:hover {
+  background: url('../img/timeline/moveRight-hov.png') center no-repeat;
+  cursor:e-resize;
+}
+
+#tlMoveRight:active {
+  background: url('../img/timeline/moveRight-act.png') center no-repeat;
+  cursor:e-resize;
+}
+
+
+/** TIMELINE SCROLLER **/
+
+#tlMain {
+  background: url('../img/timeline/tlBar.png') repeat-x 0 55px;
+}
+
+/* YEAR MARKERS */
+
+/* image */
+.yearMarker {
+  position: absolute;
+  height: 50px;
+  margin-top: 43px;
+}
+.yearMark1 {
+  width: 50px;
+  margin-left: -25px;
+  background: url('../img/timeline/yearMarker1.png') center no-repeat;
+  background-position: 23.5px -10px;
+}
+.yearMark2 {
+  width: 28px;
+  margin-left: -15px;  
+  background: url('../img/timeline/yearMarker2.png') no-repeat;
+  background-position: 13.5px 5px;
+}
+.yearMark3 {
+  width: 28px;
+  margin-left: -14px;  
+  background: url('../img/timeline/yearMarker3.png') no-repeat;
+  background-position: 13.5px 6px;
+}
+
+/* year number */
+.yearMarker p {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  z-index: 2;
+  text-align: center;
+  color: #292213;
+}
+.yearMark1 p {
+  top: 11px;
+  font-size: 0.95em;
+  font-weight: bold;
+}
+.yearMark2 p {
+  top: 13px;
+  font-size: 0.7em;
+  font-weight: bold;
+}
+.yearMark3 p {
+  top: 13px;
+  font-size: 0.7em;
+}
+
+/* HISTORICAL EVENT MARKERS */
+.eventMarker {
+  position: absolute;
+  margin-top: 34px;
+  margin-left: -7.5px;
+  height: 50px;
+  width: 15px;
+  z-index: 3;
+  background: url('../img/timeline/eventMarker-nor.png') no-repeat;
+  background-position: 0px 0px;
+  cursor: pointer;
+}
+
+.eventMarker:hover {
+  background: url('../img/timeline/eventMarker-act.png') no-repeat;
+}

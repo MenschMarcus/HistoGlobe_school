@@ -36,6 +36,7 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css">
         <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/timeline.css">
         
         <script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
@@ -54,9 +55,10 @@
         <script type="text/javascript" src="globe/Display2D.js"></script>
         <script type="text/javascript" src="globe/Display3D.js"></script>
         <script type="text/javascript" src="globe/Map.js"></script>
+        <script type="text/javascript" src="globe/Timeline.js"></script>
                
         <script type="text/javascript">
-            var display2D, display3D, map;
+            var display2D, display3D, map, timeline;
             var container;
 			var webGLSupported = Detector.webgl;
 			var canvasSupported;
@@ -93,13 +95,15 @@
                     $('#demo-link').css({visibility:"hidden"});
                     //$('#video-link').css({visibility:"hidden"});
                     $('#back-link').css({visibility:"visible"});
-                    $('#logo-normal').css({visibility: "visible"});                 
+                    $('#logo-normal').css({visibility: "visible"}); 
+                    $('.banner').css({visibility: "visible"});                 
                                                 
                     $('.hero-unit').css({"background-image": "none"});
                                               
-                    container = document.getElementById('container');        
-                    load2D();
-                    $('#toggle-2D').addClass("active"); 
+                    container = document.getElementById('container');   
+                    loadTimeline();     
+                    load3D();
+                    $('#toggle-3D').addClass("active");                     
                 }       
             }
             
@@ -131,6 +135,8 @@
                 $('#demo-link').css({visibility:"visible"});
                 //$('#video-link').css({visibility:"visible"});
                 $('#back-link').css({visibility:"hidden"}); 
+                $('.banner').css({visibility: "hidden"}); 
+                $('#tlContainer').css({visibility: "hidden"}); 
                 
                 $('.hero-unit').css({"background-image": "url('img/logo_bg.jpg')",
                                          "background-position": "bottom right"});
@@ -185,6 +191,39 @@
 				}      	    
             }
             
+            function loadTimeline() {
+            
+                $('#tlContainer').css({visibility: "visible"});  
+                if (!timeline) {
+                    timeline = timeline();
+                    timeline.initTimeline();
+                    
+                    /* INTERACTION WITH TIMELINE */
+
+              // global bindings -> called when mouse event happend somewhere in the viewport
+	            $(window).mousemove(main.timeline.moveMouse);       // mouse is moved -> if happened in timeline, move it <-> otherwise ignore it
+	            $(window).mouseup(main.timeline.releaseMouse);      // mouse button released -> differentiates between scrolling/moving and only clicking
+
+	            $("#tlScroller").bind("mousedown",timeline.clickMouse);
+	            $("#tlScroller").bind("mousewheel",timeline.zoom);
+	
+	            // dragging the now marker
+	            $("#tlScroller").bind("mousemove",timeline.moveMouseOutThres);
+	
+	            // moving the timeline scroller with left and right buttons
+	            $("#tlMoveRight").bind("mousedown", function(evt) { if (evt.button == 0) timeline.clickMoveButton(-10)});
+	            $("#tlMoveLeft").bind("mousedown",  function(evt) { if (evt.button == 0) timeline.clickMoveButton(10)});
+	
+	            // zooming the timeline scroller with + and -
+	            $('#tlZoomIn').bind("click", function() {timeline.zoom(null, 1)});
+	            $('#tlZoomOut').bind("click", function() {timeline.zoom(null, -1)});
+
+              // play history
+              $('.playerGo').click(timeline.togglePlayer);
+                }
+                                      
+            }
+            
         </script>
 
     </head>
@@ -225,7 +264,7 @@
 
         <div class="container" id="home">
         
-            <div class="hero-unit">
+            <div class="hero-unit">           
                 <div id="container"></div>
                 <div id="gl-header" style="visibility:hidden">
                     <div class="btn-toolbar header-button-bottom">
@@ -253,8 +292,8 @@
 
                 <div class="hero-unit-box-shadow" ></div>
                 
-                <div class="banner" ><p>Beta!</p></div>
-                
+                <div class="banner" style="visibility:hidden"><p>Demo!</p></div>
+                                
                 <p class="header-button-top">
                     <a id="demo-link"  
                        data-placement="bottom" 
@@ -284,6 +323,40 @@
                     <center>
                         <img src="img/logo_big.svg" alt="logo">
                     </center>
+                </div>
+                
+                <!-- TIMELINE -->
+                <div id="tlContainer" style="visibility:hidden">
+	                <div id="tlWrapperLeft"></div>
+	                <div id="tlWrapperRight"></div>
+	                <div id="timeline">
+		                <div id="tlZoom">
+			                <div id="tlZoomIn"></div>
+			                <div id="tlZoomOut"></div>
+		                </div>
+		                <div id="tlMoveLeft"></div>
+		                <div id="tlMoveRight"></div>
+		                <form id="tlPeriod" name="period" onsubmit="return false">
+			                <input id="periodStart" type="text" name="periodStart" />
+			                <input id="periodEnd" type="text" name="periodEnd" />
+		                </form>
+		                <div id="tlMain">
+			                <div id="tlScroller">
+				                <!-- all markers are in here -->
+				                <div id="nowMarkerWrap">
+					                <div id="nowMarkerHead">
+						                <form id="nowDate" onsubmit="return false">
+							                <input id="polDate" type="text" name="now" value="" />
+						                </form>
+					                </div>
+					                <div id="nowMarkerMain"></div>
+				                </div>
+			                </div>
+		                </div>
+		                <div id="tlPlayer">
+			                <div id="histPlayer" class="playerGo">Play History</div>
+		                </div>
+	                </div>
                 </div>
             </div>
                         
