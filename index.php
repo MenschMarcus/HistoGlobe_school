@@ -194,15 +194,14 @@
             function loadTimeline() {
             
                 $('#tlContainer').css({visibility: "visible"});  
-                if (!timeline) {
-                    timeline = timeline();
-                    timeline.initTimeline();
+                timeline = timeline();
+                timeline.initTimeline();
                     
                     /* INTERACTION WITH TIMELINE */
 
               // global bindings -> called when mouse event happend somewhere in the viewport
-	            $(window).mousemove(main.timeline.moveMouse);       // mouse is moved -> if happened in timeline, move it <-> otherwise ignore it
-	            $(window).mouseup(main.timeline.releaseMouse);      // mouse button released -> differentiates between scrolling/moving and only clicking
+	            $(window).mousemove(timeline.moveMouse);       // mouse is moved -> if happened in timeline, move it <-> otherwise ignore it
+	            $(window).mouseup(timeline.releaseMouse);      // mouse button released -> differentiates between scrolling/moving and only clicking
 
 	            $("#tlScroller").bind("mousedown",timeline.clickMouse);
 	            $("#tlScroller").bind("mousewheel",timeline.zoom);
@@ -220,7 +219,6 @@
 
               // play history
               $('.playerGo').click(timeline.togglePlayer);
-                }
                                       
             }
             
