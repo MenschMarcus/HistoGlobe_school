@@ -39,6 +39,8 @@
         <link rel="stylesheet" type="text/css" href="css/timeline.css">
         
         <script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
+        <script type="text/javascript" src="js/jquery.browser.js"></script>
+        <script type="text/javascript" src="js/jquery.disable.text.select.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         
         <!--
@@ -59,6 +61,7 @@
                
         <script type="text/javascript">
             var display2D, display3D, map, timeline;
+			var timelineInitialized = false;
             var container;
 			var webGLSupported = Detector.webgl;
 			var canvasSupported;
@@ -69,6 +72,7 @@
             }            
         
             jQuery(document).ready(function($) {
+            
 	            $(".smooth").click(function(event){		
 		            event.preventDefault();
 		            $('html,body').animate({scrollTop:$($(this).attr('href')).offset().top}, 500);
@@ -99,6 +103,7 @@
                     $('.banner').css({visibility: "visible"});                 
                                                 
                     $('.hero-unit').css({"background-image": "none"});
+                    $('.hero-unit').height(window.innerHeight * 0.8);
                                               
                     container = document.getElementById('container');   
                     loadTimeline();     
@@ -135,11 +140,13 @@
                 $('#demo-link').css({visibility:"visible"});
                 //$('#video-link').css({visibility:"visible"});
                 $('#back-link').css({visibility:"hidden"}); 
-                $('.banner').css({visibility: "hidden"}); 
                 $('#tlContainer').css({visibility: "hidden"}); 
+                $('.banner').css({visibility: "hidden"}); 
                 
                 $('.hero-unit').css({"background-image": "url('img/logo_bg.jpg')",
                                          "background-position": "bottom right"});
+                                         
+                $('.hero-unit').css({height: "100%"});
                 $('#logo-normal').css({visibility: "hidden"});      
                 
                 if (display3D && display3D.isRunning()) {
@@ -194,31 +201,43 @@
             function loadTimeline() {
             
                 $('#tlContainer').css({visibility: "visible"});  
-                timeline = timeline();
-                timeline.initTimeline();
+
+                if (!timelineInitialized) {
+                    timeline = timeline();
+                    timeline.initTimeline();
+                        
+	                $(window).mousemove(timeline.moveMouse);       
+	                $(window).mouseup(timeline.releaseMouse);      
+
+	                $("#tlScroller").bind("mousedown",timeline.clickMouse);
+	                $("#tlScroller").bind("mousewheel",timeline.zoom);
+	
+	                // dragging the now marker
+	                $("#tlScroller").bind("mousemove",timeline.moveMouseOutThres);
+	
+	                // moving the timeline scroller with left and right buttons
+	                $("#tlMoveRight").bind("mousedown", function(evt) { if (evt.button == 0) timeline.clickMoveButton(-10)});
+	                $("#tlMoveLeft").bind("mousedown",  function(evt) { if (evt.button == 0) timeline.clickMoveButton(10)});
+	
+	                // zooming the timeline scroller with + and -
+	                $('#tlZoomIn').bind("click", function() {timeline.zoom(null, 1)});
+	                $('#tlZoomOut').bind("click", function() {timeline.zoom(null, -1)});
+
+                    // play history
+                    $('.playerGo').click(timeline.togglePlayer);
                     
-                    /* INTERACTION WITH TIMELINE */
-
-              // global bindings -> called when mouse event happend somewhere in the viewport
-	            $(window).mousemove(timeline.moveMouse);       // mouse is moved -> if happened in timeline, move it <-> otherwise ignore it
-	            $(window).mouseup(timeline.releaseMouse);      // mouse button released -> differentiates between scrolling/moving and only clicking
-
-	            $("#tlScroller").bind("mousedown",timeline.clickMouse);
-	            $("#tlScroller").bind("mousewheel",timeline.zoom);
-	
-	            // dragging the now marker
-	            $("#tlScroller").bind("mousemove",timeline.moveMouseOutThres);
-	
-	            // moving the timeline scroller with left and right buttons
-	            $("#tlMoveRight").bind("mousedown", function(evt) { if (evt.button == 0) timeline.clickMoveButton(-10)});
-	            $("#tlMoveLeft").bind("mousedown",  function(evt) { if (evt.button == 0) timeline.clickMoveButton(10)});
-	
-	            // zooming the timeline scroller with + and -
-	            $('#tlZoomIn').bind("click", function() {timeline.zoom(null, 1)});
-	            $('#tlZoomOut').bind("click", function() {timeline.zoom(null, -1)});
-
-              // play history
-              $('.playerGo').click(timeline.togglePlayer);
+                    // disable selection of years in timeline
+                    
+                    $("#tlMain").disableTextSelect();  
+                    $("#tlScroller").disableTextSelect();
+                    $("#tlMoveLeft").disableTextSelect();
+                    $("#tlMoveRight").disableTextSelect();
+                    $("#tlPlayer").disableTextSelect();
+                    //$("#bigDateBox").disableTextSelect();
+                    
+                    timelineInitialized = true;
+                }
+                
                                       
             }
             

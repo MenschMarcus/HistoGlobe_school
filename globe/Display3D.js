@@ -272,7 +272,6 @@ HG.Display3D = function(container, inMap) {
   }
 
   function onWindowResize( event ) {
-    console.log('resize');
     camera.aspect = $(container.parentNode).innerWidth() / $(container.parentNode).innerHeight();
     camera.updateProjectionMatrix();
     renderer.setSize( $(container.parentNode).innerWidth(), $(container.parentNode).innerHeight());
