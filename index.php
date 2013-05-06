@@ -140,7 +140,7 @@
                 $('#demo-link').css({visibility:"visible"});
                 //$('#video-link').css({visibility:"visible"});
                 $('#back-link').css({visibility:"hidden"}); 
-                $('#tlContainer').css({visibility: "hidden"}); 
+                $('#tlContainer').css({display: "none"}); 
                 $('.banner').css({visibility: "hidden"}); 
                 
                 $('.hero-unit').css({"background-image": "url('img/logo_bg.jpg')",
@@ -200,7 +200,7 @@
             
             function loadTimeline() {
             
-                $('#tlContainer').css({visibility: "visible"});  
+                $('#tlContainer').css({display: "block"});  
 
                 if (!timelineInitialized) {
                     timeline = timeline();
@@ -343,13 +343,24 @@
                 </div>
                 
                 <!-- TIMELINE -->
-                <div id="tlContainer" style="visibility:hidden">
-	                <div id="tlWrapperLeft"></div>
-	                <div id="tlWrapperRight"></div>
-	                <div id="timeline">
+                
+                
+                <div id="tlContainer" style="display:none">
+                    <div id="tlPlayer">
+                        <div id="histPlayer" class="playerGo btn"><small><i class="icon-play"></i> Geschichte abspielen</small></div>
+                    </div>
+                
+	                <!--<div id="tlWrapperLeft"></div>
+	                <div id="tlWrapperRight"></div>-->
+	                <div id="timeline"  class="gradient-box">
 		                <div id="tlZoom">
-			                <div id="tlZoomIn"></div>
-			                <div id="tlZoomOut"></div>
+		                     <div class="btn-toolbar">
+                                <div class="btn-group">
+                                    <a id="tlZoomIn" class="btn"><i class="icon-zoom-in"></i></a>
+                                    <a id="tlZoomOut" class="btn"><i class="icon-zoom-out"></i></a>
+                                </div>
+                            </div>
+		
 		                </div>
 		                <div id="tlMoveLeft"></div>
 		                <div id="tlMoveRight"></div>
@@ -369,9 +380,6 @@
 					                <div id="nowMarkerMain"></div>
 				                </div>
 			                </div>
-		                </div>
-		                <div id="tlPlayer">
-			                <div id="histPlayer" class="playerGo">Play History</div>
 		                </div>
 	                </div>
                 </div>
