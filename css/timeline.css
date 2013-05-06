@@ -1,11 +1,32 @@
+/*** general styles ***/
+
+.gradient-box {
+    background-color: #FAFAFA;
+    
+    background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(242,242,242,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(242,242,242,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(242,242,242,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(242,242,242,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(242,242,242,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(242,242,242,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#F2F2F2',GradientType=0 ); /* IE6-9 */
+    background-repeat: repeat-x;
+    border: 1px solid #D4D4D4;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+}
+
 /*** DIV STRUCTURE ***/
 
 #tlContainer {
-	position: absolute;
-	width: 100%;
-	height: 110px;
-  bottom: 0;
-  overflow: visible;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    bottom: 10px;
+    height: 80px;
+    margin: 10px;
+    overflow: visible;
+    position: relative;
 }
 
 
@@ -29,9 +50,7 @@
 
 #timeline {
 	position: relative;
-	margin-left: 20px;
-	margin-right: 20px;
-	height: 110px;
+	height: 80px;
 }
 
 /** 2. LEVEL: semantical timeline containers (content) **/
@@ -39,44 +58,9 @@
 /* ZOOM */
 
 #tlZoom {
-  position: relative;
-  float: left;
-  width: 40px;
-  height: 100%;
-}
-
-#tlZoomIn {
-  position: relative;
-  top: 20px;
-  left: 10px;
-  width: 14px;
-  height: 14px;
-  background: url(../img/timeline/tlZoom-P-nor.png) no-repeat;
-}
-
-#tlZoomIn:hover {
-  background: url(../img/timeline/tlZoom-P-hov.png) no-repeat;
-}
-
-#tlZoomIn:active {
-  background: url(../img/timeline/tlZoom-P-act.png) no-repeat;
-}
-
-#tlZoomOut {
-  position: relative;
-  top: 54px;
-  left: 10px;
-  width: 14px;
-  height: 14px;
-  background: url(../img/timeline/tlZoom-M-nor.png) no-repeat;
-}
-
-#tlZoomOut:hover {
-  background: url(../img/timeline/tlZoom-M-hov.png) no-repeat;
-}
-
-#tlZoomOut:active {
-  background: url(../img/timeline/tlZoom-M-act.png) no-repeat;
+  position: absolute;
+  left: 50%;
+  bottom: 0px;
 }
 
 /* MOVE LEFT AND RIGHT */
@@ -108,11 +92,8 @@
 
 #tlPlayer {
   position: absolute;
-  bottom: 7px;
-  left: 50%;
-  margin-left: -35px;
-  width: 70px;
-  height: 18px;
+  bottom: 90px;
+  left: 0px;
 }
 
 /* MAIN */
@@ -130,21 +111,6 @@
   height: 110px;      /* higher than timeline, to let now marker stand out on top */
   overflow: visible;
 }
-
-/*** BACKGROUND IMAGES ***/
-
-#timeline {
-	background: url(../img/timeline/tlMain.png) repeat-x 0 10px;
-}
-
-#tlWrapperLeft {
-	background: url(../img/timeline/tlLeft.png) right no-repeat;
-}
-
-#tlWrapperRight {
-	background: url(../img/timeline/tlRight.png) left no-repeat;
-}
-
 
 /*** CONTENT ***/
 
@@ -214,43 +180,17 @@
 /* PLAY HISTORY */
 
 #histPlayer {
-  width: 72px;
-  padding: 1.5px 18px 1.5px 8px;
-  border: 1px solid #222;
-  border-radius:4px;  
-  font-size: 0.8em;
-  cursor:pointer;
-  background-repeat:no-repeat;
-  background-position:92% 50%;
+
 }
 
 .playerGo {
-  color: #000;
-  background-color: #f2e0b2;
-  background-image:url('../img/timeline/playerPlay.png');
+
 }
 
 .playerStop {
-  color: #fff;
-  background-color: #110000;
-  background-image: url("../img/timeline/playerStop.png");
-}
- 
-.playerGo:hover {
-  background-color:#fff3d2;
-  color: #110;
+
 }
 
-.playerStop:hover{
-  background-color: #332222;
-}
- 
-
-/** ZOOM **/
-
-#tlZoom {
-  background: url('../img/timeline/tlZoom.png') center center no-repeat;
-}
 
 /** MOVE LEFT AND RIGHT **/
 
@@ -288,7 +228,7 @@
 /** TIMELINE SCROLLER **/
 
 #tlMain {
-  background: url('../img/timeline/tlBar.png') repeat-x 0 55px;
+  /*background: url('../img/timeline/tlBar.png') repeat-x 0 55px;*/
 }
 
 /* YEAR MARKERS */
