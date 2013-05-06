@@ -21,9 +21,10 @@
 #tlContainer {
     bottom: 10px;
     height: 80px;
-    margin: 10px;
+    left: 10px;
+    right: 10px;
     overflow: visible;
-    position: relative;
+    position: absolute;
 }
 
 
