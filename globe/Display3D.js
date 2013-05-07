@@ -195,6 +195,16 @@ HG.Display3D = function(container, inMap) {
     container.addEventListener('mouseout', function() {
       overRenderer = false;
     }, false);
+    
+    //Multitouch
+    /*
+    var hammertime = Hammer(container).on("pinch", 
+        function(event) {
+            onMouseWheel(event.scale);
+            return false;
+        }, false);
+    hammertime.options.prevent_default=true;
+    */
   }
 
   function onMouseDown(event) {
