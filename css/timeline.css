@@ -51,27 +51,25 @@
 /** 2. LEVEL: semantical timeline containers (content) **/
 
 #tlControlsLeft {
-    bottom: 60px;
+    bottom: 0px;
     left: 0px;
     position: absolute;
     padding: 5px;
     
     border-right: 1px solid #D4D4D4;
     border-top: 1px solid #D4D4D4;
-    border-bottom: 1px solid #D4D4D4;
-    border-radius: 0px 6px 6px 0px;
+    border-radius: 0px 6px 0px 6px;
 }
 
 #tlControlsRight {
-    bottom: 60px;
+    bottom: 0px;
     right: 0px;
     position: absolute;
     padding: 5px;
     
     border-left: 1px solid #D4D4D4;
     border-top: 1px solid #D4D4D4;
-    border-bottom: 1px solid #D4D4D4;
-    border-radius: 6px 0px 0px 6px;
+    border-radius: 6px 0px 6px 0px;
 }
 
 /* PLAYER */

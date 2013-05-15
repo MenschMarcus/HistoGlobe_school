@@ -136,7 +136,7 @@
                 $('#demo-link').css({visibility:"visible"});
                 $('#video-link').css({visibility:"visible"});
                 $('#back-link').css({visibility:"hidden"}); 
-                $('#tlContainer').css({display: "none"}); 
+                //$('#tlContainer').css({display: "none"}); 
                 $('.banner').css({visibility: "hidden"}); 
                 
                 $('.hero-unit').css({"background-image": "url('img/logo_bg.jpg')",
@@ -196,7 +196,7 @@
             
             function loadTimeline() {
             
-                $('#tlContainer').css({display: "block"});  
+                //$('#tlContainer').css({display: "block"});  
 
                 if (!timelineInitialized) {
                     timeline = timeline();
@@ -279,33 +279,74 @@
         
             <div class="hero-unit">           
                 <div id="container"></div>
+                
+                <!----------------------- gl header --------------------------->
                 <div id="gl-header" style="visibility:hidden">
-                    <div class="btn-toolbar header-button-bottom">
-                        <div class="btn-group">
-                            <a id="toggle-2D" class="btn" onClick="load2D()">2D</a>
-                            <a id="toggle-3D" class="btn" onClick="load3D()"
-                               data-html="true"
-                               data-placement="left"
-                               data-title="Entschuldigung!" 
-                               data-content="Der 3D-Globus kann nicht angezeigt werden! Bitte aktualisieren Sie Ihren Browser oder laden Sie sich eine aktuelle Version von <a href='http://www.mozilla.org/'>Firefox</a> oder <a href='http://www.google.com/chrome/'>Chrome</a> herunter.">3D</a>
+                    
+                    
+                    <!----------------------- timeline ------------------------>
+                    <div id="tlContainer">
+                        <div id="tlPlayer">
+                            <div id="histPlayer" class="playerGo btn"><small><i class="icon-play"></i> Geschichte abspielen</small></div>
                         </div>
+                        
+                        <div class="btn-toolbar header-button-bottom">
+                            <div class="btn-group">
+                                <a id="toggle-2D" class="btn" onClick="load2D()">2D</a>
+                                <a id="toggle-3D" class="btn" onClick="load3D()"
+                                   data-html="true"
+                                   data-placement="left"
+                                   data-title="Entschuldigung!" 
+                                   data-content="Der 3D-Globus kann nicht angezeigt werden! Bitte aktualisieren Sie Ihren Browser oder laden Sie sich eine aktuelle Version von <a href='http://www.mozilla.org/'>Firefox</a> oder <a href='http://www.google.com/chrome/'>Chrome</a> herunter.">3D</a>
+                            </div>
+                        </div>
+
+	                    <div id="timeline"  class="gradient-box-inset">
+		                    <div id="tlMain">
+			                    <div id="tlScroller">
+				                    <!-- all markers are in here -->
+				                    <div id="nowMarkerWrap">
+					                    <div id="nowMarkerHead">
+						                    <div id="nowDate" onsubmit="return false">
+							                    <input id="polDate" type="button" name="now" value="" />
+						                    </div>
+					                    </div>
+					                    <div id="nowMarkerMain"></div>
+				                    </div>
+			                    </div>
+		                    </div>
+		                    
+		                    <div id="tlControlsLeft"  class="gradient-box-top">
+			                        <span class="input-prepend input-append" style="margin-bottom:0px">
+			                            <button id="tlMoveLeftLeft" class="btn" type="button"><i class="icon-caret-left"></i></button>
+			                            <input  id="periodStart" type="text" name="periodStart">
+			                            <button id="tlMoveLeftRight" class="btn" type="button"><i class="icon-caret-right"></i></button>
+			                        </span>
+			                 </div>
+			                 <div id="tlControlsRight"  class="gradient-box-top">
+                                    <span class="input-prepend input-append" style="float:right; margin-bottom:0px">
+			                            <button id="tlMoveRightLeft" class="btn" type="button"><i class="icon-caret-left"></i></button>
+			                            <input id="periodEnd" type="text" name="periodEnd">
+			                            <button id="tlMoveRightRight" class="btn" type="button"><i class="icon-caret-right"></i></button>
+			                        </span>
+		                    </div>
+	                    </div>
                     </div>
                 </div>
                 
-                
-                <div id="video-header" style="visibility:hidden; position:absolute; width: 100%; height: 100%;">
+                <!------------------------ video ------------------------------>
+                <div id="video-header" 
+                     style="visibility:hidden; position:absolute; width: 100%; height: 100%;">
                     <video class="video-js vjs-default-skin" controls preload="auto" data-setup="{}">
-                     <source src="video/teaser.mp4" type='video/mp4'>
-                     <source src="video/teaser.webm" type='video/webm'>
-                     <source src="video/teaser.ogv" type='video/ogg'>
+                         <source src="video/teaser.mp4" type='video/mp4'>
+                         <source src="video/teaser.webm" type='video/webm'>
+                         <source src="video/teaser.ogv" type='video/ogg'>
                     </video>
                 </div>
                 
-                
+                <!---------------------- little logo -------------------------->
                 <div class="bottom-left-logo" id="logo-normal" style="visibility:hidden"></div>
-
                 <div class="hero-unit-box-shadow" ></div>
-                
                 <div class="banner" style="visibility:hidden"><p>Demo!</p></div>
                                 
                 <p class="header-button-top">
@@ -323,7 +364,6 @@
                         style="margin:10px">
                         <small><i class="icon-play"></i> Video</small>
                     </a>
-                    
                 </p>
                 
                 <a id="back-link" class="header-button-top" 
@@ -333,51 +373,11 @@
                     <small><i class="icon-step-backward"></i> Zurück</small>
                 </a>
                 
+                <!-- default header -->
                 <div id="default-header">
                     <center>
                         <img src="img/logo_big.svg" alt="logo">
                     </center>
-                </div>
-                
-                <!-- TIMELINE -->
-                <div id="tlContainer" style="display:none">
-                    <div id="tlPlayer">
-                        <div id="histPlayer" class="playerGo btn"><small><i class="icon-play"></i> Geschichte abspielen</small></div>
-                    </div>
-
-	                <div id="timeline"  class="gradient-box-inset">
-	                
-		                
-		                    
-		                <div id="tlMain">
-			                <div id="tlScroller">
-				                <!-- all markers are in here -->
-				                <div id="nowMarkerWrap">
-					                <div id="nowMarkerHead">
-						                <div id="nowDate" onsubmit="return false">
-							                <input id="polDate" type="button" name="now" value="" />
-						                </div>
-					                </div>
-					                <div id="nowMarkerMain"></div>
-				                </div>
-			                </div>
-		                </div>
-		                
-		                <div id="tlControlsLeft"  class="gradient-box-top">
-			                    <span class="input-prepend input-append" style="margin-bottom:0px">
-			                        <button id="tlMoveLeftLeft" class="btn" type="button"><i class="icon-caret-left"></i></button>
-			                        <input  id="periodStart" type="text" name="periodStart">
-			                        <button id="tlMoveLeftRight" class="btn" type="button"><i class="icon-caret-right"></i></button>
-			                    </span>
-			             </div>
-			             <div id="tlControlsRight"  class="gradient-box-top">
-                                <span class="input-prepend input-append" style="float:right; margin-bottom:0px">
-			                        <button id="tlMoveRightLeft" class="btn" type="button"><i class="icon-caret-left"></i></button>
-			                        <input id="periodEnd" type="text" name="periodEnd">
-			                        <button id="tlMoveRightRight" class="btn" type="button"><i class="icon-caret-right"></i></button>
-			                    </span>
-		                </div>
-	                </div>
                 </div>
             </div>
                         
