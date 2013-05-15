@@ -1,6 +1,6 @@
 [
     {
-        "name": "Cool Event",
+        "name": "Cool Hivent",
         "category": "Impressive Category",
         "date": 1950,
         "long": 0,
@@ -17,7 +17,7 @@
         ]
     },
     {
-        "name": "Another Cool Event",
+        "name": "Another Cool Hivent",
         "category": "Another Impressive Category",
         "date": 1934,
         "long": 0,
