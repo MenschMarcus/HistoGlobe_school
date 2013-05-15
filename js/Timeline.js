@@ -210,7 +210,8 @@ function timeline() {
   // set period start and end date and draw the scroller on their base
   function setPeriod(start, end) {
     // fix ID10T bug
-    if (start > end) {
+    if (start > end)
+    {
       var temp = start;
       start = end;
       end = temp;
@@ -220,7 +221,8 @@ function timeline() {
     end = Math.min(end,maxDate);        // prevents futuristic timeline
 
     // distance between start and end needs to be at least 3 years
-    if (end - start < 3) {
+    if (end - start < 3)
+    {
       if (end < maxDate-3)  end = start + 3;    // prevents futuristic timeline
       else                  start = end - 3;
     }
@@ -360,7 +362,7 @@ function timeline() {
     
     // put period dates into their fields
     var perStart = Math.max(Math.round(posToDecYear($(tlMain).scrollLeft())),minDate);
-    var perEnd = Math.min(Math.round(posToDecYear(tlMain.offsetWidZOOMth+$(tlMain).scrollLeft())),Math.floor(maxDate));
+    var perEnd = Math.min(Math.round(posToDecYear(tlMain.offsetWidth+$(tlMain).scrollLeft())),Math.floor(maxDate));
     $('#periodStart').val(perStart);
     $('#periodEnd').val(perEnd);
     
@@ -474,136 +476,122 @@ function timeline() {
   }
   
   /** HISTORY PLAYER **/
-
-  function togglePlayer(evt) {
-
-    // already playing, stop and clear
-    if (playerInterval) {
-      stopPlayer();
-      return;
-    }
-    // no historical events -> no playing
-//    if (histEvents.length == 0) {
-//      stopPlayer();
-//      return;
-//    }
-    
-    // start playing!
-    // set the player button
-    $('#histPlayerStart').html('<i class="icon-pause"></i>');
-    
-    // continuously move nowMaker to the right
-    
-    // get current date
-    var counter = 0;
-    playerInterval = setInterval(
-        function()
-          {
-            var step = tlMain.offsetWidth/(dayDist*dayDiff(minDate,maxDate)*10);
-            // move now marker to new position
-
-            // move timeline into threshold and reset now date
-            var nowPos = decYearToPos(now.date+step);
-            // calculate, if now marker is outside the inner threshold and how far
-            var moveDiff = 0;
-            if (nowPos < innerThres) {
-              moveDiff = innerThres-nowPos;
-            }
-            else if (nowPos > (tlMain.offsetWidth-innerThres)) {
-              moveDiff = tlMain.offsetWidth-innerThres-nowPos;
-            }
-            // if outside the inner threshold, smoothly move timeline so that now marker is inside the threshold
-            if (moveDiff != 0) {
-              var f;
-              setTimeout(f = function() {
-                // special case: really small move diff -> return
-                if (Math.abs(moveDiff)<1) return;
-                // move timeline by 50% of move diff
-                scrollTimeline(moveDiff/2);
-                // update movediff
-                moveDiff /= 2;
-                // go into recursion
-                setTimeout(f, 20);
-              }, 20);
-            }
-
-            setNowPos(nowPos);   
-           
-            // tell everybody that now date changed
-            if (counter == 20)
-            {
-                nowChanged();
-                periodChanged();
-                counter = 0;
-            }
-            
-            counter++;
-          }, 10
-    );
-    
-    
-    
-    /*
-    // start with a step, then start animation
-    doStep(500);
-    playerInterval = setInterval(doStep, playerIntervalTime);
-    
-    // step to the next event
-    function doStep(animSpeed) {
-      
-      var events = histEvents.slice();  // defensive copy
-      var curr;
-      var nd = decYearToDate(now.date);
-      
-      for (var i=0; i<histEvents.length; i++) {
-        // scan for next closest event
-        var props = histEvents[i].data.properties;
-        var thisDate = props.effectDate ? 
-                      main.l10n.ISOStringToDate(props.effectDate): // timezone causes problem in comparison
-                      main.l10n.ISOStringToDate(props.date);
-        
-      var marker = $("#event" + histEvents[i].data.properties.histEventID);
-        if ((nd < thisDate) && (marker.css("display") != "none")) {
-          if (!curr)  {
-            curr = histEvents[i];
-            curr.comparedate = thisDate;
-          } else if (thisDate < new Date(curr.comparedate)) {
-            curr = histEvents[i];
-            curr.comparedate = thisDate;
-          }
-        }
-      }
-      
-      // error handling
-      if (!curr) {
-        stopPlayer();
-        return;
-      }
-      
-      // animate now marker
-      var pos = dateToPos(curr.comparedate);
-      $(now.marker).animate({left:pos+'px'}, {duration:animSpeed?animSpeed:playerAnim, step:step, complete:complete});
-      function step(now,fx) {
-        $('#bigDateBox').text(Math.floor(posToDecYear(now)));
-      }
-      function complete() {
-          main.getEventInfo(curr.data.properties, true, curr.data.properties.histEventID, true);
-      }
-    }
+  function eventUITarget(evt, node)
+  {
+    /* check if clicked on certain elements or
+      if desired element is one of their parents
+      syntax: "closest(desEl)" is an object containing all elements
+      in the DOM tree of the node clicked on that match with desEl
+      => if there is one element in this object, then it is
+      the one we are looking for, so the length of the object is 1 
+      (otherwise it is 0)
     */
+    return $(evt.target).closest(node).length==1;
+  }
+
+  function togglePlayer(evt)
+  {
+    /*
+      logic: for each player (1, 2, 3) check if
+      - player button active => pause animation and toggle player
+      - player button inactive => play animation, toggle player and other two players
+    */
+    // shortcuts for players
+    var p1 = $("#histPlayer1");
+    var p2 = $("#histPlayer2");
+    var p3 = $("#histPlayer3");
+    
+    // check state: 0 = not playing, 1 = speed1, 2 = speed2, 3 = speed3
+    var state = null;
+    if (p1.hasClass('active')) state = 1;
+    if (p2.hasClass('active')) state = 2;
+    if (p3.hasClass('active')) state = 3;
+    
+    // check which play button clicked on
+    var playButt = null;
+    if (eventUITarget(evt, p1)) playButt = 1;
+    if (eventUITarget(evt, p2)) playButt = 2;
+    if (eventUITarget(evt, p3)) playButt = 3;
+    
+    // first, stop player and toggle clicked button
+    stopPlayer();
+    if (playButt == 1) p1.button('toggle');
+    if (playButt == 2) p2.button('toggle');
+    if (playButt == 3) p3.button('toggle');
+    
+    // if clicked on active playButt, only pause the animation and do not do anything else
+    if (state == playButt)
+      return
+    // if clicked on inactive playButt, toggle also the old active playButt
+    else
+    {
+      if (state == 1) p1.button('toggle');
+      if (state == 2) p2.button('toggle');
+      if (state == 3) p3.button('toggle');
+      startPlayer(playButt);
+    }
+  }
+  
+  function startPlayer(speed)
+  {
+    var counter = 0;
+    playerInterval = setInterval( function()
+      {
+        var step = tlMain.offsetWidth/(dayDist*dayDiff(minDate,maxDate)*10);
+        step *= speed*speed;
+        // move now marker to new position
+
+        // move timeline into threshold and reset now date
+        var nowPos = decYearToPos(now.date+step);
+        // calculate, if now marker is outside the inner threshold and how far
+        var moveDiff = 0;
+        if (nowPos < innerThres) {
+          moveDiff = innerThres-nowPos;
+        }
+        else if (nowPos > (tlMain.offsetWidth-innerThres)) {
+          moveDiff = tlMain.offsetWidth-innerThres-nowPos;
+        }
+        // if outside the inner threshold, smoothly move timeline so that now marker is inside the threshold
+        if (moveDiff != 0) {
+          var f;
+          setTimeout(f = function() {
+            // special case: really small move diff -> return
+            if (Math.abs(moveDiff)<1) return;
+            // move timeline by 50% of move diff
+            scrollTimeline(moveDiff/2);
+            // update movediff
+            moveDiff /= 2;
+            // go into recursion
+            setTimeout(f, 20);
+          }, 20);
+        }
+
+        setNowPos(nowPos);   
+       
+        // tell everybody that now date changed
+        if (counter == 50)
+        {
+          nowChanged();
+          periodChanged();
+          counter = 0;
+        }
+        
+        counter++;
+      }, 10
+    );
   }
   
   function stopPlayer() {
     // reset the player interval
+    $('.btn').button('reset');
+    
+    
     if (playerInterval) {
       clearInterval(playerInterval);
       playerInterval = null;
     }
     // stop any running movement
     $(now.marker).stop();
-    
-    // rewrite player button    
-    $('#histPlayerStart').html('<i class="icon-play"></i>');
   }
   
   
@@ -824,7 +812,7 @@ function timeline() {
 
   /** ZOOM TIMELINE **/
   function zoomFromPos(pos, delta) {
-     var evt = {
+    var evt = {
         'pageX': pos + $('#tlMain').offset().left
     };
     
@@ -832,25 +820,31 @@ function timeline() {
   }
   
   
-  function zoom(evt, delta) {
+  function zoom (evt, delta) {
+  
+    // prevent from scrolling the page
+    evt.preventDefault();
+  
     // init values
     var zoomFactor = 1.15;
     var minDist = tlMain.offsetWidth/dayDiff(minDate,maxDate);
     var maxDist = 0.45;
 
     // if mouse wheel used
-    if (evt) {
+    if (evt)
+    {
       refDate = clickToDecYear(evt);
       refPos = evt.pageX-$('#tlScroller').offset().left;
     }
     // if zoom in or out buttons used
-    else {
+    else
+    {
       refDate = posToDecYear(tlMain.offsetWidth/2);
       refPos = tlMain.offsetWidth/2;
     }
     // change day distance and clip it
     dayDist *= Math.pow(zoomFactor,delta);
-    dayDist = Math.min(Math.max(dayDist,minDist),maxDist);
+    dayDist  = Math.min(Math.max(dayDist,minDist),maxDist);
 
     // redraw the scroller
     drawScroller();

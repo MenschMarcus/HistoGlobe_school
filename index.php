@@ -41,6 +41,7 @@
     <script type="text/javascript" src="js/third-party/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="js/third-party/jquery.browser.js"></script>
     <script type="text/javascript" src="js/third-party/jquery.disable.text.select.js"></script>
+    <script type="text/javascript" src="js/third-party/jquery.mousewheel.js"></script>
     <script type="text/javascript" src="js/third-party/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/third-party/hammer.min.js"></script>
     
@@ -210,18 +211,35 @@
           $("#tlScroller").bind("mousemove",timeline.moveMouseOutThres);
   
           // moving the timeline scroller with left and right buttons
-          $("#tlMoveLeftRight").bind("mousedown", function(evt) { if (evt.button == 0) timeline.clickMoveButtonLeft(0.01)});
-          $("#tlMoveLeftLeft").bind("mousedown",  function(evt) { if (evt.button == 0) timeline.clickMoveButtonLeft(-0.01)});
-          $("#tlMoveRightRight").bind("mousedown", function(evt) { if (evt.button == 0) timeline.clickMoveButtonRight(-0.01)});
-          $("#tlMoveRightLeft").bind("mousedown",  function(evt) { if (evt.button == 0) timeline.clickMoveButtonRight(0.01)});
+          $("#tlMoveLeftRight").bind("mousedown", function(evt)
+            {
+              if (evt.button == 0)
+                timeline.clickMoveButtonLeft(0.01)
+            }
+          );
+          $("#tlMoveLeftLeft").bind("mousedown", function(evt)
+            {
+              if (evt.button == 0)
+                timeline.clickMoveButtonLeft(-0.01)
+            }
+          );
+          $("#tlMoveRightRight").bind("mousedown", function(evt)
+            {
+              if (evt.button == 0)
+                timeline.clickMoveButtonRight(-0.01)
+            }
+          );
+          $("#tlMoveRightLeft").bind("mousedown",  function(evt)
+            {
+              if (evt.button == 0)
+                timeline.clickMoveButtonRight(0.01)
+            }
+          );
           
-          // zooming the timeline scroller with + and -
-          $('#tlZoomIn').bind("click", function() {timeline.zoom(null, 1)});
-          $('#tlZoomOut').bind("click", function() {timeline.zoom(null, -1)});
-
           // play history
-          $('#histPlayerStart').click(timeline.togglePlayer);
-          $('#histPlayerStop').click(timeline.stopPlayer);
+          $('#histPlayer1').click(timeline.togglePlayer);
+          $('#histPlayer2').click(timeline.togglePlayer);
+          $('#histPlayer3').click(timeline.togglePlayer);
           
           // disable selection of years in timeline
           
@@ -289,12 +307,12 @@
           <!----------------------- timeline ------------------------>
           <div id="tlContainer">
             
-            
             <div id="tlMenuLeft"  class="gradient-timeline-menu">
               <div class="btn-toolbar header-button-bottom tlMenu">
                 <div class="btn-group">
-                  <a id="histPlayerStart" class="btn"><i class="icon-play"></i></a>
-                  <a id="histPlayerStop" class="btn"><i class="icon-stop"></i></a>
+                  <a id="histPlayer1" class="btn playBtn"><i class="icon-play"></i></a>
+                  <a id="histPlayer2" class="btn playBtn"><i class="icon-play"></i><i class="icon-play"></i></a>
+                  <a id="histPlayer3" class="btn playBtn"><i class="icon-play"></i><i class="icon-play"></i><i class="icon-play"></i></a>
                 </div>
               </div>
              </div>

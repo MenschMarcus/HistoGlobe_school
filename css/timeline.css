@@ -186,8 +186,14 @@
 
 /* PLAY HISTORY */
 
-#histPlayer {
+.playBtn
+{
+  width: 20px;
+}
 
+.playBtn i
+{
+  letter-spacing: -4px;
 }
 
 /** TIMELINE SCROLLER **/
