@@ -822,7 +822,7 @@ function timeline() {
   function zoom (evt, delta) {
   
     // prevent from scrolling the page
-    evt.preventDefault();
+    if (evt.preventDefault) evt.preventDefault();
   
     // init values
     var zoomFactor = 1.15;
