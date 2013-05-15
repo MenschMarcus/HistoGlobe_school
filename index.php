@@ -47,11 +47,9 @@
     
     <link href="http://vjs.zencdn.net/4.0/video-js.css" rel="stylesheet">
     <script src="http://vjs.zencdn.net/4.0/video.js"></script>
-
-    <script type="text/javascript" src="js/third-party/Three/ThreeWebGL.js"></script>
-    <script type="text/javascript" src="js/third-party/Three/ThreeExtras.js"></script>
-    <script type="text/javascript" src="js/third-party/Three/RequestAnimationFrame.js"></script>
-    <script type="text/javascript" src="js/third-party/Three/Detector.js"></script>
+    <script type="text/javascript" src="js/third-party/RequestAnimationFrame.js"></script>
+    <script type="text/javascript" src="js/third-party/Detector.js"></script>
+    <script type="text/javascript" src="js/third-party/three.min.js"></script>
     <script type="text/javascript" src="js/third-party/Tween.js"></script>
     <script type="text/javascript" src="js/third-party/paper.js"></script>
     <script type="text/javascript" src="js/Display2D.js"></script>
