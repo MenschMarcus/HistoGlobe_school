@@ -337,7 +337,7 @@
                   <div id="nowMarkerWrap">
                     <div id="nowMarkerHead">
                       <div id="nowDate" onsubmit="return false">
-                        <input id="polDate" type="text" name="now" value="" />
+                        <i class="icon-angle-left"></i> <span id="polDate"></span> <i class="icon-angle-right"></i>
                       </div>
                     </div>
                     <div id="nowMarkerMain"></div>
@@ -345,21 +345,26 @@
                 </div>
               </div>
               
-              <div id="tlControlsLeft"  class="gradient-timeline-top">
+              
+              <div id="tlControlsLeft" class="gradient-timeline-top">
                 <span class="input-prepend input-append" style="margin-bottom:0px">
                   <button id="tlMoveLeftLeft" class="btn" type="button"><i class="icon-caret-left"></i></button>
                   <input  id="periodStart" type="text" name="periodStart">
                   <button id="tlMoveLeftRight" class="btn" type="button"><i class="icon-caret-right"></i></button>
                 </span>
                </div>
-               
-               <div id="tlControlsRight"  class="gradient-timeline-top">
+               <div id="tlBorderLeft"></div>
+              
+              
+              <div id="tlControlsRight" class="gradient-timeline-top">
                 <span class="input-prepend input-append" style="float:right; margin-bottom:0px">
                   <button id="tlMoveRightLeft" class="btn" type="button"><i class="icon-caret-left"></i></button>
                   <input id="periodEnd" type="text" name="periodEnd">
                   <button id="tlMoveRightRight" class="btn" type="button"><i class="icon-caret-right"></i></button>
                 </span>
               </div>
+              <div id="tlBorderRight"></div>
+              
             </div>
           </div>
         </div>
