@@ -38,25 +38,27 @@
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="stylesheet" type="text/css" href="css/timeline.css">
         
-        <script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
-        <script type="text/javascript" src="js/jquery.browser.js"></script>
-        <script type="text/javascript" src="js/jquery.disable.text.select.js"></script>
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="js/hammer.min.js"></script>
+        <script type="text/javascript" src="js/third-party/jquery-1.9.0.min.js"></script>
+        <script type="text/javascript" src="js/third-party/jquery.browser.js"></script>
+        <script type="text/javascript" src="js/third-party/jquery.disable.text.select.js"></script>
+        <script type="text/javascript" src="js/third-party/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/third-party/hammer.min.js"></script>
         
         <link href="http://vjs.zencdn.net/4.0/video-js.css" rel="stylesheet">
         <script src="http://vjs.zencdn.net/4.0/video.js"></script>
 
-        <script type="text/javascript" src="globe/third-party/Three/ThreeWebGL.js"></script>
-        <script type="text/javascript" src="globe/third-party/Three/ThreeExtras.js"></script>
-        <script type="text/javascript" src="globe/third-party/Three/RequestAnimationFrame.js"></script>
-        <script type="text/javascript" src="globe/third-party/Three/Detector.js"></script>
-        <script type="text/javascript" src="globe/third-party/Tween.js"></script>
-        <script type="text/javascript" src="globe/third-party/paper.js"></script>
-        <script type="text/javascript" src="globe/Display2D.js"></script>
-        <script type="text/javascript" src="globe/Display3D.js"></script>
-        <script type="text/javascript" src="globe/Map.js"></script>
-        <script type="text/javascript" src="globe/Timeline.js"></script>
+        <script type="text/javascript" src="js/third-party/Three/ThreeWebGL.js"></script>
+        <script type="text/javascript" src="js/third-party/Three/ThreeExtras.js"></script>
+        <script type="text/javascript" src="js/third-party/Three/RequestAnimationFrame.js"></script>
+        <script type="text/javascript" src="js/third-party/Three/Detector.js"></script>
+        <script type="text/javascript" src="js/third-party/Tween.js"></script>
+        <script type="text/javascript" src="js/third-party/paper.js"></script>
+        <script type="text/javascript" src="js/Display2D.js"></script>
+        <script type="text/javascript" src="js/Display3D.js"></script>
+        <script type="text/javascript" src="js/Map.js"></script>
+        <script type="text/javascript" src="js/Timeline.js"></script>
+        <script type="text/javascript" src="js/Hivent.js"></script>
+        <script type="text/javascript" src="js/HiventHandler.js"></script>
                
         <script type="text/javascript">
             var display2D, display3D, map, timeline;
