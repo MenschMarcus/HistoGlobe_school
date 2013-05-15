@@ -483,16 +483,14 @@ function timeline() {
       return;
     }
     // no historical events -> no playing
-    if (histEvents.length == 0) {
-      stopPlayer();
-      return;
-    }
+//    if (histEvents.length == 0) {
+//      stopPlayer();
+//      return;
+//    }
     
     // start playing!
     // set the player button
-    $('#histPlayer').text('Stop playing');
-  $('#histPlayer').removeClass('playerGo');
-    $('#histPlayer').addClass('playerStop');
+    $('#histPlayerStart').html('<i class="icon-pause"></i>');
     
     // continuously move nowMaker to the right
     
@@ -605,9 +603,7 @@ function timeline() {
     $(now.marker).stop();
     
     // rewrite player button    
-    $('#histPlayer').text('Play History');
-  $('#histPlayer').removeClass('playerStop');
-    $('#histPlayer').addClass('playerGo');
+    $('#histPlayerStart').html('<i class="icon-play"></i>');
   }
   
   

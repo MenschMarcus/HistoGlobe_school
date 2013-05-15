@@ -220,7 +220,8 @@
           $('#tlZoomOut').bind("click", function() {timeline.zoom(null, -1)});
 
           // play history
-          $('.playerGo').click(timeline.togglePlayer);
+          $('#histPlayerStart').click(timeline.togglePlayer);
+          $('#histPlayerStop').click(timeline.stopPlayer);
           
           // disable selection of years in timeline
           
@@ -289,16 +290,16 @@
           <div id="tlContainer">
             
             
-            <div id="tlMenuLeft"  class="gradient-box-top">
+            <div id="tlMenuLeft"  class="gradient-timeline-menu">
               <div class="btn-toolbar header-button-bottom tlMenu">
                 <div class="btn-group">
-                  <a id="histPlayer" class="playerGo btn"><i class="icon-play"></i></a>
-                  <a id="tmp" class="btn"><i class="icon-stop"></i></a>
+                  <a id="histPlayerStart" class="btn"><i class="icon-play"></i></a>
+                  <a id="histPlayerStop" class="btn"><i class="icon-stop"></i></a>
                 </div>
               </div>
              </div>
   
-             <div id="tlMenuRight"  class="gradient-box-top">
+             <div id="tlMenuRight"  class="gradient-timeline-menu">
               <div class="btn-toolbar header-button-bottom tlMenu">
                 <div class="btn-group">
                   <a id="toggle-2D" class="btn" onClick="load2D()">2D</a>
@@ -311,17 +312,14 @@
               </div>
             </div>
 
-            <div id="timeline"  class="gradient-box-inset">
-            
-              
-            
+            <div id="timeline"  class="gradient-timeline-main">
               <div id="tlMain">
                 <div id="tlScroller">
                   <!-- all markers are in here -->
                   <div id="nowMarkerWrap">
                     <div id="nowMarkerHead">
                       <div id="nowDate" onsubmit="return false">
-                        <input id="polDate" type="button" name="now" value="" />
+                        <input id="polDate" type="text" name="now" value="" />
                       </div>
                     </div>
                     <div id="nowMarkerMain"></div>
@@ -329,7 +327,7 @@
                 </div>
               </div>
               
-              <div id="tlControlsLeft"  class="gradient-box-top">
+              <div id="tlControlsLeft"  class="gradient-timeline-top">
                 <span class="input-prepend input-append" style="margin-bottom:0px">
                   <button id="tlMoveLeftLeft" class="btn" type="button"><i class="icon-caret-left"></i></button>
                   <input  id="periodStart" type="text" name="periodStart">
@@ -337,7 +335,7 @@
                 </span>
                </div>
                
-               <div id="tlControlsRight"  class="gradient-box-top">
+               <div id="tlControlsRight"  class="gradient-timeline-top">
                 <span class="input-prepend input-append" style="float:right; margin-bottom:0px">
                   <button id="tlMoveRightLeft" class="btn" type="button"><i class="icon-caret-left"></i></button>
                   <input id="periodEnd" type="text" name="periodEnd">
