@@ -1,0 +1,37 @@
+[
+    {
+        "name": "Cool Event",
+        "category": "Impressive Category",
+        "date": 1950,
+        "long": 0,
+        "lat": 0,
+        "parties": [
+            {
+                "name": "Party 1",
+                "orientation": "Conservative"
+            },
+            {
+                "name": "Party 2",
+                "orientation": "Progressive"
+            }
+        ]
+    },
+    {
+        "name": "Another Cool Event",
+        "category": "Another Impressive Category",
+        "date": 1934,
+        "long": 0,
+        "lat": 40,
+        "parties": [
+            {
+                "name": "Party 1",
+                "orientation": "Conservative"
+            },
+            {
+                "name": "Party 2",
+                "orientation": "Progressive"
+            }
+        ]
+    }
+]
+
