@@ -41,6 +41,7 @@
     <script type="text/javascript" src="js/third-party/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="js/third-party/jquery.browser.js"></script>
     <script type="text/javascript" src="js/third-party/jquery.disable.text.select.js"></script>
+    <script type="text/javascript" src="js/third-party/jquery.mousewheel.js"></script>
     <script type="text/javascript" src="js/third-party/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/third-party/hammer.min.js"></script>
     
@@ -208,17 +209,35 @@
           $("#tlScroller").bind("mousemove",timeline.moveMouseOutThres);
   
           // moving the timeline scroller with left and right buttons
-          $("#tlMoveLeftRight").bind("mousedown", function(evt) { if (evt.button == 0) timeline.clickMoveButtonLeft(0.01)});
-          $("#tlMoveLeftLeft").bind("mousedown",  function(evt) { if (evt.button == 0) timeline.clickMoveButtonLeft(-0.01)});
-          $("#tlMoveRightRight").bind("mousedown", function(evt) { if (evt.button == 0) timeline.clickMoveButtonRight(-0.01)});
-          $("#tlMoveRightLeft").bind("mousedown",  function(evt) { if (evt.button == 0) timeline.clickMoveButtonRight(0.01)});
+          $("#tlMoveLeftRight").bind("mousedown", function(evt)
+            {
+              if (evt.button == 0)
+                timeline.clickMoveButtonLeft(0.01)
+            }
+          );
+          $("#tlMoveLeftLeft").bind("mousedown", function(evt)
+            {
+              if (evt.button == 0)
+                timeline.clickMoveButtonLeft(-0.01)
+            }
+          );
+          $("#tlMoveRightRight").bind("mousedown", function(evt)
+            {
+              if (evt.button == 0)
+                timeline.clickMoveButtonRight(-0.01)
+            }
+          );
+          $("#tlMoveRightLeft").bind("mousedown",  function(evt)
+            {
+              if (evt.button == 0)
+                timeline.clickMoveButtonRight(0.01)
+            }
+          );
           
-          // zooming the timeline scroller with + and -
-          $('#tlZoomIn').bind("click", function() {timeline.zoom(null, 1)});
-          $('#tlZoomOut').bind("click", function() {timeline.zoom(null, -1)});
-
           // play history
-          $('.playerGo').click(timeline.togglePlayer);
+          $('#histPlayer1').click(timeline.togglePlayer);
+          $('#histPlayer2').click(timeline.togglePlayer);
+          $('#histPlayer3').click(timeline.togglePlayer);
           
           // disable selection of years in timeline
           
@@ -286,17 +305,17 @@
           <!----------------------- timeline ------------------------>
           <div id="tlContainer">
             
-            
-            <div id="tlMenuLeft"  class="gradient-box-top">
+            <div id="tlMenuLeft"  class="gradient-timeline-menu">
               <div class="btn-toolbar header-button-bottom tlMenu">
                 <div class="btn-group">
-                  <a id="histPlayer" class="playerGo btn"><i class="icon-play"></i></a>
-                  <a id="tmp" class="btn"><i class="icon-stop"></i></a>
+                  <a id="histPlayer1" class="btn playBtn"><i class="icon-play"></i></a>
+                  <a id="histPlayer2" class="btn playBtn"><i class="icon-play"></i><i class="icon-play"></i></a>
+                  <a id="histPlayer3" class="btn playBtn"><i class="icon-play"></i><i class="icon-play"></i><i class="icon-play"></i></a>
                 </div>
               </div>
              </div>
   
-             <div id="tlMenuRight"  class="gradient-box-top">
+             <div id="tlMenuRight"  class="gradient-timeline-menu">
               <div class="btn-toolbar header-button-bottom tlMenu">
                 <div class="btn-group">
                   <a id="toggle-2D" class="btn" onClick="load2D()">2D</a>
@@ -309,17 +328,14 @@
               </div>
             </div>
 
-            <div id="timeline"  class="gradient-box-inset">
-            
-              
-            
+            <div id="timeline"  class="gradient-timeline-main">
               <div id="tlMain">
                 <div id="tlScroller">
                   <!-- all markers are in here -->
                   <div id="nowMarkerWrap">
                     <div id="nowMarkerHead">
                       <div id="nowDate" onsubmit="return false">
-                        <input id="polDate" type="button" name="now" value="" />
+                        <i class="icon-angle-left"></i> <span id="polDate"></span> <i class="icon-angle-right"></i>
                       </div>
                     </div>
                     <div id="nowMarkerMain"></div>
@@ -327,21 +343,26 @@
                 </div>
               </div>
               
-              <div id="tlControlsLeft"  class="gradient-box-top">
+              
+              <div id="tlControlsLeft" class="gradient-timeline-top">
                 <span class="input-prepend input-append" style="margin-bottom:0px">
                   <button id="tlMoveLeftLeft" class="btn" type="button"><i class="icon-caret-left"></i></button>
                   <input  id="periodStart" type="text" name="periodStart">
                   <button id="tlMoveLeftRight" class="btn" type="button"><i class="icon-caret-right"></i></button>
                 </span>
                </div>
-               
-               <div id="tlControlsRight"  class="gradient-box-top">
+               <div id="tlBorderLeft"></div>
+              
+              
+              <div id="tlControlsRight" class="gradient-timeline-top">
                 <span class="input-prepend input-append" style="float:right; margin-bottom:0px">
                   <button id="tlMoveRightLeft" class="btn" type="button"><i class="icon-caret-left"></i></button>
                   <input id="periodEnd" type="text" name="periodEnd">
                   <button id="tlMoveRightRight" class="btn" type="button"><i class="icon-caret-right"></i></button>
                 </span>
               </div>
+              <div id="tlBorderRight"></div>
+              
             </div>
           </div>
         </div>
