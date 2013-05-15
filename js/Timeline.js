@@ -110,7 +110,7 @@ function timeline() {
     
     /* INIT SCROLLER */
     // write now date onto now marker
-    $("#polDate").val(decYearToString(now.date));
+    $("#polDate").text(decYearToString(now.date));
     // initially draw scroller, scroller at the end, now marker at 0
     $(tlScroller).width($("#tlMain").width()*1.5);
     drawScroller();
@@ -176,7 +176,7 @@ function timeline() {
     // set now marker to new position
     $(now.marker).css("left", pos);
     // write now date into head of now marker
-    $("#polDate").val(decYearToString(now.date));
+    $("#polDate").text(decYearToString(now.date));
   }
   
   
@@ -200,7 +200,7 @@ function timeline() {
       now.date = posToDecYear(rightThres);
     }
     // set now marker on timeline
-    $("#polDate").val(decYearToString(now.date));
+    $("#polDate").text(decYearToString(now.date));
     $(now.marker).css("left", decYearToPos(now.date));     // because of rounding errors recalculation of nowPos necessary
 
     // tell everybody about it
@@ -626,7 +626,7 @@ function timeline() {
       downNowMarker = true;
       return;
     }
-    if (evt.target.id == 'polDate') $('#polDate').focus();
+    if (evt.target.id == 'polDate') return;
     // clicked on scroller -> move timeline
     else {
       downScroller = true;

@@ -135,12 +135,12 @@
 
 #tlMain {
   position: relative;
-  height: 85px;
+  height: 75px;
   overflow: hidden;
 }
 
 #tlScroller {
-  height: 90px;
+  height: 80px;
   overflow: visible;
   position: absolute;
 }
@@ -151,22 +151,22 @@
 
 #nowMarkerWrap {
   position: absolute;
-  margin: 0 0 0 -50px;
+  margin: 0 0 0 -58px;
   border: 0;
   padding: 0;
   z-index: 4;
 }
 
 #nowMarkerHead {
-  background-color: #fff;
+  background-color: #ddd;
   
-  background: -moz-linear-gradient(top, #ddd 0%, #bbb 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#bbb), color-stop(100%,#ddd)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #ddd 0%,#bbb 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, #ddd 0%,#bbb 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top, #ddd 0%,#bbb 100%); /* IE10+ */
-  background: linear-gradient(to bottom, #ddd 0%,#bbb 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ddd', endColorstr='#bbb',GradientType=0 ); /* IE6-9 */
+  background: -moz-linear-gradient(top, #ddd 0%, #aaa 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#aaa), color-stop(100%,#ddd)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #ddd 0%,#aaa 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #ddd 0%,#aaa 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #ddd 0%,#aaa 100%); /* IE10+ */
+  background: linear-gradient(to bottom, #ddd 0%,#aaa 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ddd', endColorstr='#aaa',GradientType=0 ); /* IE6-9 */
   background-repeat: repeat-x;
   box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.2);
   
@@ -176,7 +176,7 @@
 
 #nowMarkerMain {
   position: relative;
-  left: 37.5px;
+  left: 45px;
   width: 25px;
   height: 30px;
   background: url('../img/timeline/nowMarker.png') center no-repeat;
@@ -215,8 +215,8 @@
 /** TIMELINE SCROLLER **/
 
 #tlMain {
-  margin-top: -20px;
-  background: url('../img/timeline/tlBar.png') repeat-x 0 65px;
+  margin-top: -10px;
+  background: url('../img/timeline/tlBar.png') repeat-x 0 55px;
 }
 
 /* YEAR MARKERS */
@@ -225,7 +225,7 @@
 .yearMarker {
   position: absolute;
   height: 50px;
-  margin-top: 45px;
+  margin-top: 35px;
 }
 .yearMark1 {
   width: 50px;

@@ -319,7 +319,7 @@
                   <div id="nowMarkerWrap">
                     <div id="nowMarkerHead">
                       <div id="nowDate" onsubmit="return false">
-                        <input id="polDate" type="text" name="now" value="" />
+                        <i class="icon-angle-left"></i> <span id="polDate"></span> <i class="icon-angle-right"></i>
                       </div>
                     </div>
                     <div id="nowMarkerMain"></div>
