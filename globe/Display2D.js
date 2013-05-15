@@ -192,8 +192,10 @@ HG.Display2D = function(container, inMap) {
   function render() {
     zoom(curZoomSpeed);
 
+    target.y = Math.max(map.getCanvas().height + (canvas.height - map.getCanvas().height), Math.min(canvas.height, target.y));
     panning.x += (target.x - panning.x) * 0.1;
     panning.y += (target.y - panning.y) * 0.1;
+    //console.log(canvas.height);
     distance += (distanceTarget - distance) * 0.3;
     
     var sourceCtx = map.getCanvas().getContext("2d");

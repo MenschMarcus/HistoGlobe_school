@@ -42,6 +42,7 @@
         <script type="text/javascript" src="js/jquery.browser.js"></script>
         <script type="text/javascript" src="js/jquery.disable.text.select.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/hammer.min.js"></script>
         
         <link href="http://vjs.zencdn.net/4.0/video-js.css" rel="stylesheet">
         <script src="http://vjs.zencdn.net/4.0/video.js"></script>
