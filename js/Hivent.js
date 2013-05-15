@@ -3,12 +3,12 @@ var HG = HG || {};
 HG.Hivent = function(inName, inCategory, inDate, 
                      inLong, inLat, inParties) {
   
-  var name = inName;
-  var category = inCategory;
-  var date = inDate;
-  var long = inLong;
-  var lat = inLat;
-  var parties = inParties;
+  this.name = inName;
+  this.category = inCategory;
+  this.date = inDate;
+  this.long = inLong;
+  this.lat = inLat;
+  this.parties = inParties;
 
   return this;
 

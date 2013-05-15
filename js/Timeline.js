@@ -35,7 +35,7 @@ function timeline() {
   timeline.clickMoveButtonLeft = clickMoveButtonLeft;     // ... the left/right move buttons of the timeline are pressed
   timeline.clickMoveButtonRight = clickMoveButtonRight;     // ... the left/right move buttons of the timeline are pressed
   timeline.zoom = zoom;                           // ... the timeline gets zoomed by mouse wheel or by zoom buttons
-  timeline.togglePlayer = togglePlayer;			      // ... history player gets toggled
+  timeline.togglePlayer = togglePlayer;            // ... history player gets toggled
   
   /* MEMBER VARIABLES */
   
@@ -242,25 +242,25 @@ function timeline() {
       lat/lon coordinate pair as lower-left, upper-right
       lat limited to -90 - +90, lon does not wrap around */
   function setMapExtent(ext) {
-	  extent[0] = ext[0].lon; // xMin
-	  extent[1] = ext[0].lat; // yMin
-	  extent[2] = ext[1].lon; // xMax
-	  extent[3] = ext[1].lat; // yMax
+    extent[0] = ext[0].lon; // xMin
+    extent[1] = ext[0].lat; // yMin
+    extent[2] = ext[1].lon; // xMax
+    extent[3] = ext[1].lat; // yMax
 
-	  // get all historical event markers
-	  var list = histEvents;
+    // get all historical event markers
+    var list = histEvents;
     for (var i in list) {
-		  var x = histEvents[i].data.properties.lon;
-		  var y = histEvents[i].data.properties.lat;
-		  var marker = $("#event" + histEvents[i].data.properties.histEventID);
-		  // check if inside the viewport
-		  if ((x <= extent[2]) && (x >= extent[0]) && (y <= extent[3]) && (y >= extent[1])) {
-			  marker.css("display", "block");   // make it visible
-		  }
-		  else {
-			  marker.css("display", "none");    // make it invisible
-		  }
-	  }
+      var x = histEvents[i].data.properties.lon;
+      var y = histEvents[i].data.properties.lat;
+      var marker = $("#event" + histEvents[i].data.properties.histEventID);
+      // check if inside the viewport
+      if ((x <= extent[2]) && (x >= extent[0]) && (y <= extent[3]) && (y >= extent[1])) {
+        marker.css("display", "block");   // make it visible
+      }
+      else {
+        marker.css("display", "none");    // make it invisible
+      }
+    }
   }
   
   function setHistEvents(eventArr) {
@@ -315,7 +315,7 @@ function timeline() {
   }
   
   function catChangeHandler(evt) {
-  	categoryChanged();
+    categoryChanged();
   }  
   
   function categoryChanged() {
@@ -418,12 +418,12 @@ function timeline() {
   
   // set class of markers for different time periods
   function yearMarkerClass(year) {
-      if (year%(20*markerInterval) == 0)
-        return 'yearMark1';
-      else if (year%(5*markerInterval) == 0)
-        return 'yearMark2';
-      else
-        return 'yearMark3';
+    if (year%(20*markerInterval) == 0)
+      return 'yearMark1';
+    else if (year%(5*markerInterval) == 0)
+      return 'yearMark2';
+    else
+      return 'yearMark3';
   }
   
   /** HISTORICAL EVENT MARKER **/
@@ -448,12 +448,12 @@ function timeline() {
       newEventMarker.markerDate = {date: dateToDecYear(new Date(date))};
       
       // test, if in the viewport
-		  if ((props.lon <= extent[2]) && (props.lon >= extent[0]) && (props.lat <= extent[3]) && (props.lat >= extent[1])) {
-			  $(newEventMarker).css("display", "block");   // make it visible
-		  }
-		  else {
-			  $(newEventMarker).css("display", "none");    // make it invisible
-		  }
+      if ((props.lon <= extent[2]) && (props.lon >= extent[0]) && (props.lat <= extent[3]) && (props.lat >= extent[1])) {
+        $(newEventMarker).css("display", "block");   // make it visible
+      }
+      else {
+        $(newEventMarker).css("display", "none");    // make it invisible
+      }
       
       // prevent scroller from receiving click (no reset of now marker)
       newEventMarker.onmousedown = function(e){e.stopPropagation()};
@@ -491,7 +491,7 @@ function timeline() {
     // start playing!
     // set the player button
     $('#histPlayer').text('Stop playing');
-	$('#histPlayer').removeClass('playerGo');
+  $('#histPlayer').removeClass('playerGo');
     $('#histPlayer').addClass('playerStop');
     
     // continuously move nowMaker to the right
@@ -500,47 +500,47 @@ function timeline() {
     var counter = 0;
     playerInterval = setInterval(
         function()
+          {
+            var step = tlMain.offsetWidth/(dayDist*dayDiff(minDate,maxDate)*10);
+            // move now marker to new position
+
+            // move timeline into threshold and reset now date
+            var nowPos = decYearToPos(now.date+step);
+            // calculate, if now marker is outside the inner threshold and how far
+            var moveDiff = 0;
+            if (nowPos < innerThres) {
+              moveDiff = innerThres-nowPos;
+            }
+            else if (nowPos > (tlMain.offsetWidth-innerThres)) {
+              moveDiff = tlMain.offsetWidth-innerThres-nowPos;
+            }
+            // if outside the inner threshold, smoothly move timeline so that now marker is inside the threshold
+            if (moveDiff != 0) {
+              var f;
+              setTimeout(f = function() {
+                // special case: really small move diff -> return
+                if (Math.abs(moveDiff)<1) return;
+                // move timeline by 50% of move diff
+                scrollTimeline(moveDiff/2);
+                // update movediff
+                moveDiff /= 2;
+                // go into recursion
+                setTimeout(f, 20);
+              }, 20);
+            }
+
+            setNowPos(nowPos);   
+           
+            // tell everybody that now date changed
+            if (counter == 20)
             {
-                var step = tlMain.offsetWidth/(dayDist*dayDiff(minDate,maxDate)*10);
-                // move now marker to new position
-
-                // move timeline into threshold and reset now date
-                var nowPos = decYearToPos(now.date+step);
-                // calculate, if now marker is outside the inner threshold and how far
-                var moveDiff = 0;
-                if (nowPos < innerThres) {
-                  moveDiff = innerThres-nowPos;
-                }
-                else if (nowPos > (tlMain.offsetWidth-innerThres)) {
-                  moveDiff = tlMain.offsetWidth-innerThres-nowPos;
-                }
-                // if outside the inner threshold, smoothly move timeline so that now marker is inside the threshold
-                if (moveDiff != 0) {
-                  var f;
-                  setTimeout(f = function() {
-                    // special case: really small move diff -> return
-                    if (Math.abs(moveDiff)<1) return;
-                    // move timeline by 50% of move diff
-                    scrollTimeline(moveDiff/2);
-                    // update movediff
-                    moveDiff /= 2;
-                    // go into recursion
-                    setTimeout(f, 20);
-                  }, 20);
-                }
-
-                setNowPos(nowPos);   
-               
-                // tell everybody that now date changed
-                if (counter == 20)
-                {
-                    nowChanged();
-                    periodChanged();
-                    counter = 0;
-                }
-                
-                counter++;
-            }, 10
+                nowChanged();
+                periodChanged();
+                counter = 0;
+            }
+            
+            counter++;
+          }, 10
     );
     
     
@@ -564,29 +564,29 @@ function timeline() {
                       main.l10n.ISOStringToDate(props.effectDate): // timezone causes problem in comparison
                       main.l10n.ISOStringToDate(props.date);
         
-		var marker = $("#event" + histEvents[i].data.properties.histEventID);
+      var marker = $("#event" + histEvents[i].data.properties.histEventID);
         if ((nd < thisDate) && (marker.css("display") != "none")) {
           if (!curr)  {
-              curr = histEvents[i];
-              curr.comparedate = thisDate;
+            curr = histEvents[i];
+            curr.comparedate = thisDate;
           } else if (thisDate < new Date(curr.comparedate)) {
-              curr = histEvents[i];
-              curr.comparedate = thisDate;
+            curr = histEvents[i];
+            curr.comparedate = thisDate;
           }
         }
       }
       
       // error handling
       if (!curr) {
-          stopPlayer();
-          return;
+        stopPlayer();
+        return;
       }
       
       // animate now marker
       var pos = dateToPos(curr.comparedate);
       $(now.marker).animate({left:pos+'px'}, {duration:animSpeed?animSpeed:playerAnim, step:step, complete:complete});
       function step(now,fx) {
-      	$('#bigDateBox').text(Math.floor(posToDecYear(now)));
+        $('#bigDateBox').text(Math.floor(posToDecYear(now)));
       }
       function complete() {
           main.getEventInfo(curr.data.properties, true, curr.data.properties.histEventID, true);
@@ -606,7 +606,7 @@ function timeline() {
     
     // rewrite player button    
     $('#histPlayer').text('Play History');
-	$('#histPlayer').removeClass('playerStop');
+  $('#histPlayer').removeClass('playerStop');
     $('#histPlayer').addClass('playerGo');
   }
   
@@ -617,25 +617,25 @@ function timeline() {
 
   // recognise click on scroller
   function clickMouse(evt) {
-      // only react on left mouse button
-      if (evt.which != 1) return;
-      // change mouse cursor
-      $('body').attr('style','cursor: move;');
-      // set event handling variables
-      lastPos = evt.pageX;
-      totalDragMovement = 0;
-      // clicked on now marker -> drag it
-      if (evt.target.id == 'nowMarkerMain' ||
-          evt.target.id == 'nowMarkerHead' ||
-          evt.target.id == 'nowDate') {
-        downNowMarker = true;
-        return;
-      }
-      if (evt.target.id == 'polDate') return;
-      // clicked on scroller -> move timeline
-      else {
-        downScroller = true;
-      }
+    // only react on left mouse button
+    if (evt.which != 1) return;
+    // change mouse cursor
+    $('body').attr('style','cursor: move;');
+    // set event handling variables
+    lastPos = evt.pageX;
+    totalDragMovement = 0;
+    // clicked on now marker -> drag it
+    if (evt.target.id == 'nowMarkerMain' ||
+        evt.target.id == 'nowMarkerHead' ||
+        evt.target.id == 'nowDate') {
+      downNowMarker = true;
+      return;
+    }
+    if (evt.target.id == 'polDate') return;
+    // clicked on scroller -> move timeline
+    else {
+      downScroller = true;
+    }
   }
   
   // move with clicked mouse button in scroller
@@ -645,8 +645,8 @@ function timeline() {
     totalDragMovement += Math.abs(xDist);
     // clicked on scroller -> move timeline
     if (downScroller) {
-        scrollTimeline(xDist);
-        synchNow();
+      scrollTimeline(xDist);
+      synchNow();
     }
     // clicked on now marker -> drag it
     if (downNowMarker) {
@@ -938,12 +938,12 @@ function timeline() {
   
   // input: Date object, output: decimal year
   function dateToDecYear(date) {
-      var fullYear = date.getFullYear();
-      // calculate difference in days between actual date and 1. Jan of that year
-      var diff = dayDiff(new Date(fullYear, 0, 1), date);
-      // day difference is the fractional part of the year
-      if (isLeapYear(fullYear)) return fullYear + (diff/366);
-      else                      return fullYear + (diff/365);
+    var fullYear = date.getFullYear();
+    // calculate difference in days between actual date and 1. Jan of that year
+    var diff = dayDiff(new Date(fullYear, 0, 1), date);
+    // day difference is the fractional part of the year
+    if (isLeapYear(fullYear)) return fullYear + (diff/366);
+    else                      return fullYear + (diff/365);
   }
   
   // input: anything, output: decimal year

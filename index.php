@@ -59,6 +59,7 @@
     <script type="text/javascript" src="js/Timeline.js"></script>
     <script type="text/javascript" src="js/Hivent.js"></script>
     <script type="text/javascript" src="js/HiventHandler.js"></script>
+    <script type="text/javascript" src="js/HiventMarker3D.js"></script>
          
     <script type="text/javascript">
       var display2D, display3D, map, timeline;
@@ -136,7 +137,6 @@
         $('#back-link').css({visibility:"hidden"}); 
         //$('#tlContainer').css({display: "none"}); 
         $('.banner').css({visibility: "hidden"}); 
-        
         $('.hero-unit').css({"background-image": "url('img/logo_bg.jpg')",
                      "background-position": "bottom right"});
                      
