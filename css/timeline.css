@@ -15,7 +15,7 @@
 }
 
 .gradient-timeline-top {
-  background-color: #eee;
+  background-color: #fff;
   
   background: -moz-linear-gradient(top, #fff 0%, #eee 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee), color-stop(100%,#fff)); /* Chrome,Safari4+ */
@@ -25,7 +25,7 @@
   background: linear-gradient(to bottom, #fff 0%,#eee 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fff', endColorstr='#F2F2F2',GradientType=0 ); /* IE6-9 */
   background-repeat: repeat-x;
-  box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 0px 2px rgba(0, 0, 0, 0.2);
 }
 
 .gradient-timeline-main {
@@ -65,43 +65,65 @@
 /** 2. LEVEL: semantical timeline containers (content) **/
 
 #tlControlsLeft {
-  bottom: 65px;
+  bottom: 70px;
   left: 0px;
   position: absolute;
-  padding: 5px;
+  padding: 4px 7px;
   border-right: 1px solid #D4D4D4;
   border-top: 1px solid #D4D4D4;
-  border-radius: 0px 6px 0px 0px;
+  border-bottom: 1px solid #D4D4D4;
+  border-radius: 0px 6px 6px 0px;
 }
 
 #tlControlsRight {
-  bottom: 65px;
-  right: 0px;
-  position: absolute;
-  padding: 5px;
+  border-bottom: 1px solid #D4D4D4;
   border-left: 1px solid #D4D4D4;
+  border-radius: 6px 0 0 6px;
   border-top: 1px solid #D4D4D4;
-  border-radius: 6px 0px 0px 0px;
+  bottom: 70px;
+  padding: 4px 7px;
+  position: absolute;
+  right: 0;
+}
+
+#tlBorderRight {
+  bottom: 0px;
+  right: 0px;
+  height: 71px;
+  width: 40px;
+  position: absolute;
+  background: url('../img/timeline/sideR.png') center no-repeat;
+  border-radius: 0px 0px 6px 0px;
+}
+
+#tlBorderLeft {
+  bottom: 0px;
+  left: 0px;
+  height: 71px;
+  width: 40px;
+  position: absolute;
+  background: url('../img/timeline/sideL.png') center no-repeat;
+  border-radius: 0px 0px 0px 6px;
 }
 
 #tlMenuLeft {
-  bottom: 60px;
-  left: 0px;
-  position: absolute;
-  padding: 5px 5px 15px 145px;
   border-right: 1px solid #D4D4D4;
-  border-top: 1px solid #D4D4D4;
   border-radius: 0px 6px 0px 6px;
+  border-top: 1px solid #D4D4D4;
+  bottom: 60px;
+  padding: 8px 8px 17px 145px;
+  position: absolute;
+  left: 0;
 }
 
 #tlMenuRight {
-  bottom: 60px;
-  right: 0px;
-  position: absolute;
-  padding: 5px 145px 15px 5px;
   border-left: 1px solid #D4D4D4;
+  border-radius: 6px 0 6px 0;
   border-top: 1px solid #D4D4D4;
-  border-radius: 6px 0px 6px 0px;
+  bottom: 60px;
+  padding: 8px 145px 17px 8px;
+  position: absolute;
+  right: 0;
 }
 
 .tlMenu {
@@ -113,12 +135,12 @@
 
 #tlMain {
   position: relative;
-  height: 70px;
+  height: 85px;
   overflow: hidden;
 }
 
 #tlScroller {
-  height: 70px;
+  height: 90px;
   overflow: visible;
   position: absolute;
 }
@@ -164,7 +186,7 @@
 
 #nowDate {
   position: relative;
-  margin: 8px;
+  margin: 4px 12px;
 }
 
 #polDate {
@@ -193,8 +215,8 @@
 /** TIMELINE SCROLLER **/
 
 #tlMain {
-  margin-top: -10px;
-  background: url('../img/timeline/tlBar.png') repeat-x 0 35px;
+  margin-top: -20px;
+  background: url('../img/timeline/tlBar.png') repeat-x 0 65px;
 }
 
 /* YEAR MARKERS */
@@ -203,25 +225,25 @@
 .yearMarker {
   position: absolute;
   height: 50px;
-  margin-top: 15px;
+  margin-top: 45px;
 }
 .yearMark1 {
   width: 50px;
   margin-left: -25px;
   background: url('../img/timeline/yearMarker1.png') center no-repeat;
-  background-position: 23.5px 25px;
+  background-position: 23.5px 21px;
 }
 .yearMark2 {
   width: 28px;
   margin-left: -15px;  
   background: url('../img/timeline/yearMarker2.png') no-repeat;
-  background-position: 13.5px 25px;
+  background-position: 13.5px 21px;
 }
 .yearMark3 {
   width: 28px;
   margin-left: -14px;  
   background: url('../img/timeline/yearMarker3.png') no-repeat;
-  background-position: 13.5px 25px;
+  background-position: 13.5px 21px;
 }
 
 /* year number */

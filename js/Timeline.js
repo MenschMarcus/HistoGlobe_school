@@ -622,12 +622,11 @@ function timeline() {
     totalDragMovement = 0;
     // clicked on now marker -> drag it
     if (evt.target.id == 'nowMarkerMain' ||
-        evt.target.id == 'nowMarkerHead' ||
-        evt.target.id == 'nowDate') {
+        evt.target.id == 'nowMarkerHead') {
       downNowMarker = true;
       return;
     }
-    if (evt.target.id == 'polDate') return;
+    if (evt.target.id == 'polDate') $('#polDate').focus();
     // clicked on scroller -> move timeline
     else {
       downScroller = true;
