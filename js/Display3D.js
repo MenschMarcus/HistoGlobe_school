@@ -131,9 +131,12 @@ HG.Display3D = function(container, inMap) {
       fragmentShader: shader.fragmentShader
     });
 
-    mesh = new THREE.Mesh(geometry, material);
+    testHivent = new HG.Hivent("horst", "", 0, 0, 0, []);
+    mesh = new HG.HiventMarker3D(testHivent, geometry, material);
+//    mesh = new THREE.Mesh(geometry, material);
     mesh.matrixAutoUpdate = false;
     scene.addObject(mesh);
+    
 
     shader = Shaders['atmosphere'];
     uniforms = THREE.UniformsUtils.clone(shader.uniforms);

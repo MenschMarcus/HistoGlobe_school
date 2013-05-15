@@ -9,16 +9,16 @@ HG.HiventHandler = function() {
   function init() {    
     
     $.getJSON("data/hivents.json", function(h){
-        for (var hivent=0; hivent<h.length; hivent++) {
-            hivents.push(new HG.Hivent(
-                h[hivent].name,
-                h[hivent].category,
-                h[hivent].date,
-                h[hivent].long,
-                h[hivent].lat,
-                h[hivent].parties
-            ));
-        }
+      for (var hivent=0; hivent<h.length; hivent++) {
+        hivents.push(new HG.Hivent(
+            h[hivent].name,
+            h[hivent].category,
+            h[hivent].date,
+            h[hivent].long,
+            h[hivent].lat,
+            h[hivent].parties
+        ));
+      }
     }); 
 
   }
