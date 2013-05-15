@@ -22,6 +22,7 @@ HG.Map = function() {
                                         new paper.Point(canvas.width, canvas.height)));
     backRect.fillColor = "white";
     
+    /*
     $.getJSON("img/coastline.json", function(c){
         coastlines = c;  
 
@@ -41,9 +42,9 @@ HG.Map = function() {
             path.closed = true;
         }
     });  
+    */
     
     
-    /*
     imgResource = document.createElement("img");
     imgResource.setAttribute("id", "map-image");
     imgResource.setAttribute("src", "img/map.jpg");
@@ -52,7 +53,7 @@ HG.Map = function() {
     
     var background = new paper.Raster('map-image');
     background.position = new paper.Point(width/2, height/2);
-    
+    /*
     text = new paper.PointText(new paper.Point(width/2, height/2));
     text.content = 'HistoGlobe';
     text.characterStyle = {
@@ -61,6 +62,18 @@ HG.Map = function() {
         fillColor: 'black',
     };
     */  
+    
+    $.getJSON("data/events.json", function(events){
+        for (var event=0; event<events.length; event++) {
+            console.log(events[event]);
+            var x = (events[event].long + 180)/360 * canvas.width;
+            var y = canvas.height - (events[event].lat + 90)/180 * canvas.height;
+            console.log(x);
+            console.log(y);
+            var point = new paper.Path.Circle(new paper.Point(x, y), 2);
+            point.fillColor = "#e79523";
+        }
+    }); 
     
     var date = new Date();
 

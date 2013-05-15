@@ -108,7 +108,7 @@
                                               
                     container = document.getElementById('container');   
                     loadTimeline();     
-                    load2D();
+                    load3D();
                     $('#toggle-3D').addClass("active");                     
                 }       
             }
