@@ -1,28 +1,41 @@
 /*** general styles ***/
 
-.gradient-box {
+.gradient-box-top {
     background-color: #FAFAFA;
     
-    background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(242,242,242,1) 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(242,242,242,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(242,242,242,1) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(242,242,242,1) 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(242,242,242,1) 100%); /* IE10+ */
-    background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(242,242,242,1) 100%); /* W3C */
+    background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba( 235, 235, 235,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba( 235, 235, 235,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba( 235, 235, 235,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(255,255,255,1) 0%,rgba( 235, 235, 235,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba( 235, 235, 235,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba( 235, 235, 235,1) 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#F2F2F2',GradientType=0 ); /* IE6-9 */
     background-repeat: repeat-x;
-    border: 1px solid #D4D4D4;
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.067);
+    box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.07);
+}
+
+.gradient-box-inset {
+    background-color: #FAFAFA;
+    
+    background: -moz-linear-gradient(top, rgba(235,235,235,1) 0%, rgba(210,210,210,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(210,210,210,1)), color-stop(100%,rgba(235,235,235,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(235,235,235,1) 0%,rgba(210,210,210,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(235,235,235,1) 0%,rgba(210,210,210,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(235,235,235,1) 0%,rgba(210,210,210,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom, rgba(235,235,235,1) 0%,rgba(210,210,210,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#F2F2F2',GradientType=0 ); /* IE6-9 */
+    background-repeat: repeat-x;
+    border: 1px solid #C4C4C4;
+    border-radius: 0px 0px 6px 6px;
+    box-shadow: 0 -3px 3px rgba(0, 0, 0, 0.1);
 }
 
 /*** DIV STRUCTURE ***/
 
 #tlContainer {
-    bottom: 10px;
-    height: 80px;
-    left: 10px;
-    right: 10px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
     overflow: visible;
     position: absolute;
 }
@@ -30,84 +43,57 @@
 
 /** 1. LEVEL: syntactical timeline containers (structure) + wrapper **/
 
-#tlWrapperLeft {
-	position: relative;
-	float: left;
-	top: 10px;
-	height: 100px;
-	width: 20px;
-}
-
-#tlWrapperRight {
-	position: relative;
-	float: right;
-	top: 10px;
-	height: 100px;
-	width: 20px;
-}
-
 #timeline {
-	position: relative;
-	height: 80px;
+    position: relative;
+    height: 65px;
 }
 
 /** 2. LEVEL: semantical timeline containers (content) **/
 
-/* ZOOM */
-
-#tlZoom {
-  position: absolute;
-  left: 50%;
-  bottom: 0px;
+#tlControlsLeft {
+    bottom: 60px;
+    left: 0px;
+    position: absolute;
+    padding: 5px;
+    
+    border-right: 1px solid #D4D4D4;
+    border-top: 1px solid #D4D4D4;
+    border-bottom: 1px solid #D4D4D4;
+    border-radius: 0px 6px 6px 0px;
 }
 
-/* MOVE LEFT AND RIGHT */
-
-#tlMoveLeft {
-  position: relative;
-  float: left;
-  width: 30px;
-  height: 100%;
-}
-
-#tlMoveRight {
-  position: relative;
-  float: right;
-  width: 30px;
-  height: 100%;
-}
-
-/* PERIOD DATES */
-
-#tlPeriod {
-  position: absolute;
-  bottom: 10px;
-  left: 40px;
-  right: 0px;
+#tlControlsRight {
+    bottom: 60px;
+    right: 0px;
+    position: absolute;
+    padding: 5px;
+    
+    border-left: 1px solid #D4D4D4;
+    border-top: 1px solid #D4D4D4;
+    border-bottom: 1px solid #D4D4D4;
+    border-radius: 6px 0px 0px 6px;
 }
 
 /* PLAYER */
 
 #tlPlayer {
-  position: absolute;
-  bottom: 90px;
-  left: 0px;
+    position: absolute;
+    bottom: 110px;
+    left: 10px;
 }
 
 /* MAIN */
 
 #tlMain {
-  position: relative;
-  height: 100%;
-  overflow: hidden;
+    position: relative;
+    height: 70px;
+    overflow: hidden;
 }
 
 #tlScroller {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 110px;      /* higher than timeline, to let now marker stand out on top */
-  overflow: visible;
+    height: 70px;
+    overflow: visible;
+    position: absolute;
 }
 
 /*** CONTENT ***/
@@ -115,64 +101,52 @@
 /* NOW = POLITICAL DATE */
 
 #nowMarkerWrap {
-  position: absolute;
-  margin: 0 0 0 -50px;
-  border: 0;
-  padding: 0;
-  width: 100px;
-  height: 70px;
-  z-index: 4;
+    position: absolute;
+    margin: 0 0 0 -50px;
+    border: 0;
+    padding: 0;
+    width: 100px;
+    height: 70px;
+    z-index: 4;
 }
 
 #nowMarkerHead {
-  position: relative;
-  height: 30px;
-  border: 2px solid #5c4200;
-  border-radius: 5px;  
-  background-color: #cd8e00;
+    position: relative;
+    height: 30px;
+    border: 2px solid #5c4235;
+    border-radius: 5px;  
+    background-color: #cd8e00;
 }
 
 #nowMarkerMain {
-  position: relative;
-  left: 37.5px;
-  width: 25px;
-  height: 30px;
-  background: url('../img/timeline/nowMarker.png') center no-repeat;
-  background-position: 0px -15px;
-  cursor: pointer;  
+    position: relative;
+    left: 37.5px;
+    width: 25px;
+    height: 30px;
+    background: url('../img/timeline/nowMarker.png') center no-repeat;
+    background-position: 0px -15px;
+    cursor: pointer;  
 }
 
 #nowDate {
-  position: relative;
-  top: 3px;
-  left: 3px;
+    position: relative;
 }
 
 #polDate {
-  margin: 0;
-  text-align: center;
-  font-size: 1.2em;
-  font-weight: bold;
-  width: 84px;
+    margin: 0;
+    text-align: center;
+    font-size: 0.8em;
+    font-weight: bold;
+    width: 84px;
 }
 
 
 /* PERIOD = HISTORICAL DATES */
 
 #periodStart, #periodEnd {
-  position: relative;
-  width: 33px;
-  height: 15px;
-  text-align: center;
-  font-size: 1.0em;
-}
-
-#periodStart {
-  float: left;
-}
-
-#periodEnd {
-  float: right;
+    position: relative;
+    width: 50px;
+    text-align: center;
 }
 
 /* PLAY HISTORY */
@@ -189,110 +163,75 @@
 
 }
 
-
-/** MOVE LEFT AND RIGHT **/
-
-#tlMoveLeft {
-  background: url('../img/timeline/moveLeft-nor.png') center no-repeat;
-  cursor:w-resize;
-}
-
-#tlMoveLeft:hover {
-  background: url('../img/timeline/moveLeft-hov.png') center no-repeat;
-  cursor:w-resize;
-}
-
-#tlMoveLeft:active {
-  background: url('../img/timeline/moveLeft-act.png') center no-repeat;
-  cursor:w-resize;
-}
-
-#tlMoveRight {
-  background: url('../img/timeline/moveRight-nor.png') center no-repeat;
-  cursor:e-resize;
-}
-
-#tlMoveRight:hover {
-  background: url('../img/timeline/moveRight-hov.png') center no-repeat;
-  cursor:e-resize;
-}
-
-#tlMoveRight:active {
-  background: url('../img/timeline/moveRight-act.png') center no-repeat;
-  cursor:e-resize;
-}
-
-
 /** TIMELINE SCROLLER **/
 
 #tlMain {
-  /*background: url('../img/timeline/tlBar.png') repeat-x 0 55px;*/
+    margin-top: -10px;
+    background: url('../img/timeline/tlBar.png') repeat-x 0 35px;
 }
 
 /* YEAR MARKERS */
 
 /* image */
 .yearMarker {
-  position: absolute;
-  height: 50px;
-  margin-top: 43px;
+    position: absolute;
+    height: 50px;
+    margin-top: 23px;
 }
 .yearMark1 {
-  width: 50px;
-  margin-left: -25px;
-  background: url('../img/timeline/yearMarker1.png') center no-repeat;
-  background-position: 23.5px -10px;
+    width: 50px;
+    margin-left: -25px;
+    background: url('../img/timeline/yearMarker1.png') center no-repeat;
+    background-position: 23.5px -10px;
 }
 .yearMark2 {
-  width: 28px;
-  margin-left: -15px;  
-  background: url('../img/timeline/yearMarker2.png') no-repeat;
-  background-position: 13.5px 5px;
+    width: 28px;
+    margin-left: -15px;  
+    background: url('../img/timeline/yearMarker2.png') no-repeat;
+    background-position: 13.5px 5px;
 }
 .yearMark3 {
-  width: 28px;
-  margin-left: -14px;  
-  background: url('../img/timeline/yearMarker3.png') no-repeat;
-  background-position: 13.5px 6px;
+    width: 28px;
+    margin-left: -14px;  
+    background: url('../img/timeline/yearMarker3.png') no-repeat;
+    background-position: 13.5px 6px;
 }
 
 /* year number */
 .yearMarker p {
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  z-index: 2;
-  text-align: center;
-  color: #292213;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    z-index: 2;
+    text-align: center;
+    color: #292213;
+    margin: 0px;
 }
 .yearMark1 p {
-  top: 11px;
-  font-size: 0.95em;
-  font-weight: bold;
+    font-size: 0.95em;
+    font-weight: bold;
 }
 .yearMark2 p {
-  top: 13px;
-  font-size: 0.7em;
-  font-weight: bold;
+    font-size: 0.7em;
+    font-weight: bold;
 }
 .yearMark3 p {
-  top: 13px;
-  font-size: 0.7em;
+    font-size: 0.7em;
 }
 
 /* HISTORICAL EVENT MARKERS */
 .eventMarker {
-  position: absolute;
-  margin-top: 34px;
-  margin-left: -7.5px;
-  height: 50px;
-  width: 15px;
-  z-index: 3;
-  background: url('../img/timeline/eventMarker-nor.png') no-repeat;
-  background-position: 0px 0px;
-  cursor: pointer;
+    position: absolute;
+    margin-top: 34px;
+    margin-left: -7.5px;
+    height: 50px;
+    width: 15px;
+    z-index: 3;
+    background: url('../img/timeline/eventMarker-nor.png') no-repeat;
+    background-position: 0px 0px;
+    cursor: pointer;
 }
 
 .eventMarker:hover {
-  background: url('../img/timeline/eventMarker-act.png') no-repeat;
+    background: url('../img/timeline/eventMarker-act.png') no-repeat;
 }

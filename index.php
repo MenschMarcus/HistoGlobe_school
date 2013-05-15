@@ -43,10 +43,8 @@
         <script type="text/javascript" src="js/jquery.disable.text.select.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         
-        <!--
-        <link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet">
-        <script src="http://vjs.zencdn.net/c/video.js"></script>
-        -->
+        <link href="http://vjs.zencdn.net/4.0/video-js.css" rel="stylesheet">
+        <script src="http://vjs.zencdn.net/4.0/video.js"></script>
 
         <script type="text/javascript" src="globe/third-party/Three/ThreeWebGL.js"></script>
         <script type="text/javascript" src="globe/third-party/Three/ThreeExtras.js"></script>
@@ -97,7 +95,7 @@
                                                 });
                     $('#gl-header').css({visibility:"visible"});
                     $('#demo-link').css({visibility:"hidden"});
-                    //$('#video-link').css({visibility:"hidden"});
+                    $('#video-link').css({visibility:"hidden"});
                     $('#back-link').css({visibility:"visible"});
                     $('#logo-normal').css({visibility: "visible"}); 
                     $('.banner').css({visibility: "visible"});                 
@@ -120,15 +118,9 @@
                                             });
                 $('#video-header').css({visibility:"visible"});
                 $('#demo-link').css({visibility:"hidden"});
-               //'#video-link').css({visibility:"hidden"});
+                $('#video-link').css({visibility:"hidden"});
                 $('#back-link').css({visibility:"visible"});
                 $('.hero-unit').css({"background-image": "none"});
-                
-                _V_("teaser-video").ready(function(){
-                    var myPlayer = this;
-                    myPlayer.play();
-                    myPlayer.controlBar.fadeOut(); 
-                });
             }
             
             
@@ -138,7 +130,7 @@
                 $('#gl-header').css({visibility:"hidden"});
                 $('#video-header').css({visibility:"hidden"});
                 $('#demo-link').css({visibility:"visible"});
-                //$('#video-link').css({visibility:"visible"});
+                $('#video-link').css({visibility:"visible"});
                 $('#back-link').css({visibility:"hidden"}); 
                 $('#tlContainer').css({display: "none"}); 
                 $('.banner').css({visibility: "hidden"}); 
@@ -216,9 +208,11 @@
 	                $("#tlScroller").bind("mousemove",timeline.moveMouseOutThres);
 	
 	                // moving the timeline scroller with left and right buttons
-	                $("#tlMoveRight").bind("mousedown", function(evt) { if (evt.button == 0) timeline.clickMoveButton(-10)});
-	                $("#tlMoveLeft").bind("mousedown",  function(evt) { if (evt.button == 0) timeline.clickMoveButton(10)});
-	
+	                $("#tlMoveLeftRight").bind("mousedown", function(evt) { if (evt.button == 0) timeline.clickMoveButtonLeft(0.01)});
+	                $("#tlMoveLeftLeft").bind("mousedown",  function(evt) { if (evt.button == 0) timeline.clickMoveButtonLeft(-0.01)});
+	                $("#tlMoveRightRight").bind("mousedown", function(evt) { if (evt.button == 0) timeline.clickMoveButtonRight(-0.01)});
+	                $("#tlMoveRightLeft").bind("mousedown",  function(evt) { if (evt.button == 0) timeline.clickMoveButtonRight(0.01)});
+	                
 	                // zooming the timeline scroller with + and -
 	                $('#tlZoomIn').bind("click", function() {timeline.zoom(null, 1)});
 	                $('#tlZoomOut').bind("click", function() {timeline.zoom(null, -1)});
@@ -230,8 +224,6 @@
                     
                     $("#tlMain").disableTextSelect();  
                     $("#tlScroller").disableTextSelect();
-                    $("#tlMoveLeft").disableTextSelect();
-                    $("#tlMoveRight").disableTextSelect();
                     $("#tlPlayer").disableTextSelect();
                     //$("#bigDateBox").disableTextSelect();
                     
@@ -296,14 +288,15 @@
                     </div>
                 </div>
                 
-                <!--
+                
                 <div id="video-header" style="visibility:hidden; position:absolute; width: 100%; height: 100%;">
-                    <video id="teaser-video" class="video-js vjs-default-skin" controls height="100%"
-                          preload="auto" data-setup="{}">
-                          <source src="video/teaser.ogg" type='video/ogg'>
+                    <video class="video-js vjs-default-skin" controls preload="auto" data-setup="{}">
+                     <source src="video/teaser.mp4" type='video/mp4'>
+                     <source src="video/teaser.webm" type='video/webm'>
+                     <source src="video/teaser.ogv" type='video/ogg'>
                     </video>
                 </div>
-                -->
+                
                 
                 <div class="bottom-left-logo" id="logo-normal" style="visibility:hidden"></div>
 
@@ -320,13 +313,13 @@
                         <small><i class="icon-play"></i> Demo</small>
                     </a>
                     
-                    <!--
+                    
                     <a id="video-link"  
                         onClick="loadVideoHeader()"
                         style="margin:10px">
                         <small><i class="icon-play"></i> Video</small>
                     </a>
-                    -->
+                    
                 </p>
                 
                 <a id="back-link" class="header-button-top" 
@@ -343,43 +336,42 @@
                 </div>
                 
                 <!-- TIMELINE -->
-                
-                
                 <div id="tlContainer" style="display:none">
                     <div id="tlPlayer">
                         <div id="histPlayer" class="playerGo btn"><small><i class="icon-play"></i> Geschichte abspielen</small></div>
                     </div>
-                
-	                <!--<div id="tlWrapperLeft"></div>
-	                <div id="tlWrapperRight"></div>-->
-	                <div id="timeline"  class="gradient-box">
-		                <div id="tlZoom">
-		                     <div class="btn-toolbar">
-                                <div class="btn-group">
-                                    <a id="tlZoomIn" class="btn"><i class="icon-zoom-in"></i></a>
-                                    <a id="tlZoomOut" class="btn"><i class="icon-zoom-out"></i></a>
-                                </div>
-                            </div>
-		
-		                </div>
-		                <div id="tlMoveLeft"></div>
-		                <div id="tlMoveRight"></div>
-		                <form id="tlPeriod" name="period" onsubmit="return false">
-			                <input id="periodStart" type="text" name="periodStart" />
-			                <input id="periodEnd" type="text" name="periodEnd" />
-		                </form>
+
+	                <div id="timeline"  class="gradient-box-inset">
+	                
+		                
+		                    
 		                <div id="tlMain">
 			                <div id="tlScroller">
 				                <!-- all markers are in here -->
 				                <div id="nowMarkerWrap">
 					                <div id="nowMarkerHead">
-						                <form id="nowDate" onsubmit="return false">
-							                <input id="polDate" type="text" name="now" value="" />
-						                </form>
+						                <div id="nowDate" onsubmit="return false">
+							                <input id="polDate" type="button" name="now" value="" />
+						                </div>
 					                </div>
 					                <div id="nowMarkerMain"></div>
 				                </div>
 			                </div>
+		                </div>
+		                
+		                <div id="tlControlsLeft"  class="gradient-box-top">
+			                    <span class="input-prepend input-append" style="margin-bottom:0px">
+			                        <button id="tlMoveLeftLeft" class="btn" type="button"><i class="icon-caret-left"></i></button>
+			                        <input  id="periodStart" type="text" name="periodStart">
+			                        <button id="tlMoveLeftRight" class="btn" type="button"><i class="icon-caret-right"></i></button>
+			                    </span>
+			             </div>
+			             <div id="tlControlsRight"  class="gradient-box-top">
+                                <span class="input-prepend input-append" style="float:right; margin-bottom:0px">
+			                        <button id="tlMoveRightLeft" class="btn" type="button"><i class="icon-caret-left"></i></button>
+			                        <input id="periodEnd" type="text" name="periodEnd">
+			                        <button id="tlMoveRightRight" class="btn" type="button"><i class="icon-caret-right"></i></button>
+			                    </span>
 		                </div>
 	                </div>
                 </div>

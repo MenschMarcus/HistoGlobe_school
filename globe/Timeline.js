@@ -32,7 +32,8 @@ function timeline() {
   timeline.clickMouse = clickMouse;               // ... mouse button is clicked on timeline
   timeline.moveMouse = moveMouse;                 // ... mouse is moved while button is clicked
   timeline.releaseMouse = releaseMouse;           // ... mouse button is released somewhere
-  timeline.clickMoveButton = clickMoveButton;     // ... the left/right move buttons of the timeline are pressed
+  timeline.clickMoveButtonLeft = clickMoveButtonLeft;     // ... the left/right move buttons of the timeline are pressed
+  timeline.clickMoveButtonRight = clickMoveButtonRight;     // ... the left/right move buttons of the timeline are pressed
   timeline.zoom = zoom;                           // ... the timeline gets zoomed by mouse wheel or by zoom buttons
   timeline.togglePlayer = togglePlayer;			      // ... history player gets toggled
   
@@ -77,11 +78,11 @@ function timeline() {
     /* INIT MEMBER VARIABLES */
   
     // general histoglobe
-    now.date = dateToDecYear(new Date()); // now = today
+    now.date = 1930; // now = today
     now.marker = $("#nowMarkerWrap")[0];
     now.marker.markerDate = now;          // self-reference, so that now.marker refers to now date
-    minDate = 1800;                       // no historical information before 1800
-    maxDate = now.date;                   // prevents futuristic timeline
+    minDate = 1830;                       // no historical information before 1800
+    maxDate = 1950;                   // prevents futuristic timeline
     
     // scroller
     tlMain = $("#tlMain")[0];
@@ -705,7 +706,7 @@ function timeline() {
   }
 
   // click on the left and right move button
-  function clickMoveButton(pix) {
+  function clickMoveButtonRight(pix) {
     // set initial speed of button moving and time moving started
     var buttonMoveSpeed = pix;
     var moveStartTime = new Date().getTime();
@@ -713,18 +714,36 @@ function timeline() {
     clearInterval(moveInterval);
     moveInterval = setInterval(function () {
       var nowTime = new Date().getTime();
-      // maximum speedup: 20px
-      var speedup = Math.min(20,(nowTime - moveStartTime) / 50);
+      var speedup = Math.min(0.05,(nowTime - moveStartTime) / 50000);
       if (buttonMoveSpeed > 0) {
-        scrollTimeline(buttonMoveSpeed + speedup);
+        zoomFromPos(0, buttonMoveSpeed + speedup);
       }
       else {
-        scrollTimeline(buttonMoveSpeed - speedup);
+        zoomFromPos(0, buttonMoveSpeed - speedup);
       }
       synchNow();
     }, 20);
   }
   
+  // click on the left and right move button
+  function clickMoveButtonLeft(pix) {
+    // set initial speed of button moving and time moving started
+    var buttonMoveSpeed = pix;
+    var moveStartTime = new Date().getTime();
+    // speed up the moving when clicking
+    clearInterval(moveInterval);
+    moveInterval = setInterval(function () {
+      var nowTime = new Date().getTime();
+      var speedup = Math.min(0.05,(nowTime - moveStartTime) / 50000);
+      if (buttonMoveSpeed > 0) {
+        zoomFromPos($('#tlMain').width() - 0, buttonMoveSpeed + speedup);
+      }
+      else {
+        zoomFromPos($('#tlMain').width() - 0, buttonMoveSpeed - speedup);
+      }
+      synchNow();
+    }, 20);
+  }
 
   /** MOVE TIMELINE AND NOW MARKER **/
   
@@ -804,12 +823,18 @@ function timeline() {
 
       },20);
     }
-
-  
   }
   
 
   /** ZOOM TIMELINE **/
+  function zoomFromPos(pos, delta) {
+     var evt = {
+        'pageX': pos + $('#tlMain').offset().left
+    };
+    
+    zoom(evt, delta);
+  }
+  
   
   function zoom(evt, delta) {
     // init values
