@@ -15,7 +15,7 @@ HG.HiventMarker3D = function(inHivent, geometry, material) {
   }
 
   init();
-    
+
 
   return this;
 

@@ -131,42 +131,42 @@ HG.Display2D = function(container, inMap) {
 
   function onMouseUp(event) {
     if (running) { 
-        container.removeEventListener('mousemove', onMouseMove, false);
-        container.removeEventListener('mouseup', onMouseUp, false);
-        container.removeEventListener('mouseout', onMouseOut, false);
-        container.style.cursor = 'auto';
+      container.removeEventListener('mousemove', onMouseMove, false);
+      container.removeEventListener('mouseup', onMouseUp, false);
+      container.removeEventListener('mouseout', onMouseOut, false);
+      container.style.cursor = 'auto';
     }
   }
 
   function onMouseOut(event) {
     if (running) { 
-        container.removeEventListener('mousemove', onMouseMove, false);
-        container.removeEventListener('mouseup', onMouseUp, false);
-        container.removeEventListener('mouseout', onMouseOut, false);
+      container.removeEventListener('mousemove', onMouseMove, false);
+      container.removeEventListener('mouseup', onMouseUp, false);
+      container.removeEventListener('mouseout', onMouseOut, false);
     }
   }
 
   function onMouseWheel(delta) {
     if (running) { 
-        if (overRenderer) {
-          zoom(delta * 0.3);
-        }
+      if (overRenderer) {
+        zoom(delta * 0.3);
+      }
     }
     return false;
   }
 
   function onDocumentKeyDown(event) {
     if (running) { 
-        switch (event.keyCode) {
-          case 38:
-            zoom(100);
-            event.preventDefault();
-            break;
-          case 40:
-            zoom(-100);
-            event.preventDefault();
-            break;
-        }
+      switch (event.keyCode) {
+        case 38:
+          zoom(100);
+          event.preventDefault();
+          break;
+        case 40:
+          zoom(-100);
+          event.preventDefault();
+          break;
+      }
    }
   }
 
@@ -183,9 +183,9 @@ HG.Display2D = function(container, inMap) {
 
   function animate() {
     if (running) {
-        requestAnimationFrame(animate);
-        map.redraw();
-        render();
+      requestAnimationFrame(animate);
+      map.redraw();
+      render();
     }
   }
 

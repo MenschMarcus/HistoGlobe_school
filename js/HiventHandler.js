@@ -11,12 +11,12 @@ HG.HiventHandler = function() {
     $.getJSON("data/hivents.json", function(h){
       for (var hivent=0; hivent<h.length; hivent++) {
         hivents.push(new HG.Hivent(
-            h[hivent].name,
-            h[hivent].category,
-            h[hivent].date,
-            h[hivent].long,
-            h[hivent].lat,
-            h[hivent].parties
+          h[hivent].name,
+          h[hivent].category,
+          h[hivent].date,
+          h[hivent].long,
+          h[hivent].lat,
+          h[hivent].parties
         ));
       }
     }); 
