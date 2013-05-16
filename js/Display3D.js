@@ -272,7 +272,7 @@ HG.Display3D = function(container, inMap) {
     if (running) {
       requestAnimationFrame(animate);
       map.redraw();
-      mapTexture.needsUpdate = true;
+      //mapTexture.needsUpdate = true;
       render();
     }
   }

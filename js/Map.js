@@ -4,7 +4,7 @@ HG.Map = function() {
   
   var time;
   
-  var height = 512;
+  var height = 1024;
   var width = height*2;
   var canvas;
   var text;
