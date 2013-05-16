@@ -11,9 +11,12 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
+//include HiventHandler.js
+//include HiventMarker3D.js
+
 var HG = HG || {};
 
-HG.Display3D = function(container, inMap) {
+HG.Display3D = function(container, inMap, inHiventHandler) {
 
   var Shaders = {
     'earth' : {
@@ -69,6 +72,8 @@ HG.Display3D = function(container, inMap) {
   var mesh, atmosphere;
 
   var map = inMap;
+  var hiventHandler = inHiventHandler;
+
   var overRenderer;
 
   var projector;
@@ -279,6 +284,15 @@ HG.Display3D = function(container, inMap) {
     fovTarget = fovTarget < 10 ? 10 : fovTarget;
   }
 
+  function drawHivents() {
+    var hivents = hiventHandler.getAllHivents();
+    
+    for (var hivent=0; hivent<hivents.length; hivent++) {
+      console.log(hivent);
+    }
+  }
+
+
   function animate() {
     if (running) {
       requestAnimationFrame(animate);
@@ -319,6 +333,7 @@ HG.Display3D = function(container, inMap) {
 		  
 		}
 		
+    drawHivents();
 
     renderer.clear();
     renderer.setFaceCulling(THREE.CullFaceBack);

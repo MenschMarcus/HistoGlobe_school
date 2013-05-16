@@ -63,26 +63,6 @@ HG.Map = function() {
     };
     */  
     
-    $.getJSON("data/hivents.json", function(hivents){
-      for (var hivent=0; hivent<hivents.length; hivent++) {
-        var x = (hivents[hivent].long + 180)/360 * canvas.width;
-        var y = canvas.height - (hivents[hivent].lat + 90)/180 * canvas.height;
-        var point = new paper.Path.Circle(new paper.Point(x, y), 2);
-        point.fillColor = "#e79523";
-      }
-    }); 
-    
-    hiventHandler = new HG.HiventHandler();
-    hivents = hiventHandler.getAllHivents();
-    
-    for (var hivent=0; hivent<hivents.length; hivent++) {
-      var x = (hivents[hivent].long + 180)/360 * canvas.width;
-      var y = canvas.height - (hivents[hivent].lat + 90)/180 * canvas.height;
-      var point = new paper.Path.Circle(new paper.Point(x, y), 2);
-      point.fillColor = "#e79523";
-    }
-        
-    
     var date = new Date();
 
     time = date.getTime()

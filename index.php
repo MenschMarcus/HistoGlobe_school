@@ -61,7 +61,7 @@
     <script type="text/javascript" src="js/HiventMarker3D.js"></script>
          
     <script type="text/javascript">
-      var display2D, display3D, map, timeline;
+      var display2D, display3D, map, timeline, hiventHandler;
       var timelineInitialized = false;
       var container;
       var webGLSupported = Detector.webgl;
@@ -85,8 +85,11 @@
         
         $('#demo-link').tooltip();
         
+        console.log("huhu");
         map = new HG.Map();
         $('#toggle-3D').popover('toggle');
+        
+        hiventHandler = new HG.HiventHandler();
       });
       
       function loadGLHeader() {
@@ -179,7 +182,7 @@
           }
             
           if (!display3D) {
-            display3D = new HG.Display3D(container, map);
+            display3D = new HG.Display3D(container, map, hiventHandler);
             $(display3D.getCanvas()).css({opacity: 0.0});
           }
           
