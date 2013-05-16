@@ -86,7 +86,7 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
   var camera, scene, sceneAtmosphere, renderer;
   var width, height;
   var offsetX, offsetY;
-  var mesh, atmosphere;
+  var globe, atmosphere;
 
   var earthRadius = 200;
 
@@ -133,7 +133,7 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
     scene = new THREE.Scene();
     sceneAtmosphere = new THREE.Scene();
 
-    var geometry = new THREE.SphereGeometry(earthRadius, 60, 60);
+    var geometry = new THREE.SphereGeometry(earthRadius, 60, 30);
 
     shader = Shaders['earth'];
     uniforms = THREE.UniformsUtils.clone(shader.uniforms);
@@ -148,9 +148,10 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
       uniforms: uniforms
     });
     
-    mesh = new THREE.Mesh(geometry, material);
-    mesh.matrixAutoUpdate = false;
-    scene.add(mesh);
+    globe = new THREE.Mesh(geometry, material);
+    globe.matrixAutoUpdate = false;
+    scene.add(globe);
+     
     
     shader = Shaders['atmosphere'];
     uniforms = THREE.UniformsUtils.clone(shader.uniforms);
@@ -162,12 +163,12 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
       fragmentShader: shader.fragmentShader
     });
 
-    mesh = new THREE.Mesh(geometry, material);
-    mesh.scale.x = mesh.scale.y = mesh.scale.z = 1.5;
-    mesh.flipSided = true;
-    mesh.matrixAutoUpdate = false;
-    mesh.updateMatrix();
-    sceneAtmosphere.add(mesh);
+    atmosphere = new THREE.Mesh(geometry, material);
+    atmosphere.scale.x = atmosphere.scale.y = atmosphere.scale.z = 1.5;
+    atmosphere.flipSided = true;
+    atmosphere.matrixAutoUpdate = false;
+    atmosphere.updateMatrix();
+    sceneAtmosphere.add(atmosphere);
 
     initHivents();
 
@@ -208,6 +209,7 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
       overRenderer = false;
     }, false);
   }
+  
 
   function onMouseDown(event) {
     if (running) {  
@@ -218,12 +220,25 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
       container.addEventListener('mouseout', onMouseOut, false);
 
       mouseOnDown.x = (event.clientX - offsetX) / width * 2 - 1;
-      mouseOnDown.y = (event.clientY - offsetY) / height * 2-1;
+      mouseOnDown.y = (event.clientY - offsetY) / height * 2 - 1;
       
       targetOnDown.x = target.x;
       targetOnDown.y = target.y;
 
       container.style.cursor = 'move';
+      
+      var vector = new THREE.Vector3(mouseOnDown.x, -mouseOnDown.y, 0.5);
+		  projector.unprojectVector( vector, camera );
+      raycaster.set(camera.position, vector.sub(camera.position).normalize());
+      
+		  var intersects = raycaster.intersectObjects(scene.children);
+		
+		  if (intersects.length > 0) {
+		      var longLat = cartToLongLat(intersects[0].point.clone().normalize());
+		      
+		      console.log("breite: " + longLat.y);
+		      console.log("länge: " + longLat.x);
+		  }
    }
   }
 
@@ -301,6 +316,7 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
     fovTarget = fovTarget < 10 ? 10 : fovTarget;
   }
   
+
   function initHivents() {
   
     var geometry = new THREE.SphereGeometry(1, 10, 10);
@@ -333,6 +349,10 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
         hivent.translateOnAxis(new THREE.Vector3(0,0,1), position.z);
       }
     });
+  }
+
+  function moveCamera(coordinates) {
+    
   }
 
   function animate() {
@@ -374,6 +394,8 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
 		  }
 		  
 		}
+
+    camera.matrixWorldNeedsUpdate = true;
 		
     renderer.clear();
     renderer.setFaceCulling(THREE.CullFaceBack);
@@ -382,6 +404,7 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
     renderer.render(sceneAtmosphere, camera);
   }
   
+
   function longLatToCart(longlat, radius) {
     var x = radius * Math.cos(longlat.y * Math.PI/180) 
                    * Math.cos(longlat.x * Math.PI/180); 
@@ -389,8 +412,18 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
     var z = radius * Math.cos(longlat.y * Math.PI/180) 
                    * Math.sin(longlat.x * Math.PI/180);
     
-    //var result = new THREE.Vector3(x,y,z);
     return new THREE.Vector3(x,y,z);  
+  }
+
+  function cartToLongLat(coordinates) {
+    var lat = Math.asin(coordinates.y) / Math.PI * 180;
+    var long = -Math.atan(coordinates.x / coordinates.z) / Math.PI * 180 - 90;
+    
+    if (coordinates.z > 0) {
+      long += 180;
+    } 
+  
+    return new THREE.Vector2(long, lat);
   }
   
   this.start = function() { 
