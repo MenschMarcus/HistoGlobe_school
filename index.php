@@ -85,11 +85,8 @@
         
         $('#demo-link').tooltip();
         
-        console.log("huhu");
         map = new HG.Map();
         $('#toggle-3D').popover('toggle');
-        
-        hiventHandler = new HG.HiventHandler();
       });
       
       function loadGLHeader() {
@@ -108,8 +105,9 @@
           $('.hero-unit').css({"background-image": "none"});
           $('.hero-unit').height(window.innerHeight * 0.8);
                         
+          hiventHandler = new HG.HiventHandler();
           container = document.getElementById('container');   
-          loadTimeline();   
+          loadTimeline();           
           load3D();
           $('#toggle-3D').addClass("active");           
         }     
