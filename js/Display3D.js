@@ -210,7 +210,7 @@ HG.Display3D = function(container, inMap) {
       mouse.x = (event.clientX - offsetX) / width * 2 - 1;
       mouse.y = (event.clientY - offsetY) / height * 2-1;
 
-      var zoomDamp = fov/1000;
+      var zoomDamp = fov/3;
 
       target.x = targetOnDown.x - (mouse.x - mouseOnDown.x) * 0.1 * zoomDamp;
       target.y = targetOnDown.y + (mouse.y - mouseOnDown.y) * 0.1 * zoomDamp;
@@ -313,7 +313,7 @@ HG.Display3D = function(container, inMap) {
 		
 		if (intersects.length > 0) {
 		  if (intersects[0].object instanceof HG.HiventMarker3D) {
-		    //console.log(intersects[0].object.getHivent().name);
+		    console.log(intersects[0].point);
 		    //console.log("huhu");			
 		  }
 		  
