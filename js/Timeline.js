@@ -390,7 +390,7 @@ function timeline() {
       $("#tlScroller").append(makeYearMarker(nextYear));
       // reset position of rightmost drawn marker
       rightPos = decYearToPos(nextYear);
-    }now.date
+    }
   }
   
   // clear all the markers that are beyond the outer threshold
@@ -537,12 +537,10 @@ function timeline() {
     var counter = 0;
     playerInterval = setInterval( function()
       {
-        var step = tlMain.offsetWidth/(dayDist*dayDiff(minDate,maxDate)*10);
-        step *= speed*speed;
-        // move now marker to new position
-
         // move timeline into threshold and reset now date
-        var nowPos = decYearToPos(now.date+step);
+        var nowPos = decYearToPos(now.date);
+        nowPos += 5*speed;
+
         // calculate, if now marker is outside the inner threshold and how far
         var moveDiff = 0;
         if (nowPos < innerThres) {
@@ -551,6 +549,7 @@ function timeline() {
         else if (nowPos > (tlMain.offsetWidth-innerThres)) {
           moveDiff = tlMain.offsetWidth-innerThres-nowPos;
         }
+
         // if outside the inner threshold, smoothly move timeline so that now marker is inside the threshold
         if (moveDiff != 0) {
           var f;
@@ -567,6 +566,19 @@ function timeline() {
         }
 
         setNowPos(nowPos);   
+        
+        // if max date reached, stop animation
+        if (now.date >= maxDate)
+        {
+          stopPlayer();
+          // toggle active player
+          var p1 = $("#histPlayer1");
+          var p2 = $("#histPlayer2");
+          var p3 = $("#histPlayer3");
+          if (p1.hasClass('active')) p1.button('toggle');
+          if (p2.hasClass('active')) p2.button('toggle');
+          if (p3.hasClass('active')) p3.button('toggle');
+        }
        
         // tell everybody that now date changed
         if (counter == 50)
@@ -582,14 +594,10 @@ function timeline() {
   }
   
   function stopPlayer() {
-    // reset the player interval
-    $('.btn').button('reset');
-    
-    
-    if (playerInterval) {
-      clearInterval(playerInterval);
-      playerInterval = null;
-    }
+
+    clearInterval(playerInterval);
+    playerInterval = null;
+
     // stop any running movement
     $(now.marker).stop();
   }
