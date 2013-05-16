@@ -37,13 +37,14 @@ HG.Display3D = function(container, inMap) {
         'vec3 diffuse = texture2D( texture, vUv ).xyz;',
         'float specular = max(0.0, pow(dot( vNormal, normalize(vec3( -0.3, 0.4, 0.7)) ), 30.0));',
         'float atmosphere =  pow(1.0 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) ), 2.0) * 0.5;',
-        '//gl_FragColor = vec4( diffuse + atmosphere + specular * 0.1, 1.0 );',
-        'gl_FragColor = vec4(diffuse, 1.0);',
+        'gl_FragColor = vec4( diffuse + atmosphere + specular * 0.1, 1.0 );',
       '}'
       ].join('\n')
     },
     'atmosphere' : {
-      uniforms: {},
+      uniforms: {
+        'bgColor': { type: 'v3', value: null}
+      },
       vertexShader: [
       'varying vec3 vNormal;',
       'void main() {',
@@ -52,10 +53,11 @@ HG.Display3D = function(container, inMap) {
       '}'
       ].join('\n'),
       fragmentShader: [
+      'uniform vec3 bgColor;',
       'varying vec3 vNormal;',
       'void main() {',
         'float intensity = max(0.0, -0.05 + pow( -dot( vNormal, vec3( 0, 0, 1.0 ) ) + 0.5, 5.0 ));',
-        'gl_FragColor = vec4( 1.0, 1.0, 1.0, 0.8 * intensity );',
+        'gl_FragColor = vec4(vec3( 1.0, 1.0, 1.0) * intensity + bgColor * (1.0-intensity), 1.0 );',
       '}'
       ].join('\n')
     }
@@ -108,7 +110,6 @@ HG.Display3D = function(container, inMap) {
     mapTexture = new THREE.Texture(map.getCanvas());
     mapTexture.needsUpdate = true;
     uniforms['texture'].value = mapTexture;
-    //console.log(uniforms['texture'].value);
 
     material = new THREE.ShaderMaterial({
       vertexShader: shader.vertexShader,
@@ -120,14 +121,15 @@ HG.Display3D = function(container, inMap) {
     projector = new THREE.Projector();
 
     testHivent = new HG.Hivent("horst", "", 0, 0, 0, []);
-  //  mesh = new HG.HiventMarker3D(testHivent, geometry, material);
-    mesh = new THREE.Mesh(geometry, material);
+    mesh = new HG.HiventMarker3D(testHivent, geometry, material);
+    //mesh = new THREE.Mesh(geometry, material);
     mesh.matrixAutoUpdate = false;
     scene.add(mesh);
   
-    /*    
+    
     shader = Shaders['atmosphere'];
     uniforms = THREE.UniformsUtils.clone(shader.uniforms);
+    uniforms['bgColor'].value = new THREE.Vector3(0.92549, 0.92549, 0.92549);
 
     material = new THREE.ShaderMaterial({
       uniforms: uniforms,
@@ -141,15 +143,6 @@ HG.Display3D = function(container, inMap) {
     mesh.matrixAutoUpdate = false;
     mesh.updateMatrix();
     sceneAtmosphere.add(mesh);
-
-    geometry = new THREE.CubeGeometry(0.75, 0.75, 1, 1, 1, 1, null, false, { px: true,
-                              nx: true, py: true, ny: true, pz: false, nz: true});
-
-    for (var i = 0; i < geometry.vertices.length; i++) {
-      //var vertex = geometry.vertices[i];
-      geometry.vertices[i].z += 0.5;
-    }
-    */
 
     renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.autoClear = false;
@@ -295,17 +288,12 @@ HG.Display3D = function(container, inMap) {
     camera.position.z = 500 * Math.cos(rotation.x) * Math.cos(rotation.y);
     camera.lookAt(new THREE.Vector3(0,0,0));
     
-    /*
-    mesh.rotation = new THREE.Vector3(0,0,0);
-    mesh.rotateOnAxis(new THREE.Vector3(0,1,0), rotation.y * 100);
-    mesh.updateMatrix();
-    */
     fov += (fovTarget - fov) * 0.1;
     camera.fov = fov;
     camera.updateProjectionMatrix();
 
-   // var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
-	//	projector.unprojectVector( vector, camera );
+    var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
+		projector.unprojectVector( vector, camera );
 
 
     //if (raycaster instanceof THREE.Raycaster)
@@ -322,7 +310,9 @@ HG.Display3D = function(container, inMap) {
 		*/
 
     renderer.clear();
+    renderer.setFaceCulling(THREE.CullFaceBack);
     renderer.render(scene, camera);
+    renderer.setFaceCulling(THREE.CullFaceFront);
     renderer.render(sceneAtmosphere, camera);
   }
   
