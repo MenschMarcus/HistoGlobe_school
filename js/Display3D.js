@@ -66,7 +66,7 @@ HG.Display3D = function(container, inMap) {
   var camera, scene, sceneAtmosphere, renderer;
   var width, height;
   var offsetX, offsetY;
-  var mesh, atmosphere;
+  var globe, atmosphere;
 
   var map = inMap;
   var overRenderer;
@@ -106,7 +106,7 @@ HG.Display3D = function(container, inMap) {
     scene = new THREE.Scene();
     sceneAtmosphere = new THREE.Scene();
 
-    var geometry = new THREE.SphereGeometry(200, 60, 60);
+    var geometry = new THREE.SphereGeometry(200, 60, 30);
 
     shader = Shaders['earth'];
     uniforms = THREE.UniformsUtils.clone(shader.uniforms);
@@ -125,11 +125,10 @@ HG.Display3D = function(container, inMap) {
     projector = new THREE.Projector();
     raycaster = new THREE.Raycaster();
 
-    testHivent = new HG.Hivent("horst", "", 0, 0, 0, []);
-    mesh = new HG.HiventMarker3D(testHivent, geometry, material);
-    //mesh = new THREE.Mesh(geometry, material);
-    mesh.matrixAutoUpdate = false;
-    scene.add(mesh);
+    globe = new THREE.Mesh(geometry, material);
+
+    globe.matrixAutoUpdate = false;
+    scene.add(globe);
      
     
     shader = Shaders['atmosphere'];
@@ -142,12 +141,12 @@ HG.Display3D = function(container, inMap) {
       fragmentShader: shader.fragmentShader
     });
 
-    mesh = new THREE.Mesh(geometry, material);
-    mesh.scale.x = mesh.scale.y = mesh.scale.z = 1.5;
-    mesh.flipSided = true;
-    mesh.matrixAutoUpdate = false;
-    mesh.updateMatrix();
-    sceneAtmosphere.add(mesh);
+    atmosphere = new THREE.Mesh(geometry, material);
+    atmosphere.scale.x = atmosphere.scale.y = atmosphere.scale.z = 1.5;
+    atmosphere.flipSided = true;
+    atmosphere.matrixAutoUpdate = false;
+    atmosphere.updateMatrix();
+    sceneAtmosphere.add(atmosphere);
 
     renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.autoClear = false;
@@ -186,6 +185,7 @@ HG.Display3D = function(container, inMap) {
       overRenderer = false;
     }, false);
   }
+  
 
   function onMouseDown(event) {
     if (running) {  
@@ -196,12 +196,25 @@ HG.Display3D = function(container, inMap) {
       container.addEventListener('mouseout', onMouseOut, false);
 
       mouseOnDown.x = (event.clientX - offsetX) / width * 2 - 1;
-      mouseOnDown.y = (event.clientY - offsetY) / height * 2-1;
+      mouseOnDown.y = (event.clientY - offsetY) / height * 2 - 1;
       
       targetOnDown.x = target.x;
       targetOnDown.y = target.y;
 
       container.style.cursor = 'move';
+      
+      var vector = new THREE.Vector3(mouseOnDown.x, -mouseOnDown.y, 0.5);
+		  projector.unprojectVector( vector, camera );
+      raycaster.set(camera.position, vector.sub(camera.position).normalize());
+      
+		  var intersects = raycaster.intersectObjects(scene.children);
+		
+		  if (intersects.length > 0) {
+		      var longLat = cartToLongLat(intersects[0].point.clone().normalize());
+		      
+		      console.log("breite: " + longLat.y);
+		      console.log("länge: " + longLat.x);
+		  }
    }
   }
 
@@ -278,6 +291,10 @@ HG.Display3D = function(container, inMap) {
     fovTarget = fovTarget > 50 ? 50 : fovTarget;
     fovTarget = fovTarget < 10 ? 10 : fovTarget;
   }
+  
+  function moveCamera(coordinates) {
+    
+  }
 
   function animate() {
     if (running) {
@@ -302,22 +319,8 @@ HG.Display3D = function(container, inMap) {
     fov += (fovTarget - fov) * 0.1;
     camera.fov = fov;
     camera.updateProjectionMatrix();
-
-    var vector = new THREE.Vector3(mouse.x, mouse.y, 1);
-    //var vector = new THREE.Vector3(0,0, 1);
-   // console.log(vector);	
-		projector.unprojectVector( vector, camera );
-		//console.log(vector);	
-    raycaster.set(camera.position, vector.sub(camera.position).normalize());
-		var intersects = raycaster.intersectObjects(scene.children);
-		
-		if (intersects.length > 0) {
-		  if (intersects[0].object instanceof HG.HiventMarker3D) {
-		    console.log(intersects[0].point);
-		    //console.log("huhu");			
-		  }
-		  
-		}
+    camera.matrixWorldNeedsUpdate = true;
+    
 		
 
     renderer.clear();
@@ -325,6 +328,17 @@ HG.Display3D = function(container, inMap) {
     renderer.render(scene, camera);
     renderer.setFaceCulling(THREE.CullFaceFront);
     renderer.render(sceneAtmosphere, camera);
+  }
+  
+  function cartToLongLat(coordinates) {
+    var lat = Math.asin(coordinates.y) / Math.PI * 180;
+    var long = -Math.atan(coordinates.x / coordinates.z) / Math.PI * 180 - 90;
+    
+    if (coordinates.z > 0) {
+      long += 180;
+    } 
+  
+    return new THREE.Vector2(long, lat);
   }
   
   this.start = function() { 
