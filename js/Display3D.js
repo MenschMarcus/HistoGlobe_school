@@ -63,7 +63,9 @@ HG.Display3D = function(container, inMap) {
     }
   };
 
-  var camera, scene, sceneAtmosphere, renderer, w, h;
+  var camera, scene, sceneAtmosphere, renderer;
+  var width, height;
+  var offsetX, offsetY;
   var mesh, atmosphere;
 
   var map = inMap;
@@ -93,10 +95,13 @@ HG.Display3D = function(container, inMap) {
   function init() {
 
     var shader, material, uniforms;
-    w = $(container.parentNode).innerWidth();
-    h = $(container.parentNode).innerHeight();
+    width = $(container.parentNode).innerWidth();
+    height = $(container.parentNode).innerHeight();
 
-    camera = new THREE.PerspectiveCamera(fov, w / h, 1, 10000);
+    offsetX = $(container.parentNode).offset().left;
+    offsetY = $(container.parentNode).offset().top;	
+
+    camera = new THREE.PerspectiveCamera(fov, width / height, 1, 10000);
     camera.position.z = 500;
     scene = new THREE.Scene();
     sceneAtmosphere = new THREE.Scene();
@@ -118,13 +123,14 @@ HG.Display3D = function(container, inMap) {
     
 
     projector = new THREE.Projector();
+    raycaster = new THREE.Raycaster();
 
     testHivent = new HG.Hivent("horst", "", 0, 0, 0, []);
     mesh = new HG.HiventMarker3D(testHivent, geometry, material);
     //mesh = new THREE.Mesh(geometry, material);
     mesh.matrixAutoUpdate = false;
     scene.add(mesh);
-  
+     
     
     shader = Shaders['atmosphere'];
     uniforms = THREE.UniformsUtils.clone(shader.uniforms);
@@ -146,7 +152,7 @@ HG.Display3D = function(container, inMap) {
     renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.autoClear = false;
     renderer.setClearColor(0x000000, 0.0);
-    renderer.setSize(w, h);
+    renderer.setSize(width, height);
 
     renderer.domElement.style.position = 'absolute';
 
@@ -189,9 +195,9 @@ HG.Display3D = function(container, inMap) {
       container.addEventListener('mouseup', onMouseUp, false);
       container.addEventListener('mouseout', onMouseOut, false);
 
-      mouseOnDown.x = - event.clientX;
-      mouseOnDown.y = event.clientY;
-
+      mouseOnDown.x = (event.clientX - offsetX) / width * 2 - 1;
+      mouseOnDown.y = (event.clientY - offsetY) / height * 2-1;
+      
       targetOnDown.x = target.x;
       targetOnDown.y = target.y;
 
@@ -201,12 +207,12 @@ HG.Display3D = function(container, inMap) {
 
   function onMouseMove(event) {
     if (running) { 
-      mouse.x = event.clientX;
-      mouse.y = event.clientY;
+      mouse.x = (event.clientX - offsetX) / width * 2 - 1;
+      mouse.y = (event.clientY - offsetY) / height * 2-1;
 
       var zoomDamp = fov/1000;
 
-      target.x = targetOnDown.x + (-mouse.x - mouseOnDown.x) * 0.1 * zoomDamp;
+      target.x = targetOnDown.x - (mouse.x - mouseOnDown.x) * 0.1 * zoomDamp;
       target.y = targetOnDown.y + (mouse.y - mouseOnDown.y) * 0.1 * zoomDamp;
 
       target.y = target.y > PI_HALF ? PI_HALF : target.y;
@@ -259,6 +265,12 @@ HG.Display3D = function(container, inMap) {
     camera.aspect = $(container.parentNode).innerWidth() / $(container.parentNode).innerHeight();
     camera.updateProjectionMatrix();
     renderer.setSize($(container.parentNode).innerWidth(), $(container.parentNode).innerHeight());
+    
+    width = $(container.parentNode).innerWidth();
+    height = $(container.parentNode).innerHeight();
+
+    offsetX = $(container.parentNode).offset().left;
+    offsetY = $(container.parentNode).offset().top;
   }
 
   function zoom(delta) {
@@ -291,20 +303,18 @@ HG.Display3D = function(container, inMap) {
     camera.fov = fov;
     camera.updateProjectionMatrix();
 
-    var vector = new THREE.Vector3( mouse.x - w/2, mouse.y, 1 );
+    var vector = new THREE.Vector3(mouse.x, mouse.y, 1);
+    //var vector = new THREE.Vector3(0,0, 1);
+   // console.log(vector);	
 		projector.unprojectVector( vector, camera );
-   // console.log(mouse);
-    //if (raycaster instanceof THREE.Raycaster)
-		//raycaster.set(camera.position, vector.sub(vector, camera.position).normalize());
-    raycaster = new THREE.Raycaster(camera.position, vector.subVectors(vector, camera.position).normalize());
-    //console.log(scene.children);
+		//console.log(vector);	
+    raycaster.set(camera.position, vector.sub(camera.position).normalize());
 		var intersects = raycaster.intersectObjects(scene.children);
 		
 		if (intersects.length > 0) {
-
-		  if (intersects[0] instanceof HG.HiventMarker3D) {
-		    //console.log(intersects[0].getHivent().name);
-		    console.log("huhu");			
+		  if (intersects[0].object instanceof HG.HiventMarker3D) {
+		    //console.log(intersects[0].object.getHivent().name);
+		    //console.log("huhu");			
 		  }
 		  
 		}
