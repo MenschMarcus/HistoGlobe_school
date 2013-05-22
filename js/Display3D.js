@@ -89,6 +89,8 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
   var globe, atmosphere;
 
   var earthRadius = 200;
+  var cameraDistance = 500;
+  var maxCamLong = 80;
 
   var map = inMap;
   var hiventHandler = inHiventHandler;
@@ -101,10 +103,11 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
   var curZoomSpeed = 0;
   var zoomSpeed = 0.1;
 
-  var mouse = { x: 0, y: 0 }, mouseOnDown = { x: 0, y: 0 };
-  var rotation = { x: 0, y: 0 },
-      target = { x: Math.PI*3/2, y: Math.PI / 6.0 },
-      targetOnDown = { x: 0, y: 0 };
+  var mouse = { x: 0, y: 0 }, 
+      clickMouse = null,
+      rotation = { x: 0, y: 0 },
+      camLongLat = { x: 0, y: 0 },
+      clickLongLat = null;
 
   var fov = 90, fovTarget = 50;
   var padding = 40;
@@ -129,7 +132,7 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
     raycaster = new THREE.Raycaster();
 
     camera = new THREE.PerspectiveCamera(fov, width / height, 1, 10000);
-    camera.position.z = 500;
+    camera.position.z = cameraDistance;
     scene = new THREE.Scene();
     sceneAtmosphere = new THREE.Scene();
 
@@ -151,7 +154,7 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
     globe = new THREE.Mesh(geometry, material);
     globe.matrixAutoUpdate = false;
     scene.add(globe);
-     
+
     
     shader = Shaders['atmosphere'];
     uniforms = THREE.UniformsUtils.clone(shader.uniforms);
@@ -182,6 +185,8 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
     container.appendChild(renderer.domElement);
 
     container.addEventListener('mousedown', onMouseDown, false);
+    container.addEventListener('mousemove', onMouseMove, false);
+    container.addEventListener('mouseup', onMouseUp, false);
 
     container.addEventListener('mousewheel', 
                   function(event) {
@@ -215,64 +220,39 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
     if (running) {  
       event.preventDefault();
 
-      container.addEventListener('mousemove', onMouseMove, false);
-      container.addEventListener('mouseup', onMouseUp, false);
-      container.addEventListener('mouseout', onMouseOut, false);
-
-      mouseOnDown.x = (event.clientX - offsetX) / width * 2 - 1;
-      mouseOnDown.y = (event.clientY - offsetY) / height * 2 - 1;
+      clickMouse = {x: (event.clientX - offsetX) / width * 2 - 1,
+                    y: (event.clientY - offsetY) / height * 2 - 1};
       
-      targetOnDown.x = target.x;
-      targetOnDown.y = target.y;
-
-      container.style.cursor = 'move';
+      clickLongLat = mouseToLongLat(clickMouse);
       
-      var vector = new THREE.Vector3(mouseOnDown.x, -mouseOnDown.y, 0.5);
-		  projector.unprojectVector( vector, camera );
-      raycaster.set(camera.position, vector.sub(camera.position).normalize());
-      
-		  var intersects = raycaster.intersectObjects(scene.children);
-		
-		  if (intersects.length > 0) {
-		      var longLat = cartToLongLat(intersects[0].point.clone().normalize());
-		      
-		      console.log("breite: " + longLat.y);
-		      console.log("länge: " + longLat.x);
-		  }
+      if (clickLongLat) {
+        
+//        container.addEventListener('mouseout', onMouseOut, false);
+        container.style.cursor = 'move';
+      }
    }
   }
 
   function onMouseMove(event) {
     if (running) { 
-      mouse.x = (event.clientX - offsetX) / width * 2 - 1;
-      mouse.y = (event.clientY - offsetY) / height * 2-1;
-
-      var zoomDamp = fov/3;
-
-      target.x = targetOnDown.x - (mouse.x - mouseOnDown.x) * 0.1 * zoomDamp;
-      target.y = targetOnDown.y + (mouse.y - mouseOnDown.y) * 0.1 * zoomDamp;
-
-      target.y = target.y > PI_HALF ? PI_HALF : target.y;
-      target.y = target.y < - PI_HALF ? - PI_HALF : target.y;
+      mouse = {x: (event.clientX - offsetX) / width * 2 - 1,
+               y: (event.clientY - offsetY) / height * 2 - 1};
     }
   }
 
   function onMouseUp(event) {
     if (running) { 
-      container.removeEventListener('mousemove', onMouseMove, false);
-      container.removeEventListener('mouseup', onMouseUp, false);
-      container.removeEventListener('mouseout', onMouseOut, false);
+//      container.removeEventListener('mouseout', onMouseOut, false);
       container.style.cursor = 'auto';
+      clickLongLat = null;
     }
   }
 
-  function onMouseOut(event) {
-    if (running) { 
-      container.removeEventListener('mousemove', onMouseMove, false);
-      container.removeEventListener('mouseup', onMouseUp, false);
-      container.removeEventListener('mouseout', onMouseOut, false);
-    }
-  }
+//  function onMouseOut(event) {
+//    if (running) { 
+//      container.removeEventListener('mouseout', onMouseOut, false);
+//    }
+//  }
 
   function onMouseWheel(delta) {
     if (running) { 
@@ -350,29 +330,67 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
       }
     });
   }
-
-  function moveCamera(coordinates) {
+  
+  function mouseToLongLat(mousePos) {
+    var vector = new THREE.Vector3(mousePos.x, -mousePos.y, 0.5);
+	  projector.unprojectVector( vector, camera );
+    raycaster.set(camera.position, vector.sub(camera.position).normalize());
     
+	  var intersects = raycaster.intersectObjects(scene.children);
+	
+	  if (intersects.length > 0) {
+	      return cartToLongLat(intersects[0].point.clone().normalize());
+	  }
+	  
+	  return null;
   }
 
   function animate() {
     if (running) {
-      requestAnimationFrame(animate);
-      map.redraw();
+//      map.redraw();
       //mapTexture.needsUpdate = true;
       render();
+      requestAnimationFrame(animate);
     }
   }
 
   function render() {
     zoom(curZoomSpeed);
+    
+    // if there is a drag going on
+    if (clickLongLat) {
+      var longLatCurr = mouseToLongLat(mouse);
+      
+      if (longLatCurr) {
+      
+        if (clickLongLat.x - longLatCurr.x > 180)
+          clickLongLat.x -= 360;
+        else if (clickLongLat.x - longLatCurr.x < -180)
+          clickLongLat.x += 360;
+      
+        camLongLat.x += 10.0*(clickLongLat.x - longLatCurr.x);
+        camLongLat.y += 10.0*(clickLongLat.y - longLatCurr.y);
+        
+        if (camLongLat.y > maxCamLong) camLongLat.y = maxCamLong;
+        if (camLongLat.y < -maxCamLong) camLongLat.y = -maxCamLong;
+        
+        clickLongLat = longLatCurr;
+        
+      } else {
+        clickLongLat = null;
+        container.style.cursor = 'auto';
+      }
+    }
+    
+    var newRotation = {x: camLongLat.x * Math.PI / 180,
+                       y: camLongLat.y * Math.PI / 180};
 
-    rotation.x += (target.x - rotation.x) * 0.1;
-    rotation.y += (target.y - rotation.y) * 0.1;
+    rotation.x += (newRotation.x - rotation.x) * 0.1;
+    rotation.y += (newRotation.y - rotation.y) * 0.1;
    
-    camera.position.x = 500 * Math.sin(rotation.x) * Math.cos(rotation.y);
-    camera.position.y = 500 * Math.sin(rotation.y);
-    camera.position.z = 500 * Math.cos(rotation.x) * Math.cos(rotation.y);
+    camera.position.x = cameraDistance * Math.sin(-rotation.x + Math.PI*0.5) * Math.cos(rotation.y);
+    camera.position.y = cameraDistance * Math.sin(rotation.y);
+    camera.position.z = cameraDistance * Math.cos(-rotation.x + Math.PI*0.5) * Math.cos(rotation.y);
     camera.lookAt(new THREE.Vector3(0,0,0));
     
     fov += (fovTarget - fov) * 0.1;
@@ -395,7 +413,7 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
 		  
 		}
 
-    camera.matrixWorldNeedsUpdate = true;
+//    camera.matrixWorldNeedsUpdate = true;
 		
     renderer.clear();
     renderer.setFaceCulling(THREE.CullFaceBack);
