@@ -2,9 +2,10 @@
     {
         "name": "Declaration of something",
         "category": "Impressive Category",
-        "date": 1950,
+        "date": "13.02.1950",
         "long": 100,
         "lat": 0,
+        "description": "This made a lot of things better and easier!",
         "parties": [
             {
                 "name": "Party 1",
@@ -19,9 +20,10 @@
     {
         "name": "Important treaty",
         "category": "Another Impressive Category",
-        "date": 1934,
+        "date": "01.10.1897",
         "long": 0,
         "lat": 30,
+        "description": "After this, everything changed.",
         "parties": [
             {
                 "name": "Party 1",
@@ -36,9 +38,10 @@
     {
         "name": "Battle of some city",
         "category": "Another Impressive Category",
-        "date": 1934,
+        "date": "05.05.1922",
         "long": 15,
         "lat": 80,
+        "description": "It was brutal.",
         "parties": [
             {
                 "name": "Party 1",
@@ -53,9 +56,10 @@
     {
         "name": "Easteregg",
         "category": "Another Impressive Category",
-        "date": 1934,
+        "date": "01.04.1666",
         "long": 120,
         "lat": 60,
+        "description": "Congratulations, you found it!",
         "parties": [
             {
                 "name": "Party 1",
@@ -70,9 +74,10 @@
     {
         "name": "Your mom exploded",
         "category": "Another Impressive Category",
-        "date": 1934,
+        "date": "14.03.1961",
         "long": -70,
         "lat": 30,
+        "description": "It was even visible from the moon.",
         "parties": [
             {
                 "name": "Party 1",
@@ -87,9 +92,10 @@
     {
         "name": "Big technical achievement",
         "category": "Another Impressive Category",
-        "date": 1934,
+        "date": "12.07.1777",
         "long": -20,
         "lat": -40,
+        "description": "No one thought this was possible.",
         "parties": [
             {
                 "name": "Party 1",
@@ -103,10 +109,11 @@
     },
     {
         "name": "Someone died",
-        "category": "Another Impressive Category",
-        "date": 1934,
+        "category": "What a tragedy.",
+        "date": "09.08.1910",
         "long": -70,
         "lat": 40,
+        "description": "What a tragedy.",
         "parties": [
             {
                 "name": "Party 1",
@@ -121,9 +128,10 @@
     {
         "name": "First game of Ping Pong",
         "category": "Another Impressive Category",
-        "date": 1934,
+        "date": "11.11.1499",
         "long": 0,
         "lat": 0,
+        "description": "Rules? There were none!",
         "parties": [
             {
                 "name": "Party 1",

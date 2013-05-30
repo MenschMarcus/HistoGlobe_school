@@ -126,7 +126,10 @@ HG.HiventMarker = function(inHivent) {
     document.getElementsByTagName("body")[0].appendChild(hiventInfo);
     
     $(hiventInfo).tooltip({title: hivent.name, placement: "top"});
-    $(hiventInfo).popover({title: hivent.name, placement: "top"});
+    
+    var hiventContent = "<p align=\"right\">" + hivent.date + "</p>" + hivent.description;
+    
+    $(hiventInfo).popover({title: hivent.name, placement: "top", html: "true", content: hiventContent});
     
     HG.hiventCount++;
   }

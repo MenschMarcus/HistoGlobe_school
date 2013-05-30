@@ -18,6 +18,7 @@ HG.HiventHandler = function() {
           h[i].date,
           h[i].long,
           h[i].lat,
+          h[i].description,
           h[i].parties
         );
         hivents.push(hivent);
