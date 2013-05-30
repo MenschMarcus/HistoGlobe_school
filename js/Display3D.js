@@ -241,18 +241,53 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
 
   function onMouseMove(event) {
     if (running) { 
-      mouse =    {x: event.clientX,
-                  y: event.clientY};
-      mouseRel = {x: (mouse.x - offsetX) / width * 2 - 1,
-                  y: (mouse.y - offsetY) / height * 2 - 1};
+      mouse     = {x: event.clientX,
+                   y: event.clientY};
+      mouseRel  = {x: (mouse.x - offsetX) / width * 2 - 1,
+                   y: (mouse.y - offsetY) / height * 2 - 1};
+                  
+      var vector = new THREE.Vector3(mouseRel.x, -mouseRel.y, 0.5);
+	    projector.unprojectVector(vector, camera);
+      raycaster.set(camera.position, vector.sub(camera.position).normalize());
+	    var intersects = raycaster.intersectObjects(scene.children);
+
+      for (var i = 0; i < intersects.length; i++) {
+        if (intersects[i].object instanceof HG.HiventMarker3D) {
+          var index = $.inArray(intersects[i].object, lastIntersected);
+          if (index >= 0) {
+            lastIntersected.splice(index, 1);
+          }
+        }
+      }
+
+      for (var i = 0; i < lastIntersected.length; i++) {
+        lastIntersected[i].unHover(mouse);
+      }
+      
+      lastIntersected = [];
+
+      for (var i = 0; i < intersects.length; i++) {
+        if (intersects[i].object instanceof HG.HiventMarker3D) {
+          lastIntersected.push(intersects[i].object);
+          intersects[i].object.hover(mouse);
+        }
+      }
     }
   }
 
   function onMouseUp(event) {
     if (running) { 
+      event.preventDefault();
 //      container.removeEventListener('mouseout', onMouseOut, false);
       container.style.cursor = 'auto';
       clickLongLat = null;
+      
+      if (lastIntersected.length == 0) {
+        HG.deactivateAllHivents()
+      } else {
+        for (var i = 0; i < lastIntersected.length; i++)
+          lastIntersected[i].active(mouse);
+      }
     }
   }
 
@@ -318,8 +353,7 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
         var hivent = new HG.HiventMarker3D(hivents[i]);
         scene.add(hivent);
         
-        var position = longLatToCart(new THREE.Vector2(hivents[i].long, hivents[i].lat),
-                                     earthRadius);
+        var position = longLatToCart(new THREE.Vector2(hivents[i].long, hivents[i].lat), earthRadius);
         
         hivent.translateOnAxis(new THREE.Vector3(1,0,0), position.x);
         hivent.translateOnAxis(new THREE.Vector3(0,1,0), position.y);
@@ -393,34 +427,7 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
     fov += (fovTarget - fov) * 0.1;
     camera.fov = fov;
     camera.updateProjectionMatrix();
-    
-    var vector = new THREE.Vector3(mouseRel.x, -mouseRel.y, 0.5);
-		projector.unprojectVector(vector, camera);
-    raycaster.set(camera.position, vector.sub(camera.position).normalize());
-		var intersects = raycaster.intersectObjects(scene.children);
-
-    for (var i = 0; i < intersects.length; i++) {
-      if (intersects[i].object instanceof HG.HiventMarker3D) {
-        var index = $.inArray(intersects[i].object, lastIntersected);
-        if (index >= 0) {
-          lastIntersected.splice(index, 1);
-        }
-      }
-    }
-
-    for (var i = 0; i < lastIntersected.length; i++) {
-      lastIntersected[i].unHover(mouse);
-    }
-    
-    lastIntersected = [];
-
-	  for (var i = 0; i < intersects.length; i++) {
-	    if (intersects[i].object instanceof HG.HiventMarker3D) {
-	      lastIntersected.push(intersects[i].object);
-	      intersects[i].object.hover(mouse);
-	    }
-	  }
-	
+    	
     renderer.clear();
     renderer.setFaceCulling(THREE.CullFaceBack);
     renderer.render(scene, camera);

@@ -189,7 +189,7 @@
           $(display3D.getCanvas()).animate({opacity: 1.0}, 1000, 'linear');
           $('#toggle-3D').addClass("active"); 
         } else {
-          $('#toggle-3D').popover('toggle');
+          $('#toggle-3D').popover("toggle");
         }        
       }
       
