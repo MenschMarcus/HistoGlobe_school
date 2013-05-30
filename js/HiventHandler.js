@@ -6,7 +6,7 @@ HG.HiventHandler = function() {
   
   var hivents = [];
   var hiventsLoaded = false;
-  var callbackFunctions = [];
+  var onHiventsLoadedCallbacks = [];
   
   function init() {    
     
@@ -23,8 +23,8 @@ HG.HiventHandler = function() {
         hivents.push(hivent);
       }
       hiventsLoaded = true;
-      for (var i=0; i < callbackFunctions.length; i++)
-        callbackFunctions[i](hivents);
+      for (var i=0; i < onHiventsLoadedCallbacks.length; i++)
+        onHiventsLoadedCallbacks[i](hivents);
     }); 
 
   }
@@ -36,7 +36,7 @@ HG.HiventHandler = function() {
   this.onHiventsLoaded = function(callbackFunc) {
     if (callbackFunc && typeof(callbackFunc) === "function") {
       if (!hiventsLoaded)
-        callbackFunctions.push(callbackFunc);
+        onHiventsLoadedCallbacks.push(callbackFunc);
       else
         callbackFunc(hivents);
     }

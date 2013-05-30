@@ -65,7 +65,9 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
       ].join('\n')
     },
     'hivent' : {
-      uniforms: {},
+      uniforms: {
+        'color': { type: 'v3', value: null}
+      },
       vertexShader: [
       'varying vec3 vNormal;',
       'void main() {',
@@ -74,10 +76,10 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
       '}'
       ].join('\n'),
       fragmentShader: [
-      'uniform vec3 bgColor;',
+      'uniform vec3 color;',
       'varying vec3 vNormal;',
       'void main() {',
-        'gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0 );',
+        'gl_FragColor = vec4(color, 1.0);',
       '}'
       ].join('\n')
     }
@@ -99,11 +101,14 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
 
   var projector;
   var raycaster;
+  
+  var lastIntersected = [];
 
   var curZoomSpeed = 0;
   var zoomSpeed = 0.1;
 
-  var mouse = { x: 0, y: 0 }, 
+  var mouse = { x: 0, y: 0 },
+      mouseRel = { x: 0, y: 0 }, 
       clickMouse = null,
       rotation = { x: 0, y: 0 },
       camLongLat = { x: 0, y: 0 },
@@ -174,6 +179,7 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
     sceneAtmosphere.add(atmosphere);
 
     initHivents();
+    
 
     renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.autoClear = false;
@@ -235,8 +241,10 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
 
   function onMouseMove(event) {
     if (running) { 
-      mouse = {x: (event.clientX - offsetX) / width * 2 - 1,
-               y: (event.clientY - offsetY) / height * 2 - 1};
+      mouse =    {x: event.clientX,
+                  y: event.clientY};
+      mouseRel = {x: (mouse.x - offsetX) / width * 2 - 1,
+                  y: (mouse.y - offsetY) / height * 2 - 1};
     }
   }
 
@@ -298,27 +306,16 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
   
 
   function initHivents() {
-  
-    var geometry = new THREE.SphereGeometry(1, 10, 10);
-
-    var shader = Shaders['hivent'];
-    var uniforms = THREE.UniformsUtils.clone(shader.uniforms);
-
-    var material = new THREE.ShaderMaterial({
-      vertexShader: shader.vertexShader,
-      fragmentShader: shader.fragmentShader,
-      uniforms: uniforms
-    });
-    
-    
+      
     var hivents;
     
     hiventHandler.onHiventsLoaded(function(h){
 
       hivents = h;
-
+      
       for (var i=0; i<hivents.length; i++) {
-        hivent = new HG.HiventMarker3D(hivents[i], geometry, material);
+              
+        var hivent = new HG.HiventMarker3D(hivents[i]);
         scene.add(hivent);
         
         var position = longLatToCart(new THREE.Vector2(hivents[i].long, hivents[i].lat),
@@ -333,7 +330,7 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
   
   function mouseToLongLat(mousePos) {
     var vector = new THREE.Vector3(mousePos.x, -mousePos.y, 0.5);
-	  projector.unprojectVector( vector, camera );
+	  projector.unprojectVector(vector, camera);
     raycaster.set(camera.position, vector.sub(camera.position).normalize());
     
 	  var intersects = raycaster.intersectObjects(scene.children);
@@ -359,7 +356,7 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
     
     // if there is a drag going on
     if (clickLongLat) {
-      var longLatCurr = mouseToLongLat(mouse);
+      var longLatCurr = mouseToLongLat(mouseRel);
       
       if (longLatCurr) {
       
@@ -396,25 +393,34 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
     fov += (fovTarget - fov) * 0.1;
     camera.fov = fov;
     camera.updateProjectionMatrix();
-
-    var vector = new THREE.Vector3(mouse.x, mouse.y, 1);
-    //var vector = new THREE.Vector3(0,0, 1);
-   // console.log(vector);	
-		projector.unprojectVector( vector, camera );
-		//console.log(vector);	
+    
+    var vector = new THREE.Vector3(mouseRel.x, -mouseRel.y, 0.5);
+		projector.unprojectVector(vector, camera);
     raycaster.set(camera.position, vector.sub(camera.position).normalize());
 		var intersects = raycaster.intersectObjects(scene.children);
-		
-		if (intersects.length > 0) {
-		  if (intersects[0].object instanceof HG.HiventMarker3D) {
-		    //console.log(intersects[0].point);
-		    //console.log("huhu");			
-		  }
-		  
-		}
 
-//    camera.matrixWorldNeedsUpdate = true;
-		
+    for (var i = 0; i < intersects.length; i++) {
+      if (intersects[i].object instanceof HG.HiventMarker3D) {
+        var index = $.inArray(intersects[i].object, lastIntersected);
+        if (index >= 0) {
+          lastIntersected.splice(index, 1);
+        }
+      }
+    }
+
+    for (var i = 0; i < lastIntersected.length; i++) {
+      lastIntersected[i].unHover(mouse);
+    }
+    
+    lastIntersected = [];
+
+	  for (var i = 0; i < intersects.length; i++) {
+	    if (intersects[i].object instanceof HG.HiventMarker3D) {
+	      lastIntersected.push(intersects[i].object);
+	      intersects[i].object.hover(mouse);
+	    }
+	  }
+	
     renderer.clear();
     renderer.setFaceCulling(THREE.CullFaceBack);
     renderer.render(scene, camera);

@@ -1,6 +1,6 @@
 [
     {
-        "name": "Cool Hivent",
+        "name": "Declaration of something",
         "category": "Impressive Category",
         "date": 1950,
         "long": 100,
@@ -17,7 +17,7 @@
         ]
     },
     {
-        "name": "Another Cool Hivent",
+        "name": "Important treaty",
         "category": "Another Impressive Category",
         "date": 1934,
         "long": 0,
@@ -34,7 +34,7 @@
         ]
     },
     {
-        "name": "Another Cool Hivent",
+        "name": "Battle of some city",
         "category": "Another Impressive Category",
         "date": 1934,
         "long": 15,
@@ -51,7 +51,7 @@
         ]
     },
     {
-        "name": "Another Cool Hivent",
+        "name": "Easteregg",
         "category": "Another Impressive Category",
         "date": 1934,
         "long": 120,
@@ -68,7 +68,7 @@
         ]
     },
     {
-        "name": "Another Cool Hivent",
+        "name": "Your mom exploded",
         "category": "Another Impressive Category",
         "date": 1934,
         "long": -70,
@@ -85,7 +85,7 @@
         ]
     },
     {
-        "name": "Another Cool Hivent",
+        "name": "Big technical achievement",
         "category": "Another Impressive Category",
         "date": 1934,
         "long": -20,
@@ -102,11 +102,11 @@
         ]
     },
     {
-        "name": "Another Cool Hivent",
+        "name": "Someone died",
         "category": "Another Impressive Category",
         "date": 1934,
         "long": -70,
-        "lat": 30,
+        "lat": 40,
         "parties": [
             {
                 "name": "Party 1",
@@ -119,7 +119,7 @@
         ]
     },
     {
-        "name": "Another Cool Hivent",
+        "name": "First game of Ping Pong",
         "category": "Another Impressive Category",
         "date": 1934,
         "long": 0,
