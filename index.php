@@ -44,9 +44,7 @@
     <script type="text/javascript" src="js/third-party/jquery.mousewheel.js"></script>
     <script type="text/javascript" src="js/third-party/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/third-party/hammer.min.js"></script>
-    
-    <link href="http://vjs.zencdn.net/4.0/video-js.css" rel="stylesheet">
-    <script src="http://vjs.zencdn.net/4.0/video.js"></script>
+
     <script type="text/javascript" src="js/third-party/RequestAnimationFrame.js"></script>
     <script type="text/javascript" src="js/third-party/Detector.js"></script>
     <script type="text/javascript" src="js/third-party/three.min.js"></script>
@@ -372,11 +370,10 @@
         <!------------------------ video ------------------------------>
         <div id="video-header" 
            style="visibility:hidden; position:absolute; width: 100%; height: 100%;">
-          <video class="video-js vjs-default-skin" controls preload="auto" data-setup="{}">
-             <source src="video/teaser.mp4" type='video/mp4'>
-             <source src="video/teaser.webm" type='video/webm'>
-             <source src="video/teaser.ogv" type='video/ogg'>
-          </video>
+          <iframe id="ytplayer" type="text/html" width="100%" height="100%"
+            src="http://www.youtube.com/embed/pbEm_v7p0kw?modestbranding=1&showinfo=0&autohide=1&color=white&theme=light&wmode=transparent"
+            frameborder="0" allowfullscreen>
+          </iframe>
         </div>
         
         
@@ -384,16 +381,16 @@
         
         <div class="hero-unit-box-shadow" ></div>
         <div class="banner" style="visibility:hidden"><p>Demo!</p></div>
-                
+        
+        <!------------------- Video / Prototype buttons -----------------------> 
         <p class="header-button-top">
           <a id="demo-link"  
              data-placement="bottom" 
              data-original-title="Warnung! Die Demo benötigt einen sehr aktuellen Browser." 
              onClick="loadGLHeader()"
              style="margin:10px">
-            <small><i class="icon-play"></i> Demo</small>
+            <small><i class="icon-play"></i> Prototyp</small>
           </a>
-          
           
           <a id="video-link"  
             onClick="loadVideoHeader()"
@@ -416,18 +413,36 @@
           </center>
         </div>
       </div>
-            
+          
       <div class="info-box">
         <div class="row">
-          <p><i class="icon-warning-sign pull-left" style="font-size:300%"></i>  <?php locale("not_ready")?></p>
+          <p><i class="icon-warning-sign pull-left" style="font-size:200%; padding-top:5px"></i>  <?php locale("not_ready")?></p>
         </div>
       </div>
-
+     <!--
+     <div class="alert alert-histoglobe">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <i class="icon-warning-sign pull-left" style="font-size:200%"></i><?php locale("not_ready")?>
+    </div>
+     -->
+     
+      <div class="row">
+        <div class="span12">
+          <div class="gradient-down summary">
+            <img src="img/browser.png" id="browser-img" class="img-right pull-right" alt="HistoGlobe im Browser">
+            <h3><?php locale("summary_head")?></h3>
+            <p><?php locale("summary")?> <p>
+            <a class="smooth" href="#details"><?php locale("readMore")?></a>
+          </div>
+        </div>
+      </div> 
+      
+<!--
       <div class="row">
         <div class="span4">
           <div class="gradient-down summary">
             <h3 style="text-align:center"><i class="<?php locale("icon_1")?> icon-summary"></i> <br> <?php locale("feature_1")?></h3>
-            <p><?php locale("summary_1")?> <p>
+            <p><?php locale("summary")?> <p>
             <a class="smooth" href="#details"><?php locale("readMore")?></a>
           </div>
         </div>
@@ -435,7 +450,7 @@
         <div class="span4">
           <div class="gradient-down summary">
             <h3 style="text-align:center"><i class="<?php locale("icon_2")?> icon-summary"></i> <br> <?php locale("feature_2")?></h3>
-            <p><?php locale("summary_2")?> <p>
+            <p><?php locale("summary")?> <p>
             <a class="smooth" href="#details2"><?php locale("readMore")?></a>
           </div>
         </div>
@@ -443,29 +458,29 @@
         <div class="span4">
           <div class="gradient-down summary">
             <h3 style="text-align:center"><i class="<?php locale("icon_3")?> icon-summary"></i> <br> <?php locale("feature_3")?></h3>
-            <p><?php locale("summary_3")?> <p>
+            <p><?php locale("summary")?> <p>
             <a class="smooth" href="#details3"><?php locale("readMore")?></a>
           </div>
         </div>
       </div>
     </div>
-
+-->
     <div class="container" id="details">
       <div class="details gradient-up">
           <i class="<?php locale("icon_1")?> pull-left icon-feature"></i> 
-          <h2>HistoGlobe education<span class="muted"> <?php locale("heading_1")?></span></h2> 
+          <h2><?php locale("feature_1")?><br><span class="muted"> <?php locale("heading_1")?></span></h2> 
           <p><?php locale("explanation_1")?> <br>
 
         <hr id="details2">
 
           <i class="<?php locale("icon_2")?> pull-right icon-feature"></i> 
-          <h2>HistoGlobe corporate<span class="muted"> <?php locale("heading_2")?></span></h2> 
+          <h2><?php locale("feature_2")?><br><span class="muted"> <?php locale("heading_2")?></span></h2> 
            <p><?php locale("explanation_2")?> <br>
 
         <hr id="details3">
 
           <i class="<?php locale("icon_3")?> pull-left icon-feature"></i> 
-          <h2>HistoGlobe free<span class="muted"> <?php locale("heading_3")?></span></h2> 
+          <h2><?php locale("feature_3")?><br><span class="muted"> <?php locale("heading_3")?></span></h2> 
            <p><?php locale("explanation_3")?> <br>
         
       </div>

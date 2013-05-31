@@ -82,6 +82,7 @@ body {
   right: 10px;
   top: 10px;
   position: absolute;
+  font-size: 130%;
 }
 
 .bottom-left-logo {
@@ -193,6 +194,12 @@ hr {
   margin-top: 30px;
 }
 
+.alert-histoglobe {
+  background-color: #f9e0bc;
+  border-color: #edc082;
+  color: #222;
+}
+
 .summary{
   border-radius: 6px 6px 6px 6px;
   padding: 20px 7%;
@@ -200,7 +207,7 @@ hr {
 }
 
 .icon-feature {
-  font-size:1000%;
+  font-size:1400%;
   color: #edc082;
 }
 
@@ -213,22 +220,32 @@ hr {
   white-space: pre-wrap;
 }
 
+#browser-img {
+  width: 50%;
+}
+
 @media (max-width: 1200px) {
+  
   #ut-seal {
     width: 60%;
+  }
+  
+  #browser-img {
+    width: 40%;
   }
 }
 
 @media (max-width: 979px) {
   .icon-feature.pull-left,
   .icon-feature.pull-right {
-    font-size:750%;
+    font-size:900%;
   }
   
   .hero-unit {
     margin-top: 0px;
   }
   
+  #browser-img,
   #ut-seal {
     width: 100%;
   }
@@ -247,6 +264,7 @@ hr {
     font-size:750%;
   }
   
+  #browser-img,
   #ut-seal {
     width: 100%;
   }
