@@ -1,11 +1,11 @@
 [
     {
-        "name": "Declaration of something",
+        "name": "Declaration",
         "category": "Impressive Category",
         "date": "13.02.1950",
         "long": 100,
         "lat": 0,
-        "description": "This made a lot of things better and easier!",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce viverra sodales nisi, vitae malesuada mauris tempor eu. Cras vitae sagittis nunc. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum commodo ornare ante, ut porta nisi lacinia ut. Sed hendrerit hendrerit pretium. Donec scelerisque condimentum.",
         "parties": [
             {
                 "name": "Party 1",
@@ -18,12 +18,12 @@
         ]
     },
     {
-        "name": "Important treaty",
+        "name": "Treaty",
         "category": "Another Impressive Category",
         "date": "01.10.1897",
         "long": 0,
         "lat": 30,
-        "description": "After this, everything changed.",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce viverra sodales nisi, vitae malesuada mauris tempor eu. Cras vitae sagittis nunc. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum commodo ornare ante, ut porta nisi lacinia ut. Sed hendrerit hendrerit pretium. Donec scelerisque condimentum.",
         "parties": [
             {
                 "name": "Party 1",
@@ -36,12 +36,12 @@
         ]
     },
     {
-        "name": "Battle of some city",
+        "name": "Battle",
         "category": "Another Impressive Category",
         "date": "05.05.1922",
         "long": 15,
         "lat": 80,
-        "description": "It was brutal.",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce viverra sodales nisi, vitae malesuada mauris tempor eu. Cras vitae sagittis nunc. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum commodo ornare ante, ut porta nisi lacinia ut. Sed hendrerit hendrerit pretium. Donec scelerisque condimentum.",
         "parties": [
             {
                 "name": "Party 1",
@@ -54,12 +54,12 @@
         ]
     },
     {
-        "name": "Easteregg",
+        "name": "Birth",
         "category": "Another Impressive Category",
         "date": "01.04.1666",
         "long": 120,
         "lat": 60,
-        "description": "Congratulations, you found it!",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce viverra sodales nisi, vitae malesuada mauris tempor eu. Cras vitae sagittis nunc. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum commodo ornare ante, ut porta nisi lacinia ut. Sed hendrerit hendrerit pretium. Donec scelerisque condimentum.",
         "parties": [
             {
                 "name": "Party 1",
@@ -72,12 +72,12 @@
         ]
     },
     {
-        "name": "Your mom exploded",
+        "name": "Death",
         "category": "Another Impressive Category",
         "date": "14.03.1961",
         "long": -70,
         "lat": 30,
-        "description": "It was even visible from the moon.",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce viverra sodales nisi, vitae malesuada mauris tempor eu. Cras vitae sagittis nunc. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum commodo ornare ante, ut porta nisi lacinia ut. Sed hendrerit hendrerit pretium. Donec scelerisque condimentum.",
         "parties": [
             {
                 "name": "Party 1",
@@ -90,12 +90,12 @@
         ]
     },
     {
-        "name": "Big technical achievement",
+        "name": "Technical achievement",
         "category": "Another Impressive Category",
         "date": "12.07.1777",
         "long": -20,
         "lat": -40,
-        "description": "No one thought this was possible.",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce viverra sodales nisi, vitae malesuada mauris tempor eu. Cras vitae sagittis nunc. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum commodo ornare ante, ut porta nisi lacinia ut. Sed hendrerit hendrerit pretium. Donec scelerisque condimentum.",
         "parties": [
             {
                 "name": "Party 1",
@@ -108,12 +108,12 @@
         ]
     },
     {
-        "name": "Someone died",
-        "category": "What a tragedy.",
+        "name": "Assassination",
+        "category": "Some Category",
         "date": "09.08.1910",
         "long": -70,
         "lat": 40,
-        "description": "What a tragedy.",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce viverra sodales nisi, vitae malesuada mauris tempor eu. Cras vitae sagittis nunc. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum commodo ornare ante, ut porta nisi lacinia ut. Sed hendrerit hendrerit pretium. Donec scelerisque condimentum.",
         "parties": [
             {
                 "name": "Party 1",
@@ -126,12 +126,12 @@
         ]
     },
     {
-        "name": "First game of Ping Pong",
+        "name": "Foundation",
         "category": "Another Impressive Category",
         "date": "11.11.1499",
         "long": 0,
         "lat": 0,
-        "description": "Rules? There were none!",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce viverra sodales nisi, vitae malesuada mauris tempor eu. Cras vitae sagittis nunc. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum commodo ornare ante, ut porta nisi lacinia ut. Sed hendrerit hendrerit pretium. Donec scelerisque condimentum.",
         "parties": [
             {
                 "name": "Party 1",
