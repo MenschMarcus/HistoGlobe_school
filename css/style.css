@@ -44,6 +44,7 @@ body {
 
 .hero-unit img {
   margin: 2% 0%;
+  height: 578px;
 }
 
 /* -----------------------------------------------------------------------------
@@ -230,6 +231,10 @@ hr {
     width: 60%;
   }
   
+  .hero-unit img {
+    height: 100%;
+  }
+  
   #browser-img {
     width: 40%;
   }
@@ -243,6 +248,10 @@ hr {
   
   .hero-unit {
     margin-top: 0px;
+  }
+  
+  .hero-unit img {
+    height: 358px;
   }
   
   #browser-img,
@@ -262,6 +271,10 @@ hr {
     float: none;
     text-align:center;
     font-size:750%;
+  }
+  
+  .hero-unit img {
+    width: 100%;
   }
   
   #browser-img,

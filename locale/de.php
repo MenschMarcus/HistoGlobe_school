@@ -56,7 +56,7 @@
           Wenn Sie mehr erfahren möchten, schreiben Sie uns eine E-Mail an 
           <a href="mailto:info@histoglobe.com">info@histoglobe.com</a>!</p>',
         
-        'explanation_2' => '<p><span class="hg">HistoGlobe</span> mach Geschichte greifbar: 
+        'explanation_2' => '<p><span class="hg">HistoGlobe</span> macht Geschichte greifbar: 
           Es ermöglicht zeitliche, thematische oder regionale Schwerpunkte und 
           veranschaulicht diese mit Ausstellungsstücken und Quellen. 
           Mit Hilfe neuester Web-Technologien bieten wir ein interaktives 
