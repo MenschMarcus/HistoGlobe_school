@@ -371,7 +371,7 @@
         <div id="video-header" 
            style="visibility:hidden; position:absolute; width: 100%; height: 100%;">
           <iframe id="ytplayer" type="text/html" width="100%" height="100%"
-            src="http://www.youtube.com/embed/pbEm_v7p0kw?modestbranding=1&showinfo=0&autohide=1&color=white&theme=light&wmode=transparent"
+            src="http://www.youtube.com/embed/pbEm_v7p0kw?modestbranding=1&showinfo=0&autohide=1&color=white&theme=light&wmode=transparent&rel=0"
             frameborder="0" yt:quality=high allowfullscreen>
           </iframe>
         </div>
