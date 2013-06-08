@@ -94,7 +94,7 @@
       
       function loadGLHeader() {
         BrowserDetect.init();
-        console.log(BrowserDetect.browser);
+        //console.log(BrowserDetect.browser);
         if (canvasSupported) {
           $('#default-header').animate({opacity: 0.0}, 1000, 'linear', 
             function() {   
@@ -114,7 +114,7 @@
           container = document.getElementById('container');   
           loadTimeline();           
           load2D();
-          $('#toggle-3D').addClass("active");           
+          $('#toggle-2D').addClass("active");           
         }     
       }
       
@@ -134,7 +134,7 @@
           function() {   
             $('#default-header').css({visibility:"hidden"});
           });
-        //$('#video-header').css({visibility:"visible"});
+
         $('#video-header').css({display:"block"});
         $('#demo-link').css({visibility:"hidden"});
         $('#video-link').css({visibility:"hidden"});
@@ -152,7 +152,6 @@
         $('#default-header').css({visibility:"visible"});
         $('#default-header').animate({opacity: 1.0}, 1000, 'linear');
         $('#gl-header').css({visibility:"hidden"});
-        //$('#video-header').css({visibility:"hidden"});
         $('#video-header').css({display:"none"});
         $('#demo-link').css({visibility:"visible"});
         $('#video-link').css({visibility:"visible"});
