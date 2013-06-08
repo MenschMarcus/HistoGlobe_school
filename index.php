@@ -89,7 +89,10 @@
         $('#demo-link').tooltip();
         
         map = new HG.Map();
-        $('#toggle-3D').popover('toggle');
+        
+        var elem_title = 'Entschuldigung! <a class="close pull-right" style="margin-top: -3px;" onclick="$(&quot;#toggle-3D&quot;).popover(&quot;hide&quot;);" data-toggle="clickover">&times;</a>';
+        var elem_content = ''
+        $('#toggle-3D').popover({animation:true, title:elem_title, content:elem_content, html:true, placement:"top"});
       });
       
       function loadGLHeader() {
@@ -113,8 +116,9 @@
           hiventHandler = new HG.HiventHandler();
           container = document.getElementById('container');   
           loadTimeline();           
+
           load2D();
-          $('#toggle-2D').addClass("active");           
+
         }     
       }
       
@@ -179,7 +183,7 @@
         if (display3D && display3D.isRunning()) {
           $(display3D.getCanvas()).animate({opacity: 0.0}, 1000, 'linear');
           display3D.stop();
-          $('#toggle-3D').removeClass("active");
+          //$('#toggle-3D').removeClass("active");
         }
           
         if (!display2D) {
@@ -207,9 +211,9 @@
           
           display3D.start();  
           $(display3D.getCanvas()).animate({opacity: 1.0}, 1000, 'linear');
-          $('#toggle-3D').addClass("active"); 
+          //$('#toggle-3D').addClass("active"); 
         } else {
-          $('#toggle-3D').popover("toggle");
+          //$('#toggle-3D').popover("toggle");
         }        
       }
       
@@ -339,13 +343,9 @@
   
              <div id="tlMenuRight"  class="gradient-timeline-menu">
               <div class="btn-toolbar header-button-bottom tlMenu">
-                <div class="btn-group">
-                  <a id="toggle-2D" class="btn" onClick="load2D()">2D</a>
-                  <a id="toggle-3D" class="btn" onClick="load3D()"
-                     data-html="true"
-                     data-placement="left"
-                     data-title="Entschuldigung!" 
-                     data-content="Der 3D-Globus kann nicht angezeigt werden! Bitte aktualisieren Sie Ihren Browser oder laden Sie sich eine aktuelle Version von <a href='http://www.mozilla.org/'>Firefox</a> oder <a href='http://www.google.com/chrome/'>Chrome</a> herunter.">3D</a>
+                <div class="btn-group" data-toggle="buttons-radio">
+                  <a id="toggle-2D" class="btn active" onClick="load2D()">2D</a>
+                  <a id="toggle-3D" class="btn" onClick="load3D()">3D</a>
                 </div>
               </div>
             </div>
