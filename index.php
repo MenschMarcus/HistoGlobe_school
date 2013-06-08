@@ -377,16 +377,12 @@
         <div id="video-header" 
            style="visibility:hidden; position:absolute; width: 100%; height: 100%;">
           <iframe id="ytplayer" type="text/html" width="100%" height="100%"
-            src="http://www.youtube.com/embed/pbEm_v7p0kw?modestbranding=1&showinfo=0&autohide=1&color=white&theme=light&wmode=transparent"
+            src="http://www.youtube.com/embed/pbEm_v7p0kw?modestbranding=1&showinfo=0&autohide=1&color=white&theme=light&wmode=transparent&rel=0"
             frameborder="0" yt:quality=high allowfullscreen>
           </iframe>
         </div>
         
-        
-        
-        
-        <div class="hero-unit-box-shadow" ></div>
-        <div class="banner" style="visibility:hidden"><p>Demo!</p></div>
+        <div class="banner" style="visibility:hidden"></div>
         
         <!------------------- Video / Prototype buttons -----------------------> 
         <p class="header-button-top">
@@ -415,7 +411,7 @@
         <!-- default header -->
         <div id="default-header">
           <center>
-            <img src="img/logo_big.svg" alt="logo">
+            <img src="img/logo_big.png" alt="logo">
           </center>
         </div>
       </div>
