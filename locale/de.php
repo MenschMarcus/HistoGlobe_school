@@ -104,11 +104,11 @@
         'contact' => 'Wenn Sie Fragen zur Entwicklung des Projekts, Ideen, Anregungen oder Kritik haben, schreiben Sie einfach eine Nachricht an:
           <a href="mailto:info@histoglobe.com">info@histoglobe.com</a>',
 
-        'impressum' => '<p>
+        'impressum' => '
           Marcus Kossatz -  Brunnenstraße 3 - 99423 Weimar <br />
           Telefon: 03563 / 389 119 <br />
           E-Mail: <a href="mailto:marcus.kossatz@histoglobe.com">marcus.kossatz@histoglobe.com</a><br />
           &copy; 2013 Alle Rechte vorbehalten<br >
-          Der Betreiber übernimmt keine Verantwortung für die Inhalte von Websites, die über Verlinkungen dieses Portals erreicht werden. </p>',
+          Der Betreiber übernimmt keine Verantwortung für die Inhalte von Websites, die über Verlinkungen dieses Portals erreicht werden.',
     );
 ?>

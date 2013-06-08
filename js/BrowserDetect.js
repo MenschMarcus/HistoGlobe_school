@@ -1,5 +1,15 @@
 var BrowserDetect = {
   init: function () {
+    this.canvasSupported = !!window.CanvasRenderingContext2D;
+    this.webglContextSupported = !!window.WebGLRenderingContext;
+    this.webglRenderingSupported  = ( function () { 
+                                        try { 
+                                          return !!window.WebGLRenderingContext && !! document.createElement( 'canvas' ).getContext( 'experimental-webgl' ); 
+                                        } catch( e ) {
+                                          return false; 
+                                        } 
+                                      })();
+  
     var info = this.searchString(this.dataBrowser) || {identity:"unknown"}
     this.browser = info.identity;
     this.version = this.searchVersion(navigator.userAgent)
@@ -86,7 +96,7 @@ var BrowserDetect = {
   },
   { string: navigator.userAgent,
     subString: "MSIE",
-    identity: "Explorer",
+    identity: "Internet Explorer",
     versionSearch: "MSIE"
   },
   { string: navigator.userAgent,
