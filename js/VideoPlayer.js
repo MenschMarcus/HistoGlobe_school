@@ -19,7 +19,8 @@ HG.VideoPlayer = function(inDivID) {
   }
   
   this.stopVideo = function() {
-    player.stopVideo();
+    player.pauseVideo();
+    //player.seekTo(0, false);
   }
   
   init();
