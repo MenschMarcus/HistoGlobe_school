@@ -376,11 +376,7 @@
           </iframe>
         </div>
         
-        
-        
-        
-        <div class="hero-unit-box-shadow" ></div>
-        <div class="banner" style="visibility:hidden"><p>Demo!</p></div>
+        <div class="banner" style="visibility:hidden"></div>
         
         <!------------------- Video / Prototype buttons -----------------------> 
         <p class="header-button-top">
@@ -409,7 +405,7 @@
         <!-- default header -->
         <div id="default-header">
           <center>
-            <img src="img/logo_big.svg" alt="logo">
+            <img src="img/logo_big.png" alt="logo">
           </center>
         </div>
       </div>
