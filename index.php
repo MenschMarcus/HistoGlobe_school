@@ -212,25 +212,25 @@
           $("#tlMoveLeftRight").bind("mousedown", function(evt)
             {
               if (evt.button == 0)
-                timeline.clickMoveButtonLeft(0.01)
+                timeline.clickMoveButtonLeft(-0.01)
             }
           );
           $("#tlMoveLeftLeft").bind("mousedown", function(evt)
             {
               if (evt.button == 0)
-                timeline.clickMoveButtonLeft(-0.01)
+                timeline.clickMoveButtonLeft(0.01)
             }
           );
           $("#tlMoveRightRight").bind("mousedown", function(evt)
             {
               if (evt.button == 0)
-                timeline.clickMoveButtonRight(-0.01)
+                timeline.clickMoveButtonRight(0.01)
             }
           );
           $("#tlMoveRightLeft").bind("mousedown",  function(evt)
             {
               if (evt.button == 0)
-                timeline.clickMoveButtonRight(0.01)
+                timeline.clickMoveButtonRight(-0.01)
             }
           );
           
