@@ -122,6 +122,12 @@
         $('#demo-link').css({visibility:"hidden"});
         $('#video-link').css({visibility:"hidden"});
         $('#back-link').css({visibility:"visible"});
+        $('#back-link').click(function() {
+          var player = document.getElementById('ytplayer');
+          player.stopVideo();
+          console.log("huhu");
+        });
+        
         $('.hero-unit').css({"background-image": "none"});
       }
       
