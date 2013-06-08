@@ -58,6 +58,8 @@
     <script type="text/javascript" src="js/HiventHandler.js"></script>
     <script type="text/javascript" src="js/HiventMarker.js"></script>
     <script type="text/javascript" src="js/HiventMarker3D.js"></script>
+    <script type="text/javascript" src="js/VideoPlayer.js"></script>
+    <script type="text/javascript" src="js/BrowserDetect.js"></script>
          
     <script type="text/javascript">
       var display2D, display3D, map, timeline, hiventHandler;
@@ -65,6 +67,7 @@
       var container;
       var webGLSupported = Detector.webgl;
       var canvasSupported;
+      var player;
     
       function isCanvasSupported() {
         var testCanvas = document.createElement("test-canvas");
@@ -72,6 +75,7 @@
       }      
     
       jQuery(document).ready(function($) {
+        
         $(".smooth").click(function(event){    
           event.preventDefault();
           $('html,body').animate({scrollTop:$($(this).attr('href')).offset().top}, 500);
@@ -92,6 +96,8 @@
       });
       
       function loadGLHeader() {
+        BrowserDetect.init();
+        console.log(BrowserDetect.browser);
         if (canvasSupported) {
           $('#default-header').animate({opacity: 0.0}, 1000, 'linear', 
             function() {   
@@ -110,30 +116,48 @@
           hiventHandler = new HG.HiventHandler();
           container = document.getElementById('container');   
           loadTimeline();           
-          load3D();
+
+          load2D();
           //$('#toggle-3D').addClass("active");           
         }     
       }
       
+      function onYouTubeIframeAPIReady() {
+        player = new HG.VideoPlayer("ytplayer");
+      }
+        
       
       function loadVideoHeader() {
+        //Load YouTube API
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    
         $('#default-header').animate({opacity: 0.0}, 1000, 'linear', 
           function() {   
             $('#default-header').css({visibility:"hidden"});
           });
-        $('#video-header').css({visibility:"visible"});
+        //$('#video-header').css({visibility:"visible"});
+        $('#video-header').css({display:"block"});
         $('#demo-link').css({visibility:"hidden"});
         $('#video-link').css({visibility:"hidden"});
         $('#back-link').css({visibility:"visible"});
+        $('#back-link').click(function() {
+          player.stopVideo();
+        });
+        
         $('.hero-unit').css({"background-image": "none"});
       }
       
       
       function loadDefaultHeader() {
+      
         $('#default-header').css({visibility:"visible"});
         $('#default-header').animate({opacity: 1.0}, 1000, 'linear');
         $('#gl-header').css({visibility:"hidden"});
-        $('#video-header').css({visibility:"hidden"});
+        //$('#video-header').css({visibility:"hidden"});
+        $('#video-header').css({display:"none"});
         $('#demo-link').css({visibility:"visible"});
         $('#video-link').css({visibility:"visible"});
         $('#back-link').css({visibility:"hidden"}); 
@@ -368,11 +392,14 @@
         
         <!------------------------ video ------------------------------>
         <div id="video-header" 
-           style="visibility:hidden; position:absolute; width: 100%; height: 100%;">
+           style="display:none; position:absolute; width: 100%; height: 100%;">
+           
           <iframe id="ytplayer" type="text/html" width="100%" height="100%"
             src="http://www.youtube.com/embed/pbEm_v7p0kw?modestbranding=1&showinfo=0&autohide=1&color=white&theme=light&wmode=transparent&rel=0"
             frameborder="0" yt:quality=high allowfullscreen>
           </iframe>
+          
+          <!-- <div id = "ytplayer"></div> -->
         </div>
         
         <div class="banner" style="visibility:hidden"></div>
