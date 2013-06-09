@@ -1,3 +1,5 @@
+//include HiventMarker
+
 var HG = HG || {};
 
 HG.hiventMarkerGeometry = 0; 

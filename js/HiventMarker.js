@@ -1,6 +1,6 @@
 var HG = HG || {};
 
-HG.hiventCount = 0;
+HG.hiventInfoCount = 0;
 
 HG.activeHivents = [];
 
@@ -116,7 +116,7 @@ HG.HiventMarker = function(inHivent) {
   function init() {
     hiventInfo = document.createElement("div");
     hiventInfo.class = "btn";
-    hiventInfo.id = "hiventInfo" + HG.hiventCount;
+    hiventInfo.id = "hiventInfo_" + HG.hiventInfoCount;
     hiventInfo.style.position = "absolute";
     hiventInfo.style.left = "0px";
     hiventInfo.style.top = "0px";
@@ -131,7 +131,7 @@ HG.HiventMarker = function(inHivent) {
     
     $(hiventInfo).popover({title: hivent.name, placement: "top", html: "true", content: hiventContent});
     
-    HG.hiventCount++;
+    HG.hiventInfoCount++;
   }
   
   init();

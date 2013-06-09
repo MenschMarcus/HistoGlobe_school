@@ -1,15 +1,5 @@
-/**
- * dat.globe Javascript WebGL Globe Toolkit
- * http://dataarts.github.com/dat.globe
- *
- * Copyright 2011 Data Arts Team, Google Creative Lab
- *
- * Licensed under the Apache License, Version 2.0 (the 'License');
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- */
+//include HiventHandler.js
+//include HiventMarker3D.js
 
 var HG = HG || {};
 
@@ -37,12 +27,15 @@ HG.Display2D = function(container, inMap) {
     if (!running) { 
         running = true;
         canvas.style.display = "inline";
+        HG.showAllVisibleMarkers2D();
         animate();
     }
   }  
   
   this.stop = function() {  
     running = false;
+    HG.deactivateAllHivents();
+    HG.hideAllVisibleMarkers2D();
     canvas.style.display = "none";
   }   
   
@@ -68,6 +61,8 @@ HG.Display2D = function(container, inMap) {
     canvas.width = width;
     canvas.height = height;
     canvas.style.position = "absolute";
+    
+    initHivents();
 
     container.appendChild(canvas);
     
@@ -131,6 +126,7 @@ HG.Display2D = function(container, inMap) {
 
   function onMouseUp(event) {
     if (running) { 
+      HG.deactivateAllHivents();
       container.removeEventListener('mousemove', onMouseMove, false);
       container.removeEventListener('mouseup', onMouseUp, false);
       container.removeEventListener('mouseout', onMouseOut, false);
@@ -179,6 +175,21 @@ HG.Display2D = function(container, inMap) {
     distanceTarget -= delta;
     distanceTarget = distanceTarget > 1000 ? 1000 : distanceTarget;
     distanceTarget = distanceTarget < 350 ? 350 : distanceTarget;
+  }
+
+  function initHivents() {
+      
+    var hivents;
+    
+    hiventHandler.onHiventsLoaded(function(h){
+
+      hivents = h;
+      
+      for (var i=0; i<hivents.length; i++) {
+              
+        var hivent = new HG.HiventMarker2D(hivents[i], canvas.width/2, canvas.height/2);
+      }
+    });
   }
 
   function animate() {

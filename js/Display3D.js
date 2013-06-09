@@ -1,16 +1,3 @@
-/**
- * dat.globe Javascript WebGL Globe Toolkit
- * http://dataarts.github.com/dat.globe
- *
- * Copyright 2011 Data Arts Team, Google Creative Lab
- *
- * Licensed under the Apache License, Version 2.0 (the 'License');
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- */
-
 //include HiventHandler.js
 //include HiventMarker3D.js
 
@@ -121,8 +108,6 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
   var mapTexture;
   
   var running = false;
-  
-  init();
    
   function init() {
 
@@ -256,7 +241,7 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
       clickLongLat = null;
       
       if (lastIntersected.length == 0) {
-        HG.deactivateAllHivents()
+        HG.deactivateAllHivents();
       } else {
         for (var i = 0; i < lastIntersected.length; i++)
           lastIntersected[i].active(mouse);
@@ -468,6 +453,7 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
  
   this.stop = function() {  
     running = false;
+    HG.deactivateAllHivents();
     renderer.domElement.style.display = "none";
   }   
   
@@ -478,6 +464,8 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
   this.getCanvas = function() {
     return renderer.domElement;
   }
+
+  init();
 
   return this;
 
