@@ -27,7 +27,7 @@ HG.HiventMarker2D = function(inHivent, parent, posX, posY) {
   div.style.zIndex = 10;
   
   //document.getElementsByTagName("body")[0].appendChild(div);
-  console.log(parent);
+
   parent.appendChild(div);
   
   div.onmouseover = function (e) {
