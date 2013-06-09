@@ -1,16 +1,3 @@
-/**
- * dat.globe Javascript WebGL Globe Toolkit
- * http://dataarts.github.com/dat.globe
- *
- * Copyright 2011 Data Arts Team, Google Creative Lab
- *
- * Licensed under the Apache License, Version 2.0 (the 'License');
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- */
-
 var HG = HG || {};
 
 HG.Display2D = function(container, inMap) {
@@ -18,18 +5,16 @@ HG.Display2D = function(container, inMap) {
   var canvas;
 
   var map = inMap;
+  
+  // describes degree / pixel
+  var curZoom = 1;
+  
+  // upper left long lat coordinates
+  var curOffset = {x: 0, y: 0};
+  
+  // cursor position in pixels
+  var mouse = { x: 0, y: 0 };
 
-  var curZoomSpeed = 0;
-  var zoomSpeed = 50;
-
-  var mouse;
-  var mouseOnDown;
-  var panning;
-  var target;
-  var targetOnDown;
-
-  var distance = 10000, distanceTarget = 800;
-  var padding = 40;
   
   var running = false;
   
@@ -58,11 +43,6 @@ HG.Display2D = function(container, inMap) {
 
     var width = $(container.parentNode).innerWidth();
     var height = $(container.parentNode).innerHeight();
-    
-    mouse = { x: 0, y: 0 }, mouseOnDown = { x: 0, y: 0 };
-    panning = { x: 0, y: height };
-    target = { x:0, y: height };
-    targetOnDown = { x: 0, y: 0 };
 
     canvas = document.createElement("canvas");
     canvas.width = width;
@@ -107,25 +87,21 @@ HG.Display2D = function(container, inMap) {
         container.addEventListener('mouseup', onMouseUp, false);
         container.addEventListener('mouseout', onMouseOut, false);
 
-        mouseOnDown.x = - event.clientX;
-        mouseOnDown.y = event.clientY;
-
-        targetOnDown.x = target.x;
-        targetOnDown.y = target.y;
+        mouse.x = event.clientX;
+        mouse.y = event.clientY;
 
         container.style.cursor = 'move';
     }
   }
 
   function onMouseMove(event) {
-    if (running) { 
-        mouse.x = - event.clientX;
+    if (running) {
+    
+        curOffset.x += mouse.x - event.clientX;
+        curOffset.y += mouse.y - event.clientY;
+        
+        mouse.x = event.clientX;
         mouse.y = event.clientY;
-
-        var zoomDamp = distance/1000;
-
-        target.x = targetOnDown.x + (mouse.x - mouseOnDown.x) * 0.5 * zoomDamp;
-        target.y = targetOnDown.y + (mouse.y - mouseOnDown.y) * 0.5 * zoomDamp;
     }
   }
 
@@ -176,9 +152,7 @@ HG.Display2D = function(container, inMap) {
   }
 
   function zoom(delta) {
-    distanceTarget -= delta;
-    distanceTarget = distanceTarget > 1000 ? 1000 : distanceTarget;
-    distanceTarget = distanceTarget < 350 ? 350 : distanceTarget;
+
   }
 
   function animate() {
@@ -190,16 +164,13 @@ HG.Display2D = function(container, inMap) {
   }
 
   function render() {
-    zoom(curZoomSpeed);
 
-    target.y = Math.max(map.getCanvas().height + (canvas.height - map.getCanvas().height), Math.min(canvas.height, target.y));
-    panning.x += (target.x - panning.x) * 0.1;
-    panning.y += (target.y - panning.y) * 0.1;
-    //console.log(canvas.height);
-    distance += (distanceTarget - distance) * 0.3;
+
+    console.log(curOffset);
+
     
     var sourceCtx = map.getCanvas().getContext("2d");
-    var imageData=sourceCtx.getImageData(panning.x, canvas.height - panning.y, canvas.width, canvas.height);
+    var imageData=sourceCtx.getImageData(curOffset.x, canvas.height - curOffset.y, canvas.width, canvas.height);
     var destinationCtx = canvas.getContext("2d");
     destinationCtx.putImageData(imageData,0,0);
 
