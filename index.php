@@ -125,7 +125,7 @@
           $('.hero-unit').height(window.innerHeight * 0.8);
                         
           hiventHandler = new HG.HiventHandler();
-          container = document.getElementById('container');   
+          container = document.getElementById('map-container');   
           loadTimeline();           
 
           load2D();
@@ -171,7 +171,6 @@
         $('#demo-link').css({visibility:"visible"});
         $('#video-link').css({visibility:"visible"});
         $('#back-link').css({visibility:"hidden"}); 
-        //$('#tlContainer').css({display: "none"}); 
         $('.banner').css({visibility: "hidden"}); 
         $('.hero-unit').css({"background-image": "url('img/logo_bg.jpg')",
                      "background-position": "bottom right"});
@@ -228,8 +227,6 @@
       }
       
       function loadTimeline() {
-      
-        //$('#tlContainer').css({display: "block"});  
 
         if (!timelineInitialized) {
           timeline = timeline();
@@ -329,7 +326,7 @@
     <div class="container" id="home">
     
       <div class="hero-unit">       
-        <div id="container"> </div>
+        <div id="map-container" style="overflow:hidden"> </div>
         
         <!-- little logo -->
         <div class="bottom-left-logo" id="logo-normal" style="visibility:hidden"></div>
@@ -407,10 +404,9 @@
             src="http://www.youtube.com/embed/pbEm_v7p0kw?modestbranding=1&amp;showinfo=0&amp;autohide=1&amp;color=white&amp;theme=light&amp;wmode=transparent&amp;rel=0"
             frameborder="0" yt:quality=high allowfullscreen>
           </iframe>
-          
-          <!-- <div id = "ytplayer"></div> -->
         </div>
         
+        <!-- banner -->
         <div class="banner" style="visibility:hidden"></div>
         
         <!-- Video / Prototype buttons --> 
@@ -450,12 +446,6 @@
           <p><i class="icon-warning-sign pull-left" style="font-size:200%; padding-top:5px"></i>  <?php locale("not_ready")?></p>
         </div>
       </div>
-     <!-- 
-     <div class="alert alert-histoglobe">
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-      <i class="icon-warning-sign pull-left" style="font-size:200%"></i><?php locale("not_ready")?>
-     </div>
-     -->
      
       <div class="row">
         <div class="span12">
@@ -468,34 +458,6 @@
         </div>
       </div> 
       
-<!-- 
-      <div class="row">
-        <div class="span4">
-          <div class="gradient-down summary">
-            <h3 style="text-align:center"><i class="<?php locale("icon_1")?> icon-summary"></i> <br> <?php locale("feature_1")?></h3>
-            <p><?php locale("summary")?> <p>
-            <a class="smooth" href="#details"><?php locale("readMore")?></a>
-          </div>
-        </div>
-        
-        <div class="span4">
-          <div class="gradient-down summary">
-            <h3 style="text-align:center"><i class="<?php locale("icon_2")?> icon-summary"></i> <br> <?php locale("feature_2")?></h3>
-            <p><?php locale("summary")?> <p>
-            <a class="smooth" href="#details2"><?php locale("readMore")?></a>
-          </div>
-        </div>
-        
-        <div class="span4">
-          <div class="gradient-down summary">
-            <h3 style="text-align:center"><i class="<?php locale("icon_3")?> icon-summary"></i> <br> <?php locale("feature_3")?></h3>
-            <p><?php locale("summary")?> <p>
-            <a class="smooth" href="#details3"><?php locale("readMore")?></a>
-          </div>
-        </div>
-      </div>
-    </div>
- -->
     <div class="container" id="details">
       <div class="details gradient-up">
           <i class="<?php locale("icon_1")?> pull-left icon-feature"></i> 
@@ -553,7 +515,7 @@
             <small><?php locale("impressum")?></small>
           </div> 
         </div> 
-      </div> 
+      </div>
     </div>
     </div>
   </body>

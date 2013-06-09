@@ -75,6 +75,10 @@ HG.Map = function() {
     return canvas;
   }
   
+  this.getResolution = function() {
+    return {x:width, y:height};
+  }
+  
   this.redraw = function() {
     
     var currTime = new Date().getTime();

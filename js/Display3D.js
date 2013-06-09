@@ -87,7 +87,7 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
 
   var camera, scene, sceneAtmosphere, renderer;
   var width, height;
-  var offsetX, offsetY;
+  var canvasOffsetX, canvasOffsetY;
   var globe, atmosphere;
 
   var earthRadius = 200;
@@ -130,8 +130,8 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
     width = $(container.parentNode).innerWidth();
     height = $(container.parentNode).innerHeight();
 
-    offsetX = $(container.parentNode).offset().left;
-    offsetY = $(container.parentNode).offset().top;	
+    canvasOffsetX = $(container.parentNode).offset().left;
+    canvasOffsetY = $(container.parentNode).offset().top;	
 
     projector = new THREE.Projector();
     raycaster = new THREE.Raycaster();
@@ -226,8 +226,8 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
     if (running) {  
       event.preventDefault();
 
-      clickMouse = {x: (event.clientX - offsetX) / width * 2 - 1,
-                    y: (event.clientY - offsetY) / height * 2 - 1};
+      clickMouse = {x: (event.clientX - canvasOffsetX) / width * 2 - 1,
+                    y: (event.clientY - canvasOffsetY) / height * 2 - 1};
       
       clickLongLat = mouseToLongLat(clickMouse);
       
@@ -243,8 +243,8 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
     if (running) { 
       mouse     = {x: event.clientX,
                    y: event.clientY};
-      mouseRel  = {x: (mouse.x - offsetX) / width * 2 - 1,
-                   y: (mouse.y - offsetY) / height * 2 - 1};
+      mouseRel  = {x: (mouse.x - canvasOffsetX) / width * 2 - 1,
+                   y: (mouse.y - canvasOffsetY) / height * 2 - 1};
     }
   }
 
@@ -302,8 +302,8 @@ HG.Display3D = function(container, inMap, inHiventHandler) {
     width = $(container.parentNode).innerWidth();
     height = $(container.parentNode).innerHeight();
 
-    offsetX = $(container.parentNode).offset().left;
-    offsetY = $(container.parentNode).offset().top;
+    canvasOffsetX = $(container.parentNode).offset().left;
+    canvasOffsetY = $(container.parentNode).offset().top;
   }
 
   function zoom(delta) {

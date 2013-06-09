@@ -3,13 +3,14 @@ var HG = HG || {};
 HG.Display2D = function(container, inMap) {
 
   var canvas;
+  var canvasOffsetX, canvasOffsetY;
 
   var map = inMap;
   
   // describes degree / pixel
-  var curZoom = 1;
+  var curZoom = 360/map.getResolution().x;
   
-  // upper left long lat coordinates
+  // upper left pixel coordinates
   var curOffset = {x: 0, y: 0};
   
   // cursor position in pixels
@@ -41,13 +42,16 @@ HG.Display2D = function(container, inMap) {
   
   function init() {
 
-    var width = $(container.parentNode).innerWidth();
-    var height = $(container.parentNode).innerHeight();
-
     canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = 1024*2;
+    canvas.height = 1024;
+    
+    $(canvas).offset({ top:0, left:0});
+    
     canvas.style.position = "absolute";
+    
+    canvasOffsetX = $(container.parentNode).offset().left;
+    canvasOffsetY = $(container.parentNode).offset().top;	
 
     container.appendChild(canvas);
     
@@ -77,6 +81,18 @@ HG.Display2D = function(container, inMap) {
     container.addEventListener('mouseout', function() {
       overRenderer = false;
     }, false);
+    
+    redraw();
+  }
+  
+
+  
+  function redraw() {
+    var destinationCtx = canvas.getContext("2d");
+    destinationCtx.save();
+    destinationCtx.scale(curZoom, curZoom);
+    destinationCtx.drawImage(map.getCanvas(),0,0);
+    destinationCtx.restore();
   }
 
   function onMouseDown(event) {
@@ -89,6 +105,10 @@ HG.Display2D = function(container, inMap) {
 
         mouse.x = event.clientX;
         mouse.y = event.clientY;
+        
+        var longlat = mouseToLongLat(mouse);
+        
+        console.log("long: " + longlat.x + " lat: " + longlat.y);
 
         container.style.cursor = 'move';
     }
@@ -96,9 +116,9 @@ HG.Display2D = function(container, inMap) {
 
   function onMouseMove(event) {
     if (running) {
-    
-        curOffset.x += mouse.x - event.clientX;
-        curOffset.y += mouse.y - event.clientY;
+        
+        curOffset.x -= mouse.x - event.clientX;
+        curOffset.y -= mouse.y - event.clientY;
         
         mouse.x = event.clientX;
         mouse.y = event.clientY;
@@ -125,7 +145,7 @@ HG.Display2D = function(container, inMap) {
   function onMouseWheel(delta) {
     if (running) { 
       if (overRenderer) {
-        zoom(delta * 0.3);
+        zoom(delta * 0.0001);
       }
     }
     return false;
@@ -147,32 +167,37 @@ HG.Display2D = function(container, inMap) {
   }
 
   function onWindowResize( event ) {
-    console.log('resize');
-  
+    canvasOffsetX = $(container.parentNode).offset().left;
+    canvasOffsetY = $(container.parentNode).offset().top;	
   }
 
   function zoom(delta) {
-
+    curZoom += delta;
+    console.log('zoom: ' + curZoom);
+    redraw();
+  }
+  
+  function mouseToLongLat(mousePos) {
+	  return {
+	    x: (mousePos.x - canvasOffsetX - curOffset.x) / curZoom / map.getResolution().x * 360 - 180,
+      y: (mousePos.y - canvasOffsetY - curOffset.y) / curZoom / map.getResolution().y * -180 + 90
+	  };
   }
 
   function animate() {
     if (running) {
       requestAnimationFrame(animate);
-      map.redraw();
+      //map.redraw();
       render();
     }
   }
 
   function render() {
-
-
-    console.log(curOffset);
-
     
-    var sourceCtx = map.getCanvas().getContext("2d");
-    var imageData=sourceCtx.getImageData(curOffset.x, canvas.height - curOffset.y, canvas.width, canvas.height);
-    var destinationCtx = canvas.getContext("2d");
-    destinationCtx.putImageData(imageData,0,0);
+
+    //console.log(curOffset);
+    canvas.style.top= curOffset.y + "px";
+    canvas.style.left = curOffset.x + "px";
 
   }
 
