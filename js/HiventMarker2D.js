@@ -6,7 +6,7 @@ HG.hiventMarker2DCount = 0;
 
 HG.visibleMarkers2D = [];
 
-HG.HiventMarker2D = function(inHivent, posX, posY) {
+HG.HiventMarker2D = function(inHivent, parent, posX, posY) {
        
   HG.HiventMarker.call(this, inHivent)
 
@@ -21,10 +21,14 @@ HG.HiventMarker2D = function(inHivent, posX, posY) {
   div.style.position = "absolute";
   div.style.left = position.x +"px";
   div.style.top = position.y +"px";
-  div.style.width = "150px";
-  div.style.height = "150px";
+  div.style.width = "5px";
+  div.style.height = "5px";
+  div.style.backgroundColor = "#00ff00";
+  div.style.zIndex = 10;
   
-  document.getElementsByTagName("body")[0].appendChild(div);
+  //document.getElementsByTagName("body")[0].appendChild(div);
+  console.log(parent);
+  parent.appendChild(div);
   
   div.onmouseover = function (e) {
     
@@ -42,7 +46,6 @@ HG.HiventMarker2D = function(inHivent, posX, posY) {
   };
   
   HG.visibleMarkers2D.push(this);
-  console.log(HG.visibleMarkers2D.length);
   
   HG.hiventMarker2DCount++;
 

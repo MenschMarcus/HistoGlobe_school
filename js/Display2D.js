@@ -6,26 +6,27 @@ var HG = HG || {};
 HG.Display2D = function(container, inMap) {
 
   var canvas;
+  var canvasParent;
+  var canvasOffsetX, canvasOffsetY;
 
   var map = inMap;
+  
+  // describes degree / pixel
+  var curZoom = 360/map.getResolution().x;
+  
+  // upper left pixel coordinates
+  var curOffset = {x: 0, y: 0};
+  
+  // cursor position in pixels
+  var mouse = { x: 0, y: 0 };
 
-  var curZoomSpeed = 0;
-  var zoomSpeed = 50;
-
-  var mouse;
-  var mouseOnDown;
-  var panning;
-  var target;
-  var targetOnDown;
-
-  var distance = 10000, distanceTarget = 800;
-  var padding = 40;
   
   var running = false;
   
   this.start = function() { 
     if (!running) { 
         running = true;
+        canvasParent.style.display = "inline";
         canvas.style.display = "inline";
         HG.showAllVisibleMarkers2D();
         animate();
@@ -36,6 +37,7 @@ HG.Display2D = function(container, inMap) {
     running = false;
     HG.deactivateAllHivents();
     HG.hideAllVisibleMarkers2D();
+    canvasParent.style.display = "none";
     canvas.style.display = "none";
   }   
   
@@ -49,22 +51,23 @@ HG.Display2D = function(container, inMap) {
   
   function init() {
 
-    var width = $(container.parentNode).innerWidth();
-    var height = $(container.parentNode).innerHeight();
+    canvasParent = document.createElement("div");
+    canvasParent.style.width = 1024*2;
+    canvasParent.style.height = 1024;
     
-    mouse = { x: 0, y: 0 }, mouseOnDown = { x: 0, y: 0 };
-    panning = { x: 0, y: height };
-    target = { x:0, y: height };
-    targetOnDown = { x: 0, y: 0 };
+    $(canvasParent).offset({ top:0, left:0});
+    canvasParent.style.position = "absolute";
 
     canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
-    canvas.style.position = "absolute";
+    canvas.width = 1024*2;
+    canvas.height = 1024;
     
-    initHivents();
+    
+    canvasOffsetX = $(container.parentNode).offset().left;
+    canvasOffsetY = $(container.parentNode).offset().top;	
 
-    container.appendChild(canvas);
+    canvasParent.appendChild(canvas);
+    container.appendChild(canvasParent);
     
     container.addEventListener('mousedown', onMouseDown, false);
     
@@ -92,6 +95,20 @@ HG.Display2D = function(container, inMap) {
     container.addEventListener('mouseout', function() {
       overRenderer = false;
     }, false);
+    
+    initHivents();
+    
+    redraw();
+  }
+  
+
+  
+  function redraw() {
+    var destinationCtx = canvas.getContext("2d");
+    destinationCtx.save();
+    destinationCtx.scale(curZoom, curZoom);
+    destinationCtx.drawImage(map.getCanvas(),0,0);
+    destinationCtx.restore();
   }
 
   function onMouseDown(event) {
@@ -102,25 +119,25 @@ HG.Display2D = function(container, inMap) {
         container.addEventListener('mouseup', onMouseUp, false);
         container.addEventListener('mouseout', onMouseOut, false);
 
-        mouseOnDown.x = - event.clientX;
-        mouseOnDown.y = event.clientY;
-
-        targetOnDown.x = target.x;
-        targetOnDown.y = target.y;
+        mouse.x = event.clientX;
+        mouse.y = event.clientY;
+        
+        var longlat = mouseToLongLat(mouse);
+        
+        console.log("long: " + longlat.x + " lat: " + longlat.y);
 
         container.style.cursor = 'move';
     }
   }
 
   function onMouseMove(event) {
-    if (running) { 
-        mouse.x = - event.clientX;
+    if (running) {
+        
+        curOffset.x -= mouse.x - event.clientX;
+        curOffset.y -= mouse.y - event.clientY;
+        
+        mouse.x = event.clientX;
         mouse.y = event.clientY;
-
-        var zoomDamp = distance/1000;
-
-        target.x = targetOnDown.x + (mouse.x - mouseOnDown.x) * 0.5 * zoomDamp;
-        target.y = targetOnDown.y + (mouse.y - mouseOnDown.y) * 0.5 * zoomDamp;
     }
   }
 
@@ -145,7 +162,7 @@ HG.Display2D = function(container, inMap) {
   function onMouseWheel(delta) {
     if (running) { 
       if (overRenderer) {
-        zoom(delta * 0.3);
+        zoom(delta * 0.0001);
       }
     }
     return false;
@@ -167,14 +184,28 @@ HG.Display2D = function(container, inMap) {
   }
 
   function onWindowResize( event ) {
-    console.log('resize');
-  
+    canvasOffsetX = $(container.parentNode).offset().left;
+    canvasOffsetY = $(container.parentNode).offset().top;	
   }
 
   function zoom(delta) {
-    distanceTarget -= delta;
-    distanceTarget = distanceTarget > 1000 ? 1000 : distanceTarget;
-    distanceTarget = distanceTarget < 350 ? 350 : distanceTarget;
+    curZoom += delta;
+    console.log('zoom: ' + curZoom);
+    redraw();
+  }
+  
+  function mouseToLongLat(mousePos) {
+	  return {
+	    x: (mousePos.x - canvasOffsetX - curOffset.x) / curZoom / map.getResolution().x * 360 - 180,
+      y: (mousePos.y - canvasOffsetY - curOffset.y) / curZoom / map.getResolution().y * -180 + 90
+	  };
+  }
+  
+  function longLatToPixel(longlat) {
+    return {
+      x: (longlat.x + 180) / map.getResolution().x * 360  / curZoom + curOffset.x + canvasOffsetX,
+      y: (longlat.y -  90) / map.getResolution().y * -180 / curZoom + curOffset.y + canvasOffsetY
+    };
   }
 
   function initHivents() {
@@ -186,8 +217,9 @@ HG.Display2D = function(container, inMap) {
       hivents = h;
       
       for (var i=0; i<hivents.length; i++) {
-              
-        var hivent = new HG.HiventMarker2D(hivents[i], canvas.width/2, canvas.height/2);
+        
+        var pos = longLatToPixel({x: hivents[i].long, y: hivents[i].lat});   
+        var hivent = new HG.HiventMarker2D(hivents[i], canvasParent, pos.x, pos.y);
       }
     });
   }
@@ -195,24 +227,17 @@ HG.Display2D = function(container, inMap) {
   function animate() {
     if (running) {
       requestAnimationFrame(animate);
-      map.redraw();
+      //map.redraw();
       render();
     }
   }
 
   function render() {
-    zoom(curZoomSpeed);
-
-    target.y = Math.max(map.getCanvas().height + (canvas.height - map.getCanvas().height), Math.min(canvas.height, target.y));
-    panning.x += (target.x - panning.x) * 0.1;
-    panning.y += (target.y - panning.y) * 0.1;
-    //console.log(canvas.height);
-    distance += (distanceTarget - distance) * 0.3;
     
-    var sourceCtx = map.getCanvas().getContext("2d");
-    var imageData=sourceCtx.getImageData(panning.x, canvas.height - panning.y, canvas.width, canvas.height);
-    var destinationCtx = canvas.getContext("2d");
-    destinationCtx.putImageData(imageData,0,0);
+
+    //console.log(curOffset);
+    canvasParent.style.top= curOffset.y + "px";
+    canvasParent.style.left = curOffset.x + "px";
 
   }
 
