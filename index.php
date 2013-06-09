@@ -46,7 +46,6 @@
     <script type="text/javascript" src="js/third-party/hammer.min.js"></script>
 
     <script type="text/javascript" src="js/third-party/RequestAnimationFrame.js"></script>
-    <script type="text/javascript" src="js/third-party/Detector.js"></script>
     <script type="text/javascript" src="js/third-party/three.min.js"></script>
     <script type="text/javascript" src="js/third-party/Tween.js"></script>
     <script type="text/javascript" src="js/third-party/paper.js"></script>
@@ -65,24 +64,16 @@
       var display2D, display3D, map, timeline, hiventHandler;
       var timelineInitialized = false;
       var container;
-      var webGLSupported = Detector.webgl;
-      var canvasSupported;
       var player;
     
-      function isCanvasSupported() {
-        var testCanvas = document.createElement("test-canvas");
-        return ! (testCanvas.getContext && testCanvas.getContext("2d"));
-      }      
-    
       jQuery(document).ready(function($) {
-        
+        BrowserDetect.init();
         $(".smooth").click(function(event){    
           event.preventDefault();
           $('html,body').animate({scrollTop:$($(this).attr('href')).offset().top}, 500);
         });
                 
-        canvasSupported = isCanvasSupported();
-        if (!canvasSupported) {
+        if (!BrowserDetect.canvasSupported) {
           $('#demo-link').addClass("btn disabled");
         }
         
@@ -90,15 +81,35 @@
         
         map = new HG.Map();
         
-        var elem_title = 'Entschuldigung! <a class="close pull-right" style="margin-top: -3px;" onclick="$(&quot;#toggle-3D&quot;).popover(&quot;hide&quot;);" data-toggle="clickover">&times;</a>';
-        var elem_content = ''
-        $('#toggle-3D').popover({animation:true, title:elem_title, content:elem_content, html:true, placement:"top"});
+        if (!BrowserDetect.webglRenderingSupported) {
+          var elem_title = 'Entschuldigung! <a class="close pull-right" style="margin-top: -3px;" onclick="$(&#39;#toggle-3D&#39;).popover(&#39;hide&#39;);">&times;</a>';
+          var elem_content = '';
+          if (BrowserDetect.webglContextSupported) {
+            if (BrowserDetect.browser != "unknown") {
+              elem_content = 'Obwohl Ihr Browser (' + BrowserDetect.browser + ') <span class="hg">HistoGlobe</span> anzeigen kann, treten auf Ihrem Rechner leider Probleme auf. Eventuell ist der Treiber Ihrer Graphikkarte nicht aktuell. Weitere Hilfe zum Thema WebGL und ' + BrowserDetect.browser + ' erhalten Sie hier: <br><br> <a target="_blank" class="btn btn-block btn-success" href ="' + 
+                             BrowserDetect.urls.troubleshootingUrl+ '">' + BrowserDetect.browser + ' Support</a>';
+            }
+            
+          } else {
+            if (BrowserDetect.browser != "unknown" && BrowserDetect.urls.upgradeUrl) {
+              elem_content = 'Ihre Version von ' + BrowserDetect.browser 
+                              + ' ist nicht aktuell! Wenn Sie <span class="hg">HistoGlobe</span> auf einem Globus genießen wollen, aktualisieren Sie bitte Ihren Browser. <br><br><a target="_blank" class="btn btn-block btn-success" href ="' 
+                              + BrowserDetect.urls.upgradeUrl + '">' 
+                              + BrowserDetect.browser + ' aktualisieren' + '</a>';     
+            } else {
+              elem_content = BrowserDetect.browser + ' unterstützt leider noch keine 3D-Graphiken. Wenn Sie <span class="hg">HistoGlobe</span> auf einem Globus genießen wollen, installieren Sie bitte einen der folgenden Browser: <br><br> <a target="_blank" class="btn btn-block btn-success" href ="http://www.mozilla.org/de/firefox/new/"> Firefox herunterladen </a> <a target="_blank" class="btn btn-block btn-success" href ="https://www.google.com/intl/de/chrome/browser/"> Chrome herunterladen </a>' 
+            }        
+          }
+          
+          $('#toggle-3D').popover({animation:true, title:elem_title, content:elem_content, html:true, placement:"top"});
+        }  
+        
       });
       
       function loadGLHeader() {
-        BrowserDetect.init();
-        console.log(BrowserDetect.browser);
-        if (canvasSupported) {
+        
+        //console.log(BrowserDetect.browser);
+        if (BrowserDetect.canvasSupported) {
           $('#default-header').animate({opacity: 0.0}, 1000, 'linear', 
             function() {   
               $('#default-header').css({visibility:"hidden"});
@@ -118,7 +129,7 @@
           loadTimeline();           
 
           load2D();
-          //$('#toggle-3D').addClass("active");           
+
         }     
       }
       
@@ -138,7 +149,7 @@
           function() {   
             $('#default-header').css({visibility:"hidden"});
           });
-        //$('#video-header').css({visibility:"visible"});
+
         $('#video-header').css({display:"block"});
         $('#demo-link').css({visibility:"hidden"});
         $('#video-link').css({visibility:"hidden"});
@@ -156,7 +167,6 @@
         $('#default-header').css({visibility:"visible"});
         $('#default-header').animate({opacity: 1.0}, 1000, 'linear');
         $('#gl-header').css({visibility:"hidden"});
-        //$('#video-header').css({visibility:"hidden"});
         $('#video-header').css({display:"none"});
         $('#demo-link').css({visibility:"visible"});
         $('#video-link').css({visibility:"visible"});
@@ -184,7 +194,8 @@
         if (display3D && display3D.isRunning()) {
           $(display3D.getCanvas()).animate({opacity: 0.0}, 1000, 'linear');
           display3D.stop();
-          //$('#toggle-3D').removeClass("active");
+          $('#toggle-3D').button("toggle");
+          $('#toggle-2D').button("toggle");
         }
           
         if (!display2D) {
@@ -194,15 +205,15 @@
         
         display2D.start();   
         $(display2D.getCanvas()).animate({opacity: 1.0}, 1000, 'linear');
-        $('#toggle-2D').addClass("active");         
       }
       
       function load3D() {
-        if (webGLSupported) {
+        if (BrowserDetect.webglRenderingSupported) {
           if (display2D && display2D.isRunning()){
             $(display2D.getCanvas()).animate({opacity: 0.0}, 1000, 'linear'); 
             display2D.stop();
-            $('#toggle-2D').removeClass("active");
+            $('#toggle-3D').button("toggle");
+            $('#toggle-2D').button("toggle");
           }
             
           if (!display3D) {
@@ -211,11 +222,9 @@
           }
           
           display3D.start();  
-          $(display3D.getCanvas()).animate({opacity: 1.0}, 1000, 'linear');
-          //$('#toggle-3D').addClass("active"); 
-        } else {
-          //$('#toggle-3D').popover("toggle");
-        }        
+          $(display3D.getCanvas()).animate({opacity: 1.0}, 1000, 'linear');         
+            
+        }   
       }
       
       function loadTimeline() {
@@ -302,7 +311,7 @@
               <li class=""><a class="smooth" href="#contact"><i class="<?php locale("iconContact")?>"></i> <?php locale("buttonContact")?></a></li>
             </ul>
           </div>
-          <!--<div class="nav-collapse collapse">
+          <!-- <div class="nav-collapse collapse">
             <ul class="nav pull-right">
               <li class="dropdown" id="fat-menu">
                 <a data-toggle="dropdown" class="dropdown-toggle" role="button" id="language-drop" href="#"><i class="icon-comment-alt"></i> Language <b class="caret"></b></a>
@@ -312,7 +321,7 @@
                 </ul>
               </li>
             </ul>
-          </div>-->
+          </div> -->
         </div>
       </div>
     </div>
@@ -320,16 +329,16 @@
     <div class="container" id="home">
     
       <div class="hero-unit">       
-        <div id="container"></div>
+        <div id="container"> </div>
         
-        <!---------------------- little logo -------------------------->
+        <!-- little logo -->
         <div class="bottom-left-logo" id="logo-normal" style="visibility:hidden"></div>
         
-        <!----------------------- gl header --------------------------->
+        <!-- gl header -->
         <div id="gl-header" style="visibility:hidden">
           
           
-          <!----------------------- timeline ------------------------>
+          <!-- timeline -->
           <div id="tlContainer">
             
             <div id="tlMenuLeft"  class="gradient-timeline-menu">
@@ -344,7 +353,7 @@
   
              <div id="tlMenuRight"  class="gradient-timeline-menu">
               <div class="btn-toolbar header-button-bottom tlMenu">
-                <div class="btn-group" data-toggle="buttons-radio">
+                <div class="btn-group">
                   <a id="toggle-2D" class="btn active" onClick="load2D()">2D</a>
                   <a id="toggle-3D" class="btn" onClick="load3D()">3D</a>
                 </div>
@@ -390,12 +399,12 @@
           </div>
         </div>
         
-        <!------------------------ video ------------------------------>
+        <!-- video -->
         <div id="video-header" 
            style="display:none; position:absolute; width: 100%; height: 100%;">
            
           <iframe id="ytplayer" type="text/html" width="100%" height="100%"
-            src="http://www.youtube.com/embed/pbEm_v7p0kw?modestbranding=1&showinfo=0&autohide=1&color=white&theme=light&wmode=transparent&rel=0"
+            src="http://www.youtube.com/embed/pbEm_v7p0kw?modestbranding=1&amp;showinfo=0&amp;autohide=1&amp;color=white&amp;theme=light&amp;wmode=transparent&amp;rel=0"
             frameborder="0" yt:quality=high allowfullscreen>
           </iframe>
           
@@ -404,7 +413,7 @@
         
         <div class="banner" style="visibility:hidden"></div>
         
-        <!------------------- Video / Prototype buttons -----------------------> 
+        <!-- Video / Prototype buttons --> 
         <p class="header-button-top">
           <a id="demo-link"  
              data-placement="bottom" 
@@ -441,11 +450,11 @@
           <p><i class="icon-warning-sign pull-left" style="font-size:200%; padding-top:5px"></i>  <?php locale("not_ready")?></p>
         </div>
       </div>
-     <!--
+     <!-- 
      <div class="alert alert-histoglobe">
       <button type="button" class="close" data-dismiss="alert">&times;</button>
       <i class="icon-warning-sign pull-left" style="font-size:200%"></i><?php locale("not_ready")?>
-    </div>
+     </div>
      -->
      
       <div class="row">
@@ -459,7 +468,7 @@
         </div>
       </div> 
       
-<!--
+<!-- 
       <div class="row">
         <div class="span4">
           <div class="gradient-down summary">
@@ -486,7 +495,7 @@
         </div>
       </div>
     </div>
--->
+ -->
     <div class="container" id="details">
       <div class="details gradient-up">
           <i class="<?php locale("icon_1")?> pull-left icon-feature"></i> 
@@ -545,7 +554,7 @@
           </div> 
         </div> 
       </div> 
-
+    </div>
     </div>
   </body>
 </html>

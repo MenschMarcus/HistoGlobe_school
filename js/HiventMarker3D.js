@@ -1,8 +1,11 @@
 var HG = HG || {};
 
-HG.hiventMarkerGeometry = new THREE.SphereGeometry(1, 10, 10);
+HG.hiventMarkerGeometry = 0; 
 
 HG.HiventMarker3D = function(inHivent) {
+    
+  if (HG.hiventMarkerGeometry == 0)
+    HG.hiventMarkerGeometry = new THREE.SphereGeometry(1, 10, 10);  
     
   var hiventDefaultColor = new THREE.Vector3(0.2, 0.2, 0.4);
   var hiventHighlightColor = new THREE.Vector3(1.0, 0.5, 0.0);
@@ -50,6 +53,7 @@ HG.HiventMarker3D = function(inHivent) {
   this.onUnHover(function(mousePos){
     uniforms['color'].value = hiventDefaultColor;
   });
+  
   
   return this;
 
