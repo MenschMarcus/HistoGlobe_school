@@ -4,6 +4,7 @@ HG.Display2D = function(container, inMap) {
 
   var canvas;
   var canvasOffsetX, canvasOffsetY;
+  var canvasVisibleSize = {x: 0, y: 0};
 
   var map = inMap;
   
@@ -43,14 +44,18 @@ HG.Display2D = function(container, inMap) {
   function init() {
 
     canvas = document.createElement("canvas");
-    updateCanvasSize();
-    
-    $(canvas).offset({ top:0, left:0});
-    
+
     canvas.style.position = "absolute";
     
     canvasOffsetX = $(container.parentNode).offset().left;
     canvasOffsetY = $(container.parentNode).offset().top;	
+    
+    canvasVisibleSize.x = $(container.parentNode).width();
+    canvasVisibleSize.y = $(container.parentNode).height();
+    
+    
+    clampCanvas();
+    updateCanvasSize();
 
     container.appendChild(canvas);
     
@@ -110,10 +115,6 @@ HG.Display2D = function(container, inMap) {
 
         mouse.x = event.clientX;
         mouse.y = event.clientY;
-        
-        var longlat = mouseToLongLat(mouse);
-        
-        console.log("long: " + longlat.x + " lat: " + longlat.y);
 
         container.style.cursor = 'move';
     }
@@ -125,9 +126,31 @@ HG.Display2D = function(container, inMap) {
         curOffset.x -= mouse.x - event.clientX;
         curOffset.y -= mouse.y - event.clientY;
         
+        clampCanvas();
+        
         mouse.x = event.clientX;
         mouse.y = event.clientY;
     }
+  }
+  
+  function clampCanvas() {
+    
+    var maxZoom = 1.5;
+    var minZoom = Math.max(canvasVisibleSize.x / map.getResolution().x, canvasVisibleSize.y / map.getResolution().y);
+    
+    var maxOffsetY = 0
+    var maxOffsetX = 0
+
+    var minOffsetY = canvasVisibleSize.y - canvas.height;
+    var minOffsetX = canvasVisibleSize.x - canvas.width;
+    
+    if (curZoom < minZoom) curZoom = minZoom;
+    if (curZoom > maxZoom) curZoom = maxZoom;
+    
+    curZoom = Math.min(maxZoom, Math.max(minZoom, curZoom));
+    
+    curOffset.x = Math.min(maxOffsetX, Math.max(minOffsetX, curOffset.x));
+    curOffset.y = Math.min(maxOffsetY, Math.max(minOffsetY, curOffset.y));
   }
 
   function onMouseUp(event) {
@@ -160,11 +183,11 @@ HG.Display2D = function(container, inMap) {
     if (running) { 
       switch (event.keyCode) {
         case 38:
-          zoom(100);
+          zoom(0.001);
           event.preventDefault();
           break;
         case 40:
-          zoom(-100);
+          zoom(-0.001);
           event.preventDefault();
           break;
       }
@@ -174,12 +197,19 @@ HG.Display2D = function(container, inMap) {
   function onWindowResize( event ) {
     canvasOffsetX = $(container.parentNode).offset().left;
     canvasOffsetY = $(container.parentNode).offset().top;	
+    
+    canvasVisibleSize.x = $(container.parentNode).width();
+    canvasVisibleSize.y = $(container.parentNode).height();
+    
+    clampCanvas();
+    updateCanvasSize();
+    redraw();
   }
 
   function zoom(delta) {
     curZoom += delta;
-    console.log('zoom: ' + curZoom);
     
+    clampCanvas();
     updateCanvasSize();
     redraw();
   }
@@ -200,12 +230,8 @@ HG.Display2D = function(container, inMap) {
   }
 
   function render() {
-    
-
-    //console.log(curOffset);
     canvas.style.top= curOffset.y + "px";
     canvas.style.left = curOffset.x + "px";
-
   }
 
   init();
