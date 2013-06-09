@@ -43,8 +43,7 @@ HG.Display2D = function(container, inMap) {
   function init() {
 
     canvas = document.createElement("canvas");
-    canvas.width = 1024*2;
-    canvas.height = 1024;
+    updateCanvasSize();
     
     $(canvas).offset({ top:0, left:0});
     
@@ -90,9 +89,15 @@ HG.Display2D = function(container, inMap) {
   function redraw() {
     var destinationCtx = canvas.getContext("2d");
     destinationCtx.save();
+    destinationCtx.clearRect ( 0 , 0 , canvas.width , canvas.height );
     destinationCtx.scale(curZoom, curZoom);
     destinationCtx.drawImage(map.getCanvas(),0,0);
     destinationCtx.restore();
+  }
+  
+  function updateCanvasSize() {
+    canvas.width = curZoom * map.getResolution().x;
+    canvas.height = curZoom * map.getResolution().y;
   }
 
   function onMouseDown(event) {
@@ -174,6 +179,8 @@ HG.Display2D = function(container, inMap) {
   function zoom(delta) {
     curZoom += delta;
     console.log('zoom: ' + curZoom);
+    
+    updateCanvasSize();
     redraw();
   }
   
