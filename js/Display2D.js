@@ -16,7 +16,9 @@ HG.Display2D = function(container, inMap) {
   
   // cursor position in pixels
   var mouse = { x: 0, y: 0 };
-
+  var drag = false;
+  var maxZoom = 1.5;
+  var minZoom = 0.1;
   
   var running = false;
   
@@ -53,6 +55,7 @@ HG.Display2D = function(container, inMap) {
     canvasVisibleSize.x = $(container.parentNode).width();
     canvasVisibleSize.y = $(container.parentNode).height();
     
+    minZoom = Math.max(canvasVisibleSize.x / map.getResolution().x, canvasVisibleSize.y / map.getResolution().y);
     
     clampCanvas();
     updateCanvasSize();
@@ -77,6 +80,7 @@ HG.Display2D = function(container, inMap) {
                                 
     document.addEventListener('keydown', onDocumentKeyDown, false);
     window.addEventListener('resize', onWindowResize, false);
+    container.addEventListener('mousemove', onMouseMove, false);
 
     container.addEventListener('mouseover', function() {
       overRenderer = true;
@@ -108,8 +112,9 @@ HG.Display2D = function(container, inMap) {
   function onMouseDown(event) {
     if (running) { 
         event.preventDefault();
+        
+        drag = true;
 
-        container.addEventListener('mousemove', onMouseMove, false);
         container.addEventListener('mouseup', onMouseUp, false);
         container.addEventListener('mouseout', onMouseOut, false);
 
@@ -122,21 +127,19 @@ HG.Display2D = function(container, inMap) {
 
   function onMouseMove(event) {
     if (running) {
+      if (drag) {
         
         curOffset.x -= mouse.x - event.clientX;
         curOffset.y -= mouse.y - event.clientY;
         
         clampCanvas();
-        
-        mouse.x = event.clientX;
-        mouse.y = event.clientY;
+      }
     }
+    mouse.x = event.clientX;
+    mouse.y = event.clientY;
   }
   
   function clampCanvas() {
-    
-    var maxZoom = 1.5;
-    var minZoom = Math.max(canvasVisibleSize.x / map.getResolution().x, canvasVisibleSize.y / map.getResolution().y);
     
     var maxOffsetY = 0
     var maxOffsetX = 0
@@ -155,7 +158,7 @@ HG.Display2D = function(container, inMap) {
 
   function onMouseUp(event) {
     if (running) { 
-      container.removeEventListener('mousemove', onMouseMove, false);
+      drag = false;
       container.removeEventListener('mouseup', onMouseUp, false);
       container.removeEventListener('mouseout', onMouseOut, false);
       container.style.cursor = 'auto';
@@ -164,7 +167,7 @@ HG.Display2D = function(container, inMap) {
 
   function onMouseOut(event) {
     if (running) { 
-      container.removeEventListener('mousemove', onMouseMove, false);
+      drag = false;
       container.removeEventListener('mouseup', onMouseUp, false);
       container.removeEventListener('mouseout', onMouseOut, false);
     }
@@ -173,7 +176,7 @@ HG.Display2D = function(container, inMap) {
   function onMouseWheel(delta) {
     if (running) { 
       if (overRenderer) {
-        zoom(delta * 0.0001);
+        zoom(delta * 0.0005);
       }
     }
     return false;
@@ -183,11 +186,11 @@ HG.Display2D = function(container, inMap) {
     if (running) { 
       switch (event.keyCode) {
         case 38:
-          zoom(0.001);
+          zoom(0.05);
           event.preventDefault();
           break;
         case 40:
-          zoom(-0.001);
+          zoom(-0.05);
           event.preventDefault();
           break;
       }
@@ -201,6 +204,8 @@ HG.Display2D = function(container, inMap) {
     canvasVisibleSize.x = $(container.parentNode).width();
     canvasVisibleSize.y = $(container.parentNode).height();
     
+    minZoom = Math.max(canvasVisibleSize.x / map.getResolution().x, canvasVisibleSize.y / map.getResolution().y);
+    
     clampCanvas();
     updateCanvasSize();
     redraw();
@@ -208,6 +213,13 @@ HG.Display2D = function(container, inMap) {
 
   function zoom(delta) {
     curZoom += delta;
+    
+    if (curZoom < maxZoom && curZoom > minZoom) {
+      curOffset.x -= delta * 0.5 * map.getResolution().x * ( (mouse.x - curOffset.x)/canvas.width );
+      curOffset.y -= delta * 0.5 * map.getResolution().y * ( (mouse.y - curOffset.y)/canvas.height );
+      canvas.style.top= curOffset.y + "px";
+      canvas.style.left = curOffset.x + "px";
+    }
     
     clampCanvas();
     updateCanvasSize();
