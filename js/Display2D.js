@@ -12,6 +12,8 @@ HG.Display2D = function(container, inMap) {
 
   var map = inMap;
   
+  var hiventMarkers = [];
+  
   // describes degree / pixel
   var curZoom = 360/map.getResolution().x;
   
@@ -105,7 +107,7 @@ HG.Display2D = function(container, inMap) {
       overRenderer = false;
     }, false);
     
-    //initHivents();
+    initHivents();
     
     redraw();
   }
@@ -235,13 +237,24 @@ HG.Display2D = function(container, inMap) {
   }
 
   function zoom(delta) {
-    curZoom += delta;
-    
-    if (curZoom < maxZoom && curZoom > minZoom) {
+  
+    var newZoom = curZoom + delta;
+    if (newZoom <= maxZoom && newZoom >= minZoom) {
+      curZoom = newZoom;
+
       curOffset.x -= delta * 0.5 * map.getResolution().x * ( (mouse.x - curOffset.x)/canvas.width );
       curOffset.y -= delta * 0.5 * map.getResolution().y * ( (mouse.y - curOffset.y)/canvas.height );
       canvas.style.top= curOffset.y + "px";
       canvas.style.left = curOffset.x + "px";
+    }
+    
+    for (var i = 0; i < hiventMarkers.length; i++) {
+      var oldPos = hiventMarkers[i].getPosition();
+      var newPos = {
+        x: Math.floor(oldPos.x / canvas.width * curZoom * map.getResolution().x),
+        y: Math.floor(oldPos.y / canvas.height * curZoom * map.getResolution().y)
+      }
+      hiventMarkers[i].setPosition(newPos);
     }
     
     clampCanvas();
@@ -281,8 +294,11 @@ HG.Display2D = function(container, inMap) {
       for (var i=0; i<hivents.length; i++) {
         
         var pos = longLatToCanvasCoord({x: hivents[i].long, y: hivents[i].lat});  
-        console.log(pos) 
-        var hivent = new HG.HiventMarker2D(hivents[i], canvasParent, pos.x, pos.y);
+        var hivent = new HG.HiventMarker2D(hivents[i], canvasParent, 
+                                           pos.x, pos.y,
+                                           canvasOffsetX + curOffset.x,
+                                           canvasOffsetY + curOffset.y);
+        hiventMarkers.push(hivent);
       }
     });
   }
@@ -300,6 +316,11 @@ HG.Display2D = function(container, inMap) {
     //console.log(curOffset);
     canvasParent.style.top= curOffset.y + "px";
     canvasParent.style.left = curOffset.x + "px";
+    
+    for (var i = 0; i < hiventMarkers.length; i++) {
+      hiventMarkers[i].setOffset({x: curOffset.x + canvasOffsetX,
+                                  y: curOffset.y + canvasOffsetY });
+    }
 
   }
 

@@ -56,6 +56,7 @@
     <script type="text/javascript" src="js/Hivent.js"></script>
     <script type="text/javascript" src="js/HiventHandler.js"></script>
     <script type="text/javascript" src="js/HiventMarker.js"></script>
+    <script type="text/javascript" src="js/HiventMarker2D.js"></script>
     <script type="text/javascript" src="js/HiventMarker3D.js"></script>
     <script type="text/javascript" src="js/VideoPlayer.js"></script>
     <script type="text/javascript" src="js/BrowserDetect.js"></script>
