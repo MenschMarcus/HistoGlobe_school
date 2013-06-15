@@ -48,11 +48,11 @@ HG.HiventMarker3D = function(inHivent) {
   HG.HiventMarker.call(this, inHivent)
   THREE.Mesh.call(this, HG.hiventMarkerGeometry, material);
 
-  this.onHover(function(mousePos){
+  this.getHiventHandle().onHover(function(mousePos){
     uniforms['color'].value = hiventHighlightColor;
   });
   
-  this.onUnHover(function(mousePos){
+  this.getHiventHandle().onUnHover(function(mousePos){
     uniforms['color'].value = hiventDefaultColor;
   });
   

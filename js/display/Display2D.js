@@ -5,6 +5,8 @@ var HG = HG || {};
 
 HG.Display2D = function(container, inMap) {
 
+  var self = this;
+
   var canvas;
   var canvasParent;
   var canvasOffsetX, canvasOffsetY;
@@ -245,8 +247,8 @@ HG.Display2D = function(container, inMap) {
     
     for (var i = 0; i < hiventMarkers.length; i++) {
       var longlat = {
-        x: hiventMarkers[i].getHivent().long,
-        y: hiventMarkers[i].getHivent().lat
+        x: hiventMarkers[i].getHiventHandle().getHivent().long,
+        y: hiventMarkers[i].getHiventHandle().getHivent().lat
       };
   
       hiventMarkers[i].setPosition(longLatToCanvasCoord(longlat));
@@ -279,17 +281,15 @@ HG.Display2D = function(container, inMap) {
   }
 
   function initHivents() {
+          
+    hiventHandler.onHiventsLoaded(function(handles){
       
-    var hivents;
-    
-    hiventHandler.onHiventsLoaded(function(h){
-
-      hivents = h;
-      
-      for (var i=0; i<hivents.length; i++) {
+      for (var i=0; i<handles.length; i++) {
         
-        var pos = longLatToCanvasCoord({x: hivents[i].long, y: hivents[i].lat});  
-        var hivent = new HG.HiventMarker2D(hivents[i], canvasParent, 
+        var hivent = handles[i].getHivent();
+                
+        var pos = longLatToCanvasCoord({x: hivent.long, y: hivent.lat});  
+        var hivent = new HG.HiventMarker2D(handles[i], canvasParent, 
                                            pos.x, pos.y,
                                            canvasOffsetX + curOffset.x,
                                            canvasOffsetY + curOffset.y);
@@ -317,9 +317,12 @@ HG.Display2D = function(container, inMap) {
 
   }
 
+  HG.Display.call(this);
   init();
 
   return this;
 
 };
+
+HG.Display2D.prototype = Object.create(HG.Display.prototype);
 

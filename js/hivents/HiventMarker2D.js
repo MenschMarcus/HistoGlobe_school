@@ -71,11 +71,11 @@ HG.HiventMarker2D = function(inHivent, parent, posX, posY, offX, offY) {
     }
   }
   
-  this.onHover(function(mousePos){
+  this.getHiventHandle().onHover(function(mousePos){
     div.style.backgroundColor = hiventHighlightColor;
   });
   
-  this.onUnHover(function(mousePos){
+  this.getHiventHandle().onUnHover(function(mousePos){
     div.style.backgroundColor = hiventDefaultColor;
   });
 

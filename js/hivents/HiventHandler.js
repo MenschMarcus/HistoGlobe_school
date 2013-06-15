@@ -1,10 +1,11 @@
 //include Hivent.js
+//include HiventHandle.js
 
 var HG = HG || {};
 
 HG.HiventHandler = function() {
   
-  var hivents = [];
+  var hiventHandles = [];
   var hiventsLoaded = false;
   var onHiventsLoadedCallbacks = [];
   
@@ -21,17 +22,17 @@ HG.HiventHandler = function() {
           h[i].description,
           h[i].parties
         );
-        hivents.push(hivent);
+        hiventHandles.push(new HG.HiventHandle(hivent));
       }
       hiventsLoaded = true;
       for (var i=0; i < onHiventsLoadedCallbacks.length; i++)
-        onHiventsLoadedCallbacks[i](hivents);
+        onHiventsLoadedCallbacks[i](hiventHandles);
     }); 
 
   }
   
-  this.getAllHivents = function() {
-    return hivents;
+  this.getAllHiventHandles = function() {
+    return hiventHandles;
   }
   
   this.onHiventsLoaded = function(callbackFunc) {
@@ -39,7 +40,7 @@ HG.HiventHandler = function() {
       if (!hiventsLoaded)
         onHiventsLoadedCallbacks.push(callbackFunc);
       else
-        callbackFunc(hivents);
+        callbackFunc(hiventHandles);
     }
   }
   

@@ -49,15 +49,18 @@
     <script type="text/javascript" src="js/third-party/Tween.js"></script>
     <script type="text/javascript" src="js/third-party/paper.js"></script>
     
+    <script type="text/javascript" src="js/display/Display.js"></script>
     <script type="text/javascript" src="js/display/Display2D.js"></script>
     <script type="text/javascript" src="js/display/Display3D.js"></script>
     <script type="text/javascript" src="js/map/Map.js"></script>
     <script type="text/javascript" src="js/timeline/Timeline.js"></script>
     <script type="text/javascript" src="js/hivents/Hivent.js"></script>
+    <script type="text/javascript" src="js/hivents/HiventHandle.js"></script>
     <script type="text/javascript" src="js/hivents/HiventHandler.js"></script>
     <script type="text/javascript" src="js/hivents/HiventMarker.js"></script>
     <script type="text/javascript" src="js/hivents/HiventMarker2D.js"></script>
     <script type="text/javascript" src="js/hivents/HiventMarker3D.js"></script>
+    <script type="text/javascript" src="js/hivents/HiventMarkerTimeline.js"></script>
     <script type="text/javascript" src="js/util/VideoPlayer.js"></script>
     <script type="text/javascript" src="js/util/BrowserDetect.js"></script>
          
