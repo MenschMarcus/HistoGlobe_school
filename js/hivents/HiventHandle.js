@@ -14,8 +14,8 @@ HG.HiventHandle = function(inHivent) {
   var onInActiveCallbacks = [];
   var onHoverCallbacks = [];
   var onUnHoverCallbacks = [];
-  var onFocusCallbacs = [];
-  var onUnFocusCallbacs = [];
+  var onFocusCallbacks = [];
+  var onUnFocusCallbacks = [];
   
   this.getHivent = function() {
     return inHivent;
