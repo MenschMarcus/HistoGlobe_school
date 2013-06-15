@@ -43,7 +43,7 @@ HG.HiventMarker3D = function(inHivent) {
     vertexShader: shader.vertexShader,
     fragmentShader: shader.fragmentShader,
     uniforms: uniforms
-   });
+  });
    
   HG.HiventMarker.call(this, inHivent)
   THREE.Mesh.call(this, HG.hiventMarkerGeometry, material);
