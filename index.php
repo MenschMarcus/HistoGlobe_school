@@ -44,22 +44,22 @@
     <script type="text/javascript" src="js/third-party/jquery.mousewheel.js"></script>
     <script type="text/javascript" src="js/third-party/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/third-party/hammer.min.js"></script>
-
     <script type="text/javascript" src="js/third-party/RequestAnimationFrame.js"></script>
     <script type="text/javascript" src="js/third-party/three.min.js"></script>
     <script type="text/javascript" src="js/third-party/Tween.js"></script>
     <script type="text/javascript" src="js/third-party/paper.js"></script>
-    <script type="text/javascript" src="js/Display2D.js"></script>
-    <script type="text/javascript" src="js/Display3D.js"></script>
-    <script type="text/javascript" src="js/Map.js"></script>
-    <script type="text/javascript" src="js/Timeline.js"></script>
-    <script type="text/javascript" src="js/Hivent.js"></script>
-    <script type="text/javascript" src="js/HiventHandler.js"></script>
-    <script type="text/javascript" src="js/HiventMarker.js"></script>
-    <script type="text/javascript" src="js/HiventMarker2D.js"></script>
-    <script type="text/javascript" src="js/HiventMarker3D.js"></script>
-    <script type="text/javascript" src="js/VideoPlayer.js"></script>
-    <script type="text/javascript" src="js/BrowserDetect.js"></script>
+    
+    <script type="text/javascript" src="js/display/Display2D.js"></script>
+    <script type="text/javascript" src="js/display/Display3D.js"></script>
+    <script type="text/javascript" src="js/map/Map.js"></script>
+    <script type="text/javascript" src="js/timeline/Timeline.js"></script>
+    <script type="text/javascript" src="js/hivents/Hivent.js"></script>
+    <script type="text/javascript" src="js/hivents/HiventHandler.js"></script>
+    <script type="text/javascript" src="js/hivents/HiventMarker.js"></script>
+    <script type="text/javascript" src="js/hivents/HiventMarker2D.js"></script>
+    <script type="text/javascript" src="js/hivents/HiventMarker3D.js"></script>
+    <script type="text/javascript" src="js/util/VideoPlayer.js"></script>
+    <script type="text/javascript" src="js/util/BrowserDetect.js"></script>
          
     <script type="text/javascript">
       var display2D, display3D, map, timeline, hiventHandler;
