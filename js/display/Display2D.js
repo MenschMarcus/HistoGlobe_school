@@ -15,10 +15,12 @@ HG.Display2D = function(container, inMap) {
   var hiventMarkers = [];
   
   // describes degree / pixel
-  var curZoom = 360/map.getResolution().x;
+  var myCurrentZoom = 360/map.getResolution().x + 0.1;
+  var myTargetZoom = 360/map.getResolution().x;
   
   // upper left pixel coordinates
-  var curOffset = {x: 0, y: 0};
+  var myCurrentOffset = {x: 0, y: 0};
+  var myTargetOffset = {x: 0, y: 0};
   
   // cursor position in pixels
   var mouse = { x: 0, y: 0 };
@@ -116,14 +118,14 @@ HG.Display2D = function(container, inMap) {
     var destinationCtx = canvas.getContext("2d");
     destinationCtx.save();
     destinationCtx.clearRect ( 0 , 0 , canvas.width , canvas.height );
-    destinationCtx.scale(curZoom, curZoom);
+    destinationCtx.scale(myCurrentZoom, myCurrentZoom);
     destinationCtx.drawImage(map.getCanvas(),0,0);
     destinationCtx.restore();
   }
   
   function updateCanvasSize() {
-    canvas.width = curZoom * map.getResolution().x;
-    canvas.height = curZoom * map.getResolution().y;
+    canvas.width = myCurrentZoom * map.getResolution().x;
+    canvas.height = myCurrentZoom * map.getResolution().y;
   }
 
   function onMouseDown(event) {
@@ -146,8 +148,8 @@ HG.Display2D = function(container, inMap) {
     if (running) {
       if (drag) {
         
-        curOffset.x -= mouse.x - event.clientX;
-        curOffset.y -= mouse.y - event.clientY;
+        myTargetOffset.x -= mouse.x - event.clientX;
+        myTargetOffset.y -= mouse.y - event.clientY;
         
         clampCanvas();
       }
@@ -164,13 +166,13 @@ HG.Display2D = function(container, inMap) {
     var minOffsetY = canvasVisibleSize.y - canvas.height;
     var minOffsetX = canvasVisibleSize.x - canvas.width;
     
-    if (curZoom < minZoom) curZoom = minZoom;
-    if (curZoom > maxZoom) curZoom = maxZoom;
+    if (myTargetZoom < minZoom) myTargetZoom = minZoom;
+    if (myTargetZoom > maxZoom) myTargetZoom = maxZoom;
     
-    curZoom = Math.min(maxZoom, Math.max(minZoom, curZoom));
+    myCurrentZoom = Math.min(maxZoom, Math.max(minZoom, myCurrentZoom));
     
-    curOffset.x = Math.min(maxOffsetX, Math.max(minOffsetX, curOffset.x));
-    curOffset.y = Math.min(maxOffsetY, Math.max(minOffsetY, curOffset.y));
+    myCurrentOffset.x = Math.min(maxOffsetX, Math.max(minOffsetX, myCurrentOffset.x));
+    myCurrentOffset.y = Math.min(maxOffsetY, Math.max(minOffsetY, myCurrentOffset.y));
   }
 
   function onMouseUp(event) {
@@ -233,48 +235,59 @@ HG.Display2D = function(container, inMap) {
 
   function zoom(delta) {
   
-    var newZoom = curZoom + delta;
-    if (newZoom <= maxZoom && newZoom >= minZoom) {
-      curZoom = newZoom;
-
-      curOffset.x -= delta * 0.5 * map.getResolution().x * ( (mouse.x - curOffset.x)/canvas.width );
-      curOffset.y -= delta * 0.5 * map.getResolution().y * ( (mouse.y - curOffset.y)/canvas.height );
-      canvas.style.top= curOffset.y + "px";
-      canvas.style.left = curOffset.x + "px";
-    }
-    
-    for (var i = 0; i < hiventMarkers.length; i++) {
-      var longlat = {
-        x: hiventMarkers[i].getHivent().long,
-        y: hiventMarkers[i].getHivent().lat
-      };
-  
-      hiventMarkers[i].setPosition(longLatToCanvasCoord(longlat));
-    }
-    
+    myTargetZoom += delta;
     clampCanvas();
-    updateCanvasSize();
-    redraw();
+  }
+  
+  function updateZoom() {
+    
+    if (myCurrentZoom != myTargetZoom) {
+      if (Math.abs(myCurrentZoom - myTargetZoom) < 0.01) {
+        myCurrentZoom = myTargetZoom
+      }
+      
+      var smoothness = 0.3;
+      myCurrentZoom = myTargetZoom * smoothness + myCurrentZoom * (1.0 - smoothness);
+    
+  //      myTargetOffset.x -= delta * 0.5 * map.getResolution().x * ( (mouse.x - myTargetOffset.x)/canvas.width );
+  //      myTargetOffset.y -= delta * 0.5 * map.getResolution().y * ( (mouse.y - myTargetOffset.y)/canvas.height );
+  //      canvas.style.top= myTargetOffset.y + "px";
+  //      canvas.style.left = myTargetOffset.x + "px";
+      
+      
+      for (var i = 0; i < hiventMarkers.length; i++) {
+        var longlat = {
+          x: hiventMarkers[i].getHivent().long,
+          y: hiventMarkers[i].getHivent().lat
+        };
+    
+        hiventMarkers[i].setPosition(longLatToCanvasCoord(longlat));
+      }
+      
+      clampCanvas();
+      updateCanvasSize();
+      redraw();
+    }
   }
   
   function mouseToLongLat(mousePos) {
 	  return {
-	    x: (mousePos.x - canvasOffsetX - curOffset.x) / (curZoom * map.getResolution().x) *  360 - 180,
-      y: (mousePos.y - canvasOffsetY - curOffset.y) / (curZoom * map.getResolution().y) * -180 + 90
+	    x: (mousePos.x - canvasOffsetX - myCurrentOffset.x) / (myCurrentZoom * map.getResolution().x) *  360 - 180,
+      y: (mousePos.y - canvasOffsetY - myCurrentOffset.y) / (myCurrentZoom * map.getResolution().y) * -180 + 90
 	  };
   }
   
   function longLatToPixel(longlat) {
     return {
-      x: ((longlat.x + 180) /  360) * curZoom * map.getResolution().x  + curOffset.x + canvasOffsetX,
-      y: ((longlat.y -  90) / -180) * curZoom * map.getResolution().y  + curOffset.y + canvasOffsetY
+      x: ((longlat.x + 180) /  360) * myCurrentZoom * map.getResolution().x  + myCurrentOffset.x + canvasOffsetX,
+      y: ((longlat.y -  90) / -180) * myCurrentZoom * map.getResolution().y  + myCurrentOffset.y + canvasOffsetY
     };
   }
 
   function longLatToCanvasCoord(longlat) {
     return {
-      x: ((-longlat.x + 180) /  360) * curZoom * map.getResolution().x,
-      y: ((longlat.y -  90) / -180) * curZoom * map.getResolution().y
+      x: ((-longlat.x + 180) /  360) * myCurrentZoom * map.getResolution().x,
+      y: ((longlat.y -  90) / -180) * myCurrentZoom * map.getResolution().y
     };
   }
 
@@ -291,8 +304,8 @@ HG.Display2D = function(container, inMap) {
         var pos = longLatToCanvasCoord({x: hivents[i].long, y: hivents[i].lat});  
         var hivent = new HG.HiventMarker2D(hivents[i], canvasParent, 
                                            pos.x, pos.y,
-                                           canvasOffsetX + curOffset.x,
-                                           canvasOffsetY + curOffset.y);
+                                           canvasOffsetX + myCurrentOffset.x,
+                                           canvasOffsetY + myCurrentOffset.y);
         hiventMarkers.push(hivent);
       }
     });
@@ -306,13 +319,22 @@ HG.Display2D = function(container, inMap) {
   }
 
   function render() { 
+    
+    var smoothness = 0.7;
+    
+    myCurrentOffset.x = myCurrentOffset.x * smoothness + myTargetOffset.x * (1.0 - smoothness);
+    myCurrentOffset.y = myCurrentOffset.y * smoothness + myTargetOffset.y * (1.0 - smoothness);
+    
+    updateZoom();
+    
+    clampCanvas();
 
-    canvasParent.style.top= curOffset.y + "px";
-    canvasParent.style.left = curOffset.x + "px";
+    canvasParent.style.top= myCurrentOffset.y + "px";
+    canvasParent.style.left = myCurrentOffset.x + "px";
     
     for (var i = 0; i < hiventMarkers.length; i++) {
-      hiventMarkers[i].setOffset({x: curOffset.x + canvasOffsetX,
-                                  y: curOffset.y + canvasOffsetY });
+      hiventMarkers[i].setOffset({x: myCurrentOffset.x + canvasOffsetX,
+                                  y: myCurrentOffset.y + canvasOffsetY });
     }
 
   }
