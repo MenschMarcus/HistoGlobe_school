@@ -4,7 +4,7 @@ var HG = HG || {};
 
 HG.hiventMarkerGeometry = 0; 
 
-HG.HiventMarker3D = function(inHivent) {
+HG.HiventMarker3D = function(inHivent, inDisplay) {
     
   if (HG.hiventMarkerGeometry == 0)
     HG.hiventMarkerGeometry = new THREE.SphereGeometry(1, 10, 10);  
@@ -47,6 +47,10 @@ HG.HiventMarker3D = function(inHivent) {
    
   HG.HiventMarker.call(this, inHivent)
   THREE.Mesh.call(this, HG.hiventMarkerGeometry, material);
+
+  this.getHiventHandle().onFocus( function(mousePos) {
+    display.focus(this.getHiventHandle().getHivent());
+  });
 
   this.getHiventHandle().onHover(function(mousePos){
     uniforms['color'].value = hiventHighlightColor;

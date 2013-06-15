@@ -130,11 +130,19 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
     return myRenderer.domElement;
   }
   
+  // ===========================================================================
+  this.center = function(longLat) {
+    myTargetCameraPos.x = longLat.x;
+    myTargetCameraPos.y = longLat.y;
+  } 
+  
   //////////////////////////////////////////////////////////////////////////////
   //                         PRIVATE INTERFACE                                //
   //////////////////////////////////////////////////////////////////////////////
   
   /////////////////////////// MEMBER VARIABLES /////////////////////////////////
+  
+  var mySelf = this;
   
   // THREE js
   var myCamera, myRenderer;
@@ -255,7 +263,7 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
       
       for (var i=0; i<hivents.length; i++) {
               
-        var hivent = new HG.HiventMarker3D(hivents[i]);
+        var hivent = new HG.HiventMarker3D(hivents[i], mySelf);
         mySceneGlobe.add(hivent);
         
         var position = longLatToCart(new THREE.Vector2(hivents[i].long, hivents[i].lat), HG.Display3D.EARTH_RADIUS);
@@ -314,8 +322,6 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
         intersects[i].object.hover(mouse);
       }
     }
-    
-    //myCamera.updateProjectionMatrix();
     
     // globe rotation ----------------------------------------------------------
     
