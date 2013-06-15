@@ -2,11 +2,11 @@
 
 var HG = HG || {};
 
-HG.hiventMarker2DCount = 0;
+HG.hiventMarkerTimelineCount = 0;
 
 HG.visibleMarkers2D = [];
 
-HG.HiventMarker2D = function(inHivent, parent, posX, posY, offX, offY) {
+HG.HiventMarkerTimeline = function(inHivent, parent, posX, posY, offX, offY) {
        
   HG.HiventMarker.call(this, inHivent)
 
@@ -31,7 +31,7 @@ HG.HiventMarker2D = function(inHivent, parent, posX, posY, offX, offY) {
   div.style.borderRadius = radius + "px";
   div.style.backgroundColor = hiventDefaultColor;
   setDivPos(position);
-
+  
   parent.appendChild(div);
   
   div.onmouseover = function (e) {
@@ -57,7 +57,7 @@ HG.HiventMarker2D = function(inHivent, parent, posX, posY, offX, offY) {
   
   HG.visibleMarkers2D.push(this);
   
-  HG.hiventMarker2DCount++;
+  HG.hiventMarkerTimelineCount++;
   
   function setDivPos(pos) {
     div.style.left = pos.x +"px";
