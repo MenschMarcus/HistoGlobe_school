@@ -12,6 +12,7 @@ HG.HiventMarker = function(inHiventHandle) {
   
   this.active = function(mousePixelPosition) {
     inHiventHandle.active(mousePixelPosition);
+    this.focus(mousePixelPosition);
   } 
 
   this.inActive = function(mousePixelPosition) {
