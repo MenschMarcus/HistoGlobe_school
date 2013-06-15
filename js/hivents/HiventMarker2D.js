@@ -6,7 +6,7 @@ HG.hiventMarker2DCount = 0;
 
 HG.visibleMarkers2D = [];
 
-HG.HiventMarker2D = function(inHivent, parent, posX, posY, offX, offY) {
+HG.HiventMarker2D = function(inHivent, parentContainer, posX, posY, offX, offY) {
        
   HG.HiventMarker.call(this, inHivent)
 
@@ -32,7 +32,7 @@ HG.HiventMarker2D = function(inHivent, parent, posX, posY, offX, offY) {
   div.style.backgroundColor = hiventDefaultColor;
   setDivPos(position);
 
-  parent.appendChild(div);
+  parentContainer.appendChild(div);
   
   div.onmouseover = function (e) {
     var pos = getAbsPos();
@@ -78,7 +78,7 @@ HG.HiventMarker2D = function(inHivent, parent, posX, posY, offX, offY) {
   this.getHiventHandle().onUnHover(function(mousePos){
     div.style.backgroundColor = hiventDefaultColor;
   });
-
+  
   this.getPosition = function() {
     return position;
   }

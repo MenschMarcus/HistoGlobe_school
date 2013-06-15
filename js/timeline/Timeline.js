@@ -26,7 +26,7 @@ function timeline() {
 
   // listener handling
   timeline.addListener = addListener;             // adds a listener to the timeline
-  timeline.catChangeHandler = catChangeHandler    // tells the timeline that the categories have changed  
+  timeline.catChangeHandler = catChangeHandler;   // tells the timeline that the categories have changed  
   
   // event handling                               // event that happens, when ...
   timeline.clickMouse = clickMouse;               // ... mouse button is clicked on timeline
