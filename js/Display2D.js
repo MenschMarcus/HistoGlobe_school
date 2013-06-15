@@ -57,8 +57,6 @@ HG.Display2D = function(container, inMap) {
   function init() {
 
     canvasParent = document.createElement("div");
-//    canvasParent.style.width = 1024*2;
-//    canvasParent.style.height = 1024;
     
     $(canvasParent).offset({ top:0, left:0});
     canvasParent.style.position = "absolute";
@@ -126,9 +124,6 @@ HG.Display2D = function(container, inMap) {
   function updateCanvasSize() {
     canvas.width = curZoom * map.getResolution().x;
     canvas.height = curZoom * map.getResolution().y;
-    
-//    canvasParent.style.width = curZoom * map.getResolution().x;
-//    canvasParent.style.height = curZoom * map.getResolution().y;
   }
 
   function onMouseDown(event) {
@@ -249,12 +244,12 @@ HG.Display2D = function(container, inMap) {
     }
     
     for (var i = 0; i < hiventMarkers.length; i++) {
-      var oldPos = hiventMarkers[i].getPosition();
-      var newPos = {
-        x: Math.floor(oldPos.x / canvas.width * curZoom * map.getResolution().x),
-        y: Math.floor(oldPos.y / canvas.height * curZoom * map.getResolution().y)
-      }
-      hiventMarkers[i].setPosition(newPos);
+      var longlat = {
+        x: hiventMarkers[i].getHivent().long,
+        y: hiventMarkers[i].getHivent().lat
+      };
+  
+      hiventMarkers[i].setPosition(longLatToCanvasCoord(longlat));
     }
     
     clampCanvas();
@@ -306,14 +301,12 @@ HG.Display2D = function(container, inMap) {
   function animate() {
     if (running) {
       requestAnimationFrame(animate);
-      //map.redraw();
       render();
     }
   }
 
   function render() { 
 
-    //console.log(curOffset);
     canvasParent.style.top= curOffset.y + "px";
     canvasParent.style.left = curOffset.x + "px";
     
