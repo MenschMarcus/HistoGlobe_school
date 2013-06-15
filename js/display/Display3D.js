@@ -251,14 +251,14 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
   // ===========================================================================
   function initHivents() {
     
-    inHiventHandler.onHiventsLoaded( function(hivents) {
+    inHiventHandler.onHiventsLoaded( function(handles) {
       
-      for (var i=0; i<hivents.length; i++) {
+      for (var i=0; i<handles.length; i++) {
               
-        var hivent = new HG.HiventMarker3D(hivents[i]);
+        var hivent = new HG.HiventMarker3D(handles[i]);
         mySceneGlobe.add(hivent);
         
-        var position = longLatToCart(new THREE.Vector2(hivents[i].long, hivents[i].lat), HG.Display3D.EARTH_RADIUS);
+        var position = longLatToCart(new THREE.Vector2(handles[i].getHivent().long, handles[i].getHivent().lat), HG.Display3D.EARTH_RADIUS);
         
         hivent.translateOnAxis(new THREE.Vector3(1,0,0), position.x);
         hivent.translateOnAxis(new THREE.Vector3(0,1,0), position.y);
