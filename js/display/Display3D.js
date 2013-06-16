@@ -1,3 +1,4 @@
+//include Display.js
 //include HiventHandler.js
 //include HiventMarker3D.js
 
@@ -513,6 +514,9 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
     return new THREE.Vector2(long, lat);
   }
   
+  // call base class constructor
+  HG.Display.call(this);
+  
   // create the object!
   this.create();
   
@@ -520,4 +524,6 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
   return this;
 
 };
+
+HG.Display3D.prototype = Object.create(HG.Display.prototype);
 

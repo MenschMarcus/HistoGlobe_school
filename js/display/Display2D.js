@@ -3,7 +3,7 @@
 
 var HG = HG || {};
 
-HG.Display2D = function(inContainer, inMap) {
+HG.Display2D = function(inContainer, inMap, inHiventHandler) {
   
   //////////////////////////////////////////////////////////////////////////////
   //                          PUBLIC INTERFACE                                //
@@ -135,14 +135,14 @@ HG.Display2D = function(inContainer, inMap) {
   // ===========================================================================
   function initHivents() {
           
-    hiventHandler.onHiventsLoaded(function(handles){
+    inHiventHandler.onHiventsLoaded(function(handles){
       
       for (var i=0; i<handles.length; i++) {
         
         var hivent = handles[i].getHivent();
                 
         var pos = longLatToCanvasCoord({x: hivent.long, y: hivent.lat});  
-        var hivent = new HG.HiventMarker2D(handles[i], canvasParent, 
+        var hivent = new HG.HiventMarker2D(handles[i], mySelf, canvasParent, 
                                            pos.x, pos.y,
                                            canvasOffsetX + myCurrentOffset.x,
                                            canvasOffsetY + myCurrentOffset.y);
@@ -375,6 +375,7 @@ HG.Display2D = function(inContainer, inMap) {
     };
   }
 
+	// call base class constructor
   HG.Display.call(this);
 
   // create the object!

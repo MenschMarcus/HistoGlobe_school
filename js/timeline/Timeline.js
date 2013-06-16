@@ -267,7 +267,7 @@ function timeline() {
   
   function setHistEvents(eventArr) {
     histEvents = eventArr;
-    setHistEventMarkers();
+    initHivents();
     // TODO make this more generic: only update new event markers
   }
   
@@ -367,7 +367,7 @@ function timeline() {
     $('#periodEnd').val(perEnd);
     
     // initially set markers for historical events
-    setHistEventMarkers();
+    initHivents();
   }
   
   
@@ -430,49 +430,8 @@ function timeline() {
   
   /** HISTORICAL EVENT MARKER **/
   
-  function setHistEventMarkers() {
-    // remove all from scroller // TODO there should be a better way...
-    $("#tlScroller > div.eventMarker").remove();
-  
-    // reappend all to their new position
-    for (var i in histEvents) {
-      var props = histEvents[i].data.properties;
-      var newEventMarker = document.createElement('div');
-      newEventMarker.setAttribute('id','event' + props.histEventID);
-      newEventMarker.setAttribute('class','eventMarker');
-      
-      // for now, use effDate if available, for consistency with borders
-      var date = props.effectDate ? props.effectDate : props.date;
-      newEventMarker.style.left = (dateToPos(new Date(date))) + 'px'; // note: datestrings from DB are in iso format
-      newEventMarker.title = props.name;
-      
-      // add effDate as property of marker
-      newEventMarker.markerDate = {date: dateToDecYear(new Date(date))};
-      
-      // test, if in the viewport
-      if ((props.lon <= extent[2]) && (props.lon >= extent[0]) && (props.lat <= extent[3]) && (props.lat >= extent[1])) {
-        $(newEventMarker).css("display", "block");   // make it visible
-      }
-      else {
-        $(newEventMarker).css("display", "none");    // make it invisible
-      }
-      
-      // prevent scroller from receiving click (no reset of now marker)
-      newEventMarker.onmousedown = function(e){e.stopPropagation()};
-      
-      // make event marker clickable
-      newEventMarker.onclick = (function(props) {    // anonymous function that is called immediately
-        return function(evt) {
-          if (evt.button != 0) return;
-          main.getEventInfo(props, true, props.histEventID, true); 
-      }} (histEvents[i].data.properties));            // immediate call of the function
-      
-      // make event marker not selectable
-      $(newEventMarker).disableTextSelect();
-
-      // append it to timeline scroller      
-      $("#tlScroller").append(newEventMarker);
-    }
+  function initHivents() {
+    
   }
   
   /** HISTORY PLAYER **/

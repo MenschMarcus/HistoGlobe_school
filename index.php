@@ -20,7 +20,7 @@
     } else {
       echo $phrase;
     }
-  } 
+  } 	
 ?>
 
 <!DOCTYPE html>
@@ -202,7 +202,7 @@
         }
           
         if (!display2D) {
-          display2D = new HG.Display2D(container, map);
+          display2D = new HG.Display2D(container, map, hiventHandler);
           $(display2D.getCanvas()).css({opacity: 0.0});
         }
         

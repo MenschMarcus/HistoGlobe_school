@@ -6,20 +6,17 @@ HG.hiventMarkerTimelineCount = 0;
 
 HG.visibleMarkers2D = [];
 
-HG.HiventMarkerTimeline = function(inHivent, parent, posX, posY, offX, offY) {
+HG.HiventMarkerTimeline = function(inHivent, parent, posX, posY) {
        
   HG.HiventMarker.call(this, inHivent)
 
   var hiventDefaultColor   = "#253563";
   var hiventHighlightColor = "#ff8800";
   
-  var div;
   var self = this;
+  var div;
   var position = { x: posX,
                    y: posY };
-
-  var offset = { x: offX,
-                 y: offY }; 
   
   var radius = 3;
 
@@ -38,21 +35,21 @@ HG.HiventMarkerTimeline = function(inHivent, parent, posX, posY, offX, offY) {
     var pos = getAbsPos();
     pos.x += radius;
     pos.y += 0.6 * radius;
-    self.hover(pos);
+    self.getHiventHandle().hover(pos);
   };
   
   div.onmouseout = function (e) {
     var pos = getAbsPos();
     pos.x += radius;
     pos.y += 0.6 * radius;
-    self.unHover(pos);
+    self.getHiventHandle().unHover(pos);
   };
   
   div.onclick = function (e) {
     var pos = getAbsPos();
     pos.x += radius;
     pos.y += 0.6 * radius;
-    self.focus(pos);
+    self.getHiventHandle().focus(pos);
   };
     
   HG.hiventMarkerTimelineCount++;
@@ -60,13 +57,6 @@ HG.HiventMarkerTimeline = function(inHivent, parent, posX, posY, offX, offY) {
   function setDivPos(pos) {
     div.style.left = pos.x +"px";
     div.style.top = pos.y +"px";
-  }
-  
-  function getAbsPos() {
-    return {
-      x: position.x + offset.x,
-      y: position.y + offset.y
-    }
   }
   
   this.onHover(function(mousePos){
@@ -85,11 +75,7 @@ HG.HiventMarkerTimeline = function(inHivent, parent, posX, posY, offX, offY) {
     position = pos;
     setDivPos(position);
   }
-  
-  this.setOffset = function(off) {
-    offset = off;
-  }
-  
+    
   this.hide = function() {
     div.style.display = "none";
   }

@@ -67,7 +67,7 @@ HG.HiventHandle = function(inHivent) {
     focussed = true;
     
     for (var i=0; i < onFocusCallbacks.length; i++)
-      onActiveCallbacks[i](mousePixelPosition); 
+      onFocusCallbacks[i](mousePixelPosition); 
     this.active(mousePixelPosition);
   } 
 

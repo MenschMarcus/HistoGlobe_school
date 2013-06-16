@@ -6,6 +6,8 @@ HG.hiventMarkerGeometry = 0;
 
 HG.HiventMarker3D = function(inHivent, inDisplay) {
     
+  var self = this;  
+    
   if (HG.hiventMarkerGeometry == 0)
     HG.hiventMarkerGeometry = new THREE.SphereGeometry(1, 10, 10);  
     
@@ -49,7 +51,9 @@ HG.HiventMarker3D = function(inHivent, inDisplay) {
   THREE.Mesh.call(this, HG.hiventMarkerGeometry, material);
 
   this.getHiventHandle().onFocus( function(mousePos) {
-    display.focus(this.getHiventHandle().getHivent());
+		if (inDisplay.isRunning()) {
+			inDisplay.focus(self.getHiventHandle().getHivent());
+		}
   });
 
   this.getHiventHandle().onHover(function(mousePos){
