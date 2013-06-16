@@ -49,11 +49,14 @@ function timeline(inHiventHandler) {
   // scroller
   var tlMain;                   // object containing #tlMain -> get width of the timeline viewport by 'tlMain.offsetWidth'
   var tlScroller;               // object containing #tlScroller (larger than tlMain)
+  var tlDateMarkers;
   var refDate, refPos;          // reference date and position, used to draw the markers
   var dayDist;                  // pixel distance between two days on the timeline (pixel per day)
   var leftPos, rightPos;        // position of leftmost and rightmost drawn year markers
   var innerThres;               // threshold for now marker in the timeline scroller
   var markerInterval;           // interval [year] in which year markers are drawn
+
+	var hiventMarkers = [];
 
   // play history
   var playerIntervalTime;       // time it takes to jump to next event
@@ -87,6 +90,7 @@ function timeline(inHiventHandler) {
     // scroller
     tlMain = $("#tlMain")[0];
     tlScroller = $("#tlScroller")[0];
+    tlDateMarkers = $("#tlDateMarkers")[0];
     refDate = now.date;
     refPos = 0;                           // initially set to 0 for startup animation
     leftPos = 0;
@@ -108,6 +112,8 @@ function timeline(inHiventHandler) {
     moveInterval = null;
     mouseEvent = null;
     
+    
+    initHivents();
     /* INIT SCROLLER */
     // write now date onto now marker
     $("#polDate").text(decYearToString(now.date));
@@ -267,7 +273,6 @@ function timeline(inHiventHandler) {
   
   function setHistEvents(eventArr) {
     histEvents = eventArr;
-    initHivents();
     // TODO make this more generic: only update new event markers
   }
   
@@ -352,7 +357,7 @@ function timeline(inHiventHandler) {
     var firstYear = Math.ceil(now.date);
     firstYear = firstYear + (markerInterval - (firstYear % markerInterval));
     if (firstYear > maxDate) firstYear -= markerInterval;
-    $("#tlScroller").append(makeYearMarker(firstYear));
+    $("#tlDateMarkers").append(makeYearMarker(firstYear));
     
     // initialize position of leftmost and rightmost marker on timeline
     leftPos = rightPos = decYearToPos(firstYear);
@@ -367,7 +372,7 @@ function timeline(inHiventHandler) {
     $('#periodEnd').val(perEnd);
     
     // initially set markers for historical events
-    initHivents();
+    updateHivents();
   }
   
   
@@ -379,7 +384,7 @@ function timeline(inHiventHandler) {
       // get next year to draw
       var prevYear = Math.round(posToDecYear(leftPos))-markerInterval;
       if (prevYear < minDate) break;      // never goes before start year of histoglobe
-      $("#tlScroller").prepend(makeYearMarker(prevYear));
+      $("#tlDateMarkers").prepend(makeYearMarker(prevYear));
       // reset position of leftmost drawn marker
       leftPos = decYearToPos(prevYear);
     }
@@ -387,7 +392,7 @@ function timeline(inHiventHandler) {
       // get next year to draw
       var nextYear = Math.round(posToDecYear(rightPos))+markerInterval;
       if (nextYear > maxDate) break;      // prevents futuristic timeline
-      $("#tlScroller").append(makeYearMarker(nextYear));
+      $("#tlDateMarkers").append(makeYearMarker(nextYear));
       // reset position of rightmost drawn marker
       rightPos = decYearToPos(nextYear);
     }
@@ -396,12 +401,12 @@ function timeline(inHiventHandler) {
   // clear all the markers that are beyond the outer threshold
   function stripYearMarkers() {
     while (leftPos <= 0) {
-      $("#tlScroller > div.yearMarker:first").remove();
+      $("#tlDateMarkers > div.yearMarker:first").remove();
       var leftYear = Math.round(posToDecYear(leftPos));
       leftPos = decYearToPos(leftYear+markerInterval);
     }
     while (rightPos >= tlScroller.offsetWidth) {
-      $("#tlScroller > div.yearMarker:last").remove();
+      $("#tlDateMarkers > div.yearMarker:last").remove();
       var rightYear = Math.round(posToDecYear(rightPos));
       rightPos = decYearToPos(rightYear-markerInterval);
     }
@@ -431,21 +436,33 @@ function timeline(inHiventHandler) {
   /** HISTORICAL EVENT MARKER **/
   
   function initHivents() {
-    //inHiventHandler.onHiventsLoaded(function(handles){
+    inHiventHandler.onHiventsLoaded(function(handles){
          
-      //for (var i=0; i<handles.length; i++) {
+      for (var i=0; i<handles.length; i++) {
 
-        //var hivent = handles[i].getHivent();
-        //var date = new Date(hivent.date);
-        //var posX = dateToPos(date);  
+        var hivent = handles[i].getHivent();
+        var date = new Date(hivent.date);
+        var posX = dateToPos(date);  
         
-        //var hivent = new HG.HiventMarkerTimeline(handles[i], 
-																									//tlScroller, 
-																									//posX);
-      //}
-    //});
+        var hiventMarker = new HG.HiventMarkerTimeline(handles[i], 
+																										    tlScroller, 
+																									      posX);
+				hiventMarkers.push(hiventMarker);
+      }
+    });
   }
   
+  function updateHivents() {
+      
+		for (var i=0; i<hiventMarkers.length; i++) {
+
+			var date = new Date(hiventMarkers[i].getHiventHandle().getHivent().date);
+			var posX = dateToPos(date);  
+			
+			hiventMarkers[i].setPosition(posX);
+		}
+  }
+ 
   /** HISTORY PLAYER **/
   function eventUITarget(evt, node)
   {
@@ -741,16 +758,17 @@ function timeline(inHiventHandler) {
   
   function scrollFixup(pix) {
     // move all elements on timeline by "pix" pixels to the left / rigth;
-    //var list = $("#tlScroller > div");
-    //list.each(function(idx) {
-      //$(this).css("left", decYearToPos(this.markerDate.date)+pix);
-    //});
+    var list = $("#tlDateMarkers > div");
+    list.each(function(idx) {
+      $(this).css("left", decYearToPos(this.markerDate.date)+pix);
+    });
     // reset position variables
     refPos += pix;
     leftPos += pix;
     rightPos += pix;
     
     // clip year markers
+    updateHivents();
     appendYearMarkers();
     stripYearMarkers();
   }

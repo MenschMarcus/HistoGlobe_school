@@ -364,15 +364,17 @@
             <div id="timeline"  class="gradient-timeline-main">
               <div id="tlMain">
                 <div id="tlScroller">
-                  <!-- all markers are in here -->
-                  <div id="nowMarkerWrap">
-                    <div id="nowMarkerHead">
-                      <div id="nowDate" onsubmit="return false">
-                        <i class="icon-angle-left"></i> <span id="polDate"></span> <i class="icon-angle-right"></i>
-                      </div>
-                    </div>
-                    <div id="nowMarkerMain"></div>
-                  </div>
+									<div id="tlDateMarkers">
+										<!-- all markers are in here -->
+										<div id="nowMarkerWrap">
+											<div id="nowMarkerHead">
+												<div id="nowDate" onsubmit="return false">
+													<i class="icon-angle-left"></i> <span id="polDate"></span> <i class="icon-angle-right"></i>
+												</div>
+											</div>
+											<div id="nowMarkerMain"></div>
+										</div>
+									</div>
                 </div>
               </div>
               

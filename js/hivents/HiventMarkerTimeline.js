@@ -17,8 +17,8 @@ HG.HiventMarkerTimeline = function(inHivent, inParent, inPosX, inPosY) {
   var div;
   
 	var	position = { x: inPosX, 
-									 y: $(inParent.parentNode).innerHeight() * 0.9};
-  var radius = 3;
+									 y: Math.floor($(inParent.parentNode).innerHeight() * 0.85)};
+  var radius = 4;
 
   div = document.createElement("div");
   div.id = "hiventMarkerTimeline_" + HG.hiventMarker2DCount;
@@ -28,7 +28,8 @@ HG.HiventMarkerTimeline = function(inHivent, inParent, inPosX, inPosY) {
   div.style.borderRadius = radius + "px";
   div.style.backgroundColor = hiventDefaultColor;
 
-  setDivPos(position);
+	div.style.left = position.x +"px";
+  div.style.top = position.y +"px";
   
   inParent.appendChild(div);
   
@@ -72,9 +73,9 @@ HG.HiventMarkerTimeline = function(inHivent, inParent, inPosX, inPosY) {
     return position;
   }
   
-  this.setPosition = function(pos) {
-    position = pos;
-    setDivPos(position);
+  this.setPosition = function(posX) {
+    position.x = posX;
+    div.style.left = position.x +"px";
   }
     
   this.hide = function() {
