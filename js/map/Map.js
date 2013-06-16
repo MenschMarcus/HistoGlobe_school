@@ -1,30 +1,34 @@
 var HG = HG || {};
 
 HG.Map = function() {
-  
-  var time;
-  
-  var height = 1024;
-  var width = height*2;
-  var canvas;
-  var text;
-  var coastlines;
-  
-  function init() {    
+
+  //////////////////////////////////////////////////////////////////////////////
+  //                          PUBLIC INTERFACE                                //
+  //////////////////////////////////////////////////////////////////////////////
+
+  /////////////////////////// STATIC CONSTANTS /////////////////////////////////
+
+  HG.Map.HEIGTH = 1024;
+  HG.Map.WIDTH = 2048;
+
+  ////////////////////////////// FUNCTIONS /////////////////////////////////////
+
+  // ===========================================================================
+  this.create = function() {
     canvas = document.createElement("canvas");
-    canvas.height = height;
-    canvas.width = width;
-    
+    canvas.height = HG.Map.HEIGTH;
+    canvas.width = HG.Map.WIDTH;
+
     paper.setup(canvas);
-    
+
     var backRect = paper.Path.Rectangle(new paper.Rectangle(
-                                        new paper.Point(0, 0), 
+                                        new paper.Point(0, 0),
                                         new paper.Point(canvas.width, canvas.height)));
     backRect.fillColor = "white";
-    
+
     /*
     $.getJSON("img/coastline.json", function(c){
-      coastlines = c;  
+      coastlines = c;
 
       var cl,line;
       for (cl=0; cl<coastlines.length; cl++) {
@@ -41,60 +45,76 @@ HG.Map = function() {
         }
         path.closed = true;
       }
-    });  
+    });
     */
-    
-    
+
+
     imgResource = document.createElement("img");
     imgResource.setAttribute("id", "map-image");
     imgResource.setAttribute("src", "img/map.jpg");
     imgResource.setAttribute("style", "display:none");
     document.body.appendChild(imgResource);
-    
+
     var background = new paper.Raster('map-image');
-    background.position = new paper.Point(width/2, height/2);
+    background.position = new paper.Point(HG.Map.WIDTH/2, HG.Map.HEIGTH/2);
     /*
-    text = new paper.PointText(new paper.Point(width/2, height/2));
+    text = new paper.PointText(new paper.Point(HG.Map.WIDTH/2, HG.Map.HEIGTH/2));
     text.content = 'HistoGlobe';
     text.characterStyle = {
       fontSize: 50,
       font: 'roman_caps',
       fillColor: 'black',
     };
-    */  
-    
+    */
+
     var date = new Date();
 
     time = date.getTime()
-    
+
     paper.view.draw();
 
   }
-  
+
+  // ===========================================================================
   this.getCanvas = function() {
     return canvas;
   }
-  
+
+  // ===========================================================================
   this.getResolution = function() {
-    return {x:width, y:height};
+    return {x:HG.Map.WIDTH, y:HG.Map.HEIGTH};
   }
-  
+
+  // ===========================================================================
   this.redraw = function() {
-    
+
     var currTime = new Date().getTime();
     var frameTime = currTime - time;
     time = currTime;
-    
-    
+
+
     //Math.sin(date.getTime()*0.01) * 10]
 
     //text.rotate(frameTime*0.02);
     //paper.view.draw();
-    
   }
 
-  init();
-  
+  //////////////////////////////////////////////////////////////////////////////
+  //                         PRIVATE INTERFACE                                //
+  //////////////////////////////////////////////////////////////////////////////
+
+  /////////////////////////// MEMBER VARIABLES /////////////////////////////////
+
+  var time;
+
+  var canvas;
+  var text;
+  var coastlines;
+
+  // create the object!
+  this.create();
+
+  // all done!
   return this;
 
 };
