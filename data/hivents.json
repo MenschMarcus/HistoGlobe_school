@@ -2,7 +2,7 @@
     {
         "name": "Declaration",
         "category": "Impressive Category",
-        "date": "13.02.1950",
+        "date": "february 13, 1950 00:00:00",
         "long": 100,
         "lat": 0,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -20,7 +20,7 @@
     {
         "name": "Treaty",
         "category": "Another Impressive Category",
-        "date": "01.10.1897",
+        "date": "october 01, 1897 00:00:00",
         "long": 0,
         "lat": 30,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -38,7 +38,7 @@
     {
         "name": "Battle",
         "category": "Another Impressive Category",
-        "date": "05.05.1922",
+        "date": "may 05, 1922 00:00:00",
         "long": 15,
         "lat": 80,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -56,7 +56,7 @@
     {
         "name": "Birth",
         "category": "Another Impressive Category",
-        "date": "01.04.1666",
+        "date": "april 01, 1666 00:00:00",
         "long": 120,
         "lat": 60,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -74,7 +74,7 @@
     {
         "name": "Death",
         "category": "Another Impressive Category",
-        "date": "14.03.1961",
+        "date": "march 14, 1961 00:00:00",
         "long": -70,
         "lat": 30,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -92,7 +92,7 @@
     {
         "name": "Technical achievement",
         "category": "Another Impressive Category",
-        "date": "12.07.1777",
+        "date": "july 12, 1777 00:00:00",
         "long": -20,
         "lat": -40,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -110,7 +110,7 @@
     {
         "name": "Assassination",
         "category": "Some Category",
-        "date": "09.08.1910",
+        "date": "august 09, 1910 00:00:00",
         "long": -70,
         "lat": 40,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -128,7 +128,7 @@
     {
         "name": "Foundation",
         "category": "Another Impressive Category",
-        "date": "11.11.1499",
+        "date": "november 11, 1499 00:00:00",
         "long": 0,
         "lat": 0,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",

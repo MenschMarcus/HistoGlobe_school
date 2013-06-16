@@ -1,4 +1,4 @@
-function timeline() {
+function timeline(inHiventHandler) {
 
   // create empty timeline object and fill it with member functions
   var timeline = {};
@@ -431,7 +431,19 @@ function timeline() {
   /** HISTORICAL EVENT MARKER **/
   
   function initHivents() {
-    
+    //inHiventHandler.onHiventsLoaded(function(handles){
+         
+      //for (var i=0; i<handles.length; i++) {
+
+        //var hivent = handles[i].getHivent();
+        //var date = new Date(hivent.date);
+        //var posX = dateToPos(date);  
+        
+        //var hivent = new HG.HiventMarkerTimeline(handles[i], 
+																									//tlScroller, 
+																									//posX);
+      //}
+    //});
   }
   
   /** HISTORY PLAYER **/
@@ -729,10 +741,10 @@ function timeline() {
   
   function scrollFixup(pix) {
     // move all elements on timeline by "pix" pixels to the left / rigth;
-    var list = $("#tlScroller > div");
-    list.each(function(idx) {
-      $(this).css("left", decYearToPos(this.markerDate.date)+pix);
-    });
+    //var list = $("#tlScroller > div");
+    //list.each(function(idx) {
+      //$(this).css("left", decYearToPos(this.markerDate.date)+pix);
+    //});
     // reset position variables
     refPos += pix;
     leftPos += pix;

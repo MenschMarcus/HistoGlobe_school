@@ -6,7 +6,7 @@ HG.hiventMarkerTimelineCount = 0;
 
 HG.visibleMarkers2D = [];
 
-HG.HiventMarkerTimeline = function(inHivent, parent, posX, posY) {
+HG.HiventMarkerTimeline = function(inHivent, inParent, inPosX, inPosY) {
        
   HG.HiventMarker.call(this, inHivent)
 
@@ -15,38 +15,39 @@ HG.HiventMarkerTimeline = function(inHivent, parent, posX, posY) {
   
   var self = this;
   var div;
-  var position = { x: posX,
-                   y: posY };
   
+	var	position = { x: inPosX, 
+									 y: $(inParent.parentNode).innerHeight() * 0.9};
   var radius = 3;
 
   div = document.createElement("div");
-  div.id = "hiventMarker2D_" + HG.hiventMarker2DCount;
+  div.id = "hiventMarkerTimeline_" + HG.hiventMarker2DCount;
   div.style.position = "absolute";
   div.style.width  = 2 * radius + "px";
   div.style.height = 2 * radius + "px";
   div.style.borderRadius = radius + "px";
   div.style.backgroundColor = hiventDefaultColor;
+
   setDivPos(position);
   
-  parent.appendChild(div);
+  inParent.appendChild(div);
   
   div.onmouseover = function (e) {
-    var pos = getAbsPos();
+    var pos = position;
     pos.x += radius;
     pos.y += 0.6 * radius;
     self.getHiventHandle().hover(pos);
   };
   
   div.onmouseout = function (e) {
-    var pos = getAbsPos();
+    var pos = position;
     pos.x += radius;
     pos.y += 0.6 * radius;
     self.getHiventHandle().unHover(pos);
   };
   
   div.onclick = function (e) {
-    var pos = getAbsPos();
+    var pos = position;
     pos.x += radius;
     pos.y += 0.6 * radius;
     self.getHiventHandle().focus(pos);
@@ -59,11 +60,11 @@ HG.HiventMarkerTimeline = function(inHivent, parent, posX, posY) {
     div.style.top = pos.y +"px";
   }
   
-  this.onHover(function(mousePos){
+  this.getHiventHandle().onHover(function(mousePos){
     div.style.backgroundColor = hiventHighlightColor;
   });
   
-  this.onUnHover(function(mousePos){
+  this.getHiventHandle().onUnHover(function(mousePos){
     div.style.backgroundColor = hiventDefaultColor;
   });
 
@@ -84,7 +85,6 @@ HG.HiventMarkerTimeline = function(inHivent, parent, posX, posY) {
     div.style.display = "block";
   }
     
-  
   return this;
 
 };

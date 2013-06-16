@@ -10,7 +10,6 @@ HG.HiventHandler = function() {
   var onHiventsLoadedCallbacks = [];
   
   function init() {    
-    
     $.getJSON("data/hivents.json", function(h){
       for (var i=0; i<h.length; i++) {
         var hivent = new HG.Hivent(

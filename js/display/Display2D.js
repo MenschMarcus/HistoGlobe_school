@@ -155,7 +155,7 @@ HG.Display2D = function(inContainer, inMap, inHiventHandler) {
       for (var i=0; i<handles.length; i++) {
 
         var hivent = handles[i].getHivent();
-                
+                        
         var pos = longLatToCanvasCoord({x: hivent.long, y: hivent.lat});  
         var hivent = new HG.HiventMarker2D(handles[i], mySelf, canvasParent, 
                                            pos.x, pos.y,

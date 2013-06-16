@@ -233,7 +233,7 @@
       function loadTimeline() {
 
         if (!timelineInitialized) {
-          timeline = timeline();
+          timeline = timeline(hiventHandler);
           timeline.initTimeline();
             
           $(window).mousemove(timeline.moveMouse);     
