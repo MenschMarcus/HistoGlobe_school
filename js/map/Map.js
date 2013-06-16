@@ -1,6 +1,6 @@
 var HG = HG || {};
 
-HG.Map = function() {
+HG.Map = function(inHistrips) {
 
   //////////////////////////////////////////////////////////////////////////////
   //                          PUBLIC INTERFACE                                //
@@ -15,69 +15,14 @@ HG.Map = function() {
 
   // ===========================================================================
   this.create = function() {
-    canvas = document.createElement("canvas");
-    canvas.height = HG.Map.HEIGTH;
-    canvas.width = HG.Map.WIDTH;
-
-    paper.setup(canvas);
-
-    var backRect = paper.Path.Rectangle(new paper.Rectangle(
-                                        new paper.Point(0, 0),
-                                        new paper.Point(canvas.width, canvas.height)));
-    backRect.fillColor = "white";
-
-    /*
-    $.getJSON("img/coastline.json", function(c){
-      coastlines = c;
-
-      var cl,line;
-      for (cl=0; cl<coastlines.length; cl++) {
-        line = coastlines[cl];
-        var path = new paper.Path();
-        path.strokeColor = 'black';
-        path.fillColor = "#edc082"
-        for (i=0;i<line.length-1;i++) {
-          var x1 = (line[i][0] + 180)/360 * canvas.width;
-          var y1 = canvas.height - (line[i][1] + 90)/180 * canvas.height;
-          var x2 = (line[i+1][0] + 180)/360 * canvas.width;
-          var y2 = canvas.height - (line[i+1][1] + 90)/180 * canvas.height;
-          path.add(new paper.Point(x1, y1), new paper.Point(x2, y2));
-        }
-        path.closed = true;
-      }
-    });
-    */
-
-
-    imgResource = document.createElement("img");
-    imgResource.setAttribute("id", "map-image");
-    imgResource.setAttribute("src", "img/map.jpg");
-    imgResource.setAttribute("style", "display:none");
-    document.body.appendChild(imgResource);
-
-    var background = new paper.Raster('map-image');
-    background.position = new paper.Point(HG.Map.WIDTH/2, HG.Map.HEIGTH/2);
-    /*
-    text = new paper.PointText(new paper.Point(HG.Map.WIDTH/2, HG.Map.HEIGTH/2));
-    text.content = 'HistoGlobe';
-    text.characterStyle = {
-      fontSize: 50,
-      font: 'roman_caps',
-      fillColor: 'black',
-    };
-    */
-
-    var date = new Date();
-
-    time = date.getTime()
-
-    paper.view.draw();
-
+    initCanvas();
+    initBackground();
+    initHistrips();
   }
 
   // ===========================================================================
   this.getCanvas = function() {
-    return canvas;
+    return myCanvas;
   }
 
   // ===========================================================================
@@ -86,18 +31,69 @@ HG.Map = function() {
   }
 
   // ===========================================================================
-  this.redraw = function() {
+  this.setMouseLongLat = function(longLat) {
+    var hitOptions = {
+      segments: false,
+      stroke: false,
+      fill: true,
+      tolerance: 5
+    };
 
-    var currTime = new Date().getTime();
-    var frameTime = currTime - time;
-    time = currTime;
+    var pixel = this.longLatToPixel(longLat);
+    var hoverChanged = false;
 
+    var hitResult = paper.project.hitTest(pixel, hitOptions);
+    if (hitResult) {
+      var item = hitResult.item;
 
-    //Math.sin(date.getTime()*0.01) * 10]
+      if (item instanceof HG.HistripMarker) {
 
-    //text.rotate(frameTime*0.02);
-    //paper.view.draw();
+        if (myLastHoveredItem != item) {
+          if (myLastHoveredItem) {
+            myLastHoveredItem.unHover();
+            myLastHoveredItem = null;
+          }
+
+          item.hover();
+          myLastHoveredItem = item;
+          hoverChanged = true;
+        }
+      } else if (myLastHoveredItem) {
+        myLastHoveredItem.unHover();
+        myLastHoveredItem = null;
+
+        hoverChanged = true;
+      }
+    }
+
+    if (hoverChanged) {
+      redraw();
+    }
   }
+
+  // ===========================================================================
+  this.onRedraw = function(callbackFunc) {
+    if (callbackFunc && typeof(callbackFunc) === "function") {
+      myOnRedrawCallbacks.push(callbackFunc);
+    }
+  }
+
+    // ===========================================================================
+  this.longLatToPixel = function(longlat) {
+    return {
+      x: ((longlat.x + 180) /  360) * HG.Map.WIDTH,
+      y: ((longlat.y -  90) / -180) * HG.Map.HEIGTH
+    };
+  }
+
+  // ===========================================================================
+  this.pixelToLongLat = function(pixel) {
+    return {
+      x: 1.0 * pixel.x / HG.Map.WIDTH  *  360 - 180,
+      y: 1.0 * pixel.y / HG.Map.HEIGTH * -180 + 90
+    };
+  }
+
 
   //////////////////////////////////////////////////////////////////////////////
   //                         PRIVATE INTERFACE                                //
@@ -105,11 +101,57 @@ HG.Map = function() {
 
   /////////////////////////// MEMBER VARIABLES /////////////////////////////////
 
-  var time;
+  var mySelf = this;
+  var myCanvas;
+  var myOnRedrawCallbacks = [];
 
-  var canvas;
-  var text;
-  var coastlines;
+  var myLastHoveredItem;
+
+  ////////////////////////// INIT FUNCTIONS ////////////////////////////////////
+
+  // ===========================================================================
+  function initCanvas() {
+    myCanvas = document.createElement("canvas");
+    myCanvas.height = HG.Map.HEIGTH;
+    myCanvas.width = HG.Map.WIDTH;
+
+    paper.setup(myCanvas);
+  }
+
+  // ===========================================================================
+  function initBackground() {
+    var background = new paper.Raster("img/map.jpg");
+
+    background.onLoad = function() {
+      background.position = new paper.Point(HG.Map.WIDTH/2, HG.Map.HEIGTH/2);
+      redraw();
+    };
+  }
+
+  // ===========================================================================
+  function initHistrips() {
+
+    inHistrips.onHistripsLoaded(function(handles) {
+
+      for (var h=0; h<handles.length; h++) {
+        var path = new HG.HistripMarker(handles[h], mySelf);
+      }
+
+      redraw();
+    });
+  }
+
+  /////////////////////////// MAIN FUNCTIONS ///////////////////////////////////
+
+  // ===========================================================================
+  function redraw() {
+     paper.view.draw();
+
+    for (var i=0; i < myOnRedrawCallbacks.length; i++)
+      myOnRedrawCallbacks[i]();
+  }
+
+  ///////////////////////// HELPER FUNCTIONS ///////////////////////////////////
 
   // create the object!
   this.create();

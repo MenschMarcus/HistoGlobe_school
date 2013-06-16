@@ -25,7 +25,7 @@ HG.Display2D = function(inContainer, inMap) {
 
     this.center({x: -10, y:50});
 
-    redraw();
+    inMap.onRedraw(redraw);
   }
 
   // ===========================================================================
@@ -296,6 +296,9 @@ HG.Display2D = function(inContainer, inMap) {
         myTargetOffset.y -= myMouse.y - event.clientY;
 
         clampCanvas();
+      } else {
+        inMap.setMouseLongLat(mouseToLongLat({x:event.clientX,
+                                              y:event.clientY}));
       }
     }
     myMouse.x = event.clientX;
