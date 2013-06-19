@@ -38,21 +38,23 @@ HG.HiventMarker2D = function(inHivent, inDisplay, inParent, posX, posY, offX, of
     var pos = getAbsPos();
     pos.x += radius;
     pos.y += 0.6 * radius;
-    self.mark(self, pos);
+    self.getHiventHandle().mark(self, pos);
+    self.getHiventHandle().linkAll(pos);
   };
   
   div.onmouseout = function (e) {
     var pos = getAbsPos();
     pos.x += radius;
     pos.y += 0.6 * radius;
-    self.unMark(self, pos);
+    self.getHiventHandle().unMark(self, pos);
+    self.getHiventHandle().unLinkAll(pos);
   };
   
   div.onclick = function (e) {
     var pos = getAbsPos();
     pos.x += radius;
     pos.y += 0.6 * radius;
-    self.active(self, pos);
+    self.getHiventHandle().active(self, pos);
   };
   
   HG.visibleMarkers2D.push(this);

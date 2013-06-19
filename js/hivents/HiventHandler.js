@@ -16,6 +16,7 @@ HG.HiventHandler = function() {
           h[i].name,
           h[i].category,
           h[i].date,
+          h[i].displayDate,
           h[i].long,
           h[i].lat,
           h[i].description,

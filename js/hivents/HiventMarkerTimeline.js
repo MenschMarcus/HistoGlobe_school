@@ -73,7 +73,15 @@ HG.HiventMarkerTimeline = function(inHivent, inParent, inPosX, inPosY) {
   this.getHiventHandle().onUnMark(self, function(mousePos){
     div.style.backgroundColor = hiventDefaultColor;
   });
+
+  this.getHiventHandle().onLink(self, function(mousePos){
+    div.style.backgroundColor = hiventHighlightColor;
+  });
   
+  this.getHiventHandle().onUnLink(self, function(mousePos){
+    div.style.backgroundColor = hiventDefaultColor;
+  });
+
   this.enableShowName();
 
   this.getPosition = function() {
