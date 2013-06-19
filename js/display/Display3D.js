@@ -315,7 +315,7 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
     }
 
     for (var i = 0; i < myLastIntersected.length; i++) {
-      myLastIntersected[i].unMark(mouse);
+      myLastIntersected[i].unMarkAll(mouse);
     }
 
     myLastIntersected = [];
@@ -327,7 +327,7 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
 						x : mouse.x - myCanvasOffsetX,
 						y : mouse.y - myCanvasOffsetY,
 				};
-        intersects[i].object.mark(intersects[i].object, pos);
+        intersects[i].object.markAll(pos);
       }
     }
 
@@ -443,7 +443,7 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
 						x : mouse.x - myCanvasOffsetX,
 						y : mouse.y - myCanvasOffsetY,
 					};
-          myLastIntersected[i].active(pos);
+          myLastIntersected[i].activeAll(pos);
         }
       }
     }

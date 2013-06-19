@@ -47,8 +47,8 @@ HG.HiventMarkerTimeline = function(inHivent, inParent, inPosX, inPosY) {
 			x : position.x + radius,
       y : position.y + 0.6 * radius
     };
-    self.getHiventHandle().unMark(pos);
-    self.getHiventHandle().unLink(pos);
+    self.getHiventHandle().unMark(self, pos);
+    self.getHiventHandle().unLinkAll(pos);
   };
   
   div.onclick = function (e) {
@@ -56,7 +56,7 @@ HG.HiventMarkerTimeline = function(inHivent, inParent, inPosX, inPosY) {
 			x : position.x + radius,
       y : position.y + 0.6 * radius
     };
-    self.getHiventHandle().focus(pos);
+    self.getHiventHandle().focusAll(pos);
   };
     
   HG.hiventMarkerTimelineCount++;
@@ -70,7 +70,7 @@ HG.HiventMarkerTimeline = function(inHivent, inParent, inPosX, inPosY) {
     div.style.backgroundColor = hiventHighlightColor;
   });
   
-  this.getHiventHandle().onUnMark(function(mousePos){
+  this.getHiventHandle().onUnMark(self, function(mousePos){
     div.style.backgroundColor = hiventDefaultColor;
   });
   

@@ -50,7 +50,7 @@ HG.HiventMarker3D = function(inHivent, inDisplay, inParent) {
   HG.HiventMarker.call(this, inHivent, inParent)
   THREE.Mesh.call(this, HG.hiventMarkerGeometry, material);
 
-  this.getHiventHandle().onFocus( function(mousePos) {
+  this.getHiventHandle().onFocus(self, function(mousePos) {
 		if (inDisplay.isRunning()) {
 			inDisplay.focus(self.getHiventHandle().getHivent());
 		}
@@ -60,7 +60,15 @@ HG.HiventMarker3D = function(inHivent, inDisplay, inParent) {
     uniforms['color'].value = hiventHighlightColor;
   });
   
-  this.getHiventHandle().onUnMark(function(mousePos){
+  this.getHiventHandle().onUnMark(self, function(mousePos){
+    uniforms['color'].value = hiventDefaultColor;
+  });
+ 
+  this.getHiventHandle().onLink(self, function(mousePos){
+    uniforms['color'].value = hiventHighlightColor;
+  });
+  
+  this.getHiventHandle().onUnLink(self, function(mousePos){
     uniforms['color'].value = hiventDefaultColor;
   });
   
