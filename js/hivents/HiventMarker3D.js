@@ -56,11 +56,11 @@ HG.HiventMarker3D = function(inHivent, inDisplay, inParent) {
 		}
   });
 
-  this.getHiventHandle().onHover(function(mousePos){
+  this.getHiventHandle().onMark(self, function(mousePos){
     uniforms['color'].value = hiventHighlightColor;
   });
   
-  this.getHiventHandle().onUnHover(function(mousePos){
+  this.getHiventHandle().onUnMark(function(mousePos){
     uniforms['color'].value = hiventDefaultColor;
   });
   

@@ -299,7 +299,7 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
 
     // picking -----------------------------------------------------------------
 
-    // test for hover and highlight hivents
+    // test for mark and highlight hivents
     var vector = new THREE.Vector3(mouseRel.x, -mouseRel.y, 0.5);
     HG.Display3D.PROJECTOR.unprojectVector(vector, myCamera);
     HG.Display3D.RAYCASTER.set(myCamera.position, vector.sub(myCamera.position).normalize());
@@ -315,7 +315,7 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
     }
 
     for (var i = 0; i < myLastIntersected.length; i++) {
-      myLastIntersected[i].unHover(mouse);
+      myLastIntersected[i].unMark(mouse);
     }
 
     myLastIntersected = [];
@@ -327,7 +327,7 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
 						x : mouse.x - myCanvasOffsetX,
 						y : mouse.y - myCanvasOffsetY,
 				};
-        intersects[i].object.hover(pos);
+        intersects[i].object.mark(intersects[i].object, pos);
       }
     }
 
