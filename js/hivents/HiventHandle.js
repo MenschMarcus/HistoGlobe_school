@@ -7,13 +7,17 @@ HG.activeHivents = [];
 HG.HiventHandle = function(inHivent) {
   
   var activated = false;
-  var hovered = false;
+  var marked = false;
+  var linked = false;
   var focussed = false;
   
   var onActiveCallbacks = [];
   var onInActiveCallbacks = [];
-  var onHoverCallbacks = [];
-  var onUnHoverCallbacks = [];
+  var onMarkCallbacks = [];
+  var onUnMarkCallbacks = [];
+  var onLinkCallbacks = [];
+  var onUnLinkCallbacks = [];
+  var onUnFocusCallbacks = [];
   var onFocusCallbacks = [];
   var onUnFocusCallbacks = [];
   
@@ -47,22 +51,72 @@ HG.HiventHandle = function(inHivent) {
     }
   } 
   
-  this.hover = function(mousePixelPosition) {
-    if (!hovered) {
-      hovered = true;
-      for (var i=0; i < onHoverCallbacks.length; i++)
-        onHoverCallbacks[i](mousePixelPosition); 
+  this.markAll = function(mousePixelPosition) {
+    if (!marked) {
+      marked = true;
+      for (var i=0; i < onMarkCallbacks.length; i++) {
+				for (var j=0; j < onMarkCallbacks[i][1].length; j++) {
+					onMarkCallbacks[i][1][j](mousePixelPosition); 
+				}
+			}
     } 
   } 
   
-  this.unHover = function(mousePixelPosition) {
-    if (hovered) {
-      hovered = false;
-      for (var i=0; i < onUnHoverCallbacks.length; i++)
-        onUnHoverCallbacks[i](mousePixelPosition); 
+  this.mark = function(obj, mousePixelPosition) {
+    if (!marked) {
+      marked = true;
+      for (var i = 0; i < onMarkCallbacks.length; i++) {
+				if (onMarkCallbacks[i][0] == obj) {
+					for (var j = 0; j < onMarkCallbacks[i][1].length; j++) {
+						onMarkCallbacks[i][1][j](mousePixelPosition);
+					}
+					break;
+				} 
+			}
     } 
   } 
   
+  this.unMark = function(mousePixelPosition) {
+    if (marked) {
+      marked = false;
+      for (var i=0; i < onUnMarkCallbacks.length; i++)
+        onUnMarkCallbacks[i](mousePixelPosition); 
+    } 
+  } 
+
+  this.linkAll = function(mousePixelPosition) {
+    if (!linked) {
+      linked = true;
+      for (var i=0; i < onLinkCallbacks.length; i++) {
+				for (var j=0; j < onLinkCallbacks[i][1].length; j++) {
+					onLinkCallbacks[i][1][j](mousePixelPosition); 
+				}
+			}
+    } 
+  } 
+
+  this.link = function(obj, mousePixelPosition) {
+    if (!linked) {
+      linked = true;
+      for (var i = 0; i < onLinkCallbacks.length; i++) {
+				if (onLinkCallbacks[i][0] == obj) {
+					for (var j = 0; j < onLinkCallbacks[i][1].length; j++) {
+						onLinkCallbacks[i][1][j](mousePixelPosition);
+					}
+					break;
+				} 
+			}
+    } 
+  } 
+  
+  this.unLink = function(mousePixelPosition) {
+    if (linked) {
+      linked = false;
+      for (var i=0; i < onUnLinkCallbacks.length; i++)
+        onUnLinkCallbacks[i](mousePixelPosition); 
+    } 
+  } 
+ 
   this.focus = function(mousePixelPosition) {
     focussed = true;
     
@@ -91,15 +145,39 @@ HG.HiventHandle = function(inHivent) {
     }
   }
       
-  this.onHover = function(callbackFunc) {
+  this.onMark = function(obj, callbackFunc) {
     if (callbackFunc && typeof(callbackFunc) === "function") {
-      onHoverCallbacks.push(callbackFunc);
+			for (var i=0; i < onMarkCallbacks.length; i++) {
+				if (onMarkCallbacks[i][0] == obj) {
+					onMarkCallbacks[i][1].push(callbackFunc);
+					return;
+				}
+			}
+			onMarkCallbacks.push([obj, [callbackFunc]]);
     }
   }
     
-  this.onUnHover = function(callbackFunc) {
+  this.onUnMark = function(callbackFunc) {
     if (callbackFunc && typeof(callbackFunc) === "function") {
-      onUnHoverCallbacks.push(callbackFunc);
+      onUnMarkCallbacks.push(callbackFunc);
+    }
+  }
+
+  this.onLink = function(obj, callbackFunc) {
+    if (callbackFunc && typeof(callbackFunc) === "function") {
+			for (var i=0; i < onLinkCallbacks.length; i++) {
+				if (onLinkCallbacks[i][0] == obj) {
+					onLinkCallbacks[i][1].push(callbackFunc);
+					return;
+				}
+			}
+			onLinkCallbacks.push([obj, [callbackFunc]]);
+    }
+  }
+    
+  this.onUnLink = function(callbackFunc) {
+    if (callbackFunc && typeof(callbackFunc) === "function") {
+      onUnLinkCallbacks.push(callbackFunc);
     }
   }
 

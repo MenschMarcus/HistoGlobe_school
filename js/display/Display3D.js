@@ -266,7 +266,7 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
 
       for (var i=0; i<handles.length; i++) {
 
-        var hivent = new HG.HiventMarker3D(handles[i], mySelf);
+        var hivent = new HG.HiventMarker3D(handles[i], mySelf, inContainer);
 
         mySceneGlobe.add(hivent);
 
@@ -323,7 +323,11 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
     for (var i = 0; i < intersects.length; i++) {
       if (intersects[i].object instanceof HG.HiventMarker3D) {
         myLastIntersected.push(intersects[i].object);
-        intersects[i].object.hover(mouse);
+        var pos = {
+						x : mouse.x - myCanvasOffsetX,
+						y : mouse.y - myCanvasOffsetY,
+				};
+        intersects[i].object.hover(pos);
       }
     }
 
@@ -435,7 +439,11 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
         HG.deactivateAllHivents();
       } else {
         for (var i = 0; i < myLastIntersected.length; i++) {
-          myLastIntersected[i].active(mouse);
+					var pos = {
+						x : mouse.x - myCanvasOffsetX,
+						y : mouse.y - myCanvasOffsetY,
+					};
+          myLastIntersected[i].active(pos);
         }
       }
     }

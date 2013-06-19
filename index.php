@@ -109,7 +109,7 @@
         }  
         
       });
-      
+           
       function loadGLHeader() {
         
         //console.log(BrowserDetect.browser);
@@ -181,7 +181,7 @@
                      
         $('.hero-unit').css({height: "100%"});
         $('#logo-normal').css({visibility: "hidden"});    
-        
+                
         if (display3D && display3D.isRunning()) {
           $(display3D.getCanvas()).animate({opacity: 0.0}, 1000, 'linear');
           display3D.stop();        
@@ -194,6 +194,7 @@
       }
       
       function load2D() {
+								
         if (display3D && display3D.isRunning()) {
           $(display3D.getCanvas()).animate({opacity: 0.0}, 1000, 'linear');
           display3D.stop();

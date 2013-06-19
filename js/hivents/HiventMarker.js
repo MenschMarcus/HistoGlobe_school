@@ -2,8 +2,9 @@ var HG = HG || {};
 
 HG.hiventInfoCount = 0;
 
-HG.HiventMarker = function(inHiventHandle) {
+HG.HiventMarker = function(inHiventHandle, inParent) {
 
+  var self = this;
   var hiventInfo;
   
   this.getHiventHandle = function() {
@@ -22,12 +23,24 @@ HG.HiventMarker = function(inHiventHandle) {
     inHiventHandle.toggleActive(mousePixelPosition);
   } 
   
-  this.hover = function(mousePixelPosition) {
-    inHiventHandle.hover(mousePixelPosition);
+  this.markAll = function(mousePixelPosition) {
+    inHiventHandle.markAll(mousePixelPosition);
   } 
+
+  this.mark = function(obj, mousePixelPosition) {
+    inHiventHandle.mark(obj, mousePixelPosition);
+  }  
   
-  this.unHover = function(mousePixelPosition) {
-    inHiventHandle.unHover(mousePixelPosition);
+  this.unMark = function(mousePixelPosition) {
+    inHiventHandle.unMark(mousePixelPosition);
+  } 
+ 
+  this.link = function(obj, mousePixelPosition) {
+    inHiventHandle.link(obj, mousePixelPosition);
+  }  
+  
+  this.unLink = function(mousePixelPosition) {
+    inHiventHandle.unLink(mousePixelPosition);
   } 
   
   this.focus = function(mousePixelPosition) {
@@ -59,10 +72,15 @@ HG.HiventMarker = function(inHiventHandle) {
     $(hiventInfo).popover("hide");
   }
   
-  inHiventHandle.onHover(this.showHiventName);
-  inHiventHandle.onUnHover(this.hideHiventName);
-  inHiventHandle.onActive(this.showHiventInfo);
-  inHiventHandle.onInActive(this.hideHiventInfo);
+  this.enableShowName = function() {
+		inHiventHandle.onMark(self, this.showHiventName);
+		inHiventHandle.onUnMark(this.hideHiventName);
+	}
+  
+  this.enableShowInfo = function() {
+		inHiventHandle.onActive(this.showHiventInfo);
+		inHiventHandle.onInActive(this.hideHiventInfo);
+	}
   
   function init() {
     hiventInfo = document.createElement("div");
@@ -74,7 +92,7 @@ HG.HiventMarker = function(inHiventHandle) {
     hiventInfo.style.visibility = "hidden";
     hiventInfo.style.pointerEvents = "none";
     
-    document.getElementsByTagName("body")[0].appendChild(hiventInfo);
+    inParent.appendChild(hiventInfo);
     
     var hivent = inHiventHandle.getHivent();
     

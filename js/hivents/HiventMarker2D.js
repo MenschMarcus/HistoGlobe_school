@@ -6,9 +6,9 @@ HG.hiventMarker2DCount = 0;
 
 HG.visibleMarkers2D = [];
 
-HG.HiventMarker2D = function(inHivent, inDisplay, parentContainer, posX, posY, offX, offY) {
+HG.HiventMarker2D = function(inHivent, inDisplay, inParent, posX, posY, offX, offY) {
        
-  HG.HiventMarker.call(this, inHivent)
+  HG.HiventMarker.call(this, inHivent, inParent)
 
   var hiventDefaultColor   = "#253563";
   var hiventHighlightColor = "#ff8800";
@@ -32,20 +32,20 @@ HG.HiventMarker2D = function(inHivent, inDisplay, parentContainer, posX, posY, o
   div.style.backgroundColor = hiventDefaultColor;
   setDivPos(position);
 
-  parentContainer.appendChild(div);
+  inParent.appendChild(div);
   
   div.onmouseover = function (e) {
     var pos = getAbsPos();
     pos.x += radius;
     pos.y += 0.6 * radius;
-    self.hover(pos);
+    self.mark(self, pos);
   };
   
   div.onmouseout = function (e) {
     var pos = getAbsPos();
     pos.x += radius;
     pos.y += 0.6 * radius;
-    self.unHover(pos);
+    self.unMark(pos);
   };
   
   div.onclick = function (e) {
@@ -66,16 +66,24 @@ HG.HiventMarker2D = function(inHivent, inDisplay, parentContainer, posX, posY, o
   
   function getAbsPos() {
     return {
-      x: position.x + offset.x,
-      y: position.y + offset.y
+      x: position.x,
+      y: position.y 
     }
   }
-  
-  this.getHiventHandle().onHover(function(mousePos){
+ 
+  this.getHiventHandle().onMark(self, function(mousePos){
     div.style.backgroundColor = hiventHighlightColor;
   });
   
-  this.getHiventHandle().onUnHover(function(mousePos){
+  this.getHiventHandle().onUnMark(function(mousePos){
+    div.style.backgroundColor = hiventDefaultColor;
+  });
+  
+  this.getHiventHandle().onLink(self, function(mousePos){
+    div.style.backgroundColor = hiventHighlightColor;
+  });
+  
+  this.getHiventHandle().onUnLink(function(mousePos){
     div.style.backgroundColor = hiventDefaultColor;
   });
   
@@ -84,6 +92,9 @@ HG.HiventMarker2D = function(inHivent, inDisplay, parentContainer, posX, posY, o
 			inDisplay.focus(self.getHiventHandle().getHivent());
 		}
   });
+  
+  this.enableShowName();
+  this.enableShowInfo();
   
   this.getPosition = function() {
     return position;

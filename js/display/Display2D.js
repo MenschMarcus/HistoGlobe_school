@@ -33,7 +33,7 @@ HG.Display2D = function(inContainer, inMap, inHiventHandler) {
   this.start = function() {
     if (!myIsRunning) {
         myIsRunning = true;
-        canvasParent.style.display = "inline";
+        canvasParent.style.display = "block";
         canvas.style.display = "inline";
         HG.showAllVisibleMarkers2D();
         animate();
