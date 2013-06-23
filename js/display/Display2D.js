@@ -388,7 +388,7 @@ HG.Display2D = function(inContainer, inMap, inHiventHandler) {
   // ===========================================================================
   function longLatToCanvasCoord(longlat) {
     return {
-      x: ((-longlat.x + 180) / 360) * myCurrentZoom * inMap.getResolution().x,
+      x: ((longlat.x + 180) / 360) * myCurrentZoom * inMap.getResolution().x,
       y: ((longlat.y -  90) / -180) * myCurrentZoom * inMap.getResolution().y
     };
   }
