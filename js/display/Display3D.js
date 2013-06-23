@@ -104,6 +104,10 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
     initHivents();
     initEventHandling();
 
+    inMap.onRedraw(function() {
+      myMapTexture.needsUpdate = true;
+    });
+
     this.center({x:-10, y:50});
   }
 
@@ -173,11 +177,11 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
 
   // ===========================================================================
   function initWindowGeometry() {
-    myWidth = $(container.parentNode).innerWidth();
-    myHeight = $(container.parentNode).innerHeight();
+    myWidth = $(inContainer.parentNode).innerWidth();
+    myHeight = $(inContainer.parentNode).innerHeight();
 
-    myCanvasOffsetX = $(container.parentNode).offset().left;
-    myCanvasOffsetY = $(container.parentNode).offset().top;
+    myCanvasOffsetX = $(inContainer.parentNode).offset().left;
+    myCanvasOffsetY = $(inContainer.parentNode).offset().top;
   }
 
   // ===========================================================================
@@ -233,22 +237,22 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
 
     myRenderer.domElement.style.position = 'absolute';
 
-    container.appendChild(myRenderer.domElement);
+    inContainer.appendChild(myRenderer.domElement);
   }
 
   // ===========================================================================
   function initEventHandling() {
-    container.addEventListener('mousedown', onMouseDown, false);
-    container.addEventListener('mousemove', onMouseMove, false);
-    container.addEventListener('mouseup', onMouseUp, false);
+    inContainer.addEventListener('mousedown', onMouseDown, false);
+    inContainer.addEventListener('mousemove', onMouseMove, false);
+    inContainer.addEventListener('mouseup', onMouseUp, false);
 
-    container.addEventListener('mousewheel', function(event) {
+    inContainer.addEventListener('mousewheel', function(event) {
       event.preventDefault();
       onMouseWheel(event.wheelDelta);
       return false;
     }, false);
 
-    container.addEventListener('DOMMouseScroll', function(event) {
+    inContainer.addEventListener('DOMMouseScroll', function(event) {
       event.preventDefault();
       onMouseWheel(-event.detail*30);
       return false;
@@ -284,8 +288,6 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
   // ===========================================================================
   function animate() {
     if (myIsRunning) {
-      //inMap.redraw();
-      //myMapTexture.needsUpdate = true;
       render();
       requestAnimationFrame(animate);
     }
@@ -298,6 +300,10 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
                      y: (mouse.y - myCanvasOffsetY) / myHeight * 2 - 1};
 
     // picking -----------------------------------------------------------------
+    var longLat = mouseToLongLat(mouseRel);
+    if (longLat) {
+      inMap.setMouseLongLat(longLat);
+    }
 
     // test for mark and highlight hivents
     var vector = new THREE.Vector3(mouseRel.x, -mouseRel.y, 0.5);
@@ -349,7 +355,7 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
           myDragStartPos.x += 360;
         }
 
-        myTargetCameraPos.x += 0.3 * (myDragStartPos.x - longLatCurr.x);
+        myTargetCameraPos.x -= 0.3 * (myDragStartPos.x - longLatCurr.x);
         myTargetCameraPos.y += 0.3 * (myDragStartPos.y - longLatCurr.y);
 
         if (myTargetCameraPos.y > HG.Display3D.CAMERA_MAX_LONG) {
@@ -415,7 +421,7 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
       myDragStartPos = mouseToLongLat(clickMouse);
 
       if (myDragStartPos) {
-        container.style.cursor = 'move';
+        inContainer.style.cursor = 'move';
       }
    }
   }
@@ -432,7 +438,7 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
   function onMouseUp(event) {
     if (myIsRunning) {
       event.preventDefault();
-      container.style.cursor = 'auto';
+      inContainer.style.cursor = 'auto';
 
       myDragStartPos = null;
       myDragStartCamera = null;
@@ -477,11 +483,11 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
 
   // ===========================================================================
   function onWindowResize(event) {
-    myCamera.aspect = $(container.parentNode).innerWidth()
-                    / $(container.parentNode).innerHeight();
+    myCamera.aspect = $(inContainer.parentNode).innerWidth()
+                    / $(inContainer.parentNode).innerHeight();
     myCamera.updateProjectionMatrix();
-    myRenderer.setSize($(container.parentNode).innerWidth(),
-                     $(container.parentNode).innerHeight());
+    myRenderer.setSize($(inContainer.parentNode).innerWidth(),
+                     $(inContainer.parentNode).innerHeight());
 
     initWindowGeometry();
   }
@@ -523,7 +529,7 @@ HG.Display3D = function(inContainer, inMap, inHiventHandler) {
       long += 180;
     }
 
-    return new THREE.Vector2(long, lat);
+    return new THREE.Vector2(-long, lat);
   }
   
   // call base class constructor
