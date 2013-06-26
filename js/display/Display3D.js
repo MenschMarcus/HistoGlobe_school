@@ -18,6 +18,7 @@ HG.Display3D = function(inContainer, inHiventHandler) {
   
   // background color
   HG.Display3D.BACKGROUND = new THREE.Color(0xCCCCCC);
+  HG.Display3D.TILE_PATH  = "data/tiles/";
   
   
 
@@ -26,8 +27,8 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 
   // camera distance to globe, its maximum longitude a the zoom spped
   HG.Display3D.CAMERA_DISTANCE = 500;
-  HG.Display3D.CAMERA_MAX_ZOOM = 70;
-  HG.Display3D.CAMERA_MIN_ZOOM = 5;
+  HG.Display3D.CAMERA_MAX_ZOOM = 5;
+  HG.Display3D.CAMERA_MIN_ZOOM = 2;
   HG.Display3D.CAMERA_MAX_LONG = 80;
   HG.Display3D.CAMERA_ZOOM_SPEED = 0.1;
   
@@ -146,6 +147,7 @@ HG.Display3D = function(inContainer, inHiventHandler) {
     initHivents();
     initEventHandling();
 
+		zoom();
     this.center({x:10, y:50});
   }
 
@@ -208,13 +210,13 @@ HG.Display3D = function(inContainer, inHiventHandler) {
   var myDragStartPos;
   var mySpringiness = 0.9;
 
-  var myCurrentFOV = 90, myTargetFOV = 50;
+  var myCurrentFOV = 0, myTargetFOV = 0;
 
   var myGlobeTextures = [];
   var myGlobeUniforms;
 
   var myIsRunning = false;
-  var tile_zoom = 4;
+  var myCurrentZoom = HG.Display3D.CAMERA_MIN_ZOOM;
 
   ////////////////////////// INIT FUNCTIONS ////////////////////////////////////
 
@@ -239,15 +241,18 @@ HG.Display3D = function(inContainer, inHiventHandler) {
     var shader = HG.Display3D.SHADERS['earth'];
     myGlobeUniforms = THREE.UniformsUtils.clone(shader.uniforms);
     
-    for (var x=0; x<Math.pow(2, tile_zoom); ++x) {
-      var column = [];
     
-      for (var y=0; y<Math.pow(2, tile_zoom); ++y) {
-        column.push(THREE.ImageUtils.loadTexture("data/tiles/" + tile_zoom + "/" + x + "/" + y + ".png"));
-      }
-      
-      myGlobeTextures.push(column);
-    }
+    for (var z = HG.Display3D.CAMERA_MIN_ZOOM; z<=HG.Display3D.CAMERA_MAX_ZOOM; ++z) {
+			var zoomLevel = [];
+			for (var x=0; x<Math.pow(2, z); ++x) {
+				column = [];
+				for (var y=0; y<Math.pow(2, z); ++y) {
+					column.push(null);
+				}			
+				zoomLevel.push(column);		
+			}
+			myGlobeTextures.push(zoomLevel);			
+		}
     
     var material = new THREE.ShaderMaterial({
       vertexShader: shader.vertexShader,
@@ -449,16 +454,16 @@ HG.Display3D = function(inContainer, inHiventHandler) {
     myRenderer.clear();
     myRenderer.setFaceCulling(THREE.CullFaceBack);
     
-    var size = 1.0/Math.pow(2, tile_zoom);
+    var size = 1.0/Math.pow(2, myCurrentZoom);
     
-    for (var x=0; x<Math.pow(2, tile_zoom); x+=4) {
-      for (var y=0; y<Math.pow(2, tile_zoom); y+=4) {
+    for (var x=0; x<Math.pow(2, myCurrentZoom); x+=4) {
+      for (var y=0; y<Math.pow(2, myCurrentZoom); y+=4) {
       
         var textures = [];
         
         for (var dx=0; dx<4; ++dx) {
           for (var dy=0; dy<4; ++dy) {
-            textures.push(myGlobeTextures[x+dx][y+(3-dy)]);
+            textures.push(getTextureTile(x+dx, y+(3-dy), myCurrentZoom));
           }
         }
       
@@ -475,10 +480,8 @@ HG.Display3D = function(inContainer, inHiventHandler) {
   }
 
   // ===========================================================================
-  function zoom(delta) {
-    myTargetFOV -= delta*HG.Display3D.CAMERA_ZOOM_SPEED;
-    myTargetFOV = myTargetFOV > HG.Display3D.CAMERA_MAX_ZOOM ? HG.Display3D.CAMERA_MAX_ZOOM : myTargetFOV;
-    myTargetFOV = myTargetFOV < HG.Display3D.CAMERA_MIN_ZOOM ? HG.Display3D.CAMERA_MIN_ZOOM : myTargetFOV;
+  function zoom() {
+    myTargetFOV = (HG.Display3D.CAMERA_MAX_ZOOM + 1 - myCurrentZoom) * 15; 
   }
 
 
@@ -541,8 +544,14 @@ HG.Display3D = function(inContainer, inHiventHandler) {
   // ===========================================================================
   function onMouseWheel(delta) {
     if (myIsRunning) {
-      zoom(delta * 0.3);
+			if (delta > 0)
+				myCurrentZoom = Math.min(myCurrentZoom + 1, HG.Display3D.CAMERA_MAX_ZOOM);
+			else
+				myCurrentZoom = Math.max(myCurrentZoom - 1, HG.Display3D.CAMERA_MIN_ZOOM);
+			
+			zoom();
     }
+   
     return false;
   }
 
@@ -623,6 +632,14 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 
     return new THREE.Vector2(long, lat);
   }
+
+	// ===========================================================================
+	function getTextureTile(x, y, zoom) {
+		if (myGlobeTextures[zoom - HG.Display3D.CAMERA_MIN_ZOOM][x][y] == null) {
+			myGlobeTextures[zoom - HG.Display3D.CAMERA_MIN_ZOOM][x][y] = THREE.ImageUtils.loadTexture(HG.Display3D.TILE_PATH + zoom + "/" + x + "/" + y + ".png");
+		}
+		return myGlobeTextures[zoom - HG.Display3D.CAMERA_MIN_ZOOM][x][y];
+	}
   
   // call base class constructor
   HG.Display.call(this);

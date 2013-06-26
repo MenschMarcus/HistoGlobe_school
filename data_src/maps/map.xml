@@ -52,13 +52,13 @@
   
 </Style>
 
-<!--<Layer name="water" srs="+init=epsg:4326">-->
-<!--  <StyleName>rasterstyle</StyleName>-->
-<!--  <Datasource>-->
-<!--    <Parameter name="type">gdal</Parameter>-->
-<!--    <Parameter name="file">data/GRAY_HR_SR_OB.tif</Parameter>-->
-<!--  </Datasource>-->
-<!--</Layer>-->
+<Layer name="water" srs="+init=epsg:4326">
+  <StyleName>rasterstyle</StyleName>
+  <Datasource>
+    <Parameter name="type">gdal</Parameter>
+    <Parameter name="file">data/GRAY_HR_SR_OB.tif</Parameter>
+  </Datasource>
+</Layer>
 
 
 <Layer name="world" srs="+init=epsg:4326">
