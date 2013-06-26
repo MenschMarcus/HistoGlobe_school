@@ -52,7 +52,8 @@ HG.HiventMarker = function(inHiventHandle, inParent) {
     hiventInfo.style.visibility = "hidden";
     hiventInfo.style.pointerEvents = "none";
     
-    inParent.appendChild(hiventInfo);
+    if (inParent)
+      inParent.appendChild(hiventInfo);
     
     var hivent = inHiventHandle.getHivent();
     

@@ -37,6 +37,11 @@
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/timeline.css">
+    
+    <link rel="stylesheet" href="js/third-party/leaflet/leaflet.css" />
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" href="js/third-party/leaflet/leaflet.ie.css" />
+    <![endif]-->
 
     <script type="text/javascript" src="js/third-party/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="js/third-party/jquery.browser.js"></script>
@@ -48,11 +53,13 @@
     <script type="text/javascript" src="js/third-party/three.min.js"></script>
     <script type="text/javascript" src="js/third-party/Tween.js"></script>
     <script type="text/javascript" src="js/third-party/paper.js"></script>
+    
+    <script src="js/third-party/leaflet/leaflet.js"></script>
+
 
     <script type="text/javascript" src="js/display/Display.js"></script>
     <script type="text/javascript" src="js/display/Display2D.js"></script>
     <script type="text/javascript" src="js/display/Display3D.js"></script>
-    <script type="text/javascript" src="js/map/Map.js"></script>
     <script type="text/javascript" src="js/timeline/Timeline.js"></script>
     <script type="text/javascript" src="js/histrips/Histrip.js"></script>
     <script type="text/javascript" src="js/histrips/HistripHandle.js"></script>
@@ -69,7 +76,7 @@
     <script type="text/javascript" src="js/util/BrowserDetect.js"></script>
 
     <script type="text/javascript">
-      var display2D, display3D, map, timeline, hiventHandler, histripHandler;
+      var display2D, display3D, timeline, hiventHandler, histripHandler;
       var timelineInitialized = false;
       var container;
       var player;
@@ -132,8 +139,6 @@
 
           hiventHandler = new HG.HiventHandler();
           histripHandler = new HG.HistripHandler();
-
-          map = new HG.Map(histripHandler);
 
           container = document.getElementById('map-container');
           loadTimeline();
@@ -209,7 +214,7 @@
         }
 
         if (!display2D) {
-          display2D = new HG.Display2D(container, map, hiventHandler);
+          display2D = new HG.Display2D(container, hiventHandler);
           $(display2D.getCanvas()).css({opacity: 0.0});
         }
 
@@ -227,7 +232,7 @@
           }
 
           if (!display3D) {
-            display3D = new HG.Display3D(container, map, hiventHandler);
+            display3D = new HG.Display3D(container, hiventHandler);
             $(display3D.getCanvas()).css({opacity: 0.0});
           }
 
