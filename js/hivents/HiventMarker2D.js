@@ -26,9 +26,7 @@ HG.HiventMarker2D = function(inHivent, inDisplay, inMap) {
     var pos ={ 
 								x : position.x,
 								y : position.y - radius
-							};
-		console.log(position);			
-		console.log(pos);			
+							};	
     self.getHiventHandle().mark(self, pos);
     self.getHiventHandle().linkAll(pos);
   };
