@@ -8,6 +8,5 @@ HG.Display = function() {
 };
 
 HG.Display.prototype.focus = function(hivent) {
-  
   this.center({x: hivent.long, y: hivent.lat});
 }

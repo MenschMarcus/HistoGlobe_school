@@ -25,7 +25,7 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 
   // camera distance to globe, its maximum longitude a the zoom spped
   HG.Display3D.CAMERA_DISTANCE = 500;
-  HG.Display3D.CAMERA_MAX_ZOOM = 6;
+  HG.Display3D.CAMERA_MAX_ZOOM = 5;
   HG.Display3D.CAMERA_MIN_ZOOM = 2;
   HG.Display3D.CAMERA_MAX_LONG = 80;
   HG.Display3D.CAMERA_ZOOM_SPEED = 0.1;
@@ -178,8 +178,8 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 
   // ===========================================================================
   this.center = function(latLong) {
-    myTargetCameraPos.x = latLong.y;
-    myTargetCameraPos.y = latLong.x;
+    myTargetCameraPos.x = latLong.x;
+    myTargetCameraPos.y = latLong.y;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -491,8 +491,6 @@ HG.Display3D = function(inContainer, inHiventHandler) {
         }
       }
     }
-    
-    console.log("rendered: " + count);
     
     myRenderer.setFaceCulling(THREE.CullFaceFront);
     myRenderer.render(mySceneAtmosphere, myCamera);
