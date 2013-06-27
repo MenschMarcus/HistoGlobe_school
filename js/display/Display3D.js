@@ -20,14 +20,12 @@ HG.Display3D = function(inContainer, inHiventHandler) {
   HG.Display3D.BACKGROUND = new THREE.Color(0xCCCCCC);
   HG.Display3D.TILE_PATH  = "data/tiles/";
   
-  
-
   // radius of the globe
   HG.Display3D.EARTH_RADIUS = 200;
 
   // camera distance to globe, its maximum longitude a the zoom spped
   HG.Display3D.CAMERA_DISTANCE = 500;
-  HG.Display3D.CAMERA_MAX_ZOOM = 5;
+  HG.Display3D.CAMERA_MAX_ZOOM = 6;
   HG.Display3D.CAMERA_MIN_ZOOM = 2;
   HG.Display3D.CAMERA_MAX_LONG = 80;
   HG.Display3D.CAMERA_ZOOM_SPEED = 0.1;
@@ -46,8 +44,8 @@ HG.Display3D = function(inContainer, inHiventHandler) {
       'varying vec2 vTexcoord;',
       
       'float convertCoords(float lat) {',
-        'if (lat < 0.02) return 0.0;',
-        'if (lat > 0.98) return 1.0;',
+        'if (lat == 0.0) return 0.0;',
+        'if (lat == 1.0) return 1.0;',
         'const float pi = 3.1415926535897932384626433832795;',
         'return log(tan(lat*0.5 * pi)) / (pi * 2.0) + 0.5;',
       '}',
@@ -69,7 +67,8 @@ HG.Display3D = function(inContainer, inHiventHandler) {
             'minUV.y > vTexcoord.y || maxUV.y < vTexcoord.y)',
               'discard;',
         'vec2 uv = (vTexcoord - minUV)/(maxUV - minUV);',
-        
+        //'gl_FragColor     = vec4( uv, 0.0, 1.0 ); return;',
+         
         'vec3 diffuse = vec3(0);',
         'float size = 0.25;',
         
@@ -178,9 +177,9 @@ HG.Display3D = function(inContainer, inHiventHandler) {
   }
 
   // ===========================================================================
-  this.center = function(longLat) {
-    myTargetCameraPos.x = longLat.x;
-    myTargetCameraPos.y = longLat.y;
+  this.center = function(latLong) {
+    myTargetCameraPos.x = latLong.y;
+    myTargetCameraPos.y = latLong.x;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -217,6 +216,7 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 
   var myIsRunning = false;
   var myCurrentZoom = HG.Display3D.CAMERA_MIN_ZOOM;
+  var myCurrentTextureZoom = HG.Display3D.CAMERA_MIN_ZOOM;
 
   ////////////////////////// INIT FUNCTIONS ////////////////////////////////////
 
@@ -330,7 +330,7 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 
         mySceneGlobe.add(hivent);
 
-        var position = longLatToCart(new THREE.Vector2(handles[i].getHivent().long, handles[i].getHivent().lat), HG.Display3D.EARTH_RADIUS);
+        var position = latLongToCart(new THREE.Vector2(handles[i].getHivent().long, handles[i].getHivent().lat));
 
         hivent.translateOnAxis(new THREE.Vector3(1,0,0), position.x);
         hivent.translateOnAxis(new THREE.Vector3(0,1,0), position.y);
@@ -401,19 +401,22 @@ HG.Display3D = function(inContainer, inHiventHandler) {
       myMousePosLastFrame.x = myMousePos.x;
       myMousePosLastFrame.y = myMousePos.y;
       
-      var longLatCurr = mouseToLongLat(mouseRel);
+      var latLongCurr = pixelToLatLong(mouseRel);
 
       // if mouse is still over the globe
-      if (longLatCurr) {
+      if (latLongCurr) {
 
-        if (myDragStartPos.x - longLatCurr.x > 180) {
-          myDragStartPos.x -= 360;
-        } else if (myDragStartPos.x - longLatCurr.x < -180) {
-          myDragStartPos.x += 360;
+        var xOffset = myDragStartPos.x - latLongCurr.x;
+        var yOffset = myDragStartPos.y - latLongCurr.y;
+  
+        if (yOffset > 180) {
+          yOffset -= 360;
+        } else if (yOffset < -180) {
+          yOffset += 360;
         }
 
-        myTargetCameraPos.x -= 0.5 * (myDragStartPos.x - longLatCurr.x);
-        myTargetCameraPos.y += 0.5 * (myDragStartPos.y - longLatCurr.y);
+        myTargetCameraPos.y += 0.5 * (xOffset);
+        myTargetCameraPos.x -= 0.5 * (yOffset);
 
         clampCameraPos();
 
@@ -444,36 +447,52 @@ HG.Display3D = function(inContainer, inHiventHandler) {
     myCamera.lookAt(new THREE.Vector3(0,0,0));
 
     // zooming -----------------------------------------------------------------
-    var smoothness = 0.7;
-    myCurrentFOV = myCurrentFOV * smoothness + myTargetFOV * (1.0 - smoothness);
-    myCamera.fov = myCurrentFOV;
-    myCamera.updateProjectionMatrix();
+    if (myCurrentFOV != myTargetFOV) {
+      var smoothness = 0.7;
+      myCurrentFOV = myCurrentFOV * smoothness + myTargetFOV * (1.0 - smoothness);
+      myCamera.fov = myCurrentFOV;
+      myCamera.updateProjectionMatrix();
+      
+      if (Math.abs(myCurrentFOV - myTargetFOV) < 0.1) {
+        myCurrentFOV = myTargetFOV;
+        myCurrentTextureZoom = myCurrentZoom;
+      }
+    }
 
     // rendering ---------------------------------------------------------------
-
     myRenderer.clear();
     myRenderer.setFaceCulling(THREE.CullFaceBack);
     
-    var size = 1.0/Math.pow(2, myCurrentZoom);
+    var size = 1.0/Math.pow(2, myCurrentTextureZoom);
     
-    for (var x=0; x<Math.pow(2, myCurrentZoom); x+=4) {
-      for (var y=0; y<Math.pow(2, myCurrentZoom); y+=4) {
+    var count = 0;
+    
+    for (var x=0; x<Math.pow(2, myCurrentTextureZoom); x+=4) {
+      for (var y=0; y<Math.pow(2, myCurrentTextureZoom); y+=4) {
       
         var textures = [];
         
         for (var dx=0; dx<4; ++dx) {
           for (var dy=0; dy<4; ++dy) {
-            textures.push(getTextureTile(x+dx, y+(3-dy), myCurrentZoom));
+            textures.push(getTextureTile(x+dx, y+(3-dy), myCurrentTextureZoom));
           }
         }
-      
-        myGlobeUniforms['tiles'].value = textures;
-        myGlobeUniforms['minUV'].value = new THREE.Vector2(x*size, 1.0 - (y+4)*size);
-        myGlobeUniforms['maxUV'].value = new THREE.Vector2((x+4)*size, 1.0 - y*size);
         
-        myRenderer.render(mySceneGlobe, myCamera);
+        var minUV = new THREE.Vector2(x*size, 1.0 - (y+4)*size);
+        var maxUV = new THREE.Vector2((x+4)*size, 1.0 - y*size);
+        
+        if (isTileVisible(minUV, maxUV)) {
+          myGlobeUniforms['tiles'].value = textures;
+          myGlobeUniforms['minUV'].value = minUV;
+          myGlobeUniforms['maxUV'].value = maxUV;
+          
+          myRenderer.render(mySceneGlobe, myCamera);
+          ++count;
+        }
       }
     }
+    
+    console.log("rendered: " + count);
     
     myRenderer.setFaceCulling(THREE.CullFaceFront);
     myRenderer.render(mySceneAtmosphere, myCamera);
@@ -481,7 +500,7 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 
   // ===========================================================================
   function zoom() {
-    myTargetFOV = (HG.Display3D.CAMERA_MAX_ZOOM + 1 - myCurrentZoom) * 15; 
+    myTargetFOV = (HG.Display3D.CAMERA_MAX_ZOOM + 0.3 - myCurrentZoom) * 15; 
   }
 
 
@@ -495,7 +514,7 @@ HG.Display3D = function(inContainer, inHiventHandler) {
       var clickMouse = {x: (event.clientX - myCanvasOffsetX) / myWidth * 2 - 1,
                         y: (event.clientY - myCanvasOffsetY) / myHeight * 2 - 1};
 
-      myDragStartPos = mouseToLongLat(clickMouse);
+      myDragStartPos = pixelToLatLong(clickMouse);
 
       if (myDragStartPos) {
         inContainer.style.cursor = 'move';
@@ -512,8 +531,7 @@ HG.Display3D = function(inContainer, inHiventHandler) {
   // ===========================================================================
   function onMouseMove(event) {
     if (myIsRunning) {
-      myMousePos = {x: event.clientX,
-                    y: event.clientY};
+      myMousePos = {x: event.clientX, y: event.clientY};
     }
   }
 
@@ -596,33 +614,41 @@ HG.Display3D = function(inContainer, inHiventHandler) {
   }
   
   // ===========================================================================
-  function mouseToLongLat(inMousePos) {
-    var vector = new THREE.Vector3(inMousePos.x, -inMousePos.y, 0.5);
+  function pixelToLatLong(inPixel) {
+    var vector = new THREE.Vector3(inPixel.x, -inPixel.y, 0.5);
 	  HG.Display3D.PROJECTOR.unprojectVector(vector, myCamera);
     HG.Display3D.RAYCASTER.set(myCamera.position, vector.sub(myCamera.position).normalize());
 
 	  var intersects = HG.Display3D.RAYCASTER.intersectObjects(mySceneGlobe.children);
 
 	  if (intersects.length > 0) {
-	      return cartToLongLat(intersects[0].point.clone().normalize());
+	      return cartToLatLong(intersects[0].point.clone().normalize());
 	  }
 
 	  return null;
   }
 
   // ===========================================================================
-  function longLatToCart(longlat, radius) {
-    var x = radius * Math.cos( longlat.y * Math.PI/180)
-                   * Math.cos(-longlat.x * Math.PI/180);
-    var y = radius * Math.sin( longlat.y * Math.PI/180);
-    var z = radius * Math.cos( longlat.y * Math.PI/180)
-                   * Math.sin(-longlat.x * Math.PI/180);
+  function latLongToCart(latLong) {
+    var x = HG.Display3D.EARTH_RADIUS * Math.cos( latLong.y * Math.PI/180)
+                                      * Math.cos(-latLong.x * Math.PI/180);
+    var y = HG.Display3D.EARTH_RADIUS * Math.sin( latLong.y * Math.PI/180);
+    var z = HG.Display3D.EARTH_RADIUS * Math.cos( latLong.y * Math.PI/180)
+                                      * Math.sin(-latLong.x * Math.PI/180);
 
     return new THREE.Vector3(x,y,z);
   }
+  
+  // ===========================================================================
+  function latLongToPixel(latLong) {
+    var pos = latLongToCart(latLong);
+    HG.Display3D.PROJECTOR.projectVector(pos, myCamera);
+    
+    return pos;
+  }
 
   // ===========================================================================
-  function cartToLongLat(coordinates) {
+  function cartToLatLong(coordinates) {
     var lat = Math.asin(coordinates.y) / Math.PI * 180;
     var long = -Math.atan(coordinates.x / coordinates.z) / Math.PI * 180 - 90;
 
@@ -630,7 +656,7 @@ HG.Display3D = function(inContainer, inHiventHandler) {
       long += 180;
     }
 
-    return new THREE.Vector2(long, lat);
+    return new THREE.Vector2(lat, long);
   }
 
 	// ===========================================================================
@@ -639,6 +665,77 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 			myGlobeTextures[zoom - HG.Display3D.CAMERA_MIN_ZOOM][x][y] = THREE.ImageUtils.loadTexture(HG.Display3D.TILE_PATH + zoom + "/" + x + "/" + y + ".png");
 		}
 		return myGlobeTextures[zoom - HG.Display3D.CAMERA_MIN_ZOOM][x][y];
+	}
+	
+	// ===========================================================================
+	function isTileVisible(minNormalizedLatLong, maxNormalizedLatLong) {
+	  
+	  if (isFrontFacingTile(minNormalizedLatLong, maxNormalizedLatLong)) {
+	    var min = normalizedMercatusToNormalizedLatLong(minNormalizedLatLong);
+      var max = normalizedMercatusToNormalizedLatLong(maxNormalizedLatLong);
+	
+	    var a = latLongToPixel(unNormalizeLatLong({x: min.x, y: min.y}));
+	    var b = latLongToPixel(unNormalizeLatLong({x: max.x, y: min.y}));
+	    var c = latLongToPixel(unNormalizeLatLong({x: max.x, y: max.y}));
+	    var d = latLongToPixel(unNormalizeLatLong({x: min.x, y: max.y}));
+
+      var minX = Math.min(Math.min(Math.min(a.x, b.x), c.x), d.x);
+      var maxX = Math.max(Math.max(Math.max(a.x, b.x), c.x), d.x);
+      
+      var minY = Math.min(Math.min(Math.min(a.y, b.y), c.y), d.y);
+      var maxY = Math.max(Math.max(Math.max(a.y, b.y), c.y), d.y);
+   
+      return !(minX > 1.0 || minY > 1.0 || maxX < -1.0 || maxY < -1.0);
+    }
+    
+    return false;
+	}
+	
+	// ===========================================================================
+	function isFrontFacingTile(minNormalizedLatLong, maxNormalizedLatLong) {
+	  
+	  var a = {x: minNormalizedLatLong.x, y: minNormalizedLatLong.y};
+    var b = {x: maxNormalizedLatLong.x, y: minNormalizedLatLong.y};
+    var c = {x: maxNormalizedLatLong.x, y: maxNormalizedLatLong.y};
+    var d = {x: minNormalizedLatLong.x, y: maxNormalizedLatLong.y};
+    
+    function isOnFrontSide(pos) {
+      var diff = Math.acos(Math.sin((pos.y - 0.5) * Math.PI)
+                          *Math.sin((myCurrentCameraPos.y) * Math.PI / 180.0) 
+                          +Math.cos((pos.y - 0.5) * Math.PI)
+                          *Math.cos((myCurrentCameraPos.y) * Math.PI / 180.0)
+                          *Math.cos(-(pos.x - 0.5) * 2.0 * Math.PI + (myCurrentCameraPos.x) * Math.PI / 180.0));
+      
+      return Math.PI*0.5 > diff;
+    }
+    
+    return isOnFrontSide(a) || isOnFrontSide(b) || isOnFrontSide(c) || isOnFrontSide(d);
+	}
+	
+	// ===========================================================================
+	function normalizedLatLongToNormalizedMercatus(latLong) {
+	  if (latLong.y == 0.0) return new THREE.Vector2(latLong.x, 0.0);
+    if (latLong.y == 1.0) return new THREE.Vector2(latLong.x, 1.0);
+    
+    return new THREE.Vector2(latLong.x, Math.log(Math.tan(latLong.y*0.5 * Math.PI)) / (Math.PI * 2.0) + 0.5);
+	}
+	
+	// ===========================================================================
+	function normalizedMercatusToNormalizedLatLong(mercatus) {
+	  if (mercatus.y == 0.0) return new THREE.Vector2(mercatus.x, 0.0);
+    if (mercatus.y == 1.0) return new THREE.Vector2(mercatus.x, 1.0);
+    
+    return new THREE.Vector2(mercatus.x, 2.0 / Math.PI * Math.atan(Math.exp(2 * Math.PI * (mercatus.y-0.5))));
+	}
+	
+	// ===========================================================================
+	function normalizeLatLong(latLong) {
+	  return new THREE.Vector2(latLong.x/360.0 + 0.5, latLong.y/180.0 + 0.5);
+	}
+	
+	// ===========================================================================
+	function unNormalizeLatLong(normalizedLatLong) {
+	  return new THREE.Vector2(normalizedLatLong.x * 360.0 - 180.0, normalizedLatLong.y * 180.0 - 90.0);
 	}
   
   // call base class constructor

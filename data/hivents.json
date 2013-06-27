@@ -42,8 +42,8 @@
         "category": "Another Impressive Category",
         "date": "may 05, 1922 00:00:00",
         "displayDate": "05.05.1922",
-        "long": 15,
-        "lat": 80,
+        "long": -90,
+        "lat": 45,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         "parties": [
             {
