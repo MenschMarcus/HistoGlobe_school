@@ -1,12 +1,12 @@
 [
     {
-        "name": "Declaration",
+        "name": "Gründung der Siedlung Liberia",
         "category": "Impressive Category",
-        "date": "february 13, 1948 00:00:00",
-        "displayDate": "13.02.1948",
-        "long": 100,
-        "lat": 0,
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "date": "january 01, 1822 00:00:00",
+        "displayDate": "01.01.1822",
+        "long": -10.799561,
+        "lat": 6.287999,
+        "description": "Amerikanische Sklaven, die befreit und zurück nach Afrika gebracht worden waren, gründen die Siedlung Liberia.",
         "parties": [
             {
                 "name": "Party 1",
@@ -19,13 +19,13 @@
         ]
     },
     {
-        "name": "Treaty",
-        "category": "Another Impressive Category",
-        "date": "october 01, 1897 00:00:00",
-        "displayDate": "01.10.1897",
-        "long": 0,
-        "lat": 30,
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "name": "Eroberung Algiers",
+        "category": "Impressive Category",
+        "date": "january 01, 1830 00:00:00",
+        "displayDate": "01.01.1830",
+        "long": 3.164063,
+        "lat": 36.597889,
+        "description": "Französische Truppen erobern Algier und markieren damit den Beginn der französischen Besatzung des Landes.",
         "parties": [
             {
                 "name": "Party 1",
@@ -38,13 +38,13 @@
         ]
     },
     {
-        "name": "Battle",
-        "category": "Another Impressive Category",
-        "date": "may 05, 1922 00:00:00",
-        "displayDate": "05.05.1922",
-        "long": -90,
-        "lat": 45,
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "name": "Gründung der französischen Fremdenlegion",
+        "category": "Impressive Category",
+        "date": "january 01, 1831 00:00:00",
+        "displayDate": "01.01.1831",
+        "long": 36.597889,
+        "lat": 3.164063,
+        "description": "Zur Sicherung Algiers wird die französische Fremdenlegion gebildet.",
         "parties": [
             {
                 "name": "Party 1",
@@ -57,13 +57,13 @@
         ]
     },
     {
-        "name": "Birth",
-        "category": "Another Impressive Category",
-        "date": "april 01, 1866 00:00:00",
-        "displayDate": "01.04.1866",
-        "long": 120,
-        "lat": 60,
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "name": "Schlacht bei Konia",
+        "category": "Impressive Category",
+        "date": "january 01, 1831 00:00:00",
+        "displayDate": "01.01.1831",
+        "long": 32.465286,
+        "lat": 34.779972,
+        "description": "Ägyptische Truppen unter Mohammad Ali besigen die Truppen des Osmanischen Reichs.",
         "parties": [
             {
                 "name": "Party 1",
@@ -76,13 +76,13 @@
         ]
     },
     {
-        "name": "Death",
-        "category": "Another Impressive Category",
-        "date": "march 14, 1901 00:00:00",
-        "displayDate": "14.03.1901",
-        "long": -70,
-        "lat": 30,
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "name": "Vertrag von Kutahia",
+        "category": "Impressive Category",
+        "date": "january 01, 1833 00:00:00",
+        "displayDate": "01.01.1833",
+        "long": 29.983749,
+        "lat": 39.416701,
+        "description": "Nach der siegreichen Schlacht bei Konia fällt Syrien an Ägypten.",
         "parties": [
             {
                 "name": "Party 1",
@@ -95,13 +95,13 @@
         ]
     },
     {
-        "name": "Technical achievement",
-        "category": "Another Impressive Category",
-        "date": "july 12, 1877 00:00:00",
-        "displayDate": "12.06.1877",
-        "long": -20,
-        "lat": -40,
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "name": "Verbot der Sklaverei",
+        "category": "Impressive Category",
+        "date": "january 01, 1833 00:00:00",
+        "displayDate": "01.01.1833",
+        "long": 18.435059,
+        "lat": -33.92513,
+        "description": "Großbritannien schafft in seiner Kolonie Südafrika die Sklaverei ab.",
         "parties": [
             {
                 "name": "Party 1",
@@ -114,13 +114,13 @@
         ]
     },
     {
-        "name": "Assassination",
-        "category": "Some Category",
-        "date": "august 09, 1910 00:00:00",
-        "displayDate": "09.08.1910",
-        "long": -70,
-        "lat": 40,
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "name": "Großer Burentreck",
+        "category": "Impressive Category",
+        "date": "january 01, 1836 00:00:00",
+        "displayDate": "01.01.1836",
+        "long": 18.435059,
+        "lat": -33.92513,
+        "description": "Als Reaktion auf die Abschaffung der Sklaverei verlassen 10 000 konservative Buren die britische Kolonie Südafrika und machen sich auf den Weg ins Landesinnere.",
         "parties": [
             {
                 "name": "Party 1",
@@ -133,13 +133,13 @@
         ]
     },
     {
-        "name": "Foundation",
-        "category": "Another Impressive Category",
-        "date": "november 11, 1899 00:00:00",
-        "displayDate": "11.11.1899",
-        "long": 0,
-        "lat": 0,
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "name": "Orientkrise",
+        "category": "Impressive Category",
+        "date": "january 01, 1839 00:00:00",
+        "displayDate": "01.01.1839",
+        "long": 37.796917,
+        "lat": 37.015712,
+        "description": "Muhammad Ali wird nach Nizip verbannt. In der Folge fällt Syrien zurück an das Osmanische Reich und die Erblichkeit der ägyptischen Statthalter wird festgelegt. Großbritannien, Russland und Preußen nötigen Frankreich dazu, die Unterstützung Ägyptens aufzugeben.",
         "parties": [
             {
                 "name": "Party 1",
@@ -150,6 +150,64 @@
                 "orientation": "Progressive"
             }
         ]
-    }
+    },
+    {
+        "name": "Französisches Generalgouvernement",
+        "category": "Impressive Category",
+        "date": "january 01, 1840 00:00:00",
+        "displayDate": "01.01.1840",
+        "long": 3.164063,
+        "lat": 36.597889,
+        "description": "Bugeaud wird Generalgouverneur von Algerien.",
+        "parties": [
+            {
+                "name": "Party 1",
+                "orientation": "Conservative"
+            },
+            {
+                "name": "Party 2",
+                "orientation": "Progressive"
+            }
+        ]
+    },
+    {
+        "name": "Verbot der Sklavenausfuhr",
+        "category": "Impressive Category",
+        "date": "january 01, 1841 00:00:00",
+        "displayDate": "01.01.1841",
+        "long": 18.435059,
+        "lat": -33.92513,
+        "description": "In der britischen Kolonie Südafrika wird die Ausfuhr von Sklaven verboten.",
+        "parties": [
+            {
+                "name": "Party 1",
+                "orientation": "Conservative"
+            },
+            {
+                "name": "Party 2",
+                "orientation": "Progressive"
+            }
+        ]
+    },
+    {
+        "name": "Gründung des Oranje-Freistaats",
+        "category": "Impressive Category",
+        "date": "january 01, 1842 00:00:00",
+        "displayDate": "01.01.1842",
+        "long": 18.435059,
+        "lat": -33.92513,
+        "description": "Ca. 10 000 konservative Buren, die im \"Großen Burentreck\" seit 1836 aus Südafrika ins Landesinnere abgewandert waren, gründen den Oranje-Freistaat.",
+        "parties": [
+            {
+                "name": "Party 1",
+                "orientation": "Conservative"
+            },
+            {
+                "name": "Party 2",
+                "orientation": "Progressive"
+            }
+        ]
+    }                 
+   
 ]
 
