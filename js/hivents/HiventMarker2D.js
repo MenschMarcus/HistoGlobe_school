@@ -8,72 +8,62 @@ HG.visibleMarkers2D = [];
 
 HG.HiventMarker2D = function(inHivent, inDisplay, inMap) {
        
-  HG.HiventMarker.call(this, inHivent);
+  HG.HiventMarker.call(this, inHivent, inMap.getPanes()["popupPane"]);
   L.Marker.call(this, [inHivent.getHivent().lat, inHivent.getHivent().long]);
   this.addTo(inMap);
   
 //  var hiventDefaultColor   = "#253563";
 //  var hiventHighlightColor = "#ff8800";
-//  
-//  var div;
+  
   var self = this;
-//  var position = { x: posX,
-//                   y: posY };
+  var position = new L.Point(0,0);
+  updatePosition();
+ 
+  var radius = 20;
 
-//  var offset = { x: offX,
-//                 y: offY }; 
-//  
-//  var radius = 3;
 
-//  div = document.createElement("div");
-//  div.id = "hiventMarker2D_" + HG.hiventMarker2DCount;
-//  div.style.position = "absolute";
-//  div.style.width  = 2 * radius + "px";
-//  div.style.height = 2 * radius + "px";
-//  div.style.borderRadius = radius + "px";
-//  div.style.backgroundColor = hiventDefaultColor;
-//  setDivPos(position);
+  this.onMouseOver = function (e) {
+    var pos ={ 
+								x : position.x,
+								y : position.y - radius
+							};
+		console.log(position);			
+		console.log(pos);			
+    self.getHiventHandle().mark(self, pos);
+    self.getHiventHandle().linkAll(pos);
+  };
+  
+  this.onMouseOut = function (e) {
+    var pos ={ 
+								x : position.x,
+								y : position.y - radius
+							};
+    self.getHiventHandle().unMark(self, pos);
+    self.getHiventHandle().unLinkAll(pos);
+  };
+  
+  this.onclick = function (e) {
+    var pos ={ 
+								x : position.x,
+								y : position.y - radius
+							};
+    self.getHiventHandle().active(self, pos);
+  };
+  
+  this.on("mouseover", self.onMouseOver);
+	this.on("mouseout", self.onMouseOut);
+	this.on("click", self.onclick);
+	inMap.on("zoomend", updatePosition);
+	inMap.on("dragend", updatePosition);
+	inMap.on("viewreset", updatePosition);
+	inMap.on("zoomstart", this.hideHiventInfo);
+    
+  HG.visibleMarkers2D.push(this);
 
-//  inParent.appendChild(div);
-//  
-//  div.onmouseover = function (e) {
-//    var pos = getAbsPos();
-//    pos.x += radius;
-//    pos.y += 0.6 * radius;
-//    self.getHiventHandle().mark(self, pos);
-//    self.getHiventHandle().linkAll(pos);
-//  };
-//  
-//  div.onmouseout = function (e) {
-//    var pos = getAbsPos();
-//    pos.x += radius;
-//    pos.y += 0.6 * radius;
-//    self.getHiventHandle().unMark(self, pos);
-//    self.getHiventHandle().unLinkAll(pos);
-//  };
-//  
-//  div.onclick = function (e) {
-//    var pos = getAbsPos();
-//    pos.x += radius;
-//    pos.y += 0.6 * radius;
-//    self.getHiventHandle().active(self, pos);
-//  };
-//  
-//  HG.visibleMarkers2D.push(this);
-//  
-//  HG.hiventMarker2DCount++;
-//  
-//  function setDivPos(pos) {
-//    div.style.left = pos.x +"px";
-//    div.style.top = pos.y +"px";
-//  }
-//  
-//  function getAbsPos() {
-//    return {
-//      x: position.x,
-//      y: position.y 
-//    }
-//  }
+  function updatePosition() {	
+		//position = inMap.latLngToLayerPoint([inHivent.getHivent().lat, inHivent.getHivent().long]);
+		position = inMap.latLngToLayerPoint(self.getLatLng());
+  }
  
   this.getHiventHandle().onMark(self, function(mousePos){
 //    div.style.backgroundColor = hiventHighlightColor;
@@ -97,8 +87,9 @@ HG.HiventMarker2D = function(inHivent, inDisplay, inMap) {
 		}
   });
   
-//  this.enableShowName();
-//  this.enableShowInfo();
+  this.enableShowName();
+  this.enableShowInfo();
+  
 //  
 //  this.getPosition = function() {
 //    return position;
@@ -108,11 +99,7 @@ HG.HiventMarker2D = function(inHivent, inDisplay, inMap) {
 //    position = pos;
 //    setDivPos(position);
 //  }
-//  
-//  this.setOffset = function(off) {
-//    offset = off;
-//  }
-//  
+
 //  this.hide = function() {
 //    div.style.display = "none";
 //  }
@@ -128,17 +115,17 @@ HG.HiventMarker2D = function(inHivent, inDisplay, inMap) {
 
 HG.HiventMarker2D.prototype = Object.create(L.Marker.prototype);
 
-HG.hideAllVisibleMarkers2D = function() {
-  for (var i = 0; i < HG.visibleMarkers2D.length; i++) {
-    if (HG.visibleMarkers2D[i])
-      HG.visibleMarkers2D[i].hide();
-  }
-};
+//HG.hideAllVisibleMarkers2D = function() {
+  //for (var i = 0; i < HG.visibleMarkers2D.length; i++) {
+    //if (HG.visibleMarkers2D[i])
+      //HG.visibleMarkers2D[i].hide();
+  //}
+//};
 
-HG.showAllVisibleMarkers2D = function() {
-  for (var i = 0; i < HG.visibleMarkers2D.length; i++) {
-    if (HG.visibleMarkers2D[i])
-      HG.visibleMarkers2D[i].show();
-  }
-};
+//HG.showAllVisibleMarkers2D = function() {
+  //for (var i = 0; i < HG.visibleMarkers2D.length; i++) {
+    //if (HG.visibleMarkers2D[i])
+      //HG.visibleMarkers2D[i].show();
+  //}
+//};
 

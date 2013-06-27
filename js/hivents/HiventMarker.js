@@ -6,7 +6,7 @@ HG.HiventMarker = function(inHiventHandle, inParent) {
 
   var self = this;
   var hiventInfo;
-  
+    
   this.getHiventHandle = function() {
     return inHiventHandle;  
   }

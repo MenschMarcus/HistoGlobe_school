@@ -81,11 +81,11 @@ function timeline(inHiventHandler) {
     /* INIT MEMBER VARIABLES */
   
     // general histoglobe
-    now.date = 1930; // now = today
+    now.date = 1830; // now = today
     now.marker = $("#nowMarkerWrap")[0];
     now.marker.markerDate = now;          // self-reference, so that now.marker refers to now date
-    minDate = 1830;                       // no historical information before 1800
-    maxDate = 1950;                   // prevents futuristic timeline
+    minDate = 1820;                       // no historical information before 1800
+    maxDate = 1914;                   // prevents futuristic timeline
     
     // scroller
     tlMain = $("#tlMain")[0];
