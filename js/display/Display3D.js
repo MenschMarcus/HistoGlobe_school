@@ -15,11 +15,11 @@ HG.Display3D = function(inContainer, inHiventHandler) {
   // used for picking
   HG.Display3D.PROJECTOR = new THREE.Projector();
   HG.Display3D.RAYCASTER = new THREE.Raycaster();
-  
+
   // background color
   HG.Display3D.BACKGROUND = new THREE.Color(0xCCCCCC);
   HG.Display3D.TILE_PATH  = "data/tiles/";
-  
+
   // radius of the globe
   HG.Display3D.EARTH_RADIUS = 200;
 
@@ -29,8 +29,8 @@ HG.Display3D = function(inContainer, inHiventHandler) {
   HG.Display3D.CAMERA_MIN_ZOOM = 2;
   HG.Display3D.CAMERA_MAX_LONG = 80;
   HG.Display3D.CAMERA_ZOOM_SPEED = 0.1;
-  
-  
+
+
   // shaders for the globe and its atmosphere
   HG.Display3D.SHADERS = {
     'earth' : {
@@ -42,14 +42,14 @@ HG.Display3D = function(inContainer, inHiventHandler) {
       vertexShader: [
       'varying vec3 vNormal;',
       'varying vec2 vTexcoord;',
-      
+
       'float convertCoords(float lat) {',
         'if (lat == 0.0) return 0.0;',
         'if (lat == 1.0) return 1.0;',
         'const float pi = 3.1415926535897932384626433832795;',
         'return log(tan(lat*0.5 * pi)) / (pi * 2.0) + 0.5;',
       '}',
-      
+
       'void main() {',
         'gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );',
         'vNormal = normalize( normalMatrix * normal );',
@@ -68,10 +68,10 @@ HG.Display3D = function(inContainer, inHiventHandler) {
               'discard;',
         'vec2 uv = (vTexcoord - minUV)/(maxUV - minUV);',
         //'gl_FragColor     = vec4( uv, 0.0, 1.0 ); return;',
-         
+
         'vec3 diffuse = vec3(0);',
         'float size = 0.25;',
-        
+
         'if      (uv.x < 1.0*size && uv.y < 1.0*size)',
           'diffuse = texture2D( tiles[ 0], uv * 4.0 - vec2(1, 1) + vec2(1, 1)).xyz;',
         'else if (uv.x < 1.0*size && uv.y < 2.0*size)',
@@ -216,7 +216,7 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 
   var myIsRunning = false;
   var myCurrentZoom = HG.Display3D.CAMERA_MIN_ZOOM;
-  var myCurrentTextureZoom = HG.Display3D.CAMERA_MIN_ZOOM;
+  var myIsZooming = false;
 
   ////////////////////////// INIT FUNCTIONS ////////////////////////////////////
 
@@ -240,20 +240,27 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 
     var shader = HG.Display3D.SHADERS['earth'];
     myGlobeUniforms = THREE.UniformsUtils.clone(shader.uniforms);
-    
-    
-    for (var z = HG.Display3D.CAMERA_MIN_ZOOM; z<=HG.Display3D.CAMERA_MAX_ZOOM; ++z) {
-			var zoomLevel = [];
-			for (var x=0; x<Math.pow(2, z); ++x) {
-				column = [];
-				for (var y=0; y<Math.pow(2, z); ++y) {
-					column.push(null);
-				}			
-				zoomLevel.push(column);		
-			}
-			myGlobeTextures.push(zoomLevel);			
-		}
-    
+
+
+    function initZoomLevel(zoom) {
+
+      var size = 1.0/Math.pow(2, zoom);
+      var minUV = new THREE.Vector2(x*size, 1.0 - (y+4)*size);
+      var maxUV = new THREE.Vector2((x+4)*size, 1.0 - y*size);
+
+      if (zoom == CAMERA_MAX_ZOOM)
+        return {texture:null, children:null};
+
+      var node = {texture:null, children:[]};
+
+      for (var i=0; i<4; ++i)
+        node.children.push(initZoomLevel(zoom+1));
+
+      return node;
+    }
+
+    myGlobeTextures = initZoomLevel(0);
+
     var material = new THREE.ShaderMaterial({
       vertexShader: shader.vertexShader,
       fragmentShader: shader.fragmentShader,
@@ -266,8 +273,8 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 
     shader = HG.Display3D.SHADERS['atmosphere'];
     var uniforms = THREE.UniformsUtils.clone(shader.uniforms);
-    uniforms['bgColor'].value = new THREE.Vector3(HG.Display3D.BACKGROUND.r, 
-                                                  HG.Display3D.BACKGROUND.g, 
+    uniforms['bgColor'].value = new THREE.Vector3(HG.Display3D.BACKGROUND.r,
+                                                  HG.Display3D.BACKGROUND.g,
                                                   HG.Display3D.BACKGROUND.b);
 
     material = new THREE.ShaderMaterial({
@@ -391,8 +398,8 @@ HG.Display3D = function(inContainer, inHiventHandler) {
       }
     }
 
-    // globe rotation ----------------------------------------------------------              
-    
+    // globe rotation ----------------------------------------------------------
+
     // if there is a drag going on - rotate globe
     if (myDragStartPos) {
       // update mouse speed
@@ -400,7 +407,7 @@ HG.Display3D = function(inContainer, inHiventHandler) {
                       y: 0.5*myMouseSpeed.y + 0.5*(myMousePos.y - myMousePosLastFrame.y)};
       myMousePosLastFrame.x = myMousePos.x;
       myMousePosLastFrame.y = myMousePos.y;
-      
+
       var latLongCurr = pixelToLatLong(mouseRel);
 
       // if mouse is still over the globe
@@ -408,7 +415,7 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 
         var xOffset = myDragStartPos.x - latLongCurr.x;
         var yOffset = myDragStartPos.y - latLongCurr.y;
-  
+
         if (yOffset > 180) {
           yOffset -= 360;
         } else if (yOffset < -180) {
@@ -426,12 +433,12 @@ HG.Display3D = function(inContainer, inHiventHandler) {
       }
     } else if (myMouseSpeed.x != 0.0 && myMouseSpeed.y != 0.0) {
       // if the globe has been "thrown" --- for "flicking"
-      
+
       myTargetCameraPos.x -= myMouseSpeed.x * myCurrentFOV * 0.02;
       myTargetCameraPos.y += myMouseSpeed.y * myCurrentFOV * 0.02;
-      
+
       clampCameraPos();
-      
+
       myMouseSpeed = {x: 0.0, y: 0.0};
     }
 
@@ -452,53 +459,51 @@ HG.Display3D = function(inContainer, inHiventHandler) {
       myCurrentFOV = myCurrentFOV * smoothness + myTargetFOV * (1.0 - smoothness);
       myCamera.fov = myCurrentFOV;
       myCamera.updateProjectionMatrix();
-      
+      myIsZooming = true;
+
       if (Math.abs(myCurrentFOV - myTargetFOV) < 0.1) {
         myCurrentFOV = myTargetFOV;
-        myCurrentTextureZoom = myCurrentZoom;
+        myIsZooming = false;
       }
     }
 
     // rendering ---------------------------------------------------------------
     myRenderer.clear();
     myRenderer.setFaceCulling(THREE.CullFaceBack);
-    
-    var size = 1.0/Math.pow(2, myCurrentTextureZoom);
-    
-    var count = 0;
-    
-    for (var x=0; x<Math.pow(2, myCurrentTextureZoom); x+=4) {
-      for (var y=0; y<Math.pow(2, myCurrentTextureZoom); y+=4) {
-      
+
+    var size = 1.0/Math.pow(2, myCurrentZoom);
+
+    for (var x=0; x<Math.pow(2, myCurrentZoom); x+=4) {
+      for (var y=0; y<Math.pow(2, myCurrentZoom); y+=4) {
+
         var textures = [];
-        
+
         for (var dx=0; dx<4; ++dx) {
           for (var dy=0; dy<4; ++dy) {
-            textures.push(getTextureTile(x+dx, y+(3-dy), myCurrentTextureZoom));
+            textures.push(getTextureTile(x+dx, y+(3-dy), myCurrentZoom));
           }
         }
-        
+
         var minUV = new THREE.Vector2(x*size, 1.0 - (y+4)*size);
         var maxUV = new THREE.Vector2((x+4)*size, 1.0 - y*size);
-        
+
         if (isTileVisible(minUV, maxUV)) {
           myGlobeUniforms['tiles'].value = textures;
           myGlobeUniforms['minUV'].value = minUV;
           myGlobeUniforms['maxUV'].value = maxUV;
-          
+
           myRenderer.render(mySceneGlobe, myCamera);
-          ++count;
         }
       }
     }
-    
+
     myRenderer.setFaceCulling(THREE.CullFaceFront);
     myRenderer.render(mySceneAtmosphere, myCamera);
   }
 
   // ===========================================================================
   function zoom() {
-    myTargetFOV = (HG.Display3D.CAMERA_MAX_ZOOM + 1.0 - myCurrentZoom) * 15; 
+    myTargetFOV = (HG.Display3D.CAMERA_MAX_ZOOM + 1.0 - myCurrentZoom) * 15;
   }
 
 
@@ -519,7 +524,7 @@ HG.Display3D = function(inContainer, inHiventHandler) {
         mySpringiness = 0.1;
         myTargetCameraPos.x = myCurrentCameraPos.x;
         myTargetCameraPos.y = myCurrentCameraPos.y;
-        
+
         myMousePosLastFrame.x = myMousePos.x;
         myMousePosLastFrame.y = myMousePos.y;
       }
@@ -539,7 +544,7 @@ HG.Display3D = function(inContainer, inHiventHandler) {
       event.preventDefault();
       inContainer.style.cursor = 'auto';
       mySpringiness = 0.9;
-      
+
       myDragStartPos = null;
       myDragStartCamera = null;
 
@@ -564,10 +569,10 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 				myCurrentZoom = Math.min(myCurrentZoom + 1, HG.Display3D.CAMERA_MAX_ZOOM);
 			else
 				myCurrentZoom = Math.max(myCurrentZoom - 1, HG.Display3D.CAMERA_MIN_ZOOM);
-			
+
 			zoom();
     }
-   
+
     return false;
   }
 
@@ -599,7 +604,7 @@ HG.Display3D = function(inContainer, inHiventHandler) {
   }
 
   ///////////////////////// HELPER FUNCTIONS ///////////////////////////////////
-  
+
   // ===========================================================================
   function clampCameraPos() {
     if (myTargetCameraPos.y > HG.Display3D.CAMERA_MAX_LONG) {
@@ -610,7 +615,7 @@ HG.Display3D = function(inContainer, inHiventHandler) {
       myTargetCameraPos.y = -HG.Display3D.CAMERA_MAX_LONG;
     }
   }
-  
+
   // ===========================================================================
   function pixelToLatLong(inPixel) {
     var vector = new THREE.Vector3(inPixel.x, -inPixel.y, 0.5);
@@ -636,12 +641,12 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 
     return new THREE.Vector3(x,y,z);
   }
-  
+
   // ===========================================================================
   function latLongToPixel(latLong) {
     var pos = latLongToCart(latLong);
     HG.Display3D.PROJECTOR.projectVector(pos, myCamera);
-    
+
     return pos;
   }
 
@@ -664,14 +669,14 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 		}
 		return myGlobeTextures[zoom - HG.Display3D.CAMERA_MIN_ZOOM][x][y];
 	}
-	
+
 	// ===========================================================================
 	function isTileVisible(minNormalizedLatLong, maxNormalizedLatLong) {
-	  
+
 	  if (isFrontFacingTile(minNormalizedLatLong, maxNormalizedLatLong)) {
 	    var min = normalizedMercatusToNormalizedLatLong(minNormalizedLatLong);
       var max = normalizedMercatusToNormalizedLatLong(maxNormalizedLatLong);
-	
+
 	    var a = latLongToPixel(unNormalizeLatLong({x: min.x, y: min.y}));
 	    var b = latLongToPixel(unNormalizeLatLong({x: max.x, y: min.y}));
 	    var c = latLongToPixel(unNormalizeLatLong({x: max.x, y: max.y}));
@@ -679,63 +684,63 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 
       var minX = Math.min(Math.min(Math.min(a.x, b.x), c.x), d.x);
       var maxX = Math.max(Math.max(Math.max(a.x, b.x), c.x), d.x);
-      
+
       var minY = Math.min(Math.min(Math.min(a.y, b.y), c.y), d.y);
       var maxY = Math.max(Math.max(Math.max(a.y, b.y), c.y), d.y);
-   
+
       return !(minX > 1.0 || minY > 1.0 || maxX < -1.0 || maxY < -1.0);
     }
-    
+
     return false;
 	}
-	
+
 	// ===========================================================================
 	function isFrontFacingTile(minNormalizedLatLong, maxNormalizedLatLong) {
-	  
+
 	  var a = {x: minNormalizedLatLong.x, y: minNormalizedLatLong.y};
     var b = {x: maxNormalizedLatLong.x, y: minNormalizedLatLong.y};
     var c = {x: maxNormalizedLatLong.x, y: maxNormalizedLatLong.y};
     var d = {x: minNormalizedLatLong.x, y: maxNormalizedLatLong.y};
-    
+
     function isOnFrontSide(pos) {
       var diff = Math.acos(Math.sin((pos.y - 0.5) * Math.PI)
-                          *Math.sin((myCurrentCameraPos.y) * Math.PI / 180.0) 
+                          *Math.sin((myCurrentCameraPos.y) * Math.PI / 180.0)
                           +Math.cos((pos.y - 0.5) * Math.PI)
                           *Math.cos((myCurrentCameraPos.y) * Math.PI / 180.0)
                           *Math.cos(-(pos.x - 0.5) * 2.0 * Math.PI + (myCurrentCameraPos.x) * Math.PI / 180.0));
-      
+
       return Math.PI*0.5 > diff;
     }
-    
+
     return isOnFrontSide(a) || isOnFrontSide(b) || isOnFrontSide(c) || isOnFrontSide(d);
 	}
-	
+
 	// ===========================================================================
 	function normalizedLatLongToNormalizedMercatus(latLong) {
 	  if (latLong.y == 0.0) return new THREE.Vector2(latLong.x, 0.0);
     if (latLong.y == 1.0) return new THREE.Vector2(latLong.x, 1.0);
-    
+
     return new THREE.Vector2(latLong.x, Math.log(Math.tan(latLong.y*0.5 * Math.PI)) / (Math.PI * 2.0) + 0.5);
 	}
-	
+
 	// ===========================================================================
 	function normalizedMercatusToNormalizedLatLong(mercatus) {
 	  if (mercatus.y == 0.0) return new THREE.Vector2(mercatus.x, 0.0);
     if (mercatus.y == 1.0) return new THREE.Vector2(mercatus.x, 1.0);
-    
+
     return new THREE.Vector2(mercatus.x, 2.0 / Math.PI * Math.atan(Math.exp(2 * Math.PI * (mercatus.y-0.5))));
 	}
-	
+
 	// ===========================================================================
 	function normalizeLatLong(latLong) {
 	  return new THREE.Vector2(latLong.x/360.0 + 0.5, latLong.y/180.0 + 0.5);
 	}
-	
+
 	// ===========================================================================
 	function unNormalizeLatLong(normalizedLatLong) {
 	  return new THREE.Vector2(normalizedLatLong.x * 360.0 - 180.0, normalizedLatLong.y * 180.0 - 90.0);
 	}
-  
+
   // call base class constructor
   HG.Display.call(this);
 
