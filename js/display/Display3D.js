@@ -498,7 +498,7 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 
   // ===========================================================================
   function zoom() {
-    myTargetFOV = (HG.Display3D.CAMERA_MAX_ZOOM + 0.3 - myCurrentZoom) * 15; 
+    myTargetFOV = (HG.Display3D.CAMERA_MAX_ZOOM + 1.0 - myCurrentZoom) * 15; 
   }
 
 

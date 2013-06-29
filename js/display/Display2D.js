@@ -112,7 +112,7 @@ HG.Display2D = function(inContainer, inHiventHandler) {
     inContainer.appendChild(mapParent);
   
   
-    myMap = L.map(mapParent, {maxZoom:6, minZoom:1}).setView([51.505, 10.09], 4);
+    myMap = L.map(mapParent, {maxZoom:6, minZoom:1, zoomControl:false}).setView([51.505, 10.09], 4);
     myMap.attributionControl.setPrefix('');
 
     L.tileLayer('data/tiles/{z}/{x}/{y}.png').addTo(myMap);
@@ -152,6 +152,8 @@ HG.Display2D = function(inContainer, inHiventHandler) {
         hiventMarkers.push(marker);
       }
     });
+    
+    myMap.on("click",  HG.deactivateAllHivents);
   }
 
   /////////////////////////// MAIN FUNCTIONS ///////////////////////////////////

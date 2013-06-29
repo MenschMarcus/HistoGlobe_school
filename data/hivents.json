@@ -6,7 +6,7 @@
         "displayDate": "01.01.1822",
         "long": -10.799561,
         "lat": 6.287999,
-        "description": "Amerikanische Sklaven, die befreit und zurück nach Afrika gebracht worden waren, gründen die Siedlung Liberia.",
+        "description": "Amerikanische Sklaven, die befreit und zurück nach Afrika gebracht wurden, gründen die Siedlung Liberia.",
         "parties": [
             {
                 "name": "Party 1",
@@ -63,7 +63,7 @@
         "displayDate": "01.01.1831",
         "long": 32.465286,
         "lat": 34.779972,
-        "description": "Ägyptische Truppen unter Mohammad Ali besigen die Truppen des Osmanischen Reichs.",
+        "description": "Ägyptische Truppen unter Muhammad Ali besiegen die Truppen des Osmanischen Reichs.",
         "parties": [
             {
                 "name": "Party 1",

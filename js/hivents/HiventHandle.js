@@ -342,7 +342,7 @@ HG.HiventHandle = function(inHivent) {
 };
 
 HG.deactivateAllHivents = function() {
-	
+
   for (var i = 0; i < HG.activeHivents.length; i++) {
     if (HG.activeHivents[i]) {
 			HG.activeHivents[i].inActiveAll({x:0, y:0});

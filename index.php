@@ -342,7 +342,7 @@
     <div class="container" id="home">
 
       <div class="hero-unit">
-        <div id="map-container" style="overflow:hidden"> </div>
+        <div id="map-container" style="overflow:hidden; position:absolute"> </div>
 
         <!-- little logo -->
         <div class="bottom-left-logo" id="logo-normal" style="visibility:hidden"></div>

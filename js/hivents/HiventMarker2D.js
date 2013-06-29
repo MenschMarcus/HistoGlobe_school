@@ -19,7 +19,7 @@ HG.HiventMarker2D = function(inHivent, inDisplay, inMap) {
   var position = new L.Point(0,0);
   updatePosition();
  
-  var radius = 20;
+  var radius = 40;
 
 
   this.onMouseOver = function (e) {
@@ -45,7 +45,7 @@ HG.HiventMarker2D = function(inHivent, inDisplay, inMap) {
 								x : position.x,
 								y : position.y - radius
 							};
-    self.getHiventHandle().active(self, pos);
+    self.getHiventHandle().toggleActive(self, pos);
   };
   
   this.on("mouseover", self.onMouseOver);

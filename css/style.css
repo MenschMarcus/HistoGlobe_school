@@ -49,6 +49,19 @@ body {
   -moz-border-radius: 6px 6px 6px 6px;
 }
 
+/* -----------------------------------------------------------------------------
+  popovers
+/* ---------------------------------------------------------------------------*/
+
+.popover-title {
+  font: 1.2em "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+.popover-content {
+  font: 1em "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
 /* ---------------------------------------------------------------------------------------*/
 
 .header-button-top {
