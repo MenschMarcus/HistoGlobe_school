@@ -3,14 +3,63 @@
 
 var HG = HG || {};
 
-HG.HiventHandler = function() {
+HG.HiventHandler = function(inPathToHivents) {
   
-  var hiventHandles = [];
-  var hiventsLoaded = false;
-  var onHiventsLoadedCallbacks = [];
+  //////////////////////////////////////////////////////////////////////////////
+  //                          PUBLIC INTERFACE                                //
+  //////////////////////////////////////////////////////////////////////////////
+
+  ////////////////////////////// FUNCTIONS /////////////////////////////////////
+
+  // ===========================================================================  
+  this.create = function(pathToHivents) {
+    initHivents(pathToHivents);
+  }
+ 
+  // ===========================================================================  
+  this.onHiventsLoaded = function(callbackFunc) {
+    if (callbackFunc && typeof(callbackFunc) === "function") {
+      if (!myHiventsLoaded)
+        myOnHiventsLoadedCallbacks.push(callbackFunc);
+      else
+        callbackFunc(myHiventHandles);
+    }
+  }
+ 
+  // ===========================================================================  
+  this.getHiventHandles = function() {
+    return myHiventHandles;
+  }
+ 
+  // ===========================================================================  
+  this.setTimeFilter = function(timeFilter) {
+    myCurrentTimeFilter = timeFilter;
+  }
   
-  function init() {    
-    $.getJSON("data/hivents.json", function(h){
+  // ===========================================================================  
+  this.setSpaceFilter = function(spaceFilter) {
+    myCurrentSpaceFilter = spaceFilter;
+  }
+  
+  //////////////////////////////////////////////////////////////////////////////
+  //                         PRIVATE INTERFACE                                //
+  //////////////////////////////////////////////////////////////////////////////
+
+  /////////////////////////// MEMBER VARIABLES /////////////////////////////////
+  var mySelf = this;
+  
+  var myHiventHandles = [];
+  var myHiventsLoaded = false;
+  var myOnHiventsLoadedCallbacks = [];
+  
+  var myCurrentTimeFilter = null;
+  var myCurrentSpaceFilter = null;
+  
+  ////////////////////////// INIT FUNCTIONS ////////////////////////////////////
+
+  // ===========================================================================
+  function initHivents(pathToHivents) {    
+    $.getJSON(pathToHivents, function(h){
       for (var i=0; i<h.length; i++) {
         var hivent = new HG.Hivent(
           h[i].name,
@@ -22,32 +71,21 @@ HG.HiventHandler = function() {
           h[i].description,
           h[i].parties
         );
-        hiventHandles.push(new HG.HiventHandle(hivent));
+        
+        myHiventHandles.push(new HG.HiventHandle(hivent));
       }
-      hiventsLoaded = true;
-      for (var i=0; i < onHiventsLoadedCallbacks.length; i++)
-        onHiventsLoadedCallbacks[i](hiventHandles);
+      
+      myHiventsLoaded = true;
+      
+      for (var i=0; i < myOnHiventsLoadedCallbacks.length; i++)
+        myOnHiventsLoadedCallbacks[i](myHiventHandles);
     }); 
 
   }
+  // create the object
+  this.create(inPathToHivents);
   
-  this.getAllHiventHandles = function() {
-    return hiventHandles;
-  }
-  
-  this.onHiventsLoaded = function(callbackFunc) {
-    if (callbackFunc && typeof(callbackFunc) === "function") {
-      if (!hiventsLoaded)
-        onHiventsLoadedCallbacks.push(callbackFunc);
-      else
-        callbackFunc(hiventHandles);
-    }
-  }
-  
-  init();
-  
+  // all done
   return this;
 
-
 };
-

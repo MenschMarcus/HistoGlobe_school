@@ -739,10 +739,10 @@ HG.Display3D = function(inContainer, inHiventHandler) {
   // call base class constructor
   HG.Display.call(this);
 
-  // create the object!
+  // create the object
   this.create();
 
-  // all done!
+  // all done
   return this;
 
 };

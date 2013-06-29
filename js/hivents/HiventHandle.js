@@ -350,4 +350,3 @@ HG.deactivateAllHivents = function() {
   }
   HG.activeHivents = [];
 };
-

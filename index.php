@@ -121,7 +121,6 @@
 
       function loadGLHeader() {
 
-        //console.log(BrowserDetect.browser);
         if (BrowserDetect.canvasSupported) {
           $('#default-header').animate({opacity: 0.0}, 1000, 'linear',
             function() {
@@ -137,7 +136,7 @@
           $('.hero-unit').css({"background-image": "none"});
           $('.hero-unit').height(window.innerHeight * 0.8);
 
-          hiventHandler = new HG.HiventHandler();
+          hiventHandler = new HG.HiventHandler("data/hivents.json");
           histripHandler = new HG.HistripHandler();
 
           container = document.getElementById('map-container');
