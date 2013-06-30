@@ -17,28 +17,25 @@ HG.HiventHandler = function(inPathToHivents) {
   }
  
   // ===========================================================================  
-  this.onHiventsLoaded = function(callbackFunc) {
+  this.onHiventsChanged = function(callbackFunc) {
     if (callbackFunc && typeof(callbackFunc) === "function") {
-      if (!myHiventsLoaded)
-        myOnHiventsLoadedCallbacks.push(callbackFunc);
+      if (!myHiventsChanged)
+        myOnHiventsChangedCallbacks.push(callbackFunc);
       else
         callbackFunc(myHiventHandles);
     }
   }
- 
-  // ===========================================================================  
-  this.getHiventHandles = function() {
-    return myHiventHandles;
-  }
- 
+  
   // ===========================================================================  
   this.setTimeFilter = function(timeFilter) {
     myCurrentTimeFilter = timeFilter;
+    filterHivents();
   }
   
   // ===========================================================================  
   this.setSpaceFilter = function(spaceFilter) {
     myCurrentSpaceFilter = spaceFilter;
+    filterHivents();
   }
   
   //////////////////////////////////////////////////////////////////////////////
@@ -49,11 +46,13 @@ HG.HiventHandler = function(inPathToHivents) {
   var mySelf = this;
   
   var myHiventHandles = [];
-  var myHiventsLoaded = false;
-  var myOnHiventsLoadedCallbacks = [];
+  var myFilteredHiventHandles = [];
+  var myHiventsChanged = false;
+  var myOnHiventsChangedCallbacks = [];
   
-  var myCurrentTimeFilter = null;
-  var myCurrentSpaceFilter = null;
+  var myCurrentTimeFilter = null; // {start: <Date>, end: <Date>}
+  var myCurrentSpaceFilter = null; // { min: {lat: <float>, long: <float>}, 
+                                   //   max: {lat: <float>, long: <float>}}
   
   ////////////////////////// INIT FUNCTIONS ////////////////////////////////////
 
@@ -64,7 +63,7 @@ HG.HiventHandler = function(inPathToHivents) {
         var hivent = new HG.Hivent(
           h[i].name,
           h[i].category,
-          h[i].date,
+          new Date(h[i].date),
           h[i].displayDate,
           h[i].long,
           h[i].lat,
@@ -75,13 +74,49 @@ HG.HiventHandler = function(inPathToHivents) {
         myHiventHandles.push(new HG.HiventHandle(hivent));
       }
       
-      myHiventsLoaded = true;
+      myHiventsChanged = true;
+
+      filterHivents();
       
-      for (var i=0; i < myOnHiventsLoadedCallbacks.length; i++)
-        myOnHiventsLoadedCallbacks[i](myHiventHandles);
     }); 
 
   }
+  
+  /////////////////////////// MAIN FUNCTIONS ///////////////////////////////////
+  
+  // ===========================================================================
+  function filterHivents() {
+
+    for (var i=0, j=myFilteredHiventHandles.length; i<j; i++) {
+      myFilteredHiventHandles[i].destroyAll();
+    }
+      
+    myFilteredHiventHandles = [];
+    
+    for (var i=0, j=myHiventHandles.length; i<j; i++) {
+      var hivent = myHiventHandles[i].getHivent(); 
+      var isInTime = myCurrentTimeFilter == null;
+      if (!isInTime) {
+        isInTime = hivent.date.getTime() >= myCurrentTimeFilter.start.getTime() && 
+                   hivent.date.getTime() <= myCurrentTimeFilter.end.getTime();
+      }
+      
+      var isInSpace = myCurrentSpaceFilter == null;
+      if (!isInSpace) {
+        isInSpace = hivent.lat >= myCurrentTimeFilter.min.lat &&
+                    hivent.long >= myCurrentTimeFilter.min.long && 
+                    hivent.lat <= myCurrentTimeFilter.max.lat && 
+                    hivent.long <= myCurrentTimeFilter.max.long;
+      }
+      
+      if (isInTime && isInSpace)
+        myFilteredHiventHandles.push(myHiventHandles[i]);
+    }
+    
+    for (var i=0; i < myOnHiventsChangedCallbacks.length; i++)
+      myOnHiventsChangedCallbacks[i](myFilteredHiventHandles);
+  } 
+  
   // create the object
   this.create(inPathToHivents);
   

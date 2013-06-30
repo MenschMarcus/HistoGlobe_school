@@ -94,7 +94,7 @@ HG.Display2D = function(inContainer, inHiventHandler) {
   // ===========================================================================
   function initHivents() {
           
-    inHiventHandler.onHiventsLoaded(function(handles){
+    inHiventHandler.onHiventsChanged(function(handles){
       
       for (var i=0; i<handles.length; i++) {
 

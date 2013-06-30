@@ -232,7 +232,7 @@ function timeline(inHiventHandler) {
       if (end < maxDate-3)  end = start + 3;    // prevents futuristic timeline
       else                  start = end - 3;
     }
-    
+        
     // calculate new reference and redraw scroller
     dayDist = tlMain.offsetWidth / dayDiff(start, end);
     refDate = now.date;
@@ -337,7 +337,6 @@ function timeline(inHiventHandler) {
   
   function drawScroller() {
     // clear the scroller from event markers and year markers
-    $('.eventMarker').remove();
     $('.yearMarker').remove();
     
     // calculate interval for year markers
@@ -366,12 +365,20 @@ function timeline(inHiventHandler) {
     appendYearMarkers();
     
     // put period dates into their fields
-    var perStart = Math.max(Math.round(posToDecYear($(tlMain).scrollLeft())),minDate);
-    var perEnd = Math.min(Math.round(posToDecYear(tlMain.offsetWidth+$(tlMain).scrollLeft())),Math.floor(maxDate));
+    var leftPos = $(tlMain).scrollLeft();
+    var rightPos = tlMain.offsetWidth+leftPos;
+    var perStart = Math.max(Math.round(posToDecYear(leftPos)),minDate);
+    var perEnd = Math.min(Math.round(posToDecYear(rightPos)),Math.floor(maxDate));
     $('#periodStart').val(perStart);
     $('#periodEnd').val(perEnd);
     
-    // initially set markers for historical events
+    var timeFilter = {
+      start: posToDate(leftPos),
+      end: posToDate(rightPos)
+    };
+    inHiventHandler.setTimeFilter(timeFilter)
+    
+    // eventually set markers for historical events
     updateHivents();
   }
   
@@ -436,13 +443,14 @@ function timeline(inHiventHandler) {
   /** HISTORICAL EVENT MARKER **/
   
   function initHivents() {
-    inHiventHandler.onHiventsLoaded(function(handles){
+    inHiventHandler.onHiventsChanged(function(handles){
+         
+      hiventMarkers = [];
          
       for (var i=0; i<handles.length; i++) {
 
         var hivent = handles[i].getHivent();
-        var date = new Date(hivent.date);
-        var posX = dateToPos(date);  
+        var posX = dateToPos(hivent.date);  
         
         var hiventMarker = new HG.HiventMarkerTimeline(handles[i], 
 																										    tlScroller, 
@@ -456,8 +464,7 @@ function timeline(inHiventHandler) {
       
 		for (var i=0; i<hiventMarkers.length; i++) {
 
-			var date = new Date(hiventMarkers[i].getHiventHandle().getHivent().date);
-			var posX = dateToPos(date);  
+			var posX = dateToPos(hiventMarkers[i].getHiventHandle().getHivent().date);  
 			
 			hiventMarkers[i].setPosition(posX);
 		}

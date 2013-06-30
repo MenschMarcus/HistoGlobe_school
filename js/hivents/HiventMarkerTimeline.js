@@ -49,7 +49,6 @@ HG.HiventMarkerTimeline = function(inHivent, inParent, inPosX, inPosY) {
     };
     mySelf.getHiventHandle().unMark(mySelf, pos);
     mySelf.getHiventHandle().unLinkAll(pos);
-    mySelf.getHiventHandle().destroyAll();
   };
   
   myDiv.onclick = function (e) {

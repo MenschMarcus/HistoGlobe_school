@@ -12,11 +12,7 @@ HG.HiventHandle = function(inHivent) {
   var marked = false;
   var linked = false;
   var focussed = false;
-  
-  
-  //onDestructionCallbacks, Marker werden zerstört, wenn HiventHandle zerstört 
-  //wird. HiventHandles werden zerstört, wenn Filter aktualisiert wird
-  
+    
   var onActiveCallbacks = [];
   var onInActiveCallbacks = [];
   var onMarkCallbacks = [];

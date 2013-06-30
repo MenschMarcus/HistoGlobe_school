@@ -69,7 +69,6 @@ HG.HiventMarker = function(inHiventHandle, inParent) {
   }
   
   function destroy() {
-    console.log("destructed!");
     mySelf = null;
     delete this;
   }
