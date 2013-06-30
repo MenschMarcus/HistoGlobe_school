@@ -1,5 +1,5 @@
 //include HiventHandler.js
-//include HiventMarker3D.js
+//include HiventMarker2D.js
 
 var HG = HG || {};
 
@@ -63,8 +63,6 @@ HG.Display2D = function(inContainer, inHiventHandler) {
   
   var mapParent;
 
-  var hiventMarkers = [];
-
   var myIsRunning = false;
 
   ////////////////////////// INIT FUNCTIONS ////////////////////////////////////
@@ -101,7 +99,6 @@ HG.Display2D = function(inContainer, inHiventHandler) {
       for (var i=0; i<handles.length; i++) {
 
         var marker = new HG.HiventMarker2D(handles[i], mySelf, myMap);
-        hiventMarkers.push(marker);
       }
     });
     

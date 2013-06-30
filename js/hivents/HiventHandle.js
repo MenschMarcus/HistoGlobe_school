@@ -6,6 +6,8 @@ HG.activeHivents = [];
 
 HG.HiventHandle = function(inHivent) {
   
+  var mySelf = this;
+  
   var activated = false;
   var marked = false;
   var linked = false;
@@ -24,6 +26,8 @@ HG.HiventHandle = function(inHivent) {
   var onUnFocusCallbacks = [];
   var onFocusCallbacks = [];
   var onUnFocusCallbacks = [];
+  
+  var onDestructionCallbacks = [];
   
   this.getHivent = function() {
     return inHivent;
@@ -173,7 +177,7 @@ HG.HiventHandle = function(inHivent) {
     } 
   } 
  
-  this.unLinkAll = function(obj, mousePixelPosition) {
+  this.unLinkAll = function(mousePixelPosition) {
     if (linked) {
       linked = false;
       for (var i = 0; i < onUnLinkCallbacks.length; i++) {
@@ -184,7 +188,7 @@ HG.HiventHandle = function(inHivent) {
     } 
   } 
   
-  this.unLink = function(mousePixelPosition) {
+  this.unLink = function(obj, mousePixelPosition) {
     if (linked) {
       linked = false;
       for (var i = 0; i < onUnLinkCallbacks.length; i++) {
@@ -244,6 +248,27 @@ HG.HiventHandle = function(inHivent) {
 		}
   } 
   
+  this.destroyAll = function() {
+    for (var i = 0; i < onDestructionCallbacks.length; i++) {
+      for (var j = 0; j < onDestructionCallbacks[i][1].length; j++) {
+        onDestructionCallbacks[i][1][j]();
+      }
+    }
+    destroy();
+  } 
+  
+  this.destroy = function(obj) {
+    for (var i = 0; i < onDestructionCallbacks.length; i++) {
+      if (onDestructionCallbacks[i][0] == obj) {
+        for (var j = 0; j < onDestructionCallbacks[i][1].length; j++) {
+          onDestructionCallbacks[i][1][j]();
+        }
+        break;
+      } 
+    }
+    destroy();
+  }
+   
    
  
   this.onActive = function(obj, callbackFunc) {
@@ -340,6 +365,36 @@ HG.HiventHandle = function(inHivent) {
 			}
 			onUnFocusCallbacks.push([obj, [callbackFunc]]);
     }
+  }
+  
+  this.onDestruction = function(obj, callbackFunc) {
+    if (callbackFunc && typeof(callbackFunc) === "function") {
+			for (var i=0; i < onDestructionCallbacks.length; i++) {
+				if (onDestructionCallbacks[i][0] == obj) {
+					onDestructionCallbacks[i][1].push(callbackFunc);
+					return;
+				}
+			}
+			onDestructionCallbacks.push([obj, [callbackFunc]]);
+    }
+  }
+  
+  
+  function destroy() {
+    var onActiveCallbacks = [];
+    var onInActiveCallbacks = [];
+    var onMarkCallbacks = [];
+    var onUnMarkCallbacks = [];
+    var onLinkCallbacks = [];
+    var onUnLinkCallbacks = [];
+    var onUnFocusCallbacks = [];
+    var onFocusCallbacks = [];
+    var onUnFocusCallbacks = [];
+    
+    var onDestructionCallbacks = [];
+    
+    mySelf = null;
+    delete this;
   }
   
   return this;

@@ -11,11 +11,8 @@ HG.HiventMarker2D = function(inHivent, inDisplay, inMap) {
   HG.HiventMarker.call(this, inHivent, inMap.getPanes()["popupPane"]);
   L.Marker.call(this, [inHivent.getHivent().lat, inHivent.getHivent().long]);
   this.addTo(inMap);
-  
-//  var hiventDefaultColor   = "#253563";
-//  var hiventHighlightColor = "#ff8800";
-  
-  var self = this;
+    
+  var mySelf = this;
   var position = new L.Point(0,0);
   updatePosition();
  
@@ -27,8 +24,8 @@ HG.HiventMarker2D = function(inHivent, inDisplay, inMap) {
 								x : position.x,
 								y : position.y - radius
 							};	
-    self.getHiventHandle().mark(self, pos);
-    self.getHiventHandle().linkAll(pos);
+    mySelf.getHiventHandle().mark(mySelf, pos);
+    mySelf.getHiventHandle().linkAll(pos);
   };
   
   this.onMouseOut = function (e) {
@@ -36,8 +33,8 @@ HG.HiventMarker2D = function(inHivent, inDisplay, inMap) {
 								x : position.x,
 								y : position.y - radius
 							};
-    self.getHiventHandle().unMark(self, pos);
-    self.getHiventHandle().unLinkAll(pos);
+    mySelf.getHiventHandle().unMark(mySelf, pos);
+    mySelf.getHiventHandle().unLinkAll(pos);
   };
   
   this.onclick = function (e) {
@@ -45,12 +42,12 @@ HG.HiventMarker2D = function(inHivent, inDisplay, inMap) {
 								x : position.x,
 								y : position.y - radius
 							};
-    self.getHiventHandle().toggleActive(self, pos);
+    mySelf.getHiventHandle().toggleActive(mySelf, pos);
   };
   
-  this.on("mouseover", self.onMouseOver);
-	this.on("mouseout", self.onMouseOut);
-	this.on("click", self.onclick);
+  this.on("mouseover", mySelf.onMouseOver);
+	this.on("mouseout", mySelf.onMouseOut);
+	this.on("click", mySelf.onclick);
 	inMap.on("zoomend", updatePosition);
 	inMap.on("dragend", updatePosition);
 	inMap.on("viewreset", updatePosition);
@@ -59,45 +56,36 @@ HG.HiventMarker2D = function(inHivent, inDisplay, inMap) {
   HG.visibleMarkers2D.push(this);
 
   function updatePosition() {	
-		//position = inMap.latLngToLayerPoint([inHivent.getHivent().lat, inHivent.getHivent().long]);
-		position = inMap.latLngToLayerPoint(self.getLatLng());
+		position = inMap.latLngToLayerPoint(mySelf.getLatLng());
   }
  
-  this.getHiventHandle().onMark(self, function(mousePos){
+  this.getHiventHandle().onMark(mySelf, function(mousePos){
 //    div.style.backgroundColor = hiventHighlightColor;
   });
   
-  this.getHiventHandle().onUnMark(self, function(mousePos){
+  this.getHiventHandle().onUnMark(mySelf, function(mousePos){
 //    div.style.backgroundColor = hiventDefaultColor;
   });
   
-  this.getHiventHandle().onLink(self, function(mousePos){
+  this.getHiventHandle().onLink(mySelf, function(mousePos){
 //    div.style.backgroundColor = hiventHighlightColor;
   });
   
-  this.getHiventHandle().onUnLink(self, function(mousePos){
+  this.getHiventHandle().onUnLink(mySelf, function(mousePos){
 //    div.style.backgroundColor = hiventDefaultColor;
   });
   
-  this.getHiventHandle().onFocus(self, function(mousePos) {
+  this.getHiventHandle().onFocus(mySelf, function(mousePos) {
 		if (inDisplay.isRunning()) {
-			inDisplay.focus(self.getHiventHandle().getHivent());
+			inDisplay.focus(mySelf.getHiventHandle().getHivent());
 		}
   });
+  
+  this.getHiventHandle().onDestruction(mySelf, destroy);
   
   this.enableShowName();
   this.enableShowInfo();
   
-//  
-//  this.getPosition = function() {
-//    return position;
-//  }
-//  
-//  this.setPosition = function(pos) {
-//    position = pos;
-//    setDivPos(position);
-//  }
-
 //  this.hide = function() {
 //    div.style.display = "none";
 //  }
@@ -105,7 +93,16 @@ HG.HiventMarker2D = function(inHivent, inDisplay, inMap) {
 //  this.show = function() {
 //    div.style.display = "block";
 //  }
-    
+  
+  function destroy() {
+    inMap.removeLayer(mySelf);
+    inMap.off("zoomend", updatePosition);
+    inMap.off("dragend", updatePosition);
+    inMap.off("viewreset", updatePosition);
+    inMap.off("zoomstart", this.hideHiventInfo);
+    mySelf = null;
+    delete this;
+  }
   
   return this;
 

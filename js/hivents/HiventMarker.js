@@ -4,7 +4,7 @@ HG.hiventInfoCount = 0;
 
 HG.HiventMarker = function(inHiventHandle, inParent) {
 
-  var self = this;
+  var mySelf = this;
   var hiventInfo;
     
   this.getHiventHandle = function() {
@@ -33,14 +33,16 @@ HG.HiventMarker = function(inHiventHandle, inParent) {
   }
   
   this.enableShowName = function() {
-		inHiventHandle.onMark(self, this.showHiventName);
-		inHiventHandle.onUnMark(self, this.hideHiventName);
+		inHiventHandle.onMark(mySelf, this.showHiventName);
+		inHiventHandle.onUnMark(mySelf, this.hideHiventName);
 	}
   
   this.enableShowInfo = function() {
-		inHiventHandle.onActive(self, this.showHiventInfo);
-		inHiventHandle.onInActive(self, this.hideHiventInfo);
+		inHiventHandle.onActive(mySelf, this.showHiventInfo);
+		inHiventHandle.onInActive(mySelf, this.hideHiventInfo);
 	}
+  
+  inHiventHandle.onDestruction(mySelf, destroy);
   
   function init() {
     hiventInfo = document.createElement("div");
@@ -64,6 +66,12 @@ HG.HiventMarker = function(inHiventHandle, inParent) {
     $(hiventInfo).popover({title: hivent.name, placement: "top", html: "true", content: hiventContent});
     
     HG.hiventInfoCount++;
+  }
+  
+  function destroy() {
+    console.log("destructed!");
+    mySelf = null;
+    delete this;
   }
   
   init();
