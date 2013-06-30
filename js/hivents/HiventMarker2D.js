@@ -95,11 +95,11 @@ HG.HiventMarker2D = function(inHivent, inDisplay, inMap) {
 //  }
   
   function destroy() {
-    inMap.removeLayer(mySelf);
     inMap.off("zoomend", updatePosition);
     inMap.off("dragend", updatePosition);
     inMap.off("viewreset", updatePosition);
     inMap.off("zoomstart", this.hideHiventInfo);
+    inMap.removeLayer(mySelf);
     mySelf = null;
     delete this;
   }

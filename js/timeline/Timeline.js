@@ -338,6 +338,7 @@ function timeline(inHiventHandler) {
   function drawScroller() {
     // clear the scroller from event markers and year markers
     $('.yearMarker').remove();
+    $('.eventMarker').remove();
     
     // calculate interval for year markers
     var minDist = 45;
@@ -365,10 +366,10 @@ function timeline(inHiventHandler) {
     appendYearMarkers();
     
     // put period dates into their fields
-    var leftPos = $(tlMain).scrollLeft();
-    var rightPos = tlMain.offsetWidth+leftPos;
-    var perStart = Math.max(Math.round(posToDecYear(leftPos)),minDate);
-    var perEnd = Math.min(Math.round(posToDecYear(rightPos)),Math.floor(maxDate));
+    var left = $(tlMain).scrollLeft();
+    var right = tlMain.offsetWidth+left;
+    var perStart = Math.max(Math.round(posToDecYear(left)),minDate);
+    var perEnd = Math.min(Math.round(posToDecYear(right)),Math.floor(maxDate));
     $('#periodStart').val(perStart);
     $('#periodEnd').val(perEnd);
     
@@ -453,8 +454,8 @@ function timeline(inHiventHandler) {
         var posX = dateToPos(hivent.date);  
         
         var hiventMarker = new HG.HiventMarkerTimeline(handles[i], 
-																										    tlScroller, 
-																									      posX);
+																										   tlScroller, 
+																									     posX);
 				hiventMarkers.push(hiventMarker);
       }
     });
@@ -761,6 +762,10 @@ function timeline(inHiventHandler) {
     var end = Math.floor(posToDecYear(tlMain.scrollLeft+tlMain.offsetWidth));
     $('#periodStart').val(Math.max(start,minDate));
     $('#periodEnd').val(Math.min(end,Math.floor(maxDate)));
+    
+    var timeFilter = {start: posToDate(tlMain.scrollLeft),
+                      end: posToDate(tlMain.scrollLeft+tlMain.offsetWidth)};
+    //inHiventHandler.setTimeFilter(timeFilter);
   }
   
   function scrollFixup(pix) {

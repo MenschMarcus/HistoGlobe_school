@@ -110,7 +110,7 @@ HG.HiventHandler = function(inPathToHivents) {
       }
       
       if (isInTime && isInSpace)
-        myFilteredHiventHandles.push(myHiventHandles[i]);
+        myFilteredHiventHandles.push(new HG.HiventHandle(hivent));
     }
     
     for (var i=0; i < myOnHiventsChangedCallbacks.length; i++)

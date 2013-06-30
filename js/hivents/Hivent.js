@@ -12,6 +12,11 @@ HG.Hivent = function(inName, inCategory, inDate, inDisplayDate,
   this.description = inDescription;
   this.parties = inParties;
 
+  this.copy = function() {
+    return new HG.Hivent(this.name, this.category, this.date, this.displayDate,
+                         thisl.long, this.lat, this.description, this.parties);
+  }
+
   return this;
 
 };
