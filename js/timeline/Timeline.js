@@ -56,6 +56,8 @@ function timeline(inHiventHandler) {
   var innerThres;               // threshold for now marker in the timeline scroller
   var markerInterval;           // interval [year] in which year markers are drawn
 
+  var currentTimeFilter = null;
+
 	var hiventMarkers = [];
 
   // play history
@@ -314,6 +316,8 @@ function timeline(inHiventHandler) {
   }
 
   function periodChanged() {
+    
+    inHiventHandler.setTimeFilter(currentTimeFilter);
     var d1 = posToDate($(tlMain).scrollLeft());
     var d2 = posToDate(tlMain.offsetWidth+$(tlMain).scrollLeft());
     for (var i in listeners) {
@@ -372,13 +376,7 @@ function timeline(inHiventHandler) {
     var perEnd = Math.min(Math.round(posToDecYear(right)),Math.floor(maxDate));
     $('#periodStart').val(perStart);
     $('#periodEnd').val(perEnd);
-    
-    var timeFilter = {
-      start: posToDate(leftPos),
-      end: posToDate(rightPos)
-    };
-    inHiventHandler.setTimeFilter(timeFilter)
-    
+        
     // eventually set markers for historical events
     updateHivents();
   }
@@ -763,9 +761,8 @@ function timeline(inHiventHandler) {
     $('#periodStart').val(Math.max(start,minDate));
     $('#periodEnd').val(Math.min(end,Math.floor(maxDate)));
     
-    var timeFilter = {start: posToDate(tlMain.scrollLeft),
-                      end: posToDate(tlMain.scrollLeft+tlMain.offsetWidth)};
-    //inHiventHandler.setTimeFilter(timeFilter);
+    currentTimeFilter = {start: posToDate(tlMain.scrollLeft),
+                         end: posToDate(tlMain.scrollLeft+tlMain.offsetWidth)};
   }
   
   function scrollFixup(pix) {
