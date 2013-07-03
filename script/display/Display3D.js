@@ -25,8 +25,10 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 
   // camera distance to globe, its maximum longitude a the zoom spped
   HG.Display3D.CAMERA_DISTANCE = 500;
-  HG.Display3D.CAMERA_MAX_ZOOM = 5;
-  HG.Display3D.CAMERA_MIN_ZOOM = 2;
+  HG.Display3D.CAMERA_MAX_ZOOM = 7;
+  HG.Display3D.CAMERA_MIN_ZOOM = 3;
+  HG.Display3D.CAMERA_MAX_FOV = 60;
+  HG.Display3D.CAMERA_MIN_FOV = 4;
   HG.Display3D.CAMERA_MAX_LONG = 80;
   HG.Display3D.CAMERA_ZOOM_SPEED = 0.1;
 
@@ -35,9 +37,10 @@ HG.Display3D = function(inContainer, inHiventHandler) {
   HG.Display3D.SHADERS = {
     'earth' : {
       uniforms: {
-        'tiles': { type: 'tv', value: []},
-        'minUV': { type: 'v2', value: null},
-        'maxUV': { type: 'v2', value: null}
+        'tiles':    { type: 'tv', value: []},
+        'opacity':  { type: 'f',  value: 0.0},
+        'minUV':    { type: 'v2', value: null},
+        'maxUV':    { type: 'v2', value: null}
       },
       vertexShader: [
       'varying vec3 vNormal;',
@@ -58,6 +61,7 @@ HG.Display3D = function(inContainer, inHiventHandler) {
       ].join('\n'),
       fragmentShader: [
       'uniform sampler2D tiles[16];',
+      'uniform float opacity;',
       'uniform vec2 minUV;',
       'uniform vec2 maxUV;',
       'varying vec3 vNormal;',
@@ -67,7 +71,6 @@ HG.Display3D = function(inContainer, inHiventHandler) {
             'minUV.y > vTexcoord.y || maxUV.y < vTexcoord.y)',
               'discard;',
         'vec2 uv = (vTexcoord - minUV)/(maxUV - minUV);',
-        //'gl_FragColor     = vec4( uv, 0.0, 1.0 ); return;',
 
         'vec3 diffuse = vec3(0);',
         'float size = 0.25;',
@@ -108,7 +111,7 @@ HG.Display3D = function(inContainer, inHiventHandler) {
         'float phong      = max(0.0, pow(dot( vNormal, normalize(vec3( -0.3, 0.4, 0.7))), 0.6))*0.4 + 0.65;',
         'float specular   = max(0.0, pow(dot( vNormal, normalize(vec3( -0.3, 0.4, 0.7)) ), 60.0));',
         'float atmosphere = pow(1.0 - dot( vNormal, vec3( 0.0, 0.0, 1.0 ) ), 2.0) * 0.7;',
-        'gl_FragColor     = vec4( phong * diffuse + atmosphere + specular * 0.1, 1.0 );',
+        'gl_FragColor     = vec4( phong * diffuse + atmosphere + specular * 0.1, opacity );',
       '}'
       ].join('\n')
     },
@@ -222,11 +225,11 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 
   // ===========================================================================
   function initWindowGeometry() {
-    myWidth = $(inContainer.parentNode).innerWidth();
-    myHeight = $(inContainer.parentNode).innerHeight();
+    myWidth = inContainer.parentNode.offsetWidth;
+    myHeight = inContainer.parentNode.offsetHeight;
 
-    myCanvasOffsetX = $(inContainer.parentNode).offset().left;
-    myCanvasOffsetY = $(inContainer.parentNode).offset().top;
+    myCanvasOffsetX = inContainer.parentNode.offsetLeft;
+    myCanvasOffsetY = inContainer.parentNode.offsetTop;
   }
 
   // ===========================================================================
@@ -241,30 +244,46 @@ HG.Display3D = function(inContainer, inHiventHandler) {
     var shader = HG.Display3D.SHADERS['earth'];
     myGlobeUniforms = THREE.UniformsUtils.clone(shader.uniforms);
 
+    // build texture quad tree
+    function initTile(minLatLong, size, zoom, x, y) {
 
-    function initZoomLevel(zoom) {
+      if (zoom == HG.Display3D.CAMERA_MAX_ZOOM) {
+        return {
+          textures: null,
+          loadedTextureCount: 0,
+          opacity: 1.0,
+          x:x*4, y:y*4, z:zoom,
+          minLatLong: {x:minLatLong.x, y:minLatLong.y},
+          maxLatLong: {x:minLatLong.x + size, y:minLatLong.y + size},
+          children: null
+        };
+      }
 
-      var size = 1.0/Math.pow(2, zoom);
-      var minUV = new THREE.Vector2(x*size, 1.0 - (y+4)*size);
-      var maxUV = new THREE.Vector2((x+4)*size, 1.0 - y*size);
+      var node = {
+        textures: null,
+        loadedTextureCount: 0,
+        opacity: 1.0,
+        x:x*4, y:y*4, z:zoom,
+        minLatLong: {x:minLatLong.x, y:minLatLong.y},
+        maxLatLong: {x:minLatLong.x + size, y:minLatLong.y + size},
+        children: []
+      };
 
-      if (zoom == CAMERA_MAX_ZOOM)
-        return {texture:null, children:null};
-
-      var node = {texture:null, children:[]};
-
-      for (var i=0; i<4; ++i)
-        node.children.push(initZoomLevel(zoom+1));
+      node.children.push(initTile({x:minLatLong.x,              y:minLatLong.y + size * 0.5}, size*0.5, zoom+1, x*2, y*2));
+      node.children.push(initTile({x:minLatLong.x + size * 0.5, y:minLatLong.y + size * 0.5}, size*0.5, zoom+1, x*2+1, y*2));
+      node.children.push(initTile({x:minLatLong.x,              y:minLatLong.y},              size*0.5, zoom+1, x*2, y*2+1));
+      node.children.push(initTile({x:minLatLong.x + size * 0.5, y:minLatLong.y},              size*0.5, zoom+1, x*2+1, y*2+1));
 
       return node;
     }
 
-    myGlobeTextures = initZoomLevel(0);
+    myGlobeTextures = initTile({x:0.0, y:0.0}, 1.0, 2, 0, 0);
 
     var material = new THREE.ShaderMaterial({
       vertexShader: shader.vertexShader,
       fragmentShader: shader.fragmentShader,
-      uniforms: myGlobeUniforms
+      uniforms: myGlobeUniforms,
+      transparent: true
     });
 
     var globe = new THREE.Mesh(geometry, material);
@@ -305,17 +324,17 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 
   // ===========================================================================
   function initEventHandling() {
-    inContainer.addEventListener('mousedown', onMouseDown, false);
-    inContainer.addEventListener('mousemove', onMouseMove, false);
-    inContainer.addEventListener('mouseup', onMouseUp, false);
+    myRenderer.domElement.addEventListener('mousedown', onMouseDown, false);
+    myRenderer.domElement.addEventListener('mousemove', onMouseMove, false);
+    myRenderer.domElement.addEventListener('mouseup', onMouseUp, false);
 
-    inContainer.addEventListener('mousewheel', function(event) {
+    myRenderer.domElement.addEventListener('mousewheel', function(event) {
       event.preventDefault();
       onMouseWheel(event.wheelDelta);
       return false;
     }, false);
 
-    inContainer.addEventListener('DOMMouseScroll', function(event) {
+    myRenderer.domElement.addEventListener('DOMMouseScroll', function(event) {
       event.preventDefault();
       onMouseWheel(-event.detail*30);
       return false;
@@ -455,13 +474,13 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 
     // zooming -----------------------------------------------------------------
     if (myCurrentFOV != myTargetFOV) {
-      var smoothness = 0.7;
+      var smoothness = 0.8;
       myCurrentFOV = myCurrentFOV * smoothness + myTargetFOV * (1.0 - smoothness);
       myCamera.fov = myCurrentFOV;
       myCamera.updateProjectionMatrix();
       myIsZooming = true;
 
-      if (Math.abs(myCurrentFOV - myTargetFOV) < 0.1) {
+      if (Math.abs(myCurrentFOV - myTargetFOV) < 0.05) {
         myCurrentFOV = myTargetFOV;
         myIsZooming = false;
       }
@@ -470,40 +489,23 @@ HG.Display3D = function(inContainer, inHiventHandler) {
     // rendering ---------------------------------------------------------------
     myRenderer.clear();
     myRenderer.setFaceCulling(THREE.CullFaceBack);
+    myRenderer.setDepthTest(false);
+    myRenderer.setBlending(THREE.AlphaBlending);
 
-    var size = 1.0/Math.pow(2, myCurrentZoom);
+    renderTile(myGlobeTextures);
 
-    for (var x=0; x<Math.pow(2, myCurrentZoom); x+=4) {
-      for (var y=0; y<Math.pow(2, myCurrentZoom); y+=4) {
-
-        var textures = [];
-
-        for (var dx=0; dx<4; ++dx) {
-          for (var dy=0; dy<4; ++dy) {
-            textures.push(getTextureTile(x+dx, y+(3-dy), myCurrentZoom));
-          }
-        }
-
-        var minUV = new THREE.Vector2(x*size, 1.0 - (y+4)*size);
-        var maxUV = new THREE.Vector2((x+4)*size, 1.0 - y*size);
-
-        if (isTileVisible(minUV, maxUV)) {
-          myGlobeUniforms['tiles'].value = textures;
-          myGlobeUniforms['minUV'].value = minUV;
-          myGlobeUniforms['maxUV'].value = maxUV;
-
-          myRenderer.render(mySceneGlobe, myCamera);
-        }
-      }
-    }
-
+    myRenderer.setDepthTest(true);
     myRenderer.setFaceCulling(THREE.CullFaceFront);
+
     myRenderer.render(mySceneAtmosphere, myCamera);
   }
 
   // ===========================================================================
   function zoom() {
-    myTargetFOV = (HG.Display3D.CAMERA_MAX_ZOOM + 1.0 - myCurrentZoom) * 15;
+    myTargetFOV = (HG.Display3D.CAMERA_MAX_ZOOM - myCurrentZoom)
+                 /(HG.Display3D.CAMERA_MAX_ZOOM - HG.Display3D.CAMERA_MIN_ZOOM)
+                 * (HG.Display3D.CAMERA_MAX_FOV - HG.Display3D.CAMERA_MIN_FOV)
+                 + HG.Display3D.CAMERA_MIN_FOV;
   }
 
 
@@ -565,11 +567,7 @@ HG.Display3D = function(inContainer, inHiventHandler) {
   // ===========================================================================
   function onMouseWheel(delta) {
     if (myIsRunning) {
-			if (delta > 0)
-				myCurrentZoom = Math.min(myCurrentZoom + 1, HG.Display3D.CAMERA_MAX_ZOOM);
-			else
-				myCurrentZoom = Math.max(myCurrentZoom - 1, HG.Display3D.CAMERA_MIN_ZOOM);
-
+			myCurrentZoom = Math.max(Math.min(myCurrentZoom + delta*0.005, HG.Display3D.CAMERA_MAX_ZOOM), HG.Display3D.CAMERA_MIN_ZOOM);
 			zoom();
     }
 
@@ -594,11 +592,11 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 
   // ===========================================================================
   function onWindowResize(event) {
-    myCamera.aspect = $(inContainer.parentNode).innerWidth()
-                    / $(inContainer.parentNode).innerHeight();
+    myCamera.aspect = inContainer.parentNode.offsetWidth
+                    / inContainer.parentNode.offsetHeight;
     myCamera.updateProjectionMatrix();
-    myRenderer.setSize($(inContainer.parentNode).innerWidth(),
-                     $(inContainer.parentNode).innerHeight());
+    myRenderer.setSize(inContainer.parentNode.offsetWidth,
+                       inContainer.parentNode.offsetHeight);
 
     initWindowGeometry();
   }
@@ -663,14 +661,6 @@ HG.Display3D = function(inContainer, inHiventHandler) {
   }
 
 	// ===========================================================================
-	function getTextureTile(x, y, zoom) {
-		if (myGlobeTextures[zoom - HG.Display3D.CAMERA_MIN_ZOOM][x][y] == null) {
-			myGlobeTextures[zoom - HG.Display3D.CAMERA_MIN_ZOOM][x][y] = THREE.ImageUtils.loadTexture(HG.Display3D.TILE_PATH + zoom + "/" + x + "/" + y + ".png");
-		}
-		return myGlobeTextures[zoom - HG.Display3D.CAMERA_MIN_ZOOM][x][y];
-	}
-
-	// ===========================================================================
 	function isTileVisible(minNormalizedLatLong, maxNormalizedLatLong) {
 
 	  if (isFrontFacingTile(minNormalizedLatLong, maxNormalizedLatLong)) {
@@ -714,6 +704,82 @@ HG.Display3D = function(inContainer, inHiventHandler) {
 
     return isOnFrontSide(a) || isOnFrontSide(b) || isOnFrontSide(c) || isOnFrontSide(d);
 	}
+
+	// ===========================================================================
+	function tileChildrenLoaded(tile) {
+    for(var i=0,j=tile.children.length; i<j; i++){
+      if (tile.children[i].loadedTextureCount < 16) return false;
+    }
+    return true;
+  }
+
+  // ===========================================================================
+  function tileLoad(tile) {
+    tile.textures = [];
+
+    for (var dx=0; dx<4; ++dx) {
+      for (var dy=0; dy<4; ++dy) {
+        var x = tile.x+dx;
+        var y = tile.y+(3-dy);
+        var file = HG.Display3D.TILE_PATH + tile.z + "/" + x + "/" + y + ".png";
+        var tex = THREE.ImageUtils.loadTexture(file, new THREE.UVMapping(), function() {
+          tile.loadedTextureCount++;
+        });
+        tile.textures.push(tex);
+      }
+    }
+  }
+
+  // ===========================================================================
+  function tileLoadChildren(tile) {
+    for(var i=0,j=tile.children.length; i<j; i++){
+      if (tile.children[i].textures == null) {
+        tileLoad(tile.children[i]);
+      }
+    }
+  }
+
+  // ===========================================================================
+  function renderTile(tile) {
+
+    if (isTileVisible(tile.minLatLong, tile.maxLatLong)) {
+
+      if (tile.z < myCurrentZoom - 0.5 && tile.children != null) {
+
+        if (tileChildrenLoaded(tile)) {
+          for(var i=0,j=tile.children.length; i<j; i++){
+            renderTile(tile.children[i]);
+          }
+
+          if (tile.opacity < 0.05) {
+            tile.opacity = 0.0;
+            return;
+          } else if (!myIsZooming) {
+            tile.opacity = tile.opacity * 0.9;
+          }
+
+        }
+
+        if (!myIsZooming) {
+          tileLoadChildren(tile);
+        }
+      } else {
+        tile.opacity = 1.0;
+      }
+
+      if (tile.textures == null) {
+        tileLoad(tile);
+      }
+
+      myGlobeUniforms['tiles'].value = tile.textures;
+      myGlobeUniforms['opacity'].value = tile.opacity;
+      myGlobeUniforms['minUV'].value = tile.minLatLong;
+      myGlobeUniforms['maxUV'].value = tile.maxLatLong;
+
+      myRenderer.render(mySceneGlobe, myCamera);
+
+    }
+  }
 
 	// ===========================================================================
 	function normalizedLatLongToNormalizedMercatus(latLong) {

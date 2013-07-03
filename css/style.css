@@ -15,10 +15,6 @@ body {
   margin: 5px 0px 20px 30px;
 }
 
-.img-left {
-  margin: 5px 30px 20px 0px;
-}
-
 .hero-unit {
   color: #505050;
   text-align: left;
@@ -108,23 +104,6 @@ body {
   pointer-events: none;
 }
 
-.banner p {
-  font-family: roman_caps;
-  margin-top:20px;
-  margin-left:0px;
-  color: #aaa;
-  font-size:180%;
-  -o-transform: rotate(315deg);
-  -webkit-transform: rotate(315deg); 
-  -moz-transform: rotate(315deg);  
-  -ms-transform: rotate(315deg)
-  filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.71, M12=0.71, M21=-0.71, M22=0.71, SizingMethod="auto expand");
-}
-
-.span4 {
-  text-align: left;
-}
-
 h2, h3, h4 {
   font-family: roman_caps;
   color: #505050;
@@ -195,12 +174,6 @@ hr {
   margin-top: 30px;
 }
 
-.alert-histoglobe {
-  background-color: #f9e0bc;
-  border-color: #edc082;
-  color: #222;
-}
-
 .summary{
   border-radius: 6px 6px 6px 6px;
   -moz-border-radius: 6px 6px 6px 6px;
@@ -211,11 +184,6 @@ hr {
 .icon-feature {
   font-size:1400%;
   color: #edc082;
-}
-
-.icon-summary {
-  font-size:220%;
-  color: #555;
 }
 
 .tooltip-inner {

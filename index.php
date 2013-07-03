@@ -32,48 +32,37 @@
     <title>HistoGlobe</title>
 
     <link rel="icon" type="image/png" href="img/favicon.png">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css">
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/third-party/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/third-party/bootstrap-responsive.min.css">
+    <link rel="stylesheet" type="text/css" href="css/third-party/font-awesome.min.css">
+    <link rel="stylesheet" href="css/third-party/leaflet.css" />
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" href="css/third-party/leaflet.ie.css" />
+    <![endif]-->
+    
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/timeline.css">
+
+    <script type="text/javascript" src="script/third-party/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="script/third-party/jquery.browser.js"></script>
+    <script type="text/javascript" src="script/third-party/jquery.disable.text.select.js"></script>
+    <script type="text/javascript" src="script/third-party/jquery.mousewheel.js"></script>
+    <script type="text/javascript" src="script/third-party/bootstrap.min.js"></script>
+    <script type="text/javascript" src="script/third-party/RequestAnimationFrame.js"></script>
+    <script type="text/javascript" src="script/third-party/three.min.js"></script>
+    <script type="text/javascript" src="script/third-party/leaflet.js"></script>
+
+    <script type="text/javascript" src="script/histoglobe.min.js"></script>
     
-    <link rel="stylesheet" href="js/third-party/leaflet/leaflet.css" />
-    <!--[if lte IE 8]>
-      <link rel="stylesheet" href="js/third-party/leaflet/leaflet.ie.css" />
-    <![endif]-->
+    <script>
+	    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    <script type="text/javascript" src="js/third-party/jquery-1.9.0.min.js"></script>
-    <script type="text/javascript" src="js/third-party/jquery.browser.js"></script>
-    <script type="text/javascript" src="js/third-party/jquery.disable.text.select.js"></script>
-    <script type="text/javascript" src="js/third-party/jquery.mousewheel.js"></script>
-    <script type="text/javascript" src="js/third-party/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/third-party/hammer.min.js"></script>
-    <script type="text/javascript" src="js/third-party/RequestAnimationFrame.js"></script>
-    <script type="text/javascript" src="js/third-party/three.min.js"></script>
-    <script type="text/javascript" src="js/third-party/Tween.js"></script>
-    <script type="text/javascript" src="js/third-party/paper.js"></script>
-    
-    <script src="js/third-party/leaflet/leaflet.js"></script>
-
-
-    <script type="text/javascript" src="js/display/Display.js"></script>
-    <script type="text/javascript" src="js/display/Display2D.js"></script>
-    <script type="text/javascript" src="js/display/Display3D.js"></script>
-    <script type="text/javascript" src="js/timeline/Timeline.js"></script>
-    <script type="text/javascript" src="js/histrips/Histrip.js"></script>
-    <script type="text/javascript" src="js/histrips/HistripHandle.js"></script>
-    <script type="text/javascript" src="js/histrips/HistripHandler.js"></script>
-    <script type="text/javascript" src="js/histrips/HistripMarker.js"></script>
-    <script type="text/javascript" src="js/hivents/Hivent.js"></script>
-    <script type="text/javascript" src="js/hivents/HiventHandle.js"></script>
-    <script type="text/javascript" src="js/hivents/HiventHandler.js"></script>
-    <script type="text/javascript" src="js/hivents/HiventMarker.js"></script>
-    <script type="text/javascript" src="js/hivents/HiventMarker2D.js"></script>
-    <script type="text/javascript" src="js/hivents/HiventMarker3D.js"></script>
-    <script type="text/javascript" src="js/hivents/HiventMarkerTimeline.js"></script>
-    <script type="text/javascript" src="js/util/VideoPlayer.js"></script>
-    <script type="text/javascript" src="js/util/BrowserDetect.js"></script>
+	    ga('create', 'UA-42176173-1', 'histoglobe.com');
+	    ga('send', 'pageview');
+	  </script>
 
     <script type="text/javascript">
       var display2D, display3D, timeline, hiventHandler, histripHandler;
