@@ -98,7 +98,7 @@ function timeline(inHiventHandler) {
     dayDist = 0.05;
     innerThres = 0;                       // initially set to 0 for startup animation
     markerInterval = 0;
-    
+
     // play history
     playerIntervalTime = 8000;
     playerInterval = null;

@@ -25,4 +25,4 @@ mkdir build
 
 coffee -c -o build $cFiles 
           
-uglifyjs $jFiles -o script/histoglobe.min.js -mc
+uglifyjs $jFiles -o script/histoglobe.min.js #-mc
