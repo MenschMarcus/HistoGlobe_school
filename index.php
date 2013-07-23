@@ -71,7 +71,7 @@
     <script type="text/javascript" src="script/hivents/HiventMarker3D.js"></script>
     <script type="text/javascript" src="script/timeline/Timeline.js"></script>
     <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
-    <script type="text/javascript" src="script/util/VideoPlayer.js"></script>
+    <script type="text/javascript" src="build/VideoPlayer.js"></script>
 
 
     <script>

@@ -2,7 +2,8 @@
 
 cFiles="script/display/Display3D.coffee \
         script/display/Display2D.coffee \
-        script/display/Display.coffee"
+        script/display/Display.coffee \
+        script/util/VideoPlayer.coffee"
 
 jFiles="build/Display.js \
         build/Display2D.js \
@@ -19,7 +20,7 @@ jFiles="build/Display.js \
         script/hivents/HiventMarker2D.js \
         script/hivents/HiventMarker3D.js \
         script/hivents/HiventMarkerTimeline.js \
-        script/util/VideoPlayer.js \
+        build/VideoPlayer.js \
         script/util/BrowserDetect.js"
 
 mkdir build
