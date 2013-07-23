@@ -20,7 +20,7 @@
     } else {
       echo $phrase;
     }
-  } 	
+  }
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +39,7 @@
     <!--[if lte IE 8]>
       <link rel="stylesheet" href="css/third-party/leaflet.ie.css" />
     <![endif]-->
-    
+
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/timeline.css">
 
@@ -53,7 +53,7 @@
     <script type="text/javascript" src="script/third-party/leaflet.js"></script>
 
     <script type="text/javascript" src="script/histoglobe.min.js"></script>
-    
+
     <script>
 	    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 	    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -180,7 +180,7 @@
                      "background-position": "bottom right"});
 
         $('.hero-unit').css({height: "100%"});
-        $('#logo-normal').css({visibility: "hidden"});    
+        $('#logo-normal').css({visibility: "hidden"});
 
         if (display3D && display3D.isRunning()) {
           $(display3D.getCanvas()).animate({opacity: 0.0}, 1000, 'linear');
@@ -194,7 +194,7 @@
       }
 
       function load2D() {
-								
+
         if (display3D && display3D.isRunning()) {
           $(display3D.getCanvas()).animate({opacity: 0.0}, 1000, 'linear');
           display3D.stop();
@@ -313,7 +313,7 @@
               <li class=""><a class="smooth" href="#contact"><i class="<?php locale("iconContact")?>"></i> <?php locale("buttonContact")?></a></li>
             </ul>
           </div>
-          <!-- <div class="nav-collapse collapse">
+          <div class="nav-collapse collapse">
             <ul class="nav pull-right">
               <li class="dropdown" id="fat-menu">
                 <a data-toggle="dropdown" class="dropdown-toggle" role="button" id="language-drop" href="#"><i class="icon-comment-alt"></i> Language <b class="caret"></b></a>
@@ -323,7 +323,7 @@
                 </ul>
               </li>
             </ul>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>

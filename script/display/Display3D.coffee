@@ -64,7 +64,6 @@ class HG.Display3D extends HG.Display
 
 
 
-
   # ============================================================================
   _initMembers: ->
     this._myWidth                = null
@@ -210,7 +209,7 @@ class HG.Display3D extends HG.Display
       return false
     ), false
     
-    window.addEventListener   "resize",   this._onWindowResize,    false
+    window.addEventListener   "resize",   this._onWindowResize,   false
     window.addEventListener   "mouseup",  this.onMouseUp,         false
   
   # ============================================================================
@@ -307,8 +306,8 @@ class HG.Display3D extends HG.Display
         
     else if this._myMouseSpeed.x isnt 0.0 and this._myMouseSpeed.y isnt 0.0
       # if the globe has been "thrown" --- for "flicking"
-      this._myTargetCameraPos.x -= this._myMouseSpeed.x * this._myCurrentFOV * 0.02
-      this._myTargetCameraPos.y += this._myMouseSpeed.y * this._myCurrentFOV * 0.02
+      this._myTargetCameraPos.x -= this._myMouseSpeed.x*this._myCurrentFOV*0.02
+      this._myTargetCameraPos.y += this._myMouseSpeed.y*this._myCurrentFOV*0.02
       
       this._clampCameraPos()
       
@@ -317,16 +316,19 @@ class HG.Display3D extends HG.Display
         y: 0.0
     
     this._myCurrentCameraPos = 
-      x: this._myCurrentCameraPos.x * (this._mySpringiness) + this._myTargetCameraPos.x * (1.0 - this._mySpringiness)
-      y: this._myCurrentCameraPos.y * (this._mySpringiness) + this._myTargetCameraPos.y * (1.0 - this._mySpringiness)
+      x: this._myCurrentCameraPos.x * (this._mySpringiness) + 
+         this._myTargetCameraPos.x * (1.0 - this._mySpringiness)
+      y: this._myCurrentCameraPos.y * (this._mySpringiness) + 
+         this._myTargetCameraPos.y * (1.0 - this._mySpringiness)
     
     rotation =
       x: this._myCurrentCameraPos.x * Math.PI / 180
       y: this._myCurrentCameraPos.y * Math.PI / 180
 
-    this._myCamera.position.x = CAMERA_DISTANCE * Math.sin(rotation.x + Math.PI * 0.5) * Math.cos(rotation.y)
-    this._myCamera.position.y = CAMERA_DISTANCE * Math.sin(rotation.y)
-    this._myCamera.position.z = CAMERA_DISTANCE * Math.cos(rotation.x + Math.PI * 0.5) * Math.cos(rotation.y)
+    this._myCamera.position =
+      x: CAMERA_DISTANCE * Math.sin(rotation.x+Math.PI*0.5)*Math.cos(rotation.y)
+      y: CAMERA_DISTANCE * Math.sin(rotation.y)
+      z: CAMERA_DISTANCE * Math.cos(rotation.x+Math.PI*0.5)*Math.cos(rotation.y)
     
     this._myCamera.lookAt new THREE.Vector3 0, 0, 0
     
@@ -355,8 +357,8 @@ class HG.Display3D extends HG.Display
   # ============================================================================
   _zoom: ->
     this._myTargetFOV = (CAMERA_MAX_ZOOM - this._myCurrentZoom) / 
-                   (CAMERA_MAX_ZOOM - CAMERA_MIN_ZOOM) * 
-                   (CAMERA_MAX_FOV - CAMERA_MIN_FOV) + CAMERA_MIN_FOV
+                        (CAMERA_MAX_ZOOM - CAMERA_MIN_ZOOM) * 
+                        (CAMERA_MAX_FOV - CAMERA_MIN_FOV) + CAMERA_MIN_FOV
   
 
   ############################ EVENT FUNCTIONS #################################
