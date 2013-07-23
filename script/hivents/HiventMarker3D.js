@@ -2,18 +2,18 @@
 
 var HG = HG || {};
 
-HG.hiventMarkerGeometry = 0; 
+HG.hiventMarkerGeometry = 0;
 
 HG.HiventMarker3D = function(inHivent, inDisplay, inParent) {
-    
-  var self = this;  
-    
+
+  var self = this;
+
   if (HG.hiventMarkerGeometry == 0)
-    HG.hiventMarkerGeometry = new THREE.SphereGeometry(1, 10, 10);  
-    
+    HG.hiventMarkerGeometry = new THREE.SphereGeometry(1, 10, 10);
+
   var hiventDefaultColor = new THREE.Vector3(0.2, 0.2, 0.4);
   var hiventHighlightColor = new THREE.Vector3(1.0, 0.5, 0.0);
-  
+
   var Shaders = {
     'hivent' : {
       uniforms: {
@@ -35,9 +35,9 @@ HG.HiventMarker3D = function(inHivent, inDisplay, inParent) {
       ].join('\n')
     }
   };
-  
+
   var shader = Shaders['hivent'];
-  
+
   var uniforms = THREE.UniformsUtils.clone(shader.uniforms);
   uniforms['color'].value = hiventDefaultColor;
 
@@ -46,7 +46,7 @@ HG.HiventMarker3D = function(inHivent, inDisplay, inParent) {
     fragmentShader: shader.fragmentShader,
     uniforms: uniforms
   });
-   
+
   HG.HiventMarker.call(this, inHivent, inParent)
   THREE.Mesh.call(this, HG.hiventMarkerGeometry, material);
 
@@ -59,22 +59,22 @@ HG.HiventMarker3D = function(inHivent, inDisplay, inParent) {
   this.getHiventHandle().onMark(self, function(mousePos){
     uniforms['color'].value = hiventHighlightColor;
   });
-  
+
   this.getHiventHandle().onUnMark(self, function(mousePos){
     uniforms['color'].value = hiventDefaultColor;
   });
- 
+
   this.getHiventHandle().onLink(self, function(mousePos){
     uniforms['color'].value = hiventHighlightColor;
   });
-  
+
   this.getHiventHandle().onUnLink(self, function(mousePos){
     uniforms['color'].value = hiventDefaultColor;
   });
-  
+
   this.enableShowName();
-  this.enableShowInfo();  
-  
+  this.enableShowInfo();
+
   return this;
 
 };

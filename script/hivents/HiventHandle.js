@@ -5,12 +5,12 @@ var HG = HG || {};
 HG.activeHivents = [];
 
 HG.HiventHandle = function(inHivent) {
-  
+
   var activated = false;
   var marked = false;
   var linked = false;
   var focussed = false;
-  
+
   var onActiveCallbacks = [];
   var onInActiveCallbacks = [];
   var onMarkCallbacks = [];
@@ -20,11 +20,11 @@ HG.HiventHandle = function(inHivent) {
   var onUnFocusCallbacks = [];
   var onFocusCallbacks = [];
   var onUnFocusCallbacks = [];
-  
+
   this.getHivent = function() {
     return inHivent;
   }
- 
+
   this.activeAll = function(mousePixelPosition) {
     activated = true;
     HG.activeHivents.push(this);
@@ -33,8 +33,8 @@ HG.HiventHandle = function(inHivent) {
 				onActiveCallbacks[i][1][j](mousePixelPosition);
 			}
 		}
-  } 
-  
+  }
+
   this.active = function(obj, mousePixelPosition) {
     activated = true;
     HG.activeHivents.push(this);
@@ -44,9 +44,9 @@ HG.HiventHandle = function(inHivent) {
 					onActiveCallbacks[i][1][j](mousePixelPosition);
 				}
 				break;
-			} 
+			}
 		}
-  } 
+  }
 
   this.inActiveAll = function(mousePixelPosition) {
     activated = false;
@@ -58,24 +58,24 @@ HG.HiventHandle = function(inHivent) {
 				onInActiveCallbacks[i][1][j](mousePixelPosition);
 			}
 		}
-  } 
+  }
 
   this.inActive = function(obj, mousePixelPosition) {
     activated = false;
     var index = $.inArray(this, HG.activeHivents);
     if (index >= 0)
       delete HG.activeHivents[index];
-      
+
     for (var i = 0; i < onInActiveCallbacks.length; i++) {
 			if (onInActiveCallbacks[i][0] == obj) {
 				for (var j = 0; j < onInActiveCallbacks[i][1].length; j++) {
 					onInActiveCallbacks[i][1][j](mousePixelPosition);
 				}
 				break;
-			} 
+			}
 		}
-  } 
-  
+  }
+
   this.toggleActiveAll = function(mousePixelPosition) {
     activated = !activated;
     if (activated) {
@@ -83,8 +83,8 @@ HG.HiventHandle = function(inHivent) {
     } else {
       this.inActiveAll(mousePixelPosition);
     }
-  } 
-  
+  }
+
   this.toggleActive = function(obj, mousePixelPosition) {
     activated = !activated;
     if (activated) {
@@ -92,19 +92,19 @@ HG.HiventHandle = function(inHivent) {
     } else {
       this.inActive(obj, mousePixelPosition);
     }
-  } 
-  
+  }
+
   this.markAll = function(mousePixelPosition) {
     if (!marked) {
       marked = true;
       for (var i=0; i < onMarkCallbacks.length; i++) {
 				for (var j=0; j < onMarkCallbacks[i][1].length; j++) {
-					onMarkCallbacks[i][1][j](mousePixelPosition); 
+					onMarkCallbacks[i][1][j](mousePixelPosition);
 				}
 			}
-    } 
-  } 
-  
+    }
+  }
+
   this.mark = function(obj, mousePixelPosition) {
     if (!marked) {
       marked = true;
@@ -114,10 +114,10 @@ HG.HiventHandle = function(inHivent) {
 						onMarkCallbacks[i][1][j](mousePixelPosition);
 					}
 					break;
-				} 
+				}
 			}
-    } 
-  } 
+    }
+  }
 
   this.unMarkAll = function(mousePixelPosition) {
     if (marked) {
@@ -127,9 +127,9 @@ HG.HiventHandle = function(inHivent) {
 					onUnMarkCallbacks[i][1][j](mousePixelPosition);
 				}
 			}
-    } 
-  } 
-  
+    }
+  }
+
   this.unMark = function(obj, mousePixelPosition) {
     if (marked) {
       marked = false;
@@ -139,21 +139,21 @@ HG.HiventHandle = function(inHivent) {
 						onUnMarkCallbacks[i][1][j](mousePixelPosition);
 					}
 					break;
-				} 
+				}
 			}
-    } 
-  } 
+    }
+  }
 
   this.linkAll = function(mousePixelPosition) {
     if (!linked) {
       linked = true;
       for (var i=0; i < onLinkCallbacks.length; i++) {
 				for (var j=0; j < onLinkCallbacks[i][1].length; j++) {
-					onLinkCallbacks[i][1][j](mousePixelPosition); 
+					onLinkCallbacks[i][1][j](mousePixelPosition);
 				}
 			}
-    } 
-  } 
+    }
+  }
 
   this.link = function(obj, mousePixelPosition) {
     if (!linked) {
@@ -164,11 +164,11 @@ HG.HiventHandle = function(inHivent) {
 						onLinkCallbacks[i][1][j](mousePixelPosition);
 					}
 					break;
-				} 
+				}
 			}
-    } 
-  } 
- 
+    }
+  }
+
   this.unLinkAll = function(obj, mousePixelPosition) {
     if (linked) {
       linked = false;
@@ -177,9 +177,9 @@ HG.HiventHandle = function(inHivent) {
 					onUnLinkCallbacks[i][1][j](mousePixelPosition);
 				}
 			}
-    } 
-  } 
-  
+    }
+  }
+
   this.unLink = function(mousePixelPosition) {
     if (linked) {
       linked = false;
@@ -189,59 +189,59 @@ HG.HiventHandle = function(inHivent) {
 						onUnLinkCallbacks[i][1][j](mousePixelPosition);
 					}
 					break;
-				} 
+				}
 			}
-    } 
+    }
   }
-   
+
   this.focusAll = function(mousePixelPosition) {
     focussed = true;
-    
+
     for (var i = 0; i < onFocusCallbacks.length; i++) {
 			for (var j = 0; j < onFocusCallbacks[i][1].length; j++) {
 				onFocusCallbacks[i][1][j](mousePixelPosition);
 			}
 		}
-  } 
- 
+  }
+
   this.focus = function(obj, mousePixelPosition) {
     focussed = true;
-    
+
     for (var i = 0; i < onFocusCallbacks.length; i++) {
 			if (onFocusCallbacks[i][0] == obj) {
 				for (var j = 0; j < onFocusCallbacks[i][1].length; j++) {
 					onFocusCallbacks[i][1][j](mousePixelPosition);
 				}
 				break;
-			} 
+			}
 		}
-  } 
+  }
 
   this.unFocusAll = function(mousePixelPosition) {
     focussed = false;
-     
+
     for (var i = 0; i < onUnFocusCallbacks.length; i++) {
 			for (var j = 0; j < onUnFocusCallbacks[i][1].length; j++) {
 				onUnFocusCallbacks[i][1][j](mousePixelPosition);
 			}
 		}
-  } 
+  }
 
   this.unFocus = function(obj, mousePixelPosition) {
     focussed = false;
-     
+
     for (var i = 0; i < onUnFocusCallbacks.length; i++) {
 			if (onUnFocusCallbacks[i][0] == obj) {
 				for (var j = 0; j < onUnFocusCallbacks[i][1].length; j++) {
 					onUnFocusCallbacks[i][1][j](mousePixelPosition);
 				}
 				break;
-			} 
+			}
 		}
-  } 
-  
-   
- 
+  }
+
+
+
   this.onActive = function(obj, callbackFunc) {
     if (callbackFunc && typeof(callbackFunc) === "function") {
       for (var i=0; i < onActiveCallbacks.length; i++) {
@@ -253,7 +253,7 @@ HG.HiventHandle = function(inHivent) {
 			onActiveCallbacks.push([obj, [callbackFunc]]);
     }
   }
-    
+
   this.onInActive = function(obj, callbackFunc) {
     if (callbackFunc && typeof(callbackFunc) === "function") {
       for (var i=0; i < onInActiveCallbacks.length; i++) {
@@ -265,7 +265,7 @@ HG.HiventHandle = function(inHivent) {
 			onInActiveCallbacks.push([obj, [callbackFunc]]);
     }
   }
-      
+
   this.onMark = function(obj, callbackFunc) {
     if (callbackFunc && typeof(callbackFunc) === "function") {
 			for (var i=0; i < onMarkCallbacks.length; i++) {
@@ -277,7 +277,7 @@ HG.HiventHandle = function(inHivent) {
 			onMarkCallbacks.push([obj, [callbackFunc]]);
     }
   }
-    
+
   this.onUnMark = function(obj, callbackFunc) {
     if (callbackFunc && typeof(callbackFunc) === "function") {
 			for (var i=0; i < onUnMarkCallbacks.length; i++) {
@@ -301,7 +301,7 @@ HG.HiventHandle = function(inHivent) {
 			onLinkCallbacks.push([obj, [callbackFunc]]);
     }
   }
-    
+
   this.onUnLink = function(obj, callbackFunc) {
     if (callbackFunc && typeof(callbackFunc) === "function") {
 			for (var i=0; i < onUnLinkCallbacks.length; i++) {
@@ -325,7 +325,7 @@ HG.HiventHandle = function(inHivent) {
 			onFocusCallbacks.push([obj, [callbackFunc]]);
     }
   }
-    
+
   this.onUnFocus = function(obj, callbackFunc) {
     if (callbackFunc && typeof(callbackFunc) === "function") {
 			for (var i=0; i < onUnFocusCallbacks.length; i++) {
@@ -337,7 +337,7 @@ HG.HiventHandle = function(inHivent) {
 			onUnFocusCallbacks.push([obj, [callbackFunc]]);
     }
   }
-  
+
   return this;
 };
 

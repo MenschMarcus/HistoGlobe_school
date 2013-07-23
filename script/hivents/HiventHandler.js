@@ -4,12 +4,12 @@
 var HG = HG || {};
 
 HG.HiventHandler = function() {
-  
+
   var hiventHandles = [];
   var hiventsLoaded = false;
   var onHiventsLoadedCallbacks = [];
-  
-  function init() {    
+
+  function init() {
     $.getJSON("data/hivents.json", function(h){
       for (var i=0; i<h.length; i++) {
         var hivent = new HG.Hivent(
@@ -27,14 +27,14 @@ HG.HiventHandler = function() {
       hiventsLoaded = true;
       for (var i=0; i < onHiventsLoadedCallbacks.length; i++)
         onHiventsLoadedCallbacks[i](hiventHandles);
-    }); 
+    });
 
   }
-  
+
   this.getAllHiventHandles = function() {
     return hiventHandles;
   }
-  
+
   this.onHiventsLoaded = function(callbackFunc) {
     if (callbackFunc && typeof(callbackFunc) === "function") {
       if (!hiventsLoaded)
@@ -43,9 +43,9 @@ HG.HiventHandler = function() {
         callbackFunc(hiventHandles);
     }
   }
-  
+
   init();
-  
+
   return this;
 
 

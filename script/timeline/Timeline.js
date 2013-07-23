@@ -2,12 +2,12 @@ function timeline(inHiventHandler) {
 
   // create empty timeline object and fill it with member functions
   var timeline = {};
-  
+
 // =========================== H E A D E R =========================== //
 
   /* MEMBER FUNCTIONS */
 
-  // constructor  
+  // constructor
   timeline.initTimeline = initTimeline;           // initializes the whole timeline
   timeline.resizeTimeline = resizeTimeline;       // redraws the timeline after resizing of the window
   timeline.drawScroller = drawScroller;           // initializes the timeline scroller
@@ -17,7 +17,7 @@ function timeline(inHiventHandler) {
   timeline.setPeriod = setPeriod;                 // sets the period dates (start and end)
   timeline.setHistEvents = setHistEvents;         // sets the historical events on timeline scroller
   timeline.setMapExtent = setMapExtent;           // sets the viewport coordinates of the maps
-  
+
   // getter
   timeline.getNow = getNow;                       // gets now date [Date object]
   timeline.getPeriodStart = getPeriodStart;       // gets start date of timeline [decimal year]
@@ -26,8 +26,8 @@ function timeline(inHiventHandler) {
 
   // listener handling
   timeline.addListener = addListener;             // adds a listener to the timeline
-  timeline.catChangeHandler = catChangeHandler;   // tells the timeline that the categories have changed  
-  
+  timeline.catChangeHandler = catChangeHandler;   // tells the timeline that the categories have changed
+
   // event handling                               // event that happens, when ...
   timeline.clickMouse = clickMouse;               // ... mouse button is clicked on timeline
   timeline.moveMouse = moveMouse;                 // ... mouse is moved while button is clicked
@@ -36,16 +36,16 @@ function timeline(inHiventHandler) {
   timeline.clickMoveButtonRight = clickMoveButtonRight;     // ... the left/right move buttons of the timeline are pressed
   timeline.zoom = zoom;                           // ... the timeline gets zoomed by mouse wheel or by zoom buttons
   timeline.togglePlayer = togglePlayer;            // ... history player gets toggled
-  
+
   /* MEMBER VARIABLES */
-  
+
   // general histoglobe          (internal date representation of all dates: decimal year, NOT js Date object)
   var minDate, maxDate;         // start and end dates of histoglobe
   var now = {};                 // object containing now date (political date) and its marker on timeline
   var histEvents = [];          // array of historical events visible on the map
   var extent = [];              // array of viewport coordinates (xMin,yMin,xMax,yMax)
   var listeners = [];           // external objects that listen to date changes
-  
+
   // scroller
   var tlMain;                   // object containing #tlMain -> get width of the timeline viewport by 'tlMain.offsetWidth'
   var tlScroller;               // object containing #tlScroller (larger than tlMain)
@@ -62,7 +62,7 @@ function timeline(inHiventHandler) {
   var playerIntervalTime;       // time it takes to jump to next event
   var playerInterval;           // setInterval reference
   var playerAnim;               // animation time
-  
+
   // event handling
   var downScroller;             // bool: clicked in timeline scroller?
   var downNowMarker;            // book: clicked on now marker?
@@ -75,18 +75,18 @@ function timeline(inHiventHandler) {
 // =================== I M P L E M E N T A T I O N =================== //
 
   /*** CONSTRUCTOR ***/
-  
+
   function initTimeline() {
-  
+
     /* INIT MEMBER VARIABLES */
-  
+
     // general histoglobe
     now.date = 1825; // now = today
     now.marker = $("#nowMarkerWrap")[0];
     now.marker.markerDate = now;          // self-reference, so that now.marker refers to now date
     minDate = 1820;                       // no historical information before 1800
     maxDate = 1845;                   // prevents futuristic timeline
-    
+
     // scroller
     tlMain = $("#tlMain")[0];
     tlScroller = $("#tlScroller")[0];
@@ -103,7 +103,7 @@ function timeline(inHiventHandler) {
     playerIntervalTime = 8000;
     playerInterval = null;
     playerAnim = 1600;
-    
+
     // event handling
     downScroller = false;
     downNowMarker = false;
@@ -111,8 +111,8 @@ function timeline(inHiventHandler) {
     totalDragMovement = 0;
     moveInterval = null;
     mouseEvent = null;
-    
-    
+
+
     initHivents();
     /* INIT SCROLLER */
     // write now date onto now marker
@@ -120,12 +120,12 @@ function timeline(inHiventHandler) {
     // initially draw scroller, scroller at the end, now marker at 0
     $(tlScroller).width($("#tlMain").width()*1.5);
     drawScroller();
-    
+
     /* STARTUP ANIMATION */
     // set start time of animation after loading the page [ms]
-    
+
     setTimeout(startAni,300);
-    
+
     // startup animation function
     function startAni() {
       // set desired position for now marker (golden ratio from the right) and get its actual position
@@ -146,7 +146,7 @@ function timeline(inHiventHandler) {
       }
     }
   }
-  
+
   /* browser resize (not redraw whole timeline, only reset variables relative to width) */
   function resizeTimeline() {
     innerThres = tlMain.offsetWidth*0.1;
@@ -156,7 +156,7 @@ function timeline(inHiventHandler) {
 
 
   /*** SETTER ***/
-  
+
   /* set now date and position now marker on the timeline scroller, synchronise with period dates */
   function setNowDate(date) {
     // if date given convert it, otherwise take as it was before
@@ -165,12 +165,12 @@ function timeline(inHiventHandler) {
 
     // move now marker to new position
     var pos = decYearToPos(date);
-    setNowPos(pos);   
-   
+    setNowPos(pos);
+
     // tell everybody that now date changed
     nowChanged();
   }
-  
+
   /* set position now marker on the timeline scroller, synchronise with period dates and min and max dates */
   function setNowPos(pos) {
     // clamp to positions of min and max dates and start and end of main
@@ -184,15 +184,15 @@ function timeline(inHiventHandler) {
     // write now date into head of now marker
     $("#polDate").text(decYearToString(now.date));
   }
-  
-  
+
+
   /* when period dates have changed, synchronise the now date and its marker on the timeline */
   function synchNow() {
     // init values
     var nowPos = decYearToPos(now.date);        // position of now marker
     var leftThres = $("#tlMain").scrollLeft()+innerThres;
     var rightThres = $("#tlMain").scrollLeft()+$("#tlMain").width()-innerThres;
-    
+
     // if now date is inside inner threshold, everything is good
     if ((nowPos >= leftThres) && (nowPos <= rightThres)) {
       return
@@ -212,7 +212,7 @@ function timeline(inHiventHandler) {
     // tell everybody about it
     nowChanged();
   }
-  
+
   // set period start and end date and draw the scroller on their base
   function setPeriod(start, end) {
     // fix ID10T bug
@@ -232,20 +232,20 @@ function timeline(inHiventHandler) {
       if (end < maxDate-3)  end = start + 3;    // prevents futuristic timeline
       else                  start = end - 3;
     }
-    
+
     // calculate new reference and redraw scroller
     dayDist = tlMain.offsetWidth / dayDiff(start, end);
     refDate = now.date;
     refPos = (dayDiff(start, now.date) * dayDist) + $(tlMain).scrollLeft();
     drawScroller();
-    
+
     // synchronise the now date with the period dates
     synchNow();
-  
+
     // tell everybody that period dates changed
     periodChanged();
   }
-  
+
   /* set the extent of the map, called on map move events
       lat/lon coordinate pair as lower-left, upper-right
       lat limited to -90 - +90, lon does not wrap around */
@@ -270,35 +270,35 @@ function timeline(inHiventHandler) {
       }
     }
   }
-  
+
   function setHistEvents(eventArr) {
     histEvents = eventArr;
     // TODO make this more generic: only update new event markers
   }
-  
-  
+
+
   /*** GETTER ***/
-  
+
   function getNow()         { return now;                           }
   function getPeriodStart() { return posToDate(0);                  }
   function getPeriodEnd()   { return posToDate(tlMain.offsetWidth); }
-  
+
   function getCategories() {
     var social = $("#catSociety").is(':checked');
     var domestic = $("#catDomestic").is(':checked');
     var foreign = $("#catForeign").is(':checked');
     return {social:social, domestic:domestic, foreign:foreign,
       asUrlParam : function () {
-        return (social?"&social=1":"&social=0") + 
-          (domestic?"&domestic=1":"&domestic=0") + 
+        return (social?"&social=1":"&social=0") +
+          (domestic?"&domestic=1":"&domestic=0") +
           (foreign?"&foreign=1":"&foreign=0");
       }
     };
   }
-  
- 
+
+
   /*** LISTENER HANDLING ***/
-  
+
   function addListener(lis) {
     listeners.push(lis);
     lis.nowChanged(decYearToDate(now.date));
@@ -320,26 +320,26 @@ function timeline(inHiventHandler) {
       listeners[i].periodChanged(d1, d2);
     }
   }
-  
+
   function catChangeHandler(evt) {
     categoryChanged();
-  }  
-  
+  }
+
   function categoryChanged() {
     var cats = getCategories();
     for (var i in listeners) {
       listeners[i].categoryChanged(cats);
     }
   }
-  
+
 
   /*** SCROLLER ***/
-  
+
   function drawScroller() {
     // clear the scroller from event markers and year markers
     $('.eventMarker').remove();
     $('.yearMarker').remove();
-    
+
     // calculate interval for year markers
     var minDist = 45;
     var yearIntervals = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000];
@@ -349,35 +349,35 @@ function timeline(inHiventHandler) {
       var xxxxxxx = 1;      // XXX: avoids weird behaviour in while loop
     }
     markerInterval = yearIntervals[intervalIt];
-    
+
     // set position of now marker on timeline
     $(now.marker).css("left",(decYearToPos(now.date)));
-    
+
     // draw first marker on timeline (close to now date)
     var firstYear = Math.ceil(now.date);
     firstYear = firstYear + (markerInterval - (firstYear % markerInterval));
     if (firstYear > maxDate) firstYear -= markerInterval;
     $("#tlDateMarkers").append(makeYearMarker(firstYear));
-    
+
     // initialize position of leftmost and rightmost marker on timeline
     leftPos = rightPos = decYearToPos(firstYear);
 
     // set the rest of the year markers in timeline scroller
     appendYearMarkers();
-    
+
     // put period dates into their fields
     var perStart = Math.max(Math.round(posToDecYear($(tlMain).scrollLeft())),minDate);
     var perEnd = Math.min(Math.round(posToDecYear(tlMain.offsetWidth+$(tlMain).scrollLeft())),Math.floor(maxDate));
     $('#periodStart').val(perStart);
     $('#periodEnd').val(perEnd);
-    
+
     // initially set markers for historical events
     updateHivents();
   }
-  
-  
+
+
   /** YEAR MARKERS **/
-  
+
   // fill scroller in between outer threshold with year markers
   function appendYearMarkers() {
     while (leftPos > 0) {
@@ -397,7 +397,7 @@ function timeline(inHiventHandler) {
       rightPos = decYearToPos(nextYear);
     }
   }
-  
+
   // clear all the markers that are beyond the outer threshold
   function stripYearMarkers() {
     while (leftPos <= 0) {
@@ -411,8 +411,8 @@ function timeline(inHiventHandler) {
       rightPos = decYearToPos(rightYear-markerInterval);
     }
   } // TODO try if it performs faster when left and rightDate are hold and used
-  
-  // create a single year marker    
+
+  // create a single year marker
   function makeYearMarker(year) {
     var newMarker = document.createElement('div');
     newMarker.setAttribute('id',year);
@@ -422,7 +422,7 @@ function timeline(inHiventHandler) {
     newMarker.markerDate = {date: year};
     return newMarker;
   }
-  
+
   // set class of markers for different time periods
   function yearMarkerClass(year) {
     if (year%(20*markerInterval) == 0)
@@ -432,37 +432,37 @@ function timeline(inHiventHandler) {
     else
       return 'yearMark3';
   }
-  
+
   /** HISTORICAL EVENT MARKER **/
-  
+
   function initHivents() {
     inHiventHandler.onHiventsLoaded(function(handles){
-         
+
       for (var i=0; i<handles.length; i++) {
 
         var hivent = handles[i].getHivent();
         var date = new Date(hivent.date);
-        var posX = dateToPos(date);  
-        
-        var hiventMarker = new HG.HiventMarkerTimeline(handles[i], 
-																										    tlScroller, 
+        var posX = dateToPos(date);
+
+        var hiventMarker = new HG.HiventMarkerTimeline(handles[i],
+																										    tlScroller,
 																									      posX);
 				hiventMarkers.push(hiventMarker);
       }
     });
   }
-  
+
   function updateHivents() {
-      
+
 		for (var i=0; i<hiventMarkers.length; i++) {
 
 			var date = new Date(hiventMarkers[i].getHiventHandle().getHivent().date);
-			var posX = dateToPos(date);  
-			
+			var posX = dateToPos(date);
+
 			hiventMarkers[i].setPosition(posX);
 		}
   }
- 
+
   /** HISTORY PLAYER **/
   function eventUITarget(evt, node)
   {
@@ -471,7 +471,7 @@ function timeline(inHiventHandler) {
       syntax: "closest(desEl)" is an object containing all elements
       in the DOM tree of the node clicked on that match with desEl
       => if there is one element in this object, then it is
-      the one we are looking for, so the length of the object is 1 
+      the one we are looking for, so the length of the object is 1
       (otherwise it is 0)
     */
     return $(evt.target).closest(node).length==1;
@@ -488,25 +488,25 @@ function timeline(inHiventHandler) {
     var p1 = $("#histPlayer1");
     var p2 = $("#histPlayer2");
     var p3 = $("#histPlayer3");
-    
+
     // check state: 0 = not playing, 1 = speed1, 2 = speed2, 3 = speed3
     var state = null;
     if (p1.hasClass('active')) state = 1;
     if (p2.hasClass('active')) state = 2;
     if (p3.hasClass('active')) state = 3;
-    
+
     // check which play button clicked on
     var playButt = null;
     if (eventUITarget(evt, p1)) playButt = 1;
     if (eventUITarget(evt, p2)) playButt = 2;
     if (eventUITarget(evt, p3)) playButt = 3;
-    
+
     // first, stop player and toggle clicked button
     stopPlayer();
     if (playButt == 1) p1.button('toggle');
     if (playButt == 2) p2.button('toggle');
     if (playButt == 3) p3.button('toggle');
-    
+
     // if clicked on active playButt, only pause the animation and do not do anything else
     if (state == playButt)
       return
@@ -519,7 +519,7 @@ function timeline(inHiventHandler) {
       startPlayer(playButt);
     }
   }
-  
+
   function startPlayer(speed)
   {
     var counter = 0;
@@ -553,8 +553,8 @@ function timeline(inHiventHandler) {
           }, 20);
         }
 
-        setNowPos(nowPos);   
-        
+        setNowPos(nowPos);
+
         // if max date reached, stop animation
         if (now.date >= maxDate)
         {
@@ -567,7 +567,7 @@ function timeline(inHiventHandler) {
           if (p2.hasClass('active')) p2.button('toggle');
           if (p3.hasClass('active')) p3.button('toggle');
         }
-       
+
         // tell everybody that now date changed
         if (counter == 50)
         {
@@ -575,12 +575,12 @@ function timeline(inHiventHandler) {
           periodChanged();
           counter = 0;
         }
-        
+
         counter++;
       }, 10
     );
   }
-  
+
   function stopPlayer() {
 
     clearInterval(playerInterval);
@@ -589,8 +589,8 @@ function timeline(inHiventHandler) {
     // stop any running movement
     $(now.marker).stop();
   }
-  
-  
+
+
   /*** EVENT HANDLING ***/
 
   /** DIRECT EVENT HANDLING FUNCTIONS **/
@@ -616,7 +616,7 @@ function timeline(inHiventHandler) {
       downScroller = true;
     }
   }
-  
+
   // move with clicked mouse button in scroller
   function moveMouse(evt) {
     // set event handling variables
@@ -631,13 +631,13 @@ function timeline(inHiventHandler) {
     if (downNowMarker) {
       dragNowMarker(evt);
     }
-    // reset event handling variables    
+    // reset event handling variables
     lastPos = evt.pageX;
   }
 
-  // release the mouse button  
+  // release the mouse button
   function releaseMouse(evt) {
-    // change cursor back 
+    // change cursor back
     $('body').attr('style','');
     // scrolling or moving => reset periods
     if (downScroller || moveInterval) {
@@ -680,7 +680,7 @@ function timeline(inHiventHandler) {
     // stop moving
     clearInterval(moveInterval);
     moveInterval = null;
-    
+
     // debugYearMarkers();
   }
 
@@ -703,7 +703,7 @@ function timeline(inHiventHandler) {
       synchNow();
     }, 20);
   }
-  
+
   // click on the left and right move button
   function clickMoveButtonLeft(pix) {
     // set initial speed of button moving and time moving started
@@ -725,24 +725,24 @@ function timeline(inHiventHandler) {
   }
 
   /** MOVE TIMELINE AND NOW MARKER **/
-  
+
   function scrollTimeline(pix, ignoreLimit) {
     var fixDist = tlScroller.offsetWidth/3;
 
     // move only by amount of pixels to clip to golden ratio
     if (!ignoreLimit) {
       pix = Math.min(pix, (tlMain.offsetWidth*0.382)-(leftPos-tlMain.scrollLeft));
-      pix = Math.max(pix, (tlMain.offsetWidth*0.618)-(rightPos-tlMain.scrollLeft));    
+      pix = Math.max(pix, (tlMain.offsetWidth*0.618)-(rightPos-tlMain.scrollLeft));
     }
-    
-    if (pix == 0) return;     // stops unnecessary calculation    
-    
+
+    if (pix == 0) return;     // stops unnecessary calculation
+
     // perform fixup if necessary
     if ((tlMain.scrollLeft-pix) <= 0) {
       scrollFixup(fixDist);
       $("#tlMain").scrollLeft(tlMain.scrollLeft+fixDist);
     }
-    else if ((tlMain.scrollLeft-pix) >= (tlScroller.offsetWidth-tlMain.offsetWidth)) {  
+    else if ((tlMain.scrollLeft-pix) >= (tlScroller.offsetWidth-tlMain.offsetWidth)) {
       scrollFixup(-fixDist);
       $("#tlMain").scrollLeft(tlMain.scrollLeft-fixDist);
     }
@@ -755,7 +755,7 @@ function timeline(inHiventHandler) {
     $('#periodStart').val(Math.max(start,minDate));
     $('#periodEnd').val(Math.min(end,Math.floor(maxDate)));
   }
-  
+
   function scrollFixup(pix) {
     // move all elements on timeline by "pix" pixels to the left / rigth;
     var list = $("#tlDateMarkers > div");
@@ -766,13 +766,13 @@ function timeline(inHiventHandler) {
     refPos += pix;
     leftPos += pix;
     rightPos += pix;
-    
+
     // clip year markers
     updateHivents();
     appendYearMarkers();
     stripYearMarkers();
   }
-  
+
   function dragNowMarker(evt) {
     var moveFact = 0.2;   // speeding factor
     mouseEvent = evt;              // get current event
@@ -781,7 +781,7 @@ function timeline(inHiventHandler) {
       moveInterval = setInterval(function () {
         // check if moving of timeline necessary
         var posX = mouseEvent.pageX - $(tlMain).offset().left;
-        // move timeline left        
+        // move timeline left
         if (posX < innerThres) {
           var off = (innerThres-posX)*moveFact;
           scrollTimeline(off);
@@ -794,7 +794,7 @@ function timeline(inHiventHandler) {
         // put now marker where mouse is
         var newNowPos = posX + $(tlMain).scrollLeft();
         setNowPos(newNowPos);
-        
+
         // every x times really change now date
         if ((++moveCounter)%5 == 0) {
           nowChanged();
@@ -804,23 +804,23 @@ function timeline(inHiventHandler) {
       },20);
     }
   }
-  
+
 
   /** ZOOM TIMELINE **/
   function zoomFromPos(pos, delta) {
     var evt = {
         'pageX': pos + $('#tlMain').offset().left
     };
-    
+
     zoom(evt, delta);
   }
-  
-  
+
+
   function zoom (evt, delta) {
-  
+
     // prevent from scrolling the page
     if (evt.preventDefault) evt.preventDefault();
-  
+
     // init values
     var zoomFactor = 1.15;
     var minDist = tlMain.offsetWidth/dayDiff(minDate,maxDate);
@@ -844,10 +844,10 @@ function timeline(inHiventHandler) {
 
     // redraw the scroller
     drawScroller();
-    
+
     // synch the now date to new period dates
     synchNow();
-    
+
     // make sure extreme markers stay inside golden ratio
     // Take the code as it is. Do not question it. Do not change it. Is works :) Thank you!
     if ((leftPos-tlMain.scrollLeft) >= (tlMain.offsetWidth*0.382)) {
@@ -857,14 +857,14 @@ function timeline(inHiventHandler) {
       scrollTimeline((tlMain.offsetWidth*0.618)-(rightPos-tlMain.scrollLeft));
     }
     synchNow();
-    
+
     // tell everyone, that period dates changed
     periodChanged();
   }
-  
-  
+
+
   /*** DEBUG FUNCTIONS ***/
-  
+
   function debugYearMarkers() {
     _d.clearlog();
     var list = $(".yearMarker");
@@ -876,10 +876,10 @@ function timeline(inHiventHandler) {
       _d.log(year + " " + actPos + " " + assPos + " " + diff);
     });
   }
-  
-  
+
+
   /*** AUXILIARY FUNCTIONS ***/
-  
+
   // input: a Date object, output: x-position [px] in the timeline scroller
   function dateToPos(date) {
     // 1. make it a decimal year
@@ -887,22 +887,22 @@ function timeline(inHiventHandler) {
     // 2. calculate the x-position of the marker
     return dayDiff(refDate,date)*dayDist + refPos;
   }
-  
+
   // input: a decimal year, output: x-position [px] in the timeline scroller
   function decYearToPos(decYear) {
     // return the position of the marker for that date
     return dayDiff(refDate,decYear)*dayDist + refPos;
   }
-  
-  
+
+
   // input: position [px], output: a Date object
   function posToDate(pos) {
     // inverse function of dateToPos
     var decYear = refDate + ((pos-refPos)/dayDist)/365.242199;
     return decYearToDate(decYear);
   }
-  
-  // input: position [px], output: a decimal year 
+
+  // input: position [px], output: a decimal year
   function posToDecYear(pos) {
     // inverse function of dateToPos
     return refDate + ((pos-refPos)/dayDist)/365.242199;
@@ -911,9 +911,9 @@ function timeline(inHiventHandler) {
   // input: Date object (internal), output: string 'DD.MM.YYYY' (external)
   function decYearToString(date) {
     var dateObj = decYearToDate(date);
-    return padZero(dateObj.getDate()) + "." + padZero(dateObj.getMonth()+1) + "." + dateObj.getFullYear();    
+    return padZero(dateObj.getDate()) + "." + padZero(dateObj.getMonth()+1) + "." + dateObj.getFullYear();
   }
-  
+
   // input: decimal year, output: Date object
   function decYearToDate(decYear) {
     if (decYear instanceof Date) return decYear;        // if already a date, return it
@@ -921,7 +921,7 @@ function timeline(inHiventHandler) {
     if (isLeapYear(fullYear)) return new Date(fullYear, 0, ((decYear-fullYear)*366)+1,0,0,0);
     else                      return new Date(fullYear, 0, ((decYear-fullYear)*365)+1,0,0,0);
   }
-  
+
   // input: Date object, output: decimal year
   function dateToDecYear(date) {
     var fullYear = date.getFullYear();
@@ -931,7 +931,7 @@ function timeline(inHiventHandler) {
     if (isLeapYear(fullYear)) return fullYear + (diff/366);
     else                      return fullYear + (diff/365);
   }
-  
+
   // input: anything, output: decimal year
   function anyToDecYear(str) {
     // if Date object
@@ -943,19 +943,19 @@ function timeline(inHiventHandler) {
     var dateObj = new Date(dateParts[2], dateParts[1]-1, dateParts[0]);
     return dateToDecYear(dateObj);
   }
-  
+
   // input: click event on timeline, output: a DateObject
   function clickToDate(evt) {
     var clickPix = evt.pageX-$('#tlScroller').offset().left;
     return posToDate(clickPix);
-  }  
-  
+  }
+
   // input: click event on timeline, output: a decimal year
   function clickToDecYear(evt) {
     var clickPix = evt.pageX-$('#tlScroller').offset().left;
     return posToDecYear(clickPix);
   }
-  
+
   // input: two dates as Date objects or fractional years, output: the difference between both dates in days
   function dayDiff(date1, date2) {
     // make both a Date object
@@ -987,6 +987,6 @@ function timeline(inHiventHandler) {
   }
 
 
-  // return the timeline object 
+  // return the timeline object
   return timeline;
-}  
+}

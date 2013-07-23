@@ -20,9 +20,11 @@ jFiles="build/Display.js \
         script/hivents/HiventMarkerTimeline.js \
         script/util/VideoPlayer.js \
         script/util/BrowserDetect.js"
-       
+
 mkdir build
 
-coffee -c -o build $cFiles 
-          
+coffee -c -o build $cFiles
+
 uglifyjs $jFiles -o script/histoglobe.min.js #-mc
+
+xdg-open http://localhost/HistoGlobe

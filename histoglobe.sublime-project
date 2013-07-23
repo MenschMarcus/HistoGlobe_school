@@ -1,13 +1,10 @@
 {
 	"folders":
 	[
-		{
+	  {
 			"follow_symlinks": true,
-			"path": "script"
-		},
-		{
-			"follow_symlinks": true,
-			"path": "css"
+			"path": ".",
+			"folder_exclude_patterns": ["build", "data", "data_src", "font", "img", "old"]
 		}
 	]
 }

@@ -14,9 +14,9 @@ HG.HiventInfoPopover = function(inHivent) {
     div.style.width = "150px";
     div.style.height = "150px";
     div.style.backgroundColor = "#ff0000";
-    
+
     document.getElementsByTagName("body")[0].appendChild(div);
-    
+
     div.addEventListener('mousedown', onMouseDown, false);
   }
 
@@ -26,7 +26,7 @@ HG.HiventInfoPopover = function(inHivent) {
     div.addEventListener('mouseout', onMouseOut, false);
     event.preventDefault();
   }
-  
+
   function onMouseUp(event) {
     div.removeEventListener('mousemove', onMouseMove, false);
     div.removeEventListener('mouseup', onMouseUp, false);
@@ -37,7 +37,7 @@ HG.HiventInfoPopover = function(inHivent) {
     var currentPos = $(div).offset();
     console.log(currentPos);
     $(div).offset({left: event.clientX - currentPos.left,
-                   top:  event.clientY - currentPos.top}); 
+                   top:  event.clientY - currentPos.top});
   }
 
   function onMouseOut(event) {
@@ -49,14 +49,14 @@ HG.HiventInfoPopover = function(inHivent) {
   this.show = function() {
     div.style.visibility = "visible";
   }
-  
+
   this.hide = function() {
     div.style.visibility = "hidden";
   }
-  
+
   init();
-  
+
   return this;
-  
+
 };
 

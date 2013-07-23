@@ -4,7 +4,7 @@
 var HG = HG || {};
 
 HG.Display2D = function(inContainer, inHiventHandler) {
-  
+
 
   //////////////////////////////////////////////////////////////////////////////
   //                          PUBLIC INTERFACE                                //
@@ -16,10 +16,10 @@ HG.Display2D = function(inContainer, inHiventHandler) {
   HG.Display2D.MIN_ZOOM = 0.1;
 
   ////////////////////////////// FUNCTIONS /////////////////////////////////////
-  
+
   // ===========================================================================
   this.create = function() {
-    
+
     initCanvas();
     initEventHandling();
     initHivents();
@@ -78,9 +78,9 @@ HG.Display2D = function(inContainer, inHiventHandler) {
   /////////////////////////// MEMBER VARIABLES /////////////////////////////////
 
   var mySelf = this;
-  
+
   var myMap;
-  
+
   var mapParent;
 
   var hiventMarkers = [];
@@ -103,15 +103,15 @@ HG.Display2D = function(inContainer, inHiventHandler) {
 
   // ===========================================================================
   function initCanvas() {
-  
+
     mapParent = document.createElement("div");
 
     mapParent.style.width = $(inContainer.parentNode).width() + "px";
     mapParent.style.height = $(inContainer.parentNode).height() + "px";
 
     inContainer.appendChild(mapParent);
-  
-  
+
+
     myMap = L.map(mapParent, {maxZoom:7, minZoom:1, zoomControl:false}).setView([51.505, 10.09], 4);
     myMap.attributionControl.setPrefix('');
 
@@ -143,16 +143,16 @@ HG.Display2D = function(inContainer, inHiventHandler) {
 
   // ===========================================================================
   function initHivents() {
-          
+
     inHiventHandler.onHiventsLoaded(function(handles){
-      
+
       for (var i=0; i<handles.length; i++) {
 
         var marker = new HG.HiventMarker2D(handles[i], mySelf, myMap);
         hiventMarkers.push(marker);
       }
     });
-    
+
     myMap.on("click",  HG.deactivateAllHivents);
   }
 
