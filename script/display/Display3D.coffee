@@ -12,90 +12,86 @@ class HG.Display3D extends HG.Display
 
   constructor: (inContainer, inHiventHandler) ->
 
-    this.inContainer = inContainer
-    this.inHiventHandler = inHiventHandler
+    @inContainer = inContainer
+    @inHiventHandler = inHiventHandler
 
-    this._initMembers()
-    this._initWindowGeometry()
-    this._initGlobe()
-    this._initRenderer()
-    this._initHivents()
-    this._initEventHandling()
-    this._zoom()
+    @_initMembers()
+    @_initWindowGeometry()
+    @_initGlobe()
+    @_initRenderer()
+    @_initHivents()
+    @_initEventHandling()
+    @_zoom()
 
-    this.center x: 10, y: 50
+    @center x: 10, y: 50
 
   # ============================================================================
   start: ->
-    unless this._myIsRunning
-      this._myIsRunning = true
-      this._myRenderer.domElement.style.display = "inline"
+    unless @_myIsRunning
+      @_myIsRunning = true
+      @_myRenderer.domElement.style.display = "inline"
 
       animate = =>
-        if this._myIsRunning
-          this._render()
+        if @_myIsRunning
+          @_render()
           requestAnimationFrame animate
 
       animate()
 
   # ============================================================================
   stop: ->
-    this._myIsRunning = false
+    @_myIsRunning = false
     HG.deactivateAllHivents()
-    this._myRenderer.domElement.style.display = "none"
+    @_myRenderer.domElement.style.display = "none"
 
   # ============================================================================
-  isRunning: -> this._myIsRunning
+  isRunning: -> @_myIsRunning
 
   # ============================================================================
-  getCanvas: -> this._myRenderer.domElement
+  getCanvas: -> @_myRenderer.domElement
 
   # ============================================================================
   center: (latLong) ->
-    this._myTargetCameraPos.x = latLong.x
-    this._myTargetCameraPos.y = latLong.y
-
+    @_myTargetCameraPos.x = latLong.x
+    @_myTargetCameraPos.y = latLong.y
 
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
 
-
-
-
   # ============================================================================
   _initMembers: ->
-    this._myWidth                = null
-    this._myHeight               = null
-    this._myCamera               = null
-    this._myRenderer             = null
-    this._mySceneGlobe           = null
-    this._mySceneAtmosphere      = null
-    this._myCanvasOffsetX        = null
-    this._myCanvasOffsetY        = null
-    this._myLastIntersected      = []
-    this._myCurrentCameraPos     = x: 0, y: 0
-    this._myTargetCameraPos      = x: 0, y: 0
-    this._myMousePos             = x: 0, y: 0
-    this._myMousePosLastFrame    = x: 0, y: 0
-    this._myMouseSpeed           = x: 0, y: 0
-    this._myDragStartPos         = null
-    this._mySpringiness          = 0.9
-    this._myCurrentFOV           = 0
-    this._myTargetFOV            = 0
-    this._myGlobeTextures        = []
-    this._myGlobeUniforms        = null
-    this._myIsRunning            = false
-    this._myCurrentZoom          = CAMERA_MIN_ZOOM
-    this._myIsZooming            = false
+    @_myWidth                = null
+    @_myHeight               = null
+    @_myCamera               = null
+    @_myRenderer             = null
+    @_mySceneGlobe           = null
+    @_mySceneAtmosphere      = null
+    @_myCanvasOffsetX        = null
+    @_myCanvasOffsetY        = null
+    @_myLastIntersected      = []
+    @_myCurrentCameraPos     = x: 0, y: 0
+    @_myTargetCameraPos      = x: 0, y: 0
+    @_myMousePos             = x: 0, y: 0
+    @_myMousePosLastFrame    = x: 0, y: 0
+    @_myMouseSpeed           = x: 0, y: 0
+    @_myDragStartPos         = null
+    @_mySpringiness          = 0.9
+    @_myCurrentFOV           = 0
+    @_myTargetFOV            = 0
+    @_myGlobeTextures        = []
+    @_myGlobeUniforms        = null
+    @_myIsRunning            = false
+    @_myCurrentZoom          = CAMERA_MIN_ZOOM
+    @_myIsZooming            = false
 
   # ============================================================================
   _initWindowGeometry: ->
-    this._myWidth                = this.inContainer.parentNode.offsetWidth
-    this._myHeight               = this.inContainer.parentNode.offsetHeight
-    this._myCanvasOffsetX        = this.inContainer.parentNode.offsetLeft
-    this._myCanvasOffsetY        = this.inContainer.parentNode.offsetTop
+    @_myWidth                = @inContainer.parentNode.offsetWidth
+    @_myHeight               = @inContainer.parentNode.offsetHeight
+    @_myCanvasOffsetX        = @inContainer.parentNode.offsetLeft
+    @_myCanvasOffsetY        = @inContainer.parentNode.offsetTop
 
   # ============================================================================
   _initGlobe: ->
@@ -135,32 +131,32 @@ class HG.Display3D extends HG.Display
           y: minLatLong.y,
         size*0.5, zoom+1, x*2+1, y*2+1)
 
-      return node
+      node
 
     # create globe -------------------------------------------------------------
     geometry = new THREE.SphereGeometry EARTH_RADIUS, 64, 32
     shader = SHADERS.earth
 
-    this._myCamera             = new THREE.PerspectiveCamera this._myCurrentFOV,
-                                                        this._myWidth / this._myHeight,
+    @_myCamera             = new THREE.PerspectiveCamera @_myCurrentFOV,
+                                                        @_myWidth / @_myHeight,
                                                         1, 10000
-    this._myCamera.position.z  = CAMERA_DISTANCE
-    this._mySceneGlobe         = new THREE.Scene
-    this._mySceneAtmosphere    = new THREE.Scene
-    this._myGlobeUniforms      = THREE.UniformsUtils.clone shader.uniforms
-    this._myGlobeTextures      = initTile {x: 0.0, y: 0.0}, 1.0, 2, 0, 0
+    @_myCamera.position.z  = CAMERA_DISTANCE
+    @_mySceneGlobe         = new THREE.Scene
+    @_mySceneAtmosphere    = new THREE.Scene
+    @_myGlobeUniforms      = THREE.UniformsUtils.clone shader.uniforms
+    @_myGlobeTextures      = initTile {x: 0.0, y: 0.0}, 1.0, 2, 0, 0
 
     material = new THREE.ShaderMaterial(
       vertexShader:   shader.vertexShader
       fragmentShader: shader.fragmentShader
-      uniforms:       this._myGlobeUniforms
+      uniforms:       @_myGlobeUniforms
       transparent:    true
     )
 
     globe = new THREE.Mesh geometry, material
     globe.matrixAutoUpdate = false
 
-    this._mySceneGlobe.add globe
+    @_mySceneGlobe.add globe
 
     # create atmosphere --------------------------------------------------------
     shader = SHADERS.atmosphere
@@ -180,44 +176,44 @@ class HG.Display3D extends HG.Display
     atmosphere.matrixAutoUpdate = false
     atmosphere.updateMatrix()
 
-    this._mySceneAtmosphere.add atmosphere
+    @_mySceneAtmosphere.add atmosphere
 
   # ============================================================================
   _initRenderer: ->
-    this._myRenderer = new THREE.WebGLRenderer(antialias: true)
-    this._myRenderer.autoClear                 = false
-    this._myRenderer.setClearColor             BACKGROUND, 1.0
-    this._myRenderer.setSize                   this._myWidth, this._myHeight
-    this._myRenderer.domElement.style.position = "absolute"
+    @_myRenderer = new THREE.WebGLRenderer(antialias: true)
+    @_myRenderer.autoClear                 = false
+    @_myRenderer.setClearColor             BACKGROUND, 1.0
+    @_myRenderer.setSize                   @_myWidth, @_myHeight
+    @_myRenderer.domElement.style.position = "absolute"
 
-    this.inContainer.appendChild this._myRenderer.domElement
+    @inContainer.appendChild @_myRenderer.domElement
 
   # ============================================================================
   _initEventHandling: ->
-    this._myRenderer.domElement.addEventListener "mousedown", this.onMouseDown, false
-    this._myRenderer.domElement.addEventListener "mousemove", this.onMouseMove, false
+    @_myRenderer.domElement.addEventListener "mousedown", @onMouseDown, false
+    @_myRenderer.domElement.addEventListener "mousemove", @onMouseMove, false
 
-    this._myRenderer.domElement.addEventListener "mousewheel", ((event) =>
+    @_myRenderer.domElement.addEventListener "mousewheel", ((event) =>
       event.preventDefault()
-      this._onMouseWheel event.wheelDelta
-      return false
+      @_onMouseWheel event.wheelDelta
+      false
     ), false
 
-    this._myRenderer.domElement.addEventListener "DOMMouseScroll", ((event) =>
+    @_myRenderer.domElement.addEventListener "DOMMouseScroll", ((event) =>
       event.preventDefault()
-      this._onMouseWheel -event.detail * 30
-      return false
+      @_onMouseWheel -event.detail * 30
+      false
     ), false
 
-    window.addEventListener   "resize",   this._onWindowResize,   false
-    window.addEventListener   "mouseup",  this.onMouseUp,         false
+    window.addEventListener   "resize",   @_onWindowResize,   false
+    window.addEventListener   "mouseup",  @onMouseUp,         false
 
   # ============================================================================
   _initHivents: ->
-    this.inHiventHandler.onHiventsLoaded (handles) =>
+    @inHiventHandler.onHiventsLoaded (handles) =>
       for handle in handles
-        hivent    = new HG.HiventMarker3D handle, this, this.inContainer
-        position  = this._latLongToCart
+        hivent    = new HG.HiventMarker3D handle, this, @inContainer
+        position  = @_latLongToCart
                       x:handle.getHivent().long
                       y:handle.getHivent().lat
 
@@ -225,7 +221,7 @@ class HG.Display3D extends HG.Display
         hivent.translateOnAxis new THREE.Vector3(0, 1, 0), position.y
         hivent.translateOnAxis new THREE.Vector3(0, 0, 1), position.z
 
-        this._mySceneGlobe.add hivent
+        @_mySceneGlobe.add hivent
 
 
   ############################# MAIN FUNCTIONS #################################
@@ -235,128 +231,128 @@ class HG.Display3D extends HG.Display
   # ============================================================================
   _render: ->
     mouseRel =
-      x: (this._myMousePos.x - this._myCanvasOffsetX) / this._myWidth * 2 - 1
-      y: (this._myMousePos.y - this._myCanvasOffsetY) / this._myHeight * 2 - 1
+      x: (@_myMousePos.x - @_myCanvasOffsetX) / @_myWidth * 2 - 1
+      y: (@_myMousePos.y - @_myCanvasOffsetY) / @_myHeight * 2 - 1
 
     # picking ------------------------------------------------------------------
     # test for mark and highlight hivents
     vector = new THREE.Vector3 mouseRel.x, -mouseRel.y, 0.5
-    PROJECTOR.unprojectVector vector, this._myCamera
-    RAYCASTER.set this._myCamera.position, vector.sub(this._myCamera.position).normalize()
-    intersects = RAYCASTER.intersectObjects this._mySceneGlobe.children
+    PROJECTOR.unprojectVector vector, @_myCamera
+    RAYCASTER.set @_myCamera.position, vector.sub(@_myCamera.position).normalize()
+    intersects = RAYCASTER.intersectObjects @_mySceneGlobe.children
 
     newIntersects = []
 
     for intersect in intersects
       if intersect.object instanceof HG.HiventMarker3D
-        index = $.inArray(intersect.object, this._myLastIntersected)
-        this._myLastIntersected.splice index, 1  if index >= 0
+        index = $.inArray(intersect.object, @_myLastIntersected)
+        @_myLastIntersected.splice index, 1  if index >= 0
 
     # unmark previous hits
-    for intersect in this._myLastIntersected
+    for intersect in @_myLastIntersected
       intersect.getHiventHandle().unMark intersect
       intersect.getHiventHandle().unLinkAll()
 
-    this._myLastIntersected = []
+    @_myLastIntersected = []
 
     # hover intersected objects
     for intersect in intersects
       if intersect.object instanceof HG.HiventMarker3D
-        this._myLastIntersected.push intersect.object
+        @_myLastIntersected.push intersect.object
         pos =
-          x: this._myMousePos.x - this._myCanvasOffsetX
-          y: this._myMousePos.y - this._myCanvasOffsetY
+          x: @_myMousePos.x - @_myCanvasOffsetX
+          y: @_myMousePos.y - @_myCanvasOffsetY
 
         intersect.object.getHiventHandle().mark intersect.object, pos
         intersect.object.getHiventHandle().linkAll pos
 
     # globe rotation -----------------------------------------------------------
     # if there is a drag going on - rotate globe
-    if this._myDragStartPos
+    if @_myDragStartPos
       # update mouse speed
-      this._myMouseSpeed =
-        x: 0.5 * this._myMouseSpeed.x + 0.5 * (this._myMousePos.x - this._myMousePosLastFrame.x)
-        y: 0.5 * this._myMouseSpeed.y + 0.5 * (this._myMousePos.y - this._myMousePosLastFrame.y)
+      @_myMouseSpeed =
+        x: 0.5 * @_myMouseSpeed.x + 0.5 * (@_myMousePos.x - @_myMousePosLastFrame.x)
+        y: 0.5 * @_myMouseSpeed.y + 0.5 * (@_myMousePos.y - @_myMousePosLastFrame.y)
 
-      this._myMousePosLastFrame =
-        x: this._myMousePos.x
-        y: this._myMousePos.y
+      @_myMousePosLastFrame =
+        x: @_myMousePos.x
+        y: @_myMousePos.y
 
-      latLongCurr = this._pixelToLatLong mouseRel
+      latLongCurr = @_pixelToLatLong mouseRel
 
       # if mouse is still over the globe
       if latLongCurr
         offset =
-          x: this._myDragStartPos.x - latLongCurr.x
-          y: this._myDragStartPos.y - latLongCurr.y
+          x: @_myDragStartPos.x - latLongCurr.x
+          y: @_myDragStartPos.y - latLongCurr.y
 
         if offset.y > 180
           offset.y -= 360
         else if offset.y < -180
           yOffset += 360
 
-        this._myTargetCameraPos.y += 0.5 * offset.x
-        this._myTargetCameraPos.x -= 0.5 * offset.y
+        @_myTargetCameraPos.y += 0.5 * offset.x
+        @_myTargetCameraPos.x -= 0.5 * offset.y
 
-        this._clampCameraPos()
+        @_clampCameraPos()
 
       else
-        this._myDragStartPos = null
+        @_myDragStartPos = null
         container.style.cursor = "auto"
 
-    else if this._myMouseSpeed.x isnt 0.0 and this._myMouseSpeed.y isnt 0.0
+    else if @_myMouseSpeed.x isnt 0.0 and @_myMouseSpeed.y isnt 0.0
       # if the globe has been "thrown" --- for "flicking"
-      this._myTargetCameraPos.x -= this._myMouseSpeed.x*this._myCurrentFOV*0.02
-      this._myTargetCameraPos.y += this._myMouseSpeed.y*this._myCurrentFOV*0.02
+      @_myTargetCameraPos.x -= @_myMouseSpeed.x*@_myCurrentFOV*0.02
+      @_myTargetCameraPos.y += @_myMouseSpeed.y*@_myCurrentFOV*0.02
 
-      this._clampCameraPos()
+      @_clampCameraPos()
 
-      this._myMouseSpeed =
+      @_myMouseSpeed =
         x: 0.0
         y: 0.0
 
-    this._myCurrentCameraPos =
-      x: this._myCurrentCameraPos.x * (this._mySpringiness) +
-         this._myTargetCameraPos.x * (1.0 - this._mySpringiness)
-      y: this._myCurrentCameraPos.y * (this._mySpringiness) +
-         this._myTargetCameraPos.y * (1.0 - this._mySpringiness)
+    @_myCurrentCameraPos =
+      x: @_myCurrentCameraPos.x * (@_mySpringiness) +
+         @_myTargetCameraPos.x * (1.0 - @_mySpringiness)
+      y: @_myCurrentCameraPos.y * (@_mySpringiness) +
+         @_myTargetCameraPos.y * (1.0 - @_mySpringiness)
 
     rotation =
-      x: this._myCurrentCameraPos.x * Math.PI / 180
-      y: this._myCurrentCameraPos.y * Math.PI / 180
+      x: @_myCurrentCameraPos.x * Math.PI / 180
+      y: @_myCurrentCameraPos.y * Math.PI / 180
 
-    this._myCamera.position =
+    @_myCamera.position =
       x: CAMERA_DISTANCE * Math.sin(rotation.x+Math.PI*0.5)*Math.cos(rotation.y)
       y: CAMERA_DISTANCE * Math.sin(rotation.y)
       z: CAMERA_DISTANCE * Math.cos(rotation.x+Math.PI*0.5)*Math.cos(rotation.y)
 
-    this._myCamera.lookAt new THREE.Vector3 0, 0, 0
+    @_myCamera.lookAt new THREE.Vector3 0, 0, 0
 
     # zooming ------------------------------------------------------------------
-    unless this._myCurrentFOV is this._myTargetFOV
+    unless @_myCurrentFOV is @_myTargetFOV
       smoothness = 0.8
-      this._myCurrentFOV = this._myCurrentFOV * smoothness + this._myTargetFOV * (1.0 - smoothness)
-      this._myCamera.fov = this._myCurrentFOV
-      this._myCamera.updateProjectionMatrix()
-      this._myIsZooming = true
+      @_myCurrentFOV = @_myCurrentFOV * smoothness + @_myTargetFOV * (1.0 - smoothness)
+      @_myCamera.fov = @_myCurrentFOV
+      @_myCamera.updateProjectionMatrix()
+      @_myIsZooming = true
 
-      if Math.abs(this._myCurrentFOV - this._myTargetFOV) < 0.05
-        this._myCurrentFOV = this._myTargetFOV
-        this._myIsZooming  = false
+      if Math.abs(@_myCurrentFOV - @_myTargetFOV) < 0.05
+        @_myCurrentFOV = @_myTargetFOV
+        @_myIsZooming  = false
 
     # rendering ----------------------------------------------------------------
-    this._myRenderer.clear()
-    this._myRenderer.setFaceCulling  THREE.CullFaceBack
-    this._myRenderer.setDepthTest    false
-    this._myRenderer.setBlending     THREE.AlphaBlending
-    this._renderTile                 this._myGlobeTextures
-    this._myRenderer.setDepthTest    true
-    this._myRenderer.setFaceCulling  THREE.CullFaceFront
-    this._myRenderer.render          this._mySceneAtmosphere, this._myCamera
+    @_myRenderer.clear()
+    @_myRenderer.setFaceCulling  THREE.CullFaceBack
+    @_myRenderer.setDepthTest    false
+    @_myRenderer.setBlending     THREE.AlphaBlending
+    @_renderTile                 @_myGlobeTextures
+    @_myRenderer.setDepthTest    true
+    @_myRenderer.setFaceCulling  THREE.CullFaceFront
+    @_myRenderer.render          @_mySceneAtmosphere, @_myCamera
 
   # ============================================================================
   _zoom: ->
-    this._myTargetFOV = (CAMERA_MAX_ZOOM - this._myCurrentZoom) /
+    @_myTargetFOV = (CAMERA_MAX_ZOOM - @_myCurrentZoom) /
                         (CAMERA_MAX_ZOOM - CAMERA_MIN_ZOOM) *
                         (CAMERA_MAX_FOV - CAMERA_MIN_FOV) + CAMERA_MIN_FOV
 
@@ -368,63 +364,63 @@ class HG.Display3D extends HG.Display
   # ============================================================================
   onMouseDown: (event) =>
 
-    if this._myIsRunning
+    if @_myIsRunning
       event.preventDefault()
       clickMouse =
-        x: (event.clientX - this._myCanvasOffsetX) / this._myWidth * 2 - 1
-        y: (event.clientY - this._myCanvasOffsetY) / this._myHeight * 2 - 1
+        x: (event.clientX - @_myCanvasOffsetX) / @_myWidth * 2 - 1
+        y: (event.clientY - @_myCanvasOffsetY) / @_myHeight * 2 - 1
 
-      this._myDragStartPos = this._pixelToLatLong(clickMouse)
-      if this._myDragStartPos
-        this.inContainer.style.cursor = "move"
-        this._mySpringiness = 0.1
-        this._myTargetCameraPos.x = this._myCurrentCameraPos.x
-        this._myTargetCameraPos.y = this._myCurrentCameraPos.y
-        this._myMousePosLastFrame.x = this._myMousePos.x
-        this._myMousePosLastFrame.y = this._myMousePos.y
+      @_myDragStartPos = @_pixelToLatLong(clickMouse)
+      if @_myDragStartPos
+        @inContainer.style.cursor = "move"
+        @_mySpringiness = 0.1
+        @_myTargetCameraPos.x = @_myCurrentCameraPos.x
+        @_myTargetCameraPos.y = @_myCurrentCameraPos.y
+        @_myMousePosLastFrame.x = @_myMousePos.x
+        @_myMousePosLastFrame.y = @_myMousePos.y
 
   # ============================================================================
   onMouseMove: (event) =>
-    if this._myIsRunning
-      this._myMousePos =
+    if @_myIsRunning
+      @_myMousePos =
         x: event.clientX
         y: event.clientY
 
   # ============================================================================
   onMouseUp: (event) =>
-    if this._myIsRunning
+    if @_myIsRunning
       event.preventDefault()
-      this.inContainer.style.cursor = "auto"
-      this._mySpringiness = 0.9
-      this._myDragStartPos = null
-      this._myDragStartCamera = null
+      @inContainer.style.cursor = "auto"
+      @_mySpringiness = 0.9
+      @_myDragStartPos = null
+      @_myDragStartCamera = null
 
-      if this._myLastIntersected.length is 0
+      if @_myLastIntersected.length is 0
         HG.deactivateAllHivents()
 
-      else for intersect in this._myLastIntersected
+      else for intersect in @_myLastIntersected
         pos =
-          x: this._myMousePos.x - this._myCanvasOffsetX
-          y: this._myMousePos.y - this._myCanvasOffsetY
+          x: @_myMousePos.x - @_myCanvasOffsetX
+          y: @_myMousePos.y - @_myCanvasOffsetY
 
         intersect.getHiventHandle().activeAll pos
 
-      return true
+      true
 
   # ============================================================================
   _onMouseWheel: (delta) =>
-    if this._myIsRunning
-      this._myCurrentZoom = Math.max(Math.min(this._myCurrentZoom + delta * 0.005, CAMERA_MAX_ZOOM), CAMERA_MIN_ZOOM)
-      this._zoom()
+    if @_myIsRunning
+      @_myCurrentZoom = Math.max(Math.min(@_myCurrentZoom + delta * 0.005, CAMERA_MAX_ZOOM), CAMERA_MIN_ZOOM)
+      @_zoom()
 
-    return true
+    true
 
   # ============================================================================
   _onWindowResize: (event) ->
-    this._myCamera.aspect = this.inContainer.parentNode.offsetWidth / this.inContainer.parentNode.offsetHeight
-    this._myCamera.updateProjectionMatrix()
-    this._myRenderer.setSize this.inContainer.parentNode.offsetWidth, this.inContainer.parentNode.offsetHeight
-    this._initWindowGeometry()
+    @_myCamera.aspect = @inContainer.parentNode.offsetWidth / @inContainer.parentNode.offsetHeight
+    @_myCamera.updateProjectionMatrix()
+    @_myRenderer.setSize @inContainer.parentNode.offsetWidth, @inContainer.parentNode.offsetHeight
+    @_initWindowGeometry()
 
 
   ############################ HELPER FUNCTIONS ################################
@@ -433,27 +429,27 @@ class HG.Display3D extends HG.Display
 
   # ============================================================================
   _clampCameraPos: ->
-    this._myTargetCameraPos.y = CAMERA_MAX_LONG  if this._myTargetCameraPos.y > CAMERA_MAX_LONG
-    this._myTargetCameraPos.y = -CAMERA_MAX_LONG  if this._myTargetCameraPos.y < -CAMERA_MAX_LONG
+    @_myTargetCameraPos.y = CAMERA_MAX_LONG  if @_myTargetCameraPos.y > CAMERA_MAX_LONG
+    @_myTargetCameraPos.y = -CAMERA_MAX_LONG  if @_myTargetCameraPos.y < -CAMERA_MAX_LONG
 
     # ============================================================================
   _isTileVisible: (minNormalizedLatLong, maxNormalizedLatLong) ->
-    if this._isFrontFacingTile(minNormalizedLatLong, maxNormalizedLatLong)
-      min = this._normalizedMercatusToNormalizedLatLong(minNormalizedLatLong)
-      max = this._normalizedMercatusToNormalizedLatLong(maxNormalizedLatLong)
-      a = this._latLongToPixel(this._unNormalizeLatLong(
+    if @_isFrontFacingTile(minNormalizedLatLong, maxNormalizedLatLong)
+      min = @_normalizedMercatusToNormalizedLatLong(minNormalizedLatLong)
+      max = @_normalizedMercatusToNormalizedLatLong(maxNormalizedLatLong)
+      a = @_latLongToPixel(@_unNormalizeLatLong(
         x: min.x
         y: min.y
       ))
-      b = this._latLongToPixel(this._unNormalizeLatLong(
+      b = @_latLongToPixel(@_unNormalizeLatLong(
         x: max.x
         y: min.y
       ))
-      c = this._latLongToPixel(this._unNormalizeLatLong(
+      c = @_latLongToPixel(@_unNormalizeLatLong(
         x: max.x
         y: max.y
       ))
-      d = this._latLongToPixel(this._unNormalizeLatLong(
+      d = @_latLongToPixel(@_unNormalizeLatLong(
         x: min.x
         y: max.y
       ))
@@ -461,17 +457,18 @@ class HG.Display3D extends HG.Display
       maxX = Math.max(Math.max(Math.max(a.x, b.x), c.x), d.x)
       minY = Math.min(Math.min(Math.min(a.y, b.y), c.y), d.y)
       maxY = Math.max(Math.max(Math.max(a.y, b.y), c.y), d.y)
-      return not (minX > 1.0 or minY > 1.0 or maxX < -1.0 or maxY < -1.0)
+      not (minX > 1.0 or minY > 1.0 or maxX < -1.0 or maxY < -1.0)
+
     false
 
   # ============================================================================
   _isFrontFacingTile: (minNormalizedLatLong, maxNormalizedLatLong) ->
     isOnFrontSide = (pos) =>
       diff = Math.acos(Math.sin((pos.y - 0.5) * Math.PI) *
-             Math.sin((this._myCurrentCameraPos.y) * Math.PI / 180.0) +
-             Math.cos((pos.y-0.5)*Math.PI) * Math.cos((this._myCurrentCameraPos.y) *
+             Math.sin((@_myCurrentCameraPos.y) * Math.PI / 180.0) +
+             Math.cos((pos.y-0.5)*Math.PI) * Math.cos((@_myCurrentCameraPos.y) *
              Math.PI / 180.0) * Math.cos(-(pos.x - 0.5) * 2.0 * Math.PI +
-             (this._myCurrentCameraPos.x) * Math.PI / 180.0))
+             (@_myCurrentCameraPos.x) * Math.PI / 180.0))
 
       Math.PI * 0.5 > diff
     a =
@@ -490,15 +487,14 @@ class HG.Display3D extends HG.Display
       x: minNormalizedLatLong.x
       y: maxNormalizedLatLong.y
 
-    return isOnFrontSide(a) or isOnFrontSide(b) or
-           isOnFrontSide(c) or isOnFrontSide(d)
+    isOnFrontSide(a) or isOnFrontSide(b) or isOnFrontSide(c) or isOnFrontSide(d)
 
   # ============================================================================
   _tileChildrenLoaded: (tile) ->
     for child in tile.children
-      return false if child.loadedTextureCount < 16
+      false if child.loadedTextureCount < 16
 
-    return true
+    true
 
   # ============================================================================
   _tileLoad: (tile) ->
@@ -523,45 +519,46 @@ class HG.Display3D extends HG.Display
   # ============================================================================
   _tileLoadChildren: (tile) ->
     for child in tile.children
-      this._tileLoad child unless child.textures?
+      @_tileLoad child unless child.textures?
 
   # ============================================================================
   _renderTile: (tile) ->
-    if this._isTileVisible tile.minLatLong, tile.maxLatLong
-      if tile.z < this._myCurrentZoom - 0.5 and tile.children?
-        if this._tileChildrenLoaded tile
+    if @_isTileVisible tile.minLatLong, tile.maxLatLong
+      if tile.z < @_myCurrentZoom - 0.5 and tile.children?
+        if @_tileChildrenLoaded tile
 
           unless tile.opacity is 1.0
             for child in tile.children
-              this._renderTile child
+              @_renderTile child
 
           if tile.opacity < 0.05
             tile.opacity = 0.0
             return
 
-          tile.opacity = tile.opacity * 0.9 unless this._myIsZooming
+          tile.opacity = tile.opacity * 0.9 unless @_myIsZooming
 
-        this._tileLoadChildren tile unless this._myIsZooming
+        @_tileLoadChildren tile unless @_myIsZooming
 
       else tile.opacity = 1.0
 
-      this._tileLoad tile unless tile.textures?
+      @_tileLoad tile unless tile.textures?
 
-      this._myGlobeUniforms.tiles.value    = tile.textures
-      this._myGlobeUniforms.opacity.value  = tile.opacity
-      this._myGlobeUniforms.minUV.value    = tile.minLatLong
-      this._myGlobeUniforms.maxUV.value    = tile.maxLatLong
+      @_myGlobeUniforms.tiles.value    = tile.textures
+      @_myGlobeUniforms.opacity.value  = tile.opacity
+      @_myGlobeUniforms.minUV.value    = tile.minLatLong
+      @_myGlobeUniforms.maxUV.value    = tile.maxLatLong
 
-      this._myRenderer.render this._mySceneGlobe, this._myCamera
+      @_myRenderer.render @_mySceneGlobe, @_myCamera
 
   # ============================================================================
   _pixelToLatLong: (inPixel) ->
     vector = new THREE.Vector3(inPixel.x, -inPixel.y, 0.5)
-    PROJECTOR.unprojectVector vector, this._myCamera
-    RAYCASTER.set this._myCamera.position, vector.sub(this._myCamera.position).normalize()
-    intersects = RAYCASTER.intersectObjects(this._mySceneGlobe.children)
-    return this._cartToLatLong(intersects[0].point.clone().normalize()) if intersects.length > 0
-    return null
+    PROJECTOR.unprojectVector vector, @_myCamera
+    RAYCASTER.set @_myCamera.position, vector.sub(@_myCamera.position).normalize()
+    intersects = RAYCASTER.intersectObjects(@_mySceneGlobe.children)
+    return @_cartToLatLong(intersects[0].point.clone().normalize()) if intersects.length > 0
+
+    null
 
   # ============================================================================
   _latLongToCart: (latLong) ->
@@ -572,9 +569,9 @@ class HG.Display3D extends HG.Display
 
   # ============================================================================
   _latLongToPixel: (latLong) ->
-    pos = this._latLongToCart(latLong)
-    PROJECTOR.projectVector pos, this._myCamera
-    return pos
+    pos = @_latLongToCart(latLong)
+    PROJECTOR.projectVector pos, @_myCamera
+    pos
 
   # ============================================================================
   _cartToLatLong: (coordinates) ->
