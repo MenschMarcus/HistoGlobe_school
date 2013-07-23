@@ -3,3 +3,4 @@ data/grid_tiles
 data_src/maps/data/GRAY_HR_SR_OB.tif
 build
 histoglobe.sublime-workspace
+script/histoglobe.min.js
