@@ -1,7 +1,8 @@
 #!/bin/bash
 
 cFiles="script/display/Display3D.coffee \
-        script/display/Display.coffee"
+        script/display/Display.coffee \
+        script/hivents/Hivent.coffee"
 
 jFiles="build/Display.js \
         script/display/Display2D.js \
@@ -11,7 +12,7 @@ jFiles="build/Display.js \
         script/histrips/HistripHandle.js \
         script/histrips/HistripHandler.js \
         script/histrips/HistripMarker.js \
-        script/hivents/Hivent.js \
+        build/Hivent.js \
         script/hivents/HiventHandle.js \
         script/hivents/HiventHandler.js \
         script/hivents/HiventMarker.js \
