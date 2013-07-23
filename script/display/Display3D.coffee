@@ -333,7 +333,7 @@ class HG.Display3D extends HG.Display
     # zooming ------------------------------------------------------------------
     unless @_currentFOV is @_targetFOV
       smoothness = 0.8
-      @_currentFOV = @_currentFOV * smoothness + @_targetFOV * (1.0 - smoothness)
+      @_currentFOV = @_currentFOV * smoothness + @_targetFOV * (1.0-smoothness)
       @_camera.fov = @_currentFOV
       @_camera.updateProjectionMatrix()
       @_isZooming = true
@@ -411,16 +411,21 @@ class HG.Display3D extends HG.Display
   # ============================================================================
   _onMouseWheel: (delta) =>
     if @_isRunning
-      @_currentZoom = Math.max(Math.min(@_currentZoom + delta * 0.005, CAMERA_MAX_ZOOM), CAMERA_MIN_ZOOM)
+      @_currentZoom = Math.max(Math.min(
+                        @_currentZoom + delta * 0.005,
+                        CAMERA_MAX_ZOOM),
+                      CAMERA_MIN_ZOOM)
       @_zoom()
 
     return true
 
   # ============================================================================
   _onWindowResize: (event) =>
-    @_camera.aspect = @_container.parentNode.offsetWidth / @_container.parentNode.offsetHeight
+    @_camera.aspect = @_container.parentNode.offsetWidth /
+                      @_container.parentNode.offsetHeight
     @_camera.updateProjectionMatrix()
-    @_renderer.setSize @_container.parentNode.offsetWidth, @_container.parentNode.offsetHeight
+    @_renderer.setSize @_container.parentNode.offsetWidth,
+                       @_container.parentNode.offsetHeight
     @_initWindowGeometry()
 
 
@@ -430,10 +435,12 @@ class HG.Display3D extends HG.Display
 
   # ============================================================================
   _clampCameraPos: ->
-    @_targetCameraPos.y = CAMERA_MAX_LONG  if @_targetCameraPos.y > CAMERA_MAX_LONG
-    @_targetCameraPos.y = -CAMERA_MAX_LONG  if @_targetCameraPos.y < -CAMERA_MAX_LONG
+    @_targetCameraPos.y = Math.max(
+                            -CAMERA_MAX_LONG,
+                            Math.min(CAMERA_MAX_LONG, @_targetCameraPos.y)
+                          )
 
-    # ============================================================================
+  # ============================================================================
   _isTileVisible: (minNormalizedLatLong, maxNormalizedLatLong) ->
     if @_isFrontFacingTile(minNormalizedLatLong, maxNormalizedLatLong)
       min = @_normalizedMercatusToNormalizedLatLong(minNormalizedLatLong)
