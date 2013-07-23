@@ -52,7 +52,27 @@
     <script type="text/javascript" src="script/third-party/three.min.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.js"></script>
 
-    <script type="text/javascript" src="script/histoglobe.min.js"></script>
+    <!-- <script type="text/javascript" src="script/histoglobe.min.js"></script> -->
+
+    <script type="text/javascript" src="build/Display.js"></script>
+    <script type="text/javascript" src="build/Display3D.js"></script>
+    <script type="text/javascript" src="script/display/Display2D.js"></script>
+    <script type="text/javascript" src="script/histrips/Histrip.js"></script>
+    <script type="text/javascript" src="script/histrips/HistripHandle.js"></script>
+    <script type="text/javascript" src="script/histrips/HistripHandler.js"></script>
+    <script type="text/javascript" src="script/histrips/HistripMarker.js"></script>
+    <script type="text/javascript" src="script/hivents/HiventHandler.js"></script>
+    <script type="text/javascript" src="script/hivents/HiventHandle.js"></script>
+    <script type="text/javascript" src="script/hivents/HiventMarker2D.js"></script>
+    <script type="text/javascript" src="script/hivents/Hivent.js"></script>
+    <script type="text/javascript" src="script/hivents/HiventInfoPopover.js"></script>
+    <script type="text/javascript" src="script/hivents/HiventMarker.js"></script>
+    <script type="text/javascript" src="script/hivents/HiventMarkerTimeline.js"></script>
+    <script type="text/javascript" src="script/hivents/HiventMarker3D.js"></script>
+    <script type="text/javascript" src="script/timeline/Timeline.js"></script>
+    <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
+    <script type="text/javascript" src="script/util/VideoPlayer.js"></script>
+
 
     <script>
 	    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -110,7 +130,6 @@
 
       function loadGLHeader() {
 
-        //console.log(BrowserDetect.browser);
         if (BrowserDetect.canvasSupported) {
           $('#default-header').animate({opacity: 0.0}, 1000, 'linear',
             function() {
@@ -126,7 +145,7 @@
           $('.hero-unit').css({"background-image": "none"});
           $('.hero-unit').height(window.innerHeight * 0.8);
 
-          hiventHandler = new HG.HiventHandler();
+          hiventHandler = new HG.HiventHandler("data/hivents.json");
           histripHandler = new HG.HistripHandler();
 
           container = document.getElementById('map-container');

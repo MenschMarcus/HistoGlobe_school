@@ -6,7 +6,7 @@ HG.hiventMarkerGeometry = 0;
 
 HG.HiventMarker3D = function(inHivent, inDisplay, inParent) {
 
-  var self = this;
+  var mySelf = this;
 
   if (HG.hiventMarkerGeometry == 0)
     HG.hiventMarkerGeometry = new THREE.SphereGeometry(1, 10, 10);
@@ -50,30 +50,37 @@ HG.HiventMarker3D = function(inHivent, inDisplay, inParent) {
   HG.HiventMarker.call(this, inHivent, inParent)
   THREE.Mesh.call(this, HG.hiventMarkerGeometry, material);
 
-  this.getHiventHandle().onFocus(self, function(mousePos) {
+  this.getHiventHandle().onFocus(mySelf, function(mousePos) {
 		if (inDisplay.isRunning()) {
-			inDisplay.focus(self.getHiventHandle().getHivent());
+			inDisplay.focus(mySelf.getHiventHandle().getHivent());
 		}
   });
 
-  this.getHiventHandle().onMark(self, function(mousePos){
+  this.getHiventHandle().onMark(mySelf, function(mousePos){
     uniforms['color'].value = hiventHighlightColor;
   });
 
-  this.getHiventHandle().onUnMark(self, function(mousePos){
+  this.getHiventHandle().onUnMark(mySelf, function(mousePos){
     uniforms['color'].value = hiventDefaultColor;
   });
 
-  this.getHiventHandle().onLink(self, function(mousePos){
+  this.getHiventHandle().onLink(mySelf, function(mousePos){
     uniforms['color'].value = hiventHighlightColor;
   });
 
-  this.getHiventHandle().onUnLink(self, function(mousePos){
+  this.getHiventHandle().onUnLink(mySelf, function(mousePos){
     uniforms['color'].value = hiventDefaultColor;
   });
+
+  this.getHiventHandle().onDestruction(mySelf, destroy);
 
   this.enableShowName();
   this.enableShowInfo();
+
+  function destroy() {
+    mySelf = null;
+    delete this;
+  }
 
   return this;
 

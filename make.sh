@@ -27,4 +27,4 @@ coffee -c -o build $cFiles
 
 uglifyjs $jFiles -o script/histoglobe.min.js #-mc
 
-xdg-open http://localhost/HistoGlobe
+#xdg-open http://localhost/HistoGlobe

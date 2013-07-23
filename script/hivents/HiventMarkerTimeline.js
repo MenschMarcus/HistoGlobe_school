@@ -13,74 +13,76 @@ HG.HiventMarkerTimeline = function(inHivent, inParent, inPosX, inPosY) {
   var hiventDefaultColor   = "#253563";
   var hiventHighlightColor = "#ff8800";
 
-  var self = this;
-  var div;
+  var mySelf = this;
+  var myDiv;
 
 	var	position = { x: inPosX,
 									 y: Math.floor($(inParent.parentNode).innerHeight() * 0.85)};
   var radius = 4;
 
-  div = document.createElement("div");
-  div.id = "hiventMarkerTimeline_" + HG.hiventMarker2DCount;
-  div.style.position = "absolute";
-  div.style.width  = 2 * radius + "px";
-  div.style.height = 2 * radius + "px";
-  div.style.borderRadius = radius + "px";
-  div.style.backgroundColor = hiventDefaultColor;
+  myDiv = document.createElement("myDiv");
+  myDiv.id = "hiventMarkerTimeline_" + HG.hiventMarker2DCount;
+  myDiv.style.position = "absolute";
+  myDiv.style.width  = 2 * radius + "px";
+  myDiv.style.height = 2 * radius + "px";
+  myDiv.style.borderRadius = radius + "px";
+  myDiv.style.backgroundColor = hiventDefaultColor;
 
-	div.style.left = position.x +"px";
-  div.style.top = position.y +"px";
+	myDiv.style.left = position.x +"px";
+  myDiv.style.top = position.y +"px";
 
-  inParent.appendChild(div);
+  inParent.appendChild(myDiv);
 
-  div.onmouseover = function (e) {
+  myDiv.onmouseover = function (e) {
     var pos = {
 			x : position.x + radius,
       y : position.y + 0.6 * radius
     };
-    self.getHiventHandle().mark(self, pos);
-    self.getHiventHandle().linkAll(pos);
+    mySelf.getHiventHandle().mark(mySelf, pos);
+    mySelf.getHiventHandle().linkAll(pos);
   };
 
-  div.onmouseout = function (e) {
+  myDiv.onmouseout = function (e) {
     var pos = {
 			x : position.x + radius,
       y : position.y + 0.6 * radius
     };
-    self.getHiventHandle().unMark(self, pos);
-    self.getHiventHandle().unLinkAll(pos);
+    mySelf.getHiventHandle().unMark(mySelf, pos);
+    mySelf.getHiventHandle().unLinkAll(pos);
   };
 
-  div.onclick = function (e) {
+  myDiv.onclick = function (e) {
     var pos = {
 			x : position.x + radius,
       y : position.y + 0.6 * radius
     };
-    self.getHiventHandle().focusAll(pos);
+    mySelf.getHiventHandle().focusAll(pos);
   };
 
   HG.hiventMarkerTimelineCount++;
 
   function setDivPos(pos) {
-    div.style.left = pos.x +"px";
-    div.style.top = pos.y +"px";
+    myDiv.style.left = pos.x +"px";
+    myDiv.style.top = pos.y +"px";
   }
 
-  this.getHiventHandle().onMark(self, function(mousePos){
-    div.style.backgroundColor = hiventHighlightColor;
+  this.getHiventHandle().onMark(mySelf, function(mousePos){
+    myDiv.style.backgroundColor = hiventHighlightColor;
   });
 
-  this.getHiventHandle().onUnMark(self, function(mousePos){
-    div.style.backgroundColor = hiventDefaultColor;
+  this.getHiventHandle().onUnMark(mySelf, function(mousePos){
+    myDiv.style.backgroundColor = hiventDefaultColor;
   });
 
-  this.getHiventHandle().onLink(self, function(mousePos){
-    div.style.backgroundColor = hiventHighlightColor;
+  this.getHiventHandle().onLink(mySelf, function(mousePos){
+    myDiv.style.backgroundColor = hiventHighlightColor;
   });
 
-  this.getHiventHandle().onUnLink(self, function(mousePos){
-    div.style.backgroundColor = hiventDefaultColor;
+  this.getHiventHandle().onUnLink(mySelf, function(mousePos){
+    myDiv.style.backgroundColor = hiventDefaultColor;
   });
+
+  this.getHiventHandle().onDestruction(mySelf, destroy);
 
   this.enableShowName();
 
@@ -90,15 +92,21 @@ HG.HiventMarkerTimeline = function(inHivent, inParent, inPosX, inPosY) {
 
   this.setPosition = function(posX) {
     position.x = posX;
-    div.style.left = position.x +"px";
+    myDiv.style.left = position.x +"px";
   }
 
   this.hide = function() {
-    div.style.display = "none";
+    myDiv.style.display = "none";
   }
 
   this.show = function() {
-    div.style.display = "block";
+    myDiv.style.display = "block";
+  }
+
+  function destroy() {
+    $(myDiv).remove();
+    mySelf = null;
+    delete this;
   }
 
   return this;
