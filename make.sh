@@ -1,10 +1,11 @@
 #!/bin/bash
 
 cFiles="script/display/Display3D.coffee \
+        script/display/Display2D.coffee \
         script/display/Display.coffee"
 
 jFiles="build/Display.js \
-        script/display/Display2D.js \
+        build/Display2D.js \
         build/Display3D.js \
         script/timeline/Timeline.js \
         script/histrips/Histrip.js \

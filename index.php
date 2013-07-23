@@ -56,7 +56,7 @@
 
     <script type="text/javascript" src="build/Display.js"></script>
     <script type="text/javascript" src="build/Display3D.js"></script>
-    <script type="text/javascript" src="script/display/Display2D.js"></script>
+    <script type="text/javascript" src="build/Display2D.js"></script>
     <script type="text/javascript" src="script/histrips/Histrip.js"></script>
     <script type="text/javascript" src="script/histrips/HistripHandle.js"></script>
     <script type="text/javascript" src="script/histrips/HistripHandler.js"></script>
