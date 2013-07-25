@@ -1,7 +1,9 @@
 #!/bin/bash
 
 cFiles="script/util/Mixin.coffee \
+        script/util/VideoPlayer.coffee \
         script/display/Display3D.coffee \
+        script/display/Display2D.coffee \
         script/display/Display.coffee \
         script/hivents/HiventHandle.coffee \
         script/hivents/HiventController.coffee \
@@ -13,7 +15,7 @@ cFiles="script/util/Mixin.coffee \
 
 jFiles="build/Mixin.js \
         build/Display.js \
-        script/display/Display2D.js \
+        build/Display2D.js \
         build/Display3D.js \
         script/timeline/Timeline.js \
         script/histrips/Histrip.js \
@@ -27,7 +29,7 @@ jFiles="build/Mixin.js \
         build/HiventMarker2D.js \
         build/HiventMarker3D.js \
         build/HiventMarkerTimeline.js \
-        script/util/VideoPlayer.js \
+        build/VideoPlayer.js \
         script/util/BrowserDetect.js"
 
 if [ ! -d "build" ]; then

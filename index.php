@@ -58,7 +58,7 @@
     <script type="text/javascript" src="build/Display.js"></script>
     <script type="text/javascript" src="build/Display3D.js"></script>
     <script type="text/javascript" src="build/Hivent.js"></script>
-    <script type="text/javascript" src="script/display/Display2D.js"></script>
+    <script type="text/javascript" src="build/Display2D.js"></script>
     <script type="text/javascript" src="script/histrips/Histrip.js"></script>
     <script type="text/javascript" src="script/histrips/HistripHandle.js"></script>
     <script type="text/javascript" src="script/histrips/HistripHandler.js"></script>
@@ -72,7 +72,7 @@
     <script type="text/javascript" src="build/HiventMarkerTimeline.js"></script>
     <script type="text/javascript" src="script/timeline/Timeline.js"></script>
     <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
-    <script type="text/javascript" src="script/util/VideoPlayer.js"></script>
+    <script type="text/javascript" src="build/VideoPlayer.js"></script>
 
 
     <script>
