@@ -1,4 +1,4 @@
-#include Display.js
+#include Display.coffee
 #include HiventHandler.js
 #include HiventMarker3D.js
 
@@ -41,7 +41,7 @@ class HG.Display3D extends HG.Display
   # ============================================================================
   stop: ->
     @_isRunning = false
-    HG.deactivateAllHivents()
+    HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()
     @_renderer.domElement.style.display = "none"
 
   # ============================================================================
@@ -224,7 +224,6 @@ class HG.Display3D extends HG.Display
 
         @_sceneGlobe.add hivent
 
-
   ############################# MAIN FUNCTIONS #################################
 
 
@@ -397,7 +396,7 @@ class HG.Display3D extends HG.Display
       @_myDragStartCamera = null
 
       if @_lastIntersected.length is 0
-        HG.deactivateAllHivents()
+        HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()
 
       else for intersect in @_lastIntersected
         pos =

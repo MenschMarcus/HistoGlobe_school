@@ -1,11 +1,20 @@
 #!/bin/bash
 
-cFiles="script/display/Display3D.coffee \
+cFiles="script/util/Mixin.coffee \
+        script/util/VideoPlayer.coffee \
+        script/display/Display3D.coffee \
         script/display/Display2D.coffee \
         script/display/Display.coffee \
-        script/util/VideoPlayer.coffee"
+        script/hivents/HiventHandle.coffee \
+        script/hivents/HiventController.coffee \
+        script/hivents/Hivent.coffee \
+        script/hivents/HiventMarker.coffee \
+        script/hivents/HiventMarker2D.coffee \
+        script/hivents/HiventMarker3D.coffee \
+        script/hivents/HiventMarkerTimeline.coffee"
 
-jFiles="build/Display.js \
+jFiles="build/Mixin.js \
+        build/Display.js \
         build/Display2D.js \
         build/Display3D.js \
         script/timeline/Timeline.js \
@@ -13,17 +22,19 @@ jFiles="build/Display.js \
         script/histrips/HistripHandle.js \
         script/histrips/HistripHandler.js \
         script/histrips/HistripMarker.js \
-        script/hivents/Hivent.js \
-        script/hivents/HiventHandle.js \
-        script/hivents/HiventHandler.js \
-        script/hivents/HiventMarker.js \
-        script/hivents/HiventMarker2D.js \
-        script/hivents/HiventMarker3D.js \
-        script/hivents/HiventMarkerTimeline.js \
+        build/Hivent.js \
+        build/HiventHandle.js \
+        build/HiventController.js \
+        build/HiventMarker.js \
+        build/HiventMarker2D.js \
+        build/HiventMarker3D.js \
+        build/HiventMarkerTimeline.js \
         build/VideoPlayer.js \
         script/util/BrowserDetect.js"
 
-mkdir build
+if [ ! -d "build" ]; then
+    mkdir build
+fi
 
 coffee -c -o build $cFiles
 
