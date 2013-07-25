@@ -1,4 +1,4 @@
-#include Display.js
+#include Display.coffee
 #include HiventHandler.js
 #include HiventMarker3D.js
 
@@ -41,7 +41,7 @@ class HG.Display3D extends HG.Display
   # ============================================================================
   stop: ->
     this._myIsRunning = false
-    HG.deactivateAllHivents()
+    HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()
     this._myRenderer.domElement.style.display = "none"
 
   # ============================================================================
@@ -214,7 +214,7 @@ class HG.Display3D extends HG.Display
 
   # ============================================================================
   _initHivents: ->
-    this.inHiventHandler.onHiventsLoaded (handles) =>
+    this.inHiventHandler.onHiventsChanged (handles) =>
       for handle in handles
         hivent    = new HG.HiventMarker3D handle, this, this.inContainer
         position  = this._latLongToCart
@@ -226,7 +226,6 @@ class HG.Display3D extends HG.Display
         hivent.translateOnAxis new THREE.Vector3(0, 0, 1), position.z
 
         this._mySceneGlobe.add hivent
-
 
   ############################# MAIN FUNCTIONS #################################
 
@@ -400,7 +399,7 @@ class HG.Display3D extends HG.Display
       this._myDragStartCamera = null
 
       if this._myLastIntersected.length is 0
-        HG.deactivateAllHivents()
+        HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()
 
       else for intersect in this._myLastIntersected
         pos =

@@ -52,7 +52,28 @@
     <script type="text/javascript" src="script/third-party/three.min.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.js"></script>
 
-    <script type="text/javascript" src="script/histoglobe.min.js"></script>
+    <!-- <script type="text/javascript" src="script/histoglobe.min.js"></script> -->
+
+    <script type="text/javascript" src="build/Mixin.js"></script>
+    <script type="text/javascript" src="build/Display.js"></script>
+    <script type="text/javascript" src="build/Display3D.js"></script>
+    <script type="text/javascript" src="build/Hivent.js"></script>
+    <script type="text/javascript" src="script/display/Display2D.js"></script>
+    <script type="text/javascript" src="script/histrips/Histrip.js"></script>
+    <script type="text/javascript" src="script/histrips/HistripHandle.js"></script>
+    <script type="text/javascript" src="script/histrips/HistripHandler.js"></script>
+    <script type="text/javascript" src="script/histrips/HistripMarker.js"></script>
+    <script type="text/javascript" src="build/HiventController.js"></script>
+    <script type="text/javascript" src="build/HiventHandle.js"></script>
+    <script type="text/javascript" src="script/hivents/HiventInfoPopover.js"></script>
+    <script type="text/javascript" src="build/HiventMarker.js"></script>
+    <script type="text/javascript" src="build/HiventMarker2D.js"></script>
+    <script type="text/javascript" src="build/HiventMarker3D.js"></script>
+    <script type="text/javascript" src="build/HiventMarkerTimeline.js"></script>
+    <script type="text/javascript" src="script/timeline/Timeline.js"></script>
+    <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
+    <script type="text/javascript" src="script/util/VideoPlayer.js"></script>
+
 
     <script>
 	    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -65,7 +86,7 @@
 	  </script>
 
     <script type="text/javascript">
-      var display2D, display3D, timeline, hiventHandler, histripHandler;
+      var display2D, display3D, timeline, hiventController, histripHandler;
       var timelineInitialized = false;
       var container;
       var player;
@@ -76,7 +97,6 @@
           event.preventDefault();
           $('html,body').animate({scrollTop:$($(this).attr('href')).offset().top}, 500);
         });
-
         if (!BrowserDetect.canvasSupported) {
           $('#demo-link').addClass("btn disabled");
         }
@@ -110,7 +130,6 @@
 
       function loadGLHeader() {
 
-        //console.log(BrowserDetect.browser);
         if (BrowserDetect.canvasSupported) {
           $('#default-header').animate({opacity: 0.0}, 1000, 'linear',
             function() {
@@ -126,7 +145,7 @@
           $('.hero-unit').css({"background-image": "none"});
           $('.hero-unit').height(window.innerHeight * 0.8);
 
-          hiventHandler = new HG.HiventHandler();
+          hiventController = new HG.HiventController("data/hivents.json");
           histripHandler = new HG.HistripHandler();
 
           container = document.getElementById('map-container');
@@ -203,7 +222,7 @@
         }
 
         if (!display2D) {
-          display2D = new HG.Display2D(container, hiventHandler);
+          display2D = new HG.Display2D(container, hiventController);
           $(display2D.getCanvas()).css({opacity: 0.0});
         }
 
@@ -221,7 +240,7 @@
           }
 
           if (!display3D) {
-            display3D = new HG.Display3D(container, hiventHandler);
+            display3D = new HG.Display3D(container, hiventController);
             $(display3D.getCanvas()).css({opacity: 0.0});
           }
 
@@ -234,7 +253,7 @@
       function loadTimeline() {
 
         if (!timelineInitialized) {
-          timeline = timeline(hiventHandler);
+          timeline = timeline(hiventController);
           timeline.initTimeline();
 
           $(window).mousemove(timeline.moveMouse);

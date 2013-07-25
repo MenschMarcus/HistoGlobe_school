@@ -56,6 +56,8 @@ function timeline(inHiventHandler) {
   var innerThres;               // threshold for now marker in the timeline scroller
   var markerInterval;           // interval [year] in which year markers are drawn
 
+  var currentTimeFilter = null;
+
 	var hiventMarkers = [];
 
   // play history
@@ -314,6 +316,8 @@ function timeline(inHiventHandler) {
   }
 
   function periodChanged() {
+
+    // inHiventHandler.setTimeFilter(currentTimeFilter);
     var d1 = posToDate($(tlMain).scrollLeft());
     var d2 = posToDate(tlMain.offsetWidth+$(tlMain).scrollLeft());
     for (var i in listeners) {
@@ -337,7 +341,6 @@ function timeline(inHiventHandler) {
 
   function drawScroller() {
     // clear the scroller from event markers and year markers
-    $('.eventMarker').remove();
     $('.yearMarker').remove();
 
     // calculate interval for year markers
@@ -366,12 +369,14 @@ function timeline(inHiventHandler) {
     appendYearMarkers();
 
     // put period dates into their fields
-    var perStart = Math.max(Math.round(posToDecYear($(tlMain).scrollLeft())),minDate);
-    var perEnd = Math.min(Math.round(posToDecYear(tlMain.offsetWidth+$(tlMain).scrollLeft())),Math.floor(maxDate));
+    var left = $(tlMain).scrollLeft();
+    var right = tlMain.offsetWidth+left;
+    var perStart = Math.max(Math.round(posToDecYear(left)),minDate);
+    var perEnd = Math.min(Math.round(posToDecYear(right)),Math.floor(maxDate));
     $('#periodStart').val(perStart);
     $('#periodEnd').val(perEnd);
 
-    // initially set markers for historical events
+    // eventually set markers for historical events
     updateHivents();
   }
 
@@ -436,17 +441,18 @@ function timeline(inHiventHandler) {
   /** HISTORICAL EVENT MARKER **/
 
   function initHivents() {
-    inHiventHandler.onHiventsLoaded(function(handles){
+    inHiventHandler.onHiventsChanged(function(handles){
+
+      hiventMarkers = [];
 
       for (var i=0; i<handles.length; i++) {
 
         var hivent = handles[i].getHivent();
-        var date = new Date(hivent.date);
-        var posX = dateToPos(date);
+        var posX = dateToPos(hivent.date);
 
         var hiventMarker = new HG.HiventMarkerTimeline(handles[i],
-																										    tlScroller,
-																									      posX);
+																										   tlScroller,
+																									     posX);
 				hiventMarkers.push(hiventMarker);
       }
     });
@@ -455,10 +461,7 @@ function timeline(inHiventHandler) {
   function updateHivents() {
 
 		for (var i=0; i<hiventMarkers.length; i++) {
-
-			var date = new Date(hiventMarkers[i].getHiventHandle().getHivent().date);
-			var posX = dateToPos(date);
-
+			var posX = dateToPos(hiventMarkers[i].getHiventHandle().getHivent().date);
 			hiventMarkers[i].setPosition(posX);
 		}
   }
@@ -754,6 +757,9 @@ function timeline(inHiventHandler) {
     var end = Math.floor(posToDecYear(tlMain.scrollLeft+tlMain.offsetWidth));
     $('#periodStart').val(Math.max(start,minDate));
     $('#periodEnd').val(Math.min(end,Math.floor(maxDate)));
+
+    currentTimeFilter = {start: posToDate(tlMain.scrollLeft),
+                         end: posToDate(tlMain.scrollLeft+tlMain.offsetWidth)};
   }
 
   function scrollFixup(pix) {
