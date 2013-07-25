@@ -70,6 +70,62 @@ class HG.Display2D extends HG.Display
 
     L.tileLayer('data/tiles/{z}/{x}/{y}.png').addTo @_map
 
+    # boundaries ---------------------------------------------------------------
+    $.getJSON "data/ne_50m_admin_0_boundary_lines_land.json", (statesData) =>
+
+      normalStyle =
+        color:        "#FFEDC6"
+        weight:       2
+        opacity:      1
+
+      options =
+        style: normalStyle
+
+      data = topojson.feature statesData, statesData.objects.ne_50m_admin_0_boundary_lines_land
+
+      boundaryLayer = L.geoJson(data, options)
+      boundaryLayer.addTo @_map
+
+    # areas --------------------------------------------------------------------
+    $.getJSON "data/world_low.json", (statesData) =>
+      highlightStyle =
+        fillColor:    "#000000"
+        weight:       0
+        opacity:      0
+        fillOpacity:  0.05
+
+      normalStyle =
+        fillColor:    "#000000"
+        weight:       0
+        opacity:      0
+        fillOpacity:  0
+
+      options =
+        style: normalStyle
+        onEachFeature:  (feature, layer) => layer.on(
+          click:      (e) => @_map.fitBounds e.target.getBounds()
+          mouseover:  (e) => e.target.setStyle highlightStyle
+          mouseout:   (e) => boundaryLayer.resetStyle e.target
+        )
+
+      data = topojson.feature statesData, statesData.objects.countries
+
+      boundaryLayer = L.geoJson(data, options)
+      boundaryLayer.addTo @_map
+
+    # africa -------------------------------------------------------------------
+    $.getJSON "data/africa.json", (statesData) =>
+      normalStyle =
+        color:        "#AD9B76"
+        weight:       2
+        opacity:      1
+
+      options =
+        style: normalStyle
+
+      boundaryLayer = L.geoJson(statesData, options)
+      boundaryLayer.addTo @_map
+
     @_isRunning = true
 
   # ============================================================================
