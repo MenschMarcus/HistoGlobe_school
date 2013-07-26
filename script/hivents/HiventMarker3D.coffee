@@ -32,8 +32,8 @@ class HG.HiventMarker3D extends THREE.Mesh
     THREE.Mesh.call @, HIVENT_MARKER_3D_GEOMETRY, @_material
 
     @getHiventHandle().onFocus(@, (mousePos) =>
-  		if display.isRunning()
-  			display.focus @getHiventHandle().getHivent()
+      if display.isRunning()
+        display.focus @getHiventHandle().getHivent()
     )
 
     @getHiventHandle().onMark @, (mousePos) =>
