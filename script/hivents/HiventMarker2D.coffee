@@ -34,9 +34,10 @@ class HG.HiventMarker2D extends L.Marker
     @_map.on "viewreset", @_updatePosition
     @_map.on "zoomstart", @hideHiventInfo
 
-    @getHiventHandle().onFocus @, (mousePos) =>
-  		if display.isRunning()
-  			display.focus @getHiventHandle().getHivent()
+    @getHiventHandle().onFocus(@, (mousePos) =>
+      if display.isRunning()
+        display.focus @getHiventHandle().getHivent()
+    )
 
     @getHiventHandle().onDestruction @, @_destroy
 
