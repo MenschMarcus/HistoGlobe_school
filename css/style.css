@@ -191,24 +191,21 @@ hr {
 }
 
 #browser-img {
-  width: 50%;
-  height: 50%;
+  width: 40%;
+  height: 40%;
 }
 
 @media (max-width: 1200px) {
-  
+
   #ut-seal {
     width: 60%;
   }
-  
+
   .hero-unit img {
     height: auto;
     width: auto;
   }
-  
-  #browser-img {
-    width: 40%;
-  }
+
 }
 
 @media (max-width: 979px) {
@@ -216,16 +213,16 @@ hr {
   .icon-feature.pull-right {
     font-size:900%;
   }
-  
+
   .hero-unit {
     margin-top: 0px;
   }
-  
+
   #browser-img,
   #ut-seal {
     width: 100%;
   }
-  
+
   .group-image {
     height: 220px;
   }
@@ -239,12 +236,12 @@ hr {
     text-align:center;
     font-size:750%;
   }
-  
+
   #browser-img,
   #ut-seal {
     width: 100%;
   }
-  
+
   .group-image {
     height: 200px;
   }

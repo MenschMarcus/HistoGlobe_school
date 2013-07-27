@@ -476,8 +476,8 @@
       <div class="row">
         <div class="span12">
           <div class="gradient-down summary">
-            <img src="img/browser.png" id="browser-img" class="img-right pull-right" alt="HistoGlobe im Browser">
             <h3><?php locale("summary_head")?></h3>
+            <img src="img/browser.png" id="browser-img" class="img-right pull-right" alt="HistoGlobe im Browser">
             <p><?php locale("summary")?> <p>
             <a class="smooth" href="#details"><?php locale("readMore")?></a>
           </div>
