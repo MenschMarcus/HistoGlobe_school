@@ -1,4 +1,7 @@
 @echo off
+call "C:\Program Files (x86)\nodejs\nodevars.bat"
+
+@echo off
 set cFiles=script/util/Mixin.coffee ^
         script/util/VideoPlayer.coffee ^
         script/display/Display3D.coffee ^
