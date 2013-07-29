@@ -13,7 +13,7 @@ class HG.HiventMarker3D extends THREE.Mesh
   constructor: (hivent, display, parent) ->
 
     HG.mixin @, HG.HiventMarker
-    HG.HiventMarker.call this, hivent, parent
+    HG.HiventMarker.call @, hivent, parent
 
     unless HIVENT_MARKER_3D_GEOMETRY?
       HIVENT_MARKER_3D_GEOMETRY = new THREE.SphereGeometry 1, 10, 10
@@ -29,32 +29,33 @@ class HG.HiventMarker3D extends THREE.Mesh
       uniforms: @_uniforms
     }
 
-    THREE.Mesh.call this, HIVENT_MARKER_3D_GEOMETRY, @_material
+    THREE.Mesh.call @, HIVENT_MARKER_3D_GEOMETRY, @_material
 
-    @getHiventHandle().onFocus this, (mousePos) =>
-  		if display.isRunning()
-  			display.focus @getHiventHandle().getHivent()
+    @getHiventHandle().onFocus(@, (mousePos) =>
+      if display.isRunning()
+        display.focus @getHiventHandle().getHivent()
+    )
 
-    @getHiventHandle().onMark this, (mousePos) =>
+    @getHiventHandle().onMark @, (mousePos) =>
       @_uniforms['color'].value = HIVENT_HIGHLIGHT_COLOR
 
-    @getHiventHandle().onUnMark this, (mousePos) =>
+    @getHiventHandle().onUnMark @, (mousePos) =>
       @_uniforms['color'].value = HIVENT_DEFAULT_COLOR
 
-    @getHiventHandle().onLink this, (mousePos) =>
+    @getHiventHandle().onLink @, (mousePos) =>
       @_uniforms['color'].value = HIVENT_HIGHLIGHT_COLOR
 
-    @getHiventHandle().onUnLink this, (mousePos) =>
+    @getHiventHandle().onUnLink @, (mousePos) =>
       @_uniforms['color'].value = HIVENT_DEFAULT_COLOR
 
-    @getHiventHandle().onDestruction this, @_destroy
+    @getHiventHandle().onDestruction @, @_destroy
 
     @enableShowName()
     @enableShowInfo()
 
   # ============================================================================
   _destroy: ->
-    delete this;
+    delete @;
     return
 
   ##############################################################################
