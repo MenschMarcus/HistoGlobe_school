@@ -81,7 +81,7 @@ class HG.Display2D extends HG.Display
     @_hiventHandler.onHiventsChanged (handles) =>
       marker = new HG.HiventMarker2D handle, this, @_map for handle in handles
 
-    @_map.on "click", HG.deactivateAllHivents
+    @_map.on "click", HG.HiventHandle.DEACTIVATE_ALL_HIVENTS
 
   # ============================================================================
   _onWindowResize: (event) =>

@@ -55,6 +55,7 @@
     <!-- <script type="text/javascript" src="script/histoglobe.min.js"></script> -->
 
     <script type="text/javascript" src="build/Mixin.js"></script>
+    <script type="text/javascript" src="build/Callback.js"></script>
     <script type="text/javascript" src="build/Display.js"></script>
     <script type="text/javascript" src="build/Display3D.js"></script>
     <script type="text/javascript" src="build/Hivent.js"></script>

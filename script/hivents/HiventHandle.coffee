@@ -18,15 +18,15 @@ class HG.HiventHandle
     @_linked = false
     @_focussed = false
 
-    @_onActiveCallbacks = []
-    @_onInActiveCallbacks = []
-    @_onMarkCallbacks = []
-    @_onUnMarkCallbacks = []
-    @_onLinkCallbacks = []
-    @_onUnLinkCallbacks = []
-    @_onUnFocusCallbacks = []
-    @_onFocusCallbacks = []
-    @_onDestructionCallbacks = []
+    HG.addCallback @, "onActive"
+    HG.addCallback @, "onInActive"
+    HG.addCallback @, "onMark"
+    HG.addCallback @, "onUnMark"
+    HG.addCallback @, "onLink"
+    HG.addCallback @, "onUnLink"
+    HG.addCallback @, "onFocus"
+    HG.addCallback @, "onUnFocus"
+    HG.addCallback @, "onDestruction"
 
   # ============================================================================
   getHivent: ->
@@ -35,42 +35,30 @@ class HG.HiventHandle
   # ============================================================================
   activeAll: (mousePixelPosition) ->
     @_activated = true
-    ACTIVE_HIVENTS.push(this)
-    for i in [0...@_onActiveCallbacks.length]
-      for j in [0...@_onActiveCallbacks[i][1].length]
-        @_onActiveCallbacks[i][1][j] mousePixelPosition
+    ACTIVE_HIVENTS.push(@)
+    HG.notifyAll @, "onActive", mousePixelPosition
 
   # ============================================================================
   active: (obj, mousePixelPosition) ->
     @_activated = true
-    ACTIVE_HIVENTS.push this
-    for i in [0...@_onActiveCallbacks.length]
-      if @_onActiveCallbacks[i][0] == obj
-        for j in [0...@_onActiveCallbacks[i][1].length]
-          @_onActiveCallbacks[i][1][j] mousePixelPosition
-        break
+    ACTIVE_HIVENTS.push @
+    HG.notify @, "onActive", obj, mousePixelPosition
 
   # ============================================================================
   inActiveAll: (mousePixelPosition) ->
     @_activated = false
-    index = $.inArray(this, ACTIVE_HIVENTS)
+    index = $.inArray(@, ACTIVE_HIVENTS)
     if index >= 0 then delete ACTIVE_HIVENTS[index]
 
-    for i in [0...@_onInActiveCallbacks.length]
-      for j in [0...@_onInActiveCallbacks[i][1].length]
-        @_onInActiveCallbacks[i][1][j] mousePixelPosition
+    HG.notifyAll @, "onInActive", mousePixelPosition
 
   # ============================================================================
   inActive: (obj, mousePixelPosition) ->
     @_activated = false
-    index = $.inArray(this, ACTIVE_HIVENTS)
+    index = $.inArray(@, ACTIVE_HIVENTS)
     if index >= 0 then delete ACTIVE_HIVENTS[index]
 
-    for i in [0...@_onInActiveCallbacks.length]
-      if @_onInActiveCallbacks[i][0] == obj
-        for j in [0...@_onInActiveCallbacks[i][1].length]
-          @_onInActiveCallbacks[i][1][j] mousePixelPosition
-        break
+    HG.notify @, "onInActive", obj, mousePixelPosition
 
   # ============================================================================
   toggleActiveAll: (mousePixelPosition) ->
@@ -92,213 +80,82 @@ class HG.HiventHandle
   markAll: (mousePixelPosition) ->
     unless @_marked
       @_marked = true
-      for i in [0...@_onMarkCallbacks.length]
-        for j in [0...@_onMarkCallbacks[i][1].length]
-          @_onMarkCallbacks[i][1][j] mousePixelPosition
+      HG.notifyAll @, "onMark", mousePixelPosition
 
   # ============================================================================
   mark: (obj, mousePixelPosition) ->
     unless @_marked
       @_marked = true
-      for i in [0...@_onMarkCallbacks.length]
-        if @_onMarkCallbacks[i][0] == obj
-          for j in [0...@_onMarkCallbacks[i][1].length]
-            @_onMarkCallbacks[i][1][j] mousePixelPosition
-          break
+      HG.notify @, "onMark", obj, mousePixelPosition
 
   # ============================================================================
   unMarkAll: (mousePixelPosition) ->
     if @_marked
       @_marked = false
-      for i in [0...@_onUnMarkCallbacks.length]
-        for j in [0...@_onUnMarkCallbacks[i][1].length]
-          @_onUnMarkCallbacks[i][1][j] mousePixelPosition
+      HG.notifyAll @, "onUnMark", mousePixelPosition
 
   # ============================================================================
   unMark: (obj, mousePixelPosition) ->
     if @_marked
       @_marked = false
-      for i in [0...@_onUnMarkCallbacks.length]
-        if @_onUnMarkCallbacks[i][0] == obj
-          for j in [0...@_onUnMarkCallbacks[i][1].length]
-            @_onUnMarkCallbacks[i][1][j] mousePixelPosition
-          break
+      HG.notify @, "onUnMark", obj, mousePixelPosition
 
   # ============================================================================
   linkAll: (mousePixelPosition) ->
     unless @_linked
       @_linked = true
-      for i in [0...@_onLinkCallbacks.length]
-        for j in [0...@_onLinkCallbacks[i][1].length]
-          @_onLinkCallbacks[i][1][j] mousePixelPosition
+      HG.notifyAll @, "onLink", mousePixelPosition
 
   # ============================================================================
   link: (obj, mousePixelPosition) ->
     unless @_linked
       @_linked = true
-      for i in [0...@_onLinkCallbacks.length]
-        if @_onLinkCallbacks[i][0] == obj
-          for j in [0...@_onLinkCallbacks[i][1].length]
-            @_onLinkCallbacks[i][1][j] mousePixelPosition
-          break
+      HG.notify @, "onLink", obj, mousePixelPosition
 
   # ============================================================================
   unLinkAll: (mousePixelPosition) ->
     if @_linked
       @_linked = false
-      for i in [0...@_onUnLinkCallbacks.length]
-        for j in [0...@_onUnLinkCallbacks[i][1].length]
-          @_onUnLinkCallbacks[i][1][j] mousePixelPosition
+      HG.notifyAll @, "onUnLink", mousePixelPosition
 
   # ============================================================================
   unLink: (obj, mousePixelPosition) ->
     if @_linked
       @_linked = false
-      for i in [0...@_onUnLinkCallbacks.length]
-        if @_onUnLinkCallbacks[i][0] == obj
-          for j in [0...@_onUnLinkCallbacks[i][1].length]
-            @_onUnLinkCallbacks[i][1][j] mousePixelPosition
-          break
+      HG.notify @, "onUnLink", obj, mousePixelPosition
 
   # ============================================================================
   focusAll: (mousePixelPosition) ->
     @_focussed = true
 
-    for i in [0...@_onFocusCallbacks.length]
-      for j in [0...@_onFocusCallbacks[i][1].length]
-        @_onFocusCallbacks[i][1][j] mousePixelPosition
+    HG.notifyAll @, "onFocus", mousePixelPosition
 
   # ============================================================================
   focus: (obj, mousePixelPosition) ->
     @_focussed = true
-    for i in [0...@_onFocusCallbacks.length]
-      if @_onFocusCallbacks[i][0] == obj
-        for j in [0...@_onFocusCallbacks[i][1].length]
-          @_onFocusCallbacks[i][1][j] mousePixelPosition
-      break
+    HG.notify @, "onFocus", obj, mousePixelPosition
 
   # ============================================================================
   unFocusAll: (mousePixelPosition) ->
     @_focussed = false
 
-    for i in [0...@_onUnFocusCallbacks.length]
-      for j in [0...@_onUnFocusCallbacks[i][1].length]
-       @_onUnFocusCallbacks[i][1][j] mousePixelPosition
+    HG.notifyAll @, "onUnFocus", mousePixelPosition
 
   # ============================================================================
   unFocus: (obj, mousePixelPosition) ->
     @_focussed = false
-    for i in [0...@_onUnFocusCallbacks.length]
-      if @_onUnFocusCallbacks[i][0] == obj
-        for j in [0...@_onUnFocusCallbacks[i][1].length]
-          @_onUnFocusCallbacks[i][1][j] mousePixelPosition
-      break
+    HG.notify @, "onUnFocus", obj, mousePixelPosition
 
   # ============================================================================
   destroyAll: ->
-    for i in [0...@_onDestructionCallbacks.length]
-      for j in [0...@_onDestructionCallbacks[i][1].length]
-        @_onDestructionCallbacks[i][1][j]()
+    HG.notifyAll @, "onDestruction", mousePixelPosition
     @_destroy()
 
   # ============================================================================
   destroy: (obj) ->
-    for i in [0...@_onDestructionCallbacks.length]
-      if @_onDestructionCallbacks[i][0] == obj
-        for j in [0...@_onDestructionCallbacks[i][1].length]
-          @_onDestructionCallbacks[i][1][j]()
-        break
+    HG.notify @, "onDestruction", obj, mousePixelPosition
 
     @_destroy()
-
-  # ============================================================================
-  onActive: (obj, callbackFunc) ->
-    if callbackFunc and typeof(callbackFunc) == "function"
-      for i in [0...@_onActiveCallbacks.length]
-        if @_onActiveCallbacks[i][0] == obj
-          @_onActiveCallbacks[i][1].push callbackFunc
-          return
-
-      @_onActiveCallbacks.push [obj, [callbackFunc]]
-
-  # ============================================================================
-  onInActive: (obj, callbackFunc) ->
-    if callbackFunc and typeof(callbackFunc) == "function"
-      for i in [0...@_onInActiveCallbacks.length]
-        if @_onInActiveCallbacks[i][0] == obj
-          @_onInActiveCallbacks[i][1].push callbackFunc
-          return
-
-      @_onInActiveCallbacks.push [obj, [callbackFunc]]
-
-  # ============================================================================
-  onMark: (obj, callbackFunc) ->
-    if callbackFunc and typeof(callbackFunc) == "function"
-      for i in [0...@_onMarkCallbacks.length]
-        if @_onMarkCallbacks[i][0] == obj
-          @_onMarkCallbacks[i][1].push callbackFunc
-          return
-
-      @_onMarkCallbacks.push [obj, [callbackFunc]]
-
-  # ============================================================================
-  onUnMark: (obj, callbackFunc) ->
-    if callbackFunc and typeof(callbackFunc) == "function"
-      for i in [0...@_onUnMarkCallbacks.length]
-        if @_onUnMarkCallbacks[i][0] == obj
-          @_onUnMarkCallbacks[i][1].push callbackFunc
-          return
-
-      @_onUnMarkCallbacks.push [obj, [callbackFunc]]
-
-  # ============================================================================
-  onLink: (obj, callbackFunc) ->
-    if callbackFunc and typeof(callbackFunc) == "function"
-      for i in [0...@_onLinkCallbacks.length]
-        if @_onLinkCallbacks[i][0] == obj
-          @_onLinkCallbacks[i][1].push callbackFunc
-          return
-      @_onLinkCallbacks.push [obj, [callbackFunc]]
-
-  # ============================================================================
-  onUnLink: (obj, callbackFunc) ->
-    if callbackFunc and typeof(callbackFunc) == "function"
-      for i in [0...@_onUnLinkCallbacks.length]
-        if @_onUnLinkCallbacks[i][0] == obj
-          @_onUnLinkCallbacks[i][1].push callbackFunc
-          return
-
-      @_onUnLinkCallbacks.push [obj, [callbackFunc]]
-
-  # ============================================================================
-  onFocus: (obj, callbackFunc) ->
-    if callbackFunc and typeof(callbackFunc) == "function"
-      for i in [0...@_onFocusCallbacks.length]
-        if @_onFocusCallbacks[i][0] == obj
-          @_onFocusCallbacks[i][1].push callbackFunc
-          return
-
-      @_onFocusCallbacks.push [obj, [callbackFunc]]
-
-  # ============================================================================
-  onUnFocus: (obj, callbackFunc) ->
-    if callbackFunc and typeof(callbackFunc) == "function"
-      for i in [0...@_onUnFocusCallbacks.length]
-        if @_onUnFocusCallbacks[i][0] == obj
-          @_onUnFocusCallbacks[i][1].push callbackFunc
-          return
-
-      @_onUnFocusCallbacks.push [obj, [callbackFunc]]
-
-  # ============================================================================
-  onDestruction: (obj, callbackFunc) ->
-    if callbackFunc and typeof(callbackFunc) == "function"
-      for i in [0...@_onDestructionCallbacks.length]
-        if @_onDestructionCallbacks[i][0] == obj
-          @_onDestructionCallbacks[i][1].push callbackFunc
-          return
-
-      @_onDestructionCallbacks.push [obj, [callbackFunc]]
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -318,7 +175,7 @@ class HG.HiventHandle
 
     @_onDestructionCallbacks = []
 
-    delete this
+    delete @
     return
 
   ##############################################################################
