@@ -14,7 +14,7 @@ class HG.HiventMarkerTimeline
   constructor: (hivent, parent, posX, posY) ->
 
     HG.mixin @, HG.HiventMarker
-    HG.HiventMarker.call this, hivent, parent
+    HG.HiventMarker.call @, hivent, parent
 
     HIVENT_MARKER_TIMELINE_COUNT++
 
@@ -38,7 +38,7 @@ class HG.HiventMarkerTimeline
         x : @_position.x + HIVENT_MARKER_TIMELINE_RADIUS,
         y : @_position.y + 0.6 * HIVENT_MARKER_TIMELINE_RADIUS
       }
-      @getHiventHandle().mark this, pos
+      @getHiventHandle().mark @, pos
       @getHiventHandle().linkAll pos
 
     @_div.onmouseout = (e) =>
@@ -46,7 +46,7 @@ class HG.HiventMarkerTimeline
         x : @_position.x + HIVENT_MARKER_TIMELINE_RADIUS,
         y : @_position.y + 0.6 * HIVENT_MARKER_TIMELINE_RADIUS
       }
-      @getHiventHandle().unMark this, pos
+      @getHiventHandle().unMark @, pos
       @getHiventHandle().unLinkAll pos
 
     @_div.onclick = (e) =>
@@ -56,19 +56,19 @@ class HG.HiventMarkerTimeline
       }
       @getHiventHandle().focusAll pos
 
-    @getHiventHandle().onMark this, (mousePos) =>
+    @getHiventHandle().onMark @, (mousePos) =>
       @_div.style.backgroundColor = HIVENT_HIGHLIGHT_COLOR
 
-    @getHiventHandle().onUnMark this, (mousePos) =>
+    @getHiventHandle().onUnMark @, (mousePos) =>
       @_div.style.backgroundColor = HIVENT_DEFAULT_COLOR
 
-    @getHiventHandle().onLink this, (mousePos) =>
+    @getHiventHandle().onLink @, (mousePos) =>
       @_div.style.backgroundColor = HIVENT_HIGHLIGHT_COLOR
 
-    @getHiventHandle().onUnLink this, (mousePos) =>
+    @getHiventHandle().onUnLink @, (mousePos) =>
       @_div.style.backgroundColor = HIVENT_DEFAULT_COLOR
 
-    @getHiventHandle().onDestruction this, @_destroy
+    @getHiventHandle().onDestruction @, @_destroy
 
     @enableShowName()
 
@@ -101,7 +101,7 @@ class HG.HiventMarkerTimeline
   # ============================================================================
   _destroy: =>
     $(@_div).remove()
-    delete this
+    delete @
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #

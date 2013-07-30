@@ -28,7 +28,7 @@ class HG.HiventController
       unless @_hiventsChanged
         @_onHiventsChangedCallbacks.push callbackFunc
       else
-        callbackFunc @_hiventHandles
+        callbackFunc @_filteredHiventHandles
 
   # ============================================================================
   setTimeFilter: (timeFilter) ->
