@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cFiles="script/util/Mixin.coffee \
-        script/util/Callback.coffee \
+        script/util/CallbackContainer.coffee \
         script/util/VideoPlayer.coffee \
         script/display/Display3D.coffee \
         script/display/Display2D.coffee \
@@ -15,7 +15,7 @@ cFiles="script/util/Mixin.coffee \
         script/hivents/HiventMarkerTimeline.coffee"
 
 jFiles="build/Mixin.js \
-        build/Callback.js \
+        build/CallbackContainer.js \
         build/Display.js \
         build/Display2D.js \
         build/Display3D.js \

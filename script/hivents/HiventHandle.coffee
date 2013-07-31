@@ -1,4 +1,6 @@
 #include Hivent.coffee
+#include Mixin.coffee
+#include CallbackContainer.coffee
 
 window.HG ?= {}
 
@@ -18,15 +20,18 @@ class HG.HiventHandle
     @_linked = false
     @_focussed = false
 
-    HG.addCallback @, "onActive"
-    HG.addCallback @, "onInActive"
-    HG.addCallback @, "onMark"
-    HG.addCallback @, "onUnMark"
-    HG.addCallback @, "onLink"
-    HG.addCallback @, "onUnLink"
-    HG.addCallback @, "onFocus"
-    HG.addCallback @, "onUnFocus"
-    HG.addCallback @, "onDestruction"
+    HG.mixin @, HG.CallbackContainer
+    HG.CallbackContainer.call @
+
+    @addCallback "onActive"
+    @addCallback "onInActive"
+    @addCallback "onMark"
+    @addCallback "onUnMark"
+    @addCallback "onLink"
+    @addCallback "onUnLink"
+    @addCallback "onFocus"
+    @addCallback "onUnFocus"
+    @addCallback "onDestruction"
 
   # ============================================================================
   getHivent: ->
@@ -36,13 +41,13 @@ class HG.HiventHandle
   activeAll: (mousePixelPosition) ->
     @_activated = true
     ACTIVE_HIVENTS.push(@)
-    HG.notifyAll @, "onActive", mousePixelPosition
+    @notifyAll "onActive", mousePixelPosition
 
   # ============================================================================
   active: (obj, mousePixelPosition) ->
     @_activated = true
     ACTIVE_HIVENTS.push @
-    HG.notify @, "onActive", obj, mousePixelPosition
+    @notify "onActive", obj, mousePixelPosition
 
   # ============================================================================
   inActiveAll: (mousePixelPosition) ->
@@ -50,7 +55,7 @@ class HG.HiventHandle
     index = $.inArray(@, ACTIVE_HIVENTS)
     if index >= 0 then delete ACTIVE_HIVENTS[index]
 
-    HG.notifyAll @, "onInActive", mousePixelPosition
+    @notifyAll "onInActive", mousePixelPosition
 
   # ============================================================================
   inActive: (obj, mousePixelPosition) ->
@@ -58,7 +63,7 @@ class HG.HiventHandle
     index = $.inArray(@, ACTIVE_HIVENTS)
     if index >= 0 then delete ACTIVE_HIVENTS[index]
 
-    HG.notify @, "onInActive", obj, mousePixelPosition
+    @notify "onInActive", obj, mousePixelPosition
 
   # ============================================================================
   toggleActiveAll: (mousePixelPosition) ->
@@ -80,80 +85,80 @@ class HG.HiventHandle
   markAll: (mousePixelPosition) ->
     unless @_marked
       @_marked = true
-      HG.notifyAll @, "onMark", mousePixelPosition
+      @notifyAll "onMark", mousePixelPosition
 
   # ============================================================================
   mark: (obj, mousePixelPosition) ->
     unless @_marked
       @_marked = true
-      HG.notify @, "onMark", obj, mousePixelPosition
+      @notify "onMark", obj, mousePixelPosition
 
   # ============================================================================
   unMarkAll: (mousePixelPosition) ->
     if @_marked
       @_marked = false
-      HG.notifyAll @, "onUnMark", mousePixelPosition
+      @notifyAll "onUnMark", mousePixelPosition
 
   # ============================================================================
   unMark: (obj, mousePixelPosition) ->
     if @_marked
       @_marked = false
-      HG.notify @, "onUnMark", obj, mousePixelPosition
+      @notify "onUnMark", obj, mousePixelPosition
 
   # ============================================================================
   linkAll: (mousePixelPosition) ->
     unless @_linked
       @_linked = true
-      HG.notifyAll @, "onLink", mousePixelPosition
+      @notifyAll "onLink", mousePixelPosition
 
   # ============================================================================
   link: (obj, mousePixelPosition) ->
     unless @_linked
       @_linked = true
-      HG.notify @, "onLink", obj, mousePixelPosition
+      @notify "onLink", obj, mousePixelPosition
 
   # ============================================================================
   unLinkAll: (mousePixelPosition) ->
     if @_linked
       @_linked = false
-      HG.notifyAll @, "onUnLink", mousePixelPosition
+      @notifyAll "onUnLink", mousePixelPosition
 
   # ============================================================================
   unLink: (obj, mousePixelPosition) ->
     if @_linked
       @_linked = false
-      HG.notify @, "onUnLink", obj, mousePixelPosition
+      @notify "onUnLink", obj, mousePixelPosition
 
   # ============================================================================
   focusAll: (mousePixelPosition) ->
     @_focussed = true
 
-    HG.notifyAll @, "onFocus", mousePixelPosition
+    @notifyAll "onFocus", mousePixelPosition
 
   # ============================================================================
   focus: (obj, mousePixelPosition) ->
     @_focussed = true
-    HG.notify @, "onFocus", obj, mousePixelPosition
+    @notify "onFocus", obj, mousePixelPosition
 
   # ============================================================================
   unFocusAll: (mousePixelPosition) ->
     @_focussed = false
 
-    HG.notifyAll @, "onUnFocus", mousePixelPosition
+    @notifyAll "onUnFocus", mousePixelPosition
 
   # ============================================================================
   unFocus: (obj, mousePixelPosition) ->
     @_focussed = false
-    HG.notify @, "onUnFocus", obj, mousePixelPosition
+    @notify "onUnFocus", obj, mousePixelPosition
 
   # ============================================================================
   destroyAll: ->
-    HG.notifyAll @, "onDestruction", mousePixelPosition
+    @notifyAll "onDestruction", mousePixelPosition
     @_destroy()
 
   # ============================================================================
   destroy: (obj) ->
-    HG.notify @, "onDestruction", obj, mousePixelPosition
+    @notify "onDestruction", obj, mousePixelPosition
 
     @_destroy()
 
