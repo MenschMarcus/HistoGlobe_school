@@ -1,5 +1,5 @@
 @echo off
-call "C:\Program Files (x86)\nodejs\nodevars.bat"
+call "C:\Program Files\nodejs\nodevars.bat"
 
 @echo off
 set cFiles=script/util/Mixin.coffee ^
