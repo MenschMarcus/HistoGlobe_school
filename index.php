@@ -66,7 +66,7 @@
     <script type="text/javascript" src="script/histrips/HistripMarker.js"></script>
     <script type="text/javascript" src="build/HiventController.js"></script>
     <script type="text/javascript" src="build/HiventHandle.js"></script>
-    <script type="text/javascript" src="script/hivents/HiventInfoPopover.js"></script>
+    <script type="text/javascript" src="build/HiventInfoPopover.js"></script>
     <script type="text/javascript" src="build/HiventMarker.js"></script>
     <script type="text/javascript" src="build/HiventMarker2D.js"></script>
     <script type="text/javascript" src="build/HiventMarker3D.js"></script>
@@ -151,6 +151,8 @@
 
           container = document.getElementById('map-container');
           loadTimeline();
+
+          pop = new HG.HiventInfoPopover()
 
           load2D();
 

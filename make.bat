@@ -14,7 +14,8 @@ set cFiles=script/util/Mixin.coffee ^
         script/hivents/HiventMarker.coffee ^
         script/hivents/HiventMarker2D.coffee ^
         script/hivents/HiventMarker3D.coffee ^
-        script/hivents/HiventMarkerTimeline.coffee
+        script/hivents/HiventMarkerTimeline.coffee ^
+        script/hivents/HiventInfoPopover.coffee
 
 @echo off
 set jFiles=build/Mixin.js ^
@@ -34,6 +35,7 @@ set jFiles=build/Mixin.js ^
         build/HiventMarker2D.js ^
         build/HiventMarker3D.js ^
         build/HiventMarkerTimeline.js ^
+        build/HiventInfoPopover.js ^
         build/VideoPlayer.js ^
         script/util/BrowserDetect.js
 

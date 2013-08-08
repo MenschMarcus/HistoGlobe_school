@@ -2,7 +2,7 @@
 
 .gradient-timeline-menu {
   background-color: #fff;
-  
+
   background: -moz-linear-gradient(top, #eee 0%, #ddd 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ddd), color-stop(100%,#eee)); /* Chrome,Safari4+ */
   background: -webkit-linear-gradient(top, #eee 0%,#ddd 100%); /* Chrome10+,Safari5.1+ */
@@ -16,7 +16,7 @@
 
 .gradient-timeline-top {
   background-color: #fff;
-  
+
   background: -moz-linear-gradient(top, #fff 0%, #eee 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee), color-stop(100%,#fff)); /* Chrome,Safari4+ */
   background: -webkit-linear-gradient(top, #fff 0%,#eee 100%); /* Chrome10+,Safari5.1+ */
@@ -30,7 +30,7 @@
 
 .gradient-timeline-main {
   background-color: #eee;
-  
+
   background: -moz-linear-gradient(top, #eee 0%, #ccc 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ccc), color-stop(100%,#eee)); /* Chrome,Safari4+ */
   background: -webkit-linear-gradient(top, #eee 0%,#ccc 100%); /* Chrome10+,Safari5.1+ */
@@ -159,7 +159,7 @@
 
 #nowMarkerHead {
   background-color: #ddd;
-  
+
   background: -moz-linear-gradient(top, #ddd 0%, #aaa 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#aaa), color-stop(100%,#ddd)); /* Chrome,Safari4+ */
   background: -webkit-linear-gradient(top, #ddd 0%,#aaa 100%); /* Chrome10+,Safari5.1+ */
@@ -169,7 +169,7 @@
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ddd', endColorstr='#aaa',GradientType=0 ); /* IE6-9 */
   background-repeat: repeat-x;
   box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.2);
-  
+
   border: 1px solid #aaa;
   border-radius: 6px;
 }
@@ -181,7 +181,7 @@
   height: 30px;
   background: url('../img/timeline/nowMarker.png') center no-repeat;
   background-position: 0px -15px;
-  cursor: pointer;  
+  cursor: pointer;
 }
 
 #nowDate {
@@ -241,13 +241,13 @@
 }
 .yearMark2 {
   width: 28px;
-  margin-left: -15px;  
+  margin-left: -15px;
   background: url('../img/timeline/yearMarker2.png') no-repeat;
   background-position: 13.5px 21px;
 }
 .yearMark3 {
   width: 28px;
-  margin-left: -14px;  
+  margin-left: -14px;
   background: url('../img/timeline/yearMarker3.png') no-repeat;
   background-position: 13.5px 21px;
 }
