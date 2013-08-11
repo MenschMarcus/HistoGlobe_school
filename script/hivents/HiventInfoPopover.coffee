@@ -25,6 +25,8 @@ class HG.HiventInfoPopover
     @_titleDiv.id = "hiventInfoPopoverTitle"
     @_titleDiv.innerHTML = "title"
     @_titleDiv.style.backgroundColor = "#ccc"
+    @_titleDiv.style.height = "20px"
+    @_titleDiv.addEventListener 'mousedown', @onMouseDown, false
 
     @_closeDiv = document.createElement "div"
     @_closeDiv.id = "hiventInfoPopoverClose"
@@ -39,12 +41,21 @@ class HG.HiventInfoPopover
     @_bodyDiv.style.backgroundColor = "#fff"
     @_bodyDiv.style.height = "100%"
 
+    @_raphaelParent = document.createElement "div"
+    @_raphaelParent.id = "hiventInfoRaphaelParent"
+
+    @_raphael = Raphael @_raphaelParent, 150, 50
+    @_pointer = @_raphael.path "m0,0l150,50"
+    @_pointer.attr "fill", "#000"
+    @_raphael.setSize 0, 0, 200, 150
+
     @_titleDiv.appendChild @_closeDiv
     @_parentDiv.appendChild @_titleDiv
     @_parentDiv.appendChild @_bodyDiv
+    @_parentDiv.appendChild @_raphaelParent
+
     document.getElementsByTagName("body")[0].appendChild @_parentDiv
 
-    @_titleDiv.addEventListener 'mousedown', @onMouseDown, false
 
     @_lastMousePos = null
 

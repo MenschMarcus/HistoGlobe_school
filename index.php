@@ -51,6 +51,7 @@
     <script type="text/javascript" src="script/third-party/RequestAnimationFrame.js"></script>
     <script type="text/javascript" src="script/third-party/three.min.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.js"></script>
+    <script type="text/javascript" src="script/third-party/raphael.min.js"></script>
 
     <!-- <script type="text/javascript" src="script/histoglobe.min.js"></script> -->
 
