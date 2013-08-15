@@ -186,6 +186,7 @@ class HG.Display3D extends HG.Display
     @_renderer.setClearColor             BACKGROUND, 1.0
     @_renderer.setSize                   @_width, @_myHeight
     @_renderer.domElement.style.position = "absolute"
+    @_renderer.domElement.style.zIndex = "#{HG.Display.Z_INDEX}"
 
     @_container.appendChild @_renderer.domElement
 

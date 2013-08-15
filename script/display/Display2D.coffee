@@ -56,6 +56,7 @@ class HG.Display2D extends HG.Display
     @_mapParent = document.createElement "div"
     @_mapParent.style.width = $(@_container.parentNode).width() + "px"
     @_mapParent.style.height = $(@_container.parentNode).height() + "px"
+    @_mapParent.style.zIndex = "#{HG.Display.Z_INDEX}"
 
     @_container.appendChild @_mapParent
 

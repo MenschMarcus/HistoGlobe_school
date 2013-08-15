@@ -1,4 +1,5 @@
 #include Hivent.coffee
+#include Display.coffee
 
 window.HG ?= {}
 
@@ -9,30 +10,34 @@ class HG.HiventInfoPopover
   ##############################################################################
 
   # ============================================================================
-  constructor: (hivent) ->
+  constructor: (hivent, parentDiv) ->
 
     @_hivent = hivent
+    @_parentDiv = parentDiv
+    @_anchor = {x: 200, y: 200}
 
-    @_parentDiv = document.createElement "div"
-    @_parentDiv.id = "hiventInfoPopover"
-    @_parentDiv.style.position = "absolute"
-    @_parentDiv.style.left = "600px"
-    @_parentDiv.style.top = "200px"
-    @_parentDiv.style.width = "150px"
-    @_parentDiv.style.height = "150px"
+    @_mainDiv = document.createElement "div"
+    @_mainDiv.id = "hiventInfoPopover"
+    @_mainDiv.style.position = "absolute"
+    @_mainDiv.style.left = "600px"
+    @_mainDiv.style.top = "200px"
+    @_mainDiv.style.width = "150px"
+    @_mainDiv.style.height = "150px"
+    @_mainDiv.style.zIndex = "#{HG.Display.Z_INDEX + 2}"
+    @_mainDiv.addEventListener 'mousedown', @onMouseDown, false
 
     @_titleDiv = document.createElement "div"
     @_titleDiv.id = "hiventInfoPopoverTitle"
     @_titleDiv.innerHTML = "title"
     @_titleDiv.style.backgroundColor = "#ccc"
     @_titleDiv.style.height = "20px"
-    @_titleDiv.addEventListener 'mousedown', @onMouseDown, false
 
     @_closeDiv = document.createElement "div"
     @_closeDiv.id = "hiventInfoPopoverClose"
     @_closeDiv.innerHTML = "X"
     @_closeDiv.style.backgroundColor = "#eee"
-    @_closeDiv.style.float = "right"
+    @_closeDiv.style.styleFloat = "right"
+    @_closeDiv.style.cssFloat = "right"
     @_closeDiv.addEventListener 'mouseup', @hide, false
 
     @_bodyDiv = document.createElement "div"
@@ -41,36 +46,42 @@ class HG.HiventInfoPopover
     @_bodyDiv.style.backgroundColor = "#fff"
     @_bodyDiv.style.height = "100%"
 
-    @_raphaelParent = document.createElement "div"
-    @_raphaelParent.id = "hiventInfoRaphaelParent"
-
-    @_raphael = Raphael @_raphaelParent, 150, 50
-    @_pointer = @_raphael.path "m0,0l150,50"
-    @_pointer.attr "fill", "#000"
-    @_raphael.setSize 0, 0, 200, 150
 
     @_titleDiv.appendChild @_closeDiv
-    @_parentDiv.appendChild @_titleDiv
-    @_parentDiv.appendChild @_bodyDiv
-    @_parentDiv.appendChild @_raphaelParent
+    @_mainDiv.appendChild @_titleDiv
+    @_mainDiv.appendChild @_bodyDiv
 
-    document.getElementsByTagName("body")[0].appendChild @_parentDiv
+    document.getElementsByTagName("body")[0].appendChild @_mainDiv
 
+    @_centerPos = {
+                    x: @_mainDiv.offsetLeft + @_mainDiv.offsetWidth/2 - @_parentDiv.parentNode.offsetLeft
+                    y: @_mainDiv.offsetTop  + @_mainDiv.offsetHeight/2 - @_parentDiv.parentNode.offsetTop
+                  }
+
+    @_raphael = Raphael @_parentDiv, @_parentDiv.offsetWidth, @_parentDiv.offsetHeight
+    @_raphael.canvas.style.position = "absolute"
+    @_raphael.canvas.style.zIndex = "#{HG.Display.Z_INDEX + 3}"
+    @_raphael.canvas.style.pointerEvents = "none"
+    console.log @_parentDiv
+    @_pointer = @_raphael.path "M #{@_centerPos.x} #{@_centerPos.y}
+                                L #{@_anchor.x} #{@_anchor.y}"
+    @_pointer.attr "fill", "#fff"
+    @_pointer.attr "stroke", "#000"
 
     @_lastMousePos = null
 
   # ============================================================================
   onMouseDown: (event) =>
-    @_titleDiv.addEventListener 'mousemove', @onMouseMove, false
-    @_titleDiv.addEventListener 'mouseup', @onMouseUp, false
-    @_titleDiv.addEventListener 'mouseout', @onMouseOut, false
+    @_mainDiv.addEventListener 'mousemove', @onMouseMove, false
+    @_mainDiv.addEventListener 'mouseup', @onMouseUp, false
+    @_mainDiv.addEventListener 'mouseout', @onMouseOut, false
     event.preventDefault()
 
   # ============================================================================
   onMouseUp: (event) =>
-    @_titleDiv.removeEventListener 'mousemove', @onMouseMove, false
-    @_titleDiv.removeEventListener 'mouseup', @onMouseUp, false
-    @_titleDiv.removeEventListener 'mouseout', @onMouseOut, false
+    @_mainDiv.removeEventListener 'mousemove', @onMouseMove, false
+    @_mainDiv.removeEventListener 'mouseup', @onMouseUp, false
+    @_mainDiv.removeEventListener 'mouseout', @onMouseOut, false
     @_lastMousePos = null
 
   # ============================================================================
@@ -82,8 +93,8 @@ class HG.HiventInfoPopover
 
     @_lastMousePos ?= currentMousePos
 
-    currentDivPos = $(@_parentDiv).offset()
-    $(@_parentDiv).offset {
+    currentDivPos = $(@_mainDiv).offset()
+    $(@_mainDiv).offset {
                      left: currentDivPos.left + (currentMousePos.x - @_lastMousePos.x)
                      top:  currentDivPos.top + (currentMousePos.y - @_lastMousePos.y)
                     }
@@ -92,17 +103,17 @@ class HG.HiventInfoPopover
 
   # ============================================================================
   onMouseOut: (event) =>
-    @_titleDiv.removeEventListener 'mousemove', @onMouseMove, false
-    @_titleDiv.removeEventListener 'mouseup', @onMouseUp, false
-    @_titleDiv.removeEventListener 'mouseout', @onMouseOut, false
+    @_mainDiv.removeEventListener 'mousemove', @onMouseMove, false
+    @_mainDiv.removeEventListener 'mouseup', @onMouseUp, false
+    @_mainDiv.removeEventListener 'mouseout', @onMouseOut, false
     @_lastMousePos = null
 
   # ============================================================================
   show: =>
-    @_parentDiv.style.visibility = "visible"
+    @_mainDiv.style.visibility = "visible"
 
   # ============================================================================
   hide: =>
-    @_parentDiv.style.visibility = "hidden"
+    @_mainDiv.style.visibility = "hidden"
 
 
