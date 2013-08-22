@@ -154,9 +154,7 @@
           container = document.getElementById('map-container');
           loadTimeline();
 
-
           load2D();
-          pop = new HG.HiventInfoPopover(null, container)
 
         }
       }

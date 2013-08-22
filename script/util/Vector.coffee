@@ -10,11 +10,19 @@ class HG.Vector
   constructor: (data...) ->
     @_data = data
 
-    #swizzles if vector of dimension 4 or less
-    if @_data.length <= 4
-      attributes = ["x", "y", "z", "w"]
-      for i in [0...@_data.length]
-        @[attributes[i]] = @_data[i]
+  # ============================================================================
+  clone: ->
+    newVec = new HG.Vector()
+    for i in [0...@_data.length]
+      newVec._data.push new Object @_data[i]
+    return newVec
+
+  # ============================================================================
+  at: (index) ->
+    unless index >= @_data.length or index < 0
+      return @_data[index]
+    console.error "Cannot access Vector at index #{index}: Index out of bounds!"
+    return undefined
 
   # ============================================================================
   add: (other) ->
@@ -94,3 +102,4 @@ class HG.Vector
   normalize: ->
     @divScalar @length()
     return @
+
