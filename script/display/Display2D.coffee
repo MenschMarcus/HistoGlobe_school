@@ -70,35 +70,71 @@ class HG.Display2D extends HG.Display
 
     L.tileLayer('data/tiles/{z}/{x}/{y}.png').addTo @_map
 
-    # boundaries ---------------------------------------------------------------
-    $.getJSON "data/ne_50m_admin_0_boundary_lines_land.json", (statesData) =>
+    # # boundaries ---------------------------------------------------------------
+    # $.getJSON "data/world.json", (statesData) =>
 
-      normalStyle =
-        color:        "#FFEDC6"
-        weight:       2
-        opacity:      1
+    #   normalStyle =
+    #     color:        "#FFEDC6"
+    #     weight:       2
+    #     opacity:      1
 
-      options =
-        style: normalStyle
+    #   options =
+    #     style: normalStyle
 
-      data = topojson.feature statesData, statesData.objects.ne_50m_admin_0_boundary_lines_land
+    #   data = topojson.feature statesData, statesData.objects.geo
 
-      boundaryLayer = L.geoJson(data, options)
-      boundaryLayer.addTo @_map
+    #   boundaryLayer = L.geoJson(data, options)
+    #   boundaryLayer.addTo @_map
+
+    eu = {
+      "BEL": new Date(1958, 1, 1)
+      "FR1": new Date(1958, 1, 1)
+      "ITA": new Date(1958, 1, 1)
+      "LUX": new Date(1958, 1, 1)
+      "NL1": new Date(1958, 1, 1)
+      "DEU": new Date(1958, 1, 1)
+      "DN1": new Date(1973, 1, 1)
+      "IRL": new Date(1973, 1, 1)
+      "GB1": new Date(1973, 1, 1)
+      "GRC": new Date(1981, 1, 1)
+      "PRT": new Date(1986, 1, 1)
+      "ESP": new Date(1986, 1, 1)
+      "FI1": new Date(1995, 1, 1)
+      "AUT": new Date(1995, 1, 1)
+      "SWE": new Date(1995, 1, 1)
+      "EST": new Date(2004, 5, 1)
+      "LVA": new Date(2004, 5, 1)
+      "LTU": new Date(2004, 5, 1)
+      "MLT": new Date(2004, 5, 1)
+      "POL": new Date(2004, 5, 1)
+      "SVK": new Date(2004, 5, 1)
+      "SVN": new Date(2004, 5, 1)
+      "CZE": new Date(2004, 5, 1)
+      "HUN": new Date(2004, 5, 1)
+      "CYP": new Date(2004, 5, 1)
+      "BGR": new Date(2007, 1, 1)
+      "ROU": new Date(2007, 1, 1)
+      "HRV": new Date(2013, 7, 1)
+    }
+
+    now = new Date(2014, 1, 1)
+
+    getColor = (state) ->
+      if eu[state]? and eu[state] < now then "#ff5511" else "#ffffff"
 
     # areas --------------------------------------------------------------------
-    $.getJSON "data/world_low.json", (statesData) =>
+    $.getJSON "data/geo.json", (statesData) =>
       highlightStyle =
         fillColor:    "#000000"
         weight:       0
         opacity:      0
-        fillOpacity:  0.05
+        fillOpacity:  0.5
 
-      normalStyle =
-        fillColor:    "#000000"
+      normalStyle = (feature) ->
+        fillColor:    getColor(feature.properties.sov_a3)
         weight:       0
         opacity:      0
-        fillOpacity:  0
+        fillOpacity:  0.2
 
       options =
         style: normalStyle
@@ -108,23 +144,10 @@ class HG.Display2D extends HG.Display
           mouseout:   (e) => boundaryLayer.resetStyle e.target
         )
 
-      data = topojson.feature statesData, statesData.objects.countries
+      # data = topojson.feature statesData, statesData.objects.geo
 
-      boundaryLayer = L.geoJson(data, options)
+      boundaryLayer = L.geoJson(statesData, options)
       boundaryLayer.addTo @_map
-
-    # africa -------------------------------------------------------------------
-    # $.getJSON "data/africa.json", (statesData) =>
-    #   normalStyle =
-    #     color:        "#AD9B76"
-    #     weight:       2
-    #     opacity:      1
-
-    #   options =
-    #     style: normalStyle
-
-    #   boundaryLayer = L.geoJson(statesData, options)
-    #   boundaryLayer.addTo @_map
 
     @_isRunning = true
 
