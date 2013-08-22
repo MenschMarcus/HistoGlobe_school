@@ -3,6 +3,7 @@
 cFiles="script/util/Mixin.coffee \
         script/util/CallbackContainer.coffee \
         script/util/VideoPlayer.coffee \
+        script/util/Vector.coffee \
         script/display/Display3D.coffee \
         script/display/Display2D.coffee \
         script/display/Display.coffee \
@@ -33,6 +34,7 @@ jFiles="build/Mixin.js \
         build/HiventMarker3D.js \
         build/HiventMarkerTimeline.js \
         build/HiventInfoPopover.js \
+        build/Vector.js \
         build/VideoPlayer.js \
         script/util/BrowserDetect.js"
 
