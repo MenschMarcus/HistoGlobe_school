@@ -56,6 +56,7 @@
 
     <script type="text/javascript" src="build/Mixin.js"></script>
     <script type="text/javascript" src="build/CallbackContainer.js"></script>
+    <script type="text/javascript" src="build/Vector.js"></script>
     <script type="text/javascript" src="build/Display.js"></script>
     <script type="text/javascript" src="build/Display3D.js"></script>
     <script type="text/javascript" src="build/Hivent.js"></script>
@@ -211,6 +212,7 @@
           $(display2D.getCanvas()).animate({opacity: 0.0}, 1000, 'linear');
           display2D.stop();
         }
+
       }
 
       function load2D() {
