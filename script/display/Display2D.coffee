@@ -52,14 +52,14 @@ class HG.Display2D extends HG.Display
         layer.on(
           click: (e) =>
             @_map.fitBounds e.target.getBounds()
-            # if e.target._layers?
-            #   for id, path of e.target._layers
-            #     console.log path._path.className = "huhu"
-            # else
-            #   console.log e.target._path
 
-          mouseover:  (e) => e.target.setStyle areaLayer.getHighlightStyle()
-          mouseout:   (e) => leafletLayer.resetStyle e.target
+          mouseover: (e) =>
+            @_animate e.target, {"fill-opacity": 0.5}, 150
+            # e.target.setStyle areaLayer.getHighlightStyle()
+
+          mouseout: (e) =>
+            @_animate e.target, {"fill-opacity": 0.2}, 150
+            # leafletLayer.resetStyle e.target
         )
 
     areaLayer.onStyleChanged (layer) =>
@@ -109,6 +109,14 @@ class HG.Display2D extends HG.Display
       marker = new HG.HiventMarker2D handle, this, @_map for handle in handles
 
     @_map.on "click", HG.deactivateAllHivents
+
+  # ============================================================================
+  _animate: (area, attributes, durartion) ->
+    if area._layers?
+      for id, path of area._layers
+        d3.select(path._path).transition().duration(durartion).attr(attributes)
+    else if area._path?
+      d3.select(area._path).transition().duration(durartion).attr(attributes)
 
   # ============================================================================
   _initAreas: ->
