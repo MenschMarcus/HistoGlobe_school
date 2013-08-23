@@ -1,4 +1,4 @@
-function timeline(inHiventHandler) {
+function timeline(hiventController) {
 
   // create empty timeline object and fill it with member functions
   var timeline = {};
@@ -83,11 +83,11 @@ function timeline(inHiventHandler) {
     /* INIT MEMBER VARIABLES */
 
     // general histoglobe
-    now.date = 1825; // now = today
+    now.date = dateToDecYear(new Date());; // now = today
     now.marker = $("#nowMarkerWrap")[0];
     now.marker.markerDate = now;          // self-reference, so that now.marker refers to now date
-    minDate = 1820;                       // no historical information before 1800
-    maxDate = 1845;                   // prevents futuristic timeline
+    minDate = 1950;                       // no historical information before 1800
+    maxDate = now.date;                   // prevents futuristic timeline
 
     // scroller
     tlMain = $("#tlMain")[0];
@@ -317,7 +317,7 @@ function timeline(inHiventHandler) {
 
   function periodChanged() {
 
-    // inHiventHandler.setTimeFilter(currentTimeFilter);
+    // hiventController.setTimeFilter(currentTimeFilter);
     var d1 = posToDate($(tlMain).scrollLeft());
     var d2 = posToDate(tlMain.offsetWidth+$(tlMain).scrollLeft());
     for (var i in listeners) {
@@ -441,7 +441,7 @@ function timeline(inHiventHandler) {
   /** HISTORICAL EVENT MARKER **/
 
   function initHivents() {
-    inHiventHandler.onHiventsChanged(function(handles){
+    hiventController.onHiventsChanged(function(handles){
 
       hiventMarkers = [];
 

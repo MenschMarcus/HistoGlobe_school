@@ -60,12 +60,10 @@
     <script type="text/javascript" src="build/Display3D.js"></script>
     <script type="text/javascript" src="build/Hivent.js"></script>
     <script type="text/javascript" src="build/Display2D.js"></script>
-    <script type="text/javascript" src="script/histrips/Histrip.js"></script>
-    <script type="text/javascript" src="script/histrips/HistripHandle.js"></script>
-    <script type="text/javascript" src="script/histrips/HistripHandler.js"></script>
-    <script type="text/javascript" src="script/histrips/HistripMarker.js"></script>
     <script type="text/javascript" src="build/HiventController.js"></script>
     <script type="text/javascript" src="build/HiventHandle.js"></script>
+    <script type="text/javascript" src="build/AreaLayer.js"></script>
+    <script type="text/javascript" src="build/AreaController.js"></script>
     <script type="text/javascript" src="script/hivents/HiventInfoPopover.js"></script>
     <script type="text/javascript" src="build/HiventMarker.js"></script>
     <script type="text/javascript" src="build/HiventMarker2D.js"></script>
@@ -87,7 +85,7 @@
 	  </script>
 
     <script type="text/javascript">
-      var display2D, display3D, timeline, hiventController, histripHandler;
+      var display2D, display3D, timeline, hiventController, areaController;
       var timelineInitialized = false;
       var container;
       var player;
@@ -147,10 +145,11 @@
           $('.hero-unit').height(window.innerHeight * 0.8);
 
           hiventController = new HG.HiventController("data/hivents.json");
-          histripHandler = new HG.HistripHandler();
 
           container = document.getElementById('map-container');
           loadTimeline();
+
+          areaController = new HG.AreaController(timeline);
 
           load2D();
 
@@ -223,7 +222,7 @@
         }
 
         if (!display2D) {
-          display2D = new HG.Display2D(container, hiventController);
+          display2D = new HG.Display2D(container, hiventController, areaController);
           $(display2D.getCanvas()).css({opacity: 0.0});
         }
 
@@ -241,7 +240,7 @@
           }
 
           if (!display3D) {
-            display3D = new HG.Display3D(container, hiventController);
+            display3D = new HG.Display3D(container, hiventController, areaController);
             $(display3D.getCanvas()).css({opacity: 0.0});
           }
 

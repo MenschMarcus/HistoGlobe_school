@@ -5,6 +5,8 @@ cFiles="script/util/Mixin.coffee \
         script/display/Display3D.coffee \
         script/display/Display2D.coffee \
         script/display/Display.coffee \
+        script/areas/AreaLayer.coffee \
+        script/areas/AreaController.coffee \
         script/hivents/HiventHandle.coffee \
         script/hivents/HiventController.coffee \
         script/hivents/Hivent.coffee \
@@ -17,11 +19,9 @@ jFiles="build/Mixin.js \
         build/Display.js \
         build/Display2D.js \
         build/Display3D.js \
+        build/AreaLayer.js \
+        build/AreaController.js \
         script/timeline/Timeline.js \
-        script/histrips/Histrip.js \
-        script/histrips/HistripHandle.js \
-        script/histrips/HistripHandler.js \
-        script/histrips/HistripMarker.js \
         build/Hivent.js \
         build/HiventHandle.js \
         build/HiventController.js \
@@ -39,5 +39,3 @@ fi
 coffee -c -o build $cFiles
 
 uglifyjs $jFiles -o script/histoglobe.min.js #-mc
-
-#xdg-open http://localhost/HistoGlobe

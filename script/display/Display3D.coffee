@@ -1,7 +1,3 @@
-#include Display.coffee
-#include HiventHandler.js
-#include HiventMarker3D.js
-
 window.HG ?= {}
 
 class HG.Display3D extends HG.Display
@@ -11,10 +7,10 @@ class HG.Display3D extends HG.Display
   ##############################################################################
 
   # ============================================================================
-  constructor: (container, hiventHandler) ->
+  constructor: (container, hiventController, areaController) ->
 
     @_container = container
-    @_hiventHandler = hiventHandler
+    @_hiventHandler = hiventController
     @_initMembers()
     @_initWindowGeometry()
     @_initGlobe()
