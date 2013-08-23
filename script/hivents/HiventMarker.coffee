@@ -33,7 +33,7 @@ class HG.HiventMarker
 
     $(@_hiventInfo).popover {title: hivent.name, placement: "top", html: "true", content: hiventContent}
 
-    @_pop = new HG.HiventInfoPopover(hivent, new HG.Vector(700, 400), parent)
+    @_popover = new HG.HiventInfoPopover(hivent, new HG.Vector(0, 0), document.getElementsByTagName("body")[0])
 
     HIVENT_INFO_COUNT++
 
@@ -55,14 +55,15 @@ class HG.HiventMarker
   showHiventInfo: (displayPosition) =>
     @_hiventInfo.style.left = displayPosition.x + "px"
     @_hiventInfo.style.top = displayPosition.y + "px"
-    # $(@_hiventInfo).popover "show"
+    @_updatePopoverAnchor displayPosition
+    @_popover.positionWindowAtAnchor()
+    @_popover.show()
     $(@_hiventInfo).tooltip "hide"
-    @_pop.show()
 
   # ============================================================================
   hideHiventInfo: (displayPosition) =>
     # $(@_hiventInfo).popover "hide"
-    @_pop.hide()
+    @_popover.hide()
 
   # ============================================================================
   enableShowName: ->
@@ -78,6 +79,10 @@ class HG.HiventMarker
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
+
+  # ============================================================================
+  _updatePopoverAnchor: (position)->
+    @_popover.setAnchor new HG.Vector(position.x, position.y)
 
   # ============================================================================
   _destroy: =>

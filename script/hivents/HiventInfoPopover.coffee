@@ -16,6 +16,7 @@ class HG.HiventInfoPopover
     @_hivent = hivent
     @_parentDiv = parentDiv
     @_anchor = anchor
+    @_contentLoaded = false
 
     @_mainDiv = document.createElement "div"
     @_mainDiv.id = "hiventInfoPopover"
@@ -24,7 +25,8 @@ class HG.HiventInfoPopover
     @_mainDiv.style.top = "#{anchor.at(1) + WINDOW_TO_ANCHOR_OFFSET_Y}px"
     @_mainDiv.style.width = "#{BODY_DEFAULT_WIDTH}px"
     @_mainDiv.style.height = "#{BODY_DEFAULT_HEIGHT}px"
-    @_mainDiv.style.zIndex = "#{HG.Display.Z_INDEX + 2}"
+    @_mainDiv.style.zIndex = "#{HG.Display.Z_INDEX + 10}"
+    @_mainDiv.style.visibility = "hidden"
     @_mainDiv.addEventListener 'mousedown', @_onMouseDown, false
 
     @_titleDiv = document.createElement "div"
@@ -43,7 +45,6 @@ class HG.HiventInfoPopover
 
     @_bodyDiv = document.createElement "div"
     @_bodyDiv.id = "hiventInfoPopoverBody"
-    @_bodyDiv.innerHTML = "body"
     @_bodyDiv.style.backgroundColor = "#fff"
     @_bodyDiv.style.height = "100%"
 
@@ -52,13 +53,16 @@ class HG.HiventInfoPopover
     @_mainDiv.appendChild @_titleDiv
     @_mainDiv.appendChild @_bodyDiv
 
+    document.getElementsByTagName("body")[0].appendChild @_mainDiv
+
     @_centerPos = new HG.Vector 0, 0
     @_updateCenterPos()
 
     @_raphael = Raphael @_parentDiv, @_parentDiv.offsetWidth, @_parentDiv.offsetHeight
     @_raphael.canvas.style.position = "absolute"
-    @_raphael.canvas.style.zIndex = "#{HG.Display.Z_INDEX + 1}"
+    @_raphael.canvas.style.zIndex = "#{HG.Display.Z_INDEX + 9}"
     @_raphael.canvas.style.pointerEvents = "none"
+    @_raphael.canvas.style.visibility = "hidden"
 
     @_arrow = @_raphael.path ""
     @_updateArrow()
@@ -68,20 +72,30 @@ class HG.HiventInfoPopover
 
   # ============================================================================
   show: =>
-    unless @_addedToDOM
-      document.getElementsByTagName("body")[0].appendChild @_mainDiv
-      @_addedToDOM = true
+    unless @_contentLoaded
+      content = document.createElement "IFRAME"
+      content.setAttribute "src", "http://www.histoglobe.com"
+      content.style.width = "200px"
+      content.style.height = "200px"
+      @_bodyDiv.appendChild content
+      @_contentLoaded = true
     @_mainDiv.style.visibility = "visible"
-    @_arrow.show()
+    @_raphael.canvas.style.visibility = "visible"
 
   # ============================================================================
   hide: =>
     @_mainDiv.style.visibility = "hidden"
-    @_arrow.hide()
+    @_raphael.canvas.style.visibility = "hidden"
+
+  # ============================================================================
+  positionWindowAtAnchor: ->
+    @_updateWindowPos()
+    @_updateCenterPos()
+    @_updateArrow()
 
   # ============================================================================
   setAnchor: (anchor) ->
-    @_anchor = anchor
+    @_anchor = anchor.clone()
     @_updateArrow()
 
   ##############################################################################
@@ -89,11 +103,19 @@ class HG.HiventInfoPopover
   ##############################################################################
 
   # ============================================================================
+  _updateWindowPos: ->
+    $(@_mainDiv).offset {
+                          left: @_anchor.at(0) - WINDOW_TO_ANCHOR_OFFSET_X - BODY_DEFAULT_WIDTH
+                          top: @_anchor.at(1) - WINDOW_TO_ANCHOR_OFFSET_Y - BODY_DEFAULT_HEIGHT
+                        }
+
+  # ============================================================================
   _updateCenterPos: ->
+    parentOffset = $(@_parentDiv).offset()
     @_centerPos = new HG.Vector(@_mainDiv.offsetLeft + @_mainDiv.offsetWidth/2 -
-                                @_parentDiv.parentNode.offsetLeft + ARROW_ROOT_OFFSET_X,
+                                parentOffset.left + ARROW_ROOT_OFFSET_X,
                                 @_mainDiv.offsetTop  + @_mainDiv.offsetHeight/2 -
-                                @_parentDiv.parentNode.offsetTop + ARROW_ROOT_OFFSET_Y)
+                                parentOffset.top + ARROW_ROOT_OFFSET_Y)
 
   # ============================================================================
   _updateArrow: ->

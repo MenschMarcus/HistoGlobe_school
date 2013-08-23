@@ -19,7 +19,8 @@ class HG.HiventMarker2D extends L.Marker
 
     VISIBLE_MARKERS_2D.push @
 
-    @_map = map;
+    @_display = display
+    @_map = map
 
     @addTo @_map
 
@@ -30,13 +31,12 @@ class HG.HiventMarker2D extends L.Marker
     @on "mouseout", @_onMouseOut
     @on "click", @_onClick
     @_map.on "zoomend", @_updatePosition
-    @_map.on "dragend", @_updatePosition
+    @_map.on "drag", @_updatePosition
     @_map.on "viewreset", @_updatePosition
-    @_map.on "zoomstart", @hideHiventInfo
 
     @getHiventHandle().onFocus(@, (mousePos) =>
-      if display.isRunning()
-        display.focus @getHiventHandle().getHivent()
+      if @_display.isRunning()
+        @_display.focus @getHiventHandle().getHivent()
     )
 
     @getHiventHandle().onDestruction @, @_destroy
@@ -68,23 +68,27 @@ class HG.HiventMarker2D extends L.Marker
 
   # ============================================================================
   _onClick: (e) =>
-    pos = {
-            x : @_position.x,
-            y : @_position.y - HIVENT_MARKER_2D_RADIUS
-          }
-    @getHiventHandle().toggleActive @, pos
+    @getHiventHandle().toggleActive @, @_getDisplayPosition()
 
   # ============================================================================
   _updatePosition: =>
-      @_position = @_map.latLngToLayerPoint @getLatLng()
+    @_position = @_map.latLngToLayerPoint @getLatLng()
+    @_updatePopoverAnchor @_getDisplayPosition()
 
+
+  # ============================================================================
+  _getDisplayPosition: ->
+    pos =  @_map.layerPointToContainerPoint(new L.Point @_position.x, @_position.y - HIVENT_MARKER_2D_RADIUS )
+    offset = $(@_map.getContainer()).offset()
+    pos.x += offset.left
+    pos.y += offset.top + HIVENT_MARKER_2D_RADIUS / 2
+    pos
 
   # ============================================================================
   _destroy: =>
     @_map.off "zoomend", @_updatePosition
-    @_map.off "dragend", @_updatePosition
+    @_map.off "drag", @_updatePosition
     @_map.off "viewreset", @_updatePosition
-    @_map.off "zoomstart", @hideHiventInfo
     @_map.removeLayer(@)
     delete @
     return
