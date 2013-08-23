@@ -138,16 +138,57 @@ class HG.Display2D extends HG.Display
 
       options =
         style: normalStyle
-        onEachFeature:  (feature, layer) => layer.on(
-          click:      (e) => @_map.fitBounds e.target.getBounds()
-          mouseover:  (e) => e.target.setStyle highlightStyle
-          mouseout:   (e) => boundaryLayer.resetStyle e.target
-        )
+        onEachFeature:  (feature, layer) => 
+          #coord2 = feature.geometry.coordinates[0][0][0][0]
+          #coord1 = feature.geometry.coordinates[0][0][0][1]
+          coord2 = feature.geometry.coordinates[0][0][0]
+          coord1 = feature.geometry.coordinates[0][0][1]
+
+          array = feature.geometry.coordinates
+          if feature.geometry.coordinates.length == 1
+            array = array[0]
+          console.log array
+          if coord2[0] isnt undefined and coord1[0] isnt undefined
+            coord2 = coord1[0]
+            coord1 = coord1[1]
+
+          if coord1 isnt undefined and coord2 isnt undefined
+            polygon = L.polyline([
+              [coord1, coord2],
+              [coord1, coord2],
+              [coord1, coord2],
+            ])
+            label = new L.Label();
+            label.setContent(feature.properties.admin)
+            label.setLatLng(polygon.getBounds().getCenter())
+            @_map.showLabel(label)
+
+          layer.on(
+            click:      (e) => console.log e.target.feature.geometry.coordinates
+            #click:      (e) => @_map.fitBounds e.target.getBounds()
+            mouseover:  (e) => e.target.setStyle highlightStyle
+            mouseout:   (e) => boundaryLayer.resetStyle e.target
+          )
 
       # data = topojson.feature statesData, statesData.objects.geo
 
       boundaryLayer = L.geoJson(statesData, options)
       boundaryLayer.addTo @_map
+
+
+      # polygon = L.polyline([
+      #   [50.7612, 10.2756],
+      #   [50.7702, 10.2796],
+      #   [50.7802, 10.2750],
+      #   ])
+
+      # label = new L.Label();
+      # label.setContent('Germany')
+      # label.setLatLng(polygon.getBounds().getCenter())
+      # @_map.showLabel(label)
+
+
+
 
     @_isRunning = true
 

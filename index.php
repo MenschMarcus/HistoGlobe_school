@@ -42,6 +42,8 @@
 
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/timeline.css">
+    <link rel="stylesheet" type="text/css" href="css/third-party/leaflet.label.css">
+    <link rel="stylesheet" type="text/css" href="css/leaflet-overwrite.css">
 
     <script type="text/javascript" src="script/third-party/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.browser.js"></script>
@@ -52,6 +54,7 @@
     <script type="text/javascript" src="script/third-party/three.min.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.js"></script>
     <script type="text/javascript" src="script/third-party/topojson.js"></script>
+    <script type="text/javascript" src="script/third-party/leaflet.label.js"></script>
 
     <!-- <script type="text/javascript" src="script/histoglobe.min.js"></script> -->
 
