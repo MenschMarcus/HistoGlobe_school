@@ -49,13 +49,11 @@ class HG.HiventController
       for h in hivents
         hivent = new HG.Hivent(
           h.name,
-          h.category,
           new Date(h.date),
           h.displayDate,
           h.long,
           h.lat,
-          h.description,
-          h.parties
+          h.content,
         )
 
         @_hiventHandles.push(new HG.HiventHandle hivent)

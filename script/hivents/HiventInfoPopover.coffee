@@ -18,20 +18,22 @@ class HG.HiventInfoPopover
     @_anchor = anchor
     @_contentLoaded = false
 
+    @_width = BODY_DEFAULT_WIDTH
+    @_height = BODY_DEFAULT_HEIGHT
+
     @_mainDiv = document.createElement "div"
     @_mainDiv.id = "hiventInfoPopover"
     @_mainDiv.style.position = "absolute"
     @_mainDiv.style.left = "#{anchor.at(0) + WINDOW_TO_ANCHOR_OFFSET_X}px"
     @_mainDiv.style.top = "#{anchor.at(1) + WINDOW_TO_ANCHOR_OFFSET_Y}px"
-    @_mainDiv.style.width = "#{BODY_DEFAULT_WIDTH}px"
-    @_mainDiv.style.height = "#{BODY_DEFAULT_HEIGHT}px"
+    @_mainDiv.style.width = "#{@_width}px"
+    @_mainDiv.style.height = "#{@_height}px"
     @_mainDiv.style.zIndex = "#{HG.Display.Z_INDEX + 10}"
     @_mainDiv.style.visibility = "hidden"
     @_mainDiv.addEventListener 'mousedown', @_onMouseDown, false
 
     @_titleDiv = document.createElement "div"
     @_titleDiv.id = "hiventInfoPopoverTitle"
-    @_titleDiv.innerHTML = "title"
     @_titleDiv.style.backgroundColor = "#ccc"
     @_titleDiv.style.height = "#{TITLE_DEFAULT_HEIGHT}px"
 
@@ -74,11 +76,16 @@ class HG.HiventInfoPopover
   show: =>
     unless @_contentLoaded
       content = document.createElement "IFRAME"
-      content.setAttribute "src", "http://www.histoglobe.com"
-      content.style.width = "200px"
-      content.style.height = "200px"
+      content.setAttribute "src", @_hivent.content
+      content.setAttribute "frameborder", "0"
       @_bodyDiv.appendChild content
+      if content.offsetHeight < @_height
+        content.setAttribute "height", "#{@_height}px"
+
+      if content.offsetWidth > @_width
+        @_resize(content.offsetWidth, @_height)
       @_contentLoaded = true
+
     @_mainDiv.style.visibility = "visible"
     @_raphael.canvas.style.visibility = "visible"
 
@@ -105,8 +112,8 @@ class HG.HiventInfoPopover
   # ============================================================================
   _updateWindowPos: ->
     $(@_mainDiv).offset {
-                          left: @_anchor.at(0) - WINDOW_TO_ANCHOR_OFFSET_X - BODY_DEFAULT_WIDTH
-                          top: @_anchor.at(1) - WINDOW_TO_ANCHOR_OFFSET_Y - BODY_DEFAULT_HEIGHT
+                          left: @_anchor.at(0) - WINDOW_TO_ANCHOR_OFFSET_X - @_width
+                          top: @_anchor.at(1) - WINDOW_TO_ANCHOR_OFFSET_Y - @_height
                         }
 
   # ============================================================================
@@ -116,6 +123,13 @@ class HG.HiventInfoPopover
                                 parentOffset.left + ARROW_ROOT_OFFSET_X,
                                 @_mainDiv.offsetTop  + @_mainDiv.offsetHeight/2 -
                                 parentOffset.top + ARROW_ROOT_OFFSET_Y)
+
+  # ============================================================================
+  _resize: (width, height) ->
+    @_width = Math.min width, BODY_MAX_WIDTH
+    @_height = Math.min height, BODY_MAX_HEIGHT
+    @_mainDiv.style.width = "#{@_width}px"
+    @_mainDiv.style.height = "#{@_height}px"
 
   # ============================================================================
   _updateArrow: ->
@@ -179,11 +193,13 @@ class HG.HiventInfoPopover
   #                             STATIC MEMBERS                                 #
   ##############################################################################
 
-  ARROW_ROOT_WIDTH = 20
+  ARROW_ROOT_WIDTH = 30
   ARROW_ROOT_OFFSET_X = 0
   ARROW_ROOT_OFFSET_Y = 60
   WINDOW_TO_ANCHOR_OFFSET_X = 30
   WINDOW_TO_ANCHOR_OFFSET_Y = -140
-  BODY_DEFAULT_WIDTH = 150
-  BODY_DEFAULT_HEIGHT = 150
+  BODY_DEFAULT_WIDTH = 200
+  BODY_MAX_WIDTH = 400
+  BODY_DEFAULT_HEIGHT = 200
+  BODY_MAX_HEIGHT = 400
   TITLE_DEFAULT_HEIGHT = 20

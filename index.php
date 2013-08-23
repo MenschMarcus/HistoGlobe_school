@@ -42,7 +42,6 @@
 
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/timeline.css">
-    <link rel="stylesheet" type="text/css" href="css/hivent-info.css">
 
     <script type="text/javascript" src="script/third-party/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.browser.js"></script>
@@ -149,7 +148,7 @@
           $('.hero-unit').css({"background-image": "none"});
           $('.hero-unit').height(window.innerHeight * 0.8);
 
-          hiventController = new HG.HiventController("data/hivents.json");
+          hiventController = new HG.HiventController("data/hivent_collection.json");
           histripHandler = new HG.HistripHandler();
 
           container = document.getElementById('map-container');

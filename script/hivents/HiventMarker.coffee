@@ -29,10 +29,6 @@ class HG.HiventMarker
 
     $(@_hiventInfo).tooltip {title: hivent.name, placement: "top"}
 
-    hiventContent = "<p align=\"right\">" + hivent.displayDate + "</p>" + hivent.description
-
-    $(@_hiventInfo).popover {title: hivent.name, placement: "top", html: "true", content: hiventContent}
-
     @_popover = new HG.HiventInfoPopover(hivent, new HG.Vector(0, 0), document.getElementsByTagName("body")[0])
 
     HIVENT_INFO_COUNT++
@@ -62,7 +58,6 @@ class HG.HiventMarker
 
   # ============================================================================
   hideHiventInfo: (displayPosition) =>
-    # $(@_hiventInfo).popover "hide"
     @_popover.hide()
 
   # ============================================================================

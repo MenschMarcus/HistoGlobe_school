@@ -39,3 +39,14 @@ class HG.CallbackContainer
       for j in [0...@[arrayName][i][1].length]
         @[arrayName][i][1][j].apply @[arrayName][i][0], parameters
 
+  # ============================================================================
+  removeListener: (callbackName, listenerToBeRemoved) ->
+    arrayName = "_#{callbackName}Callbacks"
+    for i in [0...@[arrayName].length]
+      if @[arrayName][i][0] == listenerToBeRemoved
+        @[arrayName].splice i,1
+
+  # ============================================================================
+  removeListener: (callbackName) ->
+    arrayName = "_#{callbackName}Callbacks"
+    @[arrayName] = []

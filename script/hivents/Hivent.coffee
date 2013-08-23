@@ -6,16 +6,14 @@ class HG.Hivent
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
-  constructor: (inName, inCategory, inDate, inDisplayDate,
-                inLong, inLat, inDescription, inParties) ->
+  constructor: (name, date, displayDate,
+                long, lat, content) ->
 
 
-    @name = inName
-    @category = inCategory
-    @date = inDate
-    @displayDate = inDisplayDate
-    @long = inLong
-    @lat = inLat
-    @description = inDescription
-    @parties = inParties
+    @name = name
+    @date = date
+    @displayDate = displayDate
+    @long = long
+    @lat = lat
+    @content = content
 

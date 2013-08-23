@@ -1,0 +1,33 @@
+@font-face {
+  font-family: roman_caps;
+  src: url('../../../font/lmromancaps10-regular.otf');
+}
+
+body {
+  text-align: justify;
+  font-size: 9pt;
+  padding-left: 0px;
+}
+
+h2, h3, h4 {
+  font-family: roman_caps;
+  color: #505050;
+  text-align: left;
+}
+
+h2 {
+  font-size: 12pt;
+}
+
+h3 {
+  font-size: 10pt;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #ddd;
+}
