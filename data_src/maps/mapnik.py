@@ -37,14 +37,14 @@ class GoogleProjection:
             self.zc.append((e,e))
             self.Ac.append(c)
             c *= 2
-                
+
     def fromLLtoPixel(self,ll,zoom):
          d = self.zc[zoom]
          e = round(d[0] + ll[0] * self.Bc[zoom])
          f = minmax(sin(DEG_TO_RAD * ll[1]),-0.9999,0.9999)
          g = round(d[1] + 0.5*log((1+f)/(1-f))*-self.Cc[zoom])
          return (e,g)
-     
+
     def fromPixelToLL(self,px,zoom):
          e = self.zc[zoom]
          f = (px[0] - e[0])/self.Bc[zoom]
@@ -62,10 +62,10 @@ class RenderThread:
         self.printLock = printLock
         # Load style XML
         mapnik.load_map(self.m, mapfile, True)
-        
+
         # Obtain <Map> projection
         self.prj = mapnik.Projection(self.m.srs)
-        
+
         # Projects between tile pixel co-ordinates and LatLong (EPSG:4326)
         self.tileproj = GoogleProjection(maxZoom+1)
 
@@ -140,7 +140,7 @@ def render_tiles(bbox, mapfile, tile_dir, minZoom=1,maxZoom=18, name="unknown", 
     if not os.path.isdir(tile_dir):
          os.mkdir(tile_dir)
 
-    gprj = GoogleProjection(maxZoom+1) 
+    gprj = GoogleProjection(maxZoom+1)
 
     ll0 = (bbox[0],bbox[3])
     ll1 = (bbox[2],bbox[1])
@@ -208,4 +208,4 @@ if __name__ == "__main__":
     # Start with an overview
     # World
     bbox = (-180.0,-90.0, 180.0,90.0)
-    render_tiles(bbox, mapfile, tile_dir, 0, 6, "World")
+    render_tiles(bbox, mapfile, tile_dir, 7, 7, "World")
