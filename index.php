@@ -32,16 +32,15 @@
     <title>HistoGlobe</title>
 
     <link rel="icon" type="image/png" href="img/favicon.png">
-    <link rel="stylesheet" type="text/css" href="css/third-party/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/third-party/bootstrap-responsive.min.css">
-    <link rel="stylesheet" type="text/css" href="css/third-party/font-awesome.min.css">
-    <link rel="stylesheet" href="css/third-party/leaflet.css" />
+    <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap-responsive.min.css">
+    <link rel="stylesheet" type="text/css" href="style/third-party/font-awesome.min.css">
+    <link rel="stylesheet" href="style/third-party/leaflet.css" />
     <!--[if lte IE 8]>
-      <link rel="stylesheet" href="css/third-party/leaflet.ie.css" />
+      <link rel="stylesheet" href="style/third-party/leaflet.ie.css" />
     <![endif]-->
 
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="css/timeline.css">
+    <link rel="stylesheet" type="text/css" href="style/histoglobe.min.css">
 
     <script type="text/javascript" src="script/third-party/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.browser.js"></script>

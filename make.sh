@@ -46,4 +46,6 @@ coffee -c -o build $cFiles
 
 uglifyjs $jFiles -o script/histoglobe.min.js #-mc
 
+lessc --no-color -x style/main.less style/histoglobe.min.css
+
 #xdg-open http://localhost/HistoGlobe

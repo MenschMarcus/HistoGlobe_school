@@ -22,33 +22,34 @@ class HG.HiventInfoPopover
     @_height = BODY_DEFAULT_HEIGHT
 
     @_mainDiv = document.createElement "div"
-    @_mainDiv.id = "hiventInfoPopover"
+    @_mainDiv.className = "hiventInfoPopover"
     @_mainDiv.style.position = "absolute"
     @_mainDiv.style.left = "#{anchor.at(0) + WINDOW_TO_ANCHOR_OFFSET_X}px"
     @_mainDiv.style.top = "#{anchor.at(1) + WINDOW_TO_ANCHOR_OFFSET_Y}px"
-    @_mainDiv.style.width = "#{@_width}px"
-    @_mainDiv.style.height = "#{@_height}px"
+    # @_mainDiv.style.width = "#{@_width}px"
+    # @_mainDiv.style.height = "#{@_height}px"
     @_mainDiv.style.zIndex = "#{HG.Display.Z_INDEX + 10}"
     @_mainDiv.style.visibility = "hidden"
     @_mainDiv.addEventListener 'mousedown', @_onMouseDown, false
 
     @_titleDiv = document.createElement "div"
-    @_titleDiv.id = "hiventInfoPopoverTitle"
-    @_titleDiv.style.backgroundColor = "#ccc"
-    @_titleDiv.style.height = "#{TITLE_DEFAULT_HEIGHT}px"
+    @_titleDiv.className = "hiventInfoPopoverTitle"
+    @_titleDiv.innerHTML = hivent.name
+    # @_titleDiv.style.backgroundColor = "#ccc"
+    # @_titleDiv.style.height = "#{TITLE_DEFAULT_HEIGHT}px"
 
     @_closeDiv = document.createElement "div"
-    @_closeDiv.id = "hiventInfoPopoverClose"
-    @_closeDiv.innerHTML = "X"
-    @_closeDiv.style.backgroundColor = "#eee"
-    @_closeDiv.style.styleFloat = "right"
-    @_closeDiv.style.cssFloat = "right"
+    @_closeDiv.className = "hiventInfoPopoverClose"
+    @_closeDiv.innerHTML = "&#10006;"
+    # @_closeDiv.style.backgroundColor = "#eee"
+    # @_closeDiv.style.styleFloat = "right"
+    # @_closeDiv.style.cssFloat = "right"
     @_closeDiv.addEventListener 'mouseup', @hide, false
 
     @_bodyDiv = document.createElement "div"
-    @_bodyDiv.id = "hiventInfoPopoverBody"
-    @_bodyDiv.style.backgroundColor = "#fff"
-    @_bodyDiv.style.height = "100%"
+    @_bodyDiv.className = "hiventInfoPopoverBody"
+    # @_bodyDiv.style.backgroundColor = "#fff"
+    # @_bodyDiv.style.height = "100%"
 
 
     @_titleDiv.appendChild @_closeDiv
@@ -88,11 +89,17 @@ class HG.HiventInfoPopover
 
     @_mainDiv.style.visibility = "visible"
     @_raphael.canvas.style.visibility = "visible"
+    @_mainDiv.style.opacity = 1.0
 
   # ============================================================================
   hide: =>
-    @_mainDiv.style.visibility = "hidden"
-    @_raphael.canvas.style.visibility = "hidden"
+    @_mainDiv.style.opacity = 0.0
+
+    make_invisible = () =>
+      @_mainDiv.style.visibility = "hidden"
+      @_raphael.canvas.style.visibility = "hidden"
+
+    window.setTimeout make_invisible, 200
 
   # ============================================================================
   positionWindowAtAnchor: ->
@@ -128,8 +135,8 @@ class HG.HiventInfoPopover
   _resize: (width, height) ->
     @_width = Math.min width, BODY_MAX_WIDTH
     @_height = Math.min height, BODY_MAX_HEIGHT
-    @_mainDiv.style.width = "#{@_width}px"
-    @_mainDiv.style.height = "#{@_height}px"
+    # @_mainDiv.style.width = "#{@_width}px"
+    # @_mainDiv.style.height = "#{@_height}px"
 
   # ============================================================================
   _updateArrow: ->
@@ -149,21 +156,25 @@ class HG.HiventInfoPopover
                           L #{arrowLeft.at 0} #{arrowLeft.at 1}
                           Z"
     @_arrow.attr "fill", "#fff"
-    @_arrow.attr "stroke", "#fff"
+    @_arrow.attr "stroke", "#d4d4d4"
+    @_arrow.attr "stroke-linejoin", "round"
+    @_arrow.attr "stroke-width", "3"
 
 
   # ============================================================================
   _onMouseDown: (event) =>
-    @_mainDiv.addEventListener 'mousemove', @_onMouseMove, false
-    @_mainDiv.addEventListener 'mouseup', @_onMouseUp, false
-    @_mainDiv.addEventListener 'mouseout', @_onMouseOut, false
+    @_titleDiv.addEventListener 'mousemove', @_onMouseMove, false
+    @_titleDiv.addEventListener 'mouseup', @_onMouseUp, false
+    @_titleDiv.addEventListener 'mouseout', @_onMouseOut, false
+    @_titleDiv.className = "hiventInfoPopoverTitle grab"
     event.preventDefault()
 
   # ============================================================================
   _onMouseUp: (event) =>
-    @_mainDiv.removeEventListener 'mousemove', @_onMouseMove, false
-    @_mainDiv.removeEventListener 'mouseup', @_onMouseUp, false
-    @_mainDiv.removeEventListener 'mouseout', @_onMouseOut, false
+    @_titleDiv.removeEventListener 'mousemove', @_onMouseMove, false
+    @_titleDiv.removeEventListener 'mouseup', @_onMouseUp, false
+    @_titleDiv.removeEventListener 'mouseout', @_onMouseOut, false
+    @_titleDiv.className = "hiventInfoPopoverTitle"
     @_lastMousePos = null
 
   # ============================================================================
@@ -184,9 +195,10 @@ class HG.HiventInfoPopover
 
   # ============================================================================
   _onMouseOut: (event) =>
-    @_mainDiv.removeEventListener 'mousemove', @_onMouseMove, false
-    @_mainDiv.removeEventListener 'mouseup', @_onMouseUp, false
-    @_mainDiv.removeEventListener 'mouseout', @_onMouseOut, false
+    @_titleDiv.removeEventListener 'mousemove', @_onMouseMove, false
+    @_titleDiv.removeEventListener 'mouseup', @_onMouseUp, false
+    @_titleDiv.removeEventListener 'mouseout', @_onMouseOut, false
+    @_titleDiv.className = "hiventInfoPopoverTitle"
     @_lastMousePos = null
 
   ##############################################################################
