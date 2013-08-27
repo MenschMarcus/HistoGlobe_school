@@ -66,6 +66,7 @@ class HG.HiventInfoPopover
     @_raphael.canvas.style.zIndex = "#{HG.Display.Z_INDEX + 9}"
     @_raphael.canvas.style.pointerEvents = "none"
     @_raphael.canvas.style.visibility = "hidden"
+    @_raphael.canvas.className.baseVal = "hiventInfoArrow"
 
     @_arrow = @_raphael.path ""
     @_updateArrow()
@@ -89,17 +90,26 @@ class HG.HiventInfoPopover
 
     @_mainDiv.style.visibility = "visible"
     @_raphael.canvas.style.visibility = "visible"
+
+    showArrow = =>
+      @_raphael.canvas.style.opacity = 1.0
+
     @_mainDiv.style.opacity = 1.0
+    window.setTimeout showArrow, 100
 
   # ============================================================================
   hide: =>
-    @_mainDiv.style.opacity = 0.0
-
-    make_invisible = () =>
+    hideInfo = =>
       @_mainDiv.style.visibility = "hidden"
-      @_raphael.canvas.style.visibility = "hidden"
 
-    window.setTimeout make_invisible, 200
+    hideArrow = =>
+      @_mainDiv.style.opacity = 0.0
+      @_raphael.canvas.style.visibility = "hidden"
+      window.setTimeout hideInfo, 200
+
+
+    @_raphael.canvas.style.opacity = 0.0
+    window.setTimeout hideArrow, 100
 
   # ============================================================================
   positionWindowAtAnchor: ->
@@ -159,7 +169,6 @@ class HG.HiventInfoPopover
     @_arrow.attr "stroke", "#d4d4d4"
     @_arrow.attr "stroke-linejoin", "round"
     @_arrow.attr "stroke-width", "3"
-
 
   # ============================================================================
   _onMouseDown: (event) =>
