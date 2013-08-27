@@ -54,7 +54,7 @@ class HG.Display2D extends HG.Display
             @_map.fitBounds e.target.getBounds()
 
           mouseover: (e) =>
-            @_animate e.target, {"fill-opacity": 0.5}, 150
+            @_animate e.target, {"fill-opacity": 0.5}, 50
             # e.target.setStyle areaLayer.getHighlightStyle()
 
           mouseout: (e) =>
