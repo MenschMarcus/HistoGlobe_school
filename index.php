@@ -42,6 +42,8 @@
 
     <link rel="stylesheet" type="text/css" href="style/histoglobe.min.css">
 
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
     <script type="text/javascript" src="script/third-party/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.browser.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.disable.text.select.js"></script>
@@ -51,6 +53,7 @@
     <script type="text/javascript" src="script/third-party/three.min.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.js"></script>
     <script type="text/javascript" src="script/third-party/raphael.min.js"></script>
+    <script type="text/javascript" src="script/third-party/topojson.js"></script>
 
     <!-- <script type="text/javascript" src="script/histoglobe.min.js"></script> -->
 
@@ -61,13 +64,11 @@
     <script type="text/javascript" src="build/Display3D.js"></script>
     <script type="text/javascript" src="build/Hivent.js"></script>
     <script type="text/javascript" src="build/Display2D.js"></script>
-    <script type="text/javascript" src="script/histrips/Histrip.js"></script>
-    <script type="text/javascript" src="script/histrips/HistripHandle.js"></script>
-    <script type="text/javascript" src="script/histrips/HistripHandler.js"></script>
-    <script type="text/javascript" src="script/histrips/HistripMarker.js"></script>
     <script type="text/javascript" src="build/HiventController.js"></script>
     <script type="text/javascript" src="build/HiventHandle.js"></script>
     <script type="text/javascript" src="build/HiventInfoPopover.js"></script>
+    <script type="text/javascript" src="build/AreaLayer.js"></script>
+    <script type="text/javascript" src="build/AreaController.js"></script>
     <script type="text/javascript" src="build/HiventMarker.js"></script>
     <script type="text/javascript" src="build/HiventMarker2D.js"></script>
     <script type="text/javascript" src="build/HiventMarker3D.js"></script>
@@ -88,7 +89,7 @@
 	  </script>
 
     <script type="text/javascript">
-      var display2D, display3D, timeline, hiventController, histripHandler;
+      var display2D, display3D, timeline, hiventController, areaController;
       var timelineInitialized = false;
       var container;
       var player;
@@ -146,11 +147,13 @@
 
           $('.hero-unit').css({"background-image": "none"});
           $('.hero-unit').height(window.innerHeight * 0.8);
+
           hiventController = new HG.HiventController("data/hivent_collection.json");
-          histripHandler = new HG.HistripHandler();
 
           container = document.getElementById('map-container');
           loadTimeline();
+
+          areaController = new HG.AreaController(timeline);
 
           load2D();
 
@@ -224,7 +227,7 @@
         }
 
         if (!display2D) {
-          display2D = new HG.Display2D(container, hiventController);
+          display2D = new HG.Display2D(container, hiventController, areaController);
           $(display2D.getCanvas()).css({opacity: 0.0});
         }
 
@@ -242,7 +245,7 @@
           }
 
           if (!display3D) {
-            display3D = new HG.Display3D(container, hiventController);
+            display3D = new HG.Display3D(container, hiventController, areaController);
             $(display3D.getCanvas()).css({opacity: 0.0});
           }
 
@@ -478,10 +481,11 @@
       <div class="row">
         <div class="span12">
           <div class="gradient-down summary">
-            <img src="img/browser.png" id="browser-img" class="img-right pull-right" alt="HistoGlobe im Browser">
             <h3><?php locale("summary_head")?></h3>
+            <!-- <img src="img/browser.png" id="browser-img" class="img-right pull-right" alt="HistoGlobe im Browser"> -->
             <p><?php locale("summary")?> <p>
             <a class="smooth" href="#details"><?php locale("readMore")?></a>
+            <img src="img/info.png" id="info-img" alt="HistoGlobe Info">
           </div>
         </div>
       </div>
