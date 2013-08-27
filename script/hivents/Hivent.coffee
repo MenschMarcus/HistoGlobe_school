@@ -6,13 +6,11 @@ class HG.Hivent
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
-  constructor: (name, date, displayDate,
+  constructor: (name, date,
                 long, lat, content) ->
-
 
     @name = name
     @date = date
-    @displayDate = displayDate
     @long = long
     @lat = lat
     @content = content

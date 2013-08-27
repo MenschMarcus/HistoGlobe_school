@@ -146,7 +146,6 @@
 
           $('.hero-unit').css({"background-image": "none"});
           $('.hero-unit').height(window.innerHeight * 0.8);
-
           hiventController = new HG.HiventController("data/hivent_collection.json");
           histripHandler = new HG.HistripHandler();
 

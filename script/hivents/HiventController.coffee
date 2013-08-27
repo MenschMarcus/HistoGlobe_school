@@ -49,8 +49,7 @@ class HG.HiventController
       for h in hivents
         hivent = new HG.Hivent(
           h.name,
-          new Date(h.date),
-          h.displayDate,
+          new Date(h.year, h.month, h.day),
           h.long,
           h.lat,
           h.content,

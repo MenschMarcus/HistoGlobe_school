@@ -45,15 +45,15 @@ def main():
         hivent_description = row[2]
         hivent_date = row[3]
         hivent_location = row[4]
-        hivent_long = row[5]
-        hivent_lat = row[6]
+        hivent_long = row[6]
+        hivent_lat = row[5]
 
         #create html
         html_name = hivent_id + ".htm"
         html_target = open(html_path + html_name, "w")
         html_target.write('<!DOCTYPE html>\n'+
                           '<head>\n' +
-                          '\t<link rel="stylesheet" type="text/css" href="style/hivent_info_content.min.css">\n'+
+                          '\t<link rel="stylesheet" type="text/css" href="../../../../style/hivent_info_content.min.css">\n'+
                           '\t<title></title>\n' +
                           '</head>\n')
         html_target.write('<body>\n' +
@@ -71,14 +71,14 @@ def main():
         json_target.write('\t\t\"name\": \"' + hivent_name + '\",\n')
 
         day, month, year = hivent_date.split(".")
-        json_target.write('\t\t\"day\": ' + day + ',\n')
-        json_target.write('\t\t\"month\": ' + month + ',\n')
-        json_target.write('\t\t\"year\": ' + year + ',\n')
+        json_target.write('\t\t\"day\": ' + str(int(day)) + ',\n')
+        json_target.write('\t\t\"month\": ' + str(int(month)) + ',\n')
+        json_target.write('\t\t\"year\": ' + str(int(year)) + ',\n')
 
         json_target.write('\t\t\"long\": ' + hivent_long + ',\n')
         json_target.write('\t\t\"lat\": ' + hivent_lat + ',\n')
 
-        json_target.write('\t\t\"content\": \"' + html_path + html_name + '\",\n')
+        json_target.write('\t\t\"content\": \"' + html_path + html_name + '\"\n')
 
         json_target.write('\t}')
         if row != rows[-1]:
