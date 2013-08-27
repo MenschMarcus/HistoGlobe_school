@@ -31,7 +31,7 @@ class HG.HiventMarker2D extends L.Marker
     @on "mouseout", @_onMouseOut
     @on "click", @_onClick
     @_map.on "zoomend", @_updatePosition
-    @_map.on "drag", @_updatePosition
+    @_map.on "dragend", @_updatePosition
     @_map.on "viewreset", @_updatePosition
 
     @getHiventHandle().onFocus(@, (mousePos) =>
@@ -87,7 +87,7 @@ class HG.HiventMarker2D extends L.Marker
   # ============================================================================
   _destroy: =>
     @_map.off "zoomend", @_updatePosition
-    @_map.off "drag", @_updatePosition
+    @_map.off "dragend", @_updatePosition
     @_map.off "viewreset", @_updatePosition
     @_map.removeLayer(@)
     delete @
