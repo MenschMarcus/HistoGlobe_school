@@ -77,15 +77,15 @@ class HG.HiventInfoPopover
   # ============================================================================
   show: =>
     unless @_contentLoaded
-      content = document.createElement "IFRAME"
-      content.setAttribute "src", @_hivent.content
-      content.setAttribute "frameborder", "0"
-      @_bodyDiv.appendChild content
-      if content.offsetHeight < @_height
-        content.setAttribute "height", "#{@_height}px"
+      content = document.createElement "div"
+      $(content).load @_hivent.content, () =>
+        @_bodyDiv.appendChild content
+        console.log content.offsetWidth
+        if content.offsetHeight < @_height
+          @_bodyDiv.setAttribute "height", "#{@_height}px"
 
-      if content.offsetWidth > @_width
-        @_resize(content.offsetWidth, @_height)
+        if content.offsetWidth > @_width
+          @_resize(content.offsetWidth, @_height)
       @_contentLoaded = true
 
     @_mainDiv.style.visibility = "visible"

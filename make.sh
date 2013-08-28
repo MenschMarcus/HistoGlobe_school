@@ -47,6 +47,5 @@ coffee -c -o build $cFiles
 uglifyjs $jFiles -o script/histoglobe.min.js #-mc
 
 lessc --no-color -x style/main.less style/histoglobe.min.css
-lessc --no-color -x style/hivent_info_content.less style/hivent_info_content.min.css
 
 
