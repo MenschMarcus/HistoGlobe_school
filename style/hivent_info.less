@@ -1,7 +1,11 @@
+@popover_width: 250px;
+@popover_height: @popover_width * 10/16;
 @popover_close_size: 30px;
-@popover_title_padding: 5px;
+@popover_title_padding: 10px;
+@popover_body_padding: 10px;
 
 .hiventInfoPopover {
+  width: @popover_width;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
   background: #fff;
   .border-radius(6px * @roundness);
@@ -12,11 +16,21 @@
   .visible {
     opacity: 1.0;
   }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #ddd;
+  }
 }
 
 
 .hiventInfoPopoverTitle {
   font: 1.2em "Helvetica Neue", Arial, Helvetica, sans-serif;
+  text-align: left;
   padding: @popover_title_padding;
   .border-radius(6px * @roundness 6px * @roundness 0px 0px);
   .linear-gradient-top(#f2f2f2,  #ffffff, 0%, #f2f2f2, 100%);
@@ -27,18 +41,23 @@
 }
 
 .hiventInfoPopoverBody {
+  height: @popover_height;
   font: 1em "Helvetica Neue", Arial, Helvetica, sans-serif;
+  padding: @popover_body_padding;
+
+  overflow: scroll;
 }
 
 .hiventInfoPopoverClose {
   border: 1px solid #d4d4d4;
   font: 1.5em "Helvetica Neue", Arial, Helvetica, sans-serif;
   cursor: pointer;
+  position: absolute;
   width: @popover_close_size;
   height: @popover_close_size;
   .border-radius(@popover_close_size * 0.5);
-  margin-top: -@popover_close_size * 0.5 - @popover_title_padding * 0.8;
-  margin-right: -@popover_close_size * 0.5 - @popover_title_padding * 0.8;
+  top: -@popover_close_size * 0.5 - @popover_title_padding * 0.2;
+  right: -@popover_close_size * 0.5 - @popover_title_padding * 0.2;
   float: right;
   background: #fff;
   text-align: center;
@@ -53,6 +72,7 @@
   text-align: justify;
   font-size: 9pt;
   padding-left: 0px;
+  text-align: left;
 
   h2, h3, h4 {
     font-family: roman_caps;
@@ -66,14 +86,5 @@
 
   h3 {
     font-size: 10pt;
-  }
-
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-      background-color: #ddd;
   }
 }

@@ -11,9 +11,9 @@ class HG.HiventInfoPopover
   ##############################################################################
 
   # ============================================================================
-  constructor: (hivent, anchor, parentDiv) ->
+  constructor: (hiventHandle, anchor, parentDiv) ->
 
-    @_hivent = hivent
+    @_hiventHandle = hiventHandle
     @_parentDiv = parentDiv
     @_anchor = anchor
     @_contentLoaded = false
@@ -34,7 +34,7 @@ class HG.HiventInfoPopover
 
     @_titleDiv = document.createElement "div"
     @_titleDiv.className = "hiventInfoPopoverTitle"
-    @_titleDiv.innerHTML = hivent.name
+    @_titleDiv.innerHTML = @_hiventHandle.getHivent().name
     # @_titleDiv.style.backgroundColor = "#ccc"
     # @_titleDiv.style.height = "#{TITLE_DEFAULT_HEIGHT}px"
 
@@ -78,9 +78,8 @@ class HG.HiventInfoPopover
   show: =>
     unless @_contentLoaded
       content = document.createElement "div"
-      $(content).load @_hivent.content, () =>
+      $(content).load @_hiventHandle.getHivent().content, () =>
         @_bodyDiv.appendChild content
-        console.log content.offsetWidth
         if content.offsetHeight < @_height
           @_bodyDiv.setAttribute "height", "#{@_height}px"
 
