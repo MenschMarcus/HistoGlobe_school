@@ -2,8 +2,10 @@ data/tiles
 data/hivent_collection.json
 data/hivent_assets
 data/grid_tiles
-data_src/maps/data/GRAY_HR_SR_OB.tif
+data_src/maps/tmp
+data_src/eu/tmp
 build
 histoglobe.sublime-workspace
 script/histoglobe.min.js
 style/*.min.css
+

@@ -42,8 +42,7 @@
 
     <link rel="stylesheet" type="text/css" href="style/histoglobe.min.css">
 
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
     <script type="text/javascript" src="script/third-party/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.browser.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.disable.text.select.js"></script>
@@ -54,6 +53,7 @@
     <script type="text/javascript" src="script/third-party/leaflet.js"></script>
     <script type="text/javascript" src="script/third-party/raphael.min.js"></script>
     <script type="text/javascript" src="script/third-party/topojson.js"></script>
+    <script type="text/javascript" src="script/third-party/leaflet.label.js"></script>
 
     <!-- <script type="text/javascript" src="script/histoglobe.min.js"></script> -->
 

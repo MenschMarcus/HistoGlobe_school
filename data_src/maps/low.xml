@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE Map>
+<Map background-color="#dce2e2" srs="+init=epsg:3857" >
+
+<Style name="gridstyle">
+  <Rule>
+    <LineSymbolizer stroke-opacity="1.0" stroke="#000" stroke-width="0.1" />
+  </Rule>
+</Style>
+
+<Style name="rasterstyle">
+  <Rule>
+    <RasterSymbolizer opacity="0.4" mode="grain_merge2" scaling="bilinear8" />
+  </Rule>
+</Style>
+
+<Style name="landstyle">
+
+
+  <Rule>
+    <MaxScaleDenominator>500000000</MaxScaleDenominator>
+  </Rule>
+
+  <Rule>
+    <MaxScaleDenominator>150000000</MaxScaleDenominator>
+  </Rule>
+
+<!--  For zoom >= 3-->
+  <Rule>
+    <MaxScaleDenominator>100000000</MaxScaleDenominator>
+    <LineSymbolizer stroke-opacity="0.05" stroke-linejoin="round" stroke="#000" stroke-width="10" />
+  </Rule>
+
+<!--  For zoom >= 4-->
+  <Rule>
+    <MaxScaleDenominator>50000000</MaxScaleDenominator>
+    <LineSymbolizer stroke-opacity="0.05" stroke-linejoin="round" stroke="#000" stroke-width="15" />
+  </Rule>
+
+<!--  For zoom >= 5-->
+  <Rule>
+    <MaxScaleDenominator>30000000</MaxScaleDenominator>
+    <LineSymbolizer stroke-opacity="0.05" stroke-linejoin="round" stroke="#000" stroke-width="20" />
+  </Rule>
+
+<!--  Always-->
+  <Rule>
+    <LineSymbolizer stroke-opacity="0.05" stroke-linejoin="round" stroke="#000" stroke-width="5" />
+    <LineSymbolizer stroke-opacity="0.3" stroke-linejoin="round" stroke="#000" stroke-width="1" />
+    <PolygonSymbolizer fill="#efdcb4" />
+  </Rule>
+
+</Style>
+
+<Layer name="water" srs="+init=epsg:4326">
+  <StyleName>rasterstyle</StyleName>
+  <Datasource>
+    <Parameter name="type">gdal</Parameter>
+    <Parameter name="file">tmp/GRAY_50M_SR_OB.tif</Parameter>
+  </Datasource>
+</Layer>
+
+
+<Layer name="world" srs="+init=epsg:4326">
+  <StyleName>landstyle</StyleName>
+  <Datasource>
+    <Parameter name="type">shape</Parameter>
+    <Parameter name="file">tmp/ne_50m_land</Parameter>
+  </Datasource>
+</Layer>
+
+<Layer name="grid" srs="+init=epsg:4326">
+  <StyleName>gridstyle</StyleName>
+  <Datasource>
+    <Parameter name="type">shape</Parameter>
+    <Parameter name="file">tmp/ne_10m_graticules_10</Parameter>
+  </Datasource>
+</Layer>
+
+</Map>

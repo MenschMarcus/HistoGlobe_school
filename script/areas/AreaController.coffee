@@ -8,18 +8,18 @@ class HG.AreaController
 
   # ============================================================================
   constructor: (timeline) ->
-    @_initMembers()
 
+    HG.mixin @, HG.CallbackContainer
+    HG.CallbackContainer.call @
+
+    @addCallback "onAreaChanged"
+
+    @_initMembers()
     timeline.addListener this
 
   # ============================================================================
   getLayer: () ->
     @_layer
-
-  # ============================================================================
-  onAreaChanged: (callbackFunc) ->
-    if callbackFunc and typeof(callbackFunc) == "function"
-      @_onAreaChangedCallbacks.push callbackFunc
 
   # ============================================================================
   nowChanged: (date) ->
@@ -36,9 +36,7 @@ class HG.AreaController
 
   # ============================================================================
   _initMembers: ->
-    @_onAreaChangedCallbacks = [];
     @_layer = new HG.AreaLayer()
 
     @_layer.onLoaded (layer) =>
-      for callback in @_onAreaChangedCallbacks
-        callback layer
+      @notifyAll "onAreaChanged", layer
