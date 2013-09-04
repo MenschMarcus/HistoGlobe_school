@@ -51,20 +51,16 @@ def main():
         #create html
         html_name = hivent_id + ".htm"
         html_target = open(html_path + html_name, "w")
-        html_target.write('<!DOCTYPE html>\n'+
-                          '<head>\n' +
-                          '\t<link rel="stylesheet" type="text/css" href="../../../../style/hivent_info_content.min.css">\n'+
-                          '\t<title></title>\n' +
-                          '</head>\n')
-        html_target.write('<body>\n' +
+        html_target.write('<div class = \"hiventInfoPopoverContent\">\n' +
                            '\t<h3>' + hivent_location + ', ' +
                            hivent_date + '</h3>\n' +
                            '\t<p>\n\t\t' +
                            hivent_description +
                            '\n\t</p>\n' +
-                           '</body>'
+                          '</div>'
                          )
         html_target.close()
+
         #create json
 
         json_target.write('\t{\n')

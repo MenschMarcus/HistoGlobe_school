@@ -47,6 +47,6 @@ class HG.CallbackContainer
         @[arrayName].splice i,1
 
   # ============================================================================
-  removeListener: (callbackName) ->
+  removeAllListeners: (callbackName) ->
     arrayName = "_#{callbackName}Callbacks"
     @[arrayName] = []

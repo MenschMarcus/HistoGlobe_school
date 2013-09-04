@@ -29,7 +29,7 @@ class HG.HiventMarker
 
     $(@_hiventInfo).tooltip {title: hivent.name, placement: "top"}
 
-    @_popover = new HG.HiventInfoPopover(hivent, new HG.Vector(0, 0), document.getElementsByTagName("body")[0])
+    @_popover = new HG.HiventInfoPopover(@_hiventHandle, new HG.Vector(0, 0), document.getElementsByTagName("body")[0])
 
     HIVENT_INFO_COUNT++
 

@@ -11,9 +11,9 @@ class HG.HiventInfoPopover
   ##############################################################################
 
   # ============================================================================
-  constructor: (hivent, anchor, parentDiv) ->
+  constructor: (hiventHandle, anchor, parentDiv) ->
 
-    @_hivent = hivent
+    @_hiventHandle = hiventHandle
     @_parentDiv = parentDiv
     @_anchor = anchor
     @_contentLoaded = false
@@ -34,7 +34,7 @@ class HG.HiventInfoPopover
 
     @_titleDiv = document.createElement "div"
     @_titleDiv.className = "hiventInfoPopoverTitle"
-    @_titleDiv.innerHTML = hivent.name
+    @_titleDiv.innerHTML = @_hiventHandle.getHivent().name
     # @_titleDiv.style.backgroundColor = "#ccc"
     # @_titleDiv.style.height = "#{TITLE_DEFAULT_HEIGHT}px"
 
@@ -77,15 +77,14 @@ class HG.HiventInfoPopover
   # ============================================================================
   show: =>
     unless @_contentLoaded
-      content = document.createElement "IFRAME"
-      content.setAttribute "src", @_hivent.content
-      content.setAttribute "frameborder", "0"
-      @_bodyDiv.appendChild content
-      if content.offsetHeight < @_height
-        content.setAttribute "height", "#{@_height}px"
+      content = document.createElement "div"
+      $(content).load @_hiventHandle.getHivent().content, () =>
+        @_bodyDiv.appendChild content
+        if content.offsetHeight < @_height
+          @_bodyDiv.setAttribute "height", "#{@_height}px"
 
-      if content.offsetWidth > @_width
-        @_resize(content.offsetWidth, @_height)
+        if content.offsetWidth > @_width
+          @_resize(content.offsetWidth, @_height)
       @_contentLoaded = true
 
     @_mainDiv.style.visibility = "visible"
