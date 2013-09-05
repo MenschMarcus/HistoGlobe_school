@@ -9,7 +9,7 @@ cFiles="script/util/Mixin.coffee \
         script/display/Display3D.coffee \
         script/display/Display2D.coffee \
         script/display/Display.coffee \
-        script/areas/AreaLayer.coffee \
+        script/areas/Area.coffee \
         script/areas/AreaController.coffee \
         script/hivents/HiventHandle.coffee \
         script/hivents/HiventController.coffee \
@@ -25,7 +25,7 @@ jFiles="build/Mixin.js \
         build/Display.js \
         build/Display2D.js \
         build/Display3D.js \
-        build/AreaLayer.js \
+        build/Area.js \
         build/AreaController.js \
         script/timeline/Timeline.js \
         build/Hivent.js \

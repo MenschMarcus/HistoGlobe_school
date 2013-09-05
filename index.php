@@ -36,6 +36,7 @@
     <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap-responsive.min.css">
     <link rel="stylesheet" type="text/css" href="style/third-party/font-awesome.min.css">
     <link rel="stylesheet" href="style/third-party/leaflet.css" />
+    <link rel="stylesheet" href="style/third-party/leaflet.label.css" />
     <!--[if lte IE 8]>
       <link rel="stylesheet" href="style/third-party/leaflet.ie.css" />
     <![endif]-->
@@ -67,7 +68,7 @@
     <script type="text/javascript" src="build/HiventController.js"></script>
     <script type="text/javascript" src="build/HiventHandle.js"></script>
     <script type="text/javascript" src="build/HiventInfoPopover.js"></script>
-    <script type="text/javascript" src="build/AreaLayer.js"></script>
+    <script type="text/javascript" src="build/Area.js"></script>
     <script type="text/javascript" src="build/AreaController.js"></script>
     <script type="text/javascript" src="build/HiventMarker.js"></script>
     <script type="text/javascript" src="build/HiventMarker2D.js"></script>
