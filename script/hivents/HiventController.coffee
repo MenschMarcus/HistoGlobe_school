@@ -68,27 +68,30 @@ class HG.HiventController
   # ============================================================================
   _filterHivents: ->
 
+    console.log "filtering hivents"
     for handle in @_filteredHiventHandles
       handle.destroyAll()
+      handle = null
 
     @_filteredHiventHandles = []
 
     for handle in @_hiventHandles
       hivent = handle.getHivent()
-      isInTime = @_currentTimeFilter == null
-      unless isInTime
+      isInTime = false
+      unless @_currentTimeFilter == null
         isInTime = hivent.date.getTime() >= @_currentTimeFilter.start.getTime() and
                    hivent.date.getTime() <= @_currentTimeFilter.end.getTime()
 
-      isInSpace = @_currentSpaceFilter == null
-      unless isInSpace
-        isInSpace = hivent.lat >= @_currentSpaceFilter.min.lat and
-                    hivent.long >= @_currentSpaceFilter.min.long and
-                    hivent.lat <= @_currentSpaceFilter.max.lat and
-                    hivent.long <= @_currentSpaceFilter.max.long
+      # isInSpace = true
+      # unless @_currentSpaceFilter == null
+      #   isInSpace = hivent.lat >= @_currentSpaceFilter.min.lat and
+      #               hivent.long >= @_currentSpaceFilter.min.long and
+      #               hivent.lat <= @_currentSpaceFilter.max.lat and
+      #               hivent.long <= @_currentSpaceFilter.max.long
 
-      if isInTime and isInSpace
+      if isInTime #and isInSpace
         @_filteredHiventHandles.push(new HG.HiventHandle hivent)
+
 
     for callback in @_onHiventsChangedCallbacks
       callback @_filteredHiventHandles

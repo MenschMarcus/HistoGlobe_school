@@ -12,7 +12,7 @@ class HG.HiventMarker
   constructor: (hiventHandle, parent) ->
 
     @_hiventHandle = hiventHandle
-    @_hiventHandle.onDestruction this, @_destroy
+    @_hiventHandle.onDestruction @, @_destroyMarker
     @_hiventInfo = document.createElement("div")
     @_hiventInfo.class = "btn"
     @_hiventInfo.id = "@_hiventInfo_" + HIVENT_INFO_COUNT
@@ -29,7 +29,7 @@ class HG.HiventMarker
 
     $(@_hiventInfo).tooltip {title: hivent.name, placement: "top"}
 
-    @_popover = new HG.HiventInfoPopover(@_hiventHandle, new HG.Vector(0, 0), document.getElementsByTagName("body")[0])
+    @_popover = null
 
     HIVENT_INFO_COUNT++
 
@@ -49,6 +49,7 @@ class HG.HiventMarker
 
   # ============================================================================
   showHiventInfo: (displayPosition) =>
+    @_popover ?= new HG.HiventInfoPopover(@_hiventHandle.getHivent(), new HG.Vector(0, 0), document.getElementsByTagName("body")[0])
     @_hiventInfo.style.left = displayPosition.x + "px"
     @_hiventInfo.style.top = displayPosition.y + "px"
     @_updatePopoverAnchor displayPosition
@@ -58,17 +59,17 @@ class HG.HiventMarker
 
   # ============================================================================
   hideHiventInfo: (displayPosition) =>
-    @_popover.hide()
+    @_popover?.hide()
 
   # ============================================================================
   enableShowName: ->
-    @_hiventHandle.onMark(this, @showHiventName)
-    @_hiventHandle.onUnMark(this, @hideHiventName)
+    @_hiventHandle.onMark(@, @showHiventName)
+    @_hiventHandle.onUnMark(@, @hideHiventName)
 
   # ============================================================================
   enableShowInfo: ->
-    @_hiventHandle.onActive(this, @showHiventInfo)
-    @_hiventHandle.onInActive(this, @hideHiventInfo)
+    @_hiventHandle.onActive(@, @showHiventInfo)
+    @_hiventHandle.onInActive(@, @hideHiventInfo)
 
 
   ##############################################################################
@@ -77,11 +78,12 @@ class HG.HiventMarker
 
   # ============================================================================
   _updatePopoverAnchor: (position)->
-    @_popover.setAnchor new HG.Vector(position.x, position.y)
+    @_popover?.setAnchor new HG.Vector(position.x, position.y)
 
   # ============================================================================
-  _destroy: =>
-    delete this
+  _destroyMarker: =>
+    # delete @_hiventHandle
+    delete @
     return
 
   ##############################################################################

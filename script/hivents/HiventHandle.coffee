@@ -153,13 +153,12 @@ class HG.HiventHandle
 
   # ============================================================================
   destroyAll: ->
-    @notifyAll "onDestruction", mousePixelPosition
+    @notifyAll "onDestruction"
     @_destroy()
 
   # ============================================================================
   destroy: (obj) ->
-    @notify "onDestruction", obj, mousePixelPosition
-
+    @notify "onDestruction", obj
     @_destroy()
 
   ##############################################################################

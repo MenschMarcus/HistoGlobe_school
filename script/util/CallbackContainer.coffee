@@ -15,6 +15,7 @@ class HG.CallbackContainer
 
     # add a function to register callbacks to the object
     @[callbackName] = (obj, callbackFunc) ->
+      #console.log callbackName, obj
       if callbackFunc and typeof(callbackFunc) == "function"
         for i in [0...@[arrayName].length]
           if @[arrayName][i][0] == obj

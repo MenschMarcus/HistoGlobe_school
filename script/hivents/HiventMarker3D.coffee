@@ -10,10 +10,10 @@ class HG.HiventMarker3D extends THREE.Mesh
   ##############################################################################
 
   # ============================================================================
-  constructor: (hivent, display, parent) ->
+  constructor: (hiventHandle, display, parent) ->
 
     HG.mixin @, HG.HiventMarker
-    HG.HiventMarker.call @, hivent, parent
+    HG.HiventMarker.call @, hiventHandle, parent
 
     unless HIVENT_MARKER_3D_GEOMETRY?
       HIVENT_MARKER_3D_GEOMETRY = new THREE.SphereGeometry 1, 10, 10

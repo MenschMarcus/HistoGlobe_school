@@ -42,6 +42,7 @@ function timeline(hiventController) {
   // general histoglobe          (internal date representation of all dates: decimal year, NOT js Date object)
   var minDate, maxDate;         // start and end dates of histoglobe
   var now = {};                 // object containing now date (political date) and its marker on timeline
+  var leftDate, rightDate;
   var histEvents = [];          // array of historical events visible on the map
   var extent = [];              // array of viewport coordinates (xMin,yMin,xMax,yMax)
   var listeners = [];           // external objects that listen to date changes
@@ -88,6 +89,8 @@ function timeline(hiventController) {
     now.marker.markerDate = now;          // self-reference, so that now.marker refers to now date
     minDate = 1950;                       // no historical information before 1800
     maxDate = now.date;                   // prevents futuristic timeline
+    leftDate = new Date();
+    rightDate = new Date();
 
     // scroller
     tlMain = $("#tlMain")[0];
@@ -317,11 +320,16 @@ function timeline(hiventController) {
 
   function periodChanged() {
 
-    // hiventController.setTimeFilter(currentTimeFilter);
     var d1 = posToDate($(tlMain).scrollLeft());
     var d2 = posToDate(tlMain.offsetWidth+$(tlMain).scrollLeft());
-    for (var i in listeners) {
-      listeners[i].periodChanged(d1, d2);
+
+    if (!(d1.getTime() == leftDate.getTime() && d2.getTime() == rightDate.getTime())){
+      leftDate = d1;
+      rightDate = d2;
+      hiventController.setTimeFilter(currentTimeFilter);
+      for (var i in listeners) {
+        listeners[i].periodChanged(d1, d2);
+      }
     }
   }
 
@@ -442,6 +450,10 @@ function timeline(hiventController) {
 
   function initHivents() {
     hiventController.onHiventsChanged(function(handles){
+
+      // for (var i=0; i<hiventMarkers.length; i++) {
+      //   delete hiventMarkers[i];
+      // }
 
       hiventMarkers = [];
 
@@ -731,7 +743,6 @@ function timeline(hiventController) {
 
   function scrollTimeline(pix, ignoreLimit) {
     var fixDist = tlScroller.offsetWidth/3;
-
     // move only by amount of pixels to clip to golden ratio
     if (!ignoreLimit) {
       pix = Math.min(pix, (tlMain.offsetWidth*0.382)-(leftPos-tlMain.scrollLeft));

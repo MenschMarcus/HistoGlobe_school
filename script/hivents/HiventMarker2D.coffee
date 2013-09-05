@@ -10,12 +10,12 @@ class HG.HiventMarker2D extends L.Marker
   ##############################################################################
 
   # ============================================================================
-  constructor: (hivent, display, map) ->
+  constructor: (hiventHandle, display, map) ->
 
-    L.Marker.call @, [hivent.getHivent().lat, hivent.getHivent().long]
+    L.Marker.call @, [hiventHandle.getHivent().lat, hiventHandle.getHivent().long]
 
     HG.mixin @, HG.HiventMarker
-    HG.HiventMarker.call @, hivent, map.getPanes()["popupPane"]
+    HG.HiventMarker.call @, hiventHandle, map.getPanes()["popupPane"]
 
     VISIBLE_MARKERS_2D.push @
 

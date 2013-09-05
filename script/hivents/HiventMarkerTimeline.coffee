@@ -11,14 +11,17 @@ class HG.HiventMarkerTimeline
 
 
   # ============================================================================
-  constructor: (hivent, parent, posX, posY) ->
+  constructor: (hiventHandle, parent, posX, posY) ->
 
     HG.mixin @, HG.HiventMarker
-    HG.HiventMarker.call @, hivent, parent
+    HG.HiventMarker.call @, hiventHandle, parent
 
     HIVENT_MARKER_TIMELINE_COUNT++
 
-    @_position = { x: posX, y: Math.floor $(parent.parentNode).innerHeight() * 0.85 }
+    time = hiventHandle.getHivent().date.getTime()
+    LAST_Y_COORDS[time] ?= 0
+    @_position = { x: posX, y: Math.floor $(parent.parentNode).innerHeight() * 0.85 - LAST_Y_COORDS[time]}
+    LAST_Y_COORDS[time] += 2 * HIVENT_MARKER_TIMELINE_RADIUS
 
     @_div = document.createElement "div"
     @_div.id = "hiventMarkerTimeline_" + HIVENT_MARKER_TIMELINE_COUNT
@@ -100,8 +103,10 @@ class HG.HiventMarkerTimeline
 
   # ============================================================================
   _destroy: =>
+    LAST_Y_COORDS[@getHiventHandle().getHivent().date.getTime()] = 0
     $(@_div).remove()
     delete @
+    return
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #
@@ -111,3 +116,5 @@ class HG.HiventMarkerTimeline
   HIVENT_MARKER_TIMELINE_COUNT = 0
   HIVENT_DEFAULT_COLOR   = "#253563"
   HIVENT_HIGHLIGHT_COLOR = "#ff8800"
+
+  LAST_Y_COORDS = {}
