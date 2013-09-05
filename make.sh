@@ -1,5 +1,7 @@
 #!/bin/bash
 
+(cd data_src/hivents/; ./generate.sh)
+
 cFiles="script/util/Mixin.coffee \
         script/util/CallbackContainer.coffee \
         script/util/VideoPlayer.coffee \
