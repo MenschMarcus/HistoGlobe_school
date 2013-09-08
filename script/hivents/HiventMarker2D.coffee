@@ -80,6 +80,9 @@ class HG.HiventMarker2D extends L.Marker
 
   # ============================================================================
   _updatePosition: =>
+    if not @_map
+      console.log @getHiventHandle().getHivent().name
+      console.log @getHiventHandle().getHivent().date
     @_position = @_map.latLngToLayerPoint @getLatLng()
     @_updatePopoverAnchor @_getDisplayPosition()
 
@@ -94,8 +97,13 @@ class HG.HiventMarker2D extends L.Marker
 
   # ============================================================================
   _destroy: =>
+    @getHiventHandle().inActiveAll()
+    @off "mouseover", @_onMouseOver
+    @off "mouseout", @_onMouseOut
+    @off "click", @_onClick
     @_map.off "zoomend", @_updatePosition
     @_map.off "dragend", @_updatePosition
+    @_map.off "drag", @_updatePosition
     @_map.off "viewreset", @_updatePosition
     @_map.removeLayer(@)
     delete @
