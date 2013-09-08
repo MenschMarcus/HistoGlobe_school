@@ -628,10 +628,10 @@ class HG.Display3D extends HG.Display
 
   # camera parameters
   CAMERA_DISTANCE = 500
-  CAMERA_MAX_ZOOM = 7
+  CAMERA_MAX_ZOOM = 6
   CAMERA_MIN_ZOOM = 3
   CAMERA_MAX_FOV = 60
-  CAMERA_MIN_FOV = 4
+  CAMERA_MIN_FOV = 8
   CAMERA_MAX_LONG = 80
   CAMERA_ZOOM_SPEED = 0.1
 

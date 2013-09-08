@@ -32,13 +32,14 @@
         'heading_2' => 'Geschichte erleben',
         'heading_3' => 'Schreiben Sie Geschichte!',
 
-        'summary_head' => '<span class="hg">HistoGlobe</span> visualisiert Geschichte:
-          Modern, interaktiv und informativ.</span>',
+        'summary_head' => '<span class="hg">HistoGlobe</span> visualisiert Geschichte:',
 
-        'summary' => '<p><b><span class="hg">HistoGlobe</span> visualisiert
+        'summary_head_2' => 'Modern, interaktiv und informativ.',
+
+        'summary' => '<p><span class="hg">HistoGlobe</span> visualisiert
           historische Ereignisse und Entwicklungen auf einem dreidimensionalen
           Globus mit Hilfe einer Zeitleiste. Die einzigartige Software macht
-          Geschichte erlebbar. </b>
+          Geschichte erlebbar.
           </p><p>
           Als digitaler Atlas bietet <span class="hg">HistoGlobe</span> die Möglichkeit, regionale,
           zeitliche und thematische Schwerpunkte zu setzen.
