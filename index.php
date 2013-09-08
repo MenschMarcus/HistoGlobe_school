@@ -140,30 +140,35 @@
       function loadGLHeader() {
 
         if (BrowserDetect.canvasSupported) {
-          // $('#default-header').animate({opacity: 0.0}, 1000, 'linear',
-          //   function() {
-          //     $('#default-header').css({visibility:"hidden"});
-          //   });
+
+          $('#home').toggleClass("slide-out");
+          $('#content').toggleClass("slide-out");
+          $('#navbar').toggleClass("slide-out");
+          $('.hero-unit').toggleClass("slide-out");
+
           $('#default-header').css({visibility:"hidden"});
           $('#gl-header').css({visibility:"visible"});
           $('#demo-link').css({visibility:"hidden"});
           $('#video-link').css({visibility:"hidden"});
           $('#back-link').css({visibility:"visible"});
+          $('#map-loader').css({visibility:"visible"});
           $('#logo-normal').css({visibility: "visible"});
           $('.banner').css({visibility: "visible"});
 
           $('.hero-unit').css({"background-image": "none"});
-          $('.hero-unit').height(window.innerHeight * 0.8);
+          $('.hero-unit').height(window.innerHeight);
 
-          hiventController = new HG.HiventController("data/hivent_collection.json");
 
-          container = document.getElementById('map-container');
-          loadTimeline();
+          window.setTimeout(function() {
+            hiventController = new HG.HiventController("data/hivent_collection.json");
 
-          areaController = new HG.AreaController(timeline);
+            container = document.getElementById('map-container');
+            loadTimeline();
 
-          load2D();
+            areaController = new HG.AreaController(timeline);
 
+            load2D();
+          }, 500);
         }
       }
 
@@ -198,12 +203,19 @@
 
       function loadDefaultHeader() {
 
+        $('#home').toggleClass("slide-out");
+        $('#content').toggleClass("slide-out");
+        $('#navbar').toggleClass("slide-out");
+        $('.hero-unit').toggleClass("slide-out");
+
+
         $('#default-header').css({visibility:"visible"});
         $('#default-header').animate({opacity: 1.0}, 1000, 'linear');
         $('#gl-header').css({visibility:"hidden"});
         $('#video-header').css({display:"none"});
         $('#demo-link').css({visibility:"visible"});
         $('#video-link').css({visibility:"visible"});
+        $('#map-loader').css({visibility:"hidden"});
         $('#back-link').css({visibility:"hidden"});
         $('.banner').css({visibility: "hidden"});
         $('.hero-unit').css({"background-image": "url('img/logo_bg.jpg')",
@@ -325,7 +337,7 @@
 
   </head>
   <body data-spy="scroll" data-target="#mainNavigation" data-offset="20">
-    <div class="navbar navbar-fixed-top">
+    <div class="navbar navbar-fixed-top" id="navbar">
       <div class="navbar-inner">
         <div class="container">
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -362,10 +374,15 @@
     <div class="container" id="home">
 
       <div class="hero-unit">
+
+        <!-- spinner -->
+        <div id="map-loader" class="loader"></div>
+
         <div id="map-container" style="overflow:hidden; position:absolute"> </div>
 
         <!-- little logo -->
         <div class="bottom-left-logo" id="logo-normal" style="visibility:hidden"></div>
+
 
         <!-- gl header -->
         <div id="gl-header" style="visibility:hidden">
@@ -396,17 +413,17 @@
             <div id="timeline"  class="gradient-timeline-main">
               <div id="tlMain">
                 <div id="tlScroller">
-									<div id="tlDateMarkers">
-										<!-- all markers are in here -->
-										<div id="nowMarkerWrap">
-											<div id="nowMarkerHead">
-												<div id="nowDate" onsubmit="return false">
-													<i class="icon-angle-left"></i> <span id="polDate"></span> <i class="icon-angle-right"></i>
-												</div>
-											</div>
-											<div id="nowMarkerMain"></div>
-										</div>
-									</div>
+                  <div id="tlDateMarkers">
+                    <!-- all markers are in here -->
+                    <div id="nowMarkerWrap">
+                      <div id="nowMarkerHead">
+                        <div id="nowDate" onsubmit="return false">
+                          <i class="icon-angle-left"></i> <span id="polDate"></span> <i class="icon-angle-right"></i>
+                        </div>
+                      </div>
+                      <div id="nowMarkerMain"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -443,7 +460,6 @@
             frameborder="0" yt:quality=high allowfullscreen>
           </iframe>
         </div>
-
         <!-- banner -->
         <div class="banner" style="visibility:hidden"></div>
 
@@ -479,79 +495,81 @@
         </div>
       </div>
 
-      <div class="info-box">
+      <div id="content">
+        <div class="info-box">
+          <div class="row">
+            <p><i class="icon-warning-sign pull-left" style="font-size:200%; padding-top:5px"></i>  <?php locale("not_ready")?></p>
+          </div>
+        </div>
+
         <div class="row">
-          <p><i class="icon-warning-sign pull-left" style="font-size:200%; padding-top:5px"></i>  <?php locale("not_ready")?></p>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="span12">
-          <div class="gradient-down summary">
-            <h3><?php locale("summary_head")?></h3>
-            <!-- <img src="img/browser.png" id="browser-img" class="img-right pull-right" alt="HistoGlobe im Browser"> -->
-            <p><?php locale("summary")?> <p>
-            <a class="smooth" href="#details"><?php locale("readMore")?></a>
-            <img src="img/info.png" id="info-img" alt="HistoGlobe Info">
+          <div class="span12">
+            <div class="gradient-down summary">
+              <h3><?php locale("summary_head")?></h3>
+              <!-- <img src="img/browser.png" id="browser-img" class="img-right pull-right" alt="HistoGlobe im Browser"> -->
+              <p><?php locale("summary")?> <p>
+              <a class="smooth" href="#details"><?php locale("readMore")?></a>
+              <img src="img/info.png" id="info-img" alt="HistoGlobe Info">
+            </div>
           </div>
         </div>
-      </div>
 
-    <div class="container" id="details">
-      <div class="details gradient-up">
-          <i class="<?php locale("icon_1")?> pull-left icon-feature"></i>
-          <h2><?php locale("feature_1")?><br><span class="muted"> <?php locale("heading_1")?></span></h2>
-          <p><?php locale("explanation_1")?> <br>
+      <div class="container" id="details">
+        <div class="details gradient-up">
+            <i class="<?php locale("icon_1")?> pull-left icon-feature"></i>
+            <h2><?php locale("feature_1")?><br><span class="muted"> <?php locale("heading_1")?></span></h2>
+            <p><?php locale("explanation_1")?> <br>
 
-        <hr id="details2">
+          <hr id="details2">
 
-          <i class="<?php locale("icon_2")?> pull-right icon-feature"></i>
-          <h2><?php locale("feature_2")?><br><span class="muted"> <?php locale("heading_2")?></span></h2>
-           <p><?php locale("explanation_2")?> <br>
+            <i class="<?php locale("icon_2")?> pull-right icon-feature"></i>
+            <h2><?php locale("feature_2")?><br><span class="muted"> <?php locale("heading_2")?></span></h2>
+             <p><?php locale("explanation_2")?> <br>
 
-        <hr id="details3">
+          <hr id="details3">
 
-          <i class="<?php locale("icon_3")?> pull-left icon-feature"></i>
-          <h2><?php locale("feature_3")?><br><span class="muted"> <?php locale("heading_3")?></span></h2>
-           <p><?php locale("explanation_3")?> <br>
+            <i class="<?php locale("icon_3")?> pull-left icon-feature"></i>
+            <h2><?php locale("feature_3")?><br><span class="muted"> <?php locale("heading_3")?></span></h2>
+             <p><?php locale("explanation_3")?> <br>
 
-      </div>
-    </div>
-
-     <div class="container" id="about">
-      <div class="row" >
-        <div class="span12">
-          <div class="details gradient-down">
-            <h4><i class="<?php locale("iconAbout")?>"></i> <?php locale("buttonAbout")?></h4>
-            <?php locale("about")?>
-          </div>
         </div>
       </div>
 
-    </div>
-
-    <div class="container" id="group">
-      <div class="row" >
-        <div class="span12">
-          <div class="details group-image">
+       <div class="container" id="about">
+        <div class="row" >
+          <div class="span12">
+            <div class="details gradient-down">
+              <h4><i class="<?php locale("iconAbout")?>"></i> <?php locale("buttonAbout")?></h4>
+              <?php locale("about")?>
+            </div>
           </div>
         </div>
+
       </div>
 
-    </div>
-
-    <div class="container" id="contact">
-      <div class="row" >
-        <div class="span6">
-          <div class="details muted">
-            <h4><i class="<?php locale("iconContact")?>"></i> <?php locale("buttonContact")?></h4>
-            <small><?php locale("contact")?></small>
+      <div class="container" id="group">
+        <div class="row" >
+          <div class="span12">
+            <div class="details group-image">
+            </div>
           </div>
         </div>
-        <div class="span6">
-          <div class="details muted">
-            <h4><i class="<?php locale("iconImpressum")?>"></i> <?php locale("buttonImpressum")?></h4>
-            <small><?php locale("impressum")?></small>
+
+      </div>
+
+      <div class="container" id="contact">
+        <div class="row" >
+          <div class="span6">
+            <div class="details muted">
+              <h4><i class="<?php locale("iconContact")?>"></i> <?php locale("buttonContact")?></h4>
+              <small><?php locale("contact")?></small>
+            </div>
+          </div>
+          <div class="span6">
+            <div class="details muted">
+              <h4><i class="<?php locale("iconImpressum")?>"></i> <?php locale("buttonImpressum")?></h4>
+              <small><?php locale("impressum")?></small>
+            </div>
           </div>
         </div>
       </div>
