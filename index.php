@@ -525,7 +525,8 @@
         <!-- <div class="banner" style="visibility:hidden"></div> -->
 
         <!-- Video / Prototype buttons -->
-        <p class="header-button-top">
+        <center>
+        <p class="header-button-center">
           <a id="demo-link"
              data-placement="bottom"
              data-original-title="Warnung! Die Demo benötigt einen sehr aktuellen Browser."
@@ -540,6 +541,7 @@
             <small><i class="icon-play"></i> Video</small>
           </a>
         </p>
+        </center>
 
         <a id="back-link" class="header-button-top"
            style="visibility:hidden"
