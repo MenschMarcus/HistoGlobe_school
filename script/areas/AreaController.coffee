@@ -12,21 +12,23 @@ class HG.AreaController
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
 
-    @addCallback "onAreaChanged"
+    @addCallback "onShowArea"
+    @addCallback "onHideArea"
 
     @_initMembers()
+
     timeline.addListener this
 
   # ============================================================================
-  getLayer: () ->
-    @_layer
+  nowChanged: (date) ->
+    @_now = date
+    for area in @_areas
+      area.setDate date
 
   # ============================================================================
-  nowChanged: (date) ->
-    @_layer.setDate date
-
   periodChanged: (dateA, dateB) ->
 
+  # ============================================================================
   categoryChanged: (c) ->
 
 
@@ -36,7 +38,25 @@ class HG.AreaController
 
   # ============================================================================
   _initMembers: ->
-    @_layer = new HG.AreaLayer()
+    @_areas = []
+    @_now = new Date(2000, 1, 1)
 
-    @_layer.onLoaded (layer) =>
-      @notifyAll "onAreaChanged", layer
+    @_loadJson "data/areas/countries.json"
+    @_loadJson "data/areas/countries_old.json"
+
+  # ============================================================================
+  _loadJson: (file) ->
+    $.getJSON file, (countries) =>
+      for country in countries.features
+        newArea = new HG.Area country
+
+        newArea.onShow @, (area) =>
+          @notifyAll "onShowArea", area
+
+        newArea.onHide @, (area) =>
+          @notifyAll "onHideArea", area
+
+        @_areas.push newArea
+
+        newArea.setDate @_now
+

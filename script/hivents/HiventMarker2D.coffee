@@ -3,16 +3,15 @@
 
 window.HG ?= {}
 
-class HG.HiventMarker2D extends L.Marker
+class HG.HiventMarker2D
 
   ##############################################################################
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
   # ============================================================================
-  constructor: (hiventHandle, display, map) ->
+  constructor: (hiventHandle, display, map, markerGroup) ->
 
-    L.Marker.call @, [hiventHandle.getHivent().lat, hiventHandle.getHivent().long]
 
     HG.mixin @, HG.HiventMarker
     HG.HiventMarker.call @, hiventHandle, map.getPanes()["popupPane"]
@@ -22,14 +21,18 @@ class HG.HiventMarker2D extends L.Marker
     @_display = display
     @_map = map
 
-    @addTo @_map
+    icon = new HG.HiventIcon2D("icon_eu.png")
+    @_marker = new L.Marker [hiventHandle.getHivent().lat, hiventHandle.getHivent().long], {icon: icon}
+    @_markerGroup = markerGroup
+
+    @_markerGroup.addLayer @_marker
 
     @_position = new L.Point 0,0
     @_updatePosition()
 
-    @on "mouseover", @_onMouseOver
-    @on "mouseout", @_onMouseOut
-    @on "click", @_onClick
+    @_marker.on "mouseover", @_onMouseOver
+    @_marker.on "mouseout", @_onMouseOut
+    @_marker.on "click", @_onClick
     @_map.on "zoomend", @_updatePosition
     @_map.on "dragend", @_updatePosition
     @_map.on "viewreset", @_updatePosition
@@ -80,10 +83,7 @@ class HG.HiventMarker2D extends L.Marker
 
   # ============================================================================
   _updatePosition: =>
-    if not @_map
-      console.log @getHiventHandle().getHivent().name
-      console.log @getHiventHandle().getHivent().date
-    @_position = @_map.latLngToLayerPoint @getLatLng()
+    @_position = @_map.latLngToLayerPoint @_marker.getLatLng()
     @_updatePopoverAnchor @_getDisplayPosition()
 
 
@@ -92,20 +92,22 @@ class HG.HiventMarker2D extends L.Marker
     pos =  @_map.layerPointToContainerPoint(new L.Point @_position.x, @_position.y - HIVENT_MARKER_2D_RADIUS )
     offset = $(@_map.getContainer()).offset()
     pos.x += offset.left
-    pos.y += offset.top + HIVENT_MARKER_2D_RADIUS / 2
+    pos.y += offset.top + HIVENT_MARKER_2D_RADIUS
     pos
 
   # ============================================================================
   _destroy: =>
     @getHiventHandle().inActiveAll()
-    @off "mouseover", @_onMouseOver
-    @off "mouseout", @_onMouseOut
-    @off "click", @_onClick
+    @_marker.off "mouseover", @_onMouseOver
+    @_marker.off "mouseout", @_onMouseOut
+    @_marker.off "click", @_onClick
     @_map.off "zoomend", @_updatePosition
     @_map.off "dragend", @_updatePosition
     @_map.off "drag", @_updatePosition
     @_map.off "viewreset", @_updatePosition
-    @_map.removeLayer(@)
+    @_markerGroup.removeLayer @_marker
+    delete @_map
+    delete @_markerGroup
     delete @
     return
 

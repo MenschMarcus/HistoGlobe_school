@@ -100,7 +100,7 @@ function timeline(hiventController) {
     refPos = 0;                           // initially set to 0 for startup animation
     leftPos = 0;
     rightPos = 0;
-    dayDist = 0.05;
+    dayDist = 0.2;
     innerThres = 0;                       // initially set to 0 for startup animation
     markerInterval = 0;
 
@@ -542,7 +542,7 @@ function timeline(hiventController) {
       {
         // move timeline into threshold and reset now date
         var nowPos = decYearToPos(now.date);
-        nowPos += 5*speed;
+        nowPos += speed;
 
         // calculate, if now marker is outside the inner threshold and how far
         var moveDiff = 0;
@@ -835,48 +835,48 @@ function timeline(hiventController) {
 
   function zoom (evt, delta) {
 
-    // prevent from scrolling the page
-    if (evt.preventDefault) evt.preventDefault();
+    // // prevent from scrolling the page
+    // if (evt.preventDefault) evt.preventDefault();
 
-    // init values
-    var zoomFactor = 1.15;
-    var minDist = tlMain.offsetWidth/dayDiff(minDate,maxDate);
-    var maxDist = 0.45;
+    // // init values
+    // var zoomFactor = 1.15;
+    // var minDist = tlMain.offsetWidth/dayDiff(minDate,maxDate);
+    // var maxDist = 0.45;
 
-    // if mouse wheel used
-    if (evt)
-    {
-      refDate = clickToDecYear(evt);
-      refPos = evt.pageX-$('#tlScroller').offset().left;
-    }
-    // if zoom in or out buttons used
-    else
-    {
-      refDate = posToDecYear(tlMain.offsetWidth/2);
-      refPos = tlMain.offsetWidth/2;
-    }
-    // change day distance and clip it
-    dayDist *= Math.pow(zoomFactor,delta);
-    dayDist  = Math.min(Math.max(dayDist,minDist),maxDist);
+    // // if mouse wheel used
+    // if (evt)
+    // {
+    //   refDate = clickToDecYear(evt);
+    //   refPos = evt.pageX-$('#tlScroller').offset().left;
+    // }
+    // // if zoom in or out buttons used
+    // else
+    // {
+    //   refDate = posToDecYear(tlMain.offsetWidth/2);
+    //   refPos = tlMain.offsetWidth/2;
+    // }
+    // // change day distance and clip it
+    // dayDist *= Math.pow(zoomFactor,delta);
+    // dayDist  = Math.min(Math.max(dayDist,minDist),maxDist);
 
-    // redraw the scroller
-    drawScroller();
+    // // redraw the scroller
+    // drawScroller();
 
-    // synch the now date to new period dates
-    synchNow();
+    // // synch the now date to new period dates
+    // synchNow();
 
-    // make sure extreme markers stay inside golden ratio
-    // Take the code as it is. Do not question it. Do not change it. Is works :) Thank you!
-    if ((leftPos-tlMain.scrollLeft) >= (tlMain.offsetWidth*0.382)) {
-      scrollTimeline((tlMain.offsetWidth*0.382)-(leftPos-tlMain.scrollLeft));
-    }
-    else if ((rightPos-tlMain.scrollLeft) <= (tlMain.offsetWidth*0.618)) {
-      scrollTimeline((tlMain.offsetWidth*0.618)-(rightPos-tlMain.scrollLeft));
-    }
-    synchNow();
+    // // make sure extreme markers stay inside golden ratio
+    // // Take the code as it is. Do not question it. Do not change it. Is works :) Thank you!
+    // if ((leftPos-tlMain.scrollLeft) >= (tlMain.offsetWidth*0.382)) {
+    //   scrollTimeline((tlMain.offsetWidth*0.382)-(leftPos-tlMain.scrollLeft));
+    // }
+    // else if ((rightPos-tlMain.scrollLeft) <= (tlMain.offsetWidth*0.618)) {
+    //   scrollTimeline((tlMain.offsetWidth*0.618)-(rightPos-tlMain.scrollLeft));
+    // }
+    // synchNow();
 
-    // tell everyone, that period dates changed
-    periodChanged();
+    // // tell everyone, that period dates changed
+    // periodChanged();
   }
 
 

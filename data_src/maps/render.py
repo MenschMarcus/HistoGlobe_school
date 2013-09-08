@@ -1,15 +1,13 @@
-#!/usr/bin/env python
+#!/usr/bin/ipython
+
+import mapnik
+
 from math import pi,cos,sin,log,exp,atan
 from subprocess import call
 import sys, os
 from Queue import Queue
 
 import threading
-
-try:
-    import mapnik2 as mapnik
-except:
-    import mapnik
 
 DEG_TO_RAD = pi/180
 RAD_TO_DEG = 180/pi
@@ -202,10 +200,5 @@ if __name__ == "__main__":
         tile_dir = tile_dir + '/'
 
     #-------------------------------------------------------------------------
-    #
-    # Change the following for different bounding boxes and zoom levels
-    #
-    # Start with an overview
-    # World
     bbox = (-180.0,-90.0, 180.0,90.0)
     render_tiles(bbox, mapfile, tile_dir, 0, 6, "World")

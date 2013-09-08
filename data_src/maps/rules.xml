@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE Map>
+<Map background-color="#FFFFFF" srs="+init=epsg:3857" >
+
+<Style name="gridstyle">
+  <Rule>
+    <LineSymbolizer stroke-opacity="1.0" stroke="#000" stroke-width="0.1" />
+  </Rule>
+</Style>
+
+<Style name="rasterstyle" comp-op="grain-merge" >
+  <Rule>
+    <RasterSymbolizer opacity="0.4" scaling="bilinear8" />
+  </Rule>
+</Style>
+
+<Style name="shadowstyle" image-filters="agg-stack-blur(5,5)">
+  <Rule>
+    <PolygonSymbolizer fill="#000" fill-opacity="0.6" comp-op="grain-merge"  />
+  </Rule>
+</Style>
+
+<Style name="burnstyle" image-filters="agg-stack-blur(15,15)">
+  <Rule>
+    <LineSymbolizer stroke-opacity="0.5" stroke-linejoin="round" stroke="#666" stroke-width="2" />
+  </Rule>
+</Style>
+
+<Style name="landstyle">
+
+  <Rule>
+    <PolygonSymbolizer fill="#e6d4bb" />
+    <LineSymbolizer stroke-opacity="1.0" stroke-linejoin="round" stroke="#666" stroke-width="1" />
+  </Rule>
+
+</Style>
+
+<Layer name="water" srs="+init=epsg:4326">
+  <StyleName>rasterstyle</StyleName>
+  <Datasource>
+    <Parameter name="type">gdal</Parameter>
+    <Parameter name="file">tmp/HYP_LR_SR_OB_DR.tif</Parameter>
+  </Datasource>
+</Layer>
+
+<Layer name="shadow" srs="+init=epsg:4326">
+  <StyleName>shadowstyle</StyleName>
+  <Datasource>
+    <Parameter name="type">shape</Parameter>
+    <Parameter name="file">tmp/ne_50m_land</Parameter>
+  </Datasource>
+</Layer>
+
+<Layer name="world" srs="+init=epsg:4326">
+  <StyleName>landstyle</StyleName>
+  <Datasource>
+    <Parameter name="type">shape</Parameter>
+    <Parameter name="file">tmp/ne_50m_land</Parameter>
+  </Datasource>
+</Layer>
+
+<Layer name="burn" srs="+init=epsg:4326">
+  <StyleName>burnstyle</StyleName>
+  <Datasource>
+    <Parameter name="type">shape</Parameter>
+    <Parameter name="file">tmp/ne_50m_land</Parameter>
+  </Datasource>
+</Layer>
+
+<Layer name="grid" srs="+init=epsg:4326">
+  <StyleName>gridstyle</StyleName>
+  <Datasource>
+    <Parameter name="type">shape</Parameter>
+    <Parameter name="file">tmp/ne_10m_graticules_10</Parameter>
+  </Datasource>
+</Layer>
+
+</Map>

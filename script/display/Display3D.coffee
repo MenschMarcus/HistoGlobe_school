@@ -208,18 +208,18 @@ class HG.Display3D extends HG.Display
 
   # ============================================================================
   _initHivents: ->
-    @_hiventHandler.onHiventsChanged (handles) =>
-      for handle in handles
-        hivent    = new HG.HiventMarker3D handle, this, @_container
-        position  = @_latLongToCart
-                      x:handle.getHivent().long
-                      y:handle.getHivent().lat
+    # @_hiventHandler.onHiventsChanged (handles) =>
+    #   for handle in handles
+    #     hivent    = new HG.HiventMarker3D handle, this, @_container
+    #     position  = @_latLongToCart
+    #                   x:handle.getHivent().long
+    #                   y:handle.getHivent().lat
 
-        hivent.translateOnAxis new THREE.Vector3(1, 0, 0), position.x
-        hivent.translateOnAxis new THREE.Vector3(0, 1, 0), position.y
-        hivent.translateOnAxis new THREE.Vector3(0, 0, 1), position.z
+    #     hivent.translateOnAxis new THREE.Vector3(1, 0, 0), position.x
+    #     hivent.translateOnAxis new THREE.Vector3(0, 1, 0), position.y
+    #     hivent.translateOnAxis new THREE.Vector3(0, 0, 1), position.z
 
-        @_sceneGlobe.add hivent
+    #     @_sceneGlobe.add hivent
 
   ############################# MAIN FUNCTIONS #################################
 

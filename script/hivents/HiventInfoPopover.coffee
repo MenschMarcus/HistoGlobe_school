@@ -165,9 +165,9 @@ class HG.HiventInfoPopover
                           L #{arrowLeft.at 0} #{arrowLeft.at 1}
                           Z"
     @_arrow.attr "fill", "#fff"
-    @_arrow.attr "stroke", "#d4d4d4"
-    @_arrow.attr "stroke-linejoin", "round"
-    @_arrow.attr "stroke-width", "3"
+    @_arrow.attr "stroke", "#fff"
+    # @_arrow.attr "stroke-linejoin", "round"
+    # @_arrow.attr "stroke-width", "3"
 
   # ============================================================================
   _onMouseDown: (event) =>

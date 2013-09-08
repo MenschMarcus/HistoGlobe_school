@@ -19,9 +19,9 @@ class HG.HiventMarkerTimeline
     HIVENT_MARKER_TIMELINE_COUNT++
 
     time = hiventHandle.getHivent().date.getTime()
-    LAST_Y_COORDS[time] ?= 0
-    @_position = { x: posX, y: Math.floor $(parent.parentNode).innerHeight() * 0.85 - LAST_Y_COORDS[time]}
-    LAST_Y_COORDS[time] += 2 * HIVENT_MARKER_TIMELINE_RADIUS
+    LAST_X_COORDS[time] ?= 0
+    @_position = { x: posX + LAST_X_COORDS[time], y: Math.floor $(parent.parentNode).innerHeight() * 0.85 }
+    LAST_X_COORDS[time] += 2 * HIVENT_MARKER_TIMELINE_RADIUS
 
     @_div = document.createElement "div"
     @_div.id = "hiventMarkerTimeline_" + HIVENT_MARKER_TIMELINE_COUNT
@@ -81,7 +81,7 @@ class HG.HiventMarkerTimeline
 
   # ============================================================================
   setPosition: (posX) ->
-    @_position.x = posX
+    @_position.x = posX + LAST_X_COORDS[@getHiventHandle().getHivent().date.getTime()]
     @_div.style.left = @_position.x + "px"
 
   # ============================================================================
@@ -103,7 +103,9 @@ class HG.HiventMarkerTimeline
 
   # ============================================================================
   _destroy: =>
-    LAST_Y_COORDS[@getHiventHandle().getHivent().date.getTime()] = 0
+    LAST_X_COORDS[@getHiventHandle().getHivent().date.getTime()] = 0
+    @getHiventHandle().unMarkAll()
+    @getHiventHandle().unLinkAll()
     $(@_div).remove()
     delete @
     return
@@ -117,4 +119,4 @@ class HG.HiventMarkerTimeline
   HIVENT_DEFAULT_COLOR   = "#253563"
   HIVENT_HIGHLIGHT_COLOR = "#ff8800"
 
-  LAST_Y_COORDS = {}
+  LAST_X_COORDS = {}
