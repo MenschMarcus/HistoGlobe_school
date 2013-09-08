@@ -147,6 +147,8 @@
             }
           );
 
+          $('#warning-close').button('loading')
+
           $('#home').addClass("slide-out");
           $('#content').addClass("slide-out");
           $('#navbar').addClass("slide-out");
@@ -177,9 +179,11 @@
 
               load2D();
 
+              $('#warning-close').button('reset')
+
             }, 500);
 
-          }, 500);
+          }, 200);
         }
       }
 
@@ -366,7 +370,7 @@
               <li class=""><a class="smooth" href="#contact"><i class="<?php locale("iconContact")?>"></i> <?php locale("buttonContact")?></a></li>
             </ul>
           </div>
-          <div class="nav-collapse collapse">
+          <!-- <div class="nav-collapse collapse">
             <ul class="nav pull-right">
               <li class="dropdown" id="fat-menu">
                 <a data-toggle="dropdown" class="dropdown-toggle" role="button" id="language-drop" href="#"><i class="icon-comment-alt"></i> Language <b class="caret"></b></a>
@@ -376,7 +380,7 @@
                 </ul>
               </li>
             </ul>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -402,28 +406,30 @@
             <h3 id="myModalLabel">Willkommen!</h3>
           </div>
           <div class="modal-body">
-            <p>Erleben Sie mit dem Prototypen von <span class="HG">HistoGlobe</span>
+            <p>Erleben Sie mit dem Prototypen von <span class="hg">HistoGlobe</span>
                den aktuellen Fortschritt des Projekts! Aber vergessen Sie nicht:
                Es handelt sich um eine Entwicklungsversion, die noch nicht den
-               vollen Funktionsumfang von <span class="HG">HistoGlobe</span> bietet!
+               vollen Funktionsumfang von <span class="hg">HistoGlobe</span> bietet!
                </p><p>
-                <h3>Versionshinweise</h3>
                 <h4>Version 0.2 <span class="muted">(08.09.2013)</span></h4>
                   <ul>
-                    <li>HistoGlobe 2D: Es ist möglich, Grenzverschiebungen zu visualisieren.</li>
+                    <li><span class="hg">HistoGlobe</span> 2D: Es ist möglich, Grenzverschiebungen zu visualisieren.</li>
+                    <li>Zeitleiste: Ereignisse werden ab sofort zeitlich gefiltert.</li>
+                    <li><span class="hg">HistoGlobe</span> 2D: Info-Popups der Ereignisse können bewegt werden.</li>
                     <li>Das Erscheinungsbild der Karte wurde aktualisiert.</li>
                     <li>Daten zur Entwicklung der europäischen Union wurden eingearbeitet. Sie können bisher nur HistoGlobe 2D betrachtet werden.</li>
                   </ul>
                 <h4>Version 0.1 <span class="muted">(02.06.2013)</span></h4>
                   <ul>
-                    <li>HistoGlobe 2D/3D: Die Darstellung der geografischen Welt (Land/Wasser) ist implenentiert.</li>
-                    <li>HistoGlobe 2D/3D: Die Verortung von historischen Ereignissen ist möglich.</li>
-                    <li>HistoGlobe 2D/3D: Die Verortung von historischen Ereignissen ist möglich.</li>
+                    <li><span class="hg">HistoGlobe</span> 2D/3D: Die Darstellung der geografischen Welt (Land/Wasser) ist implenentiert.</li>
+                    <li><span class="hg">HistoGlobe</span> 2D/3D: Die Verortung von historischen Ereignissen ist möglich.</li>
+                    <li><span class="hg">HistoGlobe</span> 2D/3D: Die Verortung von historischen Ereignissen ist möglich.</li>
+                    <li>Zeitleiste: Es ist möglich, Ereignisse darzustellen.</li>
                   </ul>
                </p>
           </div>
           <div class="modal-footer">
-            <button class="btn" data-dismiss="modal" aria-hidden="true">Los!</button>
+            <button class="btn" id="warning-close" data-dismiss="modal" aria-hidden="true" data-loading-text="Lädt Karte...">Los!</button>
           </div>
         </div>
 
@@ -564,18 +570,11 @@
         <div class="row">
           <div class="span12">
             <div class="gradient-down summary">
-              <img src="img/browser.png" id="browser-img" class="img-left pull-left" alt="HistoGlobe im Browser">
+              <!-- <img src="img/browser.png" id="browser-img" class="img-left pull-left" alt="HistoGlobe im Browser"> -->
               <h2><?php locale("summary_head")?><br><span class="muted"> <?php locale("summary_head_2")?></span></h2>
               <p><?php locale("summary")?> <p>
-              <a class="smooth" href="#details"><?php locale("readMore")?></a>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="span12">
-            <div class="gradient-down summary">
-              <img src="img/info.png" id="info-img" alt="HistoGlobe Info">
+              <!-- <h2>Was bietet Ihnen HistoGlobe?</h2>
+              <img src="img/info.png" id="info-img" alt="HistoGlobe Info"> -->
             </div>
           </div>
         </div>
