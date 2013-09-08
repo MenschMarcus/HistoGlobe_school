@@ -140,30 +140,46 @@
       function loadGLHeader() {
 
         if (BrowserDetect.canvasSupported) {
-          // $('#default-header').animate({opacity: 0.0}, 1000, 'linear',
-          //   function() {
-          //     $('#default-header').css({visibility:"hidden"});
-          //   });
-          $('#default-header').css({visibility:"hidden"});
-          $('#gl-header').css({visibility:"visible"});
+
+          $('#default-header').animate({opacity: 0.0}, 400, 'linear',
+            function() {
+              $('#default-header').css({visibility:"hidden"});
+            }
+          );
+
+          $('#home').addClass("slide-out");
+          $('#content').addClass("slide-out");
+          $('#navbar').addClass("slide-out");
+          $('.hero-unit').addClass("slide-out");
+
           $('#demo-link').css({visibility:"hidden"});
           $('#video-link').css({visibility:"hidden"});
+          $('#gl-header').css({visibility:"visible"});
           $('#back-link').css({visibility:"visible"});
+          $('#map-loader').css({visibility:"visible"});
           $('#logo-normal').css({visibility: "visible"});
-          $('.banner').css({visibility: "visible"});
+          // $('.banner').css({visibility: "visible"});
 
-          $('.hero-unit').css({"background-image": "none"});
-          $('.hero-unit').height(window.innerHeight * 0.8);
+          $('.hero-unit').height(window.innerHeight);
 
-          hiventController = new HG.HiventController("data/hivent_collection.json");
 
-          container = document.getElementById('map-container');
-          loadTimeline();
+          window.setTimeout(function() {
 
-          areaController = new HG.AreaController(timeline);
+            $('#warning').modal()
 
-          load2D();
+            window.setTimeout(function() {
+              hiventController = new HG.HiventController("data/hivent_collection.json");
 
+              container = document.getElementById('map-container');
+              loadTimeline();
+
+              areaController = new HG.AreaController(timeline);
+
+              load2D();
+
+            }, 500);
+
+          }, 500);
         }
       }
 
@@ -179,10 +195,11 @@
         var firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        $('#default-header').animate({opacity: 0.0}, 1000, 'linear',
+        $('#default-header').animate({opacity: 0.0}, 400, 'linear',
           function() {
             $('#default-header').css({visibility:"hidden"});
-          });
+          }
+        );
 
         $('#video-header').css({display:"block"});
         $('#demo-link').css({visibility:"hidden"});
@@ -191,12 +208,18 @@
         $('#back-link').click(function() {
           player.stopVideo();
         });
-
-        $('.hero-unit').css({"background-image": "none"});
       }
 
 
       function loadDefaultHeader() {
+
+        $('#default-header').animate({opacity: 1.0}, 400, 'linear');
+
+        $('#home').removeClass("slide-out");
+        $('#content').removeClass("slide-out");
+        $('#navbar').removeClass("slide-out");
+        $('.hero-unit').removeClass("slide-out");
+
 
         $('#default-header').css({visibility:"visible"});
         $('#default-header').animate({opacity: 1.0}, 1000, 'linear');
@@ -204,10 +227,9 @@
         $('#video-header').css({display:"none"});
         $('#demo-link').css({visibility:"visible"});
         $('#video-link').css({visibility:"visible"});
+        $('#map-loader').css({visibility:"hidden"});
         $('#back-link').css({visibility:"hidden"});
-        $('.banner').css({visibility: "hidden"});
-        $('.hero-unit').css({"background-image": "url('img/logo_bg.jpg')",
-                     "background-position": "bottom right"});
+        // $('.banner').css({visibility: "hidden"});
 
         $('.hero-unit').css({height: "100%"});
         $('#logo-normal').css({visibility: "hidden"});
@@ -325,7 +347,7 @@
 
   </head>
   <body data-spy="scroll" data-target="#mainNavigation" data-offset="20">
-    <div class="navbar navbar-fixed-top">
+    <div class="navbar navbar-fixed-top" id="navbar">
       <div class="navbar-inner">
         <div class="container">
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -362,13 +384,63 @@
     <div class="container" id="home">
 
       <div class="hero-unit">
+
+        <!-- spinner -->
+        <div id="map-loader" class="loader"></div>
+
         <div id="map-container" style="overflow:hidden; position:absolute"> </div>
 
         <!-- little logo -->
         <div class="bottom-left-logo" id="logo-normal" style="visibility:hidden"></div>
 
+
+        <!-- prototype-warning -->
+        <!-- Modal -->
+        <div id="warning" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Willkommen!</h3>
+          </div>
+          <div class="modal-body">
+            <p>Erleben Sie mit dem Prototypen von <span class="HG">HistoGlobe</span>
+               den aktuellen Fortschritt des Projekts! Aber vergessen Sie nicht:
+               Es handelt sich um eine Entwicklungsversion, die noch nicht den
+               vollen Funktionsumfang von <span class="HG">HistoGlobe</span> bietet!
+               </p><p>
+                <h3>Versionshinweise</h3>
+                <h4>Version 0.2 <span class="muted">(08.09.2013)</span></h4>
+                  <ul>
+                    <li>HistoGlobe 2D: Es ist möglich, Grenzverschiebungen zu visualisieren.</li>
+                    <li>Das Erscheinungsbild der Karte wurde aktualisiert.</li>
+                    <li>Daten zur Entwicklung der europäischen Union wurden eingearbeitet. Sie können bisher nur HistoGlobe 2D betrachtet werden.</li>
+                  </ul>
+                <h4>Version 0.1 <span class="muted">(02.06.2013)</span></h4>
+                  <ul>
+                    <li>HistoGlobe 2D/3D: Die Darstellung der geografischen Welt (Land/Wasser) ist implenentiert.</li>
+                    <li>HistoGlobe 2D/3D: Die Verortung von historischen Ereignissen ist möglich.</li>
+                    <li>HistoGlobe 2D/3D: Die Verortung von historischen Ereignissen ist möglich.</li>
+                  </ul>
+               </p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Los!</button>
+          </div>
+        </div>
+
         <!-- gl header -->
         <div id="gl-header" style="visibility:hidden">
+
+          <!-- legend -->
+          <div id="legend">
+            <h3>Legende</h3>
+            <table>
+              <tr><td style="width:20px; background-color:#9F8BFF"></td>
+                  <td style="padding:5px"><small>Europäische Union / EG</small></td></tr>
+              <tr><td style="width:20px; background-color:#FFA46D"></td>
+                  <td style="padding:5px"><small>Eurozone</small></td></tr>
+
+            </table>
+          </div>
 
 
           <!-- timeline -->
@@ -396,17 +468,17 @@
             <div id="timeline"  class="gradient-timeline-main">
               <div id="tlMain">
                 <div id="tlScroller">
-									<div id="tlDateMarkers">
-										<!-- all markers are in here -->
-										<div id="nowMarkerWrap">
-											<div id="nowMarkerHead">
-												<div id="nowDate" onsubmit="return false">
-													<i class="icon-angle-left"></i> <span id="polDate"></span> <i class="icon-angle-right"></i>
-												</div>
-											</div>
-											<div id="nowMarkerMain"></div>
-										</div>
-									</div>
+                  <div id="tlDateMarkers">
+                    <!-- all markers are in here -->
+                    <div id="nowMarkerWrap">
+                      <div id="nowMarkerHead">
+                        <div id="nowDate" onsubmit="return false">
+                          <i class="icon-angle-left"></i> <span id="polDate"></span> <i class="icon-angle-right"></i>
+                        </div>
+                      </div>
+                      <div id="nowMarkerMain"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -443,9 +515,8 @@
             frameborder="0" yt:quality=high allowfullscreen>
           </iframe>
         </div>
-
         <!-- banner -->
-        <div class="banner" style="visibility:hidden"></div>
+        <!-- <div class="banner" style="visibility:hidden"></div> -->
 
         <!-- Video / Prototype buttons -->
         <p class="header-button-top">
@@ -479,83 +550,96 @@
         </div>
       </div>
 
-      <div class="info-box">
+
+
+
+      <!-- content -->
+      <div id="content">
+        <div class="info-box">
+          <div class="row">
+            <p><i class="icon-warning-sign pull-left" style="font-size:200%; padding-top:5px"></i>  <?php locale("not_ready")?></p>
+          </div>
+        </div>
+
         <div class="row">
-          <p><i class="icon-warning-sign pull-left" style="font-size:200%; padding-top:5px"></i>  <?php locale("not_ready")?></p>
+          <div class="span12">
+            <div class="gradient-down summary">
+              <img src="img/browser.png" id="browser-img" class="img-left pull-left" alt="HistoGlobe im Browser">
+              <h2><?php locale("summary_head")?><br><span class="muted"> <?php locale("summary_head_2")?></span></h2>
+              <p><?php locale("summary")?> <p>
+              <a class="smooth" href="#details"><?php locale("readMore")?></a>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="span12">
-          <div class="gradient-down summary">
-            <h3><?php locale("summary_head")?></h3>
-            <!-- <img src="img/browser.png" id="browser-img" class="img-right pull-right" alt="HistoGlobe im Browser"> -->
-            <p><?php locale("summary")?> <p>
-            <a class="smooth" href="#details"><?php locale("readMore")?></a>
-            <img src="img/info.png" id="info-img" alt="HistoGlobe Info">
+        <div class="row">
+          <div class="span12">
+            <div class="gradient-down summary">
+              <img src="img/info.png" id="info-img" alt="HistoGlobe Info">
+            </div>
+          </div>
+        </div>
+
+        <div class="container" id="details">
+          <div class="details gradient-up">
+              <i class="<?php locale("icon_1")?> pull-left icon-feature"></i>
+              <h2><?php locale("feature_1")?><br><span class="muted"> <?php locale("heading_1")?></span></h2>
+              <p><?php locale("explanation_1")?> <br>
+
+            <hr id="details2">
+
+              <i class="<?php locale("icon_2")?> pull-right icon-feature"></i>
+              <h2><?php locale("feature_2")?><br><span class="muted"> <?php locale("heading_2")?></span></h2>
+               <p><?php locale("explanation_2")?> <br>
+
+            <hr id="details3">
+
+              <i class="<?php locale("icon_3")?> pull-left icon-feature"></i>
+              <h2><?php locale("feature_3")?><br><span class="muted"> <?php locale("heading_3")?></span></h2>
+               <p><?php locale("explanation_3")?> <br>
+
+          </div>
+        </div>
+
+         <div class="container" id="about">
+          <div class="row" >
+            <div class="span12">
+              <div class="details gradient-down">
+                <h4><i class="<?php locale("iconAbout")?>"></i> <?php locale("buttonAbout")?></h4>
+                <?php locale("about")?>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="container" id="group">
+          <div class="row" >
+            <div class="span12">
+              <div class="details group-image">
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="container" id="contact">
+          <div class="row" >
+            <div class="span6">
+              <div class="details muted">
+                <h4><i class="<?php locale("iconContact")?>"></i> <?php locale("buttonContact")?></h4>
+                <small><?php locale("contact")?></small>
+              </div>
+            </div>
+            <div class="span6">
+              <div class="details muted">
+                <h4><i class="<?php locale("iconImpressum")?>"></i> <?php locale("buttonImpressum")?></h4>
+                <small><?php locale("impressum")?></small>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
-    <div class="container" id="details">
-      <div class="details gradient-up">
-          <i class="<?php locale("icon_1")?> pull-left icon-feature"></i>
-          <h2><?php locale("feature_1")?><br><span class="muted"> <?php locale("heading_1")?></span></h2>
-          <p><?php locale("explanation_1")?> <br>
-
-        <hr id="details2">
-
-          <i class="<?php locale("icon_2")?> pull-right icon-feature"></i>
-          <h2><?php locale("feature_2")?><br><span class="muted"> <?php locale("heading_2")?></span></h2>
-           <p><?php locale("explanation_2")?> <br>
-
-        <hr id="details3">
-
-          <i class="<?php locale("icon_3")?> pull-left icon-feature"></i>
-          <h2><?php locale("feature_3")?><br><span class="muted"> <?php locale("heading_3")?></span></h2>
-           <p><?php locale("explanation_3")?> <br>
-
-      </div>
-    </div>
-
-     <div class="container" id="about">
-      <div class="row" >
-        <div class="span12">
-          <div class="details gradient-down">
-            <h4><i class="<?php locale("iconAbout")?>"></i> <?php locale("buttonAbout")?></h4>
-            <?php locale("about")?>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="container" id="group">
-      <div class="row" >
-        <div class="span12">
-          <div class="details group-image">
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="container" id="contact">
-      <div class="row" >
-        <div class="span6">
-          <div class="details muted">
-            <h4><i class="<?php locale("iconContact")?>"></i> <?php locale("buttonContact")?></h4>
-            <small><?php locale("contact")?></small>
-          </div>
-        </div>
-        <div class="span6">
-          <div class="details muted">
-            <h4><i class="<?php locale("iconImpressum")?>"></i> <?php locale("buttonImpressum")?></h4>
-            <small><?php locale("impressum")?></small>
-          </div>
-        </div>
-      </div>
-    </div>
     </div>
   </body>
 </html>
