@@ -32,7 +32,7 @@ class HG.Area
     style =
       fillColor:    @_getColor()
       color:        "#666"
-      weight:       2
+      weight:       1
       fillOpacity:  0.4
       opacity:      1
       noClip:       true
@@ -187,10 +187,9 @@ class HG.Area
   # ============================================================================
   _getColor: () =>
 
-    if @_euro[@_state]? and @_euro[@_state] < @_now then return "#464BAE"
-    if @_eu[@_state]? and @_eu[@_state] < @_now     then return "#4B83B5"
-
-    "#D2CDC3"
+    if @_euro[@_state]? and @_euro[@_state] < @_now then return "#FFA46D"
+    if @_eu[@_state]? and @_eu[@_state] < @_now     then return "#9F8BFF"
+    else return                                                 "#D2CDC3"
 
   # ============================================================================
   _styleChangesBetween: (dateA, dateB) ->

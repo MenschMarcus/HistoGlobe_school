@@ -10,9 +10,11 @@ class HG.HiventMarker2D extends L.Marker
   ##############################################################################
 
   # ============================================================================
-  constructor: (hivent, display, map) ->
+  constructor: (hivent, display, map, markerGroup) ->
 
-    L.Marker.call @, [hivent.getHivent().lat, hivent.getHivent().long]
+    icon = new HG.HiventIcon2D("icon_eu.png")
+
+    L.Marker.call @, [hivent.getHivent().lat, hivent.getHivent().long], {icon: icon}
 
     HG.mixin @, HG.HiventMarker
     HG.HiventMarker.call @, hivent, map.getPanes()["popupPane"]
@@ -22,7 +24,8 @@ class HG.HiventMarker2D extends L.Marker
     @_display = display
     @_map = map
 
-    @addTo @_map
+    markerGroup.addLayer @
+    # @addTo @_map
 
     @_position = new L.Point 0,0
     @_updatePosition()
@@ -97,7 +100,8 @@ class HG.HiventMarker2D extends L.Marker
     @_map.off "zoomend", @_updatePosition
     @_map.off "dragend", @_updatePosition
     @_map.off "viewreset", @_updatePosition
-    @_map.removeLayer(@)
+    @_markerGroup.removeLayer @
+    # @_map.removeLayer @
     delete @
     return
 

@@ -5,13 +5,13 @@ then
     mkdir tmp
 fi
 
-if [ ! -f tmp/GRAY_50M_SR_OB.zip ]
+if [ ! -f tmp/HYP_LR_SR_OB_DR.zip ]
 then
-    wget http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/raster/GRAY_50M_SR_OB.zip
-    mv GRAY_50M_SR_OB.zip tmp/
+    wget http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/raster/HYP_LR_SR_OB_DR.zip
+    mv HYP_LR_SR_OB_DR.zip tmp/
 fi
 
-unzip -u tmp/GRAY_50M_SR_OB.zip -d tmp
+unzip -u tmp/HYP_LR_SR_OB_DR.zip -d tmp
 
 
 if [ ! -f tmp/ne_50m_land.zip ]
@@ -32,5 +32,5 @@ fi
 unzip -u tmp/ne_10m_graticules_10.zip -d tmp
 
 
-MAPNIK_MAP_FILE=low.xml python mapnik.py
+MAPNIK_MAP_FILE=rules.xml python render.py
 

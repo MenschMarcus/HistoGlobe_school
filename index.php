@@ -37,8 +37,11 @@
     <link rel="stylesheet" type="text/css" href="style/third-party/font-awesome.min.css">
     <link rel="stylesheet" href="style/third-party/leaflet.css" />
     <link rel="stylesheet" href="style/third-party/leaflet.label.css" />
+    <link rel="stylesheet" href="style/third-party/MarkerCluster.css" />
+    <link rel="stylesheet" href="style/third-party/MarkerCluster.Default.css" />
     <!--[if lte IE 8]>
       <link rel="stylesheet" href="style/third-party/leaflet.ie.css" />
+      <link rel="stylesheet" href="style/third-party/MarkerCluster.Default.ie.css" />
     <![endif]-->
 
     <link rel="stylesheet" type="text/css" href="style/histoglobe.min.css">
@@ -55,6 +58,7 @@
     <script type="text/javascript" src="script/third-party/raphael.min.js"></script>
     <script type="text/javascript" src="script/third-party/topojson.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.label.js"></script>
+    <script type="text/javascript" src="script/third-party/leaflet.markercluster.js"></script>
 
     <!-- <script type="text/javascript" src="script/histoglobe.min.js"></script> -->
 
@@ -70,6 +74,7 @@
     <script type="text/javascript" src="build/HiventInfoPopover.js"></script>
     <script type="text/javascript" src="build/Area.js"></script>
     <script type="text/javascript" src="build/AreaController.js"></script>
+    <script type="text/javascript" src="build/HiventIcon2D.js"></script>
     <script type="text/javascript" src="build/HiventMarker.js"></script>
     <script type="text/javascript" src="build/HiventMarker2D.js"></script>
     <script type="text/javascript" src="build/HiventMarker3D.js"></script>
@@ -135,10 +140,11 @@
       function loadGLHeader() {
 
         if (BrowserDetect.canvasSupported) {
-          $('#default-header').animate({opacity: 0.0}, 1000, 'linear',
-            function() {
-              $('#default-header').css({visibility:"hidden"});
-            });
+          // $('#default-header').animate({opacity: 0.0}, 1000, 'linear',
+          //   function() {
+          //     $('#default-header').css({visibility:"hidden"});
+          //   });
+          $('#default-header').css({visibility:"hidden"});
           $('#gl-header').css({visibility:"visible"});
           $('#demo-link').css({visibility:"hidden"});
           $('#video-link').css({visibility:"hidden"});

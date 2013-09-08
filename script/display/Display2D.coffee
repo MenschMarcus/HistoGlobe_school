@@ -78,10 +78,14 @@ class HG.Display2D extends HG.Display
 
   # ============================================================================
   _initHivents: ->
+
+    @_markerGroup = new L.MarkerClusterGroup()
+
     @_hiventController.onHiventsChanged (handles) =>
-      marker = new HG.HiventMarker2D handle, this, @_map for handle in handles
+      marker = new HG.HiventMarker2D handle, this, @_map, @_markerGroup for handle in handles
 
     @_map.on "click", HG.HiventHandle.DEACTIVATE_ALL_HIVENTS
+    @_map.addLayer @_markerGroup
 
   # ============================================================================
   _animate: (area, attributes, durartion) ->
@@ -128,12 +132,13 @@ class HG.Display2D extends HG.Display
     area.label.setLatLng area.leafletLayer.getBounds().getCenter()
 
     @_map.showLabel area.label
-    area.label.onAdd @_map
 
     area.label.options.offset = [
       -area.label._container.offsetWidth/2,
       -area.label._container.offsetHeight/2
     ]
+
+    area.label._updatePosition()
 
 
   # ============================================================================
@@ -151,7 +156,7 @@ class HG.Display2D extends HG.Display
   # ============================================================================
   _onStyleChange: (area) =>
     if area.leafletLayer?
-      area.leafletLayer.setStyle area.getNormalStyle()
+      @_animate area.leafletLayer, {"fill": area.getNormalStyle().fillColor}, 350
 
   # ============================================================================
   _hideAreaLayer: (area) ->
