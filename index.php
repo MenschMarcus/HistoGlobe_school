@@ -147,20 +147,22 @@
             }
           );
 
+          // scroll to top
+          $('html,body').animate({scrollTop:0}, 500);
+
           $('#warning-close').button('loading')
 
+          $('body').addClass("slide-out");
           $('#home').addClass("slide-out");
           $('#content').addClass("slide-out");
           $('#navbar').addClass("slide-out");
           $('.hero-unit').addClass("slide-out");
 
-          $('#demo-link').css({visibility:"hidden"});
-          $('#video-link').css({visibility:"hidden"});
+          $('.header-button-center').css({display:"none"});
           $('#gl-header').css({visibility:"visible"});
           $('#back-link').css({visibility:"visible"});
           $('#map-loader').css({visibility:"visible"});
           $('#logo-normal').css({visibility: "visible"});
-          // $('.banner').css({visibility: "visible"});
 
           $('.hero-unit').height(window.innerHeight);
 
@@ -206,8 +208,7 @@
         );
 
         $('#video-header').css({display:"block"});
-        $('#demo-link').css({visibility:"hidden"});
-        $('#video-link').css({visibility:"hidden"});
+        $('.header-button-center').css({display:"none"});
         $('#back-link').css({visibility:"visible"});
         $('#back-link').click(function() {
           player.stopVideo();
@@ -219,6 +220,7 @@
 
         $('#default-header').animate({opacity: 1.0}, 400, 'linear');
 
+        $('body').removeClass("slide-out");
         $('#home').removeClass("slide-out");
         $('#content').removeClass("slide-out");
         $('#navbar').removeClass("slide-out");
@@ -229,11 +231,9 @@
         $('#default-header').animate({opacity: 1.0}, 1000, 'linear');
         $('#gl-header').css({visibility:"hidden"});
         $('#video-header').css({display:"none"});
-        $('#demo-link').css({visibility:"visible"});
-        $('#video-link').css({visibility:"visible"});
+        $('.header-button-center').css({display:"block"});
         $('#map-loader').css({visibility:"hidden"});
         $('#back-link').css({visibility:"hidden"});
-        // $('.banner').css({visibility: "hidden"});
 
         $('.hero-unit').css({height: "100%"});
         $('#logo-normal').css({visibility: "hidden"});
@@ -406,27 +406,50 @@
             <h3 id="myModalLabel">Willkommen!</h3>
           </div>
           <div class="modal-body">
+
             <p>Erleben Sie mit dem Prototypen von <span class="hg">HistoGlobe</span>
                den aktuellen Fortschritt des Projekts! Aber vergessen Sie nicht:
                Es handelt sich um eine Entwicklungsversion, die noch nicht den
                vollen Funktionsumfang von <span class="hg">HistoGlobe</span> bietet!
-               </p><p>
-                <h4>Version 0.2 <span class="muted">(08.09.2013)</span></h4>
-                  <ul>
-                    <li><span class="hg">HistoGlobe</span> 2D: Es ist möglich, Grenzverschiebungen zu visualisieren.</li>
-                    <li>Zeitleiste: Ereignisse werden ab sofort zeitlich gefiltert.</li>
-                    <li><span class="hg">HistoGlobe</span> 2D: Info-Popups der Ereignisse können bewegt werden.</li>
-                    <li>Das Erscheinungsbild der Karte wurde aktualisiert.</li>
-                    <li>Daten zur Entwicklung der europäischen Union wurden eingearbeitet. Sie können bisher nur HistoGlobe 2D betrachtet werden.</li>
-                  </ul>
-                <h4>Version 0.1 <span class="muted">(02.06.2013)</span></h4>
-                  <ul>
-                    <li><span class="hg">HistoGlobe</span> 2D/3D: Die Darstellung der geografischen Welt (Land/Wasser) ist implenentiert.</li>
-                    <li><span class="hg">HistoGlobe</span> 2D/3D: Die Verortung von historischen Ereignissen ist möglich.</li>
-                    <li><span class="hg">HistoGlobe</span> 2D/3D: Die Verortung von historischen Ereignissen ist möglich.</li>
-                    <li>Zeitleiste: Es ist möglich, Ereignisse darzustellen.</li>
-                  </ul>
-               </p>
+            </p>
+
+            <div class="accordion" id="accordion2">
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                    <i class="icon-play"></i> Versionshinweise...
+                  </a>
+                </div>
+                <div id="collapseOne" class="accordion-body collapse">
+                  <div class="accordion-inner">
+                    <h4>Version 0.3 <span class="muted">(09.09.2013)</span></h4>
+                    <ul>
+                      <li>Behebt ein Problem, das dazu führte, dass Hiventinformationen erst nach zweimaligem Anklicken angezeigt wurden.</li>
+                      <li>Behebt die falsche Positionierung der Hivent-Tooltips.</li>
+                      <li>Ermöglicht das Einklappen der Versionshinweise.</li>
+                      <li>Verbessert die Kompatibilität mit kleinen Bildschirmen.</li>
+                      <li>Verbessert die Interaktion mit der Zeitleiste.</li>
+                      <li>Verbessert die Darstellung der Zeitleiste.</li>
+                    </ul>
+                    <h4>Version 0.2 <span class="muted">(08.09.2013)</span></h4>
+                    <ul>
+                      <li>Ermöglicht 2D-Grenzverschiebungen zu visualisieren.</li>
+                      <li>Ermöglicht die zeitlich Filterung mit Hilfe der Zeitleiste.</li>
+                      <li>Ermöglicht die Verschiebung von Info-Popups.</li>
+                      <li>Verändert das Erscheinungsbild der Karte.</li>
+                      <li>Stellt Daten zur Entwicklung der europäischen Union dar. Sie können bisher nur in 2D betrachtet werden.</li>
+                    </ul>
+                    <h4>Version 0.1 <span class="muted">(02.06.2013)</span></h4>
+                    <ul>
+                      <li><span class="hg">HistoGlobe</span> 2D/3D: Die Darstellung der geografischen Welt (Land/Wasser) ist implenentiert.</li>
+                      <li><span class="hg">HistoGlobe</span> 2D/3D: Die Verortung von historischen Ereignissen ist möglich.</li>
+                      <li><span class="hg">HistoGlobe</span> 2D/3D: Die Verortung von historischen Ereignissen ist möglich.</li>
+                      <li>Zeitleiste: Es ist möglich, Ereignisse darzustellen.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="modal-footer">
             <button class="btn" id="warning-close" data-dismiss="modal" aria-hidden="true" data-loading-text="Lädt Karte...">Los!</button>

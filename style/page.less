@@ -1,5 +1,10 @@
 body {
   text-align: justify;
+
+  .transition(padding @animation_time ease-in-out);
+  &.slide-out {
+    padding: 0px;
+  }
 }
 
 .hg {
@@ -21,6 +26,10 @@ body {
   &.slide-out {
     display: none;
   }
+}
+
+.modal-body {
+  max-height: 300px;
 }
 
 .hero-unit {
@@ -69,7 +78,8 @@ body {
   .transition(top @animation_time ease-in-out);
 
   &.slide-out {
-    top: -36px;
+    top: -50px;
+    position: fixed;
   }
 }
 
