@@ -619,13 +619,15 @@ function timeline(hiventController) {
     // set event handling variables
     lastPos = evt.pageX;
     totalDragMovement = 0;
+
     // clicked on now marker -> drag it
     if (evt.target.id == 'nowMarkerMain' ||
+        evt.target.id == 'nowDate' ||
         evt.target.id == 'nowMarkerHead') {
       downNowMarker = true;
       return;
     }
-    if (evt.target.id == 'polDate') return;
+
     // clicked on scroller -> move timeline
     else {
       downScroller = true;
