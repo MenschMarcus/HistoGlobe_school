@@ -11,9 +11,9 @@ class HG.HiventInfoPopover
   ##############################################################################
 
   # ============================================================================
-  constructor: (hivent, anchor, parentDiv) ->
+  constructor: (hiventHandle, anchor, parentDiv) ->
 
-    @_hivent = hivent
+    @_hiventHandle = hiventHandle
     @_parentDiv = parentDiv
     @_anchor = anchor
     @_contentLoaded = false
@@ -26,31 +26,21 @@ class HG.HiventInfoPopover
     @_mainDiv.style.position = "absolute"
     @_mainDiv.style.left = "#{anchor.at(0) + WINDOW_TO_ANCHOR_OFFSET_X}px"
     @_mainDiv.style.top = "#{anchor.at(1) + WINDOW_TO_ANCHOR_OFFSET_Y}px"
-    # @_mainDiv.style.width = "#{@_width}px"
-    # @_mainDiv.style.height = "#{@_height}px"
     @_mainDiv.style.zIndex = "#{HG.Display.Z_INDEX + 10}"
     @_mainDiv.style.visibility = "hidden"
     @_mainDiv.addEventListener 'mousedown', @_onMouseDown, false
 
     @_titleDiv = document.createElement "div"
     @_titleDiv.className = "hiventInfoPopoverTitle"
-    @_titleDiv.innerHTML = @_hivent.name
-    # @_titleDiv.style.backgroundColor = "#ccc"
-    # @_titleDiv.style.height = "#{TITLE_DEFAULT_HEIGHT}px"
+    @_titleDiv.innerHTML = @_hiventHandle.getHivent().name
 
     @_closeDiv = document.createElement "div"
     @_closeDiv.className = "hiventInfoPopoverClose"
     @_closeDiv.innerHTML = "&#10006;"
-    # @_closeDiv.style.backgroundColor = "#eee"
-    # @_closeDiv.style.styleFloat = "right"
-    # @_closeDiv.style.cssFloat = "right"
     @_closeDiv.addEventListener 'mouseup', @hide, false
 
     @_bodyDiv = document.createElement "div"
     @_bodyDiv.className = "hiventInfoPopoverBody"
-    # @_bodyDiv.style.backgroundColor = "#fff"
-    # @_bodyDiv.style.height = "100%"
-
 
     @_titleDiv.appendChild @_closeDiv
     @_mainDiv.appendChild @_titleDiv
@@ -78,7 +68,7 @@ class HG.HiventInfoPopover
   show: =>
     unless @_contentLoaded
       content = document.createElement "div"
-      $(content).load @_hivent.content, () =>
+      $(content).load @_hiventHandle.getHivent().content, () =>
         @_bodyDiv.appendChild content
         if content.offsetHeight < @_height
           @_bodyDiv.setAttribute "height", "#{@_height}px"
@@ -109,6 +99,7 @@ class HG.HiventInfoPopover
 
     @_raphael.canvas.style.opacity = 0.0
     window.setTimeout hideArrow, 100
+    @_hiventHandle._activated = false
 
   # ============================================================================
   positionWindowAtAnchor: ->

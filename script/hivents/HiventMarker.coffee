@@ -27,7 +27,7 @@ class HG.HiventMarker
 
     hivent = @_hiventHandle.getHivent()
 
-    $(@_hiventInfo).tooltip {title: hivent.name, placement: "top"}
+    $(@_hiventInfo).tooltip {title: "#{hivent.day}.#{hivent.month}.#{hivent.year} - #{hivent.name}", placement: "top"}
 
     @_popover = null
 
@@ -49,7 +49,7 @@ class HG.HiventMarker
 
   # ============================================================================
   showHiventInfo: (displayPosition) =>
-    @_popover ?= new HG.HiventInfoPopover(@_hiventHandle.getHivent(), new HG.Vector(0, 0), document.getElementsByTagName("body")[0])
+    @_popover ?= new HG.HiventInfoPopover(@_hiventHandle, new HG.Vector(0, 0), document.getElementsByTagName("body")[0])
     @_hiventInfo.style.left = displayPosition.x + "px"
     @_hiventInfo.style.top = displayPosition.y + "px"
     @_updatePopoverAnchor displayPosition
@@ -82,7 +82,6 @@ class HG.HiventMarker
 
   # ============================================================================
   _destroyMarker: =>
-    # delete @_hiventHandle
     delete @
     return
 

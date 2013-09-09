@@ -116,4 +116,4 @@ class HG.HiventMarker2D
   ##############################################################################
 
   VISIBLE_MARKERS_2D = []
-  HIVENT_MARKER_2D_RADIUS = 40
+  HIVENT_MARKER_2D_RADIUS = 10
