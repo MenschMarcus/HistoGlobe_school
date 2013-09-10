@@ -21,8 +21,9 @@ class HG.HiventMarker2D
     @_display = display
     @_map = map
 
-    icon = new HG.HiventIcon2D("icon_eu.png")
-    @_marker = new L.Marker [hiventHandle.getHivent().lat, hiventHandle.getHivent().long], {icon: icon}
+    icon_default    = new HG.HiventIcon2D("icon_eu.png")
+    icon_higlighted = new HG.HiventIcon2D("icon_eu_highlighted.png")
+    @_marker = new L.Marker [hiventHandle.getHivent().lat, hiventHandle.getHivent().long], {icon: icon_default}
     @_markerGroup = markerGroup
 
     @_markerGroup.addLayer @_marker
@@ -48,6 +49,14 @@ class HG.HiventMarker2D
 
     @getHiventHandle().onInActive(@, (mousePos) =>
       @_map.off "drag", @_updatePosition
+    )
+
+    @getHiventHandle().onLink(@, (mousePos) =>
+      @_marker.setIcon icon_higlighted
+    )
+
+    @getHiventHandle().onUnLink(@, (mousePos) =>
+      @_marker.setIcon icon_default
     )
 
     @getHiventHandle().onDestruction @, @_destroy
