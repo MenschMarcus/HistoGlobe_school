@@ -83,7 +83,7 @@ class HG.Display2D extends HG.Display
     @_markerGroup = new L.MarkerClusterGroup(
       {
         showCoverageOnHover: false,
-        maxClusterRadius: 40
+        maxClusterRadius: 5
       })
 
     @_hiventController.onHiventsChanged (handles) =>
