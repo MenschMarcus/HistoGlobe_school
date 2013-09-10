@@ -105,8 +105,6 @@ class HG.Area
 
       size = Math.max(maxLatLng[0] - minLatLng[0], maxLatLng[1] - minLatLng[1])
 
-      console.log @_name + " " + size
-
   # ============================================================================
   _initMembers: ->
 
