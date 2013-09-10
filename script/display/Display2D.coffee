@@ -63,6 +63,7 @@ class HG.Display2D extends HG.Display
       maxZoom:      6
       minZoom:      1
       zoomControl:  false
+      # maxBounds:    [[-180,-90], [180, 90]]
 
     @_map = L.map @_mapParent, options
     @_map.setView [51.505, 10.09], 4
@@ -131,18 +132,18 @@ class HG.Display2D extends HG.Display
     area.leafletLayer.addTo @_map
 
     # add label
-    # area.label = new L.Label();
-    # area.label.setContent area.getLabel()
-    # area.label.setLatLng area.leafletLayer.getBounds().getCenter()
+    area.label = new L.Label();
+    area.label.setContent area.getLabel()
+    area.label.setLatLng area.getLabelLatLng()
 
-    # @_map.showLabel area.label
+    @_map.showLabel area.label
 
-    # area.label.options.offset = [
-    #   -area.label._container.offsetWidth/2,
-    #   -area.label._container.offsetHeight/2
-    # ]
+    area.label.options.offset = [
+      -area.label._container.offsetWidth/2,
+      -area.label._container.offsetHeight/2
+    ]
 
-    # area.label._updatePosition()
+    area.label._updatePosition()
 
 
   # ============================================================================
@@ -173,4 +174,4 @@ class HG.Display2D extends HG.Display
       area.removeListener "onStyleChange", @
 
       @_map.removeLayer area.leafletLayer
-      # @_map.removeLayer area.label
+      @_map.removeLayer area.label

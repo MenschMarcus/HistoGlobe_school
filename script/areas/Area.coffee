@@ -28,6 +28,10 @@ class HG.Area
     @_name
 
   # ============================================================================
+  getLabelLatLng: ->
+    @_labelLatLng
+
+  # ============================================================================
   getNormalStyle: ->
     style =
       fillColor:    @_getColor()
@@ -73,6 +77,35 @@ class HG.Area
     else if geoJson.geometry.type is "MultiPolygon"
       for id, layer of data._layers
         @_data.push layer._latlngs
+
+    # calculate label position
+    maxIndex = 0
+    for area, i in @_data
+      if area.length > @_data[maxIndex].length
+        maxIndex = i
+
+    if  @_data[maxIndex].length > 0
+
+      @_labelLatLng = [0,0]
+
+      maxLatLng = [-180, -90]
+      minLatLng = [ 180,  90]
+
+      for coords in @_data[maxIndex]
+        @_labelLatLng[0] += coords.lat
+        @_labelLatLng[1] += coords.lng
+
+        if coords.lat > maxLatLng[0] then maxLatLng[0] = coords.lat
+        if coords.lat < minLatLng[0] then minLatLng[0] = coords.lat
+        if coords.lng > maxLatLng[1] then maxLatLng[1] = coords.lng
+        if coords.lng < minLatLng[1] then minLatLng[1] = coords.lng
+
+      @_labelLatLng[0] /= @_data[maxIndex].length
+      @_labelLatLng[1] /= @_data[maxIndex].length
+
+      size = Math.max(maxLatLng[0] - minLatLng[0], maxLatLng[1] - minLatLng[1])
+
+      console.log @_name + " " + size
 
   # ============================================================================
   _initMembers: ->
