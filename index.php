@@ -470,6 +470,8 @@
                   <td style="padding:5px"><small>Europäische Union / EG</small></td></tr>
               <tr><td style="width:20px; background-color:#FFA46D"></td>
                   <td style="padding:5px"><small>Eurozone</small></td></tr>
+              <tr><td style="width:20px; background-color:#FFA46D"></td>
+                  <td style="padding:5px"><small>Eurozone</small></td></tr>
 
             </table>
           </div>
