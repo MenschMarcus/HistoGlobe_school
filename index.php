@@ -425,6 +425,7 @@
                     <ul>
                       <li>Ermöglicht die Darstellung von Ländernamen.</li>
                       <li>Ermöglicht die Darstellung verschiedener Hivent-Kategorien mit entsprechenden Icons.</li>
+                      <li>Ermöglicht das Hervorheben von Hivents auf Zeitleiste und KArte beim Berühren mit der Maus.</li>
                     </ul>
                     <h4>Version 0.3 <span class="muted">(09.09.2013)</span></h4>
                     <ul>
@@ -599,7 +600,7 @@
         <div class="row">
           <div class="span12">
             <div class="gradient-down summary">
-              <!-- <img src="img/browser.png" id="browser-img" class="img-left pull-left" alt="HistoGlobe im Browser"> -->
+              <img src="img/browser.png" id="browser-img" class="img-left pull-right" alt="HistoGlobe im Browser">
               <h2><?php locale("summary_head")?><br><span class="muted"> <?php locale("summary_head_2")?></span></h2>
               <p><?php locale("summary")?> <p>
               <!-- <h2>Was bietet Ihnen HistoGlobe?</h2>

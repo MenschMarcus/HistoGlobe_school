@@ -32,7 +32,7 @@
         'heading_2' => 'Geschichte erleben',
         'heading_3' => 'Schreiben Sie Geschichte!',
 
-        'summary_head' => '<span class="hg">HistoGlobe</span> visualisiert Geschichte:',
+        'summary_head' => '<span class="hg">HistoGlobe</span> zeigt Geschichte:',
 
         'summary_head_2' => 'Modern, interaktiv und informativ.',
 
@@ -46,7 +46,8 @@
           Benutzerfreundliche Gestaltung und hohe Anpassungsfähigkeit
           bieten ein einmaliges Lernerlebnis. Als Internetdienst ist es
           plattformunabhängig und lässt es sich bequem mit einem Web-Browser
-          verwenden, natürlich auch mit dem Smartphone oder dem Tablet.',
+          verwenden, natürlich auch mit dem Smartphone oder dem Tablet.
+          </p>',
 
         'explanation_1' => '<p><span class="hg">HistoGlobe</span> vereint Lehr- und Lernmaterial: Es
           unterstützt Lehrende darin, komplexe historische Prozesse visuell zu
