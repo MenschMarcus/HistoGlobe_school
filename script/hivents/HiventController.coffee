@@ -54,6 +54,7 @@ class HG.HiventController
           h.day,
           h.long,
           h.lat,
+          h.category,
           h.content,
         )
 

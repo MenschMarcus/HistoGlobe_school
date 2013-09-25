@@ -6,7 +6,7 @@
 #
 #Data within the csv file has to be formatted as follows:
 #
-#ID|name|description|date|locName|long|lat
+#ID|name|description|date|locName|long|lat|category
 #
 ###############################################################
 
@@ -47,6 +47,7 @@ def main():
         hivent_location = row[4]
         hivent_long = row[6]
         hivent_lat = row[5]
+        hivent_category = row[7]
 
         #create html
         html_name = hivent_id + ".htm"
@@ -73,6 +74,8 @@ def main():
 
         json_target.write('\t\t\"long\": ' + hivent_long + ',\n')
         json_target.write('\t\t\"lat\": ' + hivent_lat + ',\n')
+
+        json_target.write('\t\t\"category\": \"' +  hivent_category + '\",\n')
 
         json_target.write('\t\t\"content\": \"' + html_path + html_name + '\"\n')
 

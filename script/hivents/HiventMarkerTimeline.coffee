@@ -20,16 +20,15 @@ class HG.HiventMarkerTimeline
 
     time = hiventHandle.getHivent().date.getTime()
     LAST_X_COORDS[time] ?= 0
-    @_position = { x: posX + LAST_X_COORDS[time], y: Math.floor $(parent.parentNode).innerHeight() * 0.85 }
-    LAST_X_COORDS[time] += 2 * HIVENT_MARKER_TIMELINE_RADIUS
+    @_position = { x: posX + LAST_X_COORDS[time], y: Math.floor $(parent.parentNode).innerHeight() * 0.75 }
+    LAST_X_COORDS[time] += HIVENT_MARKER_TIMELINE_RADIUS * 1.5
+
+    @_classDefault     = "hivent_marker_timeline_#{hiventHandle.getHivent().category}_default"
+    @_classHighlighted = "hivent_marker_timeline_#{hiventHandle.getHivent().category}_highlighted"
 
     @_div = document.createElement "div"
+    @_div.setAttribute "class", @_classDefault
     @_div.id = "hiventMarkerTimeline_" + HIVENT_MARKER_TIMELINE_COUNT
-    @_div.style.position = "absolute"
-    @_div.style.width  = 2 * HIVENT_MARKER_TIMELINE_RADIUS + "px"
-    @_div.style.height = 2 * HIVENT_MARKER_TIMELINE_RADIUS + "px"
-    @_div.style.borderRadius = HIVENT_MARKER_TIMELINE_RADIUS + "px"
-    @_div.style.backgroundColor = HIVENT_DEFAULT_COLOR
 
     @_div.style.left = @_position.x + "px"
     @_div.style.top = @_position.y + "px"
@@ -60,16 +59,16 @@ class HG.HiventMarkerTimeline
       @getHiventHandle().focusAll pos
 
     @getHiventHandle().onMark @, (mousePos) =>
-      @_div.style.backgroundColor = HIVENT_HIGHLIGHT_COLOR
+      @_div.setAttribute "class", @_classHighlighted
 
     @getHiventHandle().onUnMark @, (mousePos) =>
-      @_div.style.backgroundColor = HIVENT_DEFAULT_COLOR
+      @_div.setAttribute "class", @_classDefault
 
     @getHiventHandle().onLink @, (mousePos) =>
-      @_div.style.backgroundColor = HIVENT_HIGHLIGHT_COLOR
+      @_div.setAttribute "class", @_classHighlighted
 
     @getHiventHandle().onUnLink @, (mousePos) =>
-      @_div.style.backgroundColor = HIVENT_DEFAULT_COLOR
+      @_div.setAttribute "class", @_classDefault
 
     @getHiventHandle().onDestruction @, @_destroy
 
@@ -114,9 +113,7 @@ class HG.HiventMarkerTimeline
   #                             STATIC MEMBERS                                 #
   ##############################################################################
 
-  HIVENT_MARKER_TIMELINE_RADIUS = 4
+  HIVENT_MARKER_TIMELINE_RADIUS = 9
   HIVENT_MARKER_TIMELINE_COUNT = 0
-  HIVENT_DEFAULT_COLOR   = "#253563"
-  HIVENT_HIGHLIGHT_COLOR = "#ff8800"
 
   LAST_X_COORDS = {}

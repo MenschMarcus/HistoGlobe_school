@@ -7,7 +7,7 @@ class HG.Hivent
   ##############################################################################
 
   constructor: (name, year, month, day,
-                long, lat, content) ->
+                long, lat, category, content) ->
 
     @name = name
     @year = year
@@ -16,5 +16,6 @@ class HG.Hivent
     @date = new Date(year, month, day)
     @long = long
     @lat = lat
+    @category = category
     @content = content
 
