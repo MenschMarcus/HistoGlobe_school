@@ -468,10 +468,17 @@
           <div id="legend">
             <h3>Legende</h3>
             <table>
-              <tr><td style="width:20px; background-color:#9F8BFF"></td>
+              <tr><td style="width:32px; height:32px; background-color:#9F8BFF"></td>
                   <td style="padding:5px"><small>Europäische Union / EG</small></td></tr>
-              <tr><td style="width:20px; background-color:#FFA46D"></td>
+              <tr><td style="width:32px; height:32px; background-color:#FFA46D"></td>
                   <td style="padding:5px"><small>Eurozone</small></td></tr>
+              <tr><td style="padding:10px"/><td style="padding:10px"/></tr>
+              <tr><td style="width:32px; height:32px; background-image:url('data/hivent_icons/icon_join.png'); background-size: cover"></td>
+                  <td style="padding:5px"><small>Beitritt</small></td></tr>
+              <tr><td style="width:32px; height:32px; background-image:url('data/hivent_icons/icon_law.png'); background-size: cover"></td>
+                  <td style="padding:5px"><small>Vertrag</small></td></tr>
+              <tr><td style="width:32px; height:32px; background-image:url('data/hivent_icons/icon_default.png'); background-size: cover"></td>
+                  <td style="padding:5px"><small>Sonstige</small></td></tr>
 
             </table>
           </div>
