@@ -17,7 +17,6 @@ set cFiles=script/util/Mixin.coffee ^
         script/hivents/HiventHandle.coffee ^
         script/hivents/HiventController.coffee ^
         script/hivents/Hivent.coffee ^
-        script/hivents/HiventIcon2D.coffee ^
         script/hivents/HiventMarker.coffee ^
         script/hivents/HiventMarker2D.coffee ^
         script/hivents/HiventMarker3D.coffee ^
@@ -34,7 +33,6 @@ set jFiles=build/Mixin.js ^
         build/AreaController.js ^
         script/timeline/Timeline.js ^
         build/Hivent.js ^
-        build/HiventIcon2D.js ^
         build/HiventHandle.js ^
         build/HiventController.js ^
         build/HiventMarker.js ^
