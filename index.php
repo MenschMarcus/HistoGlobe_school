@@ -424,6 +424,7 @@
                     <h4>Version 0.4 <span class="muted">(25.09.2013)</span></h4>
                     <ul>
                       <li>Ermöglicht die Darstellung von Ländernamen.</li>
+                      <li>Ermöglicht die Darstellung verschiedener Hivent-Kategorien mit entsprechenden Icons.</li>
                     </ul>
                     <h4>Version 0.3 <span class="muted">(09.09.2013)</span></h4>
                     <ul>
