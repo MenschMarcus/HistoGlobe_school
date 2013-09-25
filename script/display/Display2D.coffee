@@ -63,7 +63,7 @@ class HG.Display2D extends HG.Display
       maxZoom:      6
       minZoom:      1
       zoomControl:  false
-      # maxBounds:    [[-180,-90], [180, 90]]
+      #maxBounds:    [[-180,-90], [180, 90]]
 
     @_map = L.map @_mapParent, options
     @_map.setView [51.505, 10.09], 4
@@ -76,6 +76,7 @@ class HG.Display2D extends HG.Display
   # ============================================================================
   _initEventHandling: ->
     window.addEventListener 'resize', @_onWindowResize, false
+    @_map.on "zoomend", @_onZoomEnd
 
   # ============================================================================
   _initHivents: ->
@@ -83,7 +84,7 @@ class HG.Display2D extends HG.Display
     @_markerGroup = new L.MarkerClusterGroup(
       {
         showCoverageOnHover: false,
-        maxClusterRadius: 5
+        maxClusterRadius: 20
       })
 
     @_hiventController.onHiventsChanged (handles) =>
@@ -102,6 +103,9 @@ class HG.Display2D extends HG.Display
 
   # ============================================================================
   _initAreas: ->
+
+    @_visibleAreas = []
+
     @_areaController.onShowArea @, (area) =>
       @_showAreaLayer area
 
@@ -117,34 +121,75 @@ class HG.Display2D extends HG.Display
   _showAreaLayer: (area) ->
 
     # add area
-    area.leafletLayer = null
+    @_visibleAreas.push area
+
+    area.myLeafletLayer = null
 
     options = area.getNormalStyle()
 
-    area.leafletLayer = L.multiPolygon(area.getData(), options)
+    area.myLeafletLayer = L.multiPolygon(area.getData(), options)
 
-    area.leafletLayer.on "mouseover", @_onHover
-    area.leafletLayer.on "mouseout", @_onUnHover
-    area.leafletLayer.on "click", @_onClick
+    area.myLeafletLayer.on "mouseover", @_onHover
+    area.myLeafletLayer.on "mouseout", @_onUnHover
+    area.myLeafletLayer.on "click", @_onClick
 
     area.onStyleChange @, @_onStyleChange
 
-    area.leafletLayer.addTo @_map
+    area.myLeafletLayer.addTo @_map
 
     # add label
-    area.label = new L.Label();
-    area.label.setContent area.getLabel()
-    area.label.setLatLng area.getLabelLatLng()
-
-    @_map.showLabel area.label
-
-    area.label.options.offset = [
-      -area.label._container.offsetWidth/2,
-      -area.label._container.offsetHeight/2
+    area.myLeafletLabel = new L.Label();
+    area.myLeafletLabel.setContent area.getLabel()
+    area.myLeafletLabel.setLatLng area.getLabelLatLng()
+    @_map.showLabel area.myLeafletLabel
+    area.myLeafletLabel.options.offset = [
+      -area.myLeafletLabel._container.offsetWidth/2,
+      -area.myLeafletLabel._container.offsetHeight/2
     ]
 
-    area.label._updatePosition()
+    area.myLeafletLabel._updatePosition()
+    area.myLeafletLabelIsVisible = false
 
+    if @_isLabelVisible area
+      @_showLabel area
+
+  # ============================================================================
+  _hideAreaLayer: (area) ->
+    if area.myLeafletLayer?
+
+      @_visibleAreas.splice(@_visibleAreas.indexOf(area), 1)
+
+      area.myLeafletLayer.off "mouseover", @_onHover
+      area.myLeafletLayer.off "mouseout", @_onUnHover
+      area.myLeafletLayer.off "click", @_onClick
+
+      area.removeListener "onStyleChange", @
+
+      @_hideLabel area
+
+      @_map.removeLayer area.myLeafletLabel
+      @_map.removeLayer area.myLeafletLayer
+
+
+  # ============================================================================
+  _isLabelVisible: (area) ->
+    max = @_map.project area._maxLatLng
+    min = @_map.project area._minLatLng
+
+    width = area.getLabel().length * 10
+
+    visible = (max.x - min.x) > width * 0.75 or @_map.getZoom() is @_map.getMaxZoom()
+
+  # ============================================================================
+  _showLabel: (area) =>
+    area.myLeafletLabelIsVisible = true
+    $(area.myLeafletLabel._container).addClass("visible")
+
+
+  # ============================================================================
+  _hideLabel: (area) =>
+    area.myLeafletLabelIsVisible = false
+    $(area.myLeafletLabel._container).removeClass("visible")
 
   # ============================================================================
   _onHover: (event) =>
@@ -159,19 +204,17 @@ class HG.Display2D extends HG.Display
     @_map.fitBounds event.target.getBounds()
 
   # ============================================================================
-  _onStyleChange: (area) =>
-    if area.leafletLayer?
-      @_animate area.leafletLayer, {"fill": area.getNormalStyle().fillColor}, 350
+  _onZoomEnd: (event) =>
+    for area in @_visibleAreas
+      shoulBeVisible = @_isLabelVisible area
+
+      if shoulBeVisible and not area.myLeafletLabelIsVisible
+        @_showLabel area
+      else if not shoulBeVisible and area.myLeafletLabelIsVisible
+        @_hideLabel area
+
 
   # ============================================================================
-  _hideAreaLayer: (area) ->
-    if area.leafletLayer?
-
-      area.leafletLayer.off "mouseover", @_onHover
-      area.leafletLayer.off "mouseout", @_onUnHover
-      area.leafletLayer.off "click", @_onClick
-
-      area.removeListener "onStyleChange", @
-
-      @_map.removeLayer area.leafletLayer
-      @_map.removeLayer area.label
+  _onStyleChange: (area) =>
+    if area.myLeafletLayer?
+      @_animate area.myLeafletLayer, {"fill": area.getNormalStyle().fillColor}, 350

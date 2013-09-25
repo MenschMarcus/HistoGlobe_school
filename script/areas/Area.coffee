@@ -66,9 +66,11 @@ class HG.Area
 
   # ============================================================================
   _initData: (geoJson) ->
-    @_data = []
-    @_state = geoJson.properties.sov_a3
-    @_name = geoJson.properties.name
+    @_data      = []
+    @_state     = geoJson.properties.sov_a3
+    @_name      = geoJson.properties.name
+    @_maxLatLng = [-180, -90]
+    @_minLatLng = [ 180,  90]
 
     data = L.GeoJSON.geometryToLayer geoJson
 
@@ -88,22 +90,18 @@ class HG.Area
 
       @_labelLatLng = [0,0]
 
-      maxLatLng = [-180, -90]
-      minLatLng = [ 180,  90]
-
       for coords in @_data[maxIndex]
         @_labelLatLng[0] += coords.lat
         @_labelLatLng[1] += coords.lng
 
-        if coords.lat > maxLatLng[0] then maxLatLng[0] = coords.lat
-        if coords.lat < minLatLng[0] then minLatLng[0] = coords.lat
-        if coords.lng > maxLatLng[1] then maxLatLng[1] = coords.lng
-        if coords.lng < minLatLng[1] then minLatLng[1] = coords.lng
+        if coords.lat > @_maxLatLng[0] then @_maxLatLng[0] = coords.lat
+        if coords.lat < @_minLatLng[0] then @_minLatLng[0] = coords.lat
+        if coords.lng > @_maxLatLng[1] then @_maxLatLng[1] = coords.lng
+        if coords.lng < @_minLatLng[1] then @_minLatLng[1] = coords.lng
 
       @_labelLatLng[0] /= @_data[maxIndex].length
       @_labelLatLng[1] /= @_data[maxIndex].length
 
-      size = Math.max(maxLatLng[0] - minLatLng[0], maxLatLng[1] - minLatLng[1])
 
   # ============================================================================
   _initMembers: ->

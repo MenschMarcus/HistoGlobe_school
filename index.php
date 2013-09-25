@@ -422,6 +422,10 @@
                 </div>
                 <div id="collapseOne" class="accordion-body collapse">
                   <div class="accordion-inner">
+                    <h4>Version 0.4 <span class="muted">(25.09.2013)</span></h4>
+                    <ul>
+                      <li>Ermöglicht die Darstellung von Ländernamen.</li>
+                    </ul>
                     <h4>Version 0.3 <span class="muted">(09.09.2013)</span></h4>
                     <ul>
                       <li>Behebt ein Problem, das dazu führte, dass Hiventinformationen erst nach zweimaligem Anklicken angezeigt wurden.</li>
