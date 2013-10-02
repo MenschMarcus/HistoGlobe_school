@@ -37,6 +37,8 @@
     <link rel="stylesheet" type="text/css" href="style/third-party/font-awesome.min.css">
     <link rel="stylesheet" href="style/third-party/leaflet.css" />
     <link rel="stylesheet" href="style/third-party/leaflet.label.css" />
+    <!-- <link rel="stylesheet" href="style/third-party/prettyPhoto/css/prettyPhoto.css" /> -->
+    <link rel="stylesheet" href="style/third-party/prettyPhoto/css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
     <link rel="stylesheet" href="style/third-party/MarkerCluster.css" />
     <link rel="stylesheet" href="style/third-party/MarkerCluster.Default.css" />
     <!--[if lte IE 8]>
@@ -51,6 +53,7 @@
     <script type="text/javascript" src="script/third-party/jquery.browser.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.disable.text.select.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.mousewheel.js"></script>
+    <script type="text/javascript" src="script/third-party/jquery.prettyPhoto.js"></script>
     <script type="text/javascript" src="script/third-party/bootstrap.min.js"></script>
     <script type="text/javascript" src="script/third-party/RequestAnimationFrame.js"></script>
     <script type="text/javascript" src="script/third-party/three.min.js"></script>
@@ -677,5 +680,17 @@
         </div>
       </div>
     </div>
+
+  <script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){
+      $("a[rel^='prettyPhoto']").prettyPhoto({
+          animation_speed:'normal',
+          theme:'light_square',
+          slideshow:3000,
+          autoplay_slideshow: false,
+          hideflash: true
+      });
+    });
+  </script>
   </body>
 </html>

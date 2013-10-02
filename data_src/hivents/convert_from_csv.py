@@ -13,17 +13,29 @@
 import sys, os
 import csv
 
+class Multimedia:
+  type = ""
+  description = ""
+  link = ""
+
+  def __init__(self, type, description, link):
+    self.type = type
+    self.description = description
+    self.link = link
+
 def main():
-  csv_file_path = ""
+  csv_hivents_file_path = ""
+  csv_multimedia_file_path = ""
   target_path = ""
 
   if len(sys.argv) < 3:
-    print "A csv file and a target path have to be specified!"
-    print "Usage: convert_from_csv.py PATH_TO_CSV TARGET_PATH"
+    print "A csv hivents file, a csv data file and a target path have to be specified!"
+    print "Usage: convert_from_csv.py PATH_TO_HIVENT_CSV PATH_TO_MULTIMEDIA_CSV TARGET_PATH"
     return -1
 
-  csv_file_path = sys.argv[1]
-  target_path = sys.argv[2]
+  csv_hivents_file_path = sys.argv[1]
+  csv_multimedia_file_path = sys.argv[2]
+  target_path = sys.argv[3]
 
   assets_path =  target_path + "/hivent_assets/"
   html_path = assets_path + "html/"
@@ -34,20 +46,55 @@ def main():
   json_target = open(target_path + "/hivent_collection.json", "w")
   json_target.write("[\n")
 
+  #load multimedia sheet and store combination of id/data for later use
+  multimedia_map = dict()
 
-  with open(csv_file_path, 'rb') as csvfile:
+  with open(csv_multimedia_file_path, 'rb') as csvfile:
     rows = list(csv.reader(csvfile, delimiter='|', quotechar='\"'))
     row_count = len(rows)
     for row in rows:
       if row != rows[0]:
-        hivent_id = row[0]
-        hivent_name = row[1]
+        id = row[0]
+        multimedia = Multimedia(row[1], row[2], row[3])
+
+        multimedia_map[id] = multimedia
+
+  #load hivent sheet
+  with open(csv_hivents_file_path, 'rb') as csvfile:
+    rows = list(csv.reader(csvfile, delimiter='|', quotechar='\"'))
+    row_count = len(rows)
+    for row in rows:
+      if row != rows[0]:
+        hivent_id          = row[0]
+        hivent_name        = row[1]
         hivent_description = row[2]
-        hivent_date = row[3]
-        hivent_location = row[4]
-        hivent_long = row[6]
-        hivent_lat = row[5]
-        hivent_category = row[7]
+        hivent_date        = row[3]
+        hivent_location    = row[4]
+        hivent_long        = row[6]
+        hivent_lat         = row[5]
+        hivent_category    = row[7]
+        hivent_mm_ids      = row[8]
+
+        mm_html_string = ""
+
+        if hivent_mm_ids != "":
+          gallery_id = hivent_id + "_gallery"
+          mm_html_string = '\t<ul class=\"gallery clearfix\">\n'
+          hivent_mm_ids = hivent_mm_ids.split(",")
+          gallery_tag = ""
+          if len(hivent_mm_ids) > 1:
+            gallery_tag = "[" + gallery_id + "]"
+          for id in hivent_mm_ids:
+            if not id in multimedia_map:
+              print "Multimedia ID " + hivent_mm_id + " is invalid!"
+            else:
+              multimedia = multimedia_map[id]
+              mm_html_string += str('\t\t<li><a href=\"' +
+                                multimedia.link + '\" rel=\"prettyPhoto' +
+                                gallery_tag + '\" title=\"' +
+                                multimedia.description + '\"> <img src=\"data/hivent_icons/icon_join.png\" /></a></li>\n')
+
+          mm_html_string += "\t</ul>\n"
 
         #create html
         html_name = hivent_id + ".htm"
@@ -58,7 +105,18 @@ def main():
                            '\t<p>\n\t\t' +
                            hivent_description +
                            '\n\t</p>\n' +
-                          '</div>'
+                           mm_html_string +
+                          '</div>\n'
+                          # '<script type="text/javascript">\n' +
+                          # '\t$(\"#' + gallery_id + ' a[rel^=\'prettyPhoto\']\").prettyPhoto(\n' +
+                          # '\t{\n' +
+                          # '\t\tanimation_speed:\'normal\',\n' +
+                          # '\t\ttheme:\'light_square\',\n' +
+                          # '\t\tslideshow:3000,\n' +
+                          # '\t\tautoplay_slideshow: false,\n' +
+                          # '\t\thideflash: true\n' +
+                          # '\t});\n' +
+                          # '</script>'
                          )
         html_target.close()
 

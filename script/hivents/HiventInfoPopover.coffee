@@ -75,7 +75,21 @@ class HG.HiventInfoPopover
 
         if content.offsetWidth > @_width
           @_resize(content.offsetWidth, @_height)
+
       @_contentLoaded = true
+
+    $("area[rel^='prettyPhoto']").prettyPhoto()
+
+    console.log content
+    console.log $(content).find("a")
+    $("a[rel^='prettyPhoto']").prettyPhoto()
+    # $("a[rel^='prettyPhoto']").prettyPhoto {
+    #   animation_speed:'normal',
+    #   theme:'light_square',
+    #   slideshow:3000,
+    #   autoplay_slideshow: false,
+    #   hideflash: true
+    # }
 
     @_mainDiv.style.visibility = "visible"
     @_raphael.canvas.style.visibility = "visible"
