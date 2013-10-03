@@ -216,7 +216,7 @@ class HG.Area
   # ============================================================================
   _getColor: () =>
 
-    if @_euro[@_state]? and @_euro[@_state] < @_now then return "#FFA46D"
+    if @_euro[@_state]? and @_euro[@_state] < @_now then return "#5B309F"
     if @_eu[@_state]? and @_eu[@_state] < @_now     then return "#9F8BFF"
     else return                                                 "#D2CDC3"
 

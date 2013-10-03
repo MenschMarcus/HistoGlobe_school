@@ -60,28 +60,7 @@
     <script type="text/javascript" src="script/third-party/leaflet.label.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.markercluster.js"></script>
 
-    <!-- <script type="text/javascript" src="script/histoglobe.min.js"></script> -->
-
-    <script type="text/javascript" src="build/Mixin.js"></script>
-    <script type="text/javascript" src="build/CallbackContainer.js"></script>
-    <script type="text/javascript" src="build/Vector.js"></script>
-    <script type="text/javascript" src="build/Display.js"></script>
-    <script type="text/javascript" src="build/Display3D.js"></script>
-    <script type="text/javascript" src="build/Hivent.js"></script>
-    <script type="text/javascript" src="build/Display2D.js"></script>
-    <script type="text/javascript" src="build/HiventController.js"></script>
-    <script type="text/javascript" src="build/HiventHandle.js"></script>
-    <script type="text/javascript" src="build/HiventInfoPopover.js"></script>
-    <script type="text/javascript" src="build/Area.js"></script>
-    <script type="text/javascript" src="build/AreaController.js"></script>
-    <script type="text/javascript" src="build/HiventMarker.js"></script>
-    <script type="text/javascript" src="build/HiventMarker2D.js"></script>
-    <script type="text/javascript" src="build/HiventMarker3D.js"></script>
-    <script type="text/javascript" src="build/HiventMarkerTimeline.js"></script>
-    <script type="text/javascript" src="script/timeline/Timeline.js"></script>
-    <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
-    <script type="text/javascript" src="build/VideoPlayer.js"></script>
-
+    <script type="text/javascript" src="script/histoglobe.min.js"></script>
 
     <script>
 	    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -425,7 +404,7 @@
                     <ul>
                       <li>Ermöglicht die Darstellung von Ländernamen.</li>
                       <li>Ermöglicht die Darstellung verschiedener Hivent-Kategorien mit entsprechenden Icons.</li>
-                      <li>Ermöglicht das Hervorheben von Hivents auf Zeitleiste und KArte beim Berühren mit der Maus.</li>
+                      <li>Ermöglicht das Hervorheben von Hivents auf Zeitleiste und Karte beim Berühren mit der Maus.</li>
                     </ul>
                     <h4>Version 0.3 <span class="muted">(09.09.2013)</span></h4>
                     <ul>
@@ -470,7 +449,7 @@
             <table>
               <tr><td style="width:32px; height:32px; background-color:#9F8BFF"></td>
                   <td style="padding:5px"><small>Europäische Union / EG</small></td></tr>
-              <tr><td style="width:32px; height:32px; background-color:#FFA46D"></td>
+              <tr><td style="width:32px; height:32px; background-color:#5B309F"></td>
                   <td style="padding:5px"><small>Eurozone</small></td></tr>
               <tr><td style="padding:10px"/><td style="padding:10px"/></tr>
               <tr><td style="width:32px; height:32px; background-image:url('data/hivent_icons/icon_join.png'); background-size: cover"></td>
