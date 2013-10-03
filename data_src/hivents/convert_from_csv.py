@@ -13,15 +13,22 @@
 import sys, os
 import csv
 
+iframe_criterions = ['flv', 'ogv', 'mp4', 'ogg']
+
 class Multimedia:
   type = ""
   description = ""
   link = ""
+  thumbnail = ""
 
   def __init__(self, type, description, link):
     self.type = type
     self.description = description
     self.link = link
+    self.thumbnail = link
+    if link.split('.')[-1] in iframe_criterions:
+      self.link += "?iframe=true"
+      self.thumbnail = "data/hivent_icons/icon_join.png"
 
 def main():
   csv_hivents_file_path = ""
@@ -92,7 +99,8 @@ def main():
               mm_html_string += str('\t\t<li><a href=\"' +
                                 multimedia.link + '\" rel=\"prettyPhoto' +
                                 gallery_tag + '\" title=\"' +
-                                multimedia.description + '\"> <img src=\"data/hivent_icons/icon_join.png\" /></a></li>\n')
+                                multimedia.description + '\"> <img src=\"' +
+                                multimedia.thumbnail + '\" width=\"60px\" /></a></li>\n')
 
           mm_html_string += "\t</ul>\n"
 
@@ -107,16 +115,6 @@ def main():
                            '\n\t</p>\n' +
                            mm_html_string +
                           '</div>\n'
-                          # '<script type="text/javascript">\n' +
-                          # '\t$(\"#' + gallery_id + ' a[rel^=\'prettyPhoto\']\").prettyPhoto(\n' +
-                          # '\t{\n' +
-                          # '\t\tanimation_speed:\'normal\',\n' +
-                          # '\t\ttheme:\'light_square\',\n' +
-                          # '\t\tslideshow:3000,\n' +
-                          # '\t\tautoplay_slideshow: false,\n' +
-                          # '\t\thideflash: true\n' +
-                          # '\t});\n' +
-                          # '</script>'
                          )
         html_target.close()
 

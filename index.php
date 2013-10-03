@@ -681,16 +681,6 @@
       </div>
     </div>
 
-  <script type="text/javascript" charset="utf-8">
-    $(document).ready(function(){
-      $("a[rel^='prettyPhoto']").prettyPhoto({
-          animation_speed:'normal',
-          theme:'light_square',
-          slideshow:3000,
-          autoplay_slideshow: false,
-          hideflash: true
-      });
-    });
   </script>
   </body>
 </html>
