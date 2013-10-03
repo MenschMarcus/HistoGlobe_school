@@ -46,8 +46,4 @@ set jFiles=build/Mixin.js ^
 
 IF not exist build ( mkdir build )
 
-coffee -c -o build %cFiles%
-
-uglifyjs %jFiles% -o script/histoglobe.min.js #-mc
-
-lessc --no-color -x style/main.less style/histoglobe.min.css
+coffee -c -o build %cFiles% && uglifyjs %jFiles% -o script\histoglobe.min.js && lessc --no-color -x style\main.less style\histoglobe.min.css
