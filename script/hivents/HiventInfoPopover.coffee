@@ -86,8 +86,6 @@ class HG.HiventInfoPopover
 
         @_contentLoaded = true
 
-    $("area[rel^='prettyPhoto']").prettyPhoto()
-
     @_mainDiv.style.visibility = "visible"
     @_raphael.canvas.style.visibility = "visible"
 

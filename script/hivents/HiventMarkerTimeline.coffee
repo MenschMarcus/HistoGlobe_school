@@ -20,7 +20,7 @@ class HG.HiventMarkerTimeline
 
     time = hiventHandle.getHivent().date.getTime()
     LAST_X_COORDS[time] ?= 0
-    @_position = { x: posX + LAST_X_COORDS[time], y: Math.floor $(parent.parentNode).innerHeight() * 0.75 }
+    @_position = { x: posX + LAST_X_COORDS[time] - HIVENT_MARKER_TIMELINE_RADIUS, y: Math.floor $(parent.parentNode).innerHeight() * 0.75 }
     LAST_X_COORDS[time] += HIVENT_MARKER_TIMELINE_RADIUS * 1.5
 
     @_classDefault     = "hivent_marker_timeline_#{hiventHandle.getHivent().category}_default"
