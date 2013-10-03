@@ -110,10 +110,10 @@ def main():
         html_target.write('<div class = \"hiventInfoPopoverContent\">\n' +
                            '\t<h3>' + hivent_location + ', ' +
                            hivent_date + '</h3>\n' +
+                           mm_html_string +
                            '\t<p>\n\t\t' +
                            hivent_description +
                            '\n\t</p>\n' +
-                           mm_html_string +
                           '</div>\n'
                          )
         html_target.close()
