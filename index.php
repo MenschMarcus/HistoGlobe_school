@@ -1,28 +1,3 @@
-<?php
-  session_start();
-
-  // define language whitelist
-  $allowedLangs = array('en', 'de');
-
-  if(isset($_GET['lang']) && in_array($_GET['lang'], $allowedLangs)) {
-    $_SESSION['lang'] = $_GET['lang'];
-  }
-  if(!isset($_SESSION['lang'])) {
-    $_SESSION['lang'] = 'de'; // default value
-  }
-  include('locale/' . $_SESSION['lang'] . '.php'); // include lang file
-
-  function locale($phrase) {
-    global $lang;
-
-    if(array_key_exists($phrase, $lang)) {
-      echo $lang[$phrase];
-    } else {
-      echo $phrase;
-    }
-  }
-?>
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de-de" lang="de-de" dir="ltr">
   <head>
@@ -31,13 +6,11 @@
 
     <title>HistoGlobe</title>
 
-    <link rel="icon" type="image/png" href="img/favicon.png">
     <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap-responsive.min.css">
     <link rel="stylesheet" type="text/css" href="style/third-party/font-awesome.min.css">
     <link rel="stylesheet" href="style/third-party/leaflet.css" />
     <link rel="stylesheet" href="style/third-party/leaflet.label.css" />
-    <!-- <link rel="stylesheet" href="style/third-party/prettyPhoto/css/prettyPhoto.css" /> -->
     <link rel="stylesheet" href="style/third-party/prettyPhoto/css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
     <link rel="stylesheet" href="style/third-party/MarkerCluster.css" />
     <link rel="stylesheet" href="style/third-party/MarkerCluster.Default.css" />
@@ -85,22 +58,10 @@
     <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
 
-
-    <script>
-	    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-	    ga('create', 'UA-42176173-1', 'histoglobe.com');
-	    ga('send', 'pageview');
-	  </script>
-
     <script type="text/javascript">
       var display2D, display3D, timeline, hiventController, areaController;
       var timelineInitialized = false;
       var container;
-      var player;
 
       jQuery(document).ready(function($) {
         BrowserDetect.init();
@@ -191,11 +152,6 @@
         }
       }
 
-      function onYouTubeIframeAPIReady() {
-        player = new HG.VideoPlayer("ytplayer");
-      }
-
-
       function loadVideoHeader() {
         //Load YouTube API
         var tag = document.createElement('script');
@@ -212,9 +168,6 @@
         $('#video-header').css({display:"block"});
         $('.header-button-center').css({display:"none"});
         $('#back-link').css({visibility:"visible"});
-        $('#back-link').click(function() {
-          player.stopVideo();
-        });
       }
 
 
@@ -353,39 +306,6 @@
 
   </head>
   <body data-spy="scroll" data-target="#mainNavigation" data-offset="20">
-    <div class="navbar navbar-fixed-top" id="navbar">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand active smooth" href="#home">
-            <img src="img/logo_small.svg" alt="HistoGlobe">
-          </a>
-          <div class="nav-collapse collapse" id="mainNavigation">
-            <ul class="nav">
-              <li class=""><a class="smooth" href="#home"><i class="<?php locale("iconHome")?>"></i> <?php locale("buttonHome")?></a></li>
-              <li class=""><a class="smooth" href="#details"><i class="<?php locale("iconDetails")?>"></i> <?php locale("buttonDetails")?></a></li>
-              <li class=""><a class="smooth" href="#about"><i class="<?php locale("iconAbout")?>"></i> <?php locale("buttonAbout")?></a></li>
-              <li class=""><a class="smooth" href="#contact"><i class="<?php locale("iconContact")?>"></i> <?php locale("buttonContact")?></a></li>
-            </ul>
-          </div>
-          <!-- <div class="nav-collapse collapse">
-            <ul class="nav pull-right">
-              <li class="dropdown" id="fat-menu">
-                <a data-toggle="dropdown" class="dropdown-toggle" role="button" id="language-drop" href="#"><i class="icon-comment-alt"></i> Language <b class="caret"></b></a>
-                <ul aria-labelledby="language-drop" role="menu" class="dropdown-menu">
-                  <li class=""><a href="?lang=de">Deutsch</a></li>
-                  <li class=""><a href="?lang=en">English</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div> -->
-        </div>
-      </div>
-    </div>
 
     <div class="container" id="home">
 
@@ -550,15 +470,6 @@
           </div>
         </div>
 
-        <!-- video -->
-        <div id="video-header"
-           style="display:none; position:absolute; width: 100%; height: 100%;">
-
-          <iframe id="ytplayer" type="text/html" width="100%" height="100%"
-            src="http://www.youtube.com/embed/pbEm_v7p0kw?modestbranding=1&amp;showinfo=0&amp;autohide=1&amp;color=white&amp;theme=light&amp;wmode=transparent&amp;rel=0"
-            frameborder="0" yt:quality=high allowfullscreen>
-          </iframe>
-        </div>
         <!-- banner -->
         <!-- <div class="banner" style="visibility:hidden"></div> -->
 
@@ -595,92 +506,5 @@
           </center>
         </div>
       </div>
-
-
-
-
-      <!-- content -->
-      <div id="content">
-        <div class="info-box">
-          <div class="row">
-            <p><i class="icon-warning-sign pull-left" style="font-size:200%; padding-top:5px"></i>  <?php locale("not_ready")?></p>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="span12">
-            <div class="gradient-down summary">
-              <img src="img/browser.png" id="browser-img" class="img-left pull-right" alt="HistoGlobe im Browser">
-              <h2><?php locale("summary_head")?><br><span class="muted"> <?php locale("summary_head_2")?></span></h2>
-              <p><?php locale("summary")?> <p>
-              <!-- <h2>Was bietet Ihnen HistoGlobe?</h2>
-              <img src="img/info.png" id="info-img" alt="HistoGlobe Info"> -->
-            </div>
-          </div>
-        </div>
-
-        <div class="container" id="details">
-          <div class="details gradient-up">
-              <i class="<?php locale("icon_1")?> pull-left icon-feature"></i>
-              <h2><?php locale("feature_1")?><br><span class="muted"> <?php locale("heading_1")?></span></h2>
-              <p><?php locale("explanation_1")?> <br>
-
-            <hr id="details2">
-
-              <i class="<?php locale("icon_2")?> pull-right icon-feature"></i>
-              <h2><?php locale("feature_2")?><br><span class="muted"> <?php locale("heading_2")?></span></h2>
-               <p><?php locale("explanation_2")?> <br>
-
-            <hr id="details3">
-
-              <i class="<?php locale("icon_3")?> pull-left icon-feature"></i>
-              <h2><?php locale("feature_3")?><br><span class="muted"> <?php locale("heading_3")?></span></h2>
-               <p><?php locale("explanation_3")?> <br>
-
-          </div>
-        </div>
-
-         <div class="container" id="about">
-          <div class="row" >
-            <div class="span12">
-              <div class="details gradient-down">
-                <h4><i class="<?php locale("iconAbout")?>"></i> <?php locale("buttonAbout")?></h4>
-                <?php locale("about")?>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="container" id="group">
-          <div class="row" >
-            <div class="span12">
-              <div class="details group-image">
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="container" id="contact">
-          <div class="row" >
-            <div class="span6">
-              <div class="details muted">
-                <h4><i class="<?php locale("iconContact")?>"></i> <?php locale("buttonContact")?></h4>
-                <small><?php locale("contact")?></small>
-              </div>
-            </div>
-            <div class="span6">
-              <div class="details muted">
-                <h4><i class="<?php locale("iconImpressum")?>"></i> <?php locale("buttonImpressum")?></h4>
-                <small><?php locale("impressum")?></small>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </script>
   </body>
 </html>
