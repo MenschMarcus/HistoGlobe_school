@@ -14,6 +14,7 @@ set cFiles=script/util/Mixin.coffee ^
         script/display/Display.coffee ^
         script/areas/Area.coffee ^
         script/areas/AreaController.coffee ^
+        script/timeline/Timeline.coffee ^
         script/hivents/HiventHandle.coffee ^
         script/hivents/HiventController.coffee ^
         script/hivents/Hivent.coffee ^
@@ -31,6 +32,7 @@ set jFiles=build/Mixin.js ^
         build/Display3D.js ^
         build/Area.js ^
         build/AreaController.js ^
+        build/Timeline.js ^
         script/timeline/Timeline.js ^
         build/Hivent.js ^
         build/HiventHandle.js ^

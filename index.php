@@ -484,7 +484,13 @@
           </div>
 
 
-          <!-- timeline -->
+          <!-- timeline NEW -->
+          <div id="histoline">
+
+          </div>
+
+
+          <!-- timeline OLD-->
           <div id="tlContainer">
 
             <div id="tlMenuLeft"  class="gradient-timeline-menu">
