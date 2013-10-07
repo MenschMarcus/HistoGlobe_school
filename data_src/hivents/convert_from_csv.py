@@ -13,7 +13,7 @@
 import sys, os
 import csv
 
-iframe_criterions = ['flv', 'ogv', 'mp4', 'ogg']
+iframe_criteria = ['flv', 'ogv', 'mp4', 'ogg']
 
 class Multimedia:
   type = ""
@@ -26,7 +26,7 @@ class Multimedia:
     self.description = description
     self.link = link
     self.thumbnail = link
-    if link.split('.')[-1] in iframe_criterions:
+    if link.split('.')[-1] in iframe_criteria:
       self.link += "?iframe=true"
       self.thumbnail = "data/hivent_icons/icon_join.png"
 
