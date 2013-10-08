@@ -65,15 +65,6 @@
 
       jQuery(document).ready(function($) {
         BrowserDetect.init();
-        $(".smooth").click(function(event){
-          event.preventDefault();
-          $('html,body').animate({scrollTop:$($(this).attr('href')).offset().top}, 500);
-        });
-        if (!BrowserDetect.canvasSupported) {
-          $('#demo-link').addClass("btn disabled");
-        }
-
-        $('#demo-link').tooltip();
 
         if (!BrowserDetect.webglRenderingSupported) {
           var elem_title = 'Entschuldigung! <a class="close pull-right" style="margin-top: -3px;" onclick="$(&#39;#toggle-3D&#39;).popover(&#39;hide&#39;);">&times;</a>';
@@ -98,38 +89,17 @@
           $('#toggle-3D').popover({animation:true, title:elem_title, content:elem_content, html:true, placement:"top"});
         }
 
+        loadGLHeader();
+
       });
 
       function loadGLHeader() {
 
         if (BrowserDetect.canvasSupported) {
 
-          $('#default-header').animate({opacity: 0.0}, 400, 'linear',
-            function() {
-              $('#default-header').css({visibility:"hidden"});
-            }
-          );
-
-          // scroll to top
-          $('html,body').animate({scrollTop:0}, 500);
-
           $('#warning-close').button('loading')
 
-          $('body').addClass("slide-out");
-          $('#home').addClass("slide-out");
-          $('#content').addClass("slide-out");
-          $('#navbar').addClass("slide-out");
-          $('.hero-unit').addClass("slide-out");
-
-          $('.header-button-center').css({display:"none"});
-          $('#gl-header').css({visibility:"visible"});
-          $('#back-link').css({visibility:"visible"});
-          $('#map-loader').css({visibility:"visible"});
-          $('#logo-normal').css({visibility: "visible"});
-
           $('.hero-unit').height(window.innerHeight);
-
-
           window.setTimeout(function() {
 
             $('#warning').modal()
@@ -150,59 +120,6 @@
 
           }, 200);
         }
-      }
-
-      function loadVideoHeader() {
-        //Load YouTube API
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        $('#default-header').animate({opacity: 0.0}, 400, 'linear',
-          function() {
-            $('#default-header').css({visibility:"hidden"});
-          }
-        );
-
-        $('#video-header').css({display:"block"});
-        $('.header-button-center').css({display:"none"});
-        $('#back-link').css({visibility:"visible"});
-      }
-
-
-      function loadDefaultHeader() {
-
-        $('#default-header').animate({opacity: 1.0}, 400, 'linear');
-
-        $('body').removeClass("slide-out");
-        $('#home').removeClass("slide-out");
-        $('#content').removeClass("slide-out");
-        $('#navbar').removeClass("slide-out");
-        $('.hero-unit').removeClass("slide-out");
-
-
-        $('#default-header').css({visibility:"visible"});
-        $('#default-header').animate({opacity: 1.0}, 1000, 'linear');
-        $('#gl-header').css({visibility:"hidden"});
-        $('#video-header').css({display:"none"});
-        $('.header-button-center').css({display:"block"});
-        $('#map-loader').css({visibility:"hidden"});
-        $('#back-link').css({visibility:"hidden"});
-
-        $('.hero-unit').css({height: "100%"});
-        $('#logo-normal').css({visibility: "hidden"});
-
-        if (display3D && display3D.isRunning()) {
-          $(display3D.getCanvas()).animate({opacity: 0.0}, 1000, 'linear');
-          display3D.stop();
-        }
-
-        if (display2D && display2D.isRunning()) {
-          $(display2D.getCanvas()).animate({opacity: 0.0}, 1000, 'linear');
-          display2D.stop();
-        }
-
       }
 
       function load2D() {
@@ -294,17 +211,14 @@
           $("#tlMain").disableTextSelect();
           $("#tlScroller").disableTextSelect();
           $("#tlPlayer").disableTextSelect();
-          //$("#bigDateBox").disableTextSelect();
 
           timelineInitialized = true;
         }
-
-
       }
 
     </script>
-
   </head>
+
   <body data-spy="scroll" data-target="#mainNavigation" data-offset="20">
 
     <div class="container" id="home">
@@ -314,11 +228,7 @@
         <!-- spinner -->
         <div id="map-loader" class="loader"></div>
 
-        <div id="map-container" style="overflow:hidden; position:absolute"> </div>
-
-        <!-- little logo -->
-        <div class="bottom-left-logo" id="logo-normal" style="visibility:hidden"></div>
-
+        <div id="map-container" style="overflow:hidden; position:absolute;"> </div>
 
         <!-- prototype-warning -->
         <!-- Modal -->
@@ -385,7 +295,7 @@
         </div>
 
         <!-- gl header -->
-        <div id="gl-header" style="visibility:hidden">
+        <div id="gl-header">
 
           <!-- legend -->
           <div id="legend">
@@ -470,41 +380,6 @@
           </div>
         </div>
 
-        <!-- banner -->
-        <!-- <div class="banner" style="visibility:hidden"></div> -->
-
-        <!-- Video / Prototype buttons -->
-        <center>
-        <p class="header-button-center">
-          <a id="demo-link"
-             data-placement="bottom"
-             data-original-title="Warnung! Die Demo benötigt einen sehr aktuellen Browser."
-             onClick="loadGLHeader()"
-             style="margin:10px">
-            <small><i class="icon-play"></i> Prototyp</small>
-          </a>
-
-          <a id="video-link"
-            onClick="loadVideoHeader()"
-            style="margin:10px">
-            <small><i class="icon-play"></i> Video</small>
-          </a>
-        </p>
-        </center>
-
-        <a id="back-link" class="header-button-top"
-           style="visibility:hidden"
-           onClick="loadDefaultHeader()"
-           style="margin:10px">
-          <small><i class="icon-step-backward"></i> Zurück</small>
-        </a>
-
-        <!-- default header -->
-        <div id="default-header">
-          <center>
-            <img src="img/logo_big.png" alt="logo">
-          </center>
-        </div>
       </div>
   </body>
 </html>

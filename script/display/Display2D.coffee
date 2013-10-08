@@ -53,8 +53,8 @@ class HG.Display2D extends HG.Display
   # ============================================================================
   _initCanvas: ->
     @_mapParent = document.createElement "div"
-    @_mapParent.style.width = $(@_container.parentNode).width() + "px"
-    @_mapParent.style.height = $(@_container.parentNode).height() + "px"
+    @_mapParent.style.width = @_container.offsetWidth + "px"
+    @_mapParent.style.height = @_container.offsetHeight + "px"
     @_mapParent.style.zIndex = "#{HG.Display.Z_INDEX}"
 
     @_container.appendChild @_mapParent
