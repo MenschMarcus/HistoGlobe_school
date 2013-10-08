@@ -78,7 +78,7 @@
     <script type="text/javascript" src="build/HiventMarker2D.js"></script>
     <script type="text/javascript" src="build/HiventMarker3D.js"></script>
     <script type="text/javascript" src="build/HiventMarkerTimeline.js"></script>
-    <script type="text/javascript" src="script/timeline/Timeline.js"></script>
+    <script type="text/javascript" src="build/Timeline.js"></script>
     <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
 
@@ -287,61 +287,70 @@
         }
       }
 
-      function loadTimeline() {
+      function loadTimeline()
+      {
+        // new timeline
+        if (!timelineInitialized)
+        {
+          timeline = new HG.Timeline(1945, 2015, 0.1, 10, document.getElementById("timeline"));
 
-        if (!timelineInitialized) {
-          timeline = timeline(hiventController);
-          timeline.initTimeline();
-
-          $(window).mousemove(timeline.moveMouse);
-          $(window).mouseup(timeline.releaseMouse);
-
-          $("#tlScroller").bind("mousedown",timeline.clickMouse);
-          $("#tlScroller").bind("mousewheel",timeline.zoom);
-
-          // dragging the now marker
-          $("#tlScroller").bind("mousemove",timeline.moveMouseOutThres);
-
-          // moving the timeline scroller with left and right buttons
-          $("#tlMoveLeftRight").bind("mousedown", function(evt)
-            {
-              if (evt.button == 0)
-                timeline.clickMoveButtonLeft(-0.01)
-            }
-          );
-          $("#tlMoveLeftLeft").bind("mousedown", function(evt)
-            {
-              if (evt.button == 0)
-                timeline.clickMoveButtonLeft(0.01)
-            }
-          );
-          $("#tlMoveRightRight").bind("mousedown", function(evt)
-            {
-              if (evt.button == 0)
-                timeline.clickMoveButtonRight(0.01)
-            }
-          );
-          $("#tlMoveRightLeft").bind("mousedown",  function(evt)
-            {
-              if (evt.button == 0)
-                timeline.clickMoveButtonRight(-0.01)
-            }
-          );
-
-          // play history
-          $('#histPlayer1').click(timeline.togglePlayer);
-          $('#histPlayer2').click(timeline.togglePlayer);
-          $('#histPlayer3').click(timeline.togglePlayer);
-
-          // disable selection of years in timeline
-
-          $("#tlMain").disableTextSelect();
-          $("#tlScroller").disableTextSelect();
-          $("#tlPlayer").disableTextSelect();
-          //$("#bigDateBox").disableTextSelect();
-
-          timelineInitialized = true;
         }
+
+
+        // old timeline
+        // if (!timelineInitialized) {
+        //   timeline = timeline(hiventController);
+        //   timeline.initTimeline();
+
+        //   $(window).mousemove(timeline.moveMouse);
+        //   $(window).mouseup(timeline.releaseMouse);
+
+        //   $("#tlScroller").bind("mousedown",timeline.clickMouse);
+        //   $("#tlScroller").bind("mousewheel",timeline.zoom);
+
+        //   // dragging the now marker
+        //   $("#tlScroller").bind("mousemove",timeline.moveMouseOutThres);
+
+        //   // moving the timeline scroller with left and right buttons
+        //   $("#tlMoveLeftRight").bind("mousedown", function(evt)
+        //     {
+        //       if (evt.button == 0)
+        //         timeline.clickMoveButtonLeft(-0.01)
+        //     }
+        //   );
+        //   $("#tlMoveLeftLeft").bind("mousedown", function(evt)
+        //     {
+        //       if (evt.button == 0)
+        //         timeline.clickMoveButtonLeft(0.01)
+        //     }
+        //   );
+        //   $("#tlMoveRightRight").bind("mousedown", function(evt)
+        //     {
+        //       if (evt.button == 0)
+        //         timeline.clickMoveButtonRight(0.01)
+        //     }
+        //   );
+        //   $("#tlMoveRightLeft").bind("mousedown",  function(evt)
+        //     {
+        //       if (evt.button == 0)
+        //         timeline.clickMoveButtonRight(-0.01)
+        //     }
+        //   );
+
+        //   // play history
+        //   $('#histPlayer1').click(timeline.togglePlayer);
+        //   $('#histPlayer2').click(timeline.togglePlayer);
+        //   $('#histPlayer3').click(timeline.togglePlayer);
+
+        //   // disable selection of years in timeline
+
+        //   $("#tlMain").disableTextSelect();
+        //   $("#tlScroller").disableTextSelect();
+        //   $("#tlPlayer").disableTextSelect();
+        //   //$("#bigDateBox").disableTextSelect();
+
+        //   timelineInitialized = true;
+        // }
 
 
       }
@@ -485,13 +494,13 @@
 
 
           <!-- timeline NEW -->
-          <div id="histoline">
+          <div id="timeline">
 
           </div>
 
 
           <!-- timeline OLD-->
-          <div id="tlContainer">
+<!--      <div id="tlContainer">
 
             <div id="tlMenuLeft"  class="gradient-timeline-menu">
               <div class="btn-toolbar header-button-bottom tlMenu">
@@ -516,7 +525,6 @@
               <div id="tlMain">
                 <div id="tlScroller">
                   <div id="tlDateMarkers">
-                    <!-- all markers are in here -->
                     <div id="nowMarkerWrap">
                       <div id="nowMarkerHead">
                         <div id="nowDate" onsubmit="return false">
@@ -548,9 +556,9 @@
                 </span>
               </div>
               <div id="tlBorderRight"></div>
-
             </div>
           </div>
+ -->
         </div>
 
         <!-- video -->

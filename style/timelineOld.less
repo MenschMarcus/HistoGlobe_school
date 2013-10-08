@@ -1,0 +1,281 @@
+/*** general styles ***/
+
+.gradient-timeline-menu {
+  background-color: #fff;
+
+  background: -moz-linear-gradient(top, #eee 0%, #ddd 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ddd), color-stop(100%,#eee)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #eee 0%,#ddd 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #eee 0%,#ddd 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #eee 0%,#ddd 100%); /* IE10+ */
+  background: linear-gradient(to bottom, #eee 0%,#ddd 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eee', endColorstr='#ddd',GradientType=0 ); /* IE6-9 */
+  background-repeat: repeat-x;
+  box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.07);
+}
+
+.gradient-timeline-top {
+  background-color: #fff;
+
+  background: -moz-linear-gradient(top, #fff 0%, #eee 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee), color-stop(100%,#fff)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #fff 0%,#eee 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #fff 0%,#eee 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #fff 0%,#eee 100%); /* IE10+ */
+  background: linear-gradient(to bottom, #fff 0%,#eee 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fff', endColorstr='#F2F2F2',GradientType=0 ); /* IE6-9 */
+  background-repeat: repeat-x;
+  box-shadow: 0 0px 2px rgba(0, 0, 0, 0.2);
+}
+
+.gradient-timeline-main {
+  .linear-gradient-top(rgba(255,255,255, 0.0), #fff, 0, rgba(218, 218, 218, 1), 50%);
+  border: 1px solid #C4C4C4;
+}
+
+/*** DIV STRUCTURE ***/
+
+#tlContainer {
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  overflow: visible;
+  position: absolute;
+  font-size: 18px;
+}
+
+
+/** 1. LEVEL: syntactical timeline containers (structure) + wrapper **/
+
+#timeline {
+  position: relative;
+  height: 65px;
+}
+
+/** 2. LEVEL: semantical timeline containers (content) **/
+
+#tlControlsLeft {
+  bottom: 70px;
+  left: 0px;
+  position: absolute;
+  padding: 4px 7px;
+  border-right: 1px solid #D4D4D4;
+  border-top: 1px solid #D4D4D4;
+  border-bottom: 1px solid #D4D4D4;
+  border-radius: 0px 6px 6px 0px;
+}
+
+#tlControlsRight {
+  border-bottom: 1px solid #D4D4D4;
+  border-left: 1px solid #D4D4D4;
+  border-radius: 6px 0 0 6px;
+  border-top: 1px solid #D4D4D4;
+  bottom: 70px;
+  padding: 4px 7px;
+  position: absolute;
+  right: 0;
+}
+
+#tlBorderRight {
+  bottom: 0px;
+  right: 0px;
+  height: 71px;
+  width: 40px;
+  position: absolute;
+  background: url('../img/timeline/sideR.png') center no-repeat;
+  border-radius: 0px 0px 6px 0px;
+}
+
+#tlBorderLeft {
+  bottom: 0px;
+  left: 0px;
+  height: 71px;
+  width: 40px;
+  position: absolute;
+  background: url('../img/timeline/sideL.png') center no-repeat;
+  border-radius: 0px 0px 0px 6px;
+}
+
+#tlMenuLeft {
+  border-right: 1px solid #D4D4D4;
+  border-radius: 0px 6px 0px 6px;
+  border-top: 1px solid #D4D4D4;
+  bottom: 60px;
+  padding: 8px 8px 17px 145px;
+  position: absolute;
+  left: 0;
+}
+
+#tlMenuRight {
+  border-left: 1px solid #D4D4D4;
+  border-radius: 6px 0 6px 0;
+  border-top: 1px solid #D4D4D4;
+  bottom: 60px;
+  padding: 8px 145px 17px 8px;
+  position: absolute;
+  right: 0;
+}
+
+.tlMenu {
+  margin: 0px;
+}
+
+
+/* MAIN */
+
+#tlMain {
+  position: relative;
+  height: 75px;
+  overflow: hidden;
+}
+
+#tlScroller {
+  height: 80px;
+  overflow: visible;
+  position: absolute;
+}
+
+/*** CONTENT ***/
+
+/* NOW = POLITICAL DATE */
+
+#nowMarkerWrap {
+  position: absolute;
+  margin: 0 0 0 -58px;
+  border: 0;
+  padding: 0;
+  z-index: 4;
+}
+
+#nowMarkerHead {
+  background-color: #ddd;
+
+  background: -moz-linear-gradient(top, #ddd 0%, #aaa 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#aaa), color-stop(100%,#ddd)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #ddd 0%,#aaa 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #ddd 0%,#aaa 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #ddd 0%,#aaa 100%); /* IE10+ */
+  background: linear-gradient(to bottom, #ddd 0%,#aaa 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ddd', endColorstr='#aaa',GradientType=0 ); /* IE6-9 */
+  background-repeat: repeat-x;
+  box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.2);
+
+  border: 1px solid #aaa;
+  border-radius: 6px;
+}
+
+#nowMarkerMain {
+  position: relative;
+  left: 45px;
+  width: 25px;
+  height: 30px;
+  background: url('../img/timeline/nowMarker.png') center no-repeat;
+  background-position: 0px -15px;
+  cursor: pointer;
+}
+
+#nowDate {
+  position: relative;
+  margin: 4px 12px;
+}
+
+#polDate {
+  margin: 0;
+  text-align: center;
+  font-size: 0.8em;
+  font-weight: bold;
+  width: 84px;
+  pointer-events: none;
+}
+
+
+/* PERIOD = HISTORICAL DATES */
+
+#periodStart, #periodEnd {
+  position: relative;
+  width: 50px;
+  text-align: center;
+}
+
+/* PLAY HISTORY */
+
+.playBtn
+{
+  width: 20px;
+}
+
+.playBtn i
+{
+  letter-spacing: -4px;
+}
+
+/** TIMELINE SCROLLER **/
+
+#tlMain {
+  margin-top: -10px;
+  background: url('../img/timeline/tlBar.png') repeat-x 0 55px;
+}
+
+/* YEAR MARKERS */
+
+/* image */
+.yearMarker {
+  position: absolute;
+  height: 50px;
+  margin-top: 35px;
+}
+.yearMark1 {
+  width: 50px;
+  margin-left: -25px;
+  background: url('../img/timeline/yearMarker1.png') center no-repeat;
+  background-position: 23.5px 21px;
+}
+.yearMark2 {
+  width: 28px;
+  margin-left: -15px;
+  background: url('../img/timeline/yearMarker2.png') no-repeat;
+  background-position: 13.5px 21px;
+}
+.yearMark3 {
+  width: 28px;
+  margin-left: -14px;
+  background: url('../img/timeline/yearMarker3.png') no-repeat;
+  background-position: 13.5px 21px;
+}
+
+/* year number */
+.yearMarker p {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  color: #292213;
+  margin: 0px;
+}
+.yearMark1 p {
+  font-size: 0.95em;
+  font-weight: bold;
+}
+.yearMark2 p {
+  font-size: 0.7em;
+  font-weight: bold;
+}
+.yearMark3 p {
+  font-size: 0.7em;
+}
+
+/* HISTORICAL EVENT MARKERS */
+.eventMarker {
+  position: absolute;
+  margin-top: 34px;
+  margin-left: -7.5px;
+  height: 50px;
+  width: 15px;
+  z-index: 3;
+  background: url('../img/timeline/eventMarker-nor.png') no-repeat;
+  background-position: 0px 0px;
+  cursor: pointer;
+}
+
+.eventMarker:hover {
+  background: url('../img/timeline/eventMarker-act.png') no-repeat;
+}

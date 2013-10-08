@@ -11,14 +11,13 @@ class HG.Timeline
 
   # ============================================================================
   constructor: (minDate, maxDate, minZoom, maxZoom, timelineDiv) ->
-
-    @_minDate = minDate
-    @_maxDate = maxDate
+    @_minDate = new Date(minDate)
+    @_maxDate = new Date(maxDate)
     @_minZoom = minZoom
     @_maxZoom = maxZoom
     @_zoomLevel = 1
     @_yearInterval = 1
-    @_tlWidth = timelineDiv.getOffsetWidth
+    @_tlWidth = timelineDiv.offsetWidth
 
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
@@ -26,19 +25,22 @@ class HG.Timeline
     @addCallback "onPeriodChanged"
     @addCallback "onZoomLevelChanged"
 
-    @_nowMarker = new NowMarker
+    # @_nowMarker = new NowMarker
+    @_nowDate = @_yearToDate 1980 # preliminary, replace by real nowDate from nowMarker
 
     # create timeline scroller (maximum size)
     @_tlScroller = document.createElement "div"
-    @_tlScroller.id = "hlScroller"
-    @_tlScroller.style.width = (maxDate.getMilliseconds()-minDate.getMilliseconds())*(MS_WIDTH*@_zoomLevel)
-
-
+    @_tlScroller.id = "tlScroller"
+    @_tlScroller.style.width = (@_maxDate.getMilliseconds()-@_minDate.getMilliseconds())*(MS_WIDTH*@_zoomLevel)
+    timelineDiv.appendChild @_tlScroller
 
     # create container for year markers
     @_yearMarkers = document.createElement "div"
     @_yearMarkers.id = "yearMarkers"
-    timelineDiv.appendChild @_yearMarkers
+    @_tlScroller.appendChild @_yearMarkers
+
+    # init scroller with year markers
+    @_drawScroller()
 
   # ============================================================================
   setZoomLevel : (factor) ->
@@ -54,37 +56,41 @@ class HG.Timeline
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
 
-  drawScroller : ->
+  _drawScroller : ->
     # get now year
-    nowYear = posToDate @_tlWidth / 2
+    # nowYear = @_posToDate @_tlWidth/2
+    nowYear = @_nowDate  # preliminary, replace by real nowDate from nowMarker
 
     # find first year to the right that is in year interval
     yearInterval = YEAR_INTERVALS[@_yearInterval]
-    refYear = nowYear.getFullYear
+    refYear = nowYear.getFullYear()
     refYear++ while refYear % yearInterval is not 0
-    refPos = dateToPos refYear
+    refPos = @_dateToPos @_yearToDate refYear
 
     # append all year marker to the right and to the left until 2x tlWidth
     posRight = refPos
-    yearLeft = yearRight = refYear
-    while posRight <= 2*@_tlWidth
-      yearLeft -= yearInterval
-      appendYearMarker yearLeft
-      yearRight += yearInterval
-      appendYearMarker yearRight
-      posRight = dateToPos yearRight
+    yearLeft = refYear
+    yearRight = refYear
+    @_appendYearMarker yearLeft
+    # while posRight <= 2*@_tlWidth
+    #   yearLeft -= yearInterval
+    #   @_appendYearMarker yearLeft
+    #   yearRight += yearInterval
+    #   @_appendYearMarker yearRight
+    #   posRight = @_dateToPos @_yearToDate yearRight
 
-  appendYearMarker : (year) ->
+  _appendYearMarker : (year) ->
     yearMarkerDiv = document.createElement "div"
     yearMarkerDiv.id = "year" + year
-    yearMarkerDiv.addClass "yearMarker"
-    yearMarkerDiv.style.left = dateToPos year
+    yearMarkerDiv.className = "yearMarker"
+    yearMarkerDiv.style.left = @_dateToPos @_yearToDate year
     yearMarkerDiv.innerHTML = '<p>'+year+'</p>'
     @_yearMarkers.appendChild yearMarkerDiv
 
-  posToDate : (pos) ->
+  _posToDate : (pos) ->
     # get now date and its position
-    nowDate = @_nowMarker.getNowDate()
+    # nowDate = @_nowMarker.getNowDate()
+    nowDate = @_nowDate
     nowPos = @_tlWidth / 2
     # distance to now position [px]
     pxDiff = pos - nowPos
@@ -93,17 +99,21 @@ class HG.Timeline
     # very intuitive linear function
     date = new Date(pxDiff*pxDist) + nowDate
 
-  dateToPos : (date) ->
+  _dateToPos : (date) ->
     # get now date and its position
-    nowDate = @_nowMarker.getNowDate
+    # nowDate = @_nowMarker.getNowDate
     nowPos = @_tlWidth / 2
     # difference between date and now date [ms]
-    msDiff = date.getMilliseconds() - nowDate.getMilliseconds()
+    msDiff = date.getMilliseconds() - @_nowDate.getMilliseconds()
     # distance between two ms [px]
     msDist = MS_WIDTH * @_zoomLevel
     # very intuitive linear function
     pos = msDiff * msDist + nowPos
 
+  _yearToDate : (year) ->
+    date = new Date(0)
+    date.setFullYear year
+    date
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #
