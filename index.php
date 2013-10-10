@@ -21,7 +21,7 @@
 
     <link rel="stylesheet" type="text/css" href="style/histoglobe.min.css">
 
-    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="script/third-party/d3.v3.min.js"></script>
     <script type="text/javascript" src="script/third-party/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.browser.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.disable.text.select.js"></script>
@@ -260,7 +260,7 @@
                     <ul>
                       <li>Ermöglicht die Darstellung von Ländernamen.</li>
                       <li>Ermöglicht die Darstellung verschiedener Hivent-Kategorien mit entsprechenden Icons.</li>
-                      <li>Ermöglicht das Hervorheben von Hivents auf Zeitleiste und KArte beim Berühren mit der Maus.</li>
+                      <li>Ermöglicht das Hervorheben von Hivents auf Zeitleiste und Karte beim Berühren mit der Maus.</li>
                     </ul>
                     <h4>Version 0.3 <span class="muted">(09.09.2013)</span></h4>
                     <ul>
@@ -305,7 +305,7 @@
             <table>
               <tr><td style="width:32px; height:32px; background-color:#9F8BFF"></td>
                   <td style="padding:5px"><small>Europäische Union / EG</small></td></tr>
-              <tr><td style="width:32px; height:32px; background-color:#FFA46D"></td>
+              <tr><td style="width:32px; height:32px; background-color:#5B309F"></td>
                   <td style="padding:5px"><small>Eurozone</small></td></tr>
               <tr><td style="padding:10px"/><td style="padding:10px"/></tr>
               <tr><td style="width:32px; height:32px; background-image:url('data/hivent_icons/icon_join.png'); background-size: cover"></td>
