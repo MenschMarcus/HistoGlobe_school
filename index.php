@@ -27,6 +27,7 @@
     <script type="text/javascript" src="script/third-party/jquery.disable.text.select.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.mousewheel.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.prettyPhoto.js"></script>
+    <script type="text/javascript" src="script/third-party/jquery.fullscreenApi.js"></script>
     <script type="text/javascript" src="script/third-party/bootstrap.min.js"></script>
     <script type="text/javascript" src="script/third-party/RequestAnimationFrame.js"></script>
     <script type="text/javascript" src="script/third-party/three.min.js"></script>
@@ -37,8 +38,7 @@
     <script type="text/javascript" src="script/third-party/leaflet.markercluster.js"></script>
 
     <script type="text/javascript" src="script/histoglobe.min.js"></script>
-
-    <!--
+<!--
     <script type="text/javascript" src="build/Mixin.js"></script>
     <script type="text/javascript" src="build/CallbackContainer.js"></script>
     <script type="text/javascript" src="build/Vector.js"></script>
@@ -58,12 +58,12 @@
     <script type="text/javascript" src="script/timeline/Timeline.js"></script>
     <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
-    -->
-
+-->
     <script type="text/javascript">
       var display2D, display3D, timeline, hiventController, areaController;
       var timelineInitialized = false;
       var container;
+      var windowHeight = window.innerHeight;
 
       jQuery(document).ready(function($) {
         BrowserDetect.init();
@@ -99,9 +99,36 @@
 
         if (BrowserDetect.canvasSupported) {
 
+          if (window.fullScreenApi.supportsFullScreen) {
+            var heroUnit = $('.hero-unit');
+            $('#toggle-fullscreen').click(
+              function() {
+                if (!window.fullScreenApi.isFullScreen()) {
+                  heroUnit.requestFullScreen();
+                  heroUnit.width('100%');
+                  heroUnit.height('100%');
+                } else {
+                  window.fullScreenApi.cancelFullScreen();
+                }
+              }
+            );
+
+            function resetFullScreen() {
+              if (!window.fullScreenApi.isFullScreen()) {
+                heroUnit.height(windowHeight);
+              }
+              $('#toggle-fullscreen').button('toggle');
+            }
+            //webkit
+            heroUnit.on('webkitfullscreenchange', resetFullScreen);
+
+            //mozilla
+            document.addEventListener('mozfullscreenchange', resetFullScreen);
+          }
+
           $('#warning-close').button('loading')
 
-          $('.hero-unit').height(window.innerHeight);
+          $('.hero-unit').height(windowHeight);
           window.setTimeout(function() {
 
             $('#warning').modal()
@@ -334,6 +361,7 @@
 
              <div id="tlMenuRight"  class="gradient-timeline-menu">
               <div class="btn-toolbar header-button-bottom tlMenu">
+                <div id="toggle-fullscreen" class="btn"><i class="icon-fullscreen"></i> Vollbild</div>
                 <div class="btn-group">
                   <a id="toggle-2D" class="btn active" onClick="load2D()">2D</a>
                   <a id="toggle-3D" class="btn" onClick="load3D()">3D</a>
