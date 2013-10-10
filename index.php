@@ -36,8 +36,9 @@
     <script type="text/javascript" src="script/third-party/leaflet.label.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.markercluster.js"></script>
 
-    <!-- <script type="text/javascript" src="script/histoglobe.min.js"></script> -->
+    <script type="text/javascript" src="script/histoglobe.min.js"></script>
 
+    <!--
     <script type="text/javascript" src="build/Mixin.js"></script>
     <script type="text/javascript" src="build/CallbackContainer.js"></script>
     <script type="text/javascript" src="build/Vector.js"></script>
@@ -57,6 +58,7 @@
     <script type="text/javascript" src="script/timeline/Timeline.js"></script>
     <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
+    -->
 
     <script type="text/javascript">
       var display2D, display3D, timeline, hiventController, areaController;
