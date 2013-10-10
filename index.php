@@ -48,7 +48,7 @@
 
     <link rel="stylesheet" type="text/css" href="style/histoglobe.min.css">
 
-    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="script/third-party/d3.v3.min.js"></script>
     <script type="text/javascript" src="script/third-party/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.browser.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.disable.text.select.js"></script>

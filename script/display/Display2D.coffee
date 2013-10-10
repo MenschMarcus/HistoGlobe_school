@@ -153,6 +153,7 @@ class HG.Display2D extends HG.Display
     if @_isLabelVisible area
       @_showLabel area
 
+
   # ============================================================================
   _hideAreaLayer: (area) ->
     if area.myLeafletLayer?
@@ -176,7 +177,7 @@ class HG.Display2D extends HG.Display
     max = @_map.project area._maxLatLng
     min = @_map.project area._minLatLng
 
-    width = area.getLabel().length * 10
+    width = area.getLabel().length * 1.5
 
     visible = (max.x - min.x) > width * 0.75 or @_map.getZoom() is @_map.getMaxZoom()
 

@@ -68,7 +68,8 @@ class HG.Area
   _initData: (geoJson) ->
     @_data      = []
     @_state     = geoJson.properties.sov_a3
-    @_name      = geoJson.properties.name
+    @_name      = geoJson.properties.name_de + "<br /><span class='leaflet-label-small'>(" + geoJson.properties.name_orig + ")</span>"
+
     @_maxLatLng = [-180, -90]
     @_minLatLng = [ 180,  90]
 
