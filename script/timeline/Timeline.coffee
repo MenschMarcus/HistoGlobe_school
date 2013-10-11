@@ -11,13 +11,14 @@ class HG.Timeline
 
   # ============================================================================
   constructor: (minDate, maxDate, minZoom, maxZoom, timelineDiv) ->
-    @_minDate = new Date(minDate)
-    @_maxDate = new Date(maxDate)
+    @_minDate = @_yearToDate minDate
+    @_maxDate = @_yearToDate maxDate
     @_minZoom = minZoom
     @_maxZoom = maxZoom
+    @_tlDiv = timelineDiv
+    @_tlWidth = @_tlDiv.offsetWidth
     @_zoomLevel = 1
-    @_yearInterval = 1
-    @_tlWidth = timelineDiv.offsetWidth
+    @_yearInterval = 4
 
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
@@ -39,8 +40,29 @@ class HG.Timeline
     @_yearMarkers.id = "yearMarkers"
     @_tlScroller.appendChild @_yearMarkers
 
+    console.log @_tlScroller
+
     # init scroller with year markers
     @_drawScroller()
+
+    # event handling
+    @_downOnTimeline = false
+    @_lastPosX = 0
+
+    @_tlDiv.onmousedown = (e) ->
+      @_downOnTimeline = true
+
+    @_tlDiv.onmouseup = (e) ->
+      @_downOnTimeline = false
+
+    @_tlDiv.onmousemove = (e) ->
+      if @_downOnTimeline
+        posX = e.pageX
+        moveDist = @_lastPosX - posX
+        console.log posX + " -> " + moveDist + @_tlScroller
+        # document.getElementById('tlScroller').offsetLeft = posX
+        # TODO: drag the scroller! but how?!?
+        @_lastPosX = posX
 
   # ============================================================================
   setZoomLevel : (factor) ->
@@ -63,7 +85,7 @@ class HG.Timeline
 
     # find first year to the right that is in year interval
     yearInterval = YEAR_INTERVALS[@_yearInterval]
-    refYear = nowYear.getFullYear()
+    refYear = @_dateToYear nowYear
     refYear++ while refYear % yearInterval is not 0
     refPos = @_dateToPos @_yearToDate refYear
 
@@ -72,18 +94,20 @@ class HG.Timeline
     yearLeft = refYear
     yearRight = refYear
     @_appendYearMarker yearLeft
-    # while posRight <= 2*@_tlWidth
-    #   yearLeft -= yearInterval
-    #   @_appendYearMarker yearLeft
-    #   yearRight += yearInterval
-    #   @_appendYearMarker yearRight
-    #   posRight = @_dateToPos @_yearToDate yearRight
+    while posRight <= 2*@_tlWidth
+      yearLeft -= yearInterval
+      @_appendYearMarker yearLeft if yearLeft >= @_dateToYear @_minDate
+      yearRight += yearInterval
+      @_appendYearMarker yearRight if yearRight <= @_dateToYear @_maxDate
+      posRight = @_dateToPos @_yearToDate yearRight
+
 
   _appendYearMarker : (year) ->
     yearMarkerDiv = document.createElement "div"
     yearMarkerDiv.id = "year" + year
     yearMarkerDiv.className = "yearMarker"
-    yearMarkerDiv.style.left = @_dateToPos @_yearToDate year
+    position = @_dateToPos @_yearToDate year
+    yearMarkerDiv.style.left = position + "px"
     yearMarkerDiv.innerHTML = '<p>'+year+'</p>'
     @_yearMarkers.appendChild yearMarkerDiv
 
@@ -104,7 +128,7 @@ class HG.Timeline
     # nowDate = @_nowMarker.getNowDate
     nowPos = @_tlWidth / 2
     # difference between date and now date [ms]
-    msDiff = date.getMilliseconds() - @_nowDate.getMilliseconds()
+    msDiff = date.getTime() - @_nowDate.getTime()
     # distance between two ms [px]
     msDist = MS_WIDTH * @_zoomLevel
     # very intuitive linear function
@@ -114,6 +138,10 @@ class HG.Timeline
     date = new Date(0)
     date.setFullYear year
     date
+
+  _dateToYear : (date) ->
+    year = date.getFullYear()
+    year
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #
