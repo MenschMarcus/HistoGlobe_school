@@ -17,8 +17,7 @@ class HG.Timeline
     @_maxZoom = maxZoom
     @_tlDiv = timelineDiv
     @_tlWidth = @_tlDiv.offsetWidth
-    @_zoomLevel = 1
-    @_yearInterval = 4
+    @_zoomLevel = 7
 
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
@@ -27,20 +26,22 @@ class HG.Timeline
     @addCallback "onZoomLevelChanged"
 
     # @_nowMarker = new NowMarker
-    @_nowDate = @_yearToDate 1980 # preliminary, replace by real nowDate from nowMarker
+    @_nowDate = @_yearToDate 1888 # preliminary, replace by real nowDate from nowMarker
 
-    # create timeline scroller (maximum size)
+    # create timeline scroller (size: 3 times timeline width)
     @_tlScroller = document.createElement "div"
     @_tlScroller.id = "tlScroller"
-    @_tlScroller.style.width = (@_maxDate.getMilliseconds()-@_minDate.getMilliseconds())*(MS_WIDTH*@_zoomLevel)
+    @_tlScroller.style.width = (@_tlWidth*3) + "px"
     timelineDiv.appendChild @_tlScroller
+
+    # move scroller to center of timeline
+    # (so that it sticks out both directions by width of timeline)
+    @_moveScroller @_tlWidth
 
     # create container for year markers
     @_yearMarkers = document.createElement "div"
     @_yearMarkers.id = "yearMarkers"
     @_tlScroller.appendChild @_yearMarkers
-
-    console.log @_tlScroller
 
     # init scroller with year markers
     @_drawScroller()
@@ -49,20 +50,25 @@ class HG.Timeline
     @_downOnTimeline = false
     @_lastPosX = 0
 
-    @_tlDiv.onmousedown = (e) ->
+    @_tlDiv.onmousedown = (e) =>
       @_downOnTimeline = true
+      @_lastPosX = e.pageX
+      @_disableTextSelection()
 
-    @_tlDiv.onmouseup = (e) ->
-      @_downOnTimeline = false
-
-    @_tlDiv.onmousemove = (e) ->
-      if @_downOnTimeline
+    document.body.onmousemove = (e) =>
+      if @_downOnTimeline   # catch any mouse event to allow scrolling of timeline even if mouse is not inside timeline
         posX = e.pageX
         moveDist = @_lastPosX - posX
-        console.log posX + " -> " + moveDist + @_tlScroller
-        # document.getElementById('tlScroller').offsetLeft = posX
-        # TODO: drag the scroller! but how?!?
+        @_moveScroller moveDist
         @_lastPosX = posX
+
+    document.body.onmouseup = (e) =>
+      if @_downOnTimeline
+        @_nowDate = @_posToDate @_tlWidth/2
+        @_drawScroller()
+        @_downOnTimeline = false  # catch any mouse up event in UI to stop dragging
+      @_lastPosX = e.pageX
+      @_enableTextSelection()
 
   # ============================================================================
   setZoomLevel : (factor) ->
@@ -73,44 +79,81 @@ class HG.Timeline
 
   #@notifyAll "onPeriodChanged", periodStart, periodEnd
 
+  ##############################################################################
+  #                             STATIC MEMBERS                                 #
+  ##############################################################################
+
+  # distance between two years on timeline at zoom level 1 [px]
+  YEAR_DIST = 10
+  # distance between two milliseconds on timeline [px]
+  MS_WIDTH = 0.000000000317097919837646 # TODO: can I calculate that ?!?
+  # interval at which year markers are drawn [year]
+  YEAR_INTERVALS = [1/12,1,2,5,10,20,50,100,200,500,1000,2000,5000,10000]
+  # minimum distance between two year markers on timeline [px]
+  MIN_DIST = 50
+
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
 
   _drawScroller : ->
+    # clear scroller recursively
+    @_yearMarkers.removeChild @_yearMarkers.firstChild while @_yearMarkers.firstChild
+
     # get now year
     # nowYear = @_posToDate @_tlWidth/2
     nowYear = @_nowDate  # preliminary, replace by real nowDate from nowMarker
 
-    # find first year to the right that is in year interval
-    yearInterval = YEAR_INTERVALS[@_yearInterval]
+    # calculate interval at which year markers are drawn
+    # difference between two years on timeline at current zoom level [px]
+    yearDiff = @_zoomLevel * YEAR_DIST
+    # increment interval until distance between two year markers is greater than minimum distance between two markers
+    intervalIt = 0
+    intervalIt++ while (yearDiff < (MIN_DIST / YEAR_INTERVALS[intervalIt]))
+    yearInterval = YEAR_INTERVALS[intervalIt]
+
+    # draw first year to the right that is in year interval
     refYear = @_dateToYear nowYear
-    refYear++ while refYear % yearInterval is not 0
+    refYear++ while refYear % yearInterval != 0
     refPos = @_dateToPos @_yearToDate refYear
+    @_appendYearMarker refYear
 
     # append all year marker to the right and to the left until 2x tlWidth
-    posRight = refPos
-    yearLeft = refYear
-    yearRight = refYear
-    @_appendYearMarker yearLeft
-    while posRight <= 2*@_tlWidth
-      yearLeft -= yearInterval
-      @_appendYearMarker yearLeft if yearLeft >= @_dateToYear @_minDate
-      yearRight += yearInterval
-      @_appendYearMarker yearRight if yearRight <= @_dateToYear @_maxDate
-      posRight = @_dateToPos @_yearToDate yearRight
+    yearLeft = yearRight = refYear
 
+    limitRight  = @_dateToYear @_getEarlierDate  @_maxDate, @_posToDate 2*@_tlWidth  # date at right border of scroller or maximum date
+    while yearRight <  limitRight
+      yearRight += yearInterval
+      @_appendYearMarker yearRight
+
+    limitLeft   = @_dateToYear @_getLaterDate    @_minDate, @_posToDate -@_tlWidth   # date at left  border of scroller or minimum date
+    while yearLeft >  limitLeft
+      yearLeft -= yearInterval
+      @_appendYearMarker yearLeft
 
   _appendYearMarker : (year) ->
     yearMarkerDiv = document.createElement "div"
     yearMarkerDiv.id = "year" + year
     yearMarkerDiv.className = "yearMarker"
-    position = @_dateToPos @_yearToDate year
+    # position = position of year starting from zero
+    #          + moving to center of timeline (width of timeline)
+    position = (@_dateToPos @_yearToDate year) + @_tlWidth
     yearMarkerDiv.style.left = position + "px"
     yearMarkerDiv.innerHTML = '<p>'+year+'</p>'
     @_yearMarkers.appendChild yearMarkerDiv
 
+  _moveScroller : (pix) ->
+    @_tlDiv.scrollLeft += pix
+
+  # text selection magic - bääääm!
+  _disableTextSelection : (e) ->
+    return false
+
+  _enableTextSelection : () ->
+    return true
+
+  # auxiliary functions
   _posToDate : (pos) ->
     # get now date and its position
     # nowDate = @_nowMarker.getNowDate()
@@ -120,8 +163,8 @@ class HG.Timeline
     pxDiff = pos - nowPos
     # distance between two px [ms]
     pxDist = 1 / (MS_WIDTH * @_zoomLevel)
-    # very intuitive linear function
-    date = new Date(pxDiff*pxDist) + nowDate
+    # very intuitive linear function that is not so intuitive anymore
+    date = @_addDates(new Date(pxDiff*pxDist), nowDate)
 
   _dateToPos : (date) ->
     # get now date and its position
@@ -143,9 +186,22 @@ class HG.Timeline
     year = date.getFullYear()
     year
 
-  ##############################################################################
-  #                             STATIC MEMBERS                                 #
-  ##############################################################################
+  _addDates : (date1, date2) ->
+    ms1 = date1.getTime()
+    ms2 = date2.getTime()
+    date = new Date (ms1+ms2)
+    date
 
-  MS_WIDTH = 0.000000000317097919837646   # distance of 10 px between two years
-  YEAR_INTERVALS = [1/12,1,2,5,10,20,50,100,200,500,1000,2000,5000,10000]
+  _subtractDates : (date1, date2) ->
+    ms1 = date1.getTime()
+    ms2 = date2.getTime()
+    date = new Date (ms1-ms2)
+    date
+
+  _getEarlierDate : (date1, date2) ->
+    diff = date1.getTime()-date2.getTime()
+    if diff < 0 then date1 else date2
+
+  _getLaterDate : (date1, date2) ->
+    diff = date1.getTime()-date2.getTime()
+    if diff > 0 then date1 else date2
