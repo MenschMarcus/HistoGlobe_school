@@ -16,8 +16,6 @@ class HG.HiventMarkerTimeline
     HG.mixin @, HG.HiventMarker
     HG.HiventMarker.call @, hiventHandle, parent
 
-    HIVENT_MARKER_TIMELINE_COUNT++
-
     time = hiventHandle.getHivent().date.getTime()
     LAST_X_COORDS[time] ?= 0
     @_position = { x: posX + LAST_X_COORDS[time] - HIVENT_MARKER_TIMELINE_RADIUS, y: Math.floor $(parent.parentNode).innerHeight() * 0.75 }
@@ -28,7 +26,6 @@ class HG.HiventMarkerTimeline
 
     @_div = document.createElement "div"
     @_div.setAttribute "class", @_classDefault
-    @_div.id = "hiventMarkerTimeline_" + HIVENT_MARKER_TIMELINE_COUNT
 
     @_div.style.left = @_position.x + "px"
     @_div.style.top = @_position.y + "px"
@@ -105,7 +102,7 @@ class HG.HiventMarkerTimeline
     LAST_X_COORDS[@getHiventHandle().getHivent().date.getTime()] = 0
     @getHiventHandle().unMarkAll()
     @getHiventHandle().unLinkAll()
-    $(@_div).remove()
+    @_div.parentNode.removeChild @_div
     delete @
     return
 
@@ -114,6 +111,5 @@ class HG.HiventMarkerTimeline
   ##############################################################################
 
   HIVENT_MARKER_TIMELINE_RADIUS = 9
-  HIVENT_MARKER_TIMELINE_COUNT = 0
 
   LAST_X_COORDS = {}

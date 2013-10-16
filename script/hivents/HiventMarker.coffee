@@ -15,7 +15,6 @@ class HG.HiventMarker
     @_hiventHandle.onDestruction @, @_destroyMarker
     @_hiventInfo = document.createElement("div")
     @_hiventInfo.class = "btn"
-    @_hiventInfo.id = "@_hiventInfo_" + HIVENT_INFO_COUNT
     @_hiventInfo.style.position = "absolute"
     @_hiventInfo.style.left = "0px"
     @_hiventInfo.style.top = "0px"
@@ -30,8 +29,6 @@ class HG.HiventMarker
     $(@_hiventInfo).tooltip {title: "#{hivent.day}.#{hivent.month}.#{hivent.year} - #{hivent.name}", placement: "top"}
 
     @_popover = null
-
-    HIVENT_INFO_COUNT++
 
   # ============================================================================
   getHiventHandle: ->
@@ -82,11 +79,7 @@ class HG.HiventMarker
 
   # ============================================================================
   _destroyMarker: =>
+    @_hiventInfo.parentNode.removeChild @_hiventInfo
     delete @
     return
 
-  ##############################################################################
-  #                             STATIC MEMBERS                                 #
-  ##############################################################################
-
-  HIVENT_INFO_COUNT = 0
