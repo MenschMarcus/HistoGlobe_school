@@ -62,7 +62,8 @@ class HG.HiventInfoPopover
     @_updateArrow()
 
     @_lastMousePos = null
-    @_addedToDOM = false
+
+    @_hiventHandle.onDestruction @, @_destroy
 
   # ============================================================================
   show: =>
@@ -90,6 +91,7 @@ class HG.HiventInfoPopover
     @_raphael.canvas.style.visibility = "visible"
 
     showArrow = =>
+      console.log "showArrow"
       @_raphael.canvas.style.opacity = 1.0
 
     @_mainDiv.style.opacity = 1.0
@@ -208,6 +210,11 @@ class HG.HiventInfoPopover
     @_titleDiv.removeEventListener 'mouseout', @_onMouseOut, false
     @_titleDiv.className = "hiventInfoPopoverTitle"
     @_lastMousePos = null
+
+  # ============================================================================
+  _destroy: () =>
+    @_mainDiv.parentNode.removeChild @_mainDiv
+    @_raphael.canvas.parentNode.removeChild @_raphael.canvas
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #
