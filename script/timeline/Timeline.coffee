@@ -39,35 +39,37 @@ class HG.Timeline
     @_moveScroller @_tlWidth
 
     # create container for year markers
-    @_yearMarkers = document.createElement "div"
-    @_yearMarkers.id = "yearMarkers"
-    @_tlScroller.appendChild @_yearMarkers
+    @_yearMarkers = new Array()
+    @_yearMarkersToInsert = new Array()
+    @_yearMarkersDiv = document.createElement "div"
+    @_yearMarkersDiv.id = "yearMarkers"
+    @_tlScroller.appendChild @_yearMarkersDiv
 
     # init scroller with year markers
     @_drawScroller()
 
     # event handling
     @_downOnTimeline = false
-    @_lastPosX = 0
+    @_lastMousePosX = 0
 
     @_tlDiv.onmousedown = (e) =>
       @_downOnTimeline = true
-      @_lastPosX = e.pageX
+      @_lastMousePosX = e.pageX
       @_disableTextSelection()
 
     document.body.onmousemove = (e) =>
       if @_downOnTimeline   # catch any mouse event to allow scrolling of timeline even if mouse is not inside timeline
-        posX = e.pageX
-        moveDist = @_lastPosX - posX
+        mousePosX = e.pageX
+        moveDist = @_lastMousePosX - mousePosX
         @_moveScroller moveDist
-        @_lastPosX = posX
+        @_lastMousePosX = mousePosX
 
     document.body.onmouseup = (e) =>
       if @_downOnTimeline
         @_nowDate = @_posToDate @_tlWidth/2
         @_drawScroller()
         @_downOnTimeline = false  # catch any mouse up event in UI to stop dragging
-      @_lastPosX = e.pageX
+      @_lastMousePosX = e.pageX
       @_enableTextSelection()
 
   # ============================================================================
@@ -97,13 +99,9 @@ class HG.Timeline
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
 
-  _drawScroller : ->
+  _drawScroller : () ->
     # clear scroller recursively
-    @_yearMarkers.removeChild @_yearMarkers.firstChild while @_yearMarkers.firstChild
-
-    # get now year
-    # nowYear = @_posToDate @_tlWidth/2
-    nowYear = @_nowDate  # preliminary, replace by real nowDate from nowMarker
+    @_yearMarkersDiv.removeChild @_yearMarkersDiv.firstChild while @_yearMarkersDiv.firstChild
 
     # calculate interval at which year markers are drawn
     # difference between two years on timeline at current zoom level [px]
@@ -113,45 +111,52 @@ class HG.Timeline
     intervalIt++ while (yearDiff < (MIN_DIST / YEAR_INTERVALS[intervalIt]))
     yearInterval = YEAR_INTERVALS[intervalIt]
 
-    # draw first year to the right that is in year interval
-    refYear = @_dateToYear nowYear
-    refYear++ while refYear % yearInterval != 0
-    refPos = @_dateToPos @_yearToDate refYear
-    @_appendYearMarker refYear
+    # get now year TODO
+    # nowYear = @_posToDate @_tlWidth/2
+    nowYear = @_nowDate  # preliminary, replace by real nowDate from nowMarker
 
-    # append all year marker to the right and to the left until 2x tlWidth
-    yearLeft = yearRight = refYear
+    # get position and year or first year marker on the left
+    leftYear = @_dateToYear @_posToDate -@_tlWidth
+    leftYear++ while leftYear % yearInterval != 0
+    leftPos = @_dateToPos @_yearToDate leftYear
+
+    #draw first year to the right that is in year interval
+    @_addYearToScroller leftYear
 
     limitRight  = @_dateToYear @_getEarlierDate  @_maxDate, @_posToDate 2*@_tlWidth  # date at right border of scroller or maximum date
-    while yearRight <  limitRight
-      yearRight += yearInterval
-      @_appendYearMarker yearRight
+    while leftYear < limitRight
+      leftYear += yearInterval
+      @_addYearToScroller leftYear
 
-    limitLeft   = @_dateToYear @_getLaterDate    @_minDate, @_posToDate -@_tlWidth   # date at left  border of scroller or minimum date
-    while yearLeft >  limitLeft
-      yearLeft -= yearInterval
-      @_appendYearMarker yearLeft
+    @_updateScroller()
 
-  _appendYearMarker : (year) ->
-    yearMarkerDiv = document.createElement "div"
-    yearMarkerDiv.id = "year" + year
-    yearMarkerDiv.className = "yearMarker"
+  _addYearToScroller : (year) ->
+    # create year marker
     # position = position of year starting from zero
     #          + moving to center of timeline (width of timeline)
-    position = (@_dateToPos @_yearToDate year) + @_tlWidth
-    yearMarkerDiv.style.left = position + "px"
-    yearMarkerDiv.innerHTML = '<p>'+year+'</p>'
-    @_yearMarkers.appendChild yearMarkerDiv
+    pos = (@_dateToPos @_yearToDate year) + @_tlWidth
+    yearMarker = new YearMarker(year, pos, @_yearMarkersDiv)
+
+    # add object to temporary list of to be inserted year markers
+    @_yearMarkersToInsert.push(yearMarker)
+
+  _updateScroller : () ->
+    # exception handling: if scroller is empty, just set to be inserted yearMarkers as new yearMarkers
+    if @_yearMarkers.length < 1
+      @_yearMarkers = @_yearMarkersToInsert
+
+    # clear array of to be inserted year markers
+    @_yearMarkersToInsert.length = 0
+
+  _appendYearMarker : (year) ->
+    @_yearMarkersDiv.appendChild yearMarkerDiv
 
   _moveScroller : (pix) ->
     @_tlDiv.scrollLeft += pix
 
   # text selection magic - bääääm!
-  _disableTextSelection : (e) ->
-    return false
-
-  _enableTextSelection : () ->
-    return true
+  _disableTextSelection : (e) ->  return false
+  _enableTextSelection : () ->    return true
 
   # auxiliary functions
   _posToDate : (pos) ->
