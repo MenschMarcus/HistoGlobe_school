@@ -15,7 +15,7 @@ class HG.Timeline
     @_maxDate = @_yearToDate maxDate
     @_minZoom = minZoom
     @_maxZoom = maxZoom
-    @_tlDiv = timelineDiv
+    @_tlDiv   = timelineDiv
     @_tlWidth = @_tlDiv.offsetWidth
     @_zoomLevel = 7
 

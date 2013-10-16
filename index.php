@@ -301,7 +301,7 @@
 
         if(typeof nowMarker !== "undefined" || nowMarker !== null)
         {
-          nowMarker = new HG.NowMarker(document.getElementById("now_marker"));
+          nowMarker = new HG.NowMarker(document.getElementById("timeline"), document.getElementById("now_marker"));
         }
 
 
@@ -502,13 +502,14 @@
 
           <!-- Now Marker in middle of page -->
           <div id="now_marker">
+            <div id="now_marker_in">
+            </div>
           </div>
 
           <!-- timeline NEW -->
           <div id="timeline">
 
           </div>
-
 
           <!-- timeline OLD-->
 <!--      <div id="tlContainer">

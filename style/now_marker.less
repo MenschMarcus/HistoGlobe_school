@@ -1,8 +1,24 @@
 #now_marker {
-    position:   absolute;
-    left:       0px;
-    bottom:     200px;
-    width:      200px;
-    height:     200px;
-    background: rgba(255, 0, 0, 100);
+
+    /*** position, scape and size ***/
+    position:       absolute;
+    left:           0px;
+    bottom:         65px;
+    width:          200px;
+    height:         100px;
+
+    background: rgba(255,255,255,0.8);
+    border: 1px solid #C4C4C4;
+    .border-radius(@roundness * 100px @roundness * 100px 0 0);
+    box-shadow: 0 0px 2px rgba(0, 0, 0, 0.2);
+}
+
+#now_marker_in {
+    width:          170px;
+    height:         85px;
+    margin:         15px 15px 0px 15px;
+    .linear-gradient-top(rgba(255,255,255, 0.0), #fff, 0, rgba(218, 218, 218, 1), 50%);
+    border: 1px solid #C4C4C4;
+    .border-radius(@roundness * 85px @roundness * 85px 0 0);
+    box-shadow: 0 0px 2px rgba(0, 0, 0, 0.2);
 }
