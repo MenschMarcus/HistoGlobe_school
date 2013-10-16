@@ -56,7 +56,8 @@ class HG.HiventInfoPopover
     @_raphael.canvas.style.zIndex = "#{HG.Display.Z_INDEX + 9}"
     @_raphael.canvas.style.pointerEvents = "none"
     @_raphael.canvas.style.visibility = "hidden"
-    # @_raphael.canvas.className.baseVal = "hiventInfoArrow"
+    @_raphael.canvas.style.opacity = 0
+    @_raphael.canvas.className.baseVal = "hiventInfoArrow"
 
     @_arrow = @_raphael.path ""
     @_updateArrow()
@@ -94,7 +95,7 @@ class HG.HiventInfoPopover
       @_raphael.canvas.style.opacity = 1.0
 
     @_mainDiv.style.opacity = 1.0
-    window.setTimeout showArrow, 100
+    window.setTimeout showArrow, 200
 
   # ============================================================================
   hide: =>
