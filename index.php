@@ -37,8 +37,9 @@
     <script type="text/javascript" src="script/third-party/leaflet.label.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.markercluster.js"></script>
 
-<!--    <script type="text/javascript" src="script/histoglobe.min.js"></script> -->
+    <script type="text/javascript" src="script/histoglobe.min.js"></script>
 
+<!--
     <script type="text/javascript" src="build/Mixin.js"></script>
     <script type="text/javascript" src="build/CallbackContainer.js"></script>
     <script type="text/javascript" src="build/Vector.js"></script>
@@ -58,6 +59,7 @@
     <script type="text/javascript" src="script/timeline/Timeline.js"></script>
     <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
+-->
 
     <script type="text/javascript">
       var display2D, display3D, timeline, hiventController, areaController;
@@ -283,6 +285,17 @@
                 </div>
                 <div id="collapseOne" class="accordion-body collapse">
                   <div class="accordion-inner">
+                    <h4>Version 0.5 <span class="muted">(16.10.2013)</span></h4>
+                    <ul>
+                      <li>Löst den Prototypen von der bisherigen statischen Seite.</li>
+                      <li>Behebt ein Problem, das dazu führte, dass Gallerieelemente nach zeitlicher Filterung mehrmals auftauchten.</li>
+                    </ul>
+                    <h4>Version 0.4.1 <span class="muted">(15.10.2013)</span></h4>
+                    <ul>
+                      <li>Ändert die Farben der EU-Länder.</li>
+                      <li>Ermöglicht die Darstellung von Ländernamen in nativen Sprachen.</li>
+                      <li>Ermöglicht das Einbinden von Bildern in Hivents.</li>
+                    </ul>
                     <h4>Version 0.4 <span class="muted">(25.09.2013)</span></h4>
                     <ul>
                       <li>Ermöglicht die Darstellung von Ländernamen.</li>
