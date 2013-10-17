@@ -9,7 +9,9 @@ class HG.HiventMarker
   ##############################################################################
 
   # ============================================================================
-  constructor: (hiventHandle, parent) ->
+  constructor: (hiventHandle, parentDiv) ->
+
+    @_parentDiv = parentDiv
 
     @_hiventHandle = hiventHandle
     @_hiventHandle.onDestruction @, @_destroyMarker
@@ -21,8 +23,8 @@ class HG.HiventMarker
     @_hiventInfo.style.visibility = "hidden"
     @_hiventInfo.style.pointerEvents = "none"
 
-    if parent
-      parent.appendChild @_hiventInfo
+    if @_parentDiv
+      @_parentDiv.appendChild @_hiventInfo
 
     hivent = @_hiventHandle.getHivent()
 
@@ -46,7 +48,7 @@ class HG.HiventMarker
 
   # ============================================================================
   showHiventInfo: (displayPosition) =>
-    @_popover ?= new HG.HiventInfoPopover(@_hiventHandle, new HG.Vector(0, 0), document.getElementsByTagName("body")[0])
+    @_popover ?= new HG.HiventInfoPopover @_hiventHandle, new HG.Vector(0, 0), HG.Display.CONTAINER
     @_hiventInfo.style.left = displayPosition.x + "px"
     @_hiventInfo.style.top = displayPosition.y + "px"
     @_updatePopoverAnchor displayPosition
@@ -79,7 +81,7 @@ class HG.HiventMarker
 
   # ============================================================================
   _destroyMarker: =>
-    @_hiventInfo.parentNode.removeChild @_hiventInfo
+    @_hiventInfo.parentDivNode.removeChild @_hiventInfo
     delete @
     return
 

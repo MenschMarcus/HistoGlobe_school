@@ -8,7 +8,9 @@ class HG.Display2D extends HG.Display
 
   # ============================================================================
   constructor: (container, hiventController, areaController) ->
-    @_container = container
+
+    HG.Display.call @, container
+
     @_hiventController = hiventController
     @_areaController = areaController
     @_initMembers()
@@ -53,11 +55,11 @@ class HG.Display2D extends HG.Display
   # ============================================================================
   _initCanvas: ->
     @_mapParent = document.createElement "div"
-    @_mapParent.style.width = @_container.offsetWidth + "px"
-    @_mapParent.style.height = @_container.offsetHeight + "px"
+    @_mapParent.style.width = HG.Display.CONTAINER.offsetWidth + "px"
+    @_mapParent.style.height = HG.Display.CONTAINER.offsetHeight + "px"
     @_mapParent.style.zIndex = "#{HG.Display.Z_INDEX}"
 
-    @_container.appendChild @_mapParent
+    HG.Display.CONTAINER.appendChild @_mapParent
 
     options =
       maxZoom:      6
@@ -114,8 +116,8 @@ class HG.Display2D extends HG.Display
 
   # ============================================================================
   _onWindowResize: (event) =>
-    @_mapParent.style.width = $(@_container.parentNode).width() + "px"
-    @_mapParent.style.height = $(@_container.parentNode).height() + "px"
+    @_mapParent.style.width = $(HG.Display.CONTAINER.parentNode).width() + "px"
+    @_mapParent.style.height = $(HG.Display.CONTAINER.parentNode).height() + "px"
 
   # ============================================================================
   _showAreaLayer: (area) ->

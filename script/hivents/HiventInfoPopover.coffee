@@ -46,7 +46,7 @@ class HG.HiventInfoPopover
     @_mainDiv.appendChild @_titleDiv
     @_mainDiv.appendChild @_bodyDiv
 
-    document.getElementsByTagName("body")[0].appendChild @_mainDiv
+    @_parentDiv.appendChild @_mainDiv
 
     @_centerPos = new HG.Vector 0, 0
     @_updateCenterPos()
@@ -146,8 +146,6 @@ class HG.HiventInfoPopover
   _resize: (width, height) ->
     @_width = Math.min width, BODY_MAX_WIDTH
     @_height = Math.min height, BODY_MAX_HEIGHT
-    # @_mainDiv.style.width = "#{@_width}px"
-    # @_mainDiv.style.height = "#{@_height}px"
 
   # ============================================================================
   _updateArrow: ->
@@ -171,14 +169,15 @@ class HG.HiventInfoPopover
 
   # ============================================================================
   _onMouseDown: (event) =>
+    event.preventDefault()
     @_titleDiv.addEventListener 'mousemove', @_onMouseMove, false
     @_titleDiv.addEventListener 'mouseup', @_onMouseUp, false
     @_titleDiv.addEventListener 'mouseout', @_onMouseOut, false
     @_titleDiv.className = "hiventInfoPopoverTitle grab"
-    event.preventDefault()
 
   # ============================================================================
   _onMouseUp: (event) =>
+    event.preventDefault()
     @_titleDiv.removeEventListener 'mousemove', @_onMouseMove, false
     @_titleDiv.removeEventListener 'mouseup', @_onMouseUp, false
     @_titleDiv.removeEventListener 'mouseout', @_onMouseOut, false
@@ -187,6 +186,7 @@ class HG.HiventInfoPopover
 
   # ============================================================================
   _onMouseMove: (event) =>
+    event.preventDefault()
     currentMousePos = new HG.Vector event.clientX, event.clientY
 
     @_lastMousePos ?= currentMousePos

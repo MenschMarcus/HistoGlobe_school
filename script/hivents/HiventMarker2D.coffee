@@ -21,9 +21,6 @@ class HG.HiventMarker2D
     @_display = display
     @_map = map
 
-    # icon_default    = new HG.HiventIcon2D("icon_eu.png")
-    # icon_higlighted = new HG.HiventIcon2D("icon_eu_highlighted.png")
-
     icon_default    = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_default", iconSize: null}
     icon_higlighted = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_highlighted", iconSize: null}
     @_marker = new L.Marker [hiventHandle.getHivent().lat, hiventHandle.getHivent().long], {icon: icon_default}

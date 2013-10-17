@@ -9,7 +9,8 @@ class HG.Display3D extends HG.Display
   # ============================================================================
   constructor: (container, hiventController, areaController) ->
 
-    @_container = container
+    HG.Display.call @, container
+
     @_hiventHandler = hiventController
     @_initMembers()
     @_initWindowGeometry()
@@ -85,10 +86,10 @@ class HG.Display3D extends HG.Display
 
   # ============================================================================
   _initWindowGeometry: ->
-    @_width                = @_container.parentNode.offsetWidth
-    @_myHeight             = @_container.parentNode.offsetHeight
-    @_canvasOffsetX        = @_container.parentNode.offsetLeft
-    @_canvasOffsetY        = @_container.parentNode.offsetTop
+    @_width                = HG.Display.CONTAINER.parentNode.offsetWidth
+    @_myHeight             = HG.Display.CONTAINER.parentNode.offsetHeight
+    @_canvasOffsetX        = HG.Display.CONTAINER.parentNode.offsetLeft
+    @_canvasOffsetY        = HG.Display.CONTAINER.parentNode.offsetTop
 
   # ============================================================================
   _initGlobe: ->
@@ -184,7 +185,7 @@ class HG.Display3D extends HG.Display
     @_renderer.domElement.style.position = "absolute"
     @_renderer.domElement.style.zIndex = "#{HG.Display.Z_INDEX}"
 
-    @_container.appendChild @_renderer.domElement
+    HG.Display.CONTAINER.appendChild @_renderer.domElement
 
   # ============================================================================
   _initEventHandling: ->
@@ -210,7 +211,7 @@ class HG.Display3D extends HG.Display
   _initHivents: ->
     # @_hiventHandler.onHiventsChanged (handles) =>
     #   for handle in handles
-    #     hivent    = new HG.HiventMarker3D handle, this, @_container
+    #     hivent    = new HG.HiventMarker3D handle, this, HG.Display.CONTAINER
     #     position  = @_latLongToCart
     #                   x:handle.getHivent().long
     #                   y:handle.getHivent().lat
@@ -369,7 +370,7 @@ class HG.Display3D extends HG.Display
       @_dragStartPos = @_pixelToLatLong(clickMouse)
 
       if @_dragStartPos?
-        @_container.style.cursor = "move"
+        HG.Display.CONTAINER.style.cursor = "move"
         @_springiness = 0.1
         @_targetCameraPos.x = @_currentCameraPos.x
         @_targetCameraPos.y = @_currentCameraPos.y
@@ -387,7 +388,7 @@ class HG.Display3D extends HG.Display
   _onMouseUp: (event) =>
     if @_isRunning
       event.preventDefault()
-      @_container.style.cursor = "auto"
+      HG.Display.CONTAINER.style.cursor = "auto"
       @_springiness = 0.9
       @_dragStartPos = null
       @_myDragStartCamera = null
@@ -417,11 +418,11 @@ class HG.Display3D extends HG.Display
 
   # ============================================================================
   _onWindowResize: (event) =>
-    @_camera.aspect = @_container.parentNode.offsetWidth /
-                      @_container.parentNode.offsetHeight
+    @_camera.aspect = HG.Display.CONTAINER.parentNode.offsetWidth /
+                      HG.Display.CONTAINER.parentNode.offsetHeight
     @_camera.updateProjectionMatrix()
-    @_renderer.setSize @_container.parentNode.offsetWidth,
-                       @_container.parentNode.offsetHeight
+    @_renderer.setSize HG.Display.CONTAINER.parentNode.offsetWidth,
+                       HG.Display.CONTAINER.parentNode.offsetHeight
     @_initWindowGeometry()
 
 
