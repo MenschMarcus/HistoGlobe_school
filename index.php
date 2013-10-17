@@ -82,6 +82,7 @@
     <script type="text/javascript" src="build/YearMarker.js"></script>
     <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
+    <script type="text/javascript" src="build/NowMarker.js"></script>
 
 
     <script>
@@ -95,7 +96,7 @@
 	  </script>
 
     <script type="text/javascript">
-      var display2D, display3D, timeline, hiventController, areaController;
+      var display2D, display3D, timeline, hiventController, areaController, nowMarker;
       var timelineInitialized = false;
       var container;
       var player;
@@ -175,6 +176,8 @@
               hiventController = new HG.HiventController("data/hivent_collection.json");
 
               container = document.getElementById('map-container');
+
+              // Load Timeline and NowMarker
               loadTimeline();
 
               areaController = new HG.AreaController(timeline);
@@ -295,6 +298,11 @@
         {
           timeline = new HG.Timeline(1800, 2010, 0.001, 1000, document.getElementById("timeline"));
 
+        }
+
+        if(typeof nowMarker !== "undefined" || nowMarker !== null)
+        {
+          nowMarker = new HG.NowMarker(document.getElementById("timeline"), document.getElementById("now_marker"));
         }
 
 
@@ -493,12 +501,16 @@
             </table>
           </div>
 
+          <!-- Now Marker in middle of page -->
+          <div id="now_marker">
+            <div id="now_marker_in">
+            </div>
+          </div>
 
           <!-- timeline NEW -->
           <div id="timeline">
 
           </div>
-
 
           <!-- timeline OLD-->
 <!--      <div id="tlContainer">
