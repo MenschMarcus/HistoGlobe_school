@@ -79,6 +79,7 @@
     <script type="text/javascript" src="build/HiventMarker3D.js"></script>
     <script type="text/javascript" src="build/HiventMarkerTimeline.js"></script>
     <script type="text/javascript" src="build/Timeline.js"></script>
+    <script type="text/javascript" src="build/YearMarker.js"></script>
     <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
 
@@ -292,7 +293,7 @@
         // new timeline
         if (!timelineInitialized)
         {
-          timeline = new HG.Timeline(1800, 2010, 0.1, 10, document.getElementById("timeline"));
+          timeline = new HG.Timeline(1800, 2010, 0.001, 1000, document.getElementById("timeline"));
 
         }
 

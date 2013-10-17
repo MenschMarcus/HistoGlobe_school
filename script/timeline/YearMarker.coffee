@@ -7,9 +7,9 @@ class HG.YearMarker
   ##############################################################################
 
   constructor: (year, pos, parentDiv) ->
-    @_parentDiv = parentDiv
     @_year = year
     @_pos = pos
+    @_parentDiv = parentDiv
 
     # create HTML div
     @_yearMarkerDiv = document.createElement "div"
@@ -19,8 +19,8 @@ class HG.YearMarker
     @_yearMarkerDiv.innerHTML = '<p>'+@_year+'</p>'
 
     # add to DOM
-    @_parentDiv.append @_yearMarkerDiv
+    @_parentDiv.appendChild @_yearMarkerDiv
 
   # ============================================================================
-  destroy : () ->
-    @_parentDiv.removeChild @_yearMarkerDiv
+  getYear : () -> @_year
+  destroy : () -> @_parentDiv.removeChild @_yearMarkerDiv

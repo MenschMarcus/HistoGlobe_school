@@ -17,7 +17,7 @@ class HG.Timeline
     @_maxZoom = maxZoom
     @_tlDiv = timelineDiv
     @_tlWidth = @_tlDiv.offsetWidth
-    @_zoomLevel = 7
+    @_zoomLevel = 1
 
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
@@ -48,10 +48,12 @@ class HG.Timeline
     # init scroller with year markers
     @_drawScroller()
 
+  # ============================================================================
     # event handling
     @_downOnTimeline = false
     @_lastMousePosX = 0
 
+    # dragging
     @_tlDiv.onmousedown = (e) =>
       @_downOnTimeline = true
       @_lastMousePosX = e.pageX
@@ -72,12 +74,23 @@ class HG.Timeline
       @_lastMousePosX = e.pageX
       @_enableTextSelection()
 
+    # zooming
+    @_tlDiv.onmousewheel = (e) =>
+      # zoom in
+      if e.wheelDeltaY > 0
+        @setZoomLevel 2
+      # zoom out
+      else
+        @setZoomLevel 0.5
+
+
   # ============================================================================
   setZoomLevel : (factor) ->
     @_zoomLevel *= factor
     @_zoomLevel = Math.min @_zoomLevel, @_maxZoom
     @_zoomLevel = Math.max @_zoomLevel, @_minZoom
-
+    console.log @_zoomLevel
+    @_drawScroller
 
   #@notifyAll "onPeriodChanged", periodStart, periodEnd
 
@@ -130,35 +143,52 @@ class HG.Timeline
 
     @_updateScroller()
 
+  # ============================================================================
   _addYearToScroller : (year) ->
     # create year marker
     # position = position of year starting from zero
     #          + moving to center of timeline (width of timeline)
     pos = (@_dateToPos @_yearToDate year) + @_tlWidth
-    yearMarker = new YearMarker(year, pos, @_yearMarkersDiv)
+    yearMarker = new HG.YearMarker(year, pos, @_yearMarkersDiv)
 
     # add object to temporary list of to be inserted year markers
     @_yearMarkersToInsert.push(yearMarker)
 
+  # ============================================================================
   _updateScroller : () ->
     # exception handling: if scroller is empty, just set to be inserted yearMarkers as new yearMarkers
     if @_yearMarkers.length < 1
       @_yearMarkers = @_yearMarkersToInsert
 
+    # new year markers at beginning of scroller
+    else if @_yearMarkers[0].getYear() > @_yearMarkersToInsert[0].getYear()
+      # delete yearMarkers at end
+      @_yearMarkers.splice @_yearMarkers.length-@_yearMarkersToInsert.length, @_yearMarkersToInsert.length
+      # add yearMarkers to front = insert new array into final array
+      @_yearMarkers.splice.apply(@_yearMarkers, [0, 0].concat(@_yearMarkersToInsert));
+
+    # new year markers at end of scroller
+    else 
+      # delete yearMarkers at front
+      @_yearMarkers.splice 0, @_yearMarkersToInsert.length
+      # add yearMarkers to back
+      @_yearMarkers.splice.apply(@_yearMarkers, [@_yearMarkers.length, 0].concat(@_yearMarkersToInsert));
+      
     # clear array of to be inserted year markers
     @_yearMarkersToInsert.length = 0
 
-  _appendYearMarker : (year) ->
-    @_yearMarkersDiv.appendChild yearMarkerDiv
-
+  # ============================================================================
   _moveScroller : (pix) ->
     @_tlDiv.scrollLeft += pix
 
+  # ============================================================================
   # text selection magic - bääääm!
   _disableTextSelection : (e) ->  return false
   _enableTextSelection : () ->    return true
 
+  # ============================================================================
   # auxiliary functions
+  # ============================================================================
   _posToDate : (pos) ->
     # get now date and its position
     # nowDate = @_nowMarker.getNowDate()
