@@ -20,11 +20,11 @@ class HG.NowMarker
         @_radius        = @_mainDiv.offsetHeight
 
         # output to test vars
-        console.log "NowMarker: Parameter:"
-        console.log "   div width: " + @_mainDiv.offsetWidth
-        console.log "   div height: " + @_mainDiv.offsetHeight
-        console.log "   div bottom: " + $(@_mainDiv).css "bottom"
-        console.log "   div left: " + $(@_mainDiv).css "left"
+        # console.log "NowMarker: Parameter:"
+        # console.log "   div width: " + @_mainDiv.offsetWidth
+        # console.log "   div height: " + @_mainDiv.offsetHeight
+        # console.log "   div bottom: " + $(@_mainDiv).css "bottom"
+        # console.log "   div left: " + $(@_mainDiv).css "left"
 
         @_mainDiv.onmousedown = (e) =>
             if((@_distanceToMiddlepoint(e) - 85) >= 0)
@@ -34,7 +34,8 @@ class HG.NowMarker
 
         document.body.onmouseup = (e) =>
 
-    _distanceToMiddlepoint : (e) ->
+   # ============================================================================
+   _distanceToMiddlepoint : (e) ->
         xs = 0
         ys = 0
 

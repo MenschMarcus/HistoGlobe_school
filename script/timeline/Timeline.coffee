@@ -76,23 +76,28 @@ class HG.Timeline
 
     # zooming
     @_tlDiv.onmousewheel = (e) =>
+      # prevent scrolling of map
+      e.preventDefault()
       # zoom in
       if e.wheelDeltaY > 0
-        @setZoomLevel 2
+        @zoom 1.25
       # zoom out
       else
-        @setZoomLevel 0.5
+        @zoom 0.8
 
 
   # ============================================================================
-  setZoomLevel : (factor) ->
+  zoom : (factor) ->
     @_zoomLevel *= factor
     @_zoomLevel = Math.min @_zoomLevel, @_maxZoom
     @_zoomLevel = Math.max @_zoomLevel, @_minZoom
     console.log @_zoomLevel
-    @_drawScroller
+
+    # chek if new year interval
+    console.log @_getYearInterval()
 
   #@notifyAll "onPeriodChanged", periodStart, periodEnd
+
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #
@@ -116,13 +121,8 @@ class HG.Timeline
     # clear scroller recursively
     @_yearMarkersDiv.removeChild @_yearMarkersDiv.firstChild while @_yearMarkersDiv.firstChild
 
-    # calculate interval at which year markers are drawn
-    # difference between two years on timeline at current zoom level [px]
-    yearDiff = @_zoomLevel * YEAR_DIST
-    # increment interval until distance between two year markers is greater than minimum distance between two markers
-    intervalIt = 0
-    intervalIt++ while (yearDiff < (MIN_DIST / YEAR_INTERVALS[intervalIt]))
-    yearInterval = YEAR_INTERVALS[intervalIt]
+    # calculate interval at which year markers are drawn [px]
+    yearInterval = @_getYearInterval()
 
     # get now year TODO
     # nowYear = @_posToDate @_tlWidth/2
@@ -142,6 +142,15 @@ class HG.Timeline
       @_addYearToScroller leftYear
 
     @_updateScroller()
+
+  # ============================================================================
+  _getYearInterval : () ->
+    yearDiff = @_zoomLevel * YEAR_DIST
+      # increment interval until distance between two year markers is greater than minimum distance between two markers
+    intervalIt = 0
+    intervalIt++ while (yearDiff < (MIN_DIST / YEAR_INTERVALS[intervalIt]))
+    yearInterval = YEAR_INTERVALS[intervalIt]
+    yearInterval
 
   # ============================================================================
   _addYearToScroller : (year) ->
