@@ -28,11 +28,11 @@ class HG.HiventInfoPopover
     @_mainDiv.style.top = "#{anchor.at(1) + WINDOW_TO_ANCHOR_OFFSET_Y}px"
     @_mainDiv.style.zIndex = "#{HG.Display.Z_INDEX + 10}"
     @_mainDiv.style.visibility = "hidden"
-    @_mainDiv.addEventListener 'mousedown', @_onMouseDown, false
 
     @_titleDiv = document.createElement "div"
     @_titleDiv.className = "hiventInfoPopoverTitle"
     @_titleDiv.innerHTML = @_hiventHandle.getHivent().name
+    @_titleDiv.addEventListener 'mousedown', @_onMouseDown, false
 
     @_closeDiv = document.createElement "div"
     @_closeDiv.className = "hiventInfoPopoverClose"

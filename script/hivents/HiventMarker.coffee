@@ -81,7 +81,7 @@ class HG.HiventMarker
 
   # ============================================================================
   _destroyMarker: =>
-    @_hiventInfo.parentDivNode.removeChild @_hiventInfo
+    @_hiventInfo.parentNode.removeChild @_hiventInfo
     delete @
     return
 
