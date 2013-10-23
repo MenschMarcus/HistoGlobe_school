@@ -174,6 +174,29 @@ class HG.Timeline
 
   # ============================================================================
   _updateScroller : () ->
+    # get area of redraw
+    newArea = @_tlDiv.scrollLeft - @_tlWidth
+    # get number of year markers that fit into area
+    yearInterval = @_getYearInterval()
+    numNewMarkers = Math.floor newArea/yearInterval
+    # add year markers at front resp. back and remove same amount of year markers at back resp. front
+    i = 0
+    # append to front
+    if newArea < 0
+      firstYear = @_yearMarkers[0].getYear()-numNewMarkers*yearInterval
+      @_addYearToScroller firstYear
+      while i < numNewMarkers
+        firstYear += yearInterval
+        @_addYearToScroller firstYear
+        i++
+    # append to back
+    else
+      firstYear = @_yearMarkers[@_yearMarkers.length-1].getYear()+numNewMarkers*yearInterval
+      @_addYearToScroller firstYear
+      while i < numNewMarkers
+        firstYear += yearInterval
+        @_addYearToScroller firstYear
+        i++
 
 
   # ====================================================
