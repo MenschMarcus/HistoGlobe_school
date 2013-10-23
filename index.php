@@ -296,7 +296,7 @@
         // new timeline
         if (!timelineInitialized)
         {
-          timeline = new HG.Timeline(1800, 2010, 0.001, 1000, document.getElementById("timeline"));
+          timeline = new HG.Timeline(1901, 1800, 2010, 0.001, 1000, document.getElementById("timeline"));
 
         }
 

@@ -10,12 +10,14 @@ class HG.Timeline
   ##############################################################################
 
   # ============================================================================
-  constructor: (minDate, maxDate, minZoom, maxZoom, timelineDiv) ->
+  constructor: (nowDate, minDate, maxDate, minZoom, maxZoom, timelineDiv) ->
+    @_nowDate = @_yearToDate nowDate
     @_minDate = @_yearToDate minDate
     @_maxDate = @_yearToDate maxDate
     @_minZoom = minZoom
     @_maxZoom = maxZoom
     @_tlDiv   = timelineDiv
+    @_body = document.getElementById("home")
     @_tlWidth = @_tlDiv.offsetWidth
     @_zoomLevel = 1
 
@@ -26,17 +28,20 @@ class HG.Timeline
     @addCallback "onZoomLevelChanged"
 
     # @_nowMarker = new NowMarker
-    @_nowDate = @_yearToDate 1888 # preliminary, replace by real nowDate from nowMarker
 
-    # create timeline scroller (size: 3 times timeline width)
+    # create timeline scroller (size: 3 x timeline width)
     @_tlScroller = document.createElement "div"
     @_tlScroller.id = "tlScroller"
     @_tlScroller.style.width = (@_tlWidth*3) + "px"
     timelineDiv.appendChild @_tlScroller
 
+    # reference date and position (on scroller!) for drawing the year markers -> initially now date
+    @_refDate = @_nowDate.getTime()   # [ms]
+    @_refPos = @_tlWidth*1.5          # [px]
+
     # move scroller to center of timeline
     # (so that it sticks out both directions by width of timeline)
-    @_moveScroller @_tlWidth
+    @_tlDiv.scrollLeft += @_tlWidth
 
     # create container for year markers
     @_yearMarkers = new Array()
@@ -48,7 +53,7 @@ class HG.Timeline
     # init scroller with year markers
     @_drawScroller()
 
-  # ============================================================================
+    # ============================================================================
     # event handling
     @_downOnTimeline = false
     @_lastMousePosX = 0
@@ -58,18 +63,18 @@ class HG.Timeline
       @_downOnTimeline = true
       @_lastMousePosX = e.pageX
       @_disableTextSelection()
+      # console.log e.pageX + " date: " + @_dateToYear @_posToDate e.pageX
 
-    document.body.onmousemove = (e) =>
+    @_body.onmousemove = (e) =>
       if @_downOnTimeline   # catch any mouse event to allow scrolling of timeline even if mouse is not inside timeline
         mousePosX = e.pageX
         moveDist = @_lastMousePosX - mousePosX
         @_moveScroller moveDist
         @_lastMousePosX = mousePosX
 
-    document.body.onmouseup = (e) =>
+    @_body.onmouseup = (e) =>
       if @_downOnTimeline
-        @_nowDate = @_posToDate @_tlWidth/2
-        @_drawScroller()
+        @_updateScroller()
         @_downOnTimeline = false  # catch any mouse up event in UI to stop dragging
       @_lastMousePosX = e.pageX
       @_enableTextSelection()
@@ -91,10 +96,10 @@ class HG.Timeline
     @_zoomLevel *= factor
     @_zoomLevel = Math.min @_zoomLevel, @_maxZoom
     @_zoomLevel = Math.max @_zoomLevel, @_minZoom
-    console.log @_zoomLevel
+    # console.log @_zoomLevel
 
     # chek if new year interval
-    console.log @_getYearInterval()
+    # console.log @_getYearInterval()
 
   #@notifyAll "onPeriodChanged", periodStart, periodEnd
 
@@ -124,24 +129,22 @@ class HG.Timeline
     # calculate interval at which year markers are drawn [px]
     yearInterval = @_getYearInterval()
 
-    # get now year TODO
-    # nowYear = @_posToDate @_tlWidth/2
-    nowYear = @_nowDate  # preliminary, replace by real nowDate from nowMarker
-
-    # get position and year or first year marker on the left
+    # get position and year of first year marker on the left
     leftYear = @_dateToYear @_posToDate -@_tlWidth
-    leftYear++ while leftYear % yearInterval != 0
+    leftYear++ while leftYear % yearInterval != 0   # increment leftYear until it is in yearInterval
     leftPos = @_dateToPos @_yearToDate leftYear
 
-    #draw first year to the right that is in year interval
+    # draw first year to the right that is in year interval
     @_addYearToScroller leftYear
 
-    limitRight  = @_dateToYear @_getEarlierDate  @_maxDate, @_posToDate 2*@_tlWidth  # date at right border of scroller or maximum date
+    # date at right border of scroller or maximum date
+    limitRight = @_dateToYear @_getEarlierDate @_maxDate, @_posToDate 2*@_tlWidth
     while leftYear < limitRight
       leftYear += yearInterval
       @_addYearToScroller leftYear
 
-    @_updateScroller()
+    # initally draw all year markers 
+    @_updateYearMarkers()
 
   # ============================================================================
   _getYearInterval : () ->
@@ -150,24 +153,34 @@ class HG.Timeline
     intervalIt = 0
     intervalIt++ while (yearDiff < (MIN_DIST / YEAR_INTERVALS[intervalIt]))
     yearInterval = YEAR_INTERVALS[intervalIt]
-    yearInterval
 
   # ============================================================================
   _addYearToScroller : (year) ->
     # create year marker
     # position = position of year starting from zero
     #          + moving to center of timeline (width of timeline)
-    pos = (@_dateToPos @_yearToDate year) + @_tlWidth
+    pos = (@_dateToPos @_yearToDate year)
     yearMarker = new HG.YearMarker(year, pos, @_yearMarkersDiv)
 
     # add object to temporary list of to be inserted year markers
     @_yearMarkersToInsert.push(yearMarker)
 
   # ============================================================================
+  _moveScroller : (pix) ->
+    @_tlDiv.scrollLeft += pix
+    # update nowDate (to be replaced later...)
+    @_nowDate = @_dateToYear @_posToDate @_tlWidth*0.5
+
+
+  # ============================================================================
   _updateScroller : () ->
+
+
+  # ====================================================
+  _updateYearMarkers : () ->
     # exception handling: if scroller is empty, just set to be inserted yearMarkers as new yearMarkers
     if @_yearMarkers.length < 1
-      @_yearMarkers = @_yearMarkersToInsert
+      @_yearMarkers = @_yearMarkersToInsert.slice()  # deep copy
 
     # new year markers at beginning of scroller
     else if @_yearMarkers[0].getYear() > @_yearMarkersToInsert[0].getYear()
@@ -186,9 +199,6 @@ class HG.Timeline
     # clear array of to be inserted year markers
     @_yearMarkersToInsert.length = 0
 
-  # ============================================================================
-  _moveScroller : (pix) ->
-    @_tlDiv.scrollLeft += pix
 
   # ============================================================================
   # text selection magic - bääääm!
@@ -198,28 +208,22 @@ class HG.Timeline
   # ============================================================================
   # auxiliary functions
   # ============================================================================
-  _posToDate : (pos) ->
-    # get now date and its position
-    # nowDate = @_nowMarker.getNowDate()
-    nowDate = @_nowDate
-    nowPos = @_tlWidth / 2
-    # distance to now position [px]
-    pxDiff = pos - nowPos
-    # distance between two px [ms]
-    pxDist = 1 / (MS_WIDTH * @_zoomLevel)
+  _posToDate : (inPos) ->   # in: position on timeline, not on scroller!
+    # distance of click position and now position
+    pxDiff = inPos+@_tlDiv.scrollLeft - @_refPos                   # [px-px = px]
+    # time distance between two px
+    pxDist = 1 / (MS_WIDTH * @_zoomLevel)       # [ms/px]
     # very intuitive linear function that is not so intuitive anymore
-    date = @_addDates(new Date(pxDiff*pxDist), nowDate)
+    outDate = @_refDate + pxDist*pxDiff         # [ms = ms + ms/px*px]
+    new Date(outDate)
 
-  _dateToPos : (date) ->
-    # get now date and its position
-    # nowDate = @_nowMarker.getNowDate
-    nowPos = @_tlWidth / 2
-    # difference between date and now date [ms]
-    msDiff = date.getTime() - @_nowDate.getTime()
-    # distance between two ms [px]
-    msDist = MS_WIDTH * @_zoomLevel
+  _dateToPos : (inDate) -> # out: position on timeline, not on scroller!
+    # difference between date and now date
+    msDiff = inDate.getTime() - @_refDate   # [ms]
+    # distance between two ms
+    msDist = MS_WIDTH * @_zoomLevel         # [px/ms]
     # very intuitive linear function
-    pos = msDiff * msDist + nowPos
+    outPos = msDiff*msDist + @_refPos       # [px = ms*px/ms + px]
 
   _yearToDate : (year) ->
     date = new Date(0)
@@ -227,20 +231,17 @@ class HG.Timeline
     date
 
   _dateToYear : (date) ->
-    year = date.getFullYear()
-    year
+    date.getFullYear()
 
   _addDates : (date1, date2) ->
     ms1 = date1.getTime()
     ms2 = date2.getTime()
-    date = new Date (ms1+ms2)
-    date
+    new Date (ms1+ms2)
 
   _subtractDates : (date1, date2) ->
     ms1 = date1.getTime()
     ms2 = date2.getTime()
-    date = new Date (ms1-ms2)
-    date
+    new Date (ms1-ms2)
 
   _getEarlierDate : (date1, date2) ->
     diff = date1.getTime()-date2.getTime()
