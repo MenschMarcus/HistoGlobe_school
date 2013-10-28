@@ -6,7 +6,7 @@
 #
 #Data within the csv file has to be formatted as follows:
 #
-#ID|name|description|date|locName|long|lat|category
+#ID|name|description|startDate|endDate|locName|long|lat|category|multimedia_ID
 #
 ###############################################################
 
@@ -75,12 +75,13 @@ def main():
         hivent_id          = row[0]
         hivent_name        = row[1]
         hivent_description = row[2]
-        hivent_date        = row[3]
-        hivent_location    = row[4]
-        hivent_long        = row[6]
-        hivent_lat         = row[5]
-        hivent_category    = row[7]
-        hivent_mm_ids      = row[8]
+        hivent_startDate   = row[3]
+        hivent_endDate     = row[4]
+        hivent_location    = row[5]
+        hivent_long        = row[7]
+        hivent_lat         = row[6]
+        hivent_category    = row[8]
+        hivent_mm_ids      = row[9]
 
         mm_html_string = ""
 
@@ -109,7 +110,7 @@ def main():
         html_target = open(html_path + html_name, "w")
         html_target.write('<div class = \"hiventInfoPopoverContent\">\n' +
                            '\t<h3>' + hivent_location + ', ' +
-                           hivent_date + '</h3>\n' +
+                           hivent_startDate + '-' + hivent_endDate + '</h3>\n' +
                            mm_html_string +
                            '\t<p>\n\t\t' +
                            hivent_description +
@@ -123,10 +124,15 @@ def main():
         json_target.write('\t{\n')
         json_target.write('\t\t\"name\": \"' + hivent_name + '\",\n')
 
-        day, month, year = hivent_date.split(".")
-        json_target.write('\t\t\"day\": ' + str(int(day)) + ',\n')
-        json_target.write('\t\t\"month\": ' + str(int(month)) + ',\n')
-        json_target.write('\t\t\"year\": ' + str(int(year)) + ',\n')
+        startDay, startMonth, startYear = hivent_startDate.split(".")
+        json_target.write('\t\t\"startDay\": ' + str(int(startDay)) + ',\n')
+        json_target.write('\t\t\"startMonth\": ' + str(int(startMonth)) + ',\n')
+        json_target.write('\t\t\"startYear\": ' + str(int(startYear)) + ',\n')
+
+        endDay, endMonth, endYear = hivent_endDate.split(".")
+        json_target.write('\t\t\"endDay\": ' + str(int(endDay)) + ',\n')
+        json_target.write('\t\t\"endMonth\": ' + str(int(endMonth)) + ',\n')
+        json_target.write('\t\t\"endYear\": ' + str(int(startYear)) + ',\n')
 
         json_target.write('\t\t\"long\": ' + hivent_long + ',\n')
         json_target.write('\t\t\"lat\": ' + hivent_lat + ',\n')

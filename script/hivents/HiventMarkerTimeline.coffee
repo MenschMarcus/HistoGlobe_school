@@ -16,7 +16,7 @@ class HG.HiventMarkerTimeline
     HG.mixin @, HG.HiventMarker
     HG.HiventMarker.call @, hiventHandle, parent
 
-    time = hiventHandle.getHivent().date.getTime()
+    time = hiventHandle.getHivent().startDate.getTime()
     LAST_X_COORDS[time] ?= 0
     @_position = { x: posX + LAST_X_COORDS[time] - HIVENT_MARKER_TIMELINE_RADIUS, y: Math.floor $(parent.parentNode).innerHeight() * 0.75 }
     LAST_X_COORDS[time] += HIVENT_MARKER_TIMELINE_RADIUS * 1.5
@@ -77,7 +77,7 @@ class HG.HiventMarkerTimeline
 
   # ============================================================================
   setPosition: (posX) ->
-    @_position.x = posX + LAST_X_COORDS[@getHiventHandle().getHivent().date.getTime()]
+    @_position.x = posX + LAST_X_COORDS[@getHiventHandle().getHivent().startDate.getTime()]
     @_div.style.left = @_position.x + "px"
 
   # ============================================================================
@@ -99,7 +99,7 @@ class HG.HiventMarkerTimeline
 
   # ============================================================================
   _destroy: =>
-    LAST_X_COORDS[@getHiventHandle().getHivent().date.getTime()] = 0
+    LAST_X_COORDS[@getHiventHandle().getHivent().startDate.getTime()] = 0
     @getHiventHandle().unMarkAll()
     @getHiventHandle().unLinkAll()
     @_div.parentNode.removeChild @_div

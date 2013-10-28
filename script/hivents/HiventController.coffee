@@ -49,9 +49,12 @@ class HG.HiventController
       for h in hivents
         hivent = new HG.Hivent(
           h.name,
-          h.year,
-          h.month,
-          h.day,
+          h.startYear,
+          h.startMonth,
+          h.startDay,
+          h.endYear,
+          h.endMonth,
+          h.endDay,
           h.long,
           h.lat,
           h.category,
@@ -81,8 +84,8 @@ class HG.HiventController
       hivent = handle.getHivent()
       isInTime = false
       unless @_currentTimeFilter == null
-        isInTime = hivent.date.getTime() >= @_currentTimeFilter.start.getTime() and
-                   hivent.date.getTime() <= @_currentTimeFilter.end.getTime()
+        isInTime = not (hivent.startDate.getTime() > @_currentTimeFilter.end.getTime()) and
+                   not (hivent.endDate.getTime() < @_currentTimeFilter.start.getTime())
 
       isInSpace = true
       unless @_currentSpaceFilter == null
