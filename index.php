@@ -338,7 +338,7 @@
         <div id="gl-header">
 
           <!-- legend -->
-          <div id="legend">
+          <div id="legend" class = "menu">
             <table>
               <tr><td style="width:10px; height:10px; background-color:#9F8BFF"></td>
                   <td style="padding:0px 5px"><small>EU / EG</small></td></tr>
@@ -389,7 +389,7 @@
                     <div id="nowMarkerWrap">
                       <div id="nowMarkerHead">
                         <div id="nowDate" onsubmit="return false">
-                          <i class="icon-angle-left"></i> <span id="polDate"></span> <i class="icon-angle-right"></i>
+                          <span id="polDate"></span>
                         </div>
                       </div>
                       <div id="nowMarkerMain"></div>
