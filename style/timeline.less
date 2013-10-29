@@ -63,6 +63,7 @@
   bottom: 80px;
   padding: 8px 8px 8px 8px;
   position: absolute;
+  width: @right_menu_width;
   right: 0;
 }
 
@@ -101,13 +102,14 @@
   background-color: rgb(240, 240, 240);
   background-repeat: repeat-x;
 
+  padding: 8px;
   .bordered-interface-element();
   border-radius: 3px;
 }
 
 #nowMarkerMain {
   position: relative;
-  left: 45px;
+  left: 60px;
   width: 25px;
   height: 30px;
   background: url('../data/timeline/nowMarker.png') center no-repeat;
@@ -123,7 +125,7 @@
 #polDate {
   margin: 0;
   text-align: center;
-  font-size: 0.8em;
+  font-size: 1em;
   font-weight: bold;
   width: 84px;
   pointer-events: none;
@@ -163,24 +165,24 @@
 .yearMarker {
   position: absolute;
   height: 50px;
-  margin-top: 35px;
+  margin-top: 20px;
 }
 .yearMark1 {
   width: 50px;
   margin-left: -25px;
-  background: url('../data/timeline/yearMarker1.png') center no-repeat;
+  /*background: url('../data/timeline/yearMarker1.png') center no-repeat;*/
   background-position: 23.5px 21px;
 }
 .yearMark2 {
   width: 28px;
   margin-left: -15px;
-  background: url('../data/timeline/yearMarker2.png') no-repeat;
+  /*background: url('../data/timeline/yearMarker2.png') no-repeat;*/
   background-position: 13.5px 21px;
 }
 .yearMark3 {
   width: 28px;
   margin-left: -14px;
-  background: url('../data/timeline/yearMarker3.png') no-repeat;
+  /*background: url('../data/timeline/yearMarker3.png') no-repeat;*/
   background-position: 13.5px 21px;
 }
 
@@ -189,19 +191,19 @@
   position: absolute;
   width: 100%;
   text-align: center;
-  color: #333;
+  color: #aaa;
   margin: 0px;
 }
 .yearMark1 p {
-  font-size: 0.95em;
+  font-size: 1.75em;
   font-weight: bold;
 }
 .yearMark2 p {
-  font-size: 0.7em;
+  font-size: 1.5em;
   font-weight: bold;
 }
 .yearMark3 p {
-  font-size: 0.7em;
+  font-size: 1.5em;
 }
 
 /* HISTORICAL EVENT MARKERS */
