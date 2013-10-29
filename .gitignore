@@ -4,6 +4,7 @@ data/hivent_assets
 data/grid_tiles
 data_src/maps/tmp
 data_src/eu/tmp
+data_src/hivents/multimedia
 build
 histoglobe.sublime-workspace
 script/histoglobe.min.js
