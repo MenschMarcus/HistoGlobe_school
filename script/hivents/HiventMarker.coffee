@@ -28,7 +28,7 @@ class HG.HiventMarker
 
     hivent = @_hiventHandle.getHivent()
 
-    $(@_hiventInfo).tooltip {title: "#{hivent.day}.#{hivent.month}.#{hivent.year} - #{hivent.name}", placement: "top"}
+    $(@_hiventInfo).tooltip {title: "#{hivent.startDay}.#{hivent.startMonth}.#{hivent.startYear} - #{hivent.name}", placement: "top"}
 
     @_popover = null
 

@@ -24,9 +24,15 @@ class HG.HiventMarker2D
     icon_default    = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_default", iconSize: null}
     icon_higlighted = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_highlighted", iconSize: null}
     @_marker = new L.Marker [hiventHandle.getHivent().lat, hiventHandle.getHivent().long], {icon: icon_default}
+    @_marker.myHinventMarker2D = @
+
     @_markerGroup = markerGroup
 
     @_markerGroup.addLayer @_marker
+    @_markerGroup.on "clusterclick", (cluster) =>
+      window.setTimeout (() =>
+        for marker in cluster.layer.getAllChildMarkers()
+          marker.myHinventMarker2D._updatePosition()), 100
 
     @_position = new L.Point 0,0
     @_updatePosition()
@@ -74,6 +80,7 @@ class HG.HiventMarker2D
             x : @_position.x,
             y : @_position.y - HIVENT_MARKER_2D_RADIUS
           }
+
     @getHiventHandle().mark @, pos
     @getHiventHandle().linkAll pos
 
@@ -115,9 +122,9 @@ class HG.HiventMarker2D
     @_map.off "drag", @_updatePosition
     @_map.off "viewreset", @_updatePosition
     @_markerGroup.removeLayer @_marker
-    delete @_map
-    delete @_markerGroup
-    delete @
+    # delete @_map
+    # delete @_markerGroup
+    # delete @
     return
 
   ##############################################################################
