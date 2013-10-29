@@ -19,9 +19,19 @@ body {
   position: absolute;
   right: 0px;
   bottom: 200px;
-  .linear-gradient-top(rgba(255,255,255, 0.0), #fff, 0, rgba(218, 218, 218, 1), 50%);
-  border: 1px solid #C4C4C4;
-  .border-radius(@roundness * 6px 0 0 @roundness * 6px);
+
+  .transparent-interface-element();
+  .bordered-interface-element();
+  .border-radius(@roundness * 3px 0 0 @roundness * 3px);
+}
+
+#fullscreenMenuRight {
+  .border-radius(@roundness * 3px 0 0 @roundness * 3px);
+  .bordered-interface-element();
+  bottom: 140px;
+  padding: 8px 8px 8px 8px;
+  position: absolute;
+  right: 0;
 }
 
 .hero-unit {

@@ -339,28 +339,30 @@
 
           <!-- legend -->
           <div id="legend">
-            <h3>Legende</h3>
             <table>
-              <tr><td style="width:32px; height:32px; background-color:#9F8BFF"></td>
-                  <td style="padding:5px"><small>Europäische Union / EG</small></td></tr>
-              <tr><td style="width:32px; height:32px; background-color:#5B309F"></td>
-                  <td style="padding:5px"><small>Eurozone</small></td></tr>
+              <tr><td style="width:10px; height:10px; background-color:#9F8BFF"></td>
+                  <td style="padding:0px 5px"><small>EU / EG</small></td></tr>
+              <tr><td style="width:10px; height:10px; background-color:#5B309F"></td>
+                  <td style="padding:0px 5px"><small>Eurozone</small></td></tr>
               <tr><td style="padding:10px"/><td style="padding:10px"/></tr>
-              <tr><td style="width:32px; height:32px; background-image:url('data/hivent_icons/icon_join.png'); background-size: cover"></td>
-                  <td style="padding:5px"><small>Beitritt</small></td></tr>
-              <tr><td style="width:32px; height:32px; background-image:url('data/hivent_icons/icon_law.png'); background-size: cover"></td>
-                  <td style="padding:5px"><small>Vertrag</small></td></tr>
-              <tr><td style="width:32px; height:32px; background-image:url('data/hivent_icons/icon_default.png'); background-size: cover"></td>
-                  <td style="padding:5px"><small>Sonstige</small></td></tr>
+              <tr><td style="width:10px; height:10px; background-image:url('data/hivent_icons/icon_join.png'); background-repeat: no-repeat; background-size: contain"></td>
+                  <td style="padding:0px 5px"><small>Beitritt</small></td></tr>
+              <tr><td style="width:10px; height:10px; background-image:url('data/hivent_icons/icon_law.png'); background-repeat: no-repeat; background-size: contain"></td>
+                  <td style="padding:0px 5px"><small>Vertrag</small></td></tr>
+              <tr><td style="width:10px; height:10px; background-image:url('data/hivent_icons/icon_default.png'); background-repeat: no-repeat; background-size: contain"></td>
+                  <td style="padding:0px 5px"><small>Sonstige</small></td></tr>
 
             </table>
           </div>
 
+          <div id="fullscreenMenuRight"  class="menu">
+            <div id="toggle-fullscreen" class="btn"><i class="icon-fullscreen"></i> Vollbild</div>
+          </div>
 
           <!-- timeline -->
           <div id="tlContainer">
 
-            <div id="tlMenuLeft"  class="gradient-timeline-menu">
+            <div id="tlMenuLeft"  class="menu">
               <div class="btn-toolbar header-button-bottom tlMenu">
                 <div class="btn-group">
                   <a id="histPlayer1" class="btn playBtn"><i class="icon-play"></i></a>
@@ -370,9 +372,8 @@
               </div>
              </div>
 
-             <div id="tlMenuRight"  class="gradient-timeline-menu">
+             <div id="tlMenuRight"  class="menu">
               <div class="btn-toolbar header-button-bottom tlMenu">
-                <div id="toggle-fullscreen" class="btn"><i class="icon-fullscreen"></i> Vollbild</div>
                 <div class="btn-group">
                   <a id="toggle-2D" class="btn active" onClick="load2D()">2D</a>
                   <a id="toggle-3D" class="btn" onClick="load3D()">3D</a>
@@ -396,26 +397,6 @@
                   </div>
                 </div>
               </div>
-
-
-              <div id="tlControlsLeft" class="gradient-timeline-top">
-                <span class="input-prepend input-append" style="margin-bottom:0px">
-                  <button id="tlMoveLeftLeft" class="btn" type="button"><i class="icon-caret-left"></i></button>
-                  <input  id="periodStart" type="text" name="periodStart">
-                  <button id="tlMoveLeftRight" class="btn" type="button"><i class="icon-caret-right"></i></button>
-                </span>
-               </div>
-               <div id="tlBorderLeft"></div>
-
-
-              <div id="tlControlsRight" class="gradient-timeline-top">
-                <span class="input-prepend input-append" style="float:right; margin-bottom:0px">
-                  <button id="tlMoveRightLeft" class="btn" type="button"><i class="icon-caret-left"></i></button>
-                  <input id="periodEnd" type="text" name="periodEnd">
-                  <button id="tlMoveRightRight" class="btn" type="button"><i class="icon-caret-right"></i></button>
-                </span>
-              </div>
-              <div id="tlBorderRight"></div>
 
             </div>
           </div>
