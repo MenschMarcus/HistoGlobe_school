@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap-responsive.min.css">
     <link rel="stylesheet" type="text/css" href="style/third-party/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Marcellus+SC' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="style/third-party/leaflet.css" />
     <link rel="stylesheet" href="style/third-party/leaflet.label.css" />
     <link rel="stylesheet" href="style/third-party/prettyPhoto/css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
@@ -269,8 +270,10 @@
           </div>
           <div class="modal-body">
 
-            <p>Erleben Sie mit dem Prototypen von <span class="hg">HistoGlobe</span>
-               den aktuellen Fortschritt des Projekts! Aber vergessen Sie nicht:
+            <p class="lead">Erleben Sie mit dem Prototypen von <span class="hg">HistoGlobe</span> die Entwicklung der Europäischen Union von 1945 bis heute!</p>
+
+            <p>
+               Diese Demo zeigt den aktuellen Fortschritt des Projekts. Vergessen Sie nicht:
                Es handelt sich um eine Entwicklungsversion, die noch nicht den
                vollen Funktionsumfang von <span class="hg">HistoGlobe</span> bietet!
             </p>
