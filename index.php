@@ -37,8 +37,9 @@
     <script type="text/javascript" src="script/third-party/leaflet.label.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.markercluster.js"></script>
 
-<!--    <script type="text/javascript" src="script/histoglobe.min.js"></script> -->
+    <script type="text/javascript" src="script/histoglobe.min.js"></script>
 
+<!--
     <script type="text/javascript" src="build/Mixin.js"></script>
     <script type="text/javascript" src="build/CallbackContainer.js"></script>
     <script type="text/javascript" src="build/Vector.js"></script>
@@ -58,7 +59,7 @@
     <script type="text/javascript" src="script/timeline/Timeline.js"></script>
     <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
-
+-->
     <script type="text/javascript">
       var display2D, display3D, timeline, hiventController, areaController;
       var timelineInitialized = false;
@@ -283,6 +284,11 @@
                 </div>
                 <div id="collapseOne" class="accordion-body collapse">
                   <div class="accordion-inner">
+                    <h4>Version 0.6 <span class="muted">(16.10.2013)</span></h4>
+                    <ul>
+                      <li>Wartet mit neu gestalteten Bedienelementen auf.</li>
+                      <li>Behebt ein Problem, durch das Tooltips nach dem Öffnen zusammengefasster Hivents auf der Karte an der falschen Stelle angezeigt wurden.</li>
+                    </ul>
                     <h4>Version 0.5 <span class="muted">(16.10.2013)</span></h4>
                     <ul>
                       <li>Löst den Prototypen von der bisherigen statischen Seite.</li>
