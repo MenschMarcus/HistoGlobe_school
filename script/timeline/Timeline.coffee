@@ -83,23 +83,33 @@ class HG.Timeline
     @_tlDiv.onmousewheel = (e) =>
       # prevent scrolling of map
       e.preventDefault()
+      # get mouse position for orientation point for zooming
+      mousePosX = e.pageX
       # zoom in
       if e.wheelDeltaY > 0
-        @zoom 1.25
+        @zoom 1.25, mousePosX
       # zoom out
       else
-        @zoom 0.8
+        @zoom 0.8, mousePosX
+
 
 
   # ============================================================================
-  zoom : (factor) ->
+  zoom : (factor, mousePosX) ->
+    actualYearInterval = @_getYearInterval()
     @_zoomLevel *= factor
     @_zoomLevel = Math.min @_zoomLevel, @_maxZoom
     @_zoomLevel = Math.max @_zoomLevel, @_minZoom
-    # console.log @_zoomLevel
+    newYearInterval = @_getYearInterval()
 
-    # chek if new year interval
-    # console.log @_getYearInterval()
+    if actualYearInterval != newYearInterval
+      # draw new year markers
+      #@_nowDate = @_posToDate mousePosX
+      @_drawScroller() # think about mousePosX!
+    else
+      # shift actual year markers
+
+
 
   #@notifyAll "onPeriodChanged", periodStart, periodEnd
 
