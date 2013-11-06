@@ -35,16 +35,13 @@ class HG.DoublyLinkedList
 			node.prev = @_tail
 			@_tail = node
 		@_length++
-		
 
-# class HG.Node
-
-#  	constructor: (data) ->
-# 		@_data = data
-# 		@_prev = null
-# 		@_next = null
-
-# 	getPrev : () -> @_prev
-# 	setPrev : (prev) -> @_prev = prev
-# 	getNext : () -> @_next
-# 	setNext : (next) -> @_next = next
+	get : (index) ->
+		return @_head if index == 0
+		return @_tail if index >= @_length
+		tmpIndex = 0
+		tmpNode = @_head
+		while tmpIndex < index
+			tmpNode = tmpNode.next
+			tmpIndex++
+		tmpNode
