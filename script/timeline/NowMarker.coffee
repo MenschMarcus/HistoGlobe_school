@@ -34,8 +34,8 @@ class HG.NowMarker
 
         document.body.onmouseup = (e) =>
 
-   # ============================================================================
-   _distanceToMiddlepoint : (e) ->
+    # ============================================================================
+    _distanceToMiddlepoint : (e) ->
         xs = 0
         ys = 0
 
