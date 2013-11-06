@@ -6,16 +6,18 @@ class HG.YearMarker
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
-  constructor: (year, pos, parentDiv) ->
+  constructor: (year, pos, parentDiv, width) ->
     @_year = year
-    @_pos = pos
+    @_pos = pos - width/2
     @_parentDiv = parentDiv
+    @_width = width
 
     # create HTML div
     @_yearMarkerDiv = document.createElement "div"
     @_yearMarkerDiv.id = "year" + @_year
     @_yearMarkerDiv.className = "yearMarker"
     @_yearMarkerDiv.style.left = @_pos + "px"
+    @_yearMarkerDiv.style.width = @_width + "px"
     @_yearMarkerDiv.innerHTML = '<p>'+@_year+'</p>'
 
     # add to DOM
