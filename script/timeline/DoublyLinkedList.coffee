@@ -9,7 +9,7 @@ class HG.DoublyLinkedList
 		@_tail = null
 
 	addFirst : (data) ->
-		node = 
+		node =
 			nodeData: data
 			prev: null
 			next: null
@@ -23,7 +23,7 @@ class HG.DoublyLinkedList
 		@_length++
 
 	addLast : (data) ->
-		node = 
+		node =
 			nodeData: data
 			prev: null
 			next: null
@@ -45,3 +45,6 @@ class HG.DoublyLinkedList
 			tmpNode = tmpNode.next
 			tmpIndex++
 		tmpNode
+
+	getLength: ->
+		@_length
