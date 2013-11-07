@@ -24,5 +24,14 @@ class HG.YearMarker
     @_parentDiv.appendChild @_yearMarkerDiv
 
   # ============================================================================
+  setYear : (year) ->
+    @_year = year
+    @_yearMarkerDiv.innerHTML = '<p>'+@_year+'</p>'
+
+  setPos : (pos) ->
+    @_pos = pos
+    @_yearMarkerDiv.style.left = @_pos + "px"
+
+  getPos : () -> @_pos
   getYear : () -> @_year
   destroy : () -> @_parentDiv.removeChild @_yearMarkerDiv

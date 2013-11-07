@@ -55,10 +55,12 @@ class HG.Timeline
       if @_clicked
         mousePosX = e.pageX
         moveDist = mousePosX - @_lastMousePosX
-        @_moveYearMarker moveDist
+        @_moveYearMarkers moveDist
         @_lastMousePosX = mousePosX
 
     @_body.onmouseup = (e) =>
+      @_clicked = false
+      @_lastMousePosX = e.pageX
       ###if @_downOnTimeline
         @_updateScroller()
         @_downOnTimeline = false  # catch any mouse up event in UI to stop dragging
@@ -112,8 +114,16 @@ class HG.Timeline
       year -= YEAR_INTERVALS[@_interval]
       xPos = @_dateToPosition(@_yearToDate(year))
 
-  _moveYearMarker: (dist) ->
-    #todo: go through list and set left value of each year div new
+  _moveYearMarkers: (dist) ->
+    console.log "yearmakers on timeline: " + @_yearMarkers.getLength() + "\nmove with distance: " + dist
+    i = 0
+    while i < @_yearMarkers.getLength()
+
+      # get year marker from list
+      # and set its new position, calculated with distance
+      newPosX = @_yearMarkers.get(i).nodeData.getPos() + dist
+      @_yearMarkers.get(i).nodeData.setPos newPosX
+      i++
 
   _dateToPosition: (date) ->
 
