@@ -23,6 +23,9 @@ class HG.YearMarker
     # add to DOM
     @_parentDiv.appendChild @_yearMarkerDiv
 
+    # show year marker with nice fade in effect from jQuery
+    $(@_yearMarkerDiv).fadeIn()
+
   # ============================================================================
   setYear : (year) ->
     @_year = year
@@ -32,6 +35,7 @@ class HG.YearMarker
     @_pos = pos
     @_yearMarkerDiv.style.left = @_pos + "px"
 
+  getDiv : () -> @_yearMarkerDiv
   getPos : () -> @_pos
   getYear : () -> @_year
   destroy : () -> @_parentDiv.removeChild @_yearMarkerDiv

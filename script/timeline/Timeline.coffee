@@ -139,6 +139,7 @@ class HG.Timeline
     nowDateID   = 0
     i = 0
     while i < @_yearMarkers.getLength()
+      @_yearMarkers.get(i).nodeData.getDiv().style.color = "#000000"
 
       # get year marker from list
       # and set its new position, calculated with distance
@@ -155,6 +156,9 @@ class HG.Timeline
 
     # set new now marker after moved all year markers
     @_nowDate = @_yearToDate @_yearMarkers.get(nowDateID).nodeData.getYear()
+
+    # highlight new now marker
+    @_yearMarkers.get(nowDateID).nodeData.getDiv().style.color = "#ff0000"
 
     # distance between new now marker and middle of page
     @_posTolerance = @_tlWidth/2 - @_yearMarkers.get(nowDateID).nodeData.getPos() - YEAR_MARKER_WIDTH/2
