@@ -46,5 +46,25 @@ class HG.DoublyLinkedList
 			tmpIndex++
 		tmpNode
 
-	getLength: ->
-		@_length
+	getLength : -> @_length
+
+	insert : (index, data) ->
+		if index == 0
+			addFirst(data)
+		if index >= _length
+			addLast(data)
+		node =
+			nodeData: data
+			prev: null
+			next: null
+		tmpIndex = 0
+		tmpNode = @_head
+		while tmpIndex < index
+			tmpNode = tmpNode.next
+			tmpIndex++
+		node.next = tmpNode.next
+		tmpNode.next.prev = node
+		tmpNode.next = node
+		node.prev = tmpNode
+
+
