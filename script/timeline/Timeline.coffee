@@ -62,7 +62,7 @@ class HG.Timeline
 
         # add year markers add beginning and end of list if
         # timeline is not shown till screens end
-        @_updateYearMarkers()
+        @_loadYearMarkers()
 
         @_lastMousePosX = mousePosX
 
@@ -70,10 +70,39 @@ class HG.Timeline
       @_clicked = false
       @_lastMousePosX = e.pageX
       console.log "new now date (year): " + @_nowDate.getFullYear() + "\nwith distance to middle: " + @_posTolerance
-
+   
     @_tlDiv.onmousewheel = (e) =>
+      # prevent scrolling of map
+      e.preventDefault()
+      # zoom in
+      if e.wheelDeltaY > 0
+        if @_interval > 0
+          @_interval--
+      # zoom out
+      else
+        if @_interval < YEAR_INTERVALS.length()
+          @_interval++
 
-  _updateYearMarkers: ->
+  _updateYearMarkerPositions: ->
+    i = 0
+    while i < @_yearMarkers.getLength()
+
+      # get year marker from list
+      # and set its new position, calculated with distance
+      newPosX = @_yearMarkers.get(i).nodeData.getPos() + dist
+      @_yearMarkers.get(i).nodeData.setPos newPosX
+
+      # is position close to now maker position?
+      dis = (@_tlWidth/2) - (newPosX + YEAR_MARKER_WIDTH/2)
+      dis *= -1 if dis < 0
+      if smallestDis is null or dis < smallestDis
+        smallestDis = dis
+        nowDateID = i
+      i++
+ 
+
+
+  _loadYearMarkers: ->
 
     # if year markers are on screen there is min one missing
     # there is always one year marker outside the screen
@@ -99,6 +128,9 @@ class HG.Timeline
     # get position and year of now marker
     xPos = @_dateToPosition @_nowDate
     year = @_nowDate.getFullYear()
+
+    newYearMarker = new HG.YearMarker(year, xPos, @_tlDiv, YEAR_MARKER_WIDTH)
+    @_yearMarkers.addLast(newYearMarker)
 
     # create all year makers on the right side
     # between screen border and nowmarker
