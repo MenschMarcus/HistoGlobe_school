@@ -45,6 +45,12 @@ class HG.HiventController
 
   # ============================================================================
   _initHivents: (pathToHivents) ->
+    $.ajax({
+            url: "script/hivents/get_hivents.php?lowerLimit=0&upperLimit=1",
+            success: (data) =>
+              console.log data
+          })
+
     $.getJSON(pathToHivents, (hivents) =>
       for h in hivents
         hivent = new HG.Hivent(
