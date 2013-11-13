@@ -58,6 +58,7 @@ class HG.Timeline
 
       if @_clicked
         @_clicked = false
+        @_updateYearMarkerPositions()
         @_lastMousePosX = e.pageX
 
     @_tlDiv.onmousewheel = (e) =>
@@ -72,9 +73,8 @@ class HG.Timeline
         if @_interval < YEAR_INTERVALS.length
           @_interval++
 
-      #@_clearYearMarkers()
+      @_clearYearMarkers()
       @_updateYearMarkerPositions()
-      @_updateNowMarker()
       @_loadYearMarkers()
 
   _updateYearMarkerPositions: ->
@@ -85,20 +85,25 @@ class HG.Timeline
       i++
 
   _clearYearMarkers: ->
-    ###i = 0
+    i = 0
     while i < @_yearMarkers.getLength()
       temp = (@_nowMarker.getDate().getFullYear() - @_yearMarkers.get(i).nodeData.getDate().getFullYear()) % YEAR_INTERVALS[@_interval]
       if temp != 0
         @_yearMarkers.get(i).nodeData.destroy()
         @_yearMarkers.remove(i)
-      i++###
+      else
+        i++
 
   _loadYearMarkers: ->
-  
-    dateLeft = @_yearToDate(@_yearMarkers.get(0).nodeData.getDate().getFullYear() - YEAR_INTERVALS[@_interval])
+    
+    dateLeft = @_nowMarker.getDate()
+    until dateLeft < @_yearMarkers.get(0).nodeData.getDate()
+      dateLeft = @_yearToDate(dateLeft.getFullYear() - YEAR_INTERVALS[@_interval])
     xPosLeft = @_dateToPosition(dateLeft)
 
-    dateRight = @_yearToDate(@_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getDate().getFullYear() + YEAR_INTERVALS[@_interval])
+    dateRight = @_nowMarker.getDate()
+    until dateRight > @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getDate()
+      dateRight = @_yearToDate(dateRight.getFullYear() + YEAR_INTERVALS[@_interval])
     xPosRight = @_dateToPosition(dateRight)
 
     drawn = false
@@ -128,7 +133,7 @@ class HG.Timeline
         nId = i
       i++
     @_nowMarker = @_yearMarkers.get(nId).nodeData
-    console.log "Timeline:\n     Current now date: " + @_nowMarker.getDate().getFullYear()
+    console.log "Timeline:\n     Current now date: " + @_nowMarker.getDate().getFullYear() + "\n     Time interval: " + YEAR_INTERVALS[@_interval]
 
   _dateToPosition: (date) ->
 
