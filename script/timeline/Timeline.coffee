@@ -25,11 +25,11 @@ class HG.Timeline
     @_tlWidth   = @_tlDiv.offsetWidth
 
     # index to YEAR_INTERVALS
-    @_interval      = 3
+    @_interval      = 4
 
     # create doubly linked list for year markers
     @_yearMarkers   = new HG.YearMarkerList()
-    @_nowMarker = new HG.YearMarker(@_yearToDate(nowYear), @_tlWidth/2, @_tlDiv, YEAR_MARKER_WIDTH)
+    @_nowMarker = new HG.YearMarker(@_yearToDate(nowYear), (@_tlWidth/2 - YEAR_MARKER_WIDTH/2), @_tlDiv, YEAR_MARKER_WIDTH)
     @_yearMarkers.addFirst(@_nowMarker)
 
     # create and draw year markers on right position
@@ -83,10 +83,13 @@ class HG.Timeline
   _updateYearMarkerPositions: ->
     i = 0
     while i < @_yearMarkers.getLength()
-      date = @_yearMarkers.get(i).nodeData.getDate()
-      @_yearMarkers.get(i).nodeData.setPos @_dateToPosition date
+      temp = (@_nowMarker.getDate().getFullYear() - @_yearMarkers.get(i).nodeData.getDate().getFullYear()) % YEAR_INTERVALS[@_interval]
+      if temp == 0
+        date = @_yearMarkers.get(i).nodeData.getDate()
+        @_yearMarkers.get(i).nodeData.setPos @_dateToPosition date
+      else
+        @_yearMarkers.get(i).nodeData.destroy()
       i++
-
 
   _loadYearMarkers: ->
     dateLeft = @_yearToDate(@_yearMarkers.get(0).nodeData.getDate().getFullYear() - YEAR_INTERVALS[@_interval])

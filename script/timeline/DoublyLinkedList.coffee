@@ -67,4 +67,19 @@ class HG.DoublyLinkedList
 		tmpNode.next = node
 		node.prev = tmpNode
 
+	remove : (index) ->
+		if index == 0
+			@_head = @_head.next
+			@_head.prev = null
+		if index >= @_length
+			@_tail = @_tail.prev
+			@_tail.next = null
+		tmpIndex = 0
+		tmpNode = @_head
+		while tmpIndex < index
+			tmpNode = tmpNode.next
+			tmpIndex++
+		tmpNode.prev.next = tmpNode.next
+		tmpNode.next.prev = tmpNode.prev
+
 
