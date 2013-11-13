@@ -6,19 +6,19 @@ class HG.YearMarker
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
-  constructor: (year, pos, parentDiv, width) ->
-    @_year = year
+  constructor: (date, pos, parentDiv, width) ->
+    @_date = date
     @_pos = pos - width/2
     @_parentDiv = parentDiv
     @_width = width
 
     # create HTML div
     @_yearMarkerDiv = document.createElement "div"
-    @_yearMarkerDiv.id = "year" + @_year
+    @_yearMarkerDiv.id = "year" + @_date.getFullYear()
     @_yearMarkerDiv.className = "yearMarker"
     @_yearMarkerDiv.style.left = @_pos + "px"
     @_yearMarkerDiv.style.width = @_width + "px"
-    @_yearMarkerDiv.innerHTML = '<p>'+@_year+'</p>'
+    @_yearMarkerDiv.innerHTML = '<p>'+@_date.getFullYear()+'</p>'
 
     # add to DOM
     @_parentDiv.appendChild @_yearMarkerDiv
@@ -27,9 +27,9 @@ class HG.YearMarker
     $(@_yearMarkerDiv).fadeIn()
 
   # ============================================================================
-  setYear : (year) ->
-    @_year = year
-    @_yearMarkerDiv.innerHTML = '<p>'+@_year+'</p>'
+  setDate : (date) ->
+    @_date = date
+    @_yearMarkerDiv.innerHTML = '<p>'+@_date+'</p>'
 
   setPos : (pos) ->
     @_pos = pos
@@ -37,5 +37,5 @@ class HG.YearMarker
 
   getDiv : () -> @_yearMarkerDiv
   getPos : () -> @_pos
-  getYear : () -> @_year
+  getDate : () -> @_date
   destroy : () -> @_parentDiv.removeChild @_yearMarkerDiv

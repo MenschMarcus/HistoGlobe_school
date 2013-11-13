@@ -83,6 +83,7 @@
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
     <script type="text/javascript" src="build/NowMarker.js"></script>
     <script type="text/javascript" src="build/DoublyLinkedList.js"></script>
+    <script type="text/javascript" src="build/YearMarkerList.js"></script>
 
 
     <script>

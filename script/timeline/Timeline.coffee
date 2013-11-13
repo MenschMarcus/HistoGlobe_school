@@ -15,7 +15,6 @@ class HG.Timeline
   constructor: (nowYear, minYear, maxYear, timelineDiv) ->
 
     # convert years to date objects
-    @_nowDate = @_yearToDate nowYear
     @_minDate = @_yearToDate minYear
     @_maxDate = @_yearToDate maxYear
 
@@ -25,21 +24,16 @@ class HG.Timeline
     @_tlDiv     = timelineDiv
     @_tlWidth   = @_tlDiv.offsetWidth
 
-    # x value of distance between now marker and absolute middle of page
-    # important for the calculation of now year markers
-    @_posTolerance = 0
-
-    # factor of distortion
-    @_fishEyeFactor = 0
-
     # index to YEAR_INTERVALS
     @_interval      = 3
 
     # create doubly linked list for year markers
-    @_yearMarkers   = new HG.DoublyLinkedList()
+    @_yearMarkers   = new HG.YearMarkerList()
+    @_nowMarker = new HG.YearMarker(@_yearToDate(nowYear), @_tlWidth/2, @_tlDiv, YEAR_MARKER_WIDTH)
+    @_yearMarkers.addFirst(@_nowMarker)
 
     # create and draw year markers on right position
-    @_createYearMarkers()
+    @_loadYearMarkers()
 
     # important vars for mouse events and
     # functions that make timeline scrollable
@@ -66,21 +60,11 @@ class HG.Timeline
         @_lastMousePosX = mousePosX
 
     @_body.onmouseup = (e) =>
-<<<<<<< HEAD
-      @_clicked = false
-      @_lastMousePosX = e.pageX
-      console.log "new now date (year): " + @_nowDate.getFullYear() + "\nwith distance to middle: " + @_posTolerance
-   
-=======
+
       if @_clicked
         @_clicked = false
         @_lastMousePosX = e.pageX
-        console.log "Timeline interaction:" +
-                    "\n     new now date (year):     " + @_nowDate.getFullYear() +
-                    "\n     with distance to middle: " + @_posTolerance +
-                    "\n     year markers drawn:      " + @_yearMarkers.getLength()
 
->>>>>>> fd39d5e2a06ae41225f5c747ecea604a12188ac3
     @_tlDiv.onmousewheel = (e) =>
       # prevent scrolling of map
       e.preventDefault()
@@ -90,130 +74,65 @@ class HG.Timeline
           @_interval--
       # zoom out
       else
-        if @_interval < YEAR_INTERVALS.length()
+        if @_interval < YEAR_INTERVALS.length
           @_interval++
+
+      @_updateYearMarkerPositions()
+      @_loadYearMarkers()
 
   _updateYearMarkerPositions: ->
     i = 0
     while i < @_yearMarkers.getLength()
-
-      # get year marker from list
-      # and set its new position, calculated with distance
-      newPosX = @_yearMarkers.get(i).nodeData.getPos() + dist
-      @_yearMarkers.get(i).nodeData.setPos newPosX
-
-      # is position close to now maker position?
-      dis = (@_tlWidth/2) - (newPosX + YEAR_MARKER_WIDTH/2)
-      dis *= -1 if dis < 0
-      if smallestDis is null or dis < smallestDis
-        smallestDis = dis
-        nowDateID = i
+      date = @_yearMarkers.get(i).nodeData.getDate()
+      @_yearMarkers.get(i).nodeData.setPos @_dateToPosition date
       i++
- 
 
 
   _loadYearMarkers: ->
+    dateLeft = @_yearToDate(@_yearMarkers.get(0).nodeData.getDate().getFullYear() - YEAR_INTERVALS[@_interval])
+    xPosLeft = @_dateToPosition(dateLeft)
 
-    # if year markers are on screen there is min one missing
-    # there is always one year marker outside the screen
-    # is first year marker on screen?
-    if @_yearMarkers.get(0).nodeData.getPos() > 0
-      year = @_yearMarkers.get(0).nodeData.getYear() - YEAR_INTERVALS[@_interval]
-      xPos = @_dateToPosition(@_yearToDate(year))
+    dateRight = @_yearToDate(@_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getDate().getFullYear() + YEAR_INTERVALS[@_interval])
+    xPosRight = @_dateToPosition(dateRight)
 
-      newYearMarker = new HG.YearMarker(year, xPos, @_tlDiv, YEAR_MARKER_WIDTH)
+    drawn = false
+    if xPosLeft > 0
+      drawn = true
+      newYearMarker = new HG.YearMarker(dateLeft, xPosLeft, @_tlDiv, YEAR_MARKER_WIDTH)
       @_yearMarkers.addFirst(newYearMarker)
 
-    # is last year marker on screen?
-    last = @_yearMarkers.getLength() - 1
-    if @_yearMarkers.get(last).nodeData.getPos() < @_tlWidth
-      year = @_yearMarkers.get(last).nodeData.getYear() + YEAR_INTERVALS[@_interval]
-      xPos = @_dateToPosition(@_yearToDate(year))
-
-      newYearMarker = new HG.YearMarker(year, xPos, @_tlDiv, YEAR_MARKER_WIDTH)
+    if xPosRight < @_tlWidth
+      drawn = true
+      newYearMarker = new HG.YearMarker(dateRight, xPosRight, @_tlDiv, YEAR_MARKER_WIDTH)
       @_yearMarkers.addLast(newYearMarker)
 
-  _createYearMarkers: ->
-
-    # get position and year of now marker
-    xPos = @_dateToPosition @_nowDate
-    year = @_nowDate.getFullYear()
-
-    newYearMarker = new HG.YearMarker(year, xPos, @_tlDiv, YEAR_MARKER_WIDTH)
-    @_yearMarkers.addLast(newYearMarker)
-
-    # create all year makers on the right side
-    # between screen border and nowmarker
-    # put all year marker in a doubly linked list
-    until xPos > @_tlWidth
-      newYearMarker = new HG.YearMarker(year, xPos, @_tlDiv, YEAR_MARKER_WIDTH)
-      @_yearMarkers.addLast(newYearMarker)
-
-      # set x position and year of next year marker
-      year += YEAR_INTERVALS[@_interval]
-      xPos = @_dateToPosition(@_yearToDate(year))
-
-    # last year marker outside the window
-    newYearMarker = new HG.YearMarker(year, xPos, @_tlDiv, YEAR_MARKER_WIDTH)
-    @_yearMarkers.addLast(newYearMarker)
-
-    # get position and year of element left to the now marker
-    year = @_nowDate.getFullYear() - YEAR_INTERVALS[@_interval]
-    xPos = @_dateToPosition(@_yearToDate(year))
-
-    # create all year markers on the left side
-    # between screen border and nowmarker
-    # put all year marker in a doubly linked list
-    until xPos < 0
-      newYearMarker = new HG.YearMarker(year, xPos, @_tlDiv, YEAR_MARKER_WIDTH)
-      @_yearMarkers.addFirst(newYearMarker)
-
-      # set x position and year of next year marker
-      year -= YEAR_INTERVALS[@_interval]
-      xPos = @_dateToPosition(@_yearToDate(year))
-
-    # last year marker outside the window
-    newYearMarker = new HG.YearMarker(year, xPos, @_tlDiv, YEAR_MARKER_WIDTH)
-    @_yearMarkers.addFirst(newYearMarker)
+    if drawn
+      @_loadYearMarkers()
 
   _moveYearMarkers: (dist) ->
+    @_nowMarker.setPos dist + @_nowMarker.getPos()
+    @_updateYearMarkerPositions()
     smallestDis = null
-    nowDateID   = 0
     i = 0
+    nId = 0
     while i < @_yearMarkers.getLength()
-      @_yearMarkers.get(i).nodeData.getDiv().style.color = "#909090"
-
-      # get year marker from list
-      # and set its new position, calculated with distance
-      newPosX = @_yearMarkers.get(i).nodeData.getPos() + dist
-      @_yearMarkers.get(i).nodeData.setPos newPosX
-
-      # is position close to now maker position?
-      dis = (@_tlWidth/2) - (newPosX + YEAR_MARKER_WIDTH/2)
+      dis = @_tlWidth / 2 - (@_yearMarkers.get(i).nodeData.getPos() + YEAR_MARKER_WIDTH / 2)
       dis *= -1 if dis < 0
       if smallestDis is null or dis < smallestDis
         smallestDis = dis
-        nowDateID = i
+        nId = i
       i++
-
-    # set new now marker after moved all year markers
-    @_nowDate = @_yearToDate @_yearMarkers.get(nowDateID).nodeData.getYear()
-
-    # highlight new now marker
-    @_yearMarkers.get(nowDateID).nodeData.getDiv().style.color = "#292929"
-
-    # distance between new now marker and middle of page
-    @_posTolerance = @_tlWidth/2 - @_yearMarkers.get(nowDateID).nodeData.getPos() - YEAR_MARKER_WIDTH/2
+    @_nowMarker = @_yearMarkers.get(nId).nodeData
+    console.log @_nowMarker.getDate().getFullYear()
 
   _dateToPosition: (date) ->
 
-    # fish eye factor controls the logarithmic distortion of the view
-    # for @_fishEyeFactor == 0 is the timeline linear
-    if @_fishEyeFactor == 0
-      yearDiff = (date.getFullYear() - @_nowDate.getFullYear()) / YEAR_INTERVALS[@_interval]
-      xPos = (yearDiff * YEAR_MARKER_WIDTH) + (@_tlWidth / 2) - @_posTolerance
-    else
-      yearDiff = (date.getFullYear() - @_nowDate.getFullYear()) / YEAR_INTERVALS[@_interval]
+    yearDiff = (date.getFullYear() - @_nowMarker.getDate().getFullYear()) / YEAR_INTERVALS[@_interval]
+    xPos = (yearDiff * YEAR_MARKER_WIDTH) + (@_nowMarker.getPos())
+    #console.log "Intervall: " + @_interval
+    xPos
+
+    ### yearDiff = (date.getFullYear() - @_nowMarker.getDate().getFullYear()) / YEAR_INTERVALS[@_interval]
 
       # make yearDiff positiv to make logaritmic function usable
       minus = false
@@ -228,9 +147,8 @@ class HG.Timeline
       # invert yearDiff if it was negative and determine position of yearMarker
       yearDiff *= -1 if minus
       xPos = (yearDiff * YEAR_MARKER_WIDTH) + (@_tlWidth / 2) - @_posTolerance
-
-    # return position
-    xPos
+    ###
+    
 
   _yearToDate : (year) ->
     date = new Date(0)

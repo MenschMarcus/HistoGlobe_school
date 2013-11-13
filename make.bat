@@ -25,6 +25,7 @@ set cFiles=script/util/Mixin.coffee ^
         script/hivents/HiventMarkerTimeline.coffee ^
         script/hivents/HiventInfoPopover.coffee ^
         script/timeline/NowMarker.coffee ^
+        script/timeline/YearMarkerList.coffee ^
         script/timeline/DoublyLinkedList.coffee
 
 @echo off
@@ -50,7 +51,8 @@ set jFiles=build/Mixin.js ^
         build/VideoPlayer.js ^
         script/util/BrowserDetect.js ^
         build/NowMarker.js ^
-        build/DoublyLinkedList.js 
+        build/YearMarkerList.js ^
+        build/DoublyLinkedList.js
 
 IF not exist build ( mkdir build )
 
