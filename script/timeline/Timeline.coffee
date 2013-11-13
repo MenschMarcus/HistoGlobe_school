@@ -72,6 +72,7 @@ class HG.Timeline
         if @_interval < YEAR_INTERVALS.length
           @_interval++
 
+      #@_clearYearMarkers()
       @_updateYearMarkerPositions()
       @_updateNowMarker()
       @_loadYearMarkers()
@@ -79,15 +80,21 @@ class HG.Timeline
   _updateYearMarkerPositions: ->
     i = 0
     while i < @_yearMarkers.getLength()
-      temp = (@_nowMarker.getDate().getFullYear() - @_yearMarkers.get(i).nodeData.getDate().getFullYear()) % YEAR_INTERVALS[@_interval]
-      if temp == 0
-        date = @_yearMarkers.get(i).nodeData.getDate()
-        @_yearMarkers.get(i).nodeData.setPos @_dateToPosition date
-      else
-        @_yearMarkers.get(i).nodeData.destroy()
+      date = @_yearMarkers.get(i).nodeData.getDate()
+      @_yearMarkers.get(i).nodeData.setPos @_dateToPosition date
       i++
 
+  _clearYearMarkers: ->
+    ###i = 0
+    while i < @_yearMarkers.getLength()
+      temp = (@_nowMarker.getDate().getFullYear() - @_yearMarkers.get(i).nodeData.getDate().getFullYear()) % YEAR_INTERVALS[@_interval]
+      if temp != 0
+        @_yearMarkers.get(i).nodeData.destroy()
+        @_yearMarkers.remove(i)
+      i++###
+
   _loadYearMarkers: ->
+  
     dateLeft = @_yearToDate(@_yearMarkers.get(0).nodeData.getDate().getFullYear() - YEAR_INTERVALS[@_interval])
     xPosLeft = @_dateToPosition(dateLeft)
 
@@ -108,14 +115,15 @@ class HG.Timeline
     if drawn
       @_loadYearMarkers()
 
-  _updateNowMarkers: (dist) ->
+  _updateNowMarker: (dist) ->
     smallestDis = null
     i = 0
     nId = 0
     while i < @_yearMarkers.getLength()
       dis = @_tlWidth / 2 - (@_yearMarkers.get(i).nodeData.getPos() + YEAR_MARKER_WIDTH / 2)
       dis *= -1 if dis < 0
-      if smallestDis is null or dis < smallestDis
+      #temp = (@_nowMarker.getDate().getFullYear() - @_yearMarkers.get(i).nodeData.getDate().getFullYear()) % YEAR_INTERVALS[@_interval]
+      if (smallestDis is null or dis < smallestDis)# and temp == 0
         smallestDis = dis
         nId = i
       i++
@@ -126,8 +134,6 @@ class HG.Timeline
 
     yearDiff = (date.getFullYear() - @_nowMarker.getDate().getFullYear()) / YEAR_INTERVALS[@_interval]
     xPos = (yearDiff * YEAR_MARKER_WIDTH) + (@_nowMarker.getPos())
-    #console.log "Intervall: " + @_interval
-    xPos
 
     ### yearDiff = (date.getFullYear() - @_nowMarker.getDate().getFullYear()) / YEAR_INTERVALS[@_interval]
 
@@ -145,7 +151,6 @@ class HG.Timeline
       yearDiff *= -1 if minus
       xPos = (yearDiff * YEAR_MARKER_WIDTH) + (@_tlWidth / 2) - @_posTolerance
     ###
-
 
   _yearToDate : (year) ->
     date = new Date(0)

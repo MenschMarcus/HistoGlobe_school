@@ -38,7 +38,7 @@ class HG.DoublyLinkedList
 
 	get : (index) ->
 		return @_head if index == 0
-		return @_tail if index >= @_length
+		return @_tail if index == @_length - 1
 		tmpIndex = 0
 		tmpNode = @_head
 		while tmpIndex < index
@@ -51,7 +51,7 @@ class HG.DoublyLinkedList
 	insert : (index, data) ->
 		if index == 0
 			addFirst(data)
-		if index >= _length
+		if index == @_length - 1
 			addLast(data)
 		node =
 			nodeData: data
@@ -68,18 +68,23 @@ class HG.DoublyLinkedList
 		node.prev = tmpNode
 
 	remove : (index) ->
-		if index == 0
-			@_head = @_head.next
-			@_head.prev = null
-		if index >= @_length
-			@_tail = @_tail.prev
-			@_tail.next = null
-		tmpIndex = 0
-		tmpNode = @_head
-		while tmpIndex < index
-			tmpNode = tmpNode.next
-			tmpIndex++
-		tmpNode.prev.next = tmpNode.next
-		tmpNode.next.prev = tmpNode.prev
+		if index >= 0 or index < @_length
+			if index == 0
+				@_head = @_head.next
+				@_head.prev = null
+			else 
+				if index == @_length - 1
+					@_tail = @_tail.prev
+					@_tail.next = null
+				else
+				    tmpIndex = 0
+				    tmpNode = @_head
+				    while tmpIndex < index
+					    tmpNode = tmpNode.next
+					    tmpIndex++
+				    tmpNode.prev.next = tmpNode.next
+				    tmpNode.next.prev = tmpNode.prev
+			@_length--
+
 
 
