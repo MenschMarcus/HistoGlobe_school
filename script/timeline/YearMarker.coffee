@@ -8,7 +8,7 @@ class HG.YearMarker
 
   constructor: (date, pos, parentDiv, width) ->
     @_date = date
-    @_pos = pos - width/2
+    @_pos = pos
     @_parentDiv = parentDiv
     @_width = width
 
