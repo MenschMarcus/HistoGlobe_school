@@ -11,7 +11,6 @@
     $_SESSION['lang'] = 'de'; // default value
   }
   include('locale/' . $_SESSION['lang'] . '.php'); // include lang file
-
   function locale($phrase) {
     global $lang;
 

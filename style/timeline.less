@@ -1,7 +1,7 @@
 /*** STYLE OF TIMELINE ***/
 
 @fontSize:        18px;
-@fontColor:       #000000;
+@fontColor:       #909090;
 
 /*** MAIN TIMELINE DIV ***/
 #timeline {
@@ -11,7 +11,20 @@
   height:     65px;
   min-width:  100%;
   overflow:   hidden;
-  background: #c0c0c0;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+
+  background-color: #fff;
+
+  background: -moz-linear-gradient(top, #eee 0%, #ddd 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ddd), color-stop(100%,#eee)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #eee 0%,#ddd 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #eee 0%,#ddd 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #eee 0%,#ddd 100%); /* IE10+ */
+  background: linear-gradient(to bottom, #eee 0%,#ddd 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eee', endColorstr='#ddd',GradientType=0 ); /* IE6-9 */
+  background-repeat: repeat-x;
+  box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.07);
 }
 
 /*** ELEMENT IN TIMELINE ***/
@@ -22,7 +35,8 @@
   height:       50px;
   padding:      15px 0px 0px 0px;
   text-align:   center;
-  cursor:       pointer;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
   display:      none;
 
   /* disable text-selection */
@@ -35,9 +49,11 @@
 }
 
 .yearMarker:hover {
-  cursor:       pointer;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
 }
 
 .yearMarker:active {
-  cursor:       pointer;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
 }

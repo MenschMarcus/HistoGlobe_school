@@ -10,7 +10,7 @@ class HG.Timeline
   YEAR_INTERVALS = [1/12,1,2,5,10,20,50,100,200,500,1000,2000,5000,10000]
 
   # year marker width
-  YEAR_MARKER_WIDTH = 50
+  YEAR_MARKER_WIDTH = 70
 
   constructor: (nowYear, minYear, maxYear, timelineDiv) ->
 
@@ -30,11 +30,10 @@ class HG.Timeline
     @_posTolerance = 0
 
     # factor of distortion
-    # if factor == 0 timeline is linear
     @_fishEyeFactor = 0
 
     # index to YEAR_INTERVALS
-    @_interval      = 3;
+    @_interval      = 3
 
     # create doubly linked list for year markers
     @_yearMarkers   = new HG.DoublyLinkedList()
@@ -67,10 +66,21 @@ class HG.Timeline
         @_lastMousePosX = mousePosX
 
     @_body.onmouseup = (e) =>
+<<<<<<< HEAD
       @_clicked = false
       @_lastMousePosX = e.pageX
       console.log "new now date (year): " + @_nowDate.getFullYear() + "\nwith distance to middle: " + @_posTolerance
    
+=======
+      if @_clicked
+        @_clicked = false
+        @_lastMousePosX = e.pageX
+        console.log "Timeline interaction:" +
+                    "\n     new now date (year):     " + @_nowDate.getFullYear() +
+                    "\n     with distance to middle: " + @_posTolerance +
+                    "\n     year markers drawn:      " + @_yearMarkers.getLength()
+
+>>>>>>> fd39d5e2a06ae41225f5c747ecea604a12188ac3
     @_tlDiv.onmousewheel = (e) =>
       # prevent scrolling of map
       e.preventDefault()
@@ -171,7 +181,7 @@ class HG.Timeline
     nowDateID   = 0
     i = 0
     while i < @_yearMarkers.getLength()
-      @_yearMarkers.get(i).nodeData.getDiv().style.color = "#000000"
+      @_yearMarkers.get(i).nodeData.getDiv().style.color = "#909090"
 
       # get year marker from list
       # and set its new position, calculated with distance
@@ -190,22 +200,36 @@ class HG.Timeline
     @_nowDate = @_yearToDate @_yearMarkers.get(nowDateID).nodeData.getYear()
 
     # highlight new now marker
-    @_yearMarkers.get(nowDateID).nodeData.getDiv().style.color = "#ff0000"
+    @_yearMarkers.get(nowDateID).nodeData.getDiv().style.color = "#292929"
 
     # distance between new now marker and middle of page
     @_posTolerance = @_tlWidth/2 - @_yearMarkers.get(nowDateID).nodeData.getPos() - YEAR_MARKER_WIDTH/2
 
   _dateToPosition: (date) ->
 
-    # fish eye factor controls the distortion of the view
-    # for @_fishEyeFactor == 0 the timeline is linear
-    # else is the (xPos^2)/fishEyeFactor
+    # fish eye factor controls the logarithmic distortion of the view
+    # for @_fishEyeFactor == 0 is the timeline linear
     if @_fishEyeFactor == 0
       yearDiff = (date.getFullYear() - @_nowDate.getFullYear()) / YEAR_INTERVALS[@_interval]
       xPos = (yearDiff * YEAR_MARKER_WIDTH) + (@_tlWidth / 2) - @_posTolerance
     else
-      xPos = 0
-      #todo: distortion view via fish eye effect
+      yearDiff = (date.getFullYear() - @_nowDate.getFullYear()) / YEAR_INTERVALS[@_interval]
+
+      # make yearDiff positiv to make logaritmic function usable
+      minus = false
+      if yearDiff < 0
+        yearDiff *= -1
+        minus = true
+
+      # set case of break
+      if yearDiff and yearDiff < 100 and yearDiff > -100
+        yearDiff = ((Math.log yearDiff / Math.log 10) + @_fishEyeFactor) + yearDiff
+
+      # invert yearDiff if it was negative and determine position of yearMarker
+      yearDiff *= -1 if minus
+      xPos = (yearDiff * YEAR_MARKER_WIDTH) + (@_tlWidth / 2) - @_posTolerance
+
+    # return position
     xPos
 
   _yearToDate : (year) ->
