@@ -48,15 +48,10 @@ class HG.Timeline
       if @_clicked
         mousePosX = e.pageX
         moveDist = mousePosX - @_lastMousePosX
-
-        # move year in x direction with distance given by mouse event
-        # and set new now date
-        @_moveYearMarkers moveDist
-
-        # add year markers add beginning and end of list if
-        # timeline is not shown till screens end
+        @_nowMarker.setPos moveDist + @_nowMarker.getPos()
+        @_updateYearMarkerPositions()
+        @_updateNowMarker()
         @_loadYearMarkers()
-
         @_lastMousePosX = mousePosX
 
     @_body.onmouseup = (e) =>
@@ -78,6 +73,7 @@ class HG.Timeline
           @_interval++
 
       @_updateYearMarkerPositions()
+      @_updateNowMarker()
       @_loadYearMarkers()
 
   _updateYearMarkerPositions: ->
@@ -112,9 +108,7 @@ class HG.Timeline
     if drawn
       @_loadYearMarkers()
 
-  _moveYearMarkers: (dist) ->
-    @_nowMarker.setPos dist + @_nowMarker.getPos()
-    @_updateYearMarkerPositions()
+  _updateNowMarkers: (dist) ->
     smallestDis = null
     i = 0
     nId = 0
@@ -126,7 +120,7 @@ class HG.Timeline
         nId = i
       i++
     @_nowMarker = @_yearMarkers.get(nId).nodeData
-    console.log @_nowMarker.getDate().getFullYear()
+    console.log "Timeline:\n     Current now date: " + @_nowMarker.getDate().getFullYear()
 
   _dateToPosition: (date) ->
 
@@ -151,7 +145,7 @@ class HG.Timeline
       yearDiff *= -1 if minus
       xPos = (yearDiff * YEAR_MARKER_WIDTH) + (@_tlWidth / 2) - @_posTolerance
     ###
-    
+
 
   _yearToDate : (year) ->
     date = new Date(0)
