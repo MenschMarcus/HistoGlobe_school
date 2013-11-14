@@ -72,10 +72,11 @@ class HG.Timeline
       else
         if @_interval < YEAR_INTERVALS.length
           @_interval++
-
+      
       @_clearYearMarkers()
       @_updateYearMarkerPositions()
-      @_loadYearMarkers()
+      #@_fillGaps()
+      @_loadYearMarkers()      
 
   _updateYearMarkerPositions: ->
     i = 0
@@ -93,6 +94,16 @@ class HG.Timeline
         @_yearMarkers.remove(i)
       else
         i++
+
+  _fillGaps: ->
+    i = 0
+    while i < @_yearMarkers.getLength() - 1
+      dateBetween = @_yearToDate (@_yearMarkers.get(i).nodeData.getDate().getFullYear() + YEAR_INTERVALS[@_interval])
+      if dateBetween.getFullYear() != @_yearMarkers.get(i + 1).nodeData.getDate().getFullYear()
+        newYearMarker = new HG.YearMarker(dateBetween, @_dateToPosition(dateBetween), @_tlDiv, YEAR_MARKER_WIDTH)
+        @_yearMarkers.insert(i + 1, newYearMarker)
+      i++
+      console.log @_yearMarkers.get(i).nodeData.getDate().getFullYear()
 
   _loadYearMarkers: ->
     
