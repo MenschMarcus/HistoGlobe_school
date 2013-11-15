@@ -38,11 +38,12 @@ class HG.Timeline
     # important vars for mouse events and
     # functions that make timeline scrollable
     @_clicked   = false;
-    @_lastMousePosX = 0;
+    @_lastMousePosX = 0;    
 
     @_tlDiv.onmousedown = (e) =>
       @_clicked   = true
       @_lastMousePosX = e.pageX
+      @_disableTextSelection e
 
     @_body.onmousemove = (e) =>
       if @_clicked
@@ -58,8 +59,14 @@ class HG.Timeline
 
       if @_clicked
         @_clicked = false
-        @_updateYearMarkerPositions()
+
+        # This function adds some motion after timeline was scrolled
+        # the motion is calculated by the speed of scrolling (px/sec)
+        # and a value that specifies how fast the motion is slowing down
+        @_scrollMotionBlur(2, 50)   
+
         @_lastMousePosX = e.pageX
+        @_enableTextSelection()
 
     @_tlDiv.onmousewheel = (e) =>
       # prevent scrolling of map
@@ -74,9 +81,24 @@ class HG.Timeline
           @_interval++
       
       @_clearYearMarkers()
-      @_updateYearMarkerPositions()
-      #@_fillGaps()
+      @_updateYearMarkerPositions()      
       @_loadYearMarkers()      
+      #@_fillGaps()
+
+  # fade out movement of year markers after scrolling
+  # calculate fade out by speed of scrolling and slowDownValue
+  # Movement: at first change position of NowMarker 
+  #           then call "@_updateYearMarkerPositions"
+  #           this updates all positions of year markers in relation to the NowMarker
+  @_scrollMotionBlur: (slowDownValue, scrollSpeed) ->
+
+    #TODO: repeat this several times and determine the new nowmarker position
+    # the value of scrollSpeed can be positive (motion to right) or negative (motion to left)
+    # the slowDownValue is fixed and can be given by your choice
+    # look for the javascript function "setTimeOut" with this you can repeat a function in a given time interval
+    # much fun :)
+    @_nowMarker.setPos @_nowMarker.getPos()
+    @_updateYearMarkerPositions()
 
   _updateYearMarkerPositions: ->
     i = 0
@@ -95,41 +117,39 @@ class HG.Timeline
       else
         i++
 
-  _fillGaps: ->
+  ###_fillGaps: ->
     i = 0
     while i < @_yearMarkers.getLength() - 1
       dateBetween = @_yearToDate (@_yearMarkers.get(i).nodeData.getDate().getFullYear() + YEAR_INTERVALS[@_interval])
       if dateBetween.getFullYear() != @_yearMarkers.get(i + 1).nodeData.getDate().getFullYear()
         newYearMarker = new HG.YearMarker(dateBetween, @_dateToPosition(dateBetween), @_tlDiv, YEAR_MARKER_WIDTH)
-        @_yearMarkers.insert(i + 1, newYearMarker)
-      i++
-      console.log @_yearMarkers.get(i).nodeData.getDate().getFullYear()
+        @_yearMarkers.insert(i, newYearMarker)
+      i++    ###  
 
   _loadYearMarkers: ->
     
-    dateLeft = @_nowMarker.getDate()
-    until dateLeft < @_yearMarkers.get(0).nodeData.getDate()
-      dateLeft = @_yearToDate(dateLeft.getFullYear() - YEAR_INTERVALS[@_interval])
-    xPosLeft = @_dateToPosition(dateLeft)
+    drawn = true
+    while drawn is true
+      drawn = false
+      dateLeft = @_nowMarker.getDate()
+      until dateLeft < @_yearMarkers.get(0).nodeData.getDate()
+        dateLeft = @_yearToDate(dateLeft.getFullYear() - YEAR_INTERVALS[@_interval])
+      xPosLeft = @_dateToPosition(dateLeft)
 
-    dateRight = @_nowMarker.getDate()
-    until dateRight > @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getDate()
-      dateRight = @_yearToDate(dateRight.getFullYear() + YEAR_INTERVALS[@_interval])
-    xPosRight = @_dateToPosition(dateRight)
+      dateRight = @_nowMarker.getDate()
+      until dateRight > @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getDate()
+        dateRight = @_yearToDate(dateRight.getFullYear() + YEAR_INTERVALS[@_interval])
+      xPosRight = @_dateToPosition(dateRight)
+      
+      if xPosLeft > 0
+        drawn = true
+        newYearMarker = new HG.YearMarker(dateLeft, xPosLeft, @_tlDiv, YEAR_MARKER_WIDTH)
+        @_yearMarkers.addFirst(newYearMarker)
 
-    drawn = false
-    if xPosLeft > 0
-      drawn = true
-      newYearMarker = new HG.YearMarker(dateLeft, xPosLeft, @_tlDiv, YEAR_MARKER_WIDTH)
-      @_yearMarkers.addFirst(newYearMarker)
-
-    if xPosRight < @_tlWidth
-      drawn = true
-      newYearMarker = new HG.YearMarker(dateRight, xPosRight, @_tlDiv, YEAR_MARKER_WIDTH)
-      @_yearMarkers.addLast(newYearMarker)
-
-    if drawn
-      @_loadYearMarkers()
+      if xPosRight < @_tlWidth
+        drawn = true
+        newYearMarker = new HG.YearMarker(dateRight, xPosRight, @_tlDiv, YEAR_MARKER_WIDTH)
+        @_yearMarkers.addLast(newYearMarker)    
 
   _updateNowMarker: (dist) ->
     smallestDis = null
@@ -172,3 +192,6 @@ class HG.Timeline
     date = new Date(0)
     date.setFullYear year
     date
+
+  _disableTextSelection : (e) ->  return false
+  _enableTextSelection : () ->    return true

@@ -62,11 +62,12 @@ class HG.DoublyLinkedList
 		while tmpIndex < index
 			tmpNode = tmpNode.next
 			tmpIndex++
+		tmpNode.prev.next = node
 		node.next = tmpNode
 		node.prev = tmpNode.prev
 		tmpNode.prev = node
-		#tmpNode.next = node		
-		tmpNode.prev.next = node
+		console.log "insert year marker at " + tmpIndex + " " + data.getDate().getFullYear()
+		#tmpNode.next = node				
 
 	remove : (index) ->
 		if index >= 0 or index < @_length
