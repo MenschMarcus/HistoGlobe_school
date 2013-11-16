@@ -43,6 +43,7 @@ class HG.Timeline
     @_tlDiv.onmousedown = (e) =>
       @_clicked   = true
       @_lastMousePosX = e.pageX
+      @_disableTextSelection e
 
     @_body.onmousemove = (e) =>
       if @_clicked
@@ -60,6 +61,7 @@ class HG.Timeline
         @_clicked = false
         @_updateYearMarkerPositions()
         @_lastMousePosX = e.pageX
+        @_enableTextSelection()
 
     @_tlDiv.onmousewheel = (e) =>
       # prevent scrolling of map
@@ -161,3 +163,7 @@ class HG.Timeline
     date = new Date(0)
     date.setFullYear year
     date
+
+  # text selection magic - bääääm!
+  _disableTextSelection : (e) ->  return false
+  _enableTextSelection : () ->    return true
