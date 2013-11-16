@@ -194,9 +194,5 @@ class HG.Timeline
     date
 
   _disableTextSelection : (e) ->  return false
-<<<<<<< HEAD
-  _enableTextSelection : () ->    return true
 
-=======
   _enableTextSelection : () ->    return true
->>>>>>> c7ad4fbda23b68e0c27b0ebbfec3163182ab4373
