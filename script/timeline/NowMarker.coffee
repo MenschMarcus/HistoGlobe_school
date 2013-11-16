@@ -15,7 +15,6 @@ class HG.NowMarker
         @_mainDiv.style.bottom  = @_tlDiv.offsetHeight + "px"
         @_mainDiv.style.visibility = "visible";
 
-
         # middle point of circle
         @_middlePointX  = window.innerWidth / 2
         @_middlePointY  = window.innerHeight - @_tlDiv.offsetHeight

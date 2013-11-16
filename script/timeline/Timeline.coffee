@@ -195,3 +195,4 @@ class HG.Timeline
 
   _disableTextSelection : (e) ->  return false
   _enableTextSelection : () ->    return true
+
