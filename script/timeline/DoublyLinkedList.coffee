@@ -49,10 +49,10 @@ class HG.DoublyLinkedList
 	getLength : -> @_length
 
 	insert : (index, data) ->
-		if index == 0
-			addFirst(data)
-		if index == @_length - 1
-			addLast(data)
+		#if index == 0
+		#	addFirst(data)
+		#if index == @_length - 1
+		#	addLast(data)
 		node =
 			nodeData: data
 			prev: null
@@ -62,10 +62,12 @@ class HG.DoublyLinkedList
 		while tmpIndex < index
 			tmpNode = tmpNode.next
 			tmpIndex++
-		node.next = tmpNode.next
-		tmpNode.next.prev = node
-		tmpNode.next = node
-		node.prev = tmpNode
+		tmpNode.prev.next = node
+		node.next = tmpNode
+		node.prev = tmpNode.prev
+		tmpNode.prev = node
+		console.log "insert year marker at " + tmpIndex + " " + data.getDate().getFullYear()
+		#tmpNode.next = node				
 
 	remove : (index) ->
 		if index >= 0 or index < @_length
