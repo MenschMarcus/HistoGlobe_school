@@ -90,15 +90,25 @@ class HG.Timeline
   # Movement: at first change position of NowMarker 
   #           then call "@_updateYearMarkerPositions"
   #           this updates all positions of year markers in relation to the NowMarker
-  @_scrollMotionBlur: (slowDownValue, scrollSpeed) ->
+  _scrollMotionBlur: (slowDownValue, scrollSpeed) ->
 
     #TODO: repeat this several times and determine the new nowmarker position
     # the value of scrollSpeed can be positive (motion to right) or negative (motion to left)
     # the slowDownValue is fixed and can be given by your choice
     # look for the javascript function "setTimeOut" with this you can repeat a function in a given time interval
     # much fun :)
-    @_nowMarker.setPos @_nowMarker.getPos()
-    @_updateYearMarkerPositions()
+    
+    if slowDownValue > 0
+      oldPosition = @_nowMarker.getPos()
+      console.log "alte Position: " + oldPosition
+      newPosition = oldPosition - scrollSpeed
+      console.log "neue Position: " + newPosition
+      setTimeout(@_scrollMotionBlur(slowDownValue-0.1, scrollSpeed-5),1000)
+
+      @_nowMarker.setPos newPosition
+      @_updateYearMarkerPositions()
+
+
 
   _updateYearMarkerPositions: ->
     i = 0
@@ -194,5 +204,4 @@ class HG.Timeline
     date
 
   _disableTextSelection : (e) ->  return false
-
   _enableTextSelection : () ->    return true
