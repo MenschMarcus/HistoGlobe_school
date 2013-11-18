@@ -47,32 +47,12 @@ class HG.HiventController
   # ============================================================================
   _initHivents: (pathToHivents) ->
     $.ajax({
-            url: "script/hivents/get_hivents.php?lowerLimit=0&upperLimit=100",
+            url: "script/hivents/query_database.php?dbName=hivents&tableName=hivent_data&lowerLimit=0&upperLimit=100",
             success: (data) =>
+              builder = new HG.HiventBuilder()
               rows = data.split "\n"
               for row in rows
-                cols = row.split "|"
-
-
-              #   hivent = new HG.Hivent(
-              #     h.name,
-              #     h.startYear,
-              #     h.startMonth,
-              #     h.startDay,
-              #     h.endYear,
-              #     h.endMonth,
-              #     h.endDay,
-              #     h.long,
-              #     h.lat,
-              #     h.category,
-              #     h.content,
-              #   )
-
-              #   @_hiventHandles.push(new HG.HiventHandle hivent)
-
-              # @_hiventsChanged = true
-
-              # @_filterHivents();
+                builder.constructHivent row
 
           })
 
