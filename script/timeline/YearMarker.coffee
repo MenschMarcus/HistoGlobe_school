@@ -27,9 +27,9 @@ class HG.YearMarker
     $(@_yearMarkerDiv).fadeIn()
 
   # ============================================================================
-  setDate : (date) ->
+  ###setDate : (date) ->
     @_date = date
-    @_yearMarkerDiv.innerHTML = '<p>'+ @_date.getFullYear() +'</p>'
+    @_yearMarkerDiv.innerHTML = '<p>'+ @_date +'</p>'###
 
   setPos : (pos) ->
     @_pos = pos
