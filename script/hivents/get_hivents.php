@@ -20,10 +20,11 @@ if ($upperLimit > 0) {
 if ($result = $mysqli->query($query)) {
 
   while ($row = $result->fetch_row()) {
-    foreach ($row as $col) {
-      echo $col . ", ";
+    $row_len = sizeof($row);
+    for ($i=0; $i<$row_len; ++$i) {
+      echo $row[$i] . "|";
     }
-    echo "\n\n";
+    echo "\n";
   }
   $result->close();
 }
