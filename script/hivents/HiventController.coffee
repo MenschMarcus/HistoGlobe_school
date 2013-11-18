@@ -1,5 +1,6 @@
 #include Hivent.coffee
 #include HiventHandle.coffee
+#include HiventController.coffee
 
 window.HG ?= {}
 
@@ -48,13 +49,10 @@ class HG.HiventController
     $.ajax({
             url: "script/hivents/get_hivents.php?lowerLimit=0&upperLimit=100",
             success: (data) =>
-              console.log data
               rows = data.split "\n"
               for row in rows
                 cols = row.split "|"
-                console.log cols[0]
-                startDate = cols[3].split "."
-                console.log startDate
+
 
               #   hivent = new HG.Hivent(
               #     h.name,
