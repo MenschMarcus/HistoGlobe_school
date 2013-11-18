@@ -69,7 +69,7 @@
       jQuery(document).ready(function($) {
         BrowserDetect.init();
 
-        // if (!BrowserDetect.webglRenderingSupported) {
+        if (!BrowserDetect.webglRenderingSupported) {
           var elem_title = 'Entschuldigung! <a class="close pull-right" style="margin-top: -3px;" onclick="$(&#39;#display-mode-switch&#39;).popover(&#39;hide&#39;);">&times;</a>';
           var elem_content = '';
           if (BrowserDetect.webglContextSupported) {
@@ -90,7 +90,7 @@
           }
 
           $('#display-mode-switch').popover({container: 'body', animation:true, title:elem_title, content:elem_content, html:true, placement:"top"});
-        // }
+        }
 
         loadGLHeader();
 
@@ -132,7 +132,7 @@
           $('#home').height(windowHeight);
           window.setTimeout(function() {
 
-            $('#warning').modal()
+            $('#warning').modal();
 
             window.setTimeout(function() {
               hiventController = new HG.HiventController("data/hivent_collection.json");
@@ -149,6 +149,13 @@
             }, 500);
 
           }, 200);
+
+
+          $('#toggle-backend').click(
+            function() {
+              $('#backend').modal();
+            }
+          );
         }
       }
 
@@ -251,8 +258,11 @@
 
   <body data-spy="scroll" data-target="#mainNavigation" data-offset="20">
 
-    <div id="home">
+    <!-- edit backend -->
+    <?php readfile("php/backend.php"); ?>
 
+
+    <div id="home">
 
         <!-- spinner -->
         <div id="map-loader" class="loader"></div>
@@ -260,97 +270,14 @@
         <div id="map-container" style="overflow:hidden; position:absolute;"> </div>
 
         <!-- prototype-warning -->
-        <!-- Modal -->
-        <div id="warning" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-          <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 id="myModalLabel">Willkommen!</h4>
-          </div>
-          <div class="modal-body">
-
-            <p>
-              Erleben Sie mit dem Prototypen von <span class="hg">HistoGlobe</span>
-              die Entwicklung der Europäischen Union von 1945 bis heute!
-            </p>
-            <p>
-               Diese Demo zeigt den aktuellen Fortschritt des Projekts. Vergessen Sie nicht:
-               Es handelt sich um eine Entwicklungsversion, die noch nicht den
-               vollen Funktionsumfang von <span class="hg">HistoGlobe</span> bietet!
-            </p>
-
-            <div class="panel-group" id="accordion2">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion2" href="#version-hints">
-                      <i class="icon-play"></i> Versionshinweise...
-                    </a>
-                  </h4>
-                </div>
-                <div id="version-hints" class="panel-collapse collapse">
-                  <div class="panel-body">
-                    <h4>Version 0.6 <span class="muted">(16.10.2013)</span></h4>
-                    <ul>
-                      <li>Wartet mit neu gestalteten Bedienelementen auf.</li>
-                      <li>Behebt ein Problem, durch das Tooltips nach dem Öffnen zusammengefasster Hivents auf der Karte an der falschen Stelle angezeigt wurden.</li>
-                    </ul>
-                    <h4>Version 0.5 <span class="muted">(16.10.2013)</span></h4>
-                    <ul>
-                      <li>Löst den Prototypen von der bisherigen statischen Seite.</li>
-                      <li>Behebt ein Problem, das dazu führte, dass Gallerieelemente nach zeitlicher Filterung mehrmals auftauchten.</li>
-                    </ul>
-                    <h4>Version 0.4.1 <span class="muted">(15.10.2013)</span></h4>
-                    <ul>
-                      <li>Ändert die Farben der EU-Länder.</li>
-                      <li>Ermöglicht die Darstellung von Ländernamen in nativen Sprachen.</li>
-                      <li>Ermöglicht das Einbinden von Bildern in Hivents.</li>
-                    </ul>
-                    <h4>Version 0.4 <span class="muted">(25.09.2013)</span></h4>
-                    <ul>
-                      <li>Ermöglicht die Darstellung von Ländernamen.</li>
-                      <li>Ermöglicht die Darstellung verschiedener Hivent-Kategorien mit entsprechenden Icons.</li>
-                      <li>Ermöglicht das Hervorheben von Hivents auf Zeitleiste und Karte beim Berühren mit der Maus.</li>
-                    </ul>
-                    <h4>Version 0.3 <span class="muted">(09.09.2013)</span></h4>
-                    <ul>
-                      <li>Behebt ein Problem, das dazu führte, dass Hiventinformationen erst nach zweimaligem Anklicken angezeigt wurden.</li>
-                      <li>Behebt die falsche Positionierung der Hivent-Tooltips.</li>
-                      <li>Ermöglicht das Einklappen der Versionshinweise.</li>
-                      <li>Verbessert die Kompatibilität mit kleinen Bildschirmen.</li>
-                      <li>Verbessert die Interaktion mit der Zeitleiste.</li>
-                      <li>Verbessert die Darstellung der Zeitleiste.</li>
-                    </ul>
-                    <h4>Version 0.2 <span class="muted">(08.09.2013)</span></h4>
-                    <ul>
-                      <li>Ermöglicht 2D-Grenzverschiebungen zu visualisieren.</li>
-                      <li>Ermöglicht die zeitlich Filterung mit Hilfe der Zeitleiste.</li>
-                      <li>Ermöglicht die Verschiebung von Info-Popups.</li>
-                      <li>Verändert das Erscheinungsbild der Karte.</li>
-                      <li>Stellt Daten zur Entwicklung der europäischen Union dar. Sie können bisher nur in 2D betrachtet werden.</li>
-                    </ul>
-                    <h4>Version 0.1 <span class="muted">(02.06.2013)</span></h4>
-                    <ul>
-                      <li><span class="hg">HistoGlobe</span> 2D/3D: Die Darstellung der geografischen Welt (Land/Wasser) ist implenentiert.</li>
-                      <li><span class="hg">HistoGlobe</span> 2D/3D: Die Verortung von historischen Ereignissen ist möglich.</li>
-                      <li><span class="hg">HistoGlobe</span> 2D/3D: Die Verortung von historischen Ereignissen ist möglich.</li>
-                      <li>Zeitleiste: Es ist möglich, Ereignisse darzustellen.</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              </div>
-              </div>
-              <div class="modal-footer">
-                <button class="btn btn-default" id="warning-close" data-dismiss="modal" aria-hidden="true" data-loading-text="Lädt Karte...">Los!</button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <?php readfile("php/greeting.php"); ?>
 
         <!-- gl header -->
         <div id="gl-header">
+
+          <div id="editMenu"  class="menu">
+            <div id="toggle-backend" class="btn btn-default"><i class="fa fa-pencil"></i> Editieren</div>
+          </div>
 
           <!-- legend -->
           <div id="legend" class = "menu">
@@ -371,7 +298,7 @@
           </div>
 
           <div id="fullscreenMenuRight"  class="menu">
-            <div id="toggle-fullscreen" class="btn btn-default"><i class="icon-fullscreen"></i> Vollbild</div>
+            <div id="toggle-fullscreen" class="btn btn-default"><i class="fa fa-fullscreen"></i> Vollbild</div>
           </div>
 
           <!-- timeline -->
@@ -380,9 +307,9 @@
             <div id="tlMenuLeft"  class="menu">
               <div class="btn-toolbar header-button-bottom tlMenu">
                 <div class="btn-group">
-                  <a id="histPlayer1" class="btn playBtn btn-default"><i class="icon-play"></i></a>
-                  <a id="histPlayer2" class="btn playBtn btn-default"><i class="icon-play"></i><i class="icon-play"></i></a>
-                  <a id="histPlayer3" class="btn playBtn btn-default"><i class="icon-play"></i><i class="icon-play"></i><i class="icon-play"></i></a>
+                  <a id="histPlayer1" class="btn playBtn btn-default"><i class="fa fa-play"></i></a>
+                  <a id="histPlayer2" class="btn playBtn btn-default"><i class="fa fa-play"></i><i class="fa fa-play"></i></a>
+                  <a id="histPlayer3" class="btn playBtn btn-default"><i class="fa fa-play"></i><i class="fa fa-play"></i><i class="fa fa-play"></i></a>
                 </div>
               </div>
              </div>
