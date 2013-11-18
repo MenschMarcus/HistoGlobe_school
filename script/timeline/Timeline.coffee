@@ -7,7 +7,7 @@ class HG.Timeline
   ##############################################################################
 
   # interval at which year markers are drawn [year]
-  YEAR_INTERVALS = [1/12,1,2,5,10,20,50,100,200,500,1000,2000,5000,10000]
+  YEAR_INTERVALS = [1,2,5,10,20,50,100,200,500,1000,2000,5000,10000]
 
   # year marker width
   YEAR_MARKER_WIDTH = 70
@@ -17,6 +17,7 @@ class HG.Timeline
     # convert years to date objects
     @_minDate = @_yearToDate minYear
     @_maxDate = @_yearToDate maxYear
+    @_nowDate = @_yearToDate nowYear
 
     # get main timeline div and its width
     # get body div for mouse events
@@ -25,7 +26,7 @@ class HG.Timeline
     @_tlWidth   = @_tlDiv.offsetWidth
 
     # index to YEAR_INTERVALS
-    @_interval      = 4
+    @_interval      = 3
 
     # create doubly linked list for year markers
     @_yearMarkers   = new HG.YearMarkerList()
@@ -33,12 +34,12 @@ class HG.Timeline
     @_yearMarkers.addFirst(@_nowMarker)
 
     # create and draw year markers on right position
-    @_loadYearMarkers()
+    @_loadYearMarkers(false)
 
     # important vars for mouse events and
     # functions that make timeline scrollable
     @_clicked   = false;
-    @_lastMousePosX = 0;    
+    @_lastMousePosX = 0;
 
     @_tlDiv.onmousedown = (e) =>
       @_clicked   = true
@@ -52,63 +53,34 @@ class HG.Timeline
         @_nowMarker.setPos moveDist + @_nowMarker.getPos()
         @_updateYearMarkerPositions()
         @_updateNowMarker()
-        @_loadYearMarkers()
+        @_loadYearMarkers(false)
         @_lastMousePosX = mousePosX
 
     @_body.onmouseup = (e) =>
-
       if @_clicked
         @_clicked = false
-
-        # This function adds some motion after timeline was scrolled
-        # the motion is calculated by the speed of scrolling (px/sec)
-        # and a value that specifies how fast the motion is slowing down
-        @_scrollMotionBlur(2, 50)   
-
+        @_updateNowMarker()
+        @_updateYearMarkerPositions()
+        @_clearYearMarkers()
         @_lastMousePosX = e.pageX
         @_enableTextSelection()
 
     @_tlDiv.onmousewheel = (e) =>
-      # prevent scrolling of map
       e.preventDefault()
-      # zoom in
       if e.wheelDeltaY > 0
         if @_interval > 0
           @_interval--
-      # zoom out
       else
-        if @_interval < YEAR_INTERVALS.length
+        if @_interval < YEAR_INTERVALS.length - 1
           @_interval++
-      
+      @_updateNowMarker()
       @_clearYearMarkers()
-      @_updateYearMarkerPositions()      
-      @_loadYearMarkers()      
-      #@_fillGaps()
-
-  # fade out movement of year markers after scrolling
-  # calculate fade out by speed of scrolling and slowDownValue
-  # Movement: at first change position of NowMarker 
-  #           then call "@_updateYearMarkerPositions"
-  #           this updates all positions of year markers in relation to the NowMarker
-  _scrollMotionBlur: (slowDownValue, scrollSpeed) ->
-
-    #TODO: repeat this several times and determine the new nowmarker position
-    # the value of scrollSpeed can be positive (motion to right) or negative (motion to left)
-    # the slowDownValue is fixed and can be given by your choice
-    # look for the javascript function "setTimeOut" with this you can repeat a function in a given time interval
-    # much fun :)
-    
-    if slowDownValue > 0
-      oldPosition = @_nowMarker.getPos()
-      console.log "alte Position: " + oldPosition
-      newPosition = oldPosition - scrollSpeed
-      console.log "neue Position: " + newPosition
-      setTimeout(@_scrollMotionBlur(slowDownValue-0.1, scrollSpeed-5),1000)
-
-      @_nowMarker.setPos newPosition
       @_updateYearMarkerPositions()
+      @_loadYearMarkers(true)
 
+  _scrollMotionBlur: (slowDownValue, scrollSpeed, pos) ->
 
+    # TODO: motion blur after scrolling
 
   _updateYearMarkerPositions: ->
     i = 0
@@ -118,6 +90,21 @@ class HG.Timeline
       i++
 
   _clearYearMarkers: ->
+
+    # remove year marker outside of screen
+    i = 0
+    while i < @_yearMarkers.getLength() - 1
+      if @_yearMarkers.get(i).nodeData.getPos() < 0 and @_yearMarkers.get(i + 1).nodeData.getPos() < 0
+        @_yearMarkers.get(i).nodeData.destroy()
+        @_yearMarkers.remove(i)
+      else
+        if @_yearMarkers.get(i).nodeData.getPos() > @_tlWidth and @_yearMarkers.get(i + 1).nodeData.getPos() > @_tlWidth
+          @_yearMarkers.get(i + 1).nodeData.destroy()
+          @_yearMarkers.remove(i + 1)
+        else
+          i++
+
+    # remove overlapping year markers
     i = 0
     while i < @_yearMarkers.getLength()
       temp = (@_nowMarker.getDate().getFullYear() - @_yearMarkers.get(i).nodeData.getDate().getFullYear()) % YEAR_INTERVALS[@_interval]
@@ -127,20 +114,22 @@ class HG.Timeline
       else
         i++
 
-  ###_fillGaps: ->
+  _fillGaps: ->
     i = 0
     while i < @_yearMarkers.getLength() - 1
-      dateBetween = @_yearToDate (@_yearMarkers.get(i).nodeData.getDate().getFullYear() + YEAR_INTERVALS[@_interval])
-      if dateBetween.getFullYear() != @_yearMarkers.get(i + 1).nodeData.getDate().getFullYear()
+      if YEAR_INTERVALS[@_interval] < (@_yearMarkers.get(i + 1).nodeData.getDate().getFullYear() - @_yearMarkers.get(i).nodeData.getDate().getFullYear())
+        dateBetween = @_yearToDate (@_yearMarkers.get(i).nodeData.getDate().getFullYear() + YEAR_INTERVALS[@_interval])
         newYearMarker = new HG.YearMarker(dateBetween, @_dateToPosition(dateBetween), @_tlDiv, YEAR_MARKER_WIDTH)
-        @_yearMarkers.insert(i, newYearMarker)
-      i++    ###  
+        @_yearMarkers.insertAfter(i, newYearMarker)
+      i++
 
-  _loadYearMarkers: ->
-    
+  _loadYearMarkers: (fillGaps)->
+
+    # draw year markers at beginning and end of list
     drawn = true
     while drawn is true
       drawn = false
+
       dateLeft = @_nowMarker.getDate()
       until dateLeft < @_yearMarkers.get(0).nodeData.getDate()
         dateLeft = @_yearToDate(dateLeft.getFullYear() - YEAR_INTERVALS[@_interval])
@@ -150,16 +139,19 @@ class HG.Timeline
       until dateRight > @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getDate()
         dateRight = @_yearToDate(dateRight.getFullYear() + YEAR_INTERVALS[@_interval])
       xPosRight = @_dateToPosition(dateRight)
-      
-      if xPosLeft > 0
+
+      if xPosLeft > 0 - YEAR_MARKER_WIDTH
         drawn = true
         newYearMarker = new HG.YearMarker(dateLeft, xPosLeft, @_tlDiv, YEAR_MARKER_WIDTH)
         @_yearMarkers.addFirst(newYearMarker)
 
-      if xPosRight < @_tlWidth
+      if xPosRight < @_tlWidth + YEAR_MARKER_WIDTH
         drawn = true
         newYearMarker = new HG.YearMarker(dateRight, xPosRight, @_tlDiv, YEAR_MARKER_WIDTH)
-        @_yearMarkers.addLast(newYearMarker)    
+        @_yearMarkers.addLast(newYearMarker)
+
+    if fillGaps
+      @_fillGaps()
 
   _updateNowMarker: (dist) ->
     smallestDis = null
@@ -168,35 +160,21 @@ class HG.Timeline
     while i < @_yearMarkers.getLength()
       dis = @_tlWidth / 2 - (@_yearMarkers.get(i).nodeData.getPos() + YEAR_MARKER_WIDTH / 2)
       dis *= -1 if dis < 0
-      #temp = (@_nowMarker.getDate().getFullYear() - @_yearMarkers.get(i).nodeData.getDate().getFullYear()) % YEAR_INTERVALS[@_interval]
-      if (smallestDis is null or dis < smallestDis)# and temp == 0
+      if (smallestDis is null or dis < smallestDis)
         smallestDis = dis
         nId = i
       i++
+
+    # TODO: difference between year markers which are shown and real now date
     @_nowMarker = @_yearMarkers.get(nId).nodeData
     console.log "Timeline:\n     Current now date: " + @_nowMarker.getDate().getFullYear() + "\n     Time interval: " + YEAR_INTERVALS[@_interval]
 
   _dateToPosition: (date) ->
-
     yearDiff = (date.getFullYear() - @_nowMarker.getDate().getFullYear()) / YEAR_INTERVALS[@_interval]
     xPos = (yearDiff * YEAR_MARKER_WIDTH) + (@_nowMarker.getPos())
 
-    ### yearDiff = (date.getFullYear() - @_nowMarker.getDate().getFullYear()) / YEAR_INTERVALS[@_interval]
-
-      # make yearDiff positiv to make logaritmic function usable
-      minus = false
-      if yearDiff < 0
-        yearDiff *= -1
-        minus = true
-
-      # set case of break
-      if yearDiff and yearDiff < 100 and yearDiff > -100
-        yearDiff = ((Math.log yearDiff / Math.log 10) + @_fishEyeFactor) + yearDiff
-
-      # invert yearDiff if it was negative and determine position of yearMarker
-      yearDiff *= -1 if minus
-      xPos = (yearDiff * YEAR_MARKER_WIDTH) + (@_tlWidth / 2) - @_posTolerance
-    ###
+    # TODO: logarithmic view
+    #       (Math.log yearDiff / Math.log 10)
 
   _yearToDate : (year) ->
     date = new Date(0)

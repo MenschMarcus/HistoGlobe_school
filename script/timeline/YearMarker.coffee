@@ -29,13 +29,22 @@ class HG.YearMarker
   # ============================================================================
   setDate : (date) ->
     @_date = date
-    @_yearMarkerDiv.innerHTML = '<p>'+@_date+'</p>'
+    @_yearMarkerDiv.innerHTML = '<p>'+ @_date.getFullYear() +'</p>'
 
   setPos : (pos) ->
     @_pos = pos
     @_yearMarkerDiv.style.left = @_pos + "px"
 
+  moveTo : (time, pos) ->
+    @_pos = pos
+    $(@_yearMarkerDiv).animate({
+      left: pos + "px",
+    }, time );
+
   getDiv : () -> @_yearMarkerDiv
   getPos : () -> @_pos
   getDate : () -> @_date
-  destroy : () -> @_parentDiv.removeChild @_yearMarkerDiv
+
+  destroy : () ->
+    $(@_yearMarkerDiv).fadeOut()
+    @_parentDiv.removeChild @_yearMarkerDiv
