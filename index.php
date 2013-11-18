@@ -7,7 +7,6 @@
     <title>HistoGlobe</title>
 
     <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap-responsive.min.css">
     <link rel="stylesheet" type="text/css" href="style/third-party/font-awesome.min.css">
     <link href='http://fonts.googleapis.com/css?family=Marcellus+SC' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="style/third-party/leaflet.css" />
@@ -70,8 +69,8 @@
       jQuery(document).ready(function($) {
         BrowserDetect.init();
 
-        if (!BrowserDetect.webglRenderingSupported) {
-          var elem_title = 'Entschuldigung! <a class="close pull-right" style="margin-top: -3px;" onclick="$(&#39;#toggle-3D&#39;).popover(&#39;hide&#39;);">&times;</a>';
+        // if (!BrowserDetect.webglRenderingSupported) {
+          var elem_title = 'Entschuldigung! <a class="close pull-right" style="margin-top: -3px;" onclick="$(&#39;#display-mode-switch&#39;).popover(&#39;hide&#39;);">&times;</a>';
           var elem_content = '';
           if (BrowserDetect.webglContextSupported) {
             if (BrowserDetect.browser != "unknown") {
@@ -90,8 +89,8 @@
             }
           }
 
-          $('#toggle-3D').popover({animation:true, title:elem_title, content:elem_content, html:true, placement:"top"});
-        }
+          $('#display-mode-switch').popover({container: 'body', animation:true, title:elem_title, content:elem_content, html:true, placement:"top"});
+        // }
 
         loadGLHeader();
 
@@ -102,7 +101,7 @@
         if (BrowserDetect.canvasSupported) {
 
           if (window.fullScreenApi.supportsFullScreen) {
-            var heroUnit = $('.hero-unit');
+            var heroUnit = $('#home');
             $('#toggle-fullscreen').click(
               function() {
                 if (!window.fullScreenApi.isFullScreen()) {
@@ -130,7 +129,7 @@
 
           $('#warning-close').button('loading')
 
-          $('.hero-unit').height(windowHeight);
+          $('#home').height(windowHeight);
           window.setTimeout(function() {
 
             $('#warning').modal()
@@ -252,9 +251,8 @@
 
   <body data-spy="scroll" data-target="#mainNavigation" data-offset="20">
 
-    <div class="container" id="home">
+    <div id="home">
 
-      <div class="hero-unit">
 
         <!-- spinner -->
         <div id="map-loader" class="loader"></div>
@@ -263,30 +261,36 @@
 
         <!-- prototype-warning -->
         <!-- Modal -->
-        <div id="warning" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div id="warning" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+          <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="myModalLabel">Willkommen!</h3>
+            <h4 id="myModalLabel">Willkommen!</h4>
           </div>
           <div class="modal-body">
 
-            <p class="lead">Erleben Sie mit dem Prototypen von <span class="hg">HistoGlobe</span> die Entwicklung der Europäischen Union von 1945 bis heute!</p>
-
+            <p>
+              Erleben Sie mit dem Prototypen von <span class="hg">HistoGlobe</span>
+              die Entwicklung der Europäischen Union von 1945 bis heute!
+            </p>
             <p>
                Diese Demo zeigt den aktuellen Fortschritt des Projekts. Vergessen Sie nicht:
                Es handelt sich um eine Entwicklungsversion, die noch nicht den
                vollen Funktionsumfang von <span class="hg">HistoGlobe</span> bietet!
             </p>
 
-            <div class="accordion" id="accordion2">
-              <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                    <i class="icon-play"></i> Versionshinweise...
-                  </a>
+            <div class="panel-group" id="accordion2">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion2" href="#version-hints">
+                      <i class="icon-play"></i> Versionshinweise...
+                    </a>
+                  </h4>
                 </div>
-                <div id="collapseOne" class="accordion-body collapse">
-                  <div class="accordion-inner">
+                <div id="version-hints" class="panel-collapse collapse">
+                  <div class="panel-body">
                     <h4>Version 0.6 <span class="muted">(16.10.2013)</span></h4>
                     <ul>
                       <li>Wartet mit neu gestalteten Bedienelementen auf.</li>
@@ -336,10 +340,12 @@
                   </div>
                 </div>
               </div>
+              </div>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-default" id="warning-close" data-dismiss="modal" aria-hidden="true" data-loading-text="Lädt Karte...">Los!</button>
+              </div>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button class="btn" id="warning-close" data-dismiss="modal" aria-hidden="true" data-loading-text="Lädt Karte...">Los!</button>
           </div>
         </div>
 
@@ -365,7 +371,7 @@
           </div>
 
           <div id="fullscreenMenuRight"  class="menu">
-            <div id="toggle-fullscreen" class="btn"><i class="icon-fullscreen"></i> Vollbild</div>
+            <div id="toggle-fullscreen" class="btn btn-default"><i class="icon-fullscreen"></i> Vollbild</div>
           </div>
 
           <!-- timeline -->
@@ -374,18 +380,18 @@
             <div id="tlMenuLeft"  class="menu">
               <div class="btn-toolbar header-button-bottom tlMenu">
                 <div class="btn-group">
-                  <a id="histPlayer1" class="btn playBtn"><i class="icon-play"></i></a>
-                  <a id="histPlayer2" class="btn playBtn"><i class="icon-play"></i><i class="icon-play"></i></a>
-                  <a id="histPlayer3" class="btn playBtn"><i class="icon-play"></i><i class="icon-play"></i><i class="icon-play"></i></a>
+                  <a id="histPlayer1" class="btn playBtn btn-default"><i class="icon-play"></i></a>
+                  <a id="histPlayer2" class="btn playBtn btn-default"><i class="icon-play"></i><i class="icon-play"></i></a>
+                  <a id="histPlayer3" class="btn playBtn btn-default"><i class="icon-play"></i><i class="icon-play"></i><i class="icon-play"></i></a>
                 </div>
               </div>
              </div>
 
              <div id="tlMenuRight"  class="menu">
               <div class="btn-toolbar header-button-bottom tlMenu">
-                <div class="btn-group">
-                  <a id="toggle-2D" class="btn active" onClick="load2D()">2D</a>
-                  <a id="toggle-3D" class="btn" onClick="load3D()">3D</a>
+                <div class="btn-group" id="display-mode-switch">
+                  <a id="toggle-2D" class="btn btn-default active" onClick="load2D()">2D</a>
+                  <a id="toggle-3D" class="btn btn-default" onClick="load3D()">3D</a>
                 </div>
               </div>
             </div>
@@ -410,7 +416,7 @@
             </div>
           </div>
         </div>
-
       </div>
+
   </body>
 </html>
