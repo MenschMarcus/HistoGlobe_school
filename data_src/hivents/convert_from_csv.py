@@ -106,11 +106,15 @@ def main():
           mm_html_string += "\t</ul>\n"
 
         #create html
+        date_string = hivent_startDate
+        if hivent_startDate != hivent_endDate:
+          date_string += '-' + hivent_endDate
+
         html_name = hivent_id + ".htm"
         html_target = open(html_path + html_name, "w")
         html_target.write('<div class = \"hiventInfoPopoverContent\">\n' +
                            '\t<h3>' + hivent_location + ', ' +
-                           hivent_startDate + '-' + hivent_endDate + '</h3>\n' +
+                           date_string+ '</h3>\n' +
                            mm_html_string +
                            '\t<p>\n\t\t' +
                            hivent_description +
