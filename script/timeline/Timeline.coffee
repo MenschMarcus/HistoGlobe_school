@@ -73,15 +73,15 @@ class HG.Timeline
       else
         if @_interval < YEAR_INTERVALS.length - 1
 
-          # stop zooming when interval is to big for 
+          # stop zooming when interval is to big for
           # interval of hole timeline (minDate and maxDate)
-          if @_minDate < 0
+          if @_minDate.getFullYear() < 0
             mY = @_minDate.getFullYear() * -1
           else
             mY = @_minDate.getFullYear()
           maxScale = @_maxDate.getFullYear() - mY
-          console.log "Timeline length in years " + maxScale + " \nmax Year: " + @_maxDate.getFullYear() + " \nmin Year: " + @_minYear + 
-          if YEAR_INTERVALS[@_interval] * 2 < maxScale
+          numberOfIntervals = @_tlWidth / YEAR_MARKER_WIDTH
+          if YEAR_INTERVALS[@_interval] * numberOfIntervals < maxScale
             @_interval++
       #@_updateNowMarker()
       @_clearYearMarkers()
