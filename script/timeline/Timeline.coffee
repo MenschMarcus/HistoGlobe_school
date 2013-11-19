@@ -26,7 +26,7 @@ class HG.Timeline
     @_tlWidth   = @_tlDiv.offsetWidth
 
     # index to YEAR_INTERVALS
-    @_interval      = 3
+    @_interval  = 3
 
     # create doubly linked list for year markers
     @_yearMarkers   = new HG.YearMarkerList()
@@ -51,7 +51,7 @@ class HG.Timeline
         mousePosX = e.pageX
         moveDist = mousePosX - @_lastMousePosX
         @_nowMarker.setPos moveDist + @_nowMarker.getPos()
-        @_updateYearMarkerPositions()
+        @_updateYearMarkerPositions(false)
         @_updateNowMarker()
         @_loadYearMarkers(false)
         @_lastMousePosX = mousePosX
@@ -60,7 +60,7 @@ class HG.Timeline
       if @_clicked
         @_clicked = false
         @_updateNowMarker()
-        @_updateYearMarkerPositions()
+        @_updateYearMarkerPositions(false)
         @_clearYearMarkers()
         @_lastMousePosX = e.pageX
         @_enableTextSelection()
@@ -72,21 +72,34 @@ class HG.Timeline
           @_interval--
       else
         if @_interval < YEAR_INTERVALS.length - 1
-          @_interval++
-      @_updateNowMarker()
+
+          # stop zooming when interval is to big for 
+          # interval of hole timeline (minDate and maxDate)
+          if @_minDate < 0
+            mY = @_minDate.getFullYear() * -1
+          else
+            mY = @_minDate.getFullYear()
+          maxScale = @_maxDate.getFullYear() - mY
+          console.log "Timeline length in years " + maxScale + " \nmax Year: " + @_maxDate.getFullYear() + " \nmin Year: " + @_minYear + 
+          if YEAR_INTERVALS[@_interval] * 2 < maxScale
+            @_interval++
+      #@_updateNowMarker()
       @_clearYearMarkers()
-      @_updateYearMarkerPositions()
+      @_updateYearMarkerPositions(false)
       @_loadYearMarkers(true)
 
   _scrollMotionBlur: (slowDownValue, scrollSpeed, pos) ->
 
     # TODO: motion blur after scrolling
 
-  _updateYearMarkerPositions: ->
+  _updateYearMarkerPositions: (animation) ->
     i = 0
     while i < @_yearMarkers.getLength()
       date = @_yearMarkers.get(i).nodeData.getDate()
-      @_yearMarkers.get(i).nodeData.setPos @_dateToPosition date
+      if(!animation)
+        @_yearMarkers.get(i).nodeData.setPos @_dateToPosition date
+      else
+        @_yearMarkers.get(i).nodeData.moveTo 500, @_dateToPosition date
       i++
 
   _clearYearMarkers: ->
@@ -107,7 +120,7 @@ class HG.Timeline
     # remove overlapping year markers
     i = 0
     while i < @_yearMarkers.getLength()
-      temp = (@_nowMarker.getDate().getFullYear() - @_yearMarkers.get(i).nodeData.getDate().getFullYear()) % YEAR_INTERVALS[@_interval]
+      temp = (@_yearMarkers.get(i).nodeData.getDate().getFullYear()) % YEAR_INTERVALS[@_interval]
       if temp != 0
         @_yearMarkers.get(i).nodeData.destroy()
         @_yearMarkers.remove(i)
@@ -115,6 +128,9 @@ class HG.Timeline
         i++
 
   _fillGaps: ->
+
+    # when overlapping year markers and year markers which are not fit to the scale are removed
+    # gaps have to be filled with new year markers, and thats is happening here
     i = 0
     while i < @_yearMarkers.getLength() - 1
       if YEAR_INTERVALS[@_interval] < (@_yearMarkers.get(i + 1).nodeData.getDate().getFullYear() - @_yearMarkers.get(i).nodeData.getDate().getFullYear())
@@ -130,26 +146,31 @@ class HG.Timeline
     while drawn is true
       drawn = false
 
-      dateLeft = @_nowMarker.getDate()
+      # round date first, so only year markers fit on scale will be shown
+      dateLeft =  @_roundDate @_nowMarker.getDate()
       until dateLeft < @_yearMarkers.get(0).nodeData.getDate()
         dateLeft = @_yearToDate(dateLeft.getFullYear() - YEAR_INTERVALS[@_interval])
       xPosLeft = @_dateToPosition(dateLeft)
 
-      dateRight = @_nowMarker.getDate()
+      # round date first, so only year markers fit on scale will be shown
+      dateRight = @_roundDate @_nowMarker.getDate()
       until dateRight > @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getDate()
         dateRight = @_yearToDate(dateRight.getFullYear() + YEAR_INTERVALS[@_interval])
       xPosRight = @_dateToPosition(dateRight)
 
-      if xPosLeft > 0 - YEAR_MARKER_WIDTH
+      # is new year marker needed?
+      if xPosLeft > 0 - YEAR_MARKER_WIDTH and dateLeft > @_minDate
         drawn = true
-        newYearMarker = new HG.YearMarker(dateLeft, xPosLeft, @_tlDiv, YEAR_MARKER_WIDTH)
+        newYearMarker = new HG.YearMarker(dateLeft, @_dateToPosition(dateLeft), @_tlDiv, YEAR_MARKER_WIDTH)
         @_yearMarkers.addFirst(newYearMarker)
 
-      if xPosRight < @_tlWidth + YEAR_MARKER_WIDTH
+      # is new year marker needed?
+      if xPosRight < @_tlWidth + YEAR_MARKER_WIDTH and dateRight < @_maxDate
         drawn = true
-        newYearMarker = new HG.YearMarker(dateRight, xPosRight, @_tlDiv, YEAR_MARKER_WIDTH)
+        newYearMarker = new HG.YearMarker(dateRight, @_dateToPosition(dateRight), @_tlDiv, YEAR_MARKER_WIDTH)
         @_yearMarkers.addLast(newYearMarker)
 
+    # are there gaps in the timeline to fill?
     if fillGaps
       @_fillGaps()
 
@@ -180,6 +201,9 @@ class HG.Timeline
     date = new Date(0)
     date.setFullYear year
     date
+
+  _roundDate : (date) ->
+    @_yearToDate(Math.round(date.getFullYear() / YEAR_INTERVALS[@_interval]) * YEAR_INTERVALS[@_interval])
 
   _disableTextSelection : (e) ->  return false
   _enableTextSelection : () ->    return true
