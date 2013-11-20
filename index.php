@@ -93,6 +93,8 @@
           $('#display-mode-switch').popover({container: 'body', animation:true, title:elem_title, content:elem_content, html:true, placement:"top"});
         }
 
+        $('.hg-tooltip').tooltip();
+
         loadGLHeader();
 
       });
