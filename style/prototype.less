@@ -1,5 +1,4 @@
 body {
-  text-align: justify;
   padding: 0px;
   margin: 0px;
   overflow: hidden;
@@ -24,6 +23,16 @@ body {
   width: @right_menu_width;
   .bordered-interface-element();
   .border-radius(@roundness * 3px 0 0 @roundness * 3px);
+}
+
+#editMenu {
+  .border-radius(0 0 @roundness * 3px 0);
+  .bordered-interface-element();
+  top: 0px;
+  padding: 8px 8px 8px 8px;
+  position: absolute;
+  width: @right_menu_width;
+  left: 0;
 }
 
 #fullscreenMenuRight {
