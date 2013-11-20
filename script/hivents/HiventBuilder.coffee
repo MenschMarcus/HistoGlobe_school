@@ -39,9 +39,9 @@ class HG.HiventBuilder
           galleryTag = "[" + galleryID + "]"
         for id in hiventMMIDs
           $.ajax({
-              url: "script/hivents/query_database.php?dbName=hivents&tableName=hivent_multimedia&condition=ID=" + "'#{id}'",
+              url: "php/query_database.php?dbName=hivents&tableName=hivent_multimedia&condition=ID=" + "'#{id}'",
               success: (data) =>
-                console.log id
+                # console.log id
                 cols = data.split "|"
 
                 mm = @_createMultiMedia cols[1], cols[2], cols[3]
@@ -52,7 +52,7 @@ class HG.HiventBuilder
                                   mm.thumbnail + '\" width=\"60px\" /></a></li>\n'
                 if id == hiventMMIDs[hiventMMIDs.length-1]
                   mmHtmlString += "\t</ul>\n"
-                  console.log mmHtmlString
+                  # console.log mmHtmlString
             })
 
 

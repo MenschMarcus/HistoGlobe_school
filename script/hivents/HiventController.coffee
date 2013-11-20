@@ -47,7 +47,7 @@ class HG.HiventController
   # ============================================================================
   _initHivents: (pathToHivents) ->
     $.ajax({
-            url: "script/hivents/query_database.php?dbName=hivents&tableName=hivent_data&lowerLimit=0&upperLimit=100",
+            url: "php/query_database.php?dbName=hivents&tableName=hivent_data&lowerLimit=0&upperLimit=100",
             success: (data) =>
               builder = new HG.HiventBuilder()
               rows = data.split "\n"
