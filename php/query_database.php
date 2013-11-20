@@ -34,7 +34,7 @@ if ($result = $mysqli->query($query)) {
   while ($row = $result->fetch_row()) {
     $row_len = sizeof($row);
     for ($i=0; $i<$row_len; ++$i) {
-      echo $row[$i] . "|";
+      echo  utf8_encode($row[$i]) . "|";
     }
     echo "\n";
   }

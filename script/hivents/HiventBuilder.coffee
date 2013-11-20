@@ -12,8 +12,10 @@ class HG.HiventBuilder
   constructor: () ->
 
   # ============================================================================
-  constructHivent: (dataString) ->
+  constructHiventFromString: (dataString, successCallback) ->
     if dataString != ""
+      successCallback?= (hivent) -> console.log hivent
+
       columns = dataString.split("|")
 
       hiventID          = columns[0]
@@ -27,9 +29,9 @@ class HG.HiventBuilder
       hiventCategory    = columns[8]
       hiventMMIDs       = columns[9]
 
-      mmHtmlString = ""
+      mmHtmlString = ''
 
-      #get corresponding multimedia
+      #get related multimedia
       if hiventMMIDs != ""
         galleryID = hiventID + "_gallery"
         mmHtmlString = '\t<ul class=\"gallery clearfix\">\n'
@@ -37,11 +39,12 @@ class HG.HiventBuilder
         galleryTag = ""
         if hiventMMIDs.length > 1
           galleryTag = "[" + galleryID + "]"
+
+        #get all related entries from multimedia database and concatenate html string
         for id in hiventMMIDs
           $.ajax({
               url: "php/query_database.php?dbName=hivents&tableName=hivent_multimedia&condition=ID=" + "'#{id}'",
               success: (data) =>
-                # console.log id
                 cols = data.split "|"
 
                 mm = @_createMultiMedia cols[1], cols[2], cols[3]
@@ -50,17 +53,67 @@ class HG.HiventBuilder
                                   galleryTag + '\" title=\"' +
                                   mm.description + '\"> <img src=\"' +
                                   mm.thumbnail + '\" width=\"60px\" /></a></li>\n'
-                if id == hiventMMIDs[hiventMMIDs.length-1]
-                  mmHtmlString += "\t</ul>\n"
-                  # console.log mmHtmlString
-            })
 
+
+                #if all related multimedia has been fetched, continue hivent construction
+                if cols[0] == hiventMMIDs[hiventMMIDs.length-1]
+                  mmHtmlString += "\t</ul>\n"
+
+                  successCallback @_createHivent(hiventName, hiventDescription, hiventStartDate,
+                                          hiventEndDate, hiventLocation, hiventLong, hiventLat,
+                                          hiventCategory, mmHtmlString)
+
+            })
+      else
+        successCallback @_createHivent(hiventName, hiventDescription, hiventStartDate,
+                                    hiventEndDate, hiventLocation, hiventLong, hiventLat,
+                                    hiventCategory, '')
 
   ############################### INIT FUNCTIONS ###############################
 
 
 
   ############################# MAIN FUNCTIONS #################################
+  _createHivent: (hiventName, hiventDescription, hiventStartDate,
+                  hiventEndDate, hiventLocation, hiventLong, hiventLat,
+                  hiventCategory, mmHtmlString) ->
+
+    #check whether there is a date range
+    dateString = hiventStartDate
+    if hiventStartDate != hiventEndDate
+      dateString += "-" + hiventEndDate
+
+    #check whether location is set
+    locationString = ''
+    if hiventLocation != ''
+      locationString = hiventLocation + ','
+
+    #concatenate content
+    content = '\t<h3>' + locationString + dateString + '</h3>\n' +
+              mmHtmlString +
+              '\t<p>\n\t\t' +
+              hiventDescription +
+              '\n\t<p>\n'
+
+    startDate = hiventStartDate.split '.'
+    endDate = hiventEndDate.split '.'
+
+    hivent = new HG.Hivent(
+      hiventName,
+      startDate[2],
+      startDate[1],
+      startDate[0],
+      endDate[2],
+      endDate[1],
+      endDate[0],
+      hiventLong,
+      hiventLat,
+      hiventCategory,
+      content
+    )
+
+    hivent
+
 
   # ============================================================================
   _createMultiMedia: (type, description, link) ->

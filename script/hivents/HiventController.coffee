@@ -52,33 +52,36 @@ class HG.HiventController
               builder = new HG.HiventBuilder()
               rows = data.split "\n"
               for row in rows
-                builder.constructHivent row
+                builder.constructHiventFromString row, (hivent) =>
+                  @_hiventHandles.push(new HG.HiventHandle hivent)
 
+                @_hiventsChanged = true
+                @_filterHivents();
           })
 
-    $.getJSON(pathToHivents, (hivents) =>
-      for h in hivents
-        hivent = new HG.Hivent(
-          h.name,
-          h.startYear,
-          h.startMonth,
-          h.startDay,
-          h.endYear,
-          h.endMonth,
-          h.endDay,
-          h.long,
-          h.lat,
-          h.category,
-          h.content,
-        )
+    # $.getJSON(pathToHivents, (hivents) =>
+    #   for h in hivents
+    #     hivent = new HG.Hivent(
+    #       h.name,
+    #       h.startYear,
+    #       h.startMonth,
+    #       h.startDay,
+    #       h.endYear,
+    #       h.endMonth,
+    #       h.endDay,
+    #       h.long,
+    #       h.lat,
+    #       h.category,
+    #       h.content,
+    #     )
 
-        @_hiventHandles.push(new HG.HiventHandle hivent)
+    #     @_hiventHandles.push(new HG.HiventHandle hivent)
 
-      @_hiventsChanged = true
+    #   @_hiventsChanged = true
 
-      @_filterHivents();
+    #   @_filterHivents();
 
-    )
+    # )
 
   ############################# MAIN FUNCTIONS #################################
 

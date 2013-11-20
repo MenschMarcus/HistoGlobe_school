@@ -70,23 +70,24 @@ class HG.HiventInfoPopover
   show: =>
     unless @_contentLoaded
       content = document.createElement "div"
-      $(content).load @_hiventHandle.getHivent().content, () =>
-        @_bodyDiv.appendChild content
-        if content.offsetHeight < @_height
-          @_bodyDiv.setAttribute "height", "#{@_height}px"
+      content.className = "hiventInfoPopoverContent"
+      content.innerHTML = @_hiventHandle.getHivent().content
+      @_bodyDiv.appendChild content
+      if content.offsetHeight < @_height
+        @_bodyDiv.setAttribute "height", "#{@_height}px"
 
-        if content.offsetWidth > @_width
-          @_resize(content.offsetWidth, @_height)
+      if content.offsetWidth > @_width
+        @_resize(content.offsetWidth, @_height)
 
-        $("a[rel^='prettyPhoto']").prettyPhoto {
-          animation_speed:'normal',
-          theme:'light_square',
-          slideshow:3000,
-          autoplay_slideshow: false,
-          hideflash: true
-        }
+      $("a[rel^='prettyPhoto']").prettyPhoto {
+        animation_speed:'normal',
+        theme:'light_square',
+        slideshow:3000,
+        autoplay_slideshow: false,
+        hideflash: true
+      }
 
-        @_contentLoaded = true
+      @_contentLoaded = true
 
     @_mainDiv.style.visibility = "visible"
     @_raphael.canvas.style.visibility = "visible"
