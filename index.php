@@ -47,6 +47,7 @@
     <script type="text/javascript" src="build/Display3D.js"></script>
     <script type="text/javascript" src="build/Hivent.js"></script>
     <script type="text/javascript" src="build/Display2D.js"></script>
+    <script type="text/javascript" src="build/HiventBuilder.js"></script>
     <script type="text/javascript" src="build/HiventController.js"></script>
     <script type="text/javascript" src="build/HiventHandle.js"></script>
     <script type="text/javascript" src="build/HiventInfoPopover.js"></script>
