@@ -69,7 +69,8 @@ class HG.Timeline
       e.preventDefault()
       if e.wheelDeltaY > 0
         if @_interval > 0
-          @_interval--
+          #@_interval--
+          @_interval -= 0.1
       else
         if @_interval < YEAR_INTERVALS.length - 1
 
@@ -81,9 +82,12 @@ class HG.Timeline
             mY = @_minDate.getFullYear()
           maxScale = @_maxDate.getFullYear() - mY
           numberOfIntervals = @_tlWidth / YEAR_MARKER_WIDTH
-          if YEAR_INTERVALS[@_interval] * numberOfIntervals < maxScale
-            @_interval++
+          if YEAR_INTERVALS[Math.round(@_interval)] * numberOfIntervals < maxScale
+            #@_interval++
+            @_interval += 0.1
       #@_updateNowMarker()
+      t = @_interval - Math.round(@_interval)
+      YEAR_MARKER_WIDTH += t * (YEAR_MARKER_WIDTH / 2)
       @_clearYearMarkers()
       @_updateYearMarkerPositions(false)
       @_loadYearMarkers(true)
@@ -120,7 +124,7 @@ class HG.Timeline
     # remove overlapping year markers
     i = 0
     while i < @_yearMarkers.getLength()
-      temp = (@_yearMarkers.get(i).nodeData.getDate().getFullYear()) % YEAR_INTERVALS[@_interval]
+      temp = (@_yearMarkers.get(i).nodeData.getDate().getFullYear()) % YEAR_INTERVALS[Math.round(@_interval)]
       if temp != 0
         @_yearMarkers.get(i).nodeData.destroy()
         @_yearMarkers.remove(i)
@@ -133,8 +137,8 @@ class HG.Timeline
     # gaps have to be filled with new year markers, and thats is happening here
     i = 0
     while i < @_yearMarkers.getLength() - 1
-      if YEAR_INTERVALS[@_interval] < (@_yearMarkers.get(i + 1).nodeData.getDate().getFullYear() - @_yearMarkers.get(i).nodeData.getDate().getFullYear())
-        dateBetween = @_yearToDate (@_yearMarkers.get(i).nodeData.getDate().getFullYear() + YEAR_INTERVALS[@_interval])
+      if YEAR_INTERVALS[Math.round(@_interval)] < (@_yearMarkers.get(i + 1).nodeData.getDate().getFullYear() - @_yearMarkers.get(i).nodeData.getDate().getFullYear())
+        dateBetween = @_yearToDate (@_yearMarkers.get(i).nodeData.getDate().getFullYear() + YEAR_INTERVALS[Math.round(@_interval)])
         newYearMarker = new HG.YearMarker(dateBetween, @_dateToPosition(dateBetween), @_tlDiv, YEAR_MARKER_WIDTH)
         @_yearMarkers.insertAfter(i, newYearMarker)
       i++
@@ -149,13 +153,13 @@ class HG.Timeline
       # round date first, so only year markers fit on scale will be shown
       dateLeft =  @_roundDate @_nowMarker.getDate()
       until dateLeft < @_yearMarkers.get(0).nodeData.getDate()
-        dateLeft = @_yearToDate(dateLeft.getFullYear() - YEAR_INTERVALS[@_interval])
+        dateLeft = @_yearToDate(dateLeft.getFullYear() - YEAR_INTERVALS[Math.round(@_interval)])
       xPosLeft = @_dateToPosition(dateLeft)
 
       # round date first, so only year markers fit on scale will be shown
       dateRight = @_roundDate @_nowMarker.getDate()
       until dateRight > @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getDate()
-        dateRight = @_yearToDate(dateRight.getFullYear() + YEAR_INTERVALS[@_interval])
+        dateRight = @_yearToDate(dateRight.getFullYear() + YEAR_INTERVALS[Math.round(@_interval)])
       xPosRight = @_dateToPosition(dateRight)
 
       # is new year marker needed?
@@ -188,10 +192,10 @@ class HG.Timeline
 
     # TODO: difference between year markers which are shown and real now date
     @_nowMarker = @_yearMarkers.get(nId).nodeData
-    console.log "Timeline:\n     Current now date: " + @_nowMarker.getDate().getFullYear() + "\n     Time interval: " + YEAR_INTERVALS[@_interval]
+    console.log "Timeline:\n     Current now date: " + @_nowMarker.getDate().getFullYear() + "\n     Time interval: " + YEAR_INTERVALS[Math.round(@_interval)]
 
   _dateToPosition: (date) ->
-    yearDiff = (date.getFullYear() - @_nowMarker.getDate().getFullYear()) / YEAR_INTERVALS[@_interval]
+    yearDiff = (date.getFullYear() - @_nowMarker.getDate().getFullYear()) / YEAR_INTERVALS[Math.round(@_interval)]
     xPos = (yearDiff * YEAR_MARKER_WIDTH) + (@_nowMarker.getPos())
 
     # TODO: logarithmic view
@@ -203,7 +207,7 @@ class HG.Timeline
     date
 
   _roundDate : (date) ->
-    @_yearToDate(Math.round(date.getFullYear() / YEAR_INTERVALS[@_interval]) * YEAR_INTERVALS[@_interval])
+    @_yearToDate(Math.round(date.getFullYear() / YEAR_INTERVALS[Math.round(@_interval)]) * YEAR_INTERVALS[Math.round(@_interval)])
 
   _disableTextSelection : (e) ->  return false
   _enableTextSelection : () ->    return true
