@@ -297,14 +297,14 @@
         // new timeline
         if (!timelineInitialized)
         {
-          timeline = new HG.Timeline(1850, 1750, 2010, document.getElementById("timeline"));
+          timeline = new HG.Timeline(1850, 1750, 2010, document.getElementById("timeline"), document.getElementById("now_marker"));
 
         }
 
-        if(typeof nowMarker !== "undefined" || nowMarker !== null)
+        /*if(typeof nowMarker !== "undefined" || nowMarker !== null)
         {
           nowMarker = new HG.NowMarker(document.getElementById("timeline"), document.getElementById("now_marker"));
-        }
+        }*/
 
 
         // old timeline
@@ -505,6 +505,8 @@
           <!-- Now Marker in middle of page -->
           <div id="now_marker">
             <div id="now_marker_in">
+              <div id="now_marker_play"> play </div>
+              <input type="date" name="now_date" id="now_date_input">
             </div>
           </div>
 

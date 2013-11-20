@@ -10,9 +10,10 @@ class HG.Timeline
   YEAR_INTERVALS = [1,2,5,10,20,50,100,200,500,1000,2000,5000,10000]
 
   # year marker width
+  # TODO: could be calculated by first node (nowMarker) and screen resolution
   YEAR_MARKER_WIDTH = 70
 
-  constructor: (nowYear, minYear, maxYear, timelineDiv) ->
+  constructor: (nowYear, minYear, maxYear, timelineDiv, nowMarkerDiv) ->
 
     # convert years to date objects
     @_minDate = @_yearToDate minYear
@@ -41,6 +42,9 @@ class HG.Timeline
     @_clicked   = false;
     @_lastMousePosX = 0;
 
+    # create now marker box in middle of page
+    @_nowMarkerBox = new HG.NowMarker(@_tlDiv, nowMarkerDiv)
+
     @_tlDiv.onmousedown = (e) =>
       @_clicked   = true
       @_lastMousePosX = e.pageX
@@ -50,8 +54,9 @@ class HG.Timeline
       if @_clicked
         mousePosX = e.pageX
         moveDist = mousePosX - @_lastMousePosX
-        if((moveDist > 0 and @_nowMarker.getDate().getFullYear() > @_roundDate(@_minDate).getFullYear()) or (moveDist < 0 and @_nowMarker.getDate().getFullYear() < @_roundDate(@_maxDate).getFullYear()))
-          console.log "MouseMove:\n     nowDate: " + @_nowMarker.getDate().getFullYear() + "\n     minDate: " + @_roundDate(@_minDate).getFullYear() + " \n     Distance: " + moveDist
+
+        # stop scrolling timeline when min or max is reached
+        if((moveDist > 0 and @_yearMarkers.get(0).nodeData.getPos() + YEAR_MARKER_WIDTH / 2 < @_tlWidth / 2) or (moveDist < 0 and @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getPos() + YEAR_MARKER_WIDTH / 2 > @_tlWidth / 2))
           @_nowMarker.setPos moveDist + @_nowMarker.getPos()
           @_updateYearMarkerPositions(false)
           @_updateNowMarker()
@@ -72,7 +77,7 @@ class HG.Timeline
       if e.wheelDeltaY > 0
         if @_interval > 0
           @_interval--
-          #@_interval -= 0.1
+          #@_interval -= 0.5
       else
         if @_interval < YEAR_INTERVALS.length - 1
 
@@ -86,13 +91,25 @@ class HG.Timeline
           numberOfIntervals = @_tlWidth / YEAR_MARKER_WIDTH
           if YEAR_INTERVALS[Math.round(@_interval)] * numberOfIntervals < maxScale
             @_interval++
-            #@_interval += 0.1
+            #@_interval += 0.5
       #@_updateNowMarker()
-      #t = @_interval - Math.round(@_interval)
-      #YEAR_MARKER_WIDTH += t * (YEAR_MARKER_WIDTH / 2)
       @_clearYearMarkers()
       @_updateYearMarkerPositions(false)
       @_loadYearMarkers(true)
+      #@_highlightIntervals()
+
+  _highlightIntervals: ->
+    if Math.round(@_interval) + 3 < YEAR_INTERVALS.length
+      i = 0
+      while i < @_yearMarkers.getLength()
+        if(@_yearMarkers.get(i).nodeData.getDate().getFullYear() % YEAR_INTERVALS[Math.round(@_interval) + 3] == 0)
+          @_yearMarkers.get(i).nodeData.highlight(1)
+        else
+          if(@_yearMarkers.get(i).nodeData.getDate().getFullYear() % YEAR_INTERVALS[Math.round(@_interval) + 2] == 0)
+            @_yearMarkers.get(i).nodeData.highlight(2)
+          else
+            @_yearMarkers.get(i).nodeData.highlight(0)
+        i++
 
   _scrollMotionBlur: (slowDownValue, scrollSpeed, pos) ->
 
@@ -180,6 +197,8 @@ class HG.Timeline
     if fillGaps
       @_fillGaps()
 
+    @_highlightIntervals()
+
   _updateNowMarker: (dist) ->
     smallestDis = null
     i = 0
@@ -197,8 +216,11 @@ class HG.Timeline
     console.log "Timeline:\n     Current now date: " + @_nowMarker.getDate().getFullYear() + "\n     Time interval: " + YEAR_INTERVALS[Math.round(@_interval)]
 
   _dateToPosition: (date) ->
+
+    # TODO: calculate real position
+
     yearDiff = (date.getFullYear() - @_nowMarker.getDate().getFullYear()) / YEAR_INTERVALS[Math.round(@_interval)]
-    xPos = (yearDiff * YEAR_MARKER_WIDTH) + (@_nowMarker.getPos())
+    xPos = (yearDiff * YEAR_MARKER_WIDTH + (@_nowMarker.getPos()))
 
     # TODO: logarithmic view
     #       (Math.log yearDiff / Math.log 10)

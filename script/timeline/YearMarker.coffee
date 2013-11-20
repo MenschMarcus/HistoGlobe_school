@@ -45,6 +45,14 @@ class HG.YearMarker
   getPos : () -> @_pos
   getDate : () -> @_date
 
+  highlight: (step) ->
+    if step == 2
+      @_yearMarkerDiv.className = "yearMarkerH2"
+    if step == 1
+      @_yearMarkerDiv.className = "yearMarkerH1"
+    if step == 0
+      @_yearMarkerDiv.className = "yearMarker"
+
   destroy : () ->
     $(@_yearMarkerDiv).fadeOut()
     @_parentDiv.removeChild @_yearMarkerDiv
