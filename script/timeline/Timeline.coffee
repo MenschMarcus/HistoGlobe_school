@@ -50,10 +50,12 @@ class HG.Timeline
       if @_clicked
         mousePosX = e.pageX
         moveDist = mousePosX - @_lastMousePosX
-        @_nowMarker.setPos moveDist + @_nowMarker.getPos()
-        @_updateYearMarkerPositions(false)
-        @_updateNowMarker()
-        @_loadYearMarkers(false)
+        if((moveDist > 0 and @_nowMarker.getDate().getFullYear() > @_roundDate(@_minDate).getFullYear()) or (moveDist < 0 and @_nowMarker.getDate().getFullYear() < @_roundDate(@_maxDate).getFullYear()))
+          console.log "MouseMove:\n     nowDate: " + @_nowMarker.getDate().getFullYear() + "\n     minDate: " + @_roundDate(@_minDate).getFullYear() + " \n     Distance: " + moveDist
+          @_nowMarker.setPos moveDist + @_nowMarker.getPos()
+          @_updateYearMarkerPositions(false)
+          @_updateNowMarker()
+          @_loadYearMarkers(false)
         @_lastMousePosX = mousePosX
 
     @_body.onmouseup = (e) =>
@@ -69,8 +71,8 @@ class HG.Timeline
       e.preventDefault()
       if e.wheelDeltaY > 0
         if @_interval > 0
-          #@_interval--
-          @_interval -= 0.1
+          @_interval--
+          #@_interval -= 0.1
       else
         if @_interval < YEAR_INTERVALS.length - 1
 
@@ -83,11 +85,11 @@ class HG.Timeline
           maxScale = @_maxDate.getFullYear() - mY
           numberOfIntervals = @_tlWidth / YEAR_MARKER_WIDTH
           if YEAR_INTERVALS[Math.round(@_interval)] * numberOfIntervals < maxScale
-            #@_interval++
-            @_interval += 0.1
+            @_interval++
+            #@_interval += 0.1
       #@_updateNowMarker()
-      t = @_interval - Math.round(@_interval)
-      YEAR_MARKER_WIDTH += t * (YEAR_MARKER_WIDTH / 2)
+      #t = @_interval - Math.round(@_interval)
+      #YEAR_MARKER_WIDTH += t * (YEAR_MARKER_WIDTH / 2)
       @_clearYearMarkers()
       @_updateYearMarkerPositions(false)
       @_loadYearMarkers(true)
@@ -163,13 +165,13 @@ class HG.Timeline
       xPosRight = @_dateToPosition(dateRight)
 
       # is new year marker needed?
-      if xPosLeft > 0 - YEAR_MARKER_WIDTH and dateLeft > @_minDate
+      if xPosLeft > 0 - YEAR_MARKER_WIDTH and dateLeft.getFullYear() >= @_minDate.getFullYear()
         drawn = true
         newYearMarker = new HG.YearMarker(dateLeft, @_dateToPosition(dateLeft), @_tlDiv, YEAR_MARKER_WIDTH)
         @_yearMarkers.addFirst(newYearMarker)
 
       # is new year marker needed?
-      if xPosRight < @_tlWidth + YEAR_MARKER_WIDTH and dateRight < @_maxDate
+      if xPosRight < @_tlWidth + YEAR_MARKER_WIDTH and dateRight.getFullYear() <= @_maxDate.getFullYear()
         drawn = true
         newYearMarker = new HG.YearMarker(dateRight, @_dateToPosition(dateRight), @_tlDiv, YEAR_MARKER_WIDTH)
         @_yearMarkers.addLast(newYearMarker)
