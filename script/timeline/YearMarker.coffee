@@ -6,25 +6,25 @@ class HG.YearMarker
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
-  constructor: (date, pos, parentDiv, width) ->
+  constructor: (date, pos, parentDiv) ->
     @_date = date
     @_pos = pos
     @_parentDiv = parentDiv
-    @_width = width
+    #@_width = width
 
     # create HTML div
     @_yearMarkerDiv = document.createElement "div"
     @_yearMarkerDiv.id = "year" + @_date.getFullYear()
     @_yearMarkerDiv.className = "yearMarker"
     @_yearMarkerDiv.style.left = @_pos + "px"
-    @_yearMarkerDiv.style.width = @_width + "px"
+    #@_yearMarkerDiv.style.width = @_width + "px"
     @_yearMarkerDiv.innerHTML = '<p>'+@_date.getFullYear()+'</p>'
 
     # add to DOM
     @_parentDiv.appendChild @_yearMarkerDiv
 
     # show year marker with nice fade in effect from jQuery
-    $(@_yearMarkerDiv).fadeIn()
+    $(@_yearMarkerDiv).fadeIn(400)
 
   # ============================================================================
   ###setDate : (date) ->
@@ -45,6 +45,8 @@ class HG.YearMarker
   getPos : () -> @_pos
   getDate : () -> @_date
 
+  getWidth : () -> width = @_yearMarkerDiv.offsetWidth
+
   highlight: (step) ->
     if step == 2
       @_yearMarkerDiv.className = "yearMarkerH2"
@@ -54,5 +56,5 @@ class HG.YearMarker
       @_yearMarkerDiv.className = "yearMarker"
 
   destroy : () ->
-    $(@_yearMarkerDiv).fadeOut()
-    @_parentDiv.removeChild @_yearMarkerDiv
+    $(@_yearMarkerDiv).fadeOut(400, `function() { $(this).remove(); }`);
+

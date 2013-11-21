@@ -69,7 +69,8 @@ class HG.DoublyLinkedList
 		if index >= 0 or index < @_length
 			if index == 0
 				@_head = @_head.next
-				@_head.prev = null
+				if @_length > 1
+					@_head.prev = null
 			else
 				if index == @_length - 1
 					@_tail = @_tail.prev
