@@ -16,8 +16,7 @@ class HG.YearMarker
     @_yearMarkerDiv = document.createElement "div"
     @_yearMarkerDiv.id = "year" + @_date.getFullYear()
     @_yearMarkerDiv.className = "yearMarker"
-    @_yearMarkerDiv.style.left = @_pos + "px"
-    #@_yearMarkerDiv.style.width = @_width + "px"
+    @_yearMarkerDiv.style.left = @_pos + "px"    
     @_yearMarkerDiv.innerHTML = '<p>'+@_date.getFullYear()+'</p>'
 
     # add to DOM
@@ -34,6 +33,9 @@ class HG.YearMarker
   setPos : (pos) ->
     @_pos = pos
     @_yearMarkerDiv.style.left = @_pos + "px"
+
+  setWidth : (width) ->
+    @_yearMarkerDiv.style.width = width + "px"
 
   moveTo : (time, pos) ->
     @_pos = pos

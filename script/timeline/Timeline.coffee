@@ -29,6 +29,7 @@ class HG.Timeline
     # add now marker to doubly linked list
     @_nowMarker = new HG.YearMarker(@_yearToDate(nowYear), 0, @_tlDiv)
     @_yearMarkerWidth = @_nowMarker.getWidth() * 2
+    @_nowMarker.setWidth @_yearMarkerWidth
     @_nowMarker.setPos(@_tlWidth/2 - @_yearMarkerWidth/2)
     @_yearMarkers.addFirst(@_nowMarker)    
 
@@ -42,6 +43,7 @@ class HG.Timeline
 
     # create now marker box in middle of page
     @_nowMarkerBox = new HG.NowMarker(@_tlDiv, nowMarkerDiv)
+    @_nowMarkerBox.setNowDate(@_nowMarker.getDate())
 
     @_tlDiv.onmousedown = (e) =>
       @_clicked   = true
@@ -74,7 +76,8 @@ class HG.Timeline
       e.preventDefault()
       zoom = false
       if e.wheelDeltaY > 0
-        if @_zoomLevel > 0
+        #if @_zoomLevel > 0
+        if @_zoomLevel > 0.4
           @_zoomLevel -= 0.1
           zoom = true
       else
@@ -89,6 +92,8 @@ class HG.Timeline
         if @_timeInterval(@_zoomLevel) * numberOfIntervals < maxScale
           @_zoomLevel += 0.1
           zoom = true
+
+      console.log "Timeline: \n     ZoomLevel: " + @_zoomLevel
       
       # execute changed year interval
       # if interval was changed
@@ -158,6 +163,7 @@ class HG.Timeline
       if @_timeInterval(@_zoomLevel) < (@_yearMarkers.get(i + 1).nodeData.getDate().getFullYear() - @_yearMarkers.get(i).nodeData.getDate().getFullYear())
         dateBetween = @_yearToDate (@_yearMarkers.get(i).nodeData.getDate().getFullYear() + @_timeInterval(@_zoomLevel))
         newYearMarker = new HG.YearMarker(dateBetween, @_dateToPosition(dateBetween), @_tlDiv)
+        newYearMarker.setWidth @_yearMarkerWidth
         @_yearMarkers.insertAfter(i, newYearMarker)
       i++
 
@@ -184,12 +190,14 @@ class HG.Timeline
       if xPosLeft > 0 - @_yearMarkerWidth and dateLeft.getFullYear() >= @_minDate.getFullYear()
         drawn = true
         newYearMarker = new HG.YearMarker(dateLeft, @_dateToPosition(dateLeft), @_tlDiv)
+        newYearMarker.setWidth @_yearMarkerWidth
         @_yearMarkers.addFirst(newYearMarker)
 
       # is new year marker needed?
       if xPosRight < @_tlWidth + @_yearMarkerWidth and dateRight.getFullYear() <= @_maxDate.getFullYear()
         drawn = true
         newYearMarker = new HG.YearMarker(dateRight, @_dateToPosition(dateRight), @_tlDiv)
+        newYearMarker.setWidth @_yearMarkerWidth
         @_yearMarkers.addLast(newYearMarker)
 
     # are there gaps in the timeline to fill?
@@ -223,6 +231,7 @@ class HG.Timeline
         nId = i
       i++
     @_nowMarker = @_yearMarkers.get(nId).nodeData
+    @_nowMarkerBox.setNowDate(@_nowMarker.getDate())
 
   _dateToPosition: (date) ->
 

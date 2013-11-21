@@ -506,7 +506,7 @@
           <div id="now_marker">
             <div id="now_marker_in">
               <div id="now_marker_play"> play </div>
-              <input type="date" name="now_date" id="now_date_input">
+              <input type="number" name="now_date" id="now_date_input" size="7">
             </div>
           </div>
 

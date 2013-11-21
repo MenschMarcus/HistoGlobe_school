@@ -16,9 +16,12 @@ class HG.NowMarker
         @_mainDiv.style.visibility = "visible";
 
         # middle point of circle
-        @_middlePointX  = window.innerWidth / 2
-        @_middlePointY  = window.innerHeight - @_tlDiv.offsetHeight
-        @_radius        = @_mainDiv.offsetHeight
+        @_middlePointX      = window.innerWidth / 2
+        @_middlePointY      = window.innerHeight - @_tlDiv.offsetHeight
+        @_radius            = @_mainDiv.offsetHeight
+        
+
+        @_dateInputField    = document.getElementById("now_date_input")
 
         # output to test vars
         # console.log "NowMarker: Parameter:"
@@ -47,3 +50,6 @@ class HG.NowMarker
         ys = ys * ys
 
         return Math.sqrt xs + ys
+
+    setNowDate: (date) ->
+        @_dateInputField.value = date.getFullYear()
