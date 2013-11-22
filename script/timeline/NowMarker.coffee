@@ -6,7 +6,8 @@ class HG.NowMarker
     #                            PUBLIC INTERFACE                                #
     ##############################################################################
 
-    constructor: (tlDiv, mainDiv) ->
+    constructor: (tlDiv, mainDiv, timeline) ->
+        @_timeline  = timeline
         @_mainDiv   = mainDiv
         @_tlDiv     = tlDiv
 
@@ -22,6 +23,7 @@ class HG.NowMarker
         
 
         @_dateInputField    = document.getElementById("now_date_input")
+        @_playButton        = document.getElementById("now_marker_play")
 
         # output to test vars
         # console.log "NowMarker: Parameter:"
@@ -29,14 +31,23 @@ class HG.NowMarker
         # console.log "   div height: " + @_mainDiv.offsetHeight
         # console.log "   div bottom: " + $(@_mainDiv).css "bottom"
         # console.log "   div left: " + $(@_mainDiv).css "left"
-
+        @_clicked = false
         @_mainDiv.onmousedown = (e) =>
             if((@_distanceToMiddlepoint(e) - 85) >= 0)
                 console.log "scale was clicked"
+                @_clicked = true
 
         document.body.onmousemove = (e) =>
 
         document.body.onmouseup = (e) =>
+            if @_clicked
+                @_clicked = false
+                console.log "timeline speed " + (e.pageX - @_middlePointX)
+                timeline.setSpeed(e.pageX - @_middlePointX)
+
+        @_playButton.onclick = (e) =>
+            console.log "playbutton was clicked"
+            @animationSwitch()
 
     # ============================================================================
     _distanceToMiddlepoint : (e) ->
@@ -53,3 +64,11 @@ class HG.NowMarker
 
     setNowDate: (date) ->
         @_dateInputField.value = date.getFullYear()
+
+    animationSwitch: ->        
+        if @_timeline.getPlayStatus()
+            @_timeline.stopTimeline()
+            @_playButton.innerHTML = "PLAY"
+        else 
+            @_timeline.playTimeline()
+            @_playButton.innerHTML = "STOP"

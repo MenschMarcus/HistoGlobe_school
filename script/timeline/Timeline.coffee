@@ -46,8 +46,13 @@ class HG.Timeline
     @_lastMousePosX = 0;
 
     # create now marker box in middle of page
-    @_nowMarkerBox = new HG.NowMarker(@_tlDiv, nowMarkerDiv)
+    @_nowMarkerBox = new HG.NowMarker(@_tlDiv, nowMarkerDiv, @)
     @_nowMarkerBox.setNowDate(@_nowMarker.getDate())
+
+    # set animation for timeline play
+    @_play = false
+    @_speed = 0 
+    setInterval @_animTimeline, 100
 
     @_tlDiv.onmousedown = (e) =>
       @_clicked   = true
@@ -274,4 +279,30 @@ class HG.Timeline
     Math.round(number * factor) / factor
 
   _disableTextSelection : (e) ->  return false
-  _enableTextSelection : () ->    return true
+  _enableTextSelection : () ->    return true   
+
+  # functions to move timeline periodic
+  _animTimeline: =>
+    if @_play
+      if((@_speed >= 0 and @_yearMarkers.get(0).nodeData.getPos() + @_yearMarkerWidth / 2 < @_tlWidth / 2) or (@_speed < 0 and @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getPos() + @_yearMarkerWidth / 2 > @_tlWidth / 2))
+        @_nowMarker.setPos @_speed + @_nowMarker.getPos()
+        @_updateYearMarkerPositions(false)
+        @_updateNowMarker()
+        @_loadYearMarkers(false)
+      else
+        @_nowMarkerBox.animationSwitch()
+
+
+  stopTimeline: ->
+    @_play = false
+
+  playTimeline: ->
+    @_play = true
+
+  setSpeed: (speed) ->
+    @_speed = speed
+
+  getPlayStatus: ->
+    @_play
+
+
