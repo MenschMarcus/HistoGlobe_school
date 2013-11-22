@@ -28,10 +28,14 @@ class HG.Timeline
     # create first now marker and get width of year markers from it
     # add now marker to doubly linked list
     @_nowMarker = new HG.YearMarker(@_yearToDate(nowYear), 0, @_tlDiv)
-    @_yearMarkerWidth = @_nowMarker.getWidth() * 2
+    @_yearMarkerWidth = @_nowMarker.getWidth() * 2    
     @_nowMarker.setWidth @_yearMarkerWidth
     @_nowMarker.setPos(@_tlWidth/2 - @_yearMarkerWidth/2)
     @_yearMarkers.addFirst(@_nowMarker)    
+
+    # get standard font size from now marker
+    @_fontSize = $(@_nowMarker.getDiv()).css('font-size')
+    @_fontSize = @_fontSize.substring(0,@_fontSize.length - 2)
 
     # create and draw year markers on right position
     @_loadYearMarkers(false)
@@ -76,8 +80,7 @@ class HG.Timeline
       e.preventDefault()
       zoom = false
       if e.wheelDeltaY > 0
-        #if @_zoomLevel > 0
-        if @_zoomLevel > 0.4
+        if @_zoomLevel > 0
           @_zoomLevel -= 0.1
           zoom = true
       else
@@ -89,7 +92,7 @@ class HG.Timeline
           mY = @_minDate.getFullYear()
         maxScale = @_maxDate.getFullYear() - mY
         numberOfIntervals = @_tlWidth / @_yearMarkerWidth
-        if @_timeInterval(@_zoomLevel) * numberOfIntervals < maxScale
+        if @_timeInterval(@_zoomLevel, false) * numberOfIntervals < maxScale
           @_zoomLevel += 0.1
           zoom = true
 
@@ -104,15 +107,21 @@ class HG.Timeline
         @_loadYearMarkers(true)
 
   _highlightIntervals: ->
+
+    # set the font size of year markers in relation to the shown time interval
+    diff = (@_zoomLevel - Math.round(@_zoomLevel)) * 2
     i = 0
     while i < @_yearMarkers.getLength()
-      if(@_yearMarkers.get(i).nodeData.getDate().getFullYear() % @_timeInterval(@_zoomLevel + 2) == 0)
+      if(@_yearMarkers.get(i).nodeData.getDate().getFullYear() % @_timeInterval(@_zoomLevel + 2, false) == 0)
         @_yearMarkers.get(i).nodeData.highlight(1)
       else
-        if(@_yearMarkers.get(i).nodeData.getDate().getFullYear() % @_timeInterval(@_zoomLevel + 1) == 0)
+        if(@_yearMarkers.get(i).nodeData.getDate().getFullYear() % @_timeInterval(@_zoomLevel + 1, false) == 0)
           @_yearMarkers.get(i).nodeData.highlight(2)
         else
-          @_yearMarkers.get(i).nodeData.highlight(0)
+          @_yearMarkers.get(i).nodeData.highlight(0)          
+          if diff > 0            
+            @_yearMarkers.get(i).nodeData.getDiv().style.fontSize = (1 - diff) * @_fontSize + "px"
+            @_yearMarkers.get(i).nodeData.getDiv().style.opacity = (1 - diff)
       i++
 
   _scrollMotionBlur: (slowDownValue, scrollSpeed, pos) ->
@@ -147,7 +156,7 @@ class HG.Timeline
     # remove overlapping year markers
     i = 0
     while i < @_yearMarkers.getLength()
-      temp  = (@_yearMarkers.get(i).nodeData.getDate().getFullYear()) % @_timeInterval(@_zoomLevel)
+      temp  = (@_yearMarkers.get(i).nodeData.getDate().getFullYear()) % @_timeInterval(@_zoomLevel, false)
       if temp != 0
         @_yearMarkers.get(i).nodeData.destroy()
         @_yearMarkers.remove(i)
@@ -160,8 +169,8 @@ class HG.Timeline
     # gaps have to be filled with new year markers, and thats is happening here
     i = 0
     while i < @_yearMarkers.getLength() - 1
-      if @_timeInterval(@_zoomLevel) < (@_yearMarkers.get(i + 1).nodeData.getDate().getFullYear() - @_yearMarkers.get(i).nodeData.getDate().getFullYear())
-        dateBetween = @_yearToDate (@_yearMarkers.get(i).nodeData.getDate().getFullYear() + @_timeInterval(@_zoomLevel))
+      if @_timeInterval(@_zoomLevel, false) < (@_yearMarkers.get(i + 1).nodeData.getDate().getFullYear() - @_yearMarkers.get(i).nodeData.getDate().getFullYear())
+        dateBetween = @_yearToDate (@_yearMarkers.get(i).nodeData.getDate().getFullYear() + @_timeInterval(@_zoomLevel, false))
         newYearMarker = new HG.YearMarker(dateBetween, @_dateToPosition(dateBetween), @_tlDiv)
         newYearMarker.setWidth @_yearMarkerWidth
         @_yearMarkers.insertAfter(i, newYearMarker)
@@ -177,13 +186,13 @@ class HG.Timeline
       # round date first, so only year markers fit on scale will be shown
       dateLeft =  @_roundDate @_nowMarker.getDate()
       until dateLeft < @_yearMarkers.get(0).nodeData.getDate()
-        dateLeft = @_yearToDate(dateLeft.getFullYear() - @_timeInterval(@_zoomLevel))
+        dateLeft = @_yearToDate(dateLeft.getFullYear() - @_timeInterval(@_zoomLevel, false))
       xPosLeft = @_dateToPosition(dateLeft)
 
       # round date first, so only year markers fit on scale will be shown
       dateRight = @_roundDate @_nowMarker.getDate()
       until dateRight > @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getDate()
-        dateRight = @_yearToDate(dateRight.getFullYear() + @_timeInterval(@_zoomLevel))
+        dateRight = @_yearToDate(dateRight.getFullYear() + @_timeInterval(@_zoomLevel, false))
       xPosRight = @_dateToPosition(dateRight)
 
       # is new year marker needed?
@@ -208,16 +217,25 @@ class HG.Timeline
     # for example all 5,10,50,100 years
     @_highlightIntervals()
 
-  _timeInterval: (index) ->
-
-    # static way to get year intervals
+  _timeInterval: (index, exact) ->
     yearIntervals = [1,5,10,50,100,500,1000,5000,10000,50000,100000,500000,1000000,5000000]
-    yearIntervals[Math.round(index)]
+    if exact and index > 0
+      i = 0
+      while index > i
+        i++
+      next = i
+      prev = i - 1
+      dis = index - prev
+      res = yearIntervals[prev] + (yearIntervals[next] - yearIntervals[prev]) * dis
+    else
+      # static way to get year intervals      
+      res = yearIntervals[Math.round(index)]  
+    res
 
-    # Calclate years from index (index >= 0) for e function
-    #res = Math.round(Math.pow(Math.E, index))
+      # Calclate years from index (index >= 0) for e function
+      #res = Math.round(Math.pow(Math.E, index))
 
-    # TODO: calculate via interpolated time scale
+      # TODO: calculate via interpolated time scale
 
   _updateNowMarker: (dist) ->
     smallestDis = null
@@ -235,12 +253,12 @@ class HG.Timeline
 
   _dateToPosition: (date) ->
 
-      # old version to show year marker on linear scale
-      #yearDiff = (date.getFullYear() - @_nowMarker.getDate().getFullYear()) / @_timeInterval(@_zoomLevel)    
+    # old version to show year marker on linear scale
+    yearDiff = (date.getFullYear() - @_nowMarker.getDate().getFullYear()) / @_timeInterval(@_zoomLevel, true)    
 
     # calculate position of year markers with exact zoom level
     # on logarithmic timescale
-    yearDiff = (date.getFullYear() - @_nowMarker.getDate().getFullYear()) / Math.round(Math.pow(Math.E, @_zoomLevel))
+    #yearDiff = (date.getFullYear() - @_nowMarker.getDate().getFullYear()) / Math.round(Math.pow(Math.E, @_zoomLevel))
     xPos = (yearDiff * @_yearMarkerWidth + (@_nowMarker.getPos()))
 
   _yearToDate : (year) ->
@@ -249,7 +267,7 @@ class HG.Timeline
     date
 
   _roundDate : (date) ->
-    @_yearToDate(Math.round(date.getFullYear() / @_timeInterval(@_zoomLevel)) * @_timeInterval(@_zoomLevel))
+    @_yearToDate(Math.round(date.getFullYear() / @_timeInterval(@_zoomLevel, false)) * @_timeInterval(@_zoomLevel, false))
 
   _roundNumber : (number, n) ->
     factor = Math.pow(10,n)

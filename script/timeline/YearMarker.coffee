@@ -55,7 +55,7 @@ class HG.YearMarker
     if step == 1
       @_yearMarkerDiv.className = "yearMarkerH1"
     if step == 0
-      @_yearMarkerDiv.className = "yearMarker"
+      @_yearMarkerDiv.className = "yearMarker"      
 
   destroy : () ->
     $(@_yearMarkerDiv).fadeOut(400, `function() { $(this).remove(); }`);
