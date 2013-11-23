@@ -20,10 +20,19 @@ class HG.NowMarker
         @_middlePointX      = window.innerWidth / 2
         @_middlePointY      = window.innerHeight - @_tlDiv.offsetHeight
         @_radius            = @_mainDiv.offsetHeight
-        
+
 
         @_dateInputField    = document.getElementById("now_date_input")
         @_playButton        = document.getElementById("now_marker_play")
+
+        # set position of sign for now marker
+        @_sign        = document.getElementById("now_marker_sign")
+        @_sign.style.left = window.innerWidth / 2 - 10 + "px"
+        #@_sign.style.bottom = @_tlDiv.offsetHeight + "px"
+
+        # pointer for speed
+        @_pointer        = document.getElementById("now_marker_pointer")
+        $(@_pointer).rotate(45);
 
         # output to test vars
         # console.log "NowMarker: Parameter:"
@@ -65,10 +74,12 @@ class HG.NowMarker
     setNowDate: (date) ->
         @_dateInputField.value = date.getFullYear()
 
-    animationSwitch: ->        
+    animationSwitch: ->
         if @_timeline.getPlayStatus()
             @_timeline.stopTimeline()
-            @_playButton.innerHTML = "PLAY"
-        else 
+            #@_playButton.innerHTML = "PLAY"
+            @_playButton.innerHTML = "<img src='img/timeline/playIcon.png'>"
+        else
             @_timeline.playTimeline()
-            @_playButton.innerHTML = "STOP"
+            #@_playButton.innerHTML = "STOP"
+            @_playButton.innerHTML = "<img src='img/timeline/pauseIcon.png'>"

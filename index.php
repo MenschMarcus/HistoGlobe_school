@@ -50,6 +50,7 @@
     <script type="text/javascript" src="script/third-party/jquery.browser.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.disable.text.select.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.mousewheel.js"></script>
+    <script type="text/javascript" src="script/third-party/jquery.rotate.js"></script>
     <script type="text/javascript" src="script/third-party/bootstrap.min.js"></script>
     <script type="text/javascript" src="script/third-party/RequestAnimationFrame.js"></script>
     <script type="text/javascript" src="script/third-party/three.min.js"></script>
@@ -505,15 +506,20 @@
           <!-- Now Marker in middle of page -->
           <div id="now_marker">
             <div id="now_marker_in">
-              <div id="now_marker_play"> play </div>
-              <input type="number" name="now_date" id="now_date_input" size="7">
+              <div id="now_marker_play">
+                <img src="img/timeline/playIcon.png" />
+              </div>
+              <input type="number" name="now_date" id="now_date_input" size="4">
             </div>
+            <img src="img/timeline/pointer.png" id="now_marker_pointer" />
           </div>
 
           <!-- timeline NEW -->
           <div id="timeline">
 
           </div>
+
+          <img src="img/timeline/nowMarkerSmall.png" id="now_marker_sign">
 
           <!-- timeline OLD-->
 <!--      <div id="tlContainer">
