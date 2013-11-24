@@ -505,13 +505,13 @@
 
           <!-- Now Marker in middle of page -->
           <div id="now_marker">
+            <img src="img/timeline/pointer.png" id="now_marker_pointer" />
             <div id="now_marker_in">
               <div id="now_marker_play">
                 <img src="img/timeline/playIcon.png" />
               </div>
               <input type="number" name="now_date" id="now_date_input" size="4">
             </div>
-            <img src="img/timeline/pointer.png" id="now_marker_pointer" />
           </div>
 
           <!-- timeline NEW -->
