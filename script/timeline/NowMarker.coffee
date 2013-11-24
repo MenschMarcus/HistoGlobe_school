@@ -32,7 +32,7 @@ class HG.NowMarker
 
         # pointer for speed
         @_pointer        = document.getElementById("now_marker_pointer")
-        $(@_pointer).rotate(45);
+        $(@_pointer).rotate(0)
 
         # output to test vars
         # console.log "NowMarker: Parameter:"
@@ -45,14 +45,19 @@ class HG.NowMarker
             if((@_distanceToMiddlepoint(e) - 85) >= 0)
                 console.log "scale was clicked"
                 @_clicked = true
+                @_disableTextSelection e
 
         document.body.onmousemove = (e) =>
+            if @_clicked
+                $(@_pointer).rotate(@_angleOnCircle(e))
 
         document.body.onmouseup = (e) =>
             if @_clicked
                 @_clicked = false
                 console.log "timeline speed " + (e.pageX - @_middlePointX)
                 timeline.setSpeed(e.pageX - @_middlePointX)
+                $(@_pointer).rotate(@_angleOnCircle(e))
+                @_enableTextSelection()
 
         @_playButton.onclick = (e) =>
             console.log "playbutton was clicked"
@@ -71,6 +76,31 @@ class HG.NowMarker
 
         return Math.sqrt xs + ys
 
+    _angleOnCircle : (e) ->
+        mY = window.innerHeight - @_middlePointY
+
+        fac = 180 / Math.PI
+
+        vectorAX = 0
+        vectorAY = 100
+
+        vectorBX = e.pageX - @_middlePointX
+        vectorBY = window.innerHeight - e.pageY - mY
+
+        console.log "Vector B: " + vectorBX + " / " + vectorBY
+
+        res = vectorAX * vectorBX + vectorAY * vectorBY
+
+        res2a = Math.sqrt(Math.pow(vectorAX, 2) + Math.pow(vectorAY, 2))
+        res2b = Math.sqrt(Math.pow(vectorBX, 2) + Math.pow(vectorBY, 2))
+        res2 = res / (res2a * res2b)
+        yippi = Math.acos(res2) * fac
+        console.log "angle: " + yippi + " out of " + res2
+        if e.pageX < @_middlePointX
+            yippi *= -1
+        yippi
+
+
     setNowDate: (date) ->
         @_dateInputField.value = date.getFullYear()
 
@@ -83,3 +113,8 @@ class HG.NowMarker
             @_timeline.playTimeline()
             #@_playButton.innerHTML = "STOP"
             @_playButton.innerHTML = "<img src='img/timeline/pauseIcon.png'>"
+
+    _disableTextSelection : (e) ->  return false
+    _enableTextSelection : () ->    return true
+
+
