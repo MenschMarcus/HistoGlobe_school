@@ -13,33 +13,64 @@ class HG.HiventDatabaseInterface
     @_databaseName = databaseName
 
   # ============================================================================
-  getHivents: (tableName, selector = "*",
-               lowerLimit = "0", upperLimit = "1",
-               condition = "",
-               successCallback ) =>
+  # config =
+  #   tableName: string -- name of the table
+  #   selector: string -- mysql selector such as *
+  #   condition: string -- mysql condition such as id == H1
+  #   lowerLimit: int -- minum number of hivents to fetch
+  #   upperLimit: int -- maximum number of hivents to fetch
+  #   success: function -- triggered when fetching was successful
 
-    if (tableName?)
-      successCallback?= (data) -> console.log data
+  getHivents: (config) =>
 
-       $.ajax({
-            url: "php/query_database.php?dbName=#{@_databaseName}&tableName=#{tableName}&lowerLimit=#{lowerLimit}&upperLimit=#{upperLimit}",
-            success: (data) =>
-              builder = new HG.HiventBuilder()
-              # rows = data.split "\n"
-              # for row in rows
-              #   builder.constructHiventFromDBString row, (hivent) =>
-              #     @_hiventHandles.push new HG.HiventHandle hivent
-              #     $.ajax({
-              #               data: hivent,
-              #               type: "POST",
-              #               url: "php/add_hivent.php?dbName=hivents&tableName=test",
-              #               success: (data) =>
-              #                 console.log data
-              #       })
-              #   @_hiventsChanged = true
-              #   @_filterHivents();
+    if (config.tableName?)
 
+      config.condition?= ""
+      config.selector?= "*"
+      config.lowerLimit?= 0
+      config.upperLimit?= 1
 
-          })
+      config.success?= (data) -> console.log data
+
+      $.ajax({
+          url: "php/query_database.php?" +
+                "dbName=#{@_databaseName}" +
+                "&tableName=#{config.tableName}" +
+                "&lowerLimit=#{config.lowerLimit}" +
+                "&upperLimit=#{config.upperLimit}" +
+                "&condition=#{config.condition}" +
+                "&selector=#{config.selector}",
+          type: "GET",
+          success: config.success
+        })
     else
       console.error "Unable to get hivents: No table name specified!"
+
+# ============================================================================
+  # config =
+  #   tableName: string -- name of the table
+  #   hivents: Array() -- hivents to be added
+  #   success: function -- triggered for each successfully added hivent
+
+  addHivents: (config) =>
+
+    if (config.tableName?)
+
+      if (config.hivents? and config.hivents.length > 0)
+
+        config.success?= (data) -> console.log data if data != ""
+
+        for hivent in config.hivents
+          $.ajax({
+              url: "php/add_hivent.php?" +
+                    "dbName=#{@_databaseName}" +
+                    "&tableName=#{config.tableName}"
+              type: "POST",
+              data: hivent,
+              success: config.success
+            })
+      else
+        console.error "Unable to add hivents: No hivents given!"
+    else
+      console.error "Unable to add hivents: No table name specified!"
+

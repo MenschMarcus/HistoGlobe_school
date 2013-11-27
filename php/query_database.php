@@ -7,6 +7,8 @@ $condition  = strval($_GET['condition']);
 $lowerLimit = intval($_GET['lowerLimit']);
 $upperLimit = intval($_GET['upperLimit']);
 
+echo "php";
+
 // create connection
 $mysqli = new mysqli("localhost", "root", "1234", $dbName);
 
