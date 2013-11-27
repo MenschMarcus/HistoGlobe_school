@@ -1,6 +1,6 @@
 #include Hivent.coffee
 #include HiventHandle.coffee
-#include HiventController.coffee
+#include HiventDatabaseInterface.coffee
 
 window.HG ?= {}
 
@@ -46,23 +46,25 @@ class HG.HiventController
 
   # ============================================================================
   _initHivents: (pathToHivents) ->
+    dbInterface = new HG.HiventDatabaseInterface()
+    dbInterface.getHivents()
     $.ajax({
             url: "php/query_database.php?dbName=hivents&tableName=hivent_data&lowerLimit=0&upperLimit=100",
             success: (data) =>
               builder = new HG.HiventBuilder()
-              rows = data.split "\n"
-              for row in rows
-                builder.constructHiventFromDBString row, (hivent) =>
-                  @_hiventHandles.push new HG.HiventHandle hivent
-                  $.ajax({
-                            data: hivent,
-                            type: "POST",
-                            url: "php/add_hivent.php?dbName=hivents&tableName=test",
-                            success: (data) =>
-                              console.log data
-                    })
-                @_hiventsChanged = true
-                @_filterHivents();
+              # rows = data.split "\n"
+              # for row in rows
+              #   builder.constructHiventFromDBString row, (hivent) =>
+              #     @_hiventHandles.push new HG.HiventHandle hivent
+              #     $.ajax({
+              #               data: hivent,
+              #               type: "POST",
+              #               url: "php/add_hivent.php?dbName=hivents&tableName=test",
+              #               success: (data) =>
+              #                 console.log data
+              #       })
+              #   @_hiventsChanged = true
+              #   @_filterHivents();
 
 
           })
