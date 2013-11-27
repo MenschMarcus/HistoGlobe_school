@@ -52,12 +52,21 @@ class HG.HiventController
               builder = new HG.HiventBuilder()
               rows = data.split "\n"
               for row in rows
-                builder.constructHiventFromString row, (hivent) =>
-                  @_hiventHandles.push(new HG.HiventHandle hivent)
-
+                builder.constructHiventFromDBString row, (hivent) =>
+                  @_hiventHandles.push new HG.HiventHandle hivent
+                  $.ajax({
+                            data: hivent,
+                            type: "POST",
+                            url: "php/add_hivent.php?dbName=hivents&tableName=test",
+                            success: (data) =>
+                              console.log data
+                    })
                 @_hiventsChanged = true
                 @_filterHivents();
+
+
           })
+
 
     # $.getJSON(pathToHivents, (hivents) =>
     #   for h in hivents

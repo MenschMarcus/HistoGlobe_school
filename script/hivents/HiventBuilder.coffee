@@ -12,7 +12,7 @@ class HG.HiventBuilder
   constructor: () ->
 
   # ============================================================================
-  constructHiventFromString: (dataString, successCallback) ->
+  constructHiventFromDBString: (dataString, successCallback) ->
     if dataString != ""
       successCallback?= (hivent) -> console.log hivent
 
@@ -26,7 +26,7 @@ class HG.HiventBuilder
       hiventLocation    = columns[5]
       hiventLong        = columns[7]
       hiventLat         = columns[6]
-      hiventCategory    = columns[8]
+      hiventCategory    = if columns[8] == '' then 'default' else columns[8]
       hiventMMIDs       = columns[9]
 
       mmHtmlString = ''
@@ -59,24 +59,37 @@ class HG.HiventBuilder
                 if cols[0] == hiventMMIDs[hiventMMIDs.length-1]
                   mmHtmlString += "\t</ul>\n"
 
-                  successCallback @_createHivent(hiventName, hiventDescription, hiventStartDate,
+                  successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
                                           hiventEndDate, hiventLocation, hiventLong, hiventLat,
-                                          hiventCategory, mmHtmlString)
+                                          hiventCategory, hiventMMIDs, mmHtmlString)
 
             })
       else
-        successCallback @_createHivent(hiventName, hiventDescription, hiventStartDate,
+        successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
                                     hiventEndDate, hiventLocation, hiventLong, hiventLat,
-                                    hiventCategory, '')
+                                    hiventCategory, hiventMMIDs, '')
+
+  # ============================================================================
+  constructDBStringFromHivent: (hivent, successCallback) ->
+
+    successCallback?= (hiventString) -> console.log hiventString
+
+    hiventString = hivent.id + '|' + hivent.name + '|' + hivent.description + '|' +
+                   hivent.startDay + '.' + hivent.startMonth + '.' + hivent.startYear + '|' +
+                   hivent.endDay + '.' + hivent.endMonth + '.' + hivent.endYear + '|' +
+                   hivent.locationName + '|' + hivent.long + '|' + hivent.lat + '|' +
+                   hivent.category + '|' + hivent.mmIDs
+
+    successCallback hiventString
 
   ############################### INIT FUNCTIONS ###############################
 
 
 
   ############################# MAIN FUNCTIONS #################################
-  _createHivent: (hiventName, hiventDescription, hiventStartDate,
+  _createHivent: (hiventID, hiventName, hiventDescription, hiventStartDate,
                   hiventEndDate, hiventLocation, hiventLong, hiventLat,
-                  hiventCategory, mmHtmlString) ->
+                  hiventCategory, hiventMMIDs, mmHtmlString) ->
 
     #check whether there is a date range
     dateString = hiventStartDate
@@ -99,6 +112,7 @@ class HG.HiventBuilder
     endDate = hiventEndDate.split '.'
 
     hivent = new HG.Hivent(
+      hiventID,
       hiventName,
       startDate[2],
       startDate[1],
@@ -106,10 +120,13 @@ class HG.HiventBuilder
       endDate[2],
       endDate[1],
       endDate[0],
+      hiventLocation,
       hiventLong,
       hiventLat,
       hiventCategory,
-      content
+      content,
+      hiventDescription,
+      hiventMMIDs
     )
 
     hivent
