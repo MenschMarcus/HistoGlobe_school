@@ -12,7 +12,6 @@ class HG.HiventMarker2D
   # ============================================================================
   constructor: (hiventHandle, display, map, markerGroup) ->
 
-
     HG.mixin @, HG.HiventMarker
     HG.HiventMarker.call @, hiventHandle, map.getPanes()["popupPane"]
 
@@ -122,9 +121,7 @@ class HG.HiventMarker2D
     @_map.off "drag", @_updatePosition
     @_map.off "viewreset", @_updatePosition
     @_markerGroup.removeLayer @_marker
-    # delete @_map
-    # delete @_markerGroup
-    # delete @
+
     return
 
   ##############################################################################

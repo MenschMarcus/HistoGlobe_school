@@ -37,9 +37,9 @@
     <script type="text/javascript" src="script/third-party/leaflet.label.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.markercluster.js"></script>
 
-    <script type="text/javascript" src="script/histoglobe.min.js"></script>
+ <!--   <script type="text/javascript" src="script/histoglobe.min.js"></script> -->
 
-<!--
+
     <script type="text/javascript" src="build/Mixin.js"></script>
     <script type="text/javascript" src="build/CallbackContainer.js"></script>
     <script type="text/javascript" src="build/Vector.js"></script>
@@ -50,6 +50,8 @@
     <script type="text/javascript" src="build/HiventController.js"></script>
     <script type="text/javascript" src="build/HiventHandle.js"></script>
     <script type="text/javascript" src="build/HiventInfoPopover.js"></script>
+    <script type="text/javascript" src="build/Path.js"></script>
+    <script type="text/javascript" src="build/ArcPath2D.js"></script>
     <script type="text/javascript" src="build/Area.js"></script>
     <script type="text/javascript" src="build/AreaController.js"></script>
     <script type="text/javascript" src="build/HiventMarker.js"></script>
@@ -59,7 +61,7 @@
     <script type="text/javascript" src="script/timeline/Timeline.js"></script>
     <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
--->
+
     <script type="text/javascript">
       var display2D, display3D, timeline, hiventController, areaController;
       var timelineInitialized = false;
