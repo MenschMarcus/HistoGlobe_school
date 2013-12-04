@@ -28,10 +28,10 @@ class HG.Timeline
     # create first now marker and get width of year markers from it
     # add now marker to doubly linked list
     @_nowMarker = new HG.YearMarker(@_yearToDate(nowYear), 0, @_tlDiv)
-    @_yearMarkerWidth = @_nowMarker.getWidth() * 2    
+    @_yearMarkerWidth = @_nowMarker.getWidth() * 2
     @_nowMarker.setWidth @_yearMarkerWidth
     @_nowMarker.setPos(@_tlWidth/2 - @_yearMarkerWidth/2)
-    @_yearMarkers.addFirst(@_nowMarker)    
+    @_yearMarkers.addFirst(@_nowMarker)
 
     # get standard font size from now marker
     @_fontSize = $(@_nowMarker.getDiv()).css('font-size')
@@ -51,7 +51,7 @@ class HG.Timeline
 
     # set animation for timeline play
     @_play = false
-    @_speed = 0 
+    @_speed = 0
     setInterval @_animTimeline, 100
 
     @_tlDiv.onmousedown = (e) =>
@@ -102,13 +102,13 @@ class HG.Timeline
           zoom = true
 
       console.log "Timeline: \n     ZoomLevel: " + @_zoomLevel
-      
+
       # execute changed year interval
       # if interval was changed
-      if zoom        
+      if zoom
         @_zoomLevel = @_roundNumber(@_zoomLevel, 1)
         @_clearYearMarkers()
-        @_updateYearMarkerPositions(false)      
+        @_updateYearMarkerPositions(false)
         @_loadYearMarkers(true)
 
   _highlightIntervals: ->
@@ -123,8 +123,8 @@ class HG.Timeline
         if(@_yearMarkers.get(i).nodeData.getDate().getFullYear() % @_timeInterval(@_zoomLevel + 1, false) == 0)
           @_yearMarkers.get(i).nodeData.highlight(2)
         else
-          @_yearMarkers.get(i).nodeData.highlight(0)          
-          if diff > 0            
+          @_yearMarkers.get(i).nodeData.highlight(0)
+          if diff > 0
             @_yearMarkers.get(i).nodeData.getDiv().style.fontSize = (1 - diff) * @_fontSize + "px"
             @_yearMarkers.get(i).nodeData.getDiv().style.opacity = (1 - diff)
       i++
@@ -143,7 +143,7 @@ class HG.Timeline
         @_yearMarkers.get(i).nodeData.moveTo 500, @_dateToPosition date
       i++
 
-  _clearYearMarkers: ->    
+  _clearYearMarkers: ->
 
     # remove year marker outside of screen
     i = 0
@@ -218,7 +218,7 @@ class HG.Timeline
     if fillGaps
       @_fillGaps()
 
-    # highlight some year markers with a round date 
+    # highlight some year markers with a round date
     # for example all 5,10,50,100 years
     @_highlightIntervals()
 
@@ -233,8 +233,8 @@ class HG.Timeline
       dis = index - prev
       res = yearIntervals[prev] + (yearIntervals[next] - yearIntervals[prev]) * dis
     else
-      # static way to get year intervals      
-      res = yearIntervals[Math.round(index)]  
+      # static way to get year intervals
+      res = yearIntervals[Math.round(index)]
     res
 
       # Calclate years from index (index >= 0) for e function
@@ -259,7 +259,7 @@ class HG.Timeline
   _dateToPosition: (date) ->
 
     # old version to show year marker on linear scale
-    yearDiff = (date.getFullYear() - @_nowMarker.getDate().getFullYear()) / @_timeInterval(@_zoomLevel, true)    
+    yearDiff = (date.getFullYear() - @_nowMarker.getDate().getFullYear()) / @_timeInterval(@_zoomLevel, true)
 
     # calculate position of year markers with exact zoom level
     # on logarithmic timescale
@@ -279,7 +279,7 @@ class HG.Timeline
     Math.round(number * factor) / factor
 
   _disableTextSelection : (e) ->  return false
-  _enableTextSelection : () ->    return true   
+  _enableTextSelection : () ->    return true
 
   # functions to move timeline periodic
   _animTimeline: =>
