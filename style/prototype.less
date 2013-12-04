@@ -1,35 +1,12 @@
-
-.header-button-top {
-  right: 10px;
-  top: 10px;
-  position: absolute;
-  font-size: 150%;
+body {
+  text-align: justify;
+  padding: 0px;
+  margin: 0px;
+  overflow: hidden;
 }
 
-.header-button-center {
-  margin: 10px auto;
-  bottom: 10px;
-  position: absolute;
-  font-size: 150%;
+#home {
   width: 100%;
-}
-
-#back-link,
-.header-button-top a {
-  color: #777;
-  cursor:pointer;
-}
-
-#video-link,
-.header-button-top a {
-  color: #777;
-  cursor:pointer;
-}
-
-#demo-link,
-.header-button-top a {
-  color: #777;
-  cursor:pointer;
 }
 
 #map-container {
@@ -43,7 +20,41 @@
   position: absolute;
   right: 0px;
   bottom: 200px;
-  .linear-gradient-top(rgba(255,255,255, 0.0), #fff, 0, rgba(218, 218, 218, 1), 50%);
-  border: 1px solid #C4C4C4;
-  .border-radius(@roundness * 6px 0 0 @roundness * 6px);
+
+  width: @right_menu_width;
+  .bordered-interface-element();
+  .border-radius(@roundness * 3px 0 0 @roundness * 3px);
+}
+
+#fullscreenMenuRight {
+  .border-radius(@roundness * 3px 0 0 @roundness * 3px);
+  .bordered-interface-element();
+  bottom: 140px;
+  padding: 8px 8px 8px 8px;
+  position: absolute;
+  width: @right_menu_width;
+  right: 0;
+}
+
+#home {
+  font-size: 14px;
+  text-align: left;
+  line-height: 1.5em;
+}
+
+#version-hints {
+  max-height: 150px;
+  overflow-y: scroll;
+}
+
+.hg {
+  font-family: 'Marcellus SC' !important;
+  font-size: 0.9em !important;
+}
+
+.hg:after {
+  content: "®";
+  position: relative;
+  top: -0.3em;
+  font-size: 0.7em;
 }

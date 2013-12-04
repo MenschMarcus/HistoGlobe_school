@@ -460,7 +460,7 @@ function timeline(hiventController) {
       for (var i=0; i<handles.length; i++) {
 
         var hivent = handles[i].getHivent();
-        var posX = dateToPos(hivent.date);
+        var posX = dateToPos(hivent.startDate);
 
         var hiventMarker = new HG.HiventMarkerTimeline(handles[i],
 																										   tlScroller,
@@ -473,7 +473,7 @@ function timeline(hiventController) {
   function updateHivents() {
 
 		for (var i=0; i<hiventMarkers.length; i++) {
-			var posX = dateToPos(hiventMarkers[i].getHiventHandle().getHivent().date);
+			var posX = dateToPos(hiventMarkers[i].getHiventHandle().getHivent().startDate);
 			hiventMarkers[i].setPosition(posX);
 		}
   }

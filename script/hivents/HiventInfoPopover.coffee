@@ -28,11 +28,11 @@ class HG.HiventInfoPopover
     @_mainDiv.style.top = "#{anchor.at(1) + WINDOW_TO_ANCHOR_OFFSET_Y}px"
     @_mainDiv.style.zIndex = "#{HG.Display.Z_INDEX + 10}"
     @_mainDiv.style.visibility = "hidden"
-    @_mainDiv.addEventListener 'mousedown', @_onMouseDown, false
 
     @_titleDiv = document.createElement "div"
     @_titleDiv.className = "hiventInfoPopoverTitle"
     @_titleDiv.innerHTML = @_hiventHandle.getHivent().name
+    @_titleDiv.addEventListener 'mousedown', @_onMouseDown, false
 
     @_closeDiv = document.createElement "div"
     @_closeDiv.className = "hiventInfoPopoverClose"
@@ -46,7 +46,7 @@ class HG.HiventInfoPopover
     @_mainDiv.appendChild @_titleDiv
     @_mainDiv.appendChild @_bodyDiv
 
-    document.getElementsByTagName("body")[0].appendChild @_mainDiv
+    @_parentDiv.appendChild @_mainDiv
 
     @_centerPos = new HG.Vector 0, 0
     @_updateCenterPos()
@@ -56,13 +56,15 @@ class HG.HiventInfoPopover
     @_raphael.canvas.style.zIndex = "#{HG.Display.Z_INDEX + 9}"
     @_raphael.canvas.style.pointerEvents = "none"
     @_raphael.canvas.style.visibility = "hidden"
+    @_raphael.canvas.style.opacity = 0
     @_raphael.canvas.className.baseVal = "hiventInfoArrow"
 
     @_arrow = @_raphael.path ""
     @_updateArrow()
 
     @_lastMousePos = null
-    @_addedToDOM = false
+
+    @_hiventHandle.onDestruction @, @_destroy
 
   # ============================================================================
   show: =>
@@ -75,7 +77,16 @@ class HG.HiventInfoPopover
 
         if content.offsetWidth > @_width
           @_resize(content.offsetWidth, @_height)
-      @_contentLoaded = true
+
+        $("a[rel^='prettyPhoto']").prettyPhoto {
+          animation_speed:'normal',
+          theme:'light_square',
+          slideshow:3000,
+          autoplay_slideshow: false,
+          hideflash: true
+        }
+
+        @_contentLoaded = true
 
     @_mainDiv.style.visibility = "visible"
     @_raphael.canvas.style.visibility = "visible"
@@ -84,7 +95,7 @@ class HG.HiventInfoPopover
       @_raphael.canvas.style.opacity = 1.0
 
     @_mainDiv.style.opacity = 1.0
-    window.setTimeout showArrow, 100
+    window.setTimeout showArrow, 200
 
   # ============================================================================
   hide: =>
@@ -135,8 +146,6 @@ class HG.HiventInfoPopover
   _resize: (width, height) ->
     @_width = Math.min width, BODY_MAX_WIDTH
     @_height = Math.min height, BODY_MAX_HEIGHT
-    # @_mainDiv.style.width = "#{@_width}px"
-    # @_mainDiv.style.height = "#{@_height}px"
 
   # ============================================================================
   _updateArrow: ->
@@ -157,19 +166,18 @@ class HG.HiventInfoPopover
                           Z"
     @_arrow.attr "fill", "#fff"
     @_arrow.attr "stroke", "#fff"
-    # @_arrow.attr "stroke-linejoin", "round"
-    # @_arrow.attr "stroke-width", "3"
 
   # ============================================================================
   _onMouseDown: (event) =>
+    event.preventDefault()
     @_titleDiv.addEventListener 'mousemove', @_onMouseMove, false
     @_titleDiv.addEventListener 'mouseup', @_onMouseUp, false
     @_titleDiv.addEventListener 'mouseout', @_onMouseOut, false
     @_titleDiv.className = "hiventInfoPopoverTitle grab"
-    event.preventDefault()
 
   # ============================================================================
   _onMouseUp: (event) =>
+    event.preventDefault()
     @_titleDiv.removeEventListener 'mousemove', @_onMouseMove, false
     @_titleDiv.removeEventListener 'mouseup', @_onMouseUp, false
     @_titleDiv.removeEventListener 'mouseout', @_onMouseOut, false
@@ -178,6 +186,7 @@ class HG.HiventInfoPopover
 
   # ============================================================================
   _onMouseMove: (event) =>
+    event.preventDefault()
     currentMousePos = new HG.Vector event.clientX, event.clientY
 
     @_lastMousePos ?= currentMousePos
@@ -200,6 +209,11 @@ class HG.HiventInfoPopover
     @_titleDiv.className = "hiventInfoPopoverTitle"
     @_lastMousePos = null
 
+  # ============================================================================
+  _destroy: () =>
+    @_mainDiv.parentNode.removeChild @_mainDiv
+    @_raphael.canvas.parentNode.removeChild @_raphael.canvas
+
   ##############################################################################
   #                             STATIC MEMBERS                                 #
   ##############################################################################
@@ -207,8 +221,8 @@ class HG.HiventInfoPopover
   ARROW_ROOT_WIDTH = 30
   ARROW_ROOT_OFFSET_X = 0
   ARROW_ROOT_OFFSET_Y = 60
-  WINDOW_TO_ANCHOR_OFFSET_X = 30
-  WINDOW_TO_ANCHOR_OFFSET_Y = -140
+  WINDOW_TO_ANCHOR_OFFSET_X = 80
+  WINDOW_TO_ANCHOR_OFFSET_Y = 40
   BODY_DEFAULT_WIDTH = 200
   BODY_MAX_WIDTH = 400
   BODY_DEFAULT_HEIGHT = 200

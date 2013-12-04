@@ -9,29 +9,30 @@ class HG.HiventMarker
   ##############################################################################
 
   # ============================================================================
-  constructor: (hiventHandle, parent) ->
+  constructor: (hiventHandle, parentDiv) ->
+
+    @_parentDiv = parentDiv
 
     @_hiventHandle = hiventHandle
     @_hiventHandle.onDestruction @, @_destroyMarker
     @_hiventInfo = document.createElement("div")
-    @_hiventInfo.class = "btn"
-    @_hiventInfo.id = "@_hiventInfo_" + HIVENT_INFO_COUNT
+    @_hiventInfo.class = "btn btn-default"
     @_hiventInfo.style.position = "absolute"
     @_hiventInfo.style.left = "0px"
     @_hiventInfo.style.top = "0px"
+    # @_hiventInfo.style.width = "400px"
+    # @_hiventInfo.style.height = "50px"
     @_hiventInfo.style.visibility = "hidden"
     @_hiventInfo.style.pointerEvents = "none"
 
-    if parent
-      parent.appendChild @_hiventInfo
+    if @_parentDiv
+      @_parentDiv.appendChild @_hiventInfo
 
     hivent = @_hiventHandle.getHivent()
 
-    $(@_hiventInfo).tooltip {title: "#{hivent.day}.#{hivent.month}.#{hivent.year} - #{hivent.name}", placement: "top"}
+    $(@_hiventInfo).tooltip {title: "#{hivent.startDay}.#{hivent.startMonth}.#{hivent.startYear} - #{hivent.name}", placement: "top", container:"body"}
 
     @_popover = null
-
-    HIVENT_INFO_COUNT++
 
   # ============================================================================
   getHiventHandle: ->
@@ -49,7 +50,7 @@ class HG.HiventMarker
 
   # ============================================================================
   showHiventInfo: (displayPosition) =>
-    @_popover ?= new HG.HiventInfoPopover(@_hiventHandle, new HG.Vector(0, 0), document.getElementsByTagName("body")[0])
+    @_popover ?= new HG.HiventInfoPopover @_hiventHandle, new HG.Vector(0, 0), HG.Display.CONTAINER
     @_hiventInfo.style.left = displayPosition.x + "px"
     @_hiventInfo.style.top = displayPosition.y + "px"
     @_updatePopoverAnchor displayPosition
@@ -82,11 +83,6 @@ class HG.HiventMarker
 
   # ============================================================================
   _destroyMarker: =>
-    delete @
+    @_hiventInfo.parentNode.removeChild @_hiventInfo
     return
 
-  ##############################################################################
-  #                             STATIC MEMBERS                                 #
-  ##############################################################################
-
-  HIVENT_INFO_COUNT = 0

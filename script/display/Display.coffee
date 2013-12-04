@@ -5,6 +5,9 @@ class HG.Display
   ##############################################################################
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
+  constructor: (container) ->
+    HG.Display.CONTAINER ?= container
+
 
   focus: (hivent) ->
     @center
@@ -16,3 +19,4 @@ class HG.Display
   ##############################################################################
 
   @Z_INDEX = 0
+  @CONTAINER = null

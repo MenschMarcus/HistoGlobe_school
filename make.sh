@@ -22,7 +22,6 @@ cFiles="script/util/Mixin.coffee \
         script/hivents/HiventMarkerTimeline.coffee \
         script/hivents/HiventInfoPopover.coffee \
         script/timeline/NowMarker.coffee \
-        script/timeline/YearMarkerList.coffee \
         script/timeline/DoublyLinkedList.coffee"
 
 jFiles="build/Mixin.js \
@@ -47,7 +46,6 @@ jFiles="build/Mixin.js \
         build/VideoPlayer.js \
         script/util/BrowserDetect.js \
         build/NowMarker.js \
-        build/YearMarkerList.js \
         build/DoublyLinkedList.js"
 
 if [ ! -d "build" ]; then
@@ -56,7 +54,7 @@ fi
 
 coffee -c -o build $cFiles
 
-uglifyjs $jFiles -o script/histoglobe.min.js #-mc
+uglifyjs $jFiles -o script/histoglobe.min.js -mc
 
 lessc --no-color -x style/main.less style/histoglobe.min.css
 

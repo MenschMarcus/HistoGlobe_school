@@ -14,9 +14,9 @@
    height="32px"
    id="svg2985"
    version="1.1"
-   inkscape:version="0.48.3.1 r9886"
+   inkscape:version="0.48.4 r9939"
    sodipodi:docname="icon.svg"
-   inkscape:export-filename="/var/www/HistoGlobe/data/hivent_icons/icon_join.png"
+   inkscape:export-filename="/var/www/HistoGlobe/data/hivent_icons/icon_cluster_highlight.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -46,7 +46,7 @@
     </linearGradient>
     <linearGradient
        inkscape:collect="always"
-       xlink:href="#linearGradient4106"
+       xlink:href="#linearGradient4116"
        id="linearGradient3760"
        x1="15.640628"
        y1="2.8739448"
@@ -206,17 +206,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="16"
-     inkscape:cx="-7.4001328"
-     inkscape:cy="15.159167"
+     inkscape:zoom="11.313709"
+     inkscape:cx="17.436508"
+     inkscape:cy="15.612844"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
      inkscape:document-units="px"
-     inkscape:window-width="1920"
-     inkscape:window-height="1034"
+     inkscape:window-width="1366"
+     inkscape:window-height="709"
      inkscape:window-x="0"
-     inkscape:window-y="24"
+     inkscape:window-y="27"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata2990">
@@ -251,7 +251,7 @@
        y="21.738817"
        id="text2997"
        sodipodi:linespacing="125%"
-       transform="matrix(1.1647231,0,0,1.1647231,-1.3570865,-2.2696278)"><tspan
+       transform="matrix(1.1647231,0,0,1.1647231,58.039883,-3.0651229)"><tspan
          sodipodi:role="line"
          id="tspan2999"
          x="14.780942"
