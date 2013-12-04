@@ -7,14 +7,14 @@ class HG.ArcPath2D extends HG.Path
   ##############################################################################
 
   # ============================================================================
-  constructor: (coordinates, dates, map) ->
+  constructor: (start_hivent, end_hivent, map) ->
 
-    HG.Path.call @, coordinates, dates
+    HG.Path.call @, start_hivent, end_hivent
 
     @_map = map
-    @_arcs = []
+    @_arc = null
 
-    @_createArcs()
+    @_createArc()
 
   # ============================================================================
   getPosition: (date) ->
@@ -37,40 +37,34 @@ class HG.ArcPath2D extends HG.Path
     {a:a, b:b, c:c}
 
   # ============================================================================
-  _createArcs: () ->
+  _createArc: () ->
 
-    coordCount = @_coordinates.length
-    if coordCount > 1
-      for i in [1...coordCount]
-        p1 = @_coordinates[i-1]
-        p1 = new HG.Vector p1.long, p1.lat
-        p2 = @_coordinates[i]
-        p2 = new HG.Vector p2.long, p2.lat
 
-        p3 = new HG.Vector (p2.at(0) + p1.at(0)) / 2, Math.max p2.at(1), p1.at(1)
+    p1 = new HG.Vector @_start_hivent.long, @_start_hivent.lat
+    p2 = new HG.Vector @_end_hivent.long, @_end_hivent.lat
+    p3 = new HG.Vector (p2.at(0) + p1.at(0)) / 2, Math.max p2.at(1), p1.at(1)
 
-        param = @_calculateParabolaParameters p1, p2, p3
+    param = @_calculateParabolaParameters p1, p2, p3
 
-        dist = p2.at(0) - p1.at(0)
+    dist = p2.at(0) - p1.at(0)
 
-        stepSize = dist/RESOLUTION
+    stepSize = dist/RESOLUTION
 
-        arcPoints = []
-        x = p1.at(0)
+    arcPoints = []
+    x = p1.at(0)
 
-        for i in [0..RESOLUTION]
-          y = x*x * param.a + x * param.b + param.c
-          arcPoints.push {lng: x, lat: y}
-          x += stepSize
+    for i in [0..RESOLUTION]
+      y = x*x * param.a + x * param.b + param.c
+      arcPoints.push {lng: x, lat: y}
+      x += stepSize
 
-        polyline = new L.polyline arcPoints
-        @_map.addLayer polyline
-        @_arcs.push polyline
+    @_arc = new L.polyline arcPoints
+    @_map.addLayer @_arc
 
   # ============================================================================
   _destroyArcPath2D: () ->
-    @_map.removeLayer arc for arc in @_arcs
-    @_arcs = []
+    @_map.removeLayer @_arc
+    @_arc = null
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #

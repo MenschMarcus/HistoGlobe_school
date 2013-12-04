@@ -7,14 +7,10 @@ class HG.Path
   ##############################################################################
 
   # ============================================================================
-  constructor: (coordinates, dates) ->
+  constructor: (start_hivent, end_hivent) ->
 
-    unless coordinates.length == dates.length
-      console.error "Cannot construct path: Amounts of coordinates and dates do not match!"
-      return
-
-    @_coordinates = coordinates
-    @_dates = dates
+    @_start_hivent = start_hivent
+    @_end_hivent   = end_hivent
 
   # interpolates between positions
   # implemented in derived classes

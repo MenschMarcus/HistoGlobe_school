@@ -92,6 +92,9 @@ class HG.Display2D extends HG.Display
     @_hiventController.onHiventsChanged (handles) =>
       coords = []
       dates = []
+
+      lastHivent = null
+
       for handle in handles
         marker = new HG.HiventMarker2D handle, this, @_map, @_markerGroup
         coords.push {
@@ -100,7 +103,10 @@ class HG.Display2D extends HG.Display
         }
         dates.push handle.getHivent().endDate
 
-      path = new HG.ArcPath2D(coords, dates, @_map)
+        if lastHivent?
+          path = new HG.ArcPath2D(lastHivent, handle.getHivent(), @_map)
+
+        lastHivent = handle.getHivent()
 
     @_map.on "click", HG.HiventHandle.DEACTIVATE_ALL_HIVENTS
     @_map.addLayer @_markerGroup
