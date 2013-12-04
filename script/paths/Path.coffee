@@ -50,7 +50,6 @@ class HG.Path
     else if @_marker_visible
       @_map.removeLayer @_marker
       @_marker_visible = false
-      console.log "remove"
 
   # ============================================================================
   _isValidDate: (date) ->

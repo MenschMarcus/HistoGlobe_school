@@ -73,7 +73,14 @@ class HG.ArcPath2D extends HG.Path
       arcPoints.push {lng: long, lat: lat}
       long += stepSize
 
-    @_arc = new L.polyline arcPoints
+    @_arc = new L.polyline arcPoints, {
+      color: "#952"
+      lineCap: "butt"
+      weight: "3"
+      opacity: "0.8"
+      dashArray: "5, 2"
+    }
+
     @_map.addLayer @_arc
 
   # ============================================================================
