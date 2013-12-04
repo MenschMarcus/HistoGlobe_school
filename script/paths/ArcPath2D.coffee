@@ -12,6 +12,7 @@ class HG.ArcPath2D extends HG.Path
     HG.Path.call @, coordinates, dates
 
     @_map = map
+    @_arcs = []
 
     @_createArcs()
 
@@ -64,8 +65,12 @@ class HG.ArcPath2D extends HG.Path
 
         polyline = new L.polyline arcPoints
         @_map.addLayer polyline
+        @_arcs.push polyline
 
-
+  # ============================================================================
+  _destroyArcPath2D: () ->
+    @_map.removeLayer arc for arc in @_arcs
+    @_arcs = []
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #
