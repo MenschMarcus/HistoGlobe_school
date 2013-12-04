@@ -1,6 +1,7 @@
 #!/bin/bash
 
 (cd data_src/hivents/; ./generate.sh)
+(cd data_src/paths/; ./generate.sh)
 
 cFiles="script/util/Mixin.coffee \
         script/util/CallbackContainer.coffee \

@@ -5,6 +5,9 @@ call "C:\Program Files\nodejs\nodevars.bat"
 call "data_src\hivents\generate.bat"
 
 @echo off
+call "data_src\pahts\generate.bat"
+
+@echo off
 set cFiles=script/util/Mixin.coffee ^
         script/util/CallbackContainer.coffee ^
         script/util/VideoPlayer.coffee ^
