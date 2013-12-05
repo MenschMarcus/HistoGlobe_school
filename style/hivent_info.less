@@ -1,17 +1,18 @@
-@popover_width: 250px;
+@popover_width: 350px;
 @popover_height: @popover_width * 10/16;
 @popover_close_size: 30px;
-@popover_title_padding: 10px;
-@popover_body_padding: 10px;
+@popover_title_padding: 15px;
+@popover_body_padding: 15px;
 
 .hiventInfoPopover {
-  width: @popover_width;
-  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+  max-width: @popover_width;
   background: #fff;
-  .border-radius(6px * @roundness);
-  border: 1px solid #d4d4d4;
+  .border-radius(3px * @roundness);
   opacity: 0;
   .transition(opacity 0.2s ease-in-out);
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #afafaf;
+  box-shadow: 0 1px 7px rgba(0,0,0,0.4);
 
   .visible {
     opacity: 1.0;
@@ -36,62 +37,28 @@
 
 
 .hiventInfoPopoverTitle {
-  font: 1.2em "Helvetica Neue", Arial, Helvetica, sans-serif;
-  text-align: left;
   padding: @popover_title_padding;
-  .border-radius(6px * @roundness 6px * @roundness 0px 0px);
-  .linear-gradient-top(#f2f2f2,  #ffffff, 0%, #f2f2f2, 100%);
-  // border: 1px solid #d4d4d4;
-  color: #777777;
-  .text-shadow(0 1px 0 #ffffff);
-  cursor: default
+  border-bottom: 1px solid #e5e5e5;
+  margin: 0px;
 }
 
 .hiventInfoPopoverBody {
-  height: @popover_height;
-  font: 1em "Helvetica Neue", Arial, Helvetica, sans-serif;
+  max-height: @popover_height;
+  font: "Helvetica Neue", Arial, Helvetica, sans-serif;
   padding: @popover_body_padding;
-
   overflow: scroll;
-}
-
-.hiventInfoPopoverClose {
-  border: 1px solid #d4d4d4;
-  font: 1.5em "Helvetica Neue", Arial, Helvetica, sans-serif;
-  cursor: pointer;
-  position: absolute;
-  width: @popover_close_size;
-  height: @popover_close_size;
-  .border-radius(@popover_close_size * 0.5);
-  top: -@popover_close_size * 0.5 - @popover_title_padding * 0.2;
-  right: -@popover_close_size * 0.5 - @popover_title_padding * 0.2;
-  float: right;
-  background: #fff;
-  text-align: center;
-  line-height: @popover_close_size;
-
-  &:hover {
-    color: @highlight_color;
-  }
 }
 
 .hiventInfoPopoverContent {
   text-align: justify;
-  font-size: 9pt;
+  font-size: 10pt;
   padding-left: 0px;
   text-align: left;
 
-  h2, h3, h4 {
-    font-family: roman_caps;
-    color: #505050;
-    text-align: left;
-  }
-
-  h2 {
-    font-size: 12pt;
-  }
-
   h3 {
+    color: #888;
+    text-align: right;
+    margin-top: 0px;
     font-size: 10pt;
   }
 
