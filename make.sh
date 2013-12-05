@@ -21,7 +21,8 @@ cFiles="script/util/Mixin.coffee \
         script/hivents/HiventMarkerTimeline.coffee \
         script/hivents/HiventInfoPopover.coffee \
         script/paths/Path.coffee \
-        script/paths/ArcPath2D.coffee"
+        script/paths/ArcPath2D.coffee \
+        script/paths/PathController.coffee"
 
 jFiles="build/Mixin.js \
         build/CallbackContainer.js \
@@ -41,6 +42,7 @@ jFiles="build/Mixin.js \
         build/HiventInfoPopover.js \
         build/Path.js \
         build/ArcPath2D.js \
+        build/PathController.js \
         build/Vector.js \
         build/VideoPlayer.js \
         script/util/BrowserDetect.js"
@@ -51,7 +53,7 @@ fi
 
 coffee -c -o build $cFiles
 
-uglifyjs $jFiles -o script/histoglobe.min.js #-mc
+# uglifyjs $jFiles -o script/histoglobe.min.js #-mc
 
 lessc --no-color -x style/main.less style/histoglobe.min.css
 

@@ -46,6 +46,7 @@ class HG.CallbackContainer
     for i in [0...@[arrayName].length]
       if @[arrayName][i][0] == listenerToBeRemoved
         @[arrayName].splice i,1
+        break
 
   # ============================================================================
   removeAllListeners: (callbackName) ->

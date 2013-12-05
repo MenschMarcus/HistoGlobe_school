@@ -89,24 +89,10 @@ class HG.Display2D extends HG.Display
         maxClusterRadius: 20
       })
 
-    @_hiventController.onHiventsChanged (handles) =>
-      coords = []
-      dates = []
-
-      lastHivent = null
-
+    @_hiventController.onHiventsLoaded (handles) =>
       for handle in handles
-        marker = new HG.HiventMarker2D handle, this, @_map, @_markerGroup
-        coords.push {
-          lat:  handle.getHivent().lat,
-          long: handle.getHivent().long
-        }
-        dates.push handle.getHivent().endDate
-
-        if lastHivent?
-          path = new HG.ArcPath2D(lastHivent, handle.getHivent(), @_map)
-
-        lastHivent = handle.getHivent()
+        handle.onShow @, (self) =>
+          marker = new HG.HiventMarker2D self, this, @_map, @_markerGroup
 
     @_map.on "click", HG.HiventHandle.DEACTIVATE_ALL_HIVENTS
     @_map.addLayer @_markerGroup

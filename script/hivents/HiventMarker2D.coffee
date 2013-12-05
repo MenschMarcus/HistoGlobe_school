@@ -65,6 +65,7 @@ class HG.HiventMarker2D
     )
 
     @getHiventHandle().onDestruction @, @_destroy
+    @getHiventHandle().onHide @, @_destroy
 
     @enableShowName()
     @enableShowInfo()
@@ -121,6 +122,11 @@ class HG.HiventMarker2D
     @_map.off "drag", @_updatePosition
     @_map.off "viewreset", @_updatePosition
     @_markerGroup.removeLayer @_marker
+
+    @_hiventHandle.removeListener "onHide", @
+    @_hiventHandle.removeListener "onDestruction", @
+    @_destroyMarker()
+    delete @
 
     return
 

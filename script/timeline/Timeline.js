@@ -37,6 +37,8 @@ function timeline(hiventController) {
   timeline.zoom = zoom;                           // ... the timeline gets zoomed by mouse wheel or by zoom buttons
   timeline.togglePlayer = togglePlayer;            // ... history player gets toggled
 
+  timeline.dateToPos = dateToPos;            // ... history player gets toggled
+
   /* MEMBER VARIABLES */
 
   // general histoglobe          (internal date representation of all dates: decimal year, NOT js Date object)
@@ -385,7 +387,6 @@ function timeline(hiventController) {
     $('#periodEnd').val(perEnd);
 
     // eventually set markers for historical events
-    updateHivents();
   }
 
 
@@ -449,33 +450,20 @@ function timeline(hiventController) {
   /** HISTORICAL EVENT MARKER **/
 
   function initHivents() {
-    hiventController.onHiventsChanged(function(handles){
+    hiventController.onHiventsLoaded(function(handles){
 
-      // for (var i=0; i<hiventMarkers.length; i++) {
-      //   delete hiventMarkers[i];
-      // }
-
-      hiventMarkers = [];
-
-      for (var i=0; i<handles.length; i++) {
-
-        var hivent = handles[i].getHivent();
-        var posX = dateToPos(hivent.startDate);
-
-        var hiventMarker = new HG.HiventMarkerTimeline(handles[i],
-																										   tlScroller,
-																									     posX);
-				hiventMarkers.push(hiventMarker);
+      var len = handles.length;
+      for (var i=0; i<len; i++) {
+        handles[i].onShow(self, function(handle) {
+          var hivent = handle.getHivent();
+          var posX = dateToPos(hivent.startDate);
+          var hiventMarker = new HG.HiventMarkerTimeline(timeline,
+                                                         handle,
+  																										   tlScroller,
+  																									     posX);
+        });
       }
     });
-  }
-
-  function updateHivents() {
-
-		for (var i=0; i<hiventMarkers.length; i++) {
-			var posX = dateToPos(hiventMarkers[i].getHiventHandle().getHivent().startDate);
-			hiventMarkers[i].setPosition(posX);
-		}
   }
 
   /** HISTORY PLAYER **/
@@ -787,7 +775,7 @@ function timeline(hiventController) {
     rightPos += pix;
 
     // clip year markers
-    updateHivents();
+    periodChanged();
     appendYearMarkers();
     stripYearMarkers();
   }

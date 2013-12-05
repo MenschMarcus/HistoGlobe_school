@@ -11,10 +11,12 @@ class HG.HiventMarkerTimeline
 
 
   # ============================================================================
-  constructor: (hiventHandle, parent, posX, posY) ->
+  constructor: (timeline, hiventHandle, parent, posX, posY) ->
 
     HG.mixin @, HG.HiventMarker
     HG.HiventMarker.call @, hiventHandle, parent
+
+    @_timeline = timeline
 
     time = hiventHandle.getHivent().startDate.getTime()
     LAST_X_COORDS[time] ?= 0
@@ -70,16 +72,29 @@ class HG.HiventMarkerTimeline
       @_div.setAttribute "class", @_classDefault
 
     @getHiventHandle().onDestruction @, @_destroy
+    @getHiventHandle().onHide @, @_destroy
 
     @enableShowName()
+    @_timeline.addListener @
+
+  # ============================================================================
+  nowChanged: (date) ->
+
+  # ============================================================================
+  periodChanged: (dateA, dateB) ->
+    posX = @_timeline.dateToPos @_hiventHandle.getHivent().startDate
+    @setPosition posX
+
+  # ============================================================================
+  categoryChanged: (c) ->
 
   # ============================================================================
   getPosition: ->
     return @_position
 
   # ============================================================================
-  setPosition: (posX) ->
-    @_position.x = posX + LAST_X_COORDS[@getHiventHandle().getHivent().startDate.getTime()]
+  setPosition: (posX) =>
+    @_position.x = posX #+ LAST_X_COORDS[@getHiventHandle().getHivent().startDate.getTime()]
     @_div.style.left = @_position.x + "px"
 
   # ============================================================================
@@ -105,6 +120,9 @@ class HG.HiventMarkerTimeline
     @getHiventHandle().unMarkAll()
     @getHiventHandle().unLinkAll()
     @_div.parentNode.removeChild @_div
+    @_hiventHandle.removeListener "onHide", @
+    @_hiventHandle.removeListener "onDestruction", @
+    @_destroyMarker()
     delete @
     return
 
