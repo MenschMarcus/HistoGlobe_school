@@ -82,6 +82,7 @@ def main():
         hivent_lat         = row[6]
         hivent_category    = row[8]
         hivent_mm_ids      = row[9]
+        hivent_displayDate = ""
 
         mm_html_string = ""
 
@@ -106,16 +107,16 @@ def main():
           mm_html_string += "\t</ul>\n"
 
         #create html
-        date_string = hivent_startDate
+        hivent_displayDate = hivent_startDate
         if hivent_startDate != hivent_endDate:
-          date_string += '-' + hivent_endDate
+          hivent_displayDate += '-' + hivent_endDate
 
         html_name = hivent_id + ".htm"
         html_target = open(html_path + html_name, "w")
         html_target.write('<div class = \"hiventInfoPopoverContent\">\n' +
                            mm_html_string +
                            '\t<h3>' + hivent_location + ', ' +
-                           date_string+ '</h3>\n' +
+                           hivent_displayDate+ '</h3>\n' +
                            '\t<p>\n\t\t' +
                            hivent_description +
                            '\n\t</p>\n' +
@@ -137,6 +138,8 @@ def main():
         json_target.write('\t\t\"endDay\": ' + str(int(endDay)) + ',\n')
         json_target.write('\t\t\"endMonth\": ' + str(int(endMonth)) + ',\n')
         json_target.write('\t\t\"endYear\": ' + str(int(startYear)) + ',\n')
+
+        json_target.write('\t\t\"displayDate\": \"' + hivent_displayDate + '\",\n')
 
         json_target.write('\t\t\"long\": ' + hivent_long + ',\n')
         json_target.write('\t\t\"lat\": ' + hivent_lat + ',\n')
