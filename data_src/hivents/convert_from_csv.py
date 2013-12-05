@@ -28,7 +28,7 @@ class Multimedia:
     self.thumbnail = link
     if link.split('.')[-1] in iframe_criteria:
       self.link += "?iframe=true"
-      self.thumbnail = "data/hivent_icons/icon_join.png"
+      self.thumbnail = "data/video.png"
 
 def main():
   csv_hivents_file_path = ""
@@ -97,11 +97,11 @@ def main():
               print "Multimedia ID " + hivent_mm_id + " is invalid!"
             else:
               multimedia = multimedia_map[id]
-              mm_html_string += str('\t\t<li><a href=\"' +
+              mm_html_string += str('\t\t<li><a class="thumbnail" href=\"' +
                                 multimedia.link + '\" rel=\"prettyPhoto' +
                                 gallery_tag + '\" title=\"' +
-                                multimedia.description + '\"> <img src=\"' +
-                                multimedia.thumbnail + '\" width=\"60px\" /></a></li>\n')
+                                multimedia.description + '\"><div class="img" style=\"background-image:url(\'' +
+                                multimedia.thumbnail + '\')\"></div></a></li>\n')
 
           mm_html_string += "\t</ul>\n"
 
@@ -113,9 +113,9 @@ def main():
         html_name = hivent_id + ".htm"
         html_target = open(html_path + html_name, "w")
         html_target.write('<div class = \"hiventInfoPopoverContent\">\n' +
+                           mm_html_string +
                            '\t<h3>' + hivent_location + ', ' +
                            date_string+ '</h3>\n' +
-                           mm_html_string +
                            '\t<p>\n\t\t' +
                            hivent_description +
                            '\n\t</p>\n' +
