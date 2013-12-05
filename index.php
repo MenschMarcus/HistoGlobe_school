@@ -52,6 +52,7 @@
     <script type="text/javascript" src="build/HiventInfoPopover.js"></script>
     <script type="text/javascript" src="build/Path.js"></script>
     <script type="text/javascript" src="build/ArcPath2D.js"></script>
+    <script type="text/javascript" src="build/LinearPath2D.js"></script>
     <script type="text/javascript" src="build/Area.js"></script>
     <script type="text/javascript" src="build/AreaController.js"></script>
     <script type="text/javascript" src="build/HiventMarker.js"></script>

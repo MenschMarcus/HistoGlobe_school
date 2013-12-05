@@ -23,6 +23,7 @@ set cFiles=script/util/Mixin.coffee ^
         script/hivents/HiventMarkerTimeline.coffee ^
         script/hivents/HiventInfoPopover.coffee ^
         script/paths/Path.coffee ^
+        script/paths/LinearPath2D.coffee ^
         script/paths/ArcPath2D.coffee
 
 @echo off
@@ -43,6 +44,7 @@ set jFiles=build/Mixin.js ^
         build/HiventMarkerTimeline.js ^
         build/HiventInfoPopover.js ^
         build/Path.js ^
+        build/LinearPath2D.js ^
         build/ArcPath2D.js ^
         build/Vector.js ^
         build/VideoPlayer.js ^

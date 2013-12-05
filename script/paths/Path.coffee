@@ -9,8 +9,12 @@ class HG.Path
   # ============================================================================
   constructor: (start_hivent, end_hivent) ->
 
-    @_start_hivent = start_hivent
-    @_end_hivent   = end_hivent
+    if start_hivent.endDate < end_hivent.startDate
+      @_start_hivent = start_hivent
+      @_end_hivent   = end_hivent
+    else
+      @_start_hivent = end_hivent
+      @_end_hivent   = start_hivent
 
     @_initMarker()
 

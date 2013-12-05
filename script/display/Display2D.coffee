@@ -104,7 +104,7 @@ class HG.Display2D extends HG.Display
         dates.push handle.getHivent().endDate
 
         if lastHivent?
-          path = new HG.ArcPath2D(lastHivent, handle.getHivent(), @_map)
+          path = new HG.ArcPath2D(lastHivent, handle.getHivent(), @_map, 0.5)
 
         lastHivent = handle.getHivent()
 
