@@ -61,7 +61,7 @@
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
 -->
     <script type="text/javascript">
-      var display2D, display3D, timeline, hiventController, areaController;
+      var display2D, display3D, timeline, legend, hiventController, areaController;
       var timelineInitialized = false;
       var container;
       var windowHeight = window.innerHeight;
@@ -69,7 +69,7 @@
       jQuery(document).ready(function($) {
         BrowserDetect.init();
 
-        // if (!BrowserDetect.webglRenderingSupported) {
+        if (!BrowserDetect.webglRenderingSupported) {
           var elem_title = 'Entschuldigung! <a class="close pull-right" style="margin-top: -3px;" onclick="$(&#39;#display-mode-switch&#39;).popover(&#39;hide&#39;);">&times;</a>';
           var elem_content = '';
           if (BrowserDetect.webglContextSupported) {
@@ -90,7 +90,7 @@
           }
 
           $('#display-mode-switch').popover({container: 'body', animation:true, title:elem_title, content:elem_content, html:true, placement:"top"});
-        // }
+        }
 
         loadGLHeader();
 
@@ -138,11 +138,14 @@
               hiventController = new HG.HiventController("data/hivent_collection.json");
 
               container = document.getElementById('map-container');
+
               loadTimeline();
 
               areaController = new HG.AreaController(timeline);
 
               load2D();
+
+              loadLegend();
 
               $('#warning-close').button('reset')
 
@@ -188,6 +191,20 @@
           $(display3D.getCanvas()).animate({opacity: 1.0}, 1000, 'linear');
 
         }
+      }
+
+      function loadLegend() {
+        gui_container = document.getElementById('gui-container');
+        legend = new HG.Legend(gui_container, hiventController);
+
+        legend.addCategoryWithColor("eu", "#9F8BFF", "EU / EG", false);
+        legend.addCategoryWithColor("euro", "#5B309F", "Eurozone", false);
+
+        legend.addSpacer();
+
+        legend.addCategoryWithIcon("join", "data/hivent_icons/icon_join.png", "Beitritt", true);
+        legend.addCategoryWithIcon("contract", "data/hivent_icons/icon_contract.png", "Vertrag", true);
+        legend.addCategoryWithIcon("default", "data/hivent_icons/icon_default.png", "Sonstige", true);
       }
 
       function loadTimeline() {
@@ -258,6 +275,7 @@
         <div id="map-loader" class="loader"></div>
 
         <div id="map-container" style="overflow:hidden; position:absolute;"> </div>
+
 
         <!-- prototype-warning -->
         <!-- Modal -->
@@ -352,23 +370,7 @@
         <!-- gl header -->
         <div id="gl-header">
 
-          <!-- legend -->
-          <div id="legend" class = "menu">
-            <table>
-              <tr><td style="width:10px; height:10px; background-color:#9F8BFF"></td>
-                  <td style="padding:0px 5px"><small>EU / EG</small></td></tr>
-              <tr><td style="width:10px; height:10px; background-color:#5B309F"></td>
-                  <td style="padding:0px 5px"><small>Eurozone</small></td></tr>
-              <tr><td style="padding:10px"/><td style="padding:10px"/></tr>
-              <tr><td style="width:10px; height:10px; background-image:url('data/hivent_icons/icon_join.png'); background-repeat: no-repeat; background-size: contain"></td>
-                  <td style="padding:0px 5px"><small>Beitritt</small></td></tr>
-              <tr><td style="width:10px; height:10px; background-image:url('data/hivent_icons/icon_law.png'); background-repeat: no-repeat; background-size: contain"></td>
-                  <td style="padding:0px 5px"><small>Vertrag</small></td></tr>
-              <tr><td style="width:10px; height:10px; background-image:url('data/hivent_icons/icon_default.png'); background-repeat: no-repeat; background-size: contain"></td>
-                  <td style="padding:0px 5px"><small>Sonstige</small></td></tr>
-
-            </table>
-          </div>
+          <div id="gui-container"> </div>
 
           <div id="fullscreenMenuRight"  class="menu">
             <div id="toggle-fullscreen" class="btn btn-default"><i class="icon-fullscreen"></i> Vollbild</div>
