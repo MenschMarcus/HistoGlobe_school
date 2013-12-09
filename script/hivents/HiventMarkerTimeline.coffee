@@ -11,7 +11,7 @@ class HG.HiventMarkerTimeline
 
 
   # ============================================================================
-  constructor: (timeline, hiventHandle, parent, posX, posY) ->
+  constructor: (timeline, hiventHandle, parent, posX) ->
 
     HG.mixin @, HG.HiventMarker
     HG.HiventMarker.call @, hiventHandle, parent
@@ -19,9 +19,11 @@ class HG.HiventMarkerTimeline
     @_timeline = timeline
 
     time = hiventHandle.getHivent().startDate.getTime()
-    LAST_X_COORDS[time] ?= 0
-    @_position = { x: posX + LAST_X_COORDS[time] - HIVENT_MARKER_TIMELINE_RADIUS, y: Math.floor $(parent.parentNode).innerHeight() * 0.65 }
-    LAST_X_COORDS[time] += HIVENT_MARKER_TIMELINE_RADIUS * 1.5
+
+    X_OFFSETS[time] ?= 0
+    @_xOffset = X_OFFSETS[time]
+    @_position = { x: posX + @_xOffset * HIVENT_MARKER_TIMELINE_RADIUS * 1.5 - HIVENT_MARKER_TIMELINE_RADIUS, y: Math.floor $(parent.parentNode).innerHeight() * 0.65 }
+    X_OFFSETS[time] += 1
 
     @_classDefault     = "hivent_marker_timeline_#{hiventHandle.getHivent().category}_default"
     @_classHighlighted = "hivent_marker_timeline_#{hiventHandle.getHivent().category}_highlighted"
@@ -94,7 +96,7 @@ class HG.HiventMarkerTimeline
 
   # ============================================================================
   setPosition: (posX) =>
-    @_position.x = posX + LAST_X_COORDS[@getHiventHandle().getHivent().startDate.getTime()]
+    @_position.x = posX + @_xOffset * HIVENT_MARKER_TIMELINE_RADIUS * 1.5
     @_div.style.left = @_position.x + "px"
 
   # ============================================================================
@@ -116,7 +118,7 @@ class HG.HiventMarkerTimeline
 
   # ============================================================================
   _destroy: =>
-    LAST_X_COORDS[@getHiventHandle().getHivent().startDate.getTime()] = 0
+    X_OFFSETS[@getHiventHandle().getHivent().startDate.getTime()] -= 1
     @getHiventHandle().unMarkAll()
     @getHiventHandle().unLinkAll()
     @_div.parentNode.removeChild @_div
@@ -132,4 +134,4 @@ class HG.HiventMarkerTimeline
 
   HIVENT_MARKER_TIMELINE_RADIUS = 9
 
-  LAST_X_COORDS = {}
+  X_OFFSETS = {}
