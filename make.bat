@@ -5,6 +5,9 @@ call "C:\Program Files\nodejs\nodevars.bat"
 call "data_src\hivents\generate.bat"
 
 @echo off
+call "data_src\pahts\generate.bat"
+
+@echo off
 set cFiles=script/util/Mixin.coffee ^
         script/util/CallbackContainer.coffee ^
         script/util/VideoPlayer.coffee ^
@@ -22,7 +25,12 @@ set cFiles=script/util/Mixin.coffee ^
         script/hivents/HiventMarker3D.coffee ^
         script/hivents/HiventMarkerTimeline.coffee ^
         script/legend/Legend.coffee ^
-        script/hivents/HiventInfoPopover.coffee
+        script/hivents/HiventInfoPopover.coffee ^
+        script/paths/Path.coffee ^
+        script/paths/ArcPath2D.coffee ^
+        script/paths/PathController.coffee ^
+        script/paths/LinearPath2D.coffee ^
+        script/paths/ArcPath2D.coffee
 
 @echo off
 set jFiles=build/Mixin.js ^
@@ -42,6 +50,10 @@ set jFiles=build/Mixin.js ^
         build/HiventMarkerTimeline.js ^
         build/HiventInfoPopover.js ^
         build/legend/Legend.js ^
+        build/Path.js ^
+        build/LinearPath2D.js ^
+        build/ArcPath2D.js ^
+        build/PathController.js ^
         build/Vector.js ^
         build/VideoPlayer.js ^
         script/util/BrowserDetect.js

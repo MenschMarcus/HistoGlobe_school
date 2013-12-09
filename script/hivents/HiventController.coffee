@@ -10,12 +10,12 @@ class HG.HiventController
   ##############################################################################
 
   # ============================================================================
-  constructor: (pathToHivents) ->
-    @_initHivents(pathToHivents)
+  constructor: () ->
+    # @_initHivents(pathToHivents)
     @_hiventHandles = [];
     @_filteredHiventHandles = [];
-    @_hiventsChanged = false;
-    @_onHiventsChangedCallbacks = [];
+    @_hiventsLoaded = false;
+    @_onHiventsLoadedCallbacks = [];
 
     @_currentTimeFilter = null; # {start: <Date>, end: <Date>}
     @_currentSpaceFilter = null; # { min: {lat: <float>, long: <float>},
@@ -24,12 +24,12 @@ class HG.HiventController
 
 
   # ============================================================================
-  onHiventsChanged: (callbackFunc) ->
+  onHiventsLoaded: (callbackFunc) ->
     if callbackFunc and typeof(callbackFunc) == "function"
-      unless @_hiventsChanged
-        @_onHiventsChangedCallbacks.push callbackFunc
+      unless @_hiventsLoaded
+        @_onHiventsLoadedCallbacks.push callbackFunc
       else
-        callbackFunc @_filteredHiventHandles
+        callbackFunc @_hiventHandles
 
   # ============================================================================
   setTimeFilter: (timeFilter) ->
@@ -49,7 +49,7 @@ class HG.HiventController
   ############################### INIT FUNCTIONS ###############################
 
   # ============================================================================
-  _initHivents: (pathToHivents) ->
+  initHivents: (pathToHivents) ->
     $.getJSON(pathToHivents, (hivents) =>
       for h in hivents
         hivent = new HG.Hivent(
@@ -69,9 +69,11 @@ class HG.HiventController
 
         @_hiventHandles.push(new HG.HiventHandle hivent)
 
-      @_hiventsChanged = true
+      @_hiventsLoaded = true
 
-      @_filterHivents();
+      callback @_hiventHandles for callback in @_onHiventsLoadedCallbacks
+
+      @_filterHivents()
 
     )
 
@@ -79,12 +81,6 @@ class HG.HiventController
 
   # ============================================================================
   _filterHivents: ->
-
-    for handle in @_filteredHiventHandles
-      handle.destroyAll()
-      handle = null
-
-    @_filteredHiventHandles = []
 
     for handle in @_hiventHandles
       hivent = handle.getHivent()
@@ -104,9 +100,7 @@ class HG.HiventController
                     hivent.long <= @_currentSpaceFilter.max.long
 
       if isVisible
-        @_filteredHiventHandles.push(new HG.HiventHandle hivent)
-
-
-    for callback in @_onHiventsChangedCallbacks
-      callback @_filteredHiventHandles
-
+        unless handle._visible
+          handle.showAll()
+      else if handle._visible
+        handle.hideAll()
