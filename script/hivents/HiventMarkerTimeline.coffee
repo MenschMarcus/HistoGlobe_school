@@ -94,7 +94,7 @@ class HG.HiventMarkerTimeline
 
   # ============================================================================
   setPosition: (posX) =>
-    @_position.x = posX #+ LAST_X_COORDS[@getHiventHandle().getHivent().startDate.getTime()]
+    @_position.x = posX + LAST_X_COORDS[@getHiventHandle().getHivent().startDate.getTime()]
     @_div.style.left = @_position.x + "px"
 
   # ============================================================================

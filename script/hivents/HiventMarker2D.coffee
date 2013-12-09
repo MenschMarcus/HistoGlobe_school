@@ -23,7 +23,7 @@ class HG.HiventMarker2D
     icon_default    = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_default", iconSize: null}
     icon_higlighted = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_highlighted", iconSize: null}
     @_marker = new L.Marker [hiventHandle.getHivent().lat, hiventHandle.getHivent().long], {icon: icon_default}
-    @_marker.myHinventMarker2D = @
+    @_marker.myHiventMarker2D = @
 
     @_markerGroup = markerGroup
 
@@ -31,7 +31,7 @@ class HG.HiventMarker2D
     @_markerGroup.on "clusterclick", (cluster) =>
       window.setTimeout (() =>
         for marker in cluster.layer.getAllChildMarkers()
-          marker.myHinventMarker2D._updatePosition()), 100
+          marker.myHiventMarker2D._updatePosition()), 100
 
     @_position = new L.Point 0,0
     @_updatePosition()

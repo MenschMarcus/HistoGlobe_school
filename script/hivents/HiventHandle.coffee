@@ -173,7 +173,6 @@ class HG.HiventHandle
 
   # ============================================================================
   showAll: () ->
-    console.log "show: " + @getHivent().name
     @_visible = true
     @notifyAll "onShow", @
 
@@ -184,7 +183,6 @@ class HG.HiventHandle
 
   # ============================================================================
   hideAll: () ->
-    console.log "hide: " + @getHivent().name
     @_visible = false
     @notifyAll "onHide", @
 

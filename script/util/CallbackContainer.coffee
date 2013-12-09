@@ -15,10 +15,9 @@ class HG.CallbackContainer
 
     # add a function to register callbacks to the object
     @[callbackName] = (obj, callbackFunc) ->
-      #console.log callbackName, obj
       if callbackFunc and typeof(callbackFunc) == "function"
         for i in [0...@[arrayName].length]
-          if @[arrayName][i][0] == obj
+          if @[arrayName][i]?[0] == obj
             @[arrayName][i][1].push callbackFunc
             return
 
@@ -28,24 +27,30 @@ class HG.CallbackContainer
   notify: (callbackName, objectToBeNotified, parameters...) ->
     arrayName = "_#{callbackName}Callbacks"
     for i in [0...@[arrayName].length]
-      if @[arrayName][i][0] == objectToBeNotified
-        for j in [0...@[arrayName][i][1].length]
-          @[arrayName][i][1][j].apply @[arrayName][i][0], parameters
-        break
+      if @[arrayName][i]?
+        if @[arrayName][i][0] == objectToBeNotified
+          for j in [0...@[arrayName][i][1].length]
+            @[arrayName][i][1][j].apply @[arrayName][i][0], parameters
+          break
+      else
+        @[arrayName].splice i,1
 
   # ============================================================================
   notifyAll: (callbackName, parameters...) ->
     arrayName = "_#{callbackName}Callbacks"
     for i in [0...@[arrayName].length]
-      for j in [0...@[arrayName][i][1].length]
-        @[arrayName][i][1][j].apply @[arrayName][i][0], parameters
+      if @[arrayName][i]?
+        for j in [0...@[arrayName][i][1].length]
+          @[arrayName][i][1][j].apply @[arrayName][i][0], parameters
+      else
+        @[arrayName].splice i,1
 
   # ============================================================================
   removeListener: (callbackName, listenerToBeRemoved) ->
     arrayName = "_#{callbackName}Callbacks"
     for i in [0...@[arrayName].length]
-      if @[arrayName][i][0] == listenerToBeRemoved
-        @[arrayName].splice i,1
+      if @[arrayName][i]?[0] == listenerToBeRemoved
+        @[arrayName][i] = null
         break
 
   # ============================================================================
