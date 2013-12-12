@@ -13,7 +13,6 @@ class HG.HiventController
   constructor: (pathToHivents) ->
     @_initHivents(pathToHivents)
     @_hiventHandles = [];
-    @_filteredHiventHandles = [];
     @_hiventsLoaded = false;
     @_onHiventsLoadedCallbacks = [];
 
@@ -41,6 +40,12 @@ class HG.HiventController
     @_filterHivents()
 
 
+  getHiventHandleById: (hiventId) ->
+    for handle in @_hiventHandles
+      if handle.getHivent().id is hiventId
+        return handle
+    console.log "An Hivent with the id \"#{hiventId}\" does not exist!"
+
   ############################### INIT FUNCTIONS ###############################
 
   # ============================================================================
@@ -48,6 +53,7 @@ class HG.HiventController
     $.getJSON(pathToHivents, (hivents) =>
       for h in hivents
         hivent = new HG.Hivent(
+          h.id,
           h.name,
           h.startYear,
           h.startMonth,

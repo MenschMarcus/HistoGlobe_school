@@ -6,11 +6,12 @@ class HG.Hivent
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
-  constructor: (name,
+  constructor: (id, name,
                 startYear, startMonth, startDay,
                 endYear, endMonth, endDay,
                 long, lat, category, content) ->
 
+    @id = id
     @name = name
     @startYear = startYear
     @startMonth = startMonth

@@ -7,15 +7,15 @@ class HG.ArcPath2D extends HG.Path
   ##############################################################################
 
   # ============================================================================
-  constructor: (start_hivent, end_hivent, map, curvature=0.5) ->
+  constructor: (startHiventHandle, endHiventHandle, map, curvature=0.5) ->
 
-    HG.Path.call @, start_hivent, end_hivent
+    HG.Path.call @, startHiventHandle, endHiventHandle
 
     @_map = map
     @_arc = undefined
 
-    p1 = new HG.Vector @_start_hivent.long, @_start_hivent.lat
-    p2 = new HG.Vector @_end_hivent.long, @_end_hivent.lat
+    p1 = new HG.Vector @_startHiventHandle.getHivent().long, @_startHiventHandle.getHivent().lat
+    p2 = new HG.Vector @_endHiventHandle.getHivent().long, @_endHiventHandle.getHivent().lat
 
     p3_x = (p2.at(0) + p1.at(0)) / 2
     p3_y = (p2.at(1) + p1.at(1)) / 2 + curvature*Math.abs(p2.at(1) - p1.at(1))
@@ -36,7 +36,7 @@ class HG.ArcPath2D extends HG.Path
   ##############################################################################
 
   # ============================================================================
-  # returns parameters a, b, c of equation y= a * x^2 + b * x + c for three
+  # calculates parameters a, b, c of equation y= a * x^2 + b * x + c for three
   # given points
   _initParabolaParameters: (p1, p2, p3) ->
     denom = (p1.at(0) - p2.at(0)) * (p1.at(0) - p3.at(0)) * (p2.at(0) - p3.at(0))
@@ -52,13 +52,13 @@ class HG.ArcPath2D extends HG.Path
 
   # ============================================================================
   _getLongFromDate: (date) ->
-    start = @_start_hivent.endDate.getTime()
-    end   = @_end_hivent.startDate.getTime()
+    start = @_startHiventHandle.getHivent().endDate.getTime()
+    end   = @_endHiventHandle.getHivent().startDate.getTime()
     now   = date.getTime()
 
     delta = (now - start)/(end - start)
 
-    long = @_start_hivent.long + delta*(@_end_hivent.long - @_start_hivent.long)
+    long = @_startHiventHandle.getHivent().long + delta*(@_endHiventHandle.getHivent().long - @_startHiventHandle.getHivent().long)
 
   # ============================================================================
   _initArc: (p1, p2, p3) ->

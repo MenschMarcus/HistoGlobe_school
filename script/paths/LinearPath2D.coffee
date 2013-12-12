@@ -7,28 +7,28 @@ class HG.LinearPath2D extends HG.Path
   ##############################################################################
 
   # ============================================================================
-  constructor: (start_hivent, end_hivent, map) ->
+  constructor: (startHiventHandle, endHiventHandle, map) ->
 
-    HG.Path.call @, start_hivent, end_hivent
+    HG.Path.call @, startHiventHandle, endHiventHandle
 
     @_map = map
     @_arc = undefined
 
-    p1 = new HG.Vector @_start_hivent.long, @_start_hivent.lat
-    p2 = new HG.Vector @_end_hivent.long, @_end_hivent.lat
+    p1 = new HG.Vector @_startHiventHandle.getHivent().long, @_startHiventHandle.getHivent().lat
+    p2 = new HG.Vector @_endHiventHandle.getHivent().long, @_endHiventHandle.getHivent().lat
 
     @_initArc p1, p2
 
   # ============================================================================
   getMarkerPos: (date) ->
-    start = @_start_hivent.endDate.getTime()
-    end   = @_end_hivent.startDate.getTime()
+    start = @_startHiventHandle.getHivent().endDate.getTime()
+    end   = @_endHiventHandle.getHivent().startDate.getTime()
     now   = date.getTime()
 
     delta = (now - start)/(end - start)
 
-    long = @_start_hivent.long + delta*(@_end_hivent.long - @_start_hivent.long)
-    lat = @_start_hivent.lat + delta*(@_end_hivent.lat - @_start_hivent.lat)
+    long = @_startHiventHandle.getHivent().long + delta*(@_endHiventHandle.getHivent().long - @_startHiventHandle.getHivent().long)
+    lat = @_startHiventHandle.getHivent().lat + delta*(@_endHiventHandle.getHivent().lat - @_startHiventHandle.getHivent().lat)
 
     {long:long, lat:lat}
 

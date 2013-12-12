@@ -7,14 +7,14 @@ class HG.Path
   ##############################################################################
 
   # ============================================================================
-  constructor: (start_hivent, end_hivent) ->
+  constructor: (startHiventHandle, endHiventHandle) ->
 
-    if start_hivent.endDate < end_hivent.startDate
-      @_start_hivent = start_hivent
-      @_end_hivent   = end_hivent
+    if startHiventHandle.endDate < endHiventHandle.startDate
+      @_startHiventHandle = startHiventHandle
+      @_endHiventHandle   = endHiventHandle
     else
-      @_start_hivent = end_hivent
-      @_end_hivent   = start_hivent
+      @_startHiventHandle = endHiventHandle
+      @_endHiventHandle   = startHiventHandle
 
     @_initMarker()
 
@@ -33,9 +33,9 @@ class HG.Path
 
   # ============================================================================
   _initMarker: () ->
-    icon = new L.DivIcon {className: "hivent_marker_2D_#{@_start_hivent.category}_default", iconSize: null}
-    @_marker = new L.Marker [@_start_hivent.lat, @_start_hivent.long], {icon: icon}
-    @_marker_visible = false
+    icon = new L.DivIcon {className: "hivent_marker_2D_#{@_startHiventHandle.getHivent().category}_default", iconSize: null}
+    @_marker = new L.Marker [@_startHiventHandle.getHivent().lat, @_startHiventHandle.getHivent().long], {icon: icon}
+    @_markerVisible = false
 
     date = new Date(2003, 1, 1)
 
@@ -47,18 +47,18 @@ class HG.Path
   # ============================================================================
   _updateAnimation: (date) ->
     if @_isValidDate date
-      unless @_marker_visible
+      unless @_markerVisible
         @_marker.addTo @_map
-        @_marker_visible = true
+        @_markerVisible = true
 
       pos = @getMarkerPos date
 
       @_marker.setLatLng([pos.lat, pos.long])
 
-    else if @_marker_visible
+    else if @_markerVisible
       @_map.removeLayer @_marker
-      @_marker_visible = false
+      @_markerVisible = false
 
   # ============================================================================
   _isValidDate: (date) ->
-    date > @_start_hivent.endDate and date < @_end_hivent.startDate
+    date > @_startHiventHandle.getHivent().endDate and date < @_endHiventHandle.getHivent().startDate

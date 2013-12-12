@@ -65,7 +65,7 @@
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
 
     <script type="text/javascript">
-      var display2D, display3D, timeline, hiventController, areaController;
+      var display2D, display3D, timeline, hiventController, areaController, pathController;
       var timelineInitialized = false;
       var container;
       var windowHeight = window.innerHeight;
@@ -145,6 +145,7 @@
               loadTimeline();
 
               areaController = new HG.AreaController(timeline);
+              pathController = new HG.PathController(timeline, hiventController);
 
               load2D();
 
