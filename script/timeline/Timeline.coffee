@@ -285,13 +285,17 @@ class HG.Timeline
   _animTimeline: =>
     if @_play
       if((@_speed >= 0 and @_yearMarkers.get(0).nodeData.getPos() + @_yearMarkerWidth / 2 < @_tlWidth / 2) or (@_speed < 0 and @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getPos() + @_yearMarkerWidth / 2 > @_tlWidth / 2))
-        @_nowMarker.setPos @_speed + @_nowMarker.getPos()
+        @_nowMarker.setPos @_nowMarker.getPos() - @_speed
         @_updateYearMarkerPositions(false)
         @_updateNowMarker()
         @_loadYearMarkers(false)
       else
         @_nowMarkerBox.animationSwitch()
 
+  # TODO: set timeline now date via input field
+  ###_setNowMarker: () ->
+    @_nowMarker.setPos @_tlWidth / 2
+    @_nowMarker._date = ###
 
   stopTimeline: ->
     @_play = false
