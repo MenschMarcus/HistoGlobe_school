@@ -1,6 +1,7 @@
 #!/bin/bash
 
 (cd data_src/hivents/; ./generate.sh)
+(cd data_src/labels/; ./generate.sh)
 
 cFiles="script/util/Mixin.coffee \
         script/util/CallbackContainer.coffee \
@@ -11,6 +12,8 @@ cFiles="script/util/Mixin.coffee \
         script/display/Display.coffee \
         script/areas/Area.coffee \
         script/areas/AreaController.coffee \
+        script/labels/Label.coffee \
+        script/labels/LabelController.coffee \
         script/hivents/HiventHandle.coffee \
         script/hivents/HiventController.coffee \
         script/hivents/Hivent.coffee \
@@ -27,6 +30,8 @@ jFiles="build/Mixin.js \
         build/Display3D.js \
         build/Area.js \
         build/AreaController.js \
+        build/Label.js \
+        build/LabelController.js \
         script/timeline/Timeline.js \
         build/Hivent.js \
         build/HiventHandle.js \
@@ -46,7 +51,7 @@ fi
 
 coffee -c -o build $cFiles
 
-uglifyjs $jFiles -o script/histoglobe.min.js -mc
+uglifyjs $jFiles -o script/histoglobe.min.js #-mc
 
 lessc --no-color -x style/main.less style/histoglobe.min.css
 
