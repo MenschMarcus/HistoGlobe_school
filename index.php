@@ -38,7 +38,11 @@
     <script type="text/javascript" src="script/third-party/leaflet.label.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.markercluster.js"></script>
 
+<<<<<<< HEAD
    <!-- <script type="text/javascript" src="script/histoglobe.min.js"></script>-->
+=======
+<!--    <script type="text/javascript" src="script/histoglobe.min.js"></script> -->
+>>>>>>> origin/develop
 
 
     <script type="text/javascript" src="build/Mixin.js"></script>
@@ -53,6 +57,8 @@
     <script type="text/javascript" src="build/HiventInfoPopover.js"></script>
     <script type="text/javascript" src="build/Area.js"></script>
     <script type="text/javascript" src="build/AreaController.js"></script>
+    <script type="text/javascript" src="build/Label.js"></script>
+    <script type="text/javascript" src="build/LabelController.js"></script>
     <script type="text/javascript" src="build/HiventMarker.js"></script>
     <script type="text/javascript" src="build/HiventMarker2D.js"></script>
     <script type="text/javascript" src="build/HiventMarker3D.js"></script>
@@ -61,12 +67,18 @@
     <script type="text/javascript" src="build/YearMarker.js"></script>
     <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
+<<<<<<< HEAD
     <script type="text/javascript" src="build/NowMarker.js"></script>
     <script type="text/javascript" src="build/DoublyLinkedList.js"></script>
     <script type="text/javascript" src="build/YearMarkerList.js"></script>
 
     <script type="text/javascript">
       var display2D, display3D, timeline, hiventController, areaController, nowMarker;
+=======
+
+    <script type="text/javascript">
+      var display2D, display3D, timeline, hiventController, areaController, labelController;
+>>>>>>> origin/develop
       var timelineInitialized = false;
       var container;
       var windowHeight = window.innerHeight;
@@ -148,6 +160,7 @@
               loadTimeline();
 
               areaController = new HG.AreaController(timeline);
+              labelController = new HG.LabelController(timeline);
 
               load2D();
 
@@ -169,7 +182,7 @@
         }
 
         if (!display2D) {
-          display2D = new HG.Display2D(container, hiventController, areaController);
+          display2D = new HG.Display2D(container, hiventController, areaController, labelController);
           $(display2D.getCanvas()).css({opacity: 0.0});
         }
 
@@ -187,7 +200,7 @@
           }
 
           if (!display3D) {
-            display3D = new HG.Display3D(container, hiventController, areaController);
+            display3D = new HG.Display3D(container, hiventController, areaController, labelController);
             $(display3D.getCanvas()).css({opacity: 0.0});
           }
 

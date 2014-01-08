@@ -55,6 +55,7 @@ class HG.HiventController
           h.endYear,
           h.endMonth,
           h.endDay,
+          h.displayDate,
           h.long,
           h.lat,
           h.category,

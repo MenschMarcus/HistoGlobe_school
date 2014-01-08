@@ -29,14 +29,14 @@ class HG.HiventInfoPopover
     @_mainDiv.style.zIndex = "#{HG.Display.Z_INDEX + 10}"
     @_mainDiv.style.visibility = "hidden"
 
-    @_titleDiv = document.createElement "div"
+    @_titleDiv = document.createElement "h4"
     @_titleDiv.className = "hiventInfoPopoverTitle"
     @_titleDiv.innerHTML = @_hiventHandle.getHivent().name
     @_titleDiv.addEventListener 'mousedown', @_onMouseDown, false
 
-    @_closeDiv = document.createElement "div"
-    @_closeDiv.className = "hiventInfoPopoverClose"
-    @_closeDiv.innerHTML = "&#10006;"
+    @_closeDiv = document.createElement "button"
+    @_closeDiv.className = "close"
+    @_closeDiv.innerHTML = "×"
     @_closeDiv.addEventListener 'mouseup', @hide, false
 
     @_bodyDiv = document.createElement "div"
@@ -129,10 +129,21 @@ class HG.HiventInfoPopover
 
   # ============================================================================
   _updateWindowPos: ->
+
+    if WINDOW_MARGIN + WINDOW_TO_ANCHOR_OFFSET_X + @_width > @_anchor.at(0)
+      left = @_anchor.at(0) + WINDOW_TO_ANCHOR_OFFSET_X
+    else
+      left = Math.max(WINDOW_MARGIN, @_anchor.at(0) - WINDOW_TO_ANCHOR_OFFSET_X - @_width)
+
+    if WINDOW_MARGIN + WINDOW_TO_ANCHOR_OFFSET_Y + @_height > @_anchor.at(1)
+      top = @_anchor.at(1) + WINDOW_TO_ANCHOR_OFFSET_Y
+    else
+      top  = Math.max(WINDOW_MARGIN, @_anchor.at(1) - WINDOW_TO_ANCHOR_OFFSET_Y - @_height)
+
     $(@_mainDiv).offset {
-                          left: @_anchor.at(0) - WINDOW_TO_ANCHOR_OFFSET_X - @_width
-                          top: @_anchor.at(1) - WINDOW_TO_ANCHOR_OFFSET_Y - @_height
-                        }
+      left: left
+      top: top
+    }
 
   # ============================================================================
   _updateCenterPos: ->
@@ -223,8 +234,9 @@ class HG.HiventInfoPopover
   ARROW_ROOT_OFFSET_Y = 60
   WINDOW_TO_ANCHOR_OFFSET_X = 80
   WINDOW_TO_ANCHOR_OFFSET_Y = 40
-  BODY_DEFAULT_WIDTH = 200
+  WINDOW_MARGIN = 40
+  BODY_DEFAULT_WIDTH = 300
   BODY_MAX_WIDTH = 400
-  BODY_DEFAULT_HEIGHT = 200
+  BODY_DEFAULT_HEIGHT = 300
   BODY_MAX_HEIGHT = 400
   TITLE_DEFAULT_HEIGHT = 20

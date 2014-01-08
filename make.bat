@@ -5,6 +5,9 @@ call "D:\Drafts\Code\NodeJS\nodevars.bat"
 call "data_src\hivents\generate.bat"
 
 @echo off
+call "data_src\labels\generate.bat"
+
+@echo off
 set cFiles=script/util/Mixin.coffee ^
         script/util/CallbackContainer.coffee ^
         script/util/VideoPlayer.coffee ^
@@ -14,8 +17,13 @@ set cFiles=script/util/Mixin.coffee ^
         script/display/Display.coffee ^
         script/areas/Area.coffee ^
         script/areas/AreaController.coffee ^
+<<<<<<< HEAD
         script/timeline/Timeline.coffee ^
         script/timeline/YearMarker.coffee ^
+=======
+        script/labels/Label.coffee ^
+        script/labels/LabelController.coffee ^
+>>>>>>> origin/develop
         script/hivents/HiventHandle.coffee ^
         script/hivents/HiventController.coffee ^
         script/hivents/Hivent.coffee ^
@@ -35,8 +43,13 @@ set jFiles=build/Mixin.js ^
         build/Display3D.js ^
         build/Area.js ^
         build/AreaController.js ^
+<<<<<<< HEAD
         build/Timeline.js ^
         build/YearMarker.js ^
+=======
+        build/Label.js ^
+        build/LabelController.js ^
+>>>>>>> origin/develop
         script/timeline/Timeline.js ^
         build/Hivent.js ^
         build/HiventHandle.js ^

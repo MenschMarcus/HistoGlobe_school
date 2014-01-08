@@ -7,7 +7,7 @@ class HG.Display3D extends HG.Display
   ##############################################################################
 
   # ============================================================================
-  constructor: (container, hiventController, areaController) ->
+  constructor: (container, hiventController, areaController, labelController) ->
 
     HG.Display.call @, container
 

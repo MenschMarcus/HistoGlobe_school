@@ -8,7 +8,7 @@ class HG.Hivent
 
   constructor: (name,
                 startYear, startMonth, startDay,
-                endYear, endMonth, endDay,
+                endYear, endMonth, endDay, displayDate,
                 long, lat, category, content) ->
 
     @name = name
@@ -20,6 +20,7 @@ class HG.Hivent
     @endMonth = endMonth
     @endDay = endDay
     @endDate = new Date(endYear, endMonth, endDay)
+    @displayDate = displayDate
     @long = long
     @lat = lat
     @category = category
