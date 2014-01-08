@@ -116,7 +116,7 @@ class HG.Timeline
 
       # delete old year markers
       i = 0
-      while i < @_yearMarkers.getLength() - 1
+      while i < @_yearMarkers.getLength()
           @_yearMarkers.get(i).nodeData.destroy()
           i++
 
@@ -267,8 +267,11 @@ class HG.Timeline
     bam = true
     while year % yearIntervals[i] == 0
         i++
-    i -= 1
-    console.log "ZoomLevel: " + i
+    if i > 1
+      i -= 2
+    else
+      if i > 0
+        i -= 1
     i
 
   _updateNowMarker: (dist) ->
