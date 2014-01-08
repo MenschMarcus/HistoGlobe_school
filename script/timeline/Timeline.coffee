@@ -111,6 +111,25 @@ class HG.Timeline
         @_updateYearMarkerPositions(false)
         @_loadYearMarkers(true)
 
+  _scrollToDate: (date) ->
+    if date.getFullYear() > @_minDate.getFullYear() and date.getFullYear() < @_maxDate.getFullYear()
+
+      # delete old year markers
+      i = 0
+      while i < @_yearMarkers.getLength() - 1
+          @_yearMarkers.get(i).nodeData.destroy()
+          i++
+
+      # create new year markers
+      @_yearMarkers   = new HG.YearMarkerList()
+      @_zoomLevel = @_calcZoomLevel date.getFullYear()
+      @_nowMarker = new HG.YearMarker(date, 0, @_tlDiv)
+      @_yearMarkerWidth = @_nowMarker.getWidth() * 2
+      @_nowMarker.setWidth @_yearMarkerWidth
+      @_nowMarker.setPos(@_tlWidth/2 - @_yearMarkerWidth/2)
+      @_yearMarkers.addFirst(@_nowMarker)
+      @_loadYearMarkers(false)
+
   _highlightIntervals: ->
 
     # set the font size of year markers in relation to the shown time interval
@@ -242,6 +261,16 @@ class HG.Timeline
 
       # TODO: calculate via interpolated time scale
 
+  _calcZoomLevel: (year) ->
+    yearIntervals = [1,5,10,50,100,500,1000,5000,10000,50000,100000,500000,1000000,5000000]
+    i = 0
+    bam = true
+    while year % yearIntervals[i] == 0
+        i++
+    i -= 1
+    console.log "ZoomLevel: " + i
+    i
+
   _updateNowMarker: (dist) ->
     smallestDis = null
     i = 0
@@ -308,5 +337,3 @@ class HG.Timeline
 
   getPlayStatus: ->
     @_play
-
-

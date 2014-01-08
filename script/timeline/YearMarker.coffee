@@ -16,7 +16,7 @@ class HG.YearMarker
     @_yearMarkerDiv = document.createElement "div"
     @_yearMarkerDiv.id = "year" + @_date.getFullYear()
     @_yearMarkerDiv.className = "yearMarker"
-    @_yearMarkerDiv.style.left = @_pos + "px"    
+    @_yearMarkerDiv.style.left = @_pos + "px"
     @_yearMarkerDiv.innerHTML = '<p>'+@_date.getFullYear()+'</p>'
 
     # add to DOM
@@ -55,7 +55,7 @@ class HG.YearMarker
     if step == 1
       @_yearMarkerDiv.className = "yearMarkerH1"
     if step == 0
-      @_yearMarkerDiv.className = "yearMarker"      
+      @_yearMarkerDiv.className = "yearMarker"
 
   destroy : () ->
     $(@_yearMarkerDiv).fadeOut(400, `function() { $(this).remove(); }`);

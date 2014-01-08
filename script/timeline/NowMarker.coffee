@@ -45,8 +45,18 @@ class HG.NowMarker
         @_playButton.onclick = (e) =>
             @animationSwitch()
 
+        $(document.body).keyup (e) =>
+            if e.keyCode == 32
+                 @animationSwitch()
+
         $(window).resize  =>
             @_setNowMarkerPosition()
+
+        # Catch enter key on the date input field
+        $(@_dateInputField).keyup (e) ->
+            if e.keyCode == 13
+                if not isNaN @value
+                    timeline._scrollToDate timeline._yearToDate @value
 
     _distanceToMiddlepoint : (e) ->
         xs = 0
