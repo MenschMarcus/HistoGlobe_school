@@ -299,6 +299,7 @@ class HG.Timeline
     xPos = (yearDiff * @_yearMarkerWidth + (@_nowMarker.getPos()))
 
   _yearToDate : (year) ->
+    # aber was wenn das jahr ungerade ist junge?
     date = new Date(0)
     date.setFullYear year
     date
