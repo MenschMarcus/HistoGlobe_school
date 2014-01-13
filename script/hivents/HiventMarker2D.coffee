@@ -12,7 +12,6 @@ class HG.HiventMarker2D
   # ============================================================================
   constructor: (hiventHandle, display, map, markerGroup) ->
 
-
     HG.mixin @, HG.HiventMarker
     HG.HiventMarker.call @, hiventHandle, map.getPanes()["popupPane"]
 
@@ -24,7 +23,7 @@ class HG.HiventMarker2D
     icon_default    = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_default", iconSize: null}
     icon_higlighted = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_highlighted", iconSize: null}
     @_marker = new L.Marker [hiventHandle.getHivent().lat, hiventHandle.getHivent().long], {icon: icon_default}
-    @_marker.myHinventMarker2D = @
+    @_marker.myHiventMarker2D = @
 
     @_markerGroup = markerGroup
 
@@ -32,7 +31,7 @@ class HG.HiventMarker2D
     @_markerGroup.on "clusterclick", (cluster) =>
       window.setTimeout (() =>
         for marker in cluster.layer.getAllChildMarkers()
-          marker.myHinventMarker2D._updatePosition()), 100
+          marker.myHiventMarker2D._updatePosition()), 100
 
     @_position = new L.Point 0,0
     @_updatePosition()
@@ -66,6 +65,7 @@ class HG.HiventMarker2D
     )
 
     @getHiventHandle().onDestruction @, @_destroy
+    @getHiventHandle().onHide @, @_destroy
 
     @enableShowName()
     @enableShowInfo()
@@ -122,9 +122,12 @@ class HG.HiventMarker2D
     @_map.off "drag", @_updatePosition
     @_map.off "viewreset", @_updatePosition
     @_markerGroup.removeLayer @_marker
-    # delete @_map
-    # delete @_markerGroup
-    # delete @
+
+    @_hiventHandle.removeListener "onHide", @
+    @_hiventHandle.removeListener "onDestruction", @
+    @_destroyMarker()
+    delete @
+
     return
 
   ##############################################################################

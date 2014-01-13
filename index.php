@@ -50,6 +50,10 @@
     <script type="text/javascript" src="build/HiventController.js"></script>
     <script type="text/javascript" src="build/HiventHandle.js"></script>
     <script type="text/javascript" src="build/HiventInfoPopover.js"></script>
+    <script type="text/javascript" src="build/Path.js"></script>
+    <script type="text/javascript" src="build/ArcPath2D.js"></script>
+    <script type="text/javascript" src="build/PathController.js"></script>
+    <script type="text/javascript" src="build/LinearPath2D.js"></script>
     <script type="text/javascript" src="build/Area.js"></script>
     <script type="text/javascript" src="build/AreaController.js"></script>
     <script type="text/javascript" src="build/Label.js"></script>
@@ -63,7 +67,7 @@
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
 
     <script type="text/javascript">
-      var display2D, display3D, timeline, hiventController, areaController, labelController;
+      var display2D, display3D, timeline, hiventController, areaController, pathController, labelController;
       var timelineInitialized = false;
       var container;
       var windowHeight = window.innerHeight;
@@ -143,7 +147,10 @@
               loadTimeline();
 
               areaController = new HG.AreaController(timeline);
+
               labelController = new HG.LabelController(timeline);
+
+              pathController = new HG.PathController(timeline, hiventController);
 
               load2D();
 

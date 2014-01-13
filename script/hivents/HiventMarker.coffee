@@ -14,14 +14,11 @@ class HG.HiventMarker
     @_parentDiv = parentDiv
 
     @_hiventHandle = hiventHandle
-    @_hiventHandle.onDestruction @, @_destroyMarker
     @_hiventInfo = document.createElement("div")
     @_hiventInfo.class = "btn btn-default"
     @_hiventInfo.style.position = "absolute"
     @_hiventInfo.style.left = "0px"
     @_hiventInfo.style.top = "0px"
-    # @_hiventInfo.style.width = "400px"
-    # @_hiventInfo.style.height = "50px"
     @_hiventInfo.style.visibility = "hidden"
     @_hiventInfo.style.pointerEvents = "none"
 
@@ -84,5 +81,4 @@ class HG.HiventMarker
   # ============================================================================
   _destroyMarker: =>
     @_hiventInfo.parentNode.removeChild @_hiventInfo
-    return
 

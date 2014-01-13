@@ -127,6 +127,7 @@ def main():
         #create json
 
         json_target.write('\t{\n')
+        json_target.write('\t\t\"id\": \"' + hivent_id + '\",\n')
         json_target.write('\t\t\"name\": \"' + hivent_name + '\",\n')
 
         startDay, startMonth, startYear = hivent_startDate.split(".")

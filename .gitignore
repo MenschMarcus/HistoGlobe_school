@@ -1,5 +1,6 @@
 data/tiles
 data/hivent_collection.json
+data/path_collection.json
 data/hivent_assets
 data/grid_tiles
 data_src/maps/tmp
