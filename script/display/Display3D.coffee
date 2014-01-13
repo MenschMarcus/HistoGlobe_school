@@ -7,7 +7,7 @@ class HG.Display3D extends HG.Display
   ##############################################################################
 
   # ============================================================================
-  constructor: (container, hiventController, areaController) ->
+  constructor: (container, hiventController, areaController, labelController) ->
 
     HG.Display.call @, container
 
@@ -209,7 +209,7 @@ class HG.Display3D extends HG.Display
 
   # ============================================================================
   _initHivents: ->
-    # @_hiventHandler.onHiventsChanged (handles) =>
+    # @_hiventHandler.onHiventsLoaded (handles) =>
     #   for handle in handles
     #     hivent    = new HG.HiventMarker3D handle, this, HG.Display.CONTAINER
     #     position  = @_latLongToCart

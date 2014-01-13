@@ -5,6 +5,12 @@ call "C:\Program Files\nodejs\nodevars.bat"
 call "data_src\hivents\generate.bat"
 
 @echo off
+call "data_src\labels\generate.bat"
+
+@echo off
+call "data_src\pahts\generate.bat"
+
+@echo off
 set cFiles=script/util/Mixin.coffee ^
         script/util/CallbackContainer.coffee ^
         script/util/VideoPlayer.coffee ^
@@ -14,6 +20,8 @@ set cFiles=script/util/Mixin.coffee ^
         script/display/Display.coffee ^
         script/areas/Area.coffee ^
         script/areas/AreaController.coffee ^
+        script/labels/Label.coffee ^
+        script/labels/LabelController.coffee ^
         script/hivents/HiventHandle.coffee ^
         script/hivents/HiventBuilder.coffee ^
         script/hivents/HiventDatabaseInterface.coffee ^
@@ -23,7 +31,13 @@ set cFiles=script/util/Mixin.coffee ^
         script/hivents/HiventMarker2D.coffee ^
         script/hivents/HiventMarker3D.coffee ^
         script/hivents/HiventMarkerTimeline.coffee ^
-        script/hivents/HiventInfoPopover.coffee
+        script/legend/Legend.coffee ^
+        script/hivents/HiventInfoPopover.coffee ^
+        script/paths/Path.coffee ^
+        script/paths/ArcPath2D.coffee ^
+        script/paths/PathController.coffee ^
+        script/paths/LinearPath2D.coffee ^
+        script/paths/ArcPath2D.coffee
 
 @echo off
 set jFiles=build/Mixin.js ^
@@ -33,6 +47,8 @@ set jFiles=build/Mixin.js ^
         build/Display3D.js ^
         build/Area.js ^
         build/AreaController.js ^
+        build/Label.js ^
+        build/LabelController.js ^
         script/timeline/Timeline.js ^
         build/Hivent.js ^
         build/HiventHandle.js ^
@@ -44,6 +60,11 @@ set jFiles=build/Mixin.js ^
         build/HiventMarker3D.js ^
         build/HiventMarkerTimeline.js ^
         build/HiventInfoPopover.js ^
+        build/legend/Legend.js ^
+        build/Path.js ^
+        build/LinearPath2D.js ^
+        build/ArcPath2D.js ^
+        build/PathController.js ^
         build/Vector.js ^
         build/VideoPlayer.js ^
         script/util/BrowserDetect.js

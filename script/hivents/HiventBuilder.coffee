@@ -23,11 +23,12 @@ class HG.HiventBuilder
       hiventDescription = columns[2]
       hiventStartDate   = columns[3]
       hiventEndDate     = columns[4]
-      hiventLocation    = columns[5]
+      hiventDisplayDate = columns[5]
+      hiventLocation    = columns[6]
       hiventLong        = columns[7]
-      hiventLat         = columns[6]
-      hiventCategory    = if columns[8] == '' then 'default' else columns[8]
-      hiventMMIDs       = columns[9]
+      hiventLat         = columns[8]
+      hiventCategory    = if columns[9] == '' then 'default' else columns[9]
+      hiventMMIDs       = columns[10]
 
       mmHtmlString = ''
 
@@ -60,13 +61,13 @@ class HG.HiventBuilder
                   mmHtmlString += "\t</ul>\n"
 
                   successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
-                                          hiventEndDate, hiventLocation, hiventLong, hiventLat,
+                                          hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
                                           hiventCategory, hiventMMIDs, mmHtmlString)
 
             })
       else
         successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
-                                    hiventEndDate, hiventLocation, hiventLong, hiventLat,
+                                    hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
                                     hiventCategory, hiventMMIDs, '')
 
   # ============================================================================
@@ -88,13 +89,8 @@ class HG.HiventBuilder
 
   ############################# MAIN FUNCTIONS #################################
   _createHivent: (hiventID, hiventName, hiventDescription, hiventStartDate,
-                  hiventEndDate, hiventLocation, hiventLong, hiventLat,
+                  hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
                   hiventCategory, hiventMMIDs, mmHtmlString) ->
-
-    #check whether there is a date range
-    dateString = hiventStartDate
-    if hiventStartDate != hiventEndDate
-      dateString += "-" + hiventEndDate
 
     #check whether location is set
     locationString = ''
@@ -102,7 +98,7 @@ class HG.HiventBuilder
       locationString = hiventLocation + ','
 
     #concatenate content
-    content = '\t<h3>' + locationString + dateString + '</h3>\n' +
+    content = '\t<h3>' + locationString + hiventDisplayDate + '</h3>\n' +
               mmHtmlString +
               '\t<p>\n\t\t' +
               hiventDescription +
@@ -120,6 +116,7 @@ class HG.HiventBuilder
       endDate[2],
       endDate[1],
       endDate[0],
+      hiventDisplayDate,
       hiventLocation,
       hiventLong,
       hiventLat,

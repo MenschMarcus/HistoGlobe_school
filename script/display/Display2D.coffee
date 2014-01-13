@@ -7,17 +7,19 @@ class HG.Display2D extends HG.Display
   ##############################################################################
 
   # ============================================================================
-  constructor: (container, hiventController, areaController) ->
+  constructor: (container, hiventController, areaController, labelController) ->
 
     HG.Display.call @, container
 
     @_hiventController = hiventController
     @_areaController = areaController
+    @_labelController = labelController
     @_initMembers()
     @_initCanvas()
     @_initEventHandling()
     @_initHivents()
     @_initAreas()
+    @_initLabels()
 
   # ============================================================================
   start: ->
@@ -89,8 +91,10 @@ class HG.Display2D extends HG.Display
         maxClusterRadius: 20
       })
 
-    @_hiventController.onHiventsChanged (handles) =>
-      marker = new HG.HiventMarker2D handle, this, @_map, @_markerGroup for handle in handles
+    @_hiventController.onHiventsLoaded (handles) =>
+      for handle in handles
+        handle.onShow @, (self) =>
+          marker = new HG.HiventMarker2D self, this, @_map, @_markerGroup
 
     @_map.on "click", HG.HiventHandle.DEACTIVATE_ALL_HIVENTS
     @_map.addLayer @_markerGroup
@@ -113,6 +117,17 @@ class HG.Display2D extends HG.Display
 
     @_areaController.onHideArea @, (area) =>
       @_hideAreaLayer area
+
+  # ============================================================================
+  _initLabels: ->
+
+    @_visibleLabels = []
+
+    @_labelController.onShowLabel @, (label) =>
+      @_showLabel label
+
+    @_labelController.onHideLabel @, (label) =>
+      @_hideLabel label
 
   # ============================================================================
   _onWindowResize: (event) =>
@@ -153,7 +168,7 @@ class HG.Display2D extends HG.Display
     area.myLeafletLabelIsVisible = false
 
     if @_isLabelVisible area
-      @_showLabel area
+      @_showAreaLabel area
 
 
   # ============================================================================
@@ -168,7 +183,7 @@ class HG.Display2D extends HG.Display
 
       area.removeListener "onStyleChange", @
 
-      @_hideLabel area
+      @_hideAreaLabel area
 
       @_map.removeLayer area.myLeafletLabel
       @_map.removeLayer area.myLeafletLayer
@@ -184,13 +199,35 @@ class HG.Display2D extends HG.Display
     visible = (max.x - min.x) > width * 0.75 or @_map.getZoom() is @_map.getMaxZoom()
 
   # ============================================================================
-  _showLabel: (area) =>
+  _showLabel: (label) =>
+    label.myLeafletLabel = new L.Label();
+    label.myLeafletLabel.setContent label.getName()
+    label.myLeafletLabel.setLatLng label.getLatLng()
+    @_map.showLabel label.myLeafletLabel
+    label.myLeafletLabel.options.offset = [
+      -label.myLeafletLabel._container.offsetWidth/2,
+      -label.myLeafletLabel._container.offsetHeight/2
+    ]
+
+    label.myLeafletLabel._updatePosition()
+    $(label.myLeafletLabel._container).addClass("visible")
+
+
+  # ============================================================================
+  _hideLabel: (label) =>
+    $(label.myLeafletLabel._container).removeClass("visible")
+    @_visibleLabels.splice(@_visibleLabels.indexOf(label), 1)
+    @_map.removeLayer label.myLeafletLabel
+
+
+  # ============================================================================
+  _showAreaLabel: (area) =>
     area.myLeafletLabelIsVisible = true
     $(area.myLeafletLabel._container).addClass("visible")
 
 
   # ============================================================================
-  _hideLabel: (area) =>
+  _hideAreaLabel: (area) =>
     area.myLeafletLabelIsVisible = false
     $(area.myLeafletLabel._container).removeClass("visible")
 
@@ -212,9 +249,9 @@ class HG.Display2D extends HG.Display
       shoulBeVisible = @_isLabelVisible area
 
       if shoulBeVisible and not area.myLeafletLabelIsVisible
-        @_showLabel area
+        @_showAreaLabel area
       else if not shoulBeVisible and area.myLeafletLabelIsVisible
-        @_hideLabel area
+        @_hideAreaLabel area
 
 
   # ============================================================================

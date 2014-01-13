@@ -52,8 +52,14 @@
     <script type="text/javascript" src="build/HiventController.js"></script>
     <script type="text/javascript" src="build/HiventHandle.js"></script>
     <script type="text/javascript" src="build/HiventInfoPopover.js"></script>
+    <script type="text/javascript" src="build/Path.js"></script>
+    <script type="text/javascript" src="build/ArcPath2D.js"></script>
+    <script type="text/javascript" src="build/PathController.js"></script>
+    <script type="text/javascript" src="build/LinearPath2D.js"></script>
     <script type="text/javascript" src="build/Area.js"></script>
     <script type="text/javascript" src="build/AreaController.js"></script>
+    <script type="text/javascript" src="build/Label.js"></script>
+    <script type="text/javascript" src="build/LabelController.js"></script>
     <script type="text/javascript" src="build/HiventMarker.js"></script>
     <script type="text/javascript" src="build/HiventMarker2D.js"></script>
     <script type="text/javascript" src="build/HiventMarker3D.js"></script>
@@ -61,9 +67,10 @@
     <script type="text/javascript" src="script/timeline/Timeline.js"></script>
     <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
+    <script type="text/javascript" src="build/Legend.js"></script>
 
     <script type="text/javascript">
-      var display2D, display3D, timeline, hiventController, areaController;
+      var display2D, display3D, timeline, legend, hiventController, areaController, pathController, labelController;
       var timelineInitialized = false;
       var container;
       var windowHeight = window.innerHeight;
@@ -95,6 +102,7 @@
         }
 
         $('.hg-tooltip').tooltip();
+
 
         loadGLHeader();
 
@@ -139,14 +147,22 @@
             $('#warning').modal();
 
             window.setTimeout(function() {
-              hiventController = new HG.HiventController("data/hivent_collection.json");
+              hiventController = new HG.HiventController();
 
               container = document.getElementById('map-container');
+
               loadTimeline();
 
               areaController = new HG.AreaController(timeline);
+              labelController = new HG.LabelController(timeline);
 
               load2D();
+
+              pathController = new HG.PathController(timeline, hiventController, display2D._map);
+
+              loadLegend();
+
+              hiventController.initHivents("data/hivent_collection.json");
 
               $('#warning-close').button('reset')
 
@@ -173,7 +189,7 @@
         }
 
         if (!display2D) {
-          display2D = new HG.Display2D(container, hiventController, areaController);
+          display2D = new HG.Display2D(container, hiventController, areaController, labelController);
           $(display2D.getCanvas()).css({opacity: 0.0});
         }
 
@@ -191,7 +207,7 @@
           }
 
           if (!display3D) {
-            display3D = new HG.Display3D(container, hiventController, areaController);
+            display3D = new HG.Display3D(container, hiventController, areaController, labelController);
             $(display3D.getCanvas()).css({opacity: 0.0});
           }
 
@@ -199,6 +215,20 @@
           $(display3D.getCanvas()).animate({opacity: 1.0}, 1000, 'linear');
 
         }
+      }
+
+      function loadLegend() {
+        gui_container = document.getElementById('gui-container');
+        legend = new HG.Legend(gui_container, hiventController);
+
+        legend.addCategoryWithColor("eu", "#9F8BFF", "EU / EG", false);
+        legend.addCategoryWithColor("euro", "#5B309F", "Eurozone", false);
+
+        legend.addSpacer();
+
+        legend.addCategoryWithIcon("join", "data/hivent_icons/icon_join.png", "Beitritt", true);
+        legend.addCategoryWithIcon("contract", "data/hivent_icons/icon_contract.png", "Vertrag", true);
+        legend.addCategoryWithIcon("default", "data/hivent_icons/icon_default.png", "Sonstige", true);
       }
 
       function loadTimeline() {
@@ -273,6 +303,7 @@
 
         <div id="map-container" style="overflow:hidden; position:absolute;"> </div>
 
+
         <!-- prototype-warning -->
         <?php readfile("php/greeting.php"); ?>
 
@@ -283,23 +314,7 @@
             <div id="toggle-backend" class="btn btn-default"><i class="fa fa-pencil"></i> Editieren</div>
           </div>
 
-          <!-- legend -->
-          <div id="legend" class = "menu">
-            <table>
-              <tr><td style="width:10px; height:10px; background-color:#9F8BFF"></td>
-                  <td style="padding:0px 5px"><small>EU / EG</small></td></tr>
-              <tr><td style="width:10px; height:10px; background-color:#5B309F"></td>
-                  <td style="padding:0px 5px"><small>Eurozone</small></td></tr>
-              <tr><td style="padding:10px"/><td style="padding:10px"/></tr>
-              <tr><td style="width:10px; height:10px; background-image:url('data/hivent_icons/icon_join.png'); background-repeat: no-repeat; background-size: contain"></td>
-                  <td style="padding:0px 5px"><small>Beitritt</small></td></tr>
-              <tr><td style="width:10px; height:10px; background-image:url('data/hivent_icons/icon_law.png'); background-repeat: no-repeat; background-size: contain"></td>
-                  <td style="padding:0px 5px"><small>Vertrag</small></td></tr>
-              <tr><td style="width:10px; height:10px; background-image:url('data/hivent_icons/icon_default.png'); background-repeat: no-repeat; background-size: contain"></td>
-                  <td style="padding:0px 5px"><small>Sonstige</small></td></tr>
-
-            </table>
-          </div>
+          <div id="gui-container"> </div>
 
           <div id="fullscreenMenuRight"  class="menu">
             <div id="toggle-fullscreen" class="btn btn-default"><i class="fa fa-fullscreen"></i> Vollbild</div>
