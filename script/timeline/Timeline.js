@@ -450,19 +450,16 @@ function timeline(hiventController) {
   /** HISTORICAL EVENT MARKER **/
 
   function initHivents() {
-    hiventController.onHiventsLoaded(function(handles){
+    hiventController.onHiventAdded(function(handle){
 
-      var len = handles.length;
-      for (var i=0; i<len; i++) {
-        handles[i].onShow(self, function(handle) {
-          var hivent = handle.getHivent();
-          var posX = dateToPos(hivent.startDate);
-          var hiventMarker = new HG.HiventMarkerTimeline(timeline,
-                                                         handle,
-  																										   tlScroller,
-  																									     posX);
-        });
-      }
+      handle.onShow(self, function(h) {
+        var hivent = h.getHivent();
+        var posX = dateToPos(hivent.startDate);
+        var hiventMarker = new HG.HiventMarkerTimeline(timeline,
+                                                       h,
+																										   tlScroller,
+																									     posX);
+      });
     });
   }
 

@@ -162,7 +162,7 @@
 
               loadLegend();
 
-              hiventController.initHivents("data/hivent_collection.json");
+              hiventController.loadHivents("hivents", "hivent_data");
 
               $('#warning-close').button('reset')
 

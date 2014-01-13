@@ -12,10 +12,10 @@ class HG.HiventController
 
   # ============================================================================
   constructor: () ->
-    # @_initHivents(pathToHivents)
+    # @_loadHivents(pathToHivents)
     @_hiventHandles = [];
     @_hiventsLoaded = false;
-    @_onHiventsLoadedCallbacks = [];
+    @_onHiventAddedCallbacks = [];
 
     @_currentTimeFilter = null; # {start: <Date>, end: <Date>}
     @_currentSpaceFilter = null; # { min: {lat: <float>, long: <float>},
@@ -24,9 +24,9 @@ class HG.HiventController
 
 
   # ============================================================================
-  onHiventsLoaded: (callbackFunc) ->
+  onHiventAdded: (callbackFunc) ->
     if callbackFunc and typeof(callbackFunc) == "function"
-      @_onHiventsLoadedCallbacks.push callbackFunc
+      @_onHiventAddedCallbacks.push callbackFunc
 
       if @_hiventsLoaded
         callbackFunc @_hiventHandles
@@ -56,69 +56,25 @@ class HG.HiventController
   ############################### INIT FUNCTIONS ###############################
 
   # ============================================================================
-  initHivents: (pathToHivents) ->
-    dbInterface = new HG.HiventDatabaseInterface("hivents")
+  loadHivents: (databaseName, tableName) ->
+    dbInterface = new HG.HiventDatabaseInterface(databaseName)
     dbInterface.getHivents {
-      tableName: "hivent_data",
+      tableName: tableName,
       upperLimit: 100,
       success: (data) =>
                     builder = new HG.HiventBuilder()
                     rows = data.split "\n"
                     for row in rows
-                      console.log row
                       builder.constructHiventFromDBString row, (hivent) =>
-                        console.log hivent
-                        @_hiventHandles.push new HG.HiventHandle hivent
+                        handle = new HG.HiventHandle hivent
+                        @_hiventHandles.push handle
                         # dbInterface.addHivents {
                         #   tableName: "test",
                         #   hivents: [hivent]
                         # }
-                      @_hiventsLoaded = true
-                      @_filterHivents();
+                        callback handle for callback in @_onHiventAddedCallbacks
+                        @_filterHivents();
     }
-    # $.ajax({
-    #         url: "php/query_database.php?dbName=hivents&tableName=hivent_data&lowerLimit=0&upperLimit=100",
-    #         success: (data) =>
-    #           builder = new HG.HiventBuilder()
-    #           # rows = data.split "\n"
-    #           # for row in rows
-    #           #   builder.constructHiventFromDBString row, (hivent) =>
-    #           #     @_hiventHandles.push new HG.HiventHandle hivent
-    #           #     $.ajax({
-    #           #               data: hivent,
-    #           #               type: "POST",
-    #           #               url: "php/add_hivent.php?dbName=hivents&tableName=test",
-    #           #               success: (data) =>
-    #           #                 console.log data
-    #           #       })
-    #           #   @_hiventsChanged = true
-    #           #   @_filterHivents();
-    #       })
-
-
-    # $.getJSON(pathToHivents, (hivents) =>
-    #   for h in hivents
-    #     hivent = new HG.Hivent(
-    #       h.name,
-    #       h.startYear,
-    #       h.startMonth,
-    #       h.startDay,
-    #       h.endYear,
-    #       h.endMonth,
-    #       h.endDay,
-    #       h.long,
-    #       h.lat,
-    #       h.category,
-    #       h.content,
-    #     )
-
-    #     @_hiventHandles.push(new HG.HiventHandle hivent)
-
-    #   @_hiventsChanged = true
-
-    #   @_filterHivents();
-
-    # )
 
 
   ############################# MAIN FUNCTIONS #################################

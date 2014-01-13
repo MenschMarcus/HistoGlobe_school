@@ -25,8 +25,8 @@ class HG.HiventBuilder
       hiventEndDate     = columns[4]
       hiventDisplayDate = columns[5]
       hiventLocation    = columns[6]
-      hiventLong        = columns[7]
-      hiventLat         = columns[8]
+      hiventLat         = columns[7]
+      hiventLong        = columns[8]
       hiventCategory    = if columns[9] == '' then 'default' else columns[9]
       hiventMMIDs       = columns[10]
 
@@ -42,12 +42,12 @@ class HG.HiventBuilder
           galleryTag = "[" + galleryID + "]"
 
         #get all related entries from multimedia database and concatenate html string
+        loadedIds = []
         for id in hiventMMIDs
           $.ajax({
-              url: "php/query_database.php?dbName=hivents&tableName=hivent_multimedia&condition=ID=" + "'#{id}'",
+              url: "php/query_database.php?dbName=hivents&tableName=hivent_multimedia&condition=id=" + "'#{id}'",
               success: (data) =>
                 cols = data.split "|"
-
                 mm = @_createMultiMedia cols[1], cols[2], cols[3]
                 mmHtmlString +=  '\t\t<li><a href=\"' +
                                   mm.link + '\" rel=\"prettyPhoto' +
@@ -55,16 +55,29 @@ class HG.HiventBuilder
                                   mm.description + '\"> <img src=\"' +
                                   mm.thumbnail + '\" width=\"60px\" /></a></li>\n'
 
-
-                #if all related multimedia has been fetched, continue hivent construction
-                if cols[0] == hiventMMIDs[hiventMMIDs.length-1]
-                  mmHtmlString += "\t</ul>\n"
-
-                  successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
-                                          hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
-                                          hiventCategory, hiventMMIDs, mmHtmlString)
+                loadedIds.push id
+                # #if all related multimedia has been fetched, continue hivent construction
+                # if cols[0] == hiventMMIDs[hiventMMIDs.length-1]
+                #   mmHtmlString += "\t</ul>\n"
+                #   successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
+                #                           hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
+                #                           hiventCategory, hiventMMIDs, mmHtmlString)
 
             })
+
+        loadFinished = () ->
+          loadedIds.length is hiventMMIDs.length
+
+        loadSuccessFunction = () =>
+          console.log "success"
+          mmHtmlString += "\t</ul>\n"
+          successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
+                                  hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
+                                  hiventCategory, hiventMMIDs, mmHtmlString)
+
+        @_waitFor loadFinished, loadSuccessFunction
+
+
       else
         successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
                                     hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
@@ -144,6 +157,14 @@ class HG.HiventBuilder
       mm.thumbnail = "data/hivent_icons/icon_join.png"
 
     mm
+
+  # ============================================================================
+  _waitFor: (condition, successCallback) =>
+    window.setTimeout (() =>
+      unless condition()
+        @_waitFor condition, successCallback
+
+      else successCallback()), 100
 
   IFRAME_CRITERIA = ['flv', 'ogv', 'mp4', 'ogg']
 
