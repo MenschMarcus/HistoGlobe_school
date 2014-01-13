@@ -9,7 +9,8 @@ class HG.HiventDatabaseInterface
   ##############################################################################
 
   # ============================================================================
-  constructor: (databaseName) ->
+  constructor: (serverName, databaseName) ->
+    @_serverName = serverName
     @_databaseName = databaseName
 
   # ============================================================================
@@ -34,7 +35,8 @@ class HG.HiventDatabaseInterface
 
       $.ajax({
           url: "php/query_database.php?" +
-                "dbName=#{@_databaseName}" +
+                "serverName=#{@_serverName}" +
+                "&dbName=#{@_databaseName}" +
                 "&tableName=#{config.tableName}" +
                 "&lowerLimit=#{config.lowerLimit}" +
                 "&upperLimit=#{config.upperLimit}" +
@@ -63,7 +65,8 @@ class HG.HiventDatabaseInterface
         for hivent in config.hivents
           $.ajax({
               url: "php/add_hivent.php?" +
-                    "dbName=#{@_databaseName}" +
+                    "serverName=#{@_serverName}" +
+                    "&dbName=#{@_databaseName}" +
                     "&tableName=#{config.tableName}"
               type: "POST",
               data: hivent,
@@ -74,3 +77,31 @@ class HG.HiventDatabaseInterface
     else
       console.error "Unable to add hivents: No table name specified!"
 
+# ============================================================================
+  # config =
+  #   tableName: string -- name of the table
+  #   hivents: Array() -- hivents to be removed
+  #   success: function -- triggered for each successfully removed hivent
+
+  removeHivents: (config) =>
+
+    if (config.tableName?)
+
+      if (config.hivents? and config.hivents.length > 0)
+
+        config.success?= (data) -> console.log data if data != ""
+
+        for hivent in config.hivents
+          $.ajax({
+              url: "php/remove_from_database.php?" +
+                    "serverName=#{@_serverName}" +
+                    "&dbName=#{@_databaseName}" +
+                    "&tableName=#{config.tableName}" +
+                    "&condition=id=\"#{hivent.id}\""
+              type: "GET"
+              success: config.success
+            })
+      else
+        console.error "Unable to remove hivents: No hivents given!"
+    else
+      console.error "Unable to remove hivents: No table name specified!"

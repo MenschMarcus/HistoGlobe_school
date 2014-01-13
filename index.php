@@ -162,7 +162,16 @@
 
               loadLegend();
 
-              hiventController.loadHivents("hivents", "hivent_data");
+              config = {
+                hiventServerName: "histoglobe.com",
+                hiventDatabaseName: "hivents",
+                hiventTableName: "eu_hivents",
+                multimediaServerName: "histoglobe.com",
+                multimediaDatabaseName: "hivents",
+                multimediaTableName: "eu_multimedia"
+              };
+
+              hiventController.loadHivents(config);
 
               $('#warning-close').button('reset')
 

@@ -56,24 +56,29 @@ class HG.HiventController
   ############################### INIT FUNCTIONS ###############################
 
   # ============================================================================
-  loadHivents: (databaseName, tableName) ->
-    dbInterface = new HG.HiventDatabaseInterface(databaseName)
+  # config =
+  #   hiventServerName: string -- name of the server
+  #   hiventDatabaseName: string -- name of the database
+  #   hiventTableName: string -- name of the table
+  #   multimediaServerName: string -- name of the server
+  #   multimediaDatabaseName: string -- name of the database
+  #   multimediaTableName: string -- name of the table
+
+  loadHivents: (config) ->
+    dbInterface = new HG.HiventDatabaseInterface(config.hiventServerName, config.hiventDatabaseName)
     dbInterface.getHivents {
-      tableName: tableName,
+      tableName: config.hiventTableName,
       upperLimit: 100,
-      success: (data) =>
-                    builder = new HG.HiventBuilder()
-                    rows = data.split "\n"
-                    for row in rows
-                      builder.constructHiventFromDBString row, (hivent) =>
-                        handle = new HG.HiventHandle hivent
-                        @_hiventHandles.push handle
-                        # dbInterface.addHivents {
-                        #   tableName: "test",
-                        #   hivents: [hivent]
-                        # }
-                        callback handle for callback in @_onHiventAddedCallbacks
-                        @_filterHivents();
+      success:
+        (data) =>
+          builder = new HG.HiventBuilder(config)
+          rows = data.split "\n"
+          for row in rows
+            builder.constructHiventFromDBString row, (hivent) =>
+              handle = new HG.HiventHandle hivent
+              @_hiventHandles.push handle
+              callback handle for callback in @_onHiventAddedCallbacks
+              @_filterHivents();
     }
 
 

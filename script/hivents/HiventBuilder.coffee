@@ -9,7 +9,15 @@ class HG.HiventBuilder
   ##############################################################################
 
   # ============================================================================
-  constructor: () ->
+  # config =
+  #   hiventServerName: string -- name of the server
+  #   hiventDatabaseName: string -- name of the database
+  #   hiventTableName: string -- name of the table
+  #   multimediaServerName: string -- name of the server
+  #   multimediaDatabaseName: string -- name of the database
+  #   multimediaTableName: string -- name of the table
+  constructor: (config) ->
+    @_config = config
 
   # ============================================================================
   constructHiventFromDBString: (dataString, successCallback) ->
@@ -28,15 +36,15 @@ class HG.HiventBuilder
       hiventLat         = columns[7]
       hiventLong        = columns[8]
       hiventCategory    = if columns[9] == '' then 'default' else columns[9]
-      hiventMMIDs       = columns[10]
+      hiventMultimedia        = columns[10]
 
       mmHtmlString = ''
 
       #get related multimedia
-      if hiventMMIDs != ""
+      if hiventMultimedia != ""
         galleryID = hiventID + "_gallery"
         mmHtmlString = '\t<ul class=\"gallery clearfix\">\n'
-        hiventMMIDs = hiventMMIDs.split(",")
+        hiventMMIDs = hiventMultimedia.split(",")
         galleryTag = ""
         if hiventMMIDs.length > 1
           galleryTag = "[" + galleryID + "]"
@@ -45,7 +53,11 @@ class HG.HiventBuilder
         loadedIds = []
         for id in hiventMMIDs
           $.ajax({
-              url: "php/query_database.php?dbName=hivents&tableName=hivent_multimedia&condition=id=" + "'#{id}'",
+              url: "php/query_database.php?"+
+                    "serverName=#{@_config.multimediaServerName}"+
+                    "&dbName=#{@_config.multimediaDatabaseName}"+
+                    "&tableName=#{@_config.multimediaTableName}"+
+                    "&condition=id=" + "'#{id}'",
               success: (data) =>
                 cols = data.split "|"
                 mm = @_createMultiMedia cols[1], cols[2], cols[3]
@@ -56,24 +68,16 @@ class HG.HiventBuilder
                                   mm.thumbnail + '\" width=\"60px\" /></a></li>\n'
 
                 loadedIds.push id
-                # #if all related multimedia has been fetched, continue hivent construction
-                # if cols[0] == hiventMMIDs[hiventMMIDs.length-1]
-                #   mmHtmlString += "\t</ul>\n"
-                #   successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
-                #                           hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
-                #                           hiventCategory, hiventMMIDs, mmHtmlString)
-
             })
 
         loadFinished = () ->
           loadedIds.length is hiventMMIDs.length
 
         loadSuccessFunction = () =>
-          console.log "success"
           mmHtmlString += "\t</ul>\n"
           successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
                                   hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
-                                  hiventCategory, hiventMMIDs, mmHtmlString)
+                                  hiventCategory, hiventMultimedia, mmHtmlString)
 
         @_waitFor loadFinished, loadSuccessFunction
 
@@ -81,20 +85,20 @@ class HG.HiventBuilder
       else
         successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
                                     hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
-                                    hiventCategory, hiventMMIDs, '')
+                                    hiventCategory, hiventMultimedia, '')
 
-  # ============================================================================
-  constructDBStringFromHivent: (hivent, successCallback) ->
+  # # ============================================================================
+  # constructDBStringFromHivent: (hivent, successCallback) ->
 
-    successCallback?= (hiventString) -> console.log hiventString
+  #   successCallback?= (hiventString) -> console.log hiventString
 
-    hiventString = hivent.id + '|' + hivent.name + '|' + hivent.description + '|' +
-                   hivent.startDay + '.' + hivent.startMonth + '.' + hivent.startYear + '|' +
-                   hivent.endDay + '.' + hivent.endMonth + '.' + hivent.endYear + '|' +
-                   hivent.locationName + '|' + hivent.long + '|' + hivent.lat + '|' +
-                   hivent.category + '|' + hivent.mmIDs
+  #   hiventString = hivent.id + '|' + hivent.name + '|' + hivent.description + '|' +
+  #                  hivent.startDay + '.' + hivent.startMonth + '.' + hivent.startYear + '|' +
+  #                  hivent.endDay + '.' + hivent.endMonth + '.' + hivent.endYear + '|' +
+  #                  hivent.locationName + '|' + hivent.long + '|' + hivent.lat + '|' +
+  #                  hivent.category + '|' + hivent.mmIDs
 
-    successCallback hiventString
+  #   successCallback hiventString
 
   ############################### INIT FUNCTIONS ###############################
 

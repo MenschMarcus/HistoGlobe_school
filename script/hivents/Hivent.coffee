@@ -12,7 +12,7 @@ class HG.Hivent
                 displayDate,
                 locationName,
                 long, lat, category, content,
-                description, mmIDs)  ->
+                description, multimedia)  ->
 
     @id = id
     @name = name
@@ -31,5 +31,5 @@ class HG.Hivent
     @category = category
     @content = content
     @description = description
-    @mmIDs = mmIDs
+    @multimedia = multimedia
 
