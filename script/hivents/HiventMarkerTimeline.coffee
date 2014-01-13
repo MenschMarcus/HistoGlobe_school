@@ -99,13 +99,6 @@ class HG.HiventMarkerTimeline
     @_position.x = posX + @_xOffset * HIVENT_MARKER_TIMELINE_RADIUS * 1.5
     @_div.style.left = @_position.x + "px"
 
-  # ============================================================================
-  hide: ->
-    @_div.style.display = "none"
-
-  # ============================================================================
-  show: ->
-    @_div.style.display = "block"
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -122,9 +115,16 @@ class HG.HiventMarkerTimeline
     @getHiventHandle().unMarkAll()
     @getHiventHandle().unLinkAll()
     @_div.parentNode.removeChild @_div
+
+    @_hiventHandle.removeListener "onMark", @
+    @_hiventHandle.removeListener "onUnMark", @
+    @_hiventHandle.removeListener "onLink", @
+    @_hiventHandle.removeListener "onUnLink", @
     @_hiventHandle.removeListener "onHide", @
     @_hiventHandle.removeListener "onDestruction", @
+
     @_destroyMarker()
+
     delete @
     return
 

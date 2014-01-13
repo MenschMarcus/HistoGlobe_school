@@ -38,6 +38,9 @@ def main():
         path_coordsInbetween = row[3]
         path_category        = row[4]
         path_type            = row[5]
+        path_movingMarker    = row[6]
+        path_startMarker     = row[7]
+        path_endMarker       = row[8]
 
         #create json
 
@@ -51,7 +54,10 @@ def main():
 
         json_target.write('\t\t\"category\": \"' +  path_category + '\",\n')
 
-        json_target.write('\t\t\"type\": \"' +  path_type + '\"\n')
+        json_target.write('\t\t\"type\": \"' +  path_type + '\",\n')
+        json_target.write('\t\t\"movingMarker\": ' +  path_movingMarker.lower() + ',\n')
+        json_target.write('\t\t\"startMarker\": ' +  path_startMarker.lower() + ',\n')
+        json_target.write('\t\t\"endMarker\": ' +  path_endMarker.lower() + '\n')
 
         json_target.write('\t}')
         if row != rows[-1]:

@@ -7,22 +7,29 @@ class HG.PathController
   ##############################################################################
 
   # ============================================================================
-  constructor: (timeline, hiventController) ->
+  constructor: (timeline, hiventController, map) ->
 
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
 
+    @_timeline = timeline
+    @_hiventController = hiventController
+
+    ##UGLY! PathController shouldn't know about map
+    @_map = map
+
     @_initMembers()
 
-    timeline.addListener @
+    @_timeline.addListener @
 
-    @_hiventController = hiventController
 
   # ============================================================================
   nowChanged: (date) ->
     @_now = date
+    @_filterPaths()
     for path in @_paths
       path.setDate date
+
 
   # ============================================================================
   periodChanged: (dateA, dateB) ->
@@ -30,6 +37,10 @@ class HG.PathController
   # ============================================================================
   categoryChanged: (c) ->
 
+  # ============================================================================
+  setCategoryFilter: (categoryFilter) ->
+    @_currentCategoryFilter = categoryFilter
+    @_filterPaths()
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -38,28 +49,51 @@ class HG.PathController
   # ============================================================================
   _initMembers: ->
     @_paths = []
-    @_now = new Date(2000, 1, 1)
+    @_now = @_timeline.getNow()
+    @_currentCategoryFilter = null
 
-    @_loadJson "data/path_collection.json"
+    @_hiventController.onHiventsLoaded @_loadJson
 
   # ============================================================================
-  _loadJson: (file) ->
-    $.getJSON file, (paths) =>
+  _loadJson: () =>
+    $.getJSON "data/path_collection.json", (paths) =>
       for path in paths
         startHiventHandle = @_hiventController.getHiventHandleById path.startHivent
         endHiventHandle = @_hiventController.getHiventHandleById path.endHivent
 
-        newPath = null
-        # if path.type is "arcPath"
-        #   newPath = new HG.ArcPath2D startHiventHandle, endHiventHandle
-        # else if  path.type is  "linearPath"
-        #   newPath = new HG.LinearPath2D startHiventHandle, endHiventHandle
-        # else
-        #   console.error "Undefined path type \"#{path.type}\"!"
+        startHivent = startHiventHandle.getHivent()
+        endHivent = endHiventHandle.getHivent()
 
-        if newPath?
-          @_paths.push newPath
+        unless startHivent.endDate.getTime() is endHivent.startDate.getTime()
 
-          newPath.setDate @_now
+          newPath = null
+          if path.type is "ARC_PATH"
+            newPath = new HG.ArcPath2D startHiventHandle, endHiventHandle, path.category, @_map, "#000000", path.movingMarker, path.startMarker, path.endMarker, 0.2
+          else if  path.type is "LINEAR_PATH"
+            newPath = new HG.LinearPath2D startHiventHandle, endHiventHandle, path.category, @_map, "#000000"
+          else
+            console.error "Undefined path type \"#{path.type}\"!"
 
+          if newPath?
+            @_paths.push newPath
+
+            newPath.setDate @_now
+
+      @_filterPaths()
+
+  # ============================================================================
+  _filterPaths: ->
+    for path in @_paths
+      isVisible = true
+
+      if isVisible and @_currentCategoryFilter?
+        isVisible = path.category in @_currentCategoryFilter
+
+      if isVisible and @_now?
+        isVisible = path._startHiventHandle.getHivent().startDate < @_now
+
+      if isVisible
+        path.show(@_now)
+      else if path.isVisible()
+        path.hide()
 

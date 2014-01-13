@@ -7,9 +7,9 @@ class HG.LinearPath2D extends HG.Path
   ##############################################################################
 
   # ============================================================================
-  constructor: (startHiventHandle, endHiventHandle, map) ->
+  constructor: (startHiventHandle, endHiventHandle, category, map, color) ->
 
-    HG.Path.call @, startHiventHandle, endHiventHandle
+    HG.Path.call @, startHiventHandle, endHiventHandle, category, color
 
     @_map = map
     @_arc = undefined
@@ -44,9 +44,9 @@ class HG.LinearPath2D extends HG.Path
     points.push {lng: p2.at(0), lat: p2.at(1)}
 
     @_arc = new L.polyline points, {
-      color: "#952"
+      color: @_color
       lineCap: "butt"
-      weight: "3"
+      weight: "2"
       opacity: "0.8"
       dashArray: "5, 2"
     }
@@ -57,7 +57,6 @@ class HG.LinearPath2D extends HG.Path
   _destroy: () ->
     @_map.removeLayer @_arc
     @_arc = null
-
 
 
 

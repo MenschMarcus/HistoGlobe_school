@@ -10,8 +10,8 @@ class HG.HiventController
   ##############################################################################
 
   # ============================================================================
-  constructor: (pathToHivents) ->
-    @_initHivents(pathToHivents)
+  constructor: () ->
+    # @_initHivents(pathToHivents)
     @_hiventHandles = [];
     @_hiventsLoaded = false;
     @_onHiventsLoadedCallbacks = [];
@@ -19,14 +19,15 @@ class HG.HiventController
     @_currentTimeFilter = null; # {start: <Date>, end: <Date>}
     @_currentSpaceFilter = null; # { min: {lat: <float>, long: <float>},
                                  #   max: {lat: <float>, long: <float>}}
+    @_currentCategoryFilter = null; # [category_a, category_b, ...]
 
 
   # ============================================================================
   onHiventsLoaded: (callbackFunc) ->
     if callbackFunc and typeof(callbackFunc) == "function"
-      unless @_hiventsLoaded
-        @_onHiventsLoadedCallbacks.push callbackFunc
-      else
+      @_onHiventsLoadedCallbacks.push callbackFunc
+
+      if @_hiventsLoaded
         callbackFunc @_hiventHandles
 
   # ============================================================================
@@ -39,17 +40,22 @@ class HG.HiventController
     @_currentSpaceFilter = spaceFilter
     @_filterHivents()
 
+  # ============================================================================
+  setCategoryFilter: (categoryFilter) ->
+    @_currentCategoryFilter = categoryFilter
+    @_filterHivents()
 
   getHiventHandleById: (hiventId) ->
     for handle in @_hiventHandles
       if handle.getHivent().id is hiventId
         return handle
     console.log "An Hivent with the id \"#{hiventId}\" does not exist!"
+    return null
 
   ############################### INIT FUNCTIONS ###############################
 
   # ============================================================================
-  _initHivents: (pathToHivents) ->
+  initHivents: (pathToHivents) ->
     $.getJSON(pathToHivents, (hivents) =>
       for h in hivents
         hivent = new HG.Hivent(
@@ -85,21 +91,23 @@ class HG.HiventController
 
     for handle in @_hiventHandles
       hivent = handle.getHivent()
-      isInTime = false
-      unless @_currentTimeFilter == null
-        isInTime = not (hivent.startDate.getTime() > @_currentTimeFilter.end.getTime()) and
-                   not (hivent.endDate.getTime() < @_currentTimeFilter.start.getTime())
+      isVisible = true
 
-      isInSpace = true
-      unless @_currentSpaceFilter == null
-        isInSpace = hivent.lat >= @_currentSpaceFilter.min.lat and
+      if isVisible and @_currentCategoryFilter?
+        isVisible = hivent.category in @_currentCategoryFilter
+
+      if isVisible and @_currentTimeFilter?
+        isVisible = not (hivent.startDate.getTime() > @_currentTimeFilter.end.getTime()) and
+                    not (hivent.endDate.getTime() < @_currentTimeFilter.start.getTime())
+
+      if isVisible and @_currentSpaceFilter?
+        isVisible = hivent.lat >= @_currentSpaceFilter.min.lat and
                     hivent.long >= @_currentSpaceFilter.min.long and
                     hivent.lat <= @_currentSpaceFilter.max.lat and
                     hivent.long <= @_currentSpaceFilter.max.long
 
-      if isInTime and isInSpace
+      if isVisible
         unless handle._visible
           handle.showAll()
       else if handle._visible
         handle.hideAll()
-

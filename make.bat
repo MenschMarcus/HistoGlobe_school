@@ -29,6 +29,7 @@ set cFiles=script/util/Mixin.coffee ^
         script/hivents/HiventMarker2D.coffee ^
         script/hivents/HiventMarker3D.coffee ^
         script/hivents/HiventMarkerTimeline.coffee ^
+        script/legend/Legend.coffee ^
         script/hivents/HiventInfoPopover.coffee ^
         script/paths/Path.coffee ^
         script/paths/ArcPath2D.coffee ^
@@ -55,6 +56,7 @@ set jFiles=build/Mixin.js ^
         build/HiventMarker3D.js ^
         build/HiventMarkerTimeline.js ^
         build/HiventInfoPopover.js ^
+        build/legend/Legend.js ^
         build/Path.js ^
         build/LinearPath2D.js ^
         build/ArcPath2D.js ^

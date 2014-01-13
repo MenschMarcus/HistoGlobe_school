@@ -21,29 +21,33 @@ class HG.CallbackContainer
             @[arrayName][i][1].push callbackFunc
             return
 
+        # if arrayName is "_onDestructionCallbacks"
+        #   console.log arrayName
+        #   console.log obj
         @[arrayName].push [obj, [callbackFunc]]
 
   # ============================================================================
   notify: (callbackName, objectToBeNotified, parameters...) ->
     arrayName = "_#{callbackName}Callbacks"
+
+    @[arrayName] = @[arrayName].filter (item) -> item isnt null
+
     for i in [0...@[arrayName].length]
-      if @[arrayName][i]?
-        if @[arrayName][i][0] == objectToBeNotified
-          for j in [0...@[arrayName][i][1].length]
-            @[arrayName][i][1][j].apply @[arrayName][i][0], parameters
-          break
-      else
-        @[arrayName].splice i,1
+      if @[arrayName][i][0] == objectToBeNotified
+        for j in [0...@[arrayName][i][1].length]
+          @[arrayName][i][1][j].apply @[arrayName][i][0], parameters
+        break
 
   # ============================================================================
   notifyAll: (callbackName, parameters...) ->
     arrayName = "_#{callbackName}Callbacks"
+
+    @[arrayName] = @[arrayName].filter (item) -> item isnt null
+
     for i in [0...@[arrayName].length]
-      if @[arrayName][i]?
-        for j in [0...@[arrayName][i][1].length]
-          @[arrayName][i][1][j].apply @[arrayName][i][0], parameters
-      else
-        @[arrayName].splice i,1
+      for j in [0...@[arrayName][i][1].length]
+        @[arrayName][i][1][j].apply @[arrayName][i][0], parameters
+
 
   # ============================================================================
   removeListener: (callbackName, listenerToBeRemoved) ->

@@ -123,8 +123,14 @@ class HG.HiventMarker2D
     @_map.off "viewreset", @_updatePosition
     @_markerGroup.removeLayer @_marker
 
+    @_hiventHandle.removeListener "onFocus", @
+    @_hiventHandle.removeListener "onActive", @
+    @_hiventHandle.removeListener "onInActive", @
+    @_hiventHandle.removeListener "onLink", @
+    @_hiventHandle.removeListener "onUnLink", @
     @_hiventHandle.removeListener "onHide", @
     @_hiventHandle.removeListener "onDestruction", @
+
     @_destroyMarker()
     delete @
 

@@ -1,20 +1,2 @@
-ID|startHivent|endHivent|coordsInbetween|category|type
-P1|H1|H2||Friedrich Naumann|arcPath
-P2|H2|H3||Friedrich Naumann|arcPath
-P3|H3|H4||Friedrich Naumann|arcPath
-P4|H4|H5||Friedrich Naumann|arcPath
-P5|H6|H7||Hugo Preuß|arcPath
-P6|H7|H8||Hugo Preuß|arcPath
-P7|H8|H9||Hugo Preuß|arcPath
-P8|H10|H11||Friedrich Ebert|arcPath
-P9|H11|H12||Friedrich Ebert|arcPath
-P10|H12|H13||Friedrich Ebert|arcPath
-P11|H13|H14||Friedrich Ebert|arcPath
-P12|H15|H16||Maria Juchacz|arcPath
-P13|H16|H17||Maria Juchacz|arcPath
-P14|H18|H19||Konstantin Fehrenbach|arcPath
-P15|H19|H20||Konstantin Fehrenbach|arcPath
-P16|H21|H22||Matthias Erzberger|arcPath
-P17|H22|H23||Matthias Erzberger|arcPath
-P18|H23|H24||Matthias Erzberger|arcPath
-P19|H24|H25||Matthias Erzberger|arcPath
+ID|startHivent|endHivent|coordsInbetween|category|type|movingMarker|startMarker|endMarker
+P1|H54|H56||Temp|ARC_PATH|TRUE|FALSE|FALSE
