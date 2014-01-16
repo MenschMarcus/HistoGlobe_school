@@ -1,0 +1,183 @@
+
+// -------------------- BASE LAYOUT --------------------------------------------
+
+#mapArea {
+  position: absolute;
+  overflow: hidden;
+
+  top: 0;
+  bottom: @timeline_height;
+
+  box-shadow: 0 0 20px rgba(0,0,0,1.0);
+  background-color: #aaa;
+
+  .transition-property(right);
+  .transition-duration(0.3s);
+  .transition-timing-function(ease-in-out);
+}
+
+#sidebarArea {
+  position: absolute;
+  overflow: auto;
+
+  top: 0;
+  bottom: @timeline_height;
+
+  .transition-property(right width);
+  .transition-duration(0.3s);
+  .transition-timing-function(ease-in-out);
+
+  background-color: #888;
+  background-image:url('../img/bg.png');
+  background-repeat:repeat;
+}
+
+#timelineArea {
+  position: absolute;
+  overflow: hidden;
+
+  height: @timeline_height;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+
+  background-color: #347654;
+}
+
+#collapseButton {
+  position: absolute;
+
+  left: auto;
+  width: @sidebar_collapse_button_size;
+  top: 10px;
+  cursor: pointer;
+
+  .transition-property(right);
+  .transition-duration(0.3s);
+  .transition-timing-function(ease-in-out);
+
+  color: rgba(0, 0, 0, 0.5);
+
+  &:hover {
+    color: rgba(0, 0, 0, 1.0);
+  }
+}
+
+// ------------------------ WIDGETS --------------------------------------------
+
+
+// collapse animation
+.widgetHeader.collapsed {
+  .topTitleContainer {
+    opacity: 1.0 !important;
+  }
+
+  .widgetCollapseItem {
+    .transform(rotate(90deg));
+  }
+}
+
+.widgetContainer {
+  margin: 10px 10px 10px 15px;
+  overflow: hidden;
+
+  border-radius: 10px 0px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+
+  // header
+  .widgetHeader {
+    position: relative;
+    height: 30px;
+
+    cursor: pointer;
+    background-color: #fff;
+
+    .transition(background-color 0.1s ease-in-out);
+
+    div {
+      position: absolute;
+    }
+
+    // icon
+    .iconContainer {
+      font-size: 1.3em;
+      left: 5px;
+      top: 2px;
+    }
+
+    // top title
+    .topTitleContainer {
+      .transition(opacity  0.3s ease-in-out);
+
+      opacity: 0.0;
+
+      top: 5px;
+      left: 37px;
+    }
+
+    // collapse button
+    .collapseButtonContainer {
+      padding: 5px 10px;
+      right: 0px;
+
+      i {
+        color: rgba(0, 0, 0, 0.5);
+
+        &:hover {
+          color: rgba(0, 0, 0, 1.0);
+        }
+      }
+    }
+
+    .widgetCollapseItem {
+      .transition(all 0.3s ease-in-out);
+    }
+
+    &:hover {
+      background-color: #eee;
+    }
+  }
+
+  // vertical title
+  .verticalTitleContainer {
+    background-color: #fff;
+    padding: 0px 6px;
+    cursor: pointer;
+
+    &.verticalText {
+      text-align:center;
+      font-weight: normal;
+      padding: 0.5em;
+    }
+  }
+
+  // body
+  .widgetBody {
+    padding: 0px 15px 15px 8px;
+    background-color: #fff;
+  }
+}
+
+
+// ------------------ VERTICAL TEXT --------------------------------------------
+.verticalText {
+  display: inline-block;
+  overflow: hidden;
+  width: 1.5em;
+}
+.verticalTextInner {
+  display: inline-block;
+  white-space: nowrap;
+  line-height: 1.5;
+  .transform(translate(0,100%) rotate(-90deg));
+  .transform-origin(0 0);
+}
+
+.verticalTextInner:after {
+  content: "";
+  display: block;
+  margin: -1.5em 0 100%;
+}
+

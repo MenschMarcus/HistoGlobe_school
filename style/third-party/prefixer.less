@@ -274,12 +274,19 @@
 
 
 // Transforms
+.transform-origin(@args) {
+    -webkit-transform-origin: @args;
+    -moz-transform-origin: @args;
+    -ms-transform-origin: @args;
+    -o-transform-origin: @args;
+    transform-origin: @args;
+}
 
 .transform(@args) {
-    -webkit-transform: @args; 
-    -moz-transform: @args; 
-    -ms-transform: @args; 
-    -o-transform: @args; 
+    -webkit-transform: @args;
+    -moz-transform: @args;
+    -ms-transform: @args;
+    -o-transform: @args;
     transform: @args;
 }
 .rotate(@deg:45deg){

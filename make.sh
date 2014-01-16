@@ -7,7 +7,8 @@
 (cd data_src/paths/; ./generate.sh)
 
 
-cFiles="script/util/Mixin.coffee \
+cFiles="script/layout/HistoGlobe.coffee \
+        script/util/Mixin.coffee \
         script/util/CallbackContainer.coffee \
         script/util/VideoPlayer.coffee \
         script/util/Vector.coffee \
@@ -32,7 +33,8 @@ cFiles="script/util/Mixin.coffee \
         script/paths/PathController.coffee \
         script/paths/LinearPath2D.coffee"
 
-jFiles="build/Mixin.js \
+jFiles="build/HistoGlobe.js \
+        build/Mixin.js \
         build/CallbackContainer.js \
         build/Display.js \
         build/Display2D.js \

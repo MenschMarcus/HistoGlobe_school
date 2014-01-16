@@ -11,7 +11,8 @@ call "data_src\labels\generate.bat"
 call "data_src\pahts\generate.bat"
 
 @echo off
-set cFiles=script/util/Mixin.coffee ^
+set cFiles=script/layout/HistoGlobe.coffee ^
+        script/util/Mixin.coffee ^
         script/util/CallbackContainer.coffee ^
         script/util/VideoPlayer.coffee ^
         script/util/Vector.coffee ^
@@ -38,7 +39,8 @@ set cFiles=script/util/Mixin.coffee ^
         script/paths/ArcPath2D.coffee
 
 @echo off
-set jFiles=build/Mixin.js ^
+set jFiles=build/HistoGlobe.js ^
+        build/Mixin.js ^
         build/CallbackContainer.js ^
         build/Display.js ^
         build/Display2D.js ^
