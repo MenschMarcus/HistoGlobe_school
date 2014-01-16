@@ -15,8 +15,9 @@ class HG.HistoGlobe
 
     @_createMap()
 
-    widget = new HG.TextWidget(@_sidebar_area, "fa-tags", "Vorstand", "Jimmy")
-    widget = new HG.TextWidget(@_sidebar_area, "fa-stop", "Stuff", "Lorem ipsum")
+    widget = new HG.TextWidget(@_sidebar_area, "fa-tags", "Vorstand", "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.")
+    widget = new HG.TextWidget(@_sidebar_area, "fa-stop", "Toller Stuff", "Lorem ipsum")
+    widget = new HG.TextWidget(@_sidebar_area, "fa-star", "Lorem Ipsum", "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.")
     widget = new HG.TextWidget(@_sidebar_area, "fa-gift", "Legende", "Gaaay!")
 
 
@@ -30,7 +31,10 @@ class HG.HistoGlobe
     @_sidebar_area = document.createElement "div"
 
     $(@_sidebar_area).click (e) =>
-      if e.target is @_sidebar_area or $(e.target).parents(".collapseOnClick").length isnt 0
+      if e.target is @_sidebar_area or
+         $(e.target).hasClass("collapseOnClick") or
+         $(e.target).parents(".collapseOnClick").length isnt 0
+
         @_collapse()
 
     @_sidebar_area.id = "sidebarArea"

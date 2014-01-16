@@ -29,7 +29,7 @@
 
     <!-- init histoglobe -->
     <script type="text/javascript">
-      jQuery(document).ready(function($) {
+      $(document).ready(function($) {
         var histoglobe = new HG.HistoGlobe(document.getElementById('histoglobe'));
       });
     </script>

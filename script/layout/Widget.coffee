@@ -37,55 +37,35 @@ class HG.Widget
     @_container.appendChild widget
 
     # header -------------------------------------------------------------------
-    header = document.createElement "div"
-    header.className = "widgetHeader"
-    widget.appendChild header
+    @_header = document.createElement "div"
+    @_header.className = "widgetHeader"
+    widget.appendChild @_header
 
-    $(header).click () ->
-      body = @.nextSibling
-
-      $(@).toggleClass("collapsed")
-
-      if $(@).hasClass("collapsed")
-        $(body).animate
-          height: 0
-        , WIDGET_ANIMATION_SPEED * 1000
-
-      else
-        $(body).css
-          "height": "auto"
-
-        targetHeight = $(body).height()
-
-        $(body).css
-          "height": 0
-
-        $(body).animate
-          height: targetHeight
-        , WIDGET_ANIMATION_SPEED * 1000, () ->
-          $(body).css
-            "height": "auto"
 
     # icon
     icon_container = document.createElement "div"
-    icon_container.className = "iconContainer"
-    header.appendChild icon_container
+    icon_container.className = "iconContainer collapseOnClick"
+    @_header.appendChild icon_container
 
     @_icon = document.createElement "i"
     icon_container.appendChild @_icon
 
     @_title_top = document.createElement "div"
     @_title_top.className = "topTitleContainer"
-    header.appendChild @_title_top
+    @_header.appendChild @_title_top
+
 
     # collapse button
     collapse_button_container = document.createElement "div"
     collapse_button_container.className = "collapseButtonContainer"
-    header.appendChild collapse_button_container
+    @_header.appendChild collapse_button_container
 
     collapse_button = document.createElement "i"
     collapse_button.className = "fa fa-chevron-down widgetCollapseItem"
     collapse_button_container.appendChild collapse_button
+
+    $(@_title_top).click @_collapse
+    $(collapse_button_container).click @_collapse
 
     # body ---------------------------------------------------------------------
     body_collapsable = document.createElement "div"
@@ -118,6 +98,36 @@ class HG.Widget
 
     @setName "New Widget"
     @setIcon "fa-star"
+
+  ##############################################################################
+  #                            PRIVATE INTERFACE                               #
+  ##############################################################################
+
+  # ============================================================================
+  _collapse: () =>
+    body = @_header.nextSibling
+
+    $(@_header).toggleClass("collapsed")
+
+    if $(@_header).hasClass("collapsed")
+      $(body).animate
+        height: 0
+      , WIDGET_ANIMATION_SPEED * 1000
+
+    else
+      $(body).css
+        "height": "auto"
+
+      targetHeight = $(body).height()
+
+      $(body).css
+        "height": 0
+
+      $(body).animate
+        height: targetHeight
+      , WIDGET_ANIMATION_SPEED * 1000, () ->
+        $(body).css
+          "height": "auto"
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #
