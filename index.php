@@ -66,12 +66,9 @@
     <script type="text/javascript" src="build/YearMarker.js"></script>
     <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
-<<<<<<< HEAD
     <script type="text/javascript" src="build/NowMarker.js"></script>
     <script type="text/javascript" src="build/DoublyLinkedList.js"></script>
-=======
     <script type="text/javascript" src="build/Legend.js"></script>
->>>>>>> origin/develop
 
     <script type="text/javascript">
       var display2D, display3D, timeline, legend, hiventController, areaController, pathController, labelController;
@@ -152,12 +149,8 @@
 
               container = document.getElementById('map-container');
 
-<<<<<<< HEAD
               // Load Timeline and NowMarker
               loadTimeline(hiventController);
-=======
-              loadTimeline();
->>>>>>> origin/develop
 
               areaController = new HG.AreaController(timeline);
               labelController = new HG.LabelController(timeline);
@@ -216,9 +209,6 @@
         }
       }
 
-<<<<<<< HEAD
-      function loadTimeline(hiventController) {
-=======
       function loadLegend() {
         gui_container = document.getElementById('gui-container');
         legend = new HG.Legend(gui_container, hiventController);
@@ -234,8 +224,6 @@
       }
 
       function loadTimeline() {
-
->>>>>>> origin/develop
         if (!timelineInitialized) {
           timeline = new HG.Timeline(1500, 1050, 2010, document.getElementById("timeline"), document.getElementById("now_marker"), hiventController);
         }
@@ -349,6 +337,13 @@
         <div id="gl-header">
 
           <div id="gui-container"> </div>
+<<<<<<< HEAD
+=======
+
+          <div id="fullscreenMenuRight"  class="menu">
+            <div id="toggle-fullscreen" class="btn btn-default"><i class="icon-fullscreen"></i> Vollbild</div>
+          </div>
+>>>>>>> origin/develop
 
           <!-- Now Marker in middle of page -->
           <div id="now_marker">
