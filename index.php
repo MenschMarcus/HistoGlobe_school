@@ -337,13 +337,10 @@
         <div id="gl-header">
 
           <div id="gui-container"> </div>
-<<<<<<< HEAD
-=======
 
           <div id="fullscreenMenuRight"  class="menu">
             <div id="toggle-fullscreen" class="btn btn-default"><i class="icon-fullscreen"></i> Vollbild</div>
           </div>
->>>>>>> origin/develop
 
           <!-- Now Marker in middle of page -->
           <div id="now_marker">

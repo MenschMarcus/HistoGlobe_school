@@ -55,7 +55,7 @@ class HG.Timeline
     setInterval @_animTimeline, 100
 
     # show Hivents on Timeline
-    initHivents();
+    @_initHivents();
 
     @_tlDiv.onmousedown = (e) =>
       @_clicked   = true
@@ -387,3 +387,6 @@ class HG.Timeline
 
   getPlayStatus: ->
     @_play
+
+  getNowDate: ->
+    @_nowMarkerBox.getNowDate()

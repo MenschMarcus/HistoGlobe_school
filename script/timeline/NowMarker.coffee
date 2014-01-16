@@ -11,6 +11,8 @@ class HG.NowMarker
         @_mainDiv   = mainDiv
         @_tlDiv     = tlDiv
 
+        @_nowDate = new Date()
+
         # Elements of Now Marker Box
         @_dateInputField    = document.getElementById("now_date_input")
         @_playButton        = document.getElementById("now_marker_play")
@@ -116,6 +118,7 @@ class HG.NowMarker
         @_arrow.style.left   = window.innerWidth / 2 - 10 + "px"
 
     setNowDate: (date) ->
+        @_nowDate = date
         @_dateInputField.value = date.getDate() + "." + (date.getMonth()+1) + "." + date.getFullYear()
 
     animationSwitch: ->
@@ -128,5 +131,8 @@ class HG.NowMarker
 
     _disableTextSelection : (e) ->  return false
     _enableTextSelection : () ->    return true
+
+    getNowDate: ->
+        @_nowDate
 
 
