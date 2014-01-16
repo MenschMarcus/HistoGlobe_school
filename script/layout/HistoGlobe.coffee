@@ -15,9 +15,10 @@ class HG.HistoGlobe
 
     @_createMap()
 
-    @_addWidget "Vorstand"
-    @_addWidget "Wichtige Ereignisse"
-    @_addWidget "Legende"
+    widget = new HG.TextWidget(@_sidebar_area, "fa-tags", "Vorstand", "Jimmy")
+    widget = new HG.TextWidget(@_sidebar_area, "fa-stop", "Stuff", "Lorem ipsum")
+    widget = new HG.TextWidget(@_sidebar_area, "fa-gift", "Legende", "Gaaay!")
+
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -25,15 +26,11 @@ class HG.HistoGlobe
 
   # ============================================================================
   _createLayout: ->
-
     # base layout
     @_sidebar_area = document.createElement "div"
 
-
-
     $(@_sidebar_area).click (e) =>
-      if e.target is @_sidebar_area
-        console.log "y"
+      if e.target is @_sidebar_area or $(e.target).parents(".collapseOnClick").length isnt 0
         @_collapse()
 
     @_sidebar_area.id = "sidebarArea"
@@ -63,12 +60,10 @@ class HG.HistoGlobe
   # ============================================================================
   _createMap: () ->
 
-
   # ============================================================================
   _collapse: =>
     @_collapsed = not @_collapsed
     @_updateLayout()
-
 
   # ============================================================================
   _updateLayout: =>
@@ -104,101 +99,9 @@ class HG.HistoGlobe
         @_map_area.style.right = "#{SIDEBAR_MIN_WIDTH}px"
         @_collapse_button.style.right = "#{SIDEBAR_MIN_WIDTH}px"
 
-
   # ============================================================================
   _isInMobileMode: =>
     window.innerWidth < SIDEBAR_MIN_WIDTH + MAP_MIN_WIDTH
-
-  # ============================================================================
-  _addWidget: (name) ->
-    widget = document.createElement "div"
-    widget.className = "widgetContainer"
-    @_sidebar_area.appendChild widget
-
-    # header -------------------------------------------------------------------
-    header = document.createElement "div"
-    header.className = "widgetHeader"
-    widget.appendChild header
-
-    $(header).click () ->
-      body = @.nextSibling
-
-      $(@).toggleClass("collapsed")
-
-      if $(@).hasClass("collapsed")
-        $(body).animate
-          height: 0
-        , 300
-
-      else
-        $(body).css
-          "height": "auto"
-
-        targetHeight = $(body).height()
-
-        $(body).css
-          "height": 0
-
-        $(body).animate
-          height: targetHeight
-        , 300, () ->
-          $(body).css
-            "height": "auto"
-
-    # icon
-    icon_container = document.createElement "div"
-    icon_container.className = "iconContainer"
-    $(icon_container).click @_collapse
-    header.appendChild icon_container
-
-    icon = document.createElement "i"
-    icon.className = "fa fa-fw fa-pagelines"
-    icon_container.appendChild icon
-
-    title_top = document.createElement "div"
-    title_top.className = "topTitleContainer"
-    title_top.innerHTML = name
-    header.appendChild title_top
-
-    # collapse button
-    collapse_button_container = document.createElement "div"
-    collapse_button_container.className = "collapseButtonContainer"
-    header.appendChild collapse_button_container
-
-    collapse_button = document.createElement "i"
-    collapse_button.className = "fa fa-chevron-down widgetCollapseItem"
-    collapse_button_container.appendChild collapse_button
-
-    # body ---------------------------------------------------------------------
-    body_collapsable = document.createElement "div"
-    widget.appendChild body_collapsable
-
-    body_table = document.createElement "table"
-    body_collapsable.appendChild body_table
-
-    body = document.createElement "tr"
-    body_table.appendChild body
-
-    # title
-    title_container = document.createElement "td"
-    title_container.className = "verticalTitleContainer"
-    $(title_container).click @_collapse
-    body.appendChild title_container
-
-    title_container_inner = document.createElement "div"
-    title_container_inner.className = "verticalText"
-    title_container.appendChild title_container_inner
-
-    title = document.createElement "div"
-    title.className = "verticalTextInner"
-    title.innerHTML = name
-    title_container_inner.appendChild title
-
-    # content
-    content = document.createElement "td"
-    content.className = "widgetBody"
-    content.innerHTML = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Aldus PageMaker including versions of Lorem Ipsum."
-    body.appendChild content
 
 
   ##############################################################################
