@@ -49,7 +49,7 @@ class HG.Widget
       if $(@).hasClass("collapsed")
         $(body).animate
           height: 0
-        , 300
+        , WIDGET_ANIMATION_SPEED * 1000
 
       else
         $(body).css
@@ -62,7 +62,7 @@ class HG.Widget
 
         $(body).animate
           height: targetHeight
-        , 300, () ->
+        , WIDGET_ANIMATION_SPEED * 1000, () ->
           $(body).css
             "height": "auto"
 
@@ -118,3 +118,9 @@ class HG.Widget
 
     @setName "New Widget"
     @setIcon "fa-star"
+
+  ##############################################################################
+  #                             STATIC MEMBERS                                 #
+  ##############################################################################
+
+  WIDGET_ANIMATION_SPEED = 0.3

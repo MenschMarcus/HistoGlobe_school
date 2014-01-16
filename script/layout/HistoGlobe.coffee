@@ -109,7 +109,7 @@ class HG.HistoGlobe
   ##############################################################################
 
   SIDEBAR_MIN_WIDTH = 400
-  SIDEBAR_COLLAPSED_WIDTH = 48
+  SIDEBAR_COLLAPSED_WIDTH = 53
 
   MAP_MIN_WIDTH = 300
   MAP_COLLAPSED_WIDTH = 30

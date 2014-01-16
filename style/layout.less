@@ -1,4 +1,3 @@
-
 // -------------------- BASE LAYOUT --------------------------------------------
 
 #mapArea {
@@ -12,7 +11,7 @@
   background-color: #aaa;
 
   .transition-property(right);
-  .transition-duration(0.3s);
+  .transition-duration(@sidebar_aimation_speed);
   .transition-timing-function(ease-in-out);
 }
 
@@ -24,7 +23,7 @@
   bottom: @timeline_height;
 
   .transition-property(right width);
-  .transition-duration(0.3s);
+  .transition-duration(@sidebar_aimation_speed);
   .transition-timing-function(ease-in-out);
 
   background-color: #888;
@@ -49,13 +48,13 @@
 #collapseButton {
   position: absolute;
 
-  left: auto;
-  width: @sidebar_collapse_button_size;
+  padding-right: 10px;
+  font-size: @sidebar_collapse_button_size;
   top: 10px;
   cursor: pointer;
 
   .transition-property(right);
-  .transition-duration(0.3s);
+  .transition-duration(@sidebar_aimation_speed);
   .transition-timing-function(ease-in-out);
 
   color: rgba(0, 0, 0, 0.5);
@@ -66,7 +65,6 @@
 }
 
 // ------------------------ WIDGETS --------------------------------------------
-
 
 // collapse animation
 .widgetHeader.collapsed {
@@ -83,16 +81,17 @@
   margin: 10px 10px 10px 15px;
   overflow: hidden;
 
-  border-radius: 10px 0px;
+  border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
   box-shadow: 0 0 20px rgba(0,0,0,0.5);
 
   // header
   .widgetHeader {
     position: relative;
-    height: 30px;
+    height: @widget_title_size;
 
     cursor: pointer;
-    background-color: #fff;
+    background-color: @widget_title_background_color;
+    color: @widget_title_text_color;
 
     .transition(background-color 0.1s ease-in-out);
 
@@ -102,54 +101,62 @@
 
     // icon
     .iconContainer {
-      font-size: 1.3em;
-      left: 5px;
-      top: 2px;
+      font-size: @widget_title_size * 0.6;
+      left: @widget_title_size * 0.1;
+      top: @widget_title_size * 0.1;
     }
 
     // top title
     .topTitleContainer {
-      .transition(opacity  0.3s ease-in-out);
+      .transition(opacity @widget_aimation_speed ease-in-out);
 
       opacity: 0.0;
 
-      top: 5px;
-      left: 37px;
+      top: @widget_title_size * 0.1;
+      left: @widget_title_size + @widget_title_size * 0.1;
+
+      font-size: @widget_title_size * 0.5;
     }
 
     // collapse button
     .collapseButtonContainer {
-      padding: 5px 10px;
+      padding: @widget_title_size * 0.1 @widget_title_size * 0.2;
       right: 0px;
 
+      font-size: @widget_title_size * 0.5;
+
       i {
-        color: rgba(0, 0, 0, 0.5);
+        opacity: 0.5;
 
         &:hover {
-          color: rgba(0, 0, 0, 1.0);
+          opacity: 1.0;
         }
       }
     }
 
     .widgetCollapseItem {
-      .transition(all 0.3s ease-in-out);
+      .transition(all @widget_aimation_speed ease-in-out);
     }
 
     &:hover {
-      background-color: #eee;
+      background-color: darken(@widget_title_background_color, 10%);
     }
   }
 
   // vertical title
   .verticalTitleContainer {
-    background-color: #fff;
-    padding: 0px 6px;
+    padding: @widget_title_size * 0.1;
     cursor: pointer;
+    background-color: @widget_title_background_color;
+    color: @widget_title_text_color;
 
     &.verticalText {
       text-align:center;
-      font-weight: normal;
-      padding: 0.5em;
+      padding: @widget_title_size * 0.5;
+    }
+
+    &:hover {
+      background-color: darken(@widget_title_background_color, 10%);
     }
   }
 
@@ -157,7 +164,9 @@
   .widgetBody {
     padding: 0px 15px 15px 8px;
     width: 100%;
-    background-color: #fff;
+    font-size: @widget_font_size;
+    background-color: @widget_background_color;
+    color: @widget_text_color;
   }
 }
 
@@ -166,12 +175,13 @@
 .verticalText {
   display: inline-block;
   overflow: hidden;
-  width: 1.5em;
+  width: @widget_title_size * 0.75;
 }
 .verticalTextInner {
   display: inline-block;
   white-space: nowrap;
   line-height: 1.5;
+  font-size: @widget_title_size * 0.5;
   .transform(translate(0,100%) rotate(-90deg));
   .transform-origin(0 0);
 }
