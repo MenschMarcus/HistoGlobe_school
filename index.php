@@ -162,16 +162,22 @@
 
               loadLegend();
 
-              config = {
-                hiventServerName: "histoglobe.com",
-                hiventDatabaseName: "hivents",
-                hiventTableName: "eu_hivents",
-                multimediaServerName: "histoglobe.com",
-                multimediaDatabaseName: "hivents",
-                multimediaTableName: "eu_multimedia"
-              };
+              // config = {
+              //   hiventServerName: "histoglobe.com",
+              //   hiventDatabaseName: "hivents",
+              //   hiventTableName: "eu_hivents",
+              //   multimediaServerName: "histoglobe.com",
+              //   multimediaDatabaseName: "hivents",
+              //   multimediaTableName: "eu_multimedia"
+              // };
 
-              hiventController.loadHivents(config);
+              // hiventController.loadHiventsFromDatabase(config);
+
+              config = {
+                hiventJSONPath: "data/hivent_collection.json",
+                multimediaJSONPath: "data/multimedia_collection.json",
+              };
+              hiventController.loadHiventsFromJSON(config);
 
               $('#warning-close').button('reset')
 
@@ -302,7 +308,7 @@
   <body data-spy="scroll" data-target="#mainNavigation" data-offset="20">
 
     <!-- edit backend -->
-    <?php readfile("php/backend.php"); ?>
+     <?php //readfile("php/backend.php"); ?>
 
 
     <div id="home">
@@ -319,9 +325,9 @@
         <!-- gl header -->
         <div id="gl-header">
 
-          <div id="editMenu"  class="menu">
+          <!-- <div id="editMenu"  class="menu">
             <div id="toggle-backend" class="btn btn-default"><i class="fa fa-pencil"></i> Editieren</div>
-          </div>
+          </div> -->
 
           <div id="gui-container"> </div>
 

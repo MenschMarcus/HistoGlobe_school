@@ -64,7 +64,7 @@ class HG.HiventController
   #   multimediaDatabaseName: string -- name of the database
   #   multimediaTableName: string -- name of the table
 
-  loadHivents: (config) ->
+  loadHiventsFromDatabase: (config) ->
     dbInterface = new HG.HiventDatabaseInterface(config.hiventServerName, config.hiventDatabaseName)
     dbInterface.getHivents {
       tableName: config.hiventTableName,
@@ -79,8 +79,27 @@ class HG.HiventController
               @_hiventHandles.push handle
               callback handle for callback in @_onHiventAddedCallbacks
               @_filterHivents();
+
+          @_hiventsLoaded = true
     }
 
+  # ============================================================================
+  # config =
+  #   hiventJSONPath: string -- path to hivent JSON file
+  #   multimediaJSONPath: string -- path to multimedia JSON file
+
+  loadHiventsFromJSON: (config) ->
+    $.getJSON(config.hiventJSONPath, (hivents) =>
+      builder = new HG.HiventBuilder(config)
+      for h in hivents
+        builder.constructHiventFromJSON h, (hivent) =>
+          handle = new HG.HiventHandle hivent
+          @_hiventHandles.push handle
+          callback handle for callback in @_onHiventAddedCallbacks
+          @_filterHivents();
+
+      @_hiventsLoaded = true
+    )
 
   ############################# MAIN FUNCTIONS #################################
 

@@ -36,7 +36,7 @@ class HG.HiventBuilder
       hiventLat         = columns[7]
       hiventLong        = columns[8]
       hiventCategory    = if columns[9] == '' then 'default' else columns[9]
-      hiventMultimedia        = columns[10]
+      hiventMultimedia  = columns[10]
 
       mmHtmlString = ''
 
@@ -51,6 +51,7 @@ class HG.HiventBuilder
 
         #get all related entries from multimedia database and concatenate html string
         loadedIds = []
+        somethingWentWrong = false
         for id in hiventMMIDs
           $.ajax({
               url: "php/query_database.php?"+
@@ -68,10 +69,13 @@ class HG.HiventBuilder
                                   mm.thumbnail + '\" width=\"60px\" /></a></li>\n'
 
                 loadedIds.push id
+
+              error: () =>
+                somethingWentWrong = true
             })
 
         loadFinished = () ->
-          loadedIds.length is hiventMMIDs.length
+          (loadedIds.length is hiventMMIDs.length) or somethingWentWrong
 
         loadSuccessFunction = () =>
           mmHtmlString += "\t</ul>\n"
@@ -87,18 +91,76 @@ class HG.HiventBuilder
                                     hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
                                     hiventCategory, hiventMultimedia, '')
 
-  # # ============================================================================
-  # constructDBStringFromHivent: (hivent, successCallback) ->
+  # ============================================================================
+  constructHiventFromJSON: (jsonHivent, successCallback) ->
+    if jsonHivent?
+      successCallback?= (hivent) -> console.log hivent
 
-  #   successCallback?= (hiventString) -> console.log hiventString
+      hiventID          = jsonHivent.id
+      hiventName        = jsonHivent.name
+      hiventDescription = jsonHivent.description
+      hiventStartDate   = jsonHivent.startDate
+      hiventEndDate     = jsonHivent.endDate
+      hiventDisplayDate = jsonHivent.displayDate
+      hiventLocation    = jsonHivent.location
+      hiventLat         = jsonHivent.lat
+      hiventLong        = jsonHivent.long
+      hiventCategory    = if jsonHivent.category == '' then 'default' else jsonHivent.category
+      hiventMultimedia  = jsonHivent.multimedia
 
-  #   hiventString = hivent.id + '|' + hivent.name + '|' + hivent.description + '|' +
-  #                  hivent.startDay + '.' + hivent.startMonth + '.' + hivent.startYear + '|' +
-  #                  hivent.endDay + '.' + hivent.endMonth + '.' + hivent.endYear + '|' +
-  #                  hivent.locationName + '|' + hivent.long + '|' + hivent.lat + '|' +
-  #                  hivent.category + '|' + hivent.mmIDs
+      mmHtmlString = ''
 
-  #   successCallback hiventString
+      #get related multimedia
+      if hiventMultimedia != ""
+        galleryID = hiventID + "_gallery"
+        mmHtmlString = '\t<ul class=\"gallery clearfix\">\n'
+        hiventMMIDs = hiventMultimedia.split(",")
+        galleryTag = ""
+        if hiventMMIDs.length > 1
+          galleryTag = "[" + galleryID + "]"
+
+        #get all related entries from multimedia database and concatenate html string
+        mmDatabase = {}
+        somethingWentWrong = false
+        loadedIds = []
+        if config.multimediaJSONPath is not ""
+          $.getJSON(config.multimediaJSONPath, (multimedia) =>
+            mmDatabase["#{multimedia.id}"] = multimedia
+
+            for id in hiventMMIDs
+              if "#{id}" in mmDatabase
+                entry = mmDatabase["#{id}"]
+                mm = @_createMultiMedia entry.type, entry.description, entry.link
+                mmHtmlString +=  '\t\t<li><a href=\"' +
+                                  mm.link + '\" rel=\"prettyPhoto' +
+                                  galleryTag + '\" title=\"' +
+                                  mm.description + '\"> <img src=\"' +
+                                  mm.thumbnail + '\" width=\"60px\" /></a></li>\n'
+
+                loadedIds.push id
+              else
+                console.error "A multimedia entry with the id #{id} does not exist!"
+                somethingWentWrong = true
+          )
+
+
+        loadFinished = () ->
+          (loadedIds.length is hiventMMIDs.length) or somethingWentWrong
+
+        loadSuccessFunction = () =>
+          mmHtmlString += "\t</ul>\n"
+          successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
+                                  hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
+                                  hiventCategory, hiventMultimedia, mmHtmlString)
+
+        @_waitFor loadFinished, loadSuccessFunction
+
+
+      else
+        successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
+                                    hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
+                                    hiventCategory, hiventMultimedia, '')
+
 
   ############################### INIT FUNCTIONS ###############################
 
@@ -158,7 +220,7 @@ class HG.HiventBuilder
     linkData = link.split(".")
     if linkData[linkData.length-1] in IFRAME_CRITERIA
       mm.link += "?iframe=true"
-      mm.thumbnail = "data/hivent_icons/icon_join.png"
+      mm.thumbnail = "data/video.png"
 
     mm
 
