@@ -23,7 +23,7 @@ class HG.Timeline
     @_zoomLevel  = 2
 
     # create doubly linked list for year markers
-    @_yearMarkers   = new HG.YearMarkerList()
+    @_yearMarkers   = new HG.DoublyLinkedList()
 
     # create first now marker and get width of year markers from it
     # add now marker to doubly linked list
@@ -121,14 +121,21 @@ class HG.Timeline
           i++
 
       # create new year markers
-      @_yearMarkers   = new HG.YearMarkerList()
-      @_zoomLevel = @_calcZoomLevel date.getFullYear()
-      @_nowMarker = new HG.YearMarker(date, 0, @_tlDiv)
+      @_yearMarkers   = new HG.DoublyLinkedList()
+      if(date.getMonth() == 0 && date.getDate() == 1)
+        @_zoomLevel = @_calcZoomLevel date.getFullYear()
+      else
+        @_zoomLevel = 0
+      nowDate = @_yearToDate(date.getFullYear())
+      pixel = (date.getTime() - nowDate.getTime()) / @_millisPerPixel()
+      @_nowMarker = new HG.YearMarker(nowDate, 0, @_tlDiv)
       @_yearMarkerWidth = @_nowMarker.getWidth() * 2
       @_nowMarker.setWidth @_yearMarkerWidth
-      @_nowMarker.setPos(@_tlWidth/2 - @_yearMarkerWidth/2)
+      @_nowMarker.setPos(@_tlWidth/2 - @_yearMarkerWidth/2 - pixel)
       @_yearMarkers.addFirst(@_nowMarker)
       @_loadYearMarkers(false)
+    else
+      alert "Date is out of Range."
 
   _highlightIntervals: ->
 
@@ -286,7 +293,27 @@ class HG.Timeline
         nId = i
       i++
     @_nowMarker = @_yearMarkers.get(nId).nodeData
-    @_nowMarkerBox.setNowDate(@_nowMarker.getDate())
+    @_nowMarkerBox.setNowDate(@_positionToDate((@_tlWidth / 2) - (@_yearMarkerWidth / 2)))
+
+  _positionToDate: (position) ->
+    millisPerPixel = @_millisPerPixel()
+
+    pixelDiff = position - @_nowMarker.getPos()
+    exactNowDate = (pixelDiff * millisPerPixel) + @_nowMarker.getDate().getTime()
+    d = new Date(exactNowDate)
+    console.log d.getFullYear()
+    d
+
+  _millisPerPixel: ->
+    yearDiffExact = @_timeInterval(@_zoomLevel, true)
+    yearDiff = Math.round(yearDiffExact)
+    monthDiffExact = (yearDiffExact - yearDiff) / (1/12)
+    monthDiff = Math.round(monthDiffExact)
+    dayDiffExact = (yearDiffExact - yearDiff) / (1/365)
+    dayDiff = Math.round(dayDiffExact)
+
+    millisDiff = yearDiffExact * 365 * 24 * 60 * 60 * 1000
+    millisPerPixel = millisDiff / @_yearMarkerWidth
 
   _dateToPosition: (date) ->
 
@@ -302,6 +329,8 @@ class HG.Timeline
     # aber was wenn das jahr ungerade ist junge?
     date = new Date(0)
     date.setFullYear year
+    date.setMonth 0
+    date.setDate 1
     date
 
   _roundDate : (date) ->

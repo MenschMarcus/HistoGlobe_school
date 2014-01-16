@@ -17,7 +17,7 @@ class HG.LabelController
 
     @_initMembers()
 
-    timeline.addListener this
+    #timeline.addListener this
 
   # ============================================================================
   nowChanged: (date) ->

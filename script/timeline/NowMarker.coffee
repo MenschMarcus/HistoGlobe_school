@@ -55,8 +55,18 @@ class HG.NowMarker
         # Catch enter key on the date input field
         $(@_dateInputField).keyup (e) ->
             if e.keyCode == 13
-                if not isNaN @value
-                    timeline._scrollToDate timeline._yearToDate @value
+                res = (@value + "").split(".")
+                i = res.length
+                d = new Date()
+                if i > 0
+                    d.setFullYear(res[i - 1])
+                else
+                    alert "Error"
+                if i > 1
+                    d.setMonth(res[i - 2] - 1)
+                if i > 2
+                    d.setDate(res[i - 3])
+                timeline._scrollToDate(d)
 
     _distanceToMiddlepoint : (e) ->
         xs = 0
@@ -106,7 +116,7 @@ class HG.NowMarker
         @_arrow.style.left   = window.innerWidth / 2 - 10 + "px"
 
     setNowDate: (date) ->
-        @_dateInputField.value = date.getFullYear()
+        @_dateInputField.value = date.getDate() + "." + (date.getMonth()+1) + "." + date.getFullYear()
 
     animationSwitch: ->
         if @_timeline.getPlayStatus()

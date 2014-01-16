@@ -38,12 +38,7 @@
     <script type="text/javascript" src="script/third-party/leaflet.label.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.markercluster.js"></script>
 
-<<<<<<< HEAD
    <!-- <script type="text/javascript" src="script/histoglobe.min.js"></script>-->
-=======
-<!--    <script type="text/javascript" src="script/histoglobe.min.js"></script> -->
->>>>>>> origin/develop
-
 
     <script type="text/javascript" src="build/Mixin.js"></script>
     <script type="text/javascript" src="build/CallbackContainer.js"></script>
@@ -67,18 +62,11 @@
     <script type="text/javascript" src="build/YearMarker.js"></script>
     <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
-<<<<<<< HEAD
     <script type="text/javascript" src="build/NowMarker.js"></script>
     <script type="text/javascript" src="build/DoublyLinkedList.js"></script>
-    <script type="text/javascript" src="build/YearMarkerList.js"></script>
-
-    <script type="text/javascript">
-      var display2D, display3D, timeline, hiventController, areaController, nowMarker;
-=======
 
     <script type="text/javascript">
       var display2D, display3D, timeline, hiventController, areaController, labelController;
->>>>>>> origin/develop
       var timelineInitialized = false;
       var container;
       var windowHeight = window.innerHeight;
@@ -353,7 +341,7 @@
               <div id="now_marker_play">
                 <img src="img/timeline/playIcon.png" />
               </div>
-              <input type="text" name="now_date" id="now_date_input" maxlength="4" size="4" />
+              <input type="text" name="now_date" id="now_date_input" maxlength="10" size="10" />
             </div>
           </div>
           <div id="timeline"></div>

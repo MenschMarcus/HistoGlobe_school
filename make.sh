@@ -12,13 +12,10 @@ cFiles="script/util/Mixin.coffee \
         script/display/Display.coffee \
         script/areas/Area.coffee \
         script/areas/AreaController.coffee \
-<<<<<<< HEAD
         script/timeline/Timeline.coffee \
         script/timeline/YearMarker.coffee \
-=======
         script/labels/Label.coffee \
         script/labels/LabelController.coffee \
->>>>>>> origin/develop
         script/hivents/HiventHandle.coffee \
         script/hivents/HiventController.coffee \
         script/hivents/Hivent.coffee \
@@ -37,13 +34,10 @@ jFiles="build/Mixin.js \
         build/Display3D.js \
         build/Area.js \
         build/AreaController.js \
-<<<<<<< HEAD
         build/Timeline.js \
         build/YearMarker.js \
-=======
         build/Label.js \
         build/LabelController.js \
->>>>>>> origin/develop
         script/timeline/Timeline.js \
         build/Hivent.js \
         build/HiventHandle.js \
