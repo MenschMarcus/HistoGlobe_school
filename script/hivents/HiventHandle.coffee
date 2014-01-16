@@ -20,6 +20,8 @@ class HG.HiventHandle
     @_linked = false
     @_focussed = false
 
+    @_visible = false
+
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
 
@@ -32,6 +34,9 @@ class HG.HiventHandle
     @addCallback "onFocus"
     @addCallback "onUnFocus"
     @addCallback "onDestruction"
+
+    @addCallback "onShow"
+    @addCallback "onHide"
 
   # ============================================================================
   getHivent: ->
@@ -160,6 +165,26 @@ class HG.HiventHandle
   destroy: (obj) ->
     @notify "onDestruction", obj
     @_destroy()
+
+  # ============================================================================
+  show: (obj) ->
+    @_visible = true
+    @notify "onShow", obj, @
+
+  # ============================================================================
+  showAll: () ->
+    @_visible = true
+    @notifyAll "onShow", @
+
+  # ============================================================================
+  hide: (obj) ->
+    @_visible = false
+    @notify "onHide", obj, @
+
+  # ============================================================================
+  hideAll: () ->
+    @_visible = false
+    @notifyAll "onHide", @
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #

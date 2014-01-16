@@ -1,7 +1,11 @@
 #!/bin/bash
 
 (cd data_src/hivents/; ./generate.sh)
+
 (cd data_src/labels/; ./generate.sh)
+
+(cd data_src/paths/; ./generate.sh)
+
 
 cFiles="script/util/Mixin.coffee \
         script/util/CallbackContainer.coffee \
@@ -23,9 +27,14 @@ cFiles="script/util/Mixin.coffee \
         script/hivents/HiventMarker2D.coffee \
         script/hivents/HiventMarker3D.coffee \
         script/hivents/HiventMarkerTimeline.coffee \
-        script/hivents/HiventInfoPopover.coffee \
         script/timeline/NowMarker.coffee \
-        script/timeline/DoublyLinkedList.coffee"
+        script/timeline/DoublyLinkedList.coffee \
+        script/legend/Legend.coffee \
+        script/hivents/HiventInfoPopover.coffee \
+        script/paths/Path.coffee \
+        script/paths/ArcPath2D.coffee \
+        script/paths/PathController.coffee \
+        script/paths/LinearPath2D.coffee"
 
 jFiles="build/Mixin.js \
         build/CallbackContainer.js \
@@ -46,7 +55,12 @@ jFiles="build/Mixin.js \
         build/HiventMarker2D.js \
         build/HiventMarker3D.js \
         build/HiventMarkerTimeline.js \
+        build/Legend.js \
         build/HiventInfoPopover.js \
+        build/Path.js \
+        build/ArcPath2D.js \
+        build/PathController.js \
+        build/LinearPath2D.js \
         build/Vector.js \
         build/VideoPlayer.js \
         script/util/BrowserDetect.js \
