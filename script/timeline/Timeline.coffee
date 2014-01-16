@@ -6,7 +6,7 @@ class HG.Timeline
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
-  constructor: (nowYear, minYear, maxYear, timelineDiv, nowMarkerDiv) ->
+  constructor: (nowYear, minYear, maxYear, timelineDiv, nowMarkerDiv, hiventController) ->
 
     # convert years to date objects
     @_minDate = @_yearToDate minYear
@@ -53,6 +53,9 @@ class HG.Timeline
     @_play = false
     @_speed = 0
     setInterval @_animTimeline, 100
+
+    # show Hivents on Timeline
+    initHivents();
 
     @_tlDiv.onmousedown = (e) =>
       @_clicked   = true
@@ -110,6 +113,20 @@ class HG.Timeline
         @_clearYearMarkers()
         @_updateYearMarkerPositions(false)
         @_loadYearMarkers(true)
+
+  _initHivents: ->
+    ###hiventController.onHiventsChanged(function(handles){
+
+      for (var i=0; i<handles.length; i++) {
+
+        var hivent = handles[i].getHivent();
+        var posX = dateToPos(hivent.startDate);
+
+        var hiventMarker = new HG.HiventMarkerTimeline(handles[i],
+                                                       tlScroller,
+                                                       posX);
+        hiventMarkers.push(hiventMarker);###
+
 
   _scrollToDate: (date) ->
     if date.getFullYear() > @_minDate.getFullYear() and date.getFullYear() < @_maxDate.getFullYear()

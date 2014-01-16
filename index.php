@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="style/third-party/prettyPhoto/css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
     <link rel="stylesheet" href="style/third-party/MarkerCluster.css" />
     <link rel="stylesheet" href="style/third-party/MarkerCluster.Default.css" />
-    <!--[if lte IE 8]>
+    <!--[if lte IE 8]>hivent
       <link rel="stylesheet" href="style/third-party/leaflet.ie.css" />
       <link rel="stylesheet" href="style/third-party/MarkerCluster.Default.ie.css" />
     <![endif]-->
@@ -145,7 +145,7 @@
               container = document.getElementById('map-container');
 
               // Load Timeline and NowMarker
-              loadTimeline();
+              loadTimeline(hiventController);
 
               areaController = new HG.AreaController(timeline);
               labelController = new HG.LabelController(timeline);
@@ -198,14 +198,10 @@
         }
       }
 
-      function loadTimeline()
-      {
-        // new timeline
-        if (!timelineInitialized)
-        {
-          timeline = new HG.Timeline(1500, 1050, 2010, document.getElementById("timeline"), document.getElementById("now_marker"));
+      function loadTimeline(hiventController) {
+        if (!timelineInitialized) {
+          timeline = new HG.Timeline(1500, 1050, 2010, document.getElementById("timeline"), document.getElementById("now_marker"), hiventController);
         }
-
       }
 
     </script>
