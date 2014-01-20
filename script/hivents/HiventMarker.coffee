@@ -80,5 +80,6 @@ class HG.HiventMarker
 
   # ============================================================================
   _destroyMarker: =>
+    @_popover?._destroy()
     @_hiventInfo.parentNode.removeChild @_hiventInfo
 
