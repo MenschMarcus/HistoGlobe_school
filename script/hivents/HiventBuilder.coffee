@@ -108,58 +108,69 @@ class HG.HiventBuilder
       hiventCategory    = if jsonHivent.category == '' then 'default' else jsonHivent.category
       hiventMultimedia  = jsonHivent.multimedia
 
-      mmHtmlString = ''
+      mmDatabase = {}
+      multimediaLoaded = false
+      unless config.multimediaJSONPath is ""
+        $.getJSON(config.multimediaJSONPath, (multimedia) =>
 
-      #get related multimedia
-      if hiventMultimedia != ""
-        galleryID = hiventID + "_gallery"
-        mmHtmlString = '\t<ul class=\"gallery clearfix\">\n'
-        hiventMMIDs = hiventMultimedia.split(",")
-        galleryTag = ""
-        if hiventMMIDs.length > 1
-          galleryTag = "[" + galleryID + "]"
+          for mm in multimedia
+            mmDatabase["#{mm.id}"] = mm
 
-        #get all related entries from multimedia database and concatenate html string
-        mmDatabase = {}
-        somethingWentWrong = false
-        loadedIds = []
-        if config.multimediaJSONPath is not ""
-          $.getJSON(config.multimediaJSONPath, (multimedia) =>
-            mmDatabase["#{multimedia.id}"] = multimedia
-
-            for id in hiventMMIDs
-              if "#{id}" in mmDatabase
-                entry = mmDatabase["#{id}"]
-                mm = @_createMultiMedia entry.type, entry.description, entry.link
-                mmHtmlString +=  '\t\t<li><a href=\"' +
-                                  mm.link + '\" rel=\"prettyPhoto' +
-                                  galleryTag + '\" title=\"' +
-                                  mm.description + '\"> <img src=\"' +
-                                  mm.thumbnail + '\" width=\"60px\" /></a></li>\n'
-
-                loadedIds.push id
-              else
-                console.error "A multimedia entry with the id #{id} does not exist!"
-                somethingWentWrong = true
-          )
-
-
-        loadFinished = () ->
-          (loadedIds.length is hiventMMIDs.length) or somethingWentWrong
-
-        loadSuccessFunction = () =>
-          mmHtmlString += "\t</ul>\n"
-          successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
-                                  hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
-                                  hiventCategory, hiventMultimedia, mmHtmlString)
-
-        @_waitFor loadFinished, loadSuccessFunction
-
-
+          multimediaLoaded = true
+        )
       else
-        successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
+        multimediaLoaded = true
+
+      mmLoadFinished = () ->
+        multimediaLoaded
+
+      parseMultimedia = () =>
+
+        mmHtmlString = ''
+        #get related multimedia
+        if hiventMultimedia != ""
+          galleryID = hiventID + "_gallery"
+          mmHtmlString = '\t<ul class=\"gallery clearfix\">\n'
+          hiventMMIDs = hiventMultimedia.split(",")
+          galleryTag = ""
+          if hiventMMIDs.length > 1
+            galleryTag = "[" + galleryID + "]"
+
+          #get all related entries from multimedia database and concatenate html string
+          somethingWentWrong = false
+          loadedIds = []
+          for id in hiventMMIDs
+            if mmDatabase.hasOwnProperty id
+              entry = mmDatabase["#{id}"]
+              mm = @_createMultiMedia entry.type, entry.description, entry.link
+              mmHtmlString +=  '\t\t<li><a href=\"' +
+                                mm.link + '\" rel=\"prettyPhoto' +
+                                galleryTag + '\" title=\"' +
+                                mm.description + '\"> <img src=\"' +
+                                mm.thumbnail + '\" width=\"60px\" /></a></li>\n'
+
+              loadedIds.push id
+            else
+              console.error "A multimedia entry with the id #{id} does not exist!"
+              somethingWentWrong = true
+
+          loadFinished = () ->
+            (loadedIds.length is hiventMMIDs.length) or somethingWentWrong
+
+          loadSuccessFunction = () =>
+            mmHtmlString += "\t</ul>\n"
+            successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
                                     hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
-                                    hiventCategory, hiventMultimedia, '')
+                                    hiventCategory, hiventMultimedia, mmHtmlString)
+
+          @_waitFor loadFinished, loadSuccessFunction
+
+        else
+          successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
+                                      hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
+                                      hiventCategory, hiventMultimedia, '')
+
+      @_waitFor mmLoadFinished, parseMultimedia
 
 
   ############################### INIT FUNCTIONS ###############################

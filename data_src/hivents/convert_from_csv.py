@@ -80,12 +80,12 @@ def main():
         hivent_description = row[2]
         hivent_startDate   = row[3]
         hivent_endDate     = row[4]
-        hivent_location    = row[5]
-        hivent_long        = row[7]
-        hivent_lat         = row[6]
-        hivent_category    = row[8]
-        hivent_mm_ids      = row[9]
-        hivent_displayDate = ""
+        hivent_displayDate = row[5]
+        hivent_location    = row[6]
+        hivent_lat         = row[7]
+        hivent_long        = row[8]
+        hivent_category    = row[9]
+        hivent_mm_ids      = row[10]
 
         #create json
 
