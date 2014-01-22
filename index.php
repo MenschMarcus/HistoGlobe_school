@@ -223,9 +223,9 @@
         legend.addCategoryWithIcon("default", "data/hivent_icons/icon_default.png", "Sonstige", true);
       }
 
-      function loadTimeline() {
+      function loadTimeline(hiventController) {
         if (!timelineInitialized) {
-          timeline = new HG.Timeline(1500, 1050, 2010, document.getElementById("timeline"), document.getElementById("now_marker"), hiventController);
+          timeline = new HG.Timeline(1975, 1940, 2014, document.getElementById("timeline"), document.getElementById("now_marker"), hiventController);
         }
       }
 
@@ -348,7 +348,7 @@
               <img src="img/timeline/pointer.png"/>
             </div>
             <div id="now_marker_in">
-              <div id="now_marker_play">
+              <div id="now_marker_play" title="Click to play">
                 <img src="img/timeline/playIcon.png" />
               </div>
               <input type="text" name="now_date" id="now_date_input" maxlength="10" size="10" />

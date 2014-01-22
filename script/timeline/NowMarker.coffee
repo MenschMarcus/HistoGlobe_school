@@ -32,6 +32,7 @@ class HG.NowMarker
 
         # catching mouse events
         @_clicked = false
+        @_hiddenSpeed = 0;
 
         # check if mouse went down on speed changer
         @_mainDiv.onmousedown = (e) =>
@@ -42,6 +43,12 @@ class HG.NowMarker
         # rotate arrow if mouse moved on speed changer
         document.body.onmousemove = (e) =>
             if @_clicked
+                if not @_timeline.getPlayStatus()
+                    if @_hiddenSpeed < 0 and e.pageX - @_middlePointX >= 0
+                        @_playButton.innerHTML = "<img src='img/timeline/playIcon.png'>"
+                    else if @_hiddenSpeed >= 0 and e.pageX - @_middlePointX < 0
+                        @_playButton.innerHTML = "<img src='img/timeline/playIconPrev.png'>"
+                @_hiddenSpeed = e.pageX - @_middlePointX
                 $(@_pointer).rotate(@_angleOnCircle(e))
 
         # set new speed of timeline animation
@@ -153,5 +160,20 @@ class HG.NowMarker
     # ============================================================================
     getNowDate: ->
         @_nowDate
+
+    # ============================================================================
+    stringToDate: (string) ->
+        res = (string + "").split(".")
+        i = res.length
+        d = new Date()
+        if i > 0
+            d.setFullYear(res[i - 1])
+        else
+            alert "Error: were not able to convert string to date."
+        if i > 1
+            d.setMonth(res[i - 2] - 1)
+        if i > 2
+            d.setDate(res[i - 3])
+        d
 
 

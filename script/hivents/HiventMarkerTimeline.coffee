@@ -22,7 +22,8 @@ class HG.HiventMarkerTimeline
 
     X_OFFSETS[time] ?= 0
     @_xOffset = X_OFFSETS[time]
-    @_position = { x: posX + @_xOffset * HIVENT_MARKER_TIMELINE_RADIUS * 1.5 - HIVENT_MARKER_TIMELINE_RADIUS, y: Math.floor $(parent.parentNode).innerHeight() * 0.65 }
+    #@_position = { x: posX + @_xOffset * HIVENT_MARKER_TIMELINE_RADIUS * 1.5 - HIVENT_MARKER_TIMELINE_RADIUS, y: Math.floor $(parent.parentNode).innerHeight() * 0.65 }
+    @_position = { x: posX, y: Math.floor $(parent).innerHeight() * 0.65 }
     X_OFFSETS[time] += 1
 
     @_classDefault     = "hivent_marker_timeline_#{hiventHandle.getHivent().category}_default"
@@ -34,7 +35,7 @@ class HG.HiventMarkerTimeline
     @_div.style.left = @_position.x + "px"
     @_div.style.top = @_position.y + "px"
 
-    @_div.style.zIndex = 5
+    #@_div.style.zIndex = 5
 
     parent.appendChild @_div
 
@@ -74,17 +75,19 @@ class HG.HiventMarkerTimeline
       @_div.setAttribute "class", @_classDefault
 
     @getHiventHandle().onDestruction @, @_destroy
-    @getHiventHandle().onHide @, @_destroy
+    #@getHiventHandle().onHide @, @_destroy
 
     @enableShowName()
-    @_timeline.addListener @
+    #@_timeline.addListener @
 
   # ============================================================================
-  nowChanged: (date) ->
+  nowChanged: ->
+    posX = @_timeline._dateToPosition @_hiventHandle.getHivent().startDate
+    @setPosition posX
 
   # ============================================================================
   periodChanged: (dateA, dateB) ->
-    posX = @_timeline.dateToPos @_hiventHandle.getHivent().startDate
+    posX = @_timeline._dateToPosition @_hiventHandle.getHivent().startDate
     @setPosition posX
 
   # ============================================================================
@@ -96,7 +99,7 @@ class HG.HiventMarkerTimeline
 
   # ============================================================================
   setPosition: (posX) =>
-    @_position.x = posX + @_xOffset * HIVENT_MARKER_TIMELINE_RADIUS * 1.5
+    @_position.x = posX# + @_xOffset * HIVENT_MARKER_TIMELINE_RADIUS * 1.5
     @_div.style.left = @_position.x + "px"
 
 

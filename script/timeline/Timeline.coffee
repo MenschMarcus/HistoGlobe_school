@@ -6,6 +6,7 @@ class HG.Timeline
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
+  # ============================================================================
   constructor: (nowYear, minYear, maxYear, timelineDiv, nowMarkerDiv, hiventController) ->
 
     # convert years to date objects
@@ -55,6 +56,8 @@ class HG.Timeline
     setInterval @_animTimeline, 100
 
     # show Hivents on Timeline
+    @_hiventController = hiventController
+    @_hiventMarkers = []
     @_initHivents();
 
     @_tlDiv.onmousedown = (e) =>
@@ -71,6 +74,7 @@ class HG.Timeline
         if((moveDist > 0 and @_yearMarkers.get(0).nodeData.getPos() + @_yearMarkerWidth / 2 < @_tlWidth / 2) or (moveDist < 0 and @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getPos() + @_yearMarkerWidth / 2 > @_tlWidth / 2))
           @_nowMarker.setPos moveDist + @_nowMarker.getPos()
           @_updateYearMarkerPositions(false)
+          @_updateHiventMarkerPositions()
           @_updateNowMarker()
           @_loadYearMarkers(false)
         @_lastMousePosX = mousePosX
@@ -80,6 +84,7 @@ class HG.Timeline
         @_clicked = false
         @_updateNowMarker()
         @_updateYearMarkerPositions(false)
+        @_updateHiventMarkerPositions()
         @_clearYearMarkers()
         @_lastMousePosX = e.pageX
         @_enableTextSelection()
@@ -112,9 +117,26 @@ class HG.Timeline
         @_zoomLevel = @_roundNumber(@_zoomLevel, 1)
         @_clearYearMarkers()
         @_updateYearMarkerPositions(false)
+        @_updateHiventMarkerPositions()
         @_loadYearMarkers(true)
 
+  # ============================================================================
   _initHivents: ->
+    @_hiventController.onHiventsLoaded((handles) =>
+      @_hiventMarkers.push(@_makeHiventMarkerTimeline(handles[i])) for i in [0...(handles.length-1)]
+      #@_hiventController.setTimeFilter(getTimeFilter())
+    )
+
+  _makeHiventMarkerTimeline: (handle) ->
+    hiventMarkerDate = @_nowMarkerBox.stringToDate(handle._hivent.displayDate)
+    new HG.HiventMarkerTimeline(@, handle, @_tlDiv, @_dateToPosition(hiventMarkerDate))
+
+  _updateHiventMarkerPositions: ->
+    for i in  [0...(@_hiventMarkers.length)]
+      hiventMarkerDate = @_nowMarkerBox.stringToDate(@_hiventMarkers[i].getHiventHandle()._hivent.displayDate)
+      @_hiventMarkers[i].setPosition(@_dateToPosition(hiventMarkerDate))
+      @_hiventController.setTimeFilter(@_getTimeFilter())
+
     ###hiventController.onHiventsChanged(function(handles){
 
       for (var i=0; i<handles.length; i++) {
@@ -127,7 +149,16 @@ class HG.Timeline
                                                        posX);
         hiventMarkers.push(hiventMarker);###
 
+  # ============================================================================
+  _getTimeFilter: ->
+    timefilter = []
+    ###timefilter.start = @_yearMarkers.get(0).nodeData.getDate()
+    timefilter.end = @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getDate()###
+    timefilter.end = @_positionToDate(@_tlWidth)
+    timefilter.start = @_positionToDate(0)
+    timefilter
 
+  # ============================================================================
   _scrollToDate: (date) ->
     if date.getFullYear() > @_minDate.getFullYear() and date.getFullYear() < @_maxDate.getFullYear()
 
@@ -151,9 +182,11 @@ class HG.Timeline
       @_nowMarker.setPos(@_tlWidth/2 - @_yearMarkerWidth/2 - pixel)
       @_yearMarkers.addFirst(@_nowMarker)
       @_loadYearMarkers(false)
+      @_updateHiventMarkerPositions()
     else
       alert "Date is out of Range."
 
+  # ============================================================================
   _highlightIntervals: ->
 
     # set the font size of year markers in relation to the shown time interval
@@ -172,10 +205,13 @@ class HG.Timeline
             @_yearMarkers.get(i).nodeData.getDiv().style.opacity = (1 - diff)
       i++
 
+  # ============================================================================
   _scrollMotionBlur: (slowDownValue, scrollSpeed, pos) ->
 
     # TODO: motion blur after scrolling
 
+
+  # ============================================================================
   _updateYearMarkerPositions: (animation) ->
     i = 0
     while i < @_yearMarkers.getLength()
@@ -186,6 +222,7 @@ class HG.Timeline
         @_yearMarkers.get(i).nodeData.moveTo 500, @_dateToPosition date
       i++
 
+  # ============================================================================
   _clearYearMarkers: ->
 
     # remove year marker outside of screen
@@ -211,6 +248,7 @@ class HG.Timeline
       else
         i++
 
+  # ============================================================================
   _fillGaps: ->
 
     # when overlapping year markers and year markers which are not fit to the scale are removed
@@ -224,6 +262,7 @@ class HG.Timeline
         @_yearMarkers.insertAfter(i, newYearMarker)
       i++
 
+  # ============================================================================
   _loadYearMarkers: (fillGaps)->
 
     # draw year markers at beginning and end of list
@@ -261,12 +300,15 @@ class HG.Timeline
     if fillGaps
       @_fillGaps()
 
-    # highlight some year markers with a round date
-    # for example all 5,10,50,100 years
+    # highlight year markers with a rounded date
     @_highlightIntervals()
 
+  # ============================================================================
   _timeInterval: (index, exact) ->
     yearIntervals = [1,5,10,50,100,500,1000,5000,10000,50000,100000,500000,1000000,5000000]
+
+    # index is zoomlevel
+    # exect says function should return rounded or exact year intveral
     if exact and index > 0
       i = 0
       while index > i
@@ -276,15 +318,10 @@ class HG.Timeline
       dis = index - prev
       res = yearIntervals[prev] + (yearIntervals[next] - yearIntervals[prev]) * dis
     else
-      # static way to get year intervals
       res = yearIntervals[Math.round(index)]
     res
 
-      # Calclate years from index (index >= 0) for e function
-      #res = Math.round(Math.pow(Math.E, index))
-
-      # TODO: calculate via interpolated time scale
-
+  # ============================================================================
   _calcZoomLevel: (year) ->
     yearIntervals = [1,5,10,50,100,500,1000,5000,10000,50000,100000,500000,1000000,5000000]
     i = 0
@@ -298,6 +335,7 @@ class HG.Timeline
         i -= 1
     i
 
+  # ============================================================================
   _updateNowMarker: (dist) ->
     smallestDis = null
     i = 0
@@ -312,12 +350,14 @@ class HG.Timeline
     @_nowMarker = @_yearMarkers.get(nId).nodeData
     @_nowMarkerBox.setNowDate(@_positionToDate((@_tlWidth / 2) - (@_yearMarkerWidth / 2)))
 
+  # ============================================================================
   _positionToDate: (position) ->
     millisPerPixel = @_millisPerPixel()
     pixelDiff = position - @_nowMarker.getPos()
     exactNowDate = (pixelDiff * millisPerPixel) + @_nowMarker.getDate().getTime()
     new Date(exactNowDate)
 
+  # ============================================================================
   _millisPerPixel: ->
     yearDiffExact = @_timeInterval(@_zoomLevel, true)
     yearDiff = Math.round(yearDiffExact)
@@ -329,16 +369,12 @@ class HG.Timeline
     millisDiff = yearDiffExact * 365 * 24 * 60 * 60 * 1000
     millisPerPixel = millisDiff / @_yearMarkerWidth
 
+  # ============================================================================
   _dateToPosition: (date) ->
-
-    # old version to show year marker on linear scale
     yearDiff = (date.getFullYear() - @_nowMarker.getDate().getFullYear()) / @_timeInterval(@_zoomLevel, true)
-
-    # calculate position of year markers with exact zoom level
-    # on logarithmic timescale
-    #yearDiff = (date.getFullYear() - @_nowMarker.getDate().getFullYear()) / Math.round(Math.pow(Math.E, @_zoomLevel))
     xPos = (yearDiff * @_yearMarkerWidth + (@_nowMarker.getPos()))
 
+  # ============================================================================
   _yearToDate : (year) ->
     # aber was wenn das jahr ungerade ist junge?
     date = new Date(0)
@@ -347,22 +383,30 @@ class HG.Timeline
     date.setDate 1
     date
 
+  # ============================================================================
   _roundDate : (date) ->
     @_yearToDate(Math.round(date.getFullYear() / @_timeInterval(@_zoomLevel, false)) * @_timeInterval(@_zoomLevel, false))
 
+  # ============================================================================
   _roundNumber : (number, n) ->
     factor = Math.pow(10,n)
     Math.round(number * factor) / factor
 
+  # ============================================================================
   _disableTextSelection : (e) ->  return false
+
+  # ============================================================================
   _enableTextSelection : () ->    return true
 
-  # functions to move timeline periodic
+  # ============================================================================
   _animTimeline: =>
+
+    # move timeline periodic
     if @_play
-      if((@_speed >= 0 and @_yearMarkers.get(0).nodeData.getPos() + @_yearMarkerWidth / 2 < @_tlWidth / 2) or (@_speed < 0 and @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getPos() + @_yearMarkerWidth / 2 > @_tlWidth / 2))
+      if((@_speed <= 0 and @_yearMarkers.get(0).nodeData.getPos() + @_yearMarkerWidth / 2 < @_tlWidth / 2) or (@_speed > 0 and @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getPos() + @_yearMarkerWidth / 2 > @_tlWidth / 2))
         @_nowMarker.setPos @_nowMarker.getPos() - @_speed
         @_updateYearMarkerPositions(false)
+        @_updateHiventMarkerPositions()
         @_updateNowMarker()
         @_loadYearMarkers(false)
       else
@@ -373,17 +417,22 @@ class HG.Timeline
     @_nowMarker.setPos @_tlWidth / 2
     @_nowMarker._date = ###
 
+  # ============================================================================
   stopTimeline: ->
     @_play = false
 
+  # ============================================================================
   playTimeline: ->
     @_play = true
 
+  # ============================================================================
   setSpeed: (speed) ->
     @_speed = speed
 
+  # ============================================================================
   getPlayStatus: ->
     @_play
 
+  # ============================================================================
   getNowDate: ->
     @_nowMarkerBox.getNowDate()
