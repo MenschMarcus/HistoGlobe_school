@@ -314,12 +314,9 @@ class HG.Timeline
 
   _positionToDate: (position) ->
     millisPerPixel = @_millisPerPixel()
-
     pixelDiff = position - @_nowMarker.getPos()
     exactNowDate = (pixelDiff * millisPerPixel) + @_nowMarker.getDate().getTime()
-    d = new Date(exactNowDate)
-    console.log d.getFullYear()
-    d
+    new Date(exactNowDate)
 
   _millisPerPixel: ->
     yearDiffExact = @_timeInterval(@_zoomLevel, true)
