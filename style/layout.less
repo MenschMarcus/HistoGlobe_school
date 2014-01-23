@@ -1,0 +1,210 @@
+// -------------------- BASE LAYOUT --------------------------------------------
+
+#mapArea {
+  position: absolute;
+  overflow: hidden;
+
+  top: 0;
+  bottom: @timeline_height;
+
+  box-shadow: 0 0 20px rgba(0,0,0,1.0);
+  background-color: #aaa;
+
+  .transition-property(right);
+  .transition-duration(@sidebar_aimation_speed);
+  .transition-timing-function(ease-in-out);
+}
+
+#sidebarArea {
+  position: absolute;
+  overflow: auto;
+
+  top: 0;
+  bottom: @timeline_height;
+
+  .transition-property(right width);
+  .transition-duration(@sidebar_aimation_speed);
+  .transition-timing-function(ease-in-out);
+
+  background-color: #888;
+  background-image:url('../img/bg.png');
+  background-repeat:repeat;
+}
+
+#timelineArea {
+  position: absolute;
+  overflow: hidden;
+
+  height: @timeline_height;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+
+  background-color: #347654;
+}
+
+#collapseButton {
+  position: absolute;
+
+  padding-right: 10px;
+  font-size: @sidebar_collapse_button_size;
+  top: 10px;
+  cursor: pointer;
+
+  .transition-property(right);
+  .transition-duration(@sidebar_aimation_speed);
+  .transition-timing-function(ease-in-out);
+
+  color: rgba(0, 0, 0, 0.5);
+
+  &:hover {
+    color: rgba(0, 0, 0, 1.0);
+  }
+}
+
+// ------------------------ WIDGETS --------------------------------------------
+
+// collapse animation
+.widgetHeader.collapsed {
+  .topTitleContainer {
+    // .gradient(top, lighten(@widget_title_background_color, @widget_title_gradient_effect), @widget_title_background_color);
+    opacity: 1.0 !important;
+  }
+
+  .iconContainer {
+    // .linear-gradient-top(@widget_title_background_color, lighten(@widget_title_background_color, @widget_title_gradient_effect), 0%, @widget_title_background_color, 100%) !important;
+  }
+
+  .widgetCollapseItem {
+    .transform(rotate(90deg));
+  }
+
+}
+
+.widgetContainer {
+  margin: 10px 10px 10px 15px;
+  overflow: hidden;
+
+  background-color: @widget_background_color;
+
+  border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+
+  // header
+  .widgetHeader {
+    position: relative;
+    height: @widget_title_size;
+
+    cursor: pointer;
+    color: @widget_title_text_color;
+
+    // icon
+    .iconContainer {
+      .linear-gradient-left(@widget_title_background_color, lighten(@widget_title_background_color, @widget_title_gradient_effect), 0%, @widget_title_background_color, 100%);
+
+      position: absolute;
+      font-size: @widget_title_size * 0.6;
+      left: 0;
+      top: 0;
+      padding: @widget_title_size * 0.1;
+      width:@widget_title_size;
+      height:@widget_title_size;
+    }
+
+    // top title
+
+    .topTitleContainer {
+      position: absolute;
+      padding: @widget_title_size * 0.2 @widget_title_size * 0.2;
+
+      .transition(opacity @widget_aimation_speed ease-in-out);
+
+      opacity: 0.0;
+
+      left: @widget_title_size;
+      height: @widget_title_size;
+      top: 0;
+      right: 0;
+
+      font-size: @widget_title_size * 0.4;
+    }
+
+    // collapse button
+    .collapseButtonContainer {
+      position: absolute;
+
+      .transition(all @widget_aimation_speed ease-in-out);
+      padding: @widget_title_size * 0.1 @widget_title_size * 0.2;
+      right: 0px;
+      width:@widget_title_size;
+      height:@widget_title_size;
+
+      font-size: @widget_title_size * 0.5;
+
+      i {
+        opacity: 0.5;
+
+        &:hover {
+          opacity: 1.0;
+        }
+      }
+    }
+
+    .widgetCollapseItem {
+      .transition(all @widget_aimation_speed ease-in-out);
+    }
+  }
+
+  // vertical title
+  .verticalTitleContainer {
+    padding: @widget_title_size * 0.1;
+    cursor: pointer;
+    color: @widget_title_text_color;
+    width: @widget_title_size;
+
+    .linear-gradient-left(@widget_title_background_color, lighten(@widget_title_background_color, @widget_title_gradient_effect), 0%, @widget_title_background_color, 100%);
+
+    &.verticalText {
+      text-align:center;
+      padding: @widget_title_size * 0.5;
+    }
+
+    &:hover {
+      // background-color: darken(@widget_title_background_color, @widget_hover_effect);
+    }
+  }
+
+  // body
+  .widgetBody {
+    padding: 0px 15px 15px 15px;
+    width: 100%;
+    font-size: @widget_font_size;
+    background-color: @widget_background_color;
+    color: @widget_text_color;
+  }
+}
+
+
+// ------------------ VERTICAL TEXT --------------------------------------------
+.verticalText {
+  display: inline-block;
+  overflow: hidden;
+  width: @widget_title_size * 0.8;
+}
+.verticalTextInner {
+  display: inline-block;
+  white-space: nowrap;
+  line-height: 1.5;
+  font-size: @widget_title_size * 0.5;
+  .transform(translate(0,100%) rotate(-90deg));
+  .transform-origin(0 0);
+}
+
+.verticalTextInner:after {
+  content: "";
+  display: block;
+  margin: -1.5em 0 100%;
+}
+
