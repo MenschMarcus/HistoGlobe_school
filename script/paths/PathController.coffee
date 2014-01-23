@@ -20,7 +20,7 @@ class HG.PathController
 
     @_initMembers()
 
-    @_timeline.addListener @
+    #@_timeline.addListener @
 
 
   # ============================================================================
@@ -49,7 +49,7 @@ class HG.PathController
   # ============================================================================
   _initMembers: ->
     @_paths = []
-    @_now = @_timeline.getNow()
+    @_now = @_timeline.getNowDate()
     @_currentCategoryFilter = null
 
     @_hiventController.onHiventAdded @_loadJson

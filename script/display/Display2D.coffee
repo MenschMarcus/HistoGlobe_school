@@ -111,11 +111,11 @@ class HG.Display2D extends HG.Display
 
     @_visibleAreas = []
 
-    @_areaController.onShowArea @, (area) =>
-      @_showAreaLayer area
+    # @_areaController.onShowArea @, (area) =>
+    #   @_showAreaLayer area
 
-    @_areaController.onHideArea @, (area) =>
-      @_hideAreaLayer area
+    # @_areaController.onHideArea @, (area) =>
+    #   @_hideAreaLayer area
 
   # ============================================================================
   _initLabels: ->

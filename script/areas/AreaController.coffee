@@ -9,15 +9,15 @@ class HG.AreaController
   # ============================================================================
   constructor: (timeline) ->
 
-    HG.mixin @, HG.CallbackContainer
-    HG.CallbackContainer.call @
+    # HG.mixin @, HG.CallbackContainer
+    # HG.CallbackContainer.call @
 
-    @addCallback "onShowArea"
-    @addCallback "onHideArea"
+    # @addCallback "onShowArea"
+    # @addCallback "onHideArea"
 
-    @_initMembers()
+    # @_initMembers()
 
-    timeline.addListener this
+    # timeline.addListener this
 
   # ============================================================================
   nowChanged: (date) ->

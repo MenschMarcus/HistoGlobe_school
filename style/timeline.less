@@ -1,229 +1,77 @@
-/*** general styles ***/
+/*** STYLE OF TIMELINE ***/
 
-.gradient-timeline-main {
-  .transparent-interface-element();
-  .bordered-interface-element();
+@fontSize:        17px;
+@fontColor:       #909090;
+
+/*** MAIN TIMELINE DIV ***/
+#timeline {
+  position:   absolute;
+  left:       0px;
+  bottom:     0px;
+  height:     65px;
+  min-width:  100%;
+  overflow:   hidden;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+
+  background-color: #fff;
+
+  background: -moz-linear-gradient(top, #eee 0%, #ddd 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ddd), color-stop(100%,#eee)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #eee 0%,#ddd 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #eee 0%,#ddd 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #eee 0%,#ddd 100%); /* IE10+ */
+  background: linear-gradient(to bottom, #eee 0%,#ddd 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eee', endColorstr='#ddd',GradientType=0 ); /* IE6-9 */
+  background-repeat: repeat-x;
+  box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.07);
 }
 
-/*** DIV STRUCTURE ***/
+/*** ELEMENT IN TIMELINE ***/
+.yearMarker {
+  position:     absolute;
+  font-size:    @fontSize;
+  color:        @fontColor;
+  height:       50px;
+  padding:      15px 0px 0px 0px;
+  text-align:   center;
+  cursor:       -webkit-grab;
+  cursor:       -moz-grab;
+  display:      none;
 
-#tlContainer {
-  left: 0px;
-  bottom: 0px;
-  right: 0px;
-  overflow: visible;
-  position: absolute;
+  //transition: font-size 0.5s;
+  //-webkit-transition: font-size 0.5s; /* Safari */
+
+  /* disable text-selection */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.yearMarkerH1 {
+  .yearMarker;
+  font-weight: bold;
+  color:  #505050;
+  font-size: 22px;
+}
+
+.yearMarkerH2 {
+  .yearMarker;
+  font-weight: bold;
+  color:  #707070;
   font-size: 18px;
 }
 
-
-/** 1. LEVEL: syntactical timeline containers (structure) + wrapper **/
-
-#timeline {
-  position: relative;
-  height: 65px;
+.yearMarker:hover {
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
 }
 
-/** 2. LEVEL: semantical timeline containers (content) **/
+.yearMarker:active {
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
 
-#tlControlsLeft {
-  bottom: 70px;
-  left: 0px;
-  position: absolute;
-  padding: 4px 7px;
-  border-right: 1px solid #D4D4D4;
-  border-top: 1px solid #D4D4D4;
-  border-bottom: 1px solid #D4D4D4;
-  border-radius: 0px 6px 6px 0px;
-}
-
-#tlControlsRight {
-  border-bottom: 1px solid #D4D4D4;
-  border-left: 1px solid #D4D4D4;
-  border-radius: 6px 0 0 6px;
-  border-top: 1px solid #D4D4D4;
-  bottom: 70px;
-  padding: 4px 7px;
-  position: absolute;
-  right: 0;
-}
-
-#tlMenuLeft {
-  border-radius: 0px 3px 3px 0px;
-  .bordered-interface-element();
-  bottom: 80px;
-  padding: 8px 8px 8px 8px;
-  position: absolute;
-  left: 0;
-}
-
-#tlMenuRight {
-  border-radius: 3px 0px 0px 3px;
-  .bordered-interface-element();
-  bottom: 80px;
-  padding: 8px 8px 8px 8px;
-  position: absolute;
-  width: @right_menu_width;
-  right: 0;
-}
-
-.tlMenu {
-  margin: 0px;
-}
-
-
-/* MAIN */
-
-#tlMain {
-  position: relative;
-  height: 75px;
-  overflow: hidden;
-}
-
-#tlScroller {
-  height: 80px;
-  overflow: visible;
-  position: absolute;
-}
-
-/*** CONTENT ***/
-
-/* NOW = POLITICAL DATE */
-
-#nowMarkerWrap {
-  position: absolute;
-  margin: 0 0 0 -58px;
-  border: 0;
-  padding: 0;
-  z-index: 4;
-}
-
-#nowMarkerHead {
-  background-color: rgb(240, 240, 240);
-  background-repeat: repeat-x;
-  position: relative;
-  padding: 3px;
-  .bordered-interface-element();
-  border-radius: 15px 15px 15px 15px;
-}
-
-#nowMarkerMain {
-  position: relative;
-  top: -1px;
-  left: 35px;
-  width: 50px;
-  height: 50px;
-  background: url('../data/timeline/nowMarker.png') center no-repeat;
-  background-size: contain;
-  background-position: 0px -15px;
-  cursor: pointer;
-  z-index: 1;
-}
-
-#nowDate {
-  position: relative;
-  margin: 4px 12px;
-}
-
-#polDate {
-  margin: 0;
-  text-align: center;
-  font-size: 1em;
-  font-weight: bold;
-  width: 84px;
-  pointer-events: none;
-  color: #888;
-}
-
-
-/* PERIOD = HISTORICAL DATES */
-
-#periodStart, #periodEnd {
-  position: relative;
-  width: 50px;
-  text-align: center;
-}
-
-/* PLAY HISTORY */
-
-.playBtn
-{
-  width: 50px;
-}
-
-.playBtn i
-{
-  letter-spacing: -4px;
-}
-
-/** TIMELINE SCROLLER **/
-
-#tlMain {
-  margin-top: -10px;
-  background: url('../data/timeline/tlBar.png') repeat-x 0 55px;
-}
-
-/* YEAR MARKERS */
-
-/* image */
-.yearMarker {
-  position: absolute;
-  height: 50px;
-  margin-top: 20px;
-}
-.yearMark1 {
-  width: 50px;
-  margin-left: -25px;
-  /*background: url('../data/timeline/yearMarker1.png') center no-repeat;*/
-  background-position: 23.5px 21px;
-}
-.yearMark2 {
-  width: 28px;
-  margin-left: -15px;
-  /*background: url('../data/timeline/yearMarker2.png') no-repeat;*/
-  background-position: 13.5px 21px;
-}
-.yearMark3 {
-  width: 28px;
-  margin-left: -14px;
-  /*background: url('../data/timeline/yearMarker3.png') no-repeat;*/
-  background-position: 13.5px 21px;
-}
-
-/* year number */
-.yearMarker p {
-  position: absolute;
-  width: 100%;
-  text-align: center;
-  color: #aaa;
-  margin: 0px;
-}
-.yearMark1 p {
-  font-size: 1.75em;
-  font-weight: bold;
-}
-.yearMark2 p {
-  font-size: 1.5em;
-  font-weight: bold;
-}
-.yearMark3 p {
-  color: #ccc;
-  font-size: 1em;
-}
-
-/* HISTORICAL EVENT MARKERS */
-.eventMarker {
-  position: absolute;
-  margin-top: 34px;
-  margin-left: -7.5px;
-  height: 50px;
-  width: 15px;
-  z-index: 3;
-  background: url('../data/timeline/eventMarker-nor.png') no-repeat;
-  background-position: 0px 0px;
-  cursor: pointer;
-}
-
-.eventMarker:hover {
-  background: url('../data/timeline/eventMarker-act.png') no-repeat;
 }

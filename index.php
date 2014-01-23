@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="style/third-party/prettyPhoto/css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
     <link rel="stylesheet" href="style/third-party/MarkerCluster.css" />
     <link rel="stylesheet" href="style/third-party/MarkerCluster.Default.css" />
-    <!--[if lte IE 8]>
+    <!--[if lte IE 8]>hivent
       <link rel="stylesheet" href="style/third-party/leaflet.ie.css" />
       <link rel="stylesheet" href="style/third-party/MarkerCluster.Default.ie.css" />
     <![endif]-->
@@ -26,6 +26,7 @@
     <script type="text/javascript" src="script/third-party/jquery.browser.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.disable.text.select.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.mousewheel.js"></script>
+    <script type="text/javascript" src="script/third-party/jquery.rotate.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.prettyPhoto.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.fullscreenApi.js"></script>
     <script type="text/javascript" src="script/third-party/bootstrap.min.js"></script>
@@ -37,8 +38,7 @@
     <script type="text/javascript" src="script/third-party/leaflet.label.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.markercluster.js"></script>
 
-<!--    <script type="text/javascript" src="script/histoglobe.min.js"></script> -->
-
+   <!-- <script type="text/javascript" src="script/histoglobe.min.js"></script>-->
 
     <script type="text/javascript" src="build/Mixin.js"></script>
     <script type="text/javascript" src="build/CallbackContainer.js"></script>
@@ -64,9 +64,12 @@
     <script type="text/javascript" src="build/HiventMarker2D.js"></script>
     <script type="text/javascript" src="build/HiventMarker3D.js"></script>
     <script type="text/javascript" src="build/HiventMarkerTimeline.js"></script>
-    <script type="text/javascript" src="script/timeline/Timeline.js"></script>
+    <script type="text/javascript" src="build/Timeline.js"></script>
+    <script type="text/javascript" src="build/YearMarker.js"></script>
     <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
+    <script type="text/javascript" src="build/NowMarker.js"></script>
+    <script type="text/javascript" src="build/DoublyLinkedList.js"></script>
     <script type="text/javascript" src="build/Legend.js"></script>
 
     <script type="text/javascript">
@@ -151,7 +154,8 @@
 
               container = document.getElementById('map-container');
 
-              loadTimeline();
+              // Load Timeline and NowMarker
+              loadTimeline(hiventController);
 
               areaController = new HG.AreaController(timeline);
               labelController = new HG.LabelController(timeline);
@@ -246,59 +250,9 @@
         legend.addCategoryWithIcon("default", "data/hivent_icons/icon_default.png", "Sonstige", true);
       }
 
-      function loadTimeline() {
-
+      function loadTimeline(hiventController) {
         if (!timelineInitialized) {
-          timeline = timeline(hiventController);
-          timeline.initTimeline();
-
-          $(window).mousemove(timeline.moveMouse);
-          $(window).mouseup(timeline.releaseMouse);
-
-          $("#tlScroller").bind("mousedown",timeline.clickMouse);
-          $("#tlScroller").bind("mousewheel",timeline.zoom);
-
-          // dragging the now marker
-          $("#tlScroller").bind("mousemove",timeline.moveMouseOutThres);
-
-          // moving the timeline scroller with left and right buttons
-          $("#tlMoveLeftRight").bind("mousedown", function(evt)
-            {
-              if (evt.button == 0)
-                timeline.clickMoveButtonLeft(-0.01)
-            }
-          );
-          $("#tlMoveLeftLeft").bind("mousedown", function(evt)
-            {
-              if (evt.button == 0)
-                timeline.clickMoveButtonLeft(0.01)
-            }
-          );
-          $("#tlMoveRightRight").bind("mousedown", function(evt)
-            {
-              if (evt.button == 0)
-                timeline.clickMoveButtonRight(0.01)
-            }
-          );
-          $("#tlMoveRightLeft").bind("mousedown",  function(evt)
-            {
-              if (evt.button == 0)
-                timeline.clickMoveButtonRight(-0.01)
-            }
-          );
-
-          // play history
-          $('#histPlayer1').click(timeline.togglePlayer);
-          $('#histPlayer2').click(timeline.togglePlayer);
-          $('#histPlayer3').click(timeline.togglePlayer);
-
-          // disable selection of years in timeline
-
-          $("#tlMain").disableTextSelect();
-          $("#tlScroller").disableTextSelect();
-          $("#tlPlayer").disableTextSelect();
-
-          timelineInitialized = true;
+          timeline = new HG.Timeline(1975, 1940, 2014, document.getElementById("timeline"), document.getElementById("now_marker"), hiventController);
         }
       }
 
@@ -335,47 +289,25 @@
             <div id="toggle-fullscreen" class="btn btn-default"><i class="fa fa-fullscreen"></i> Vollbild</div>
           </div>
 
-          <!-- timeline -->
-          <div id="tlContainer">
 
-            <div id="tlMenuLeft"  class="menu">
-              <div class="btn-toolbar header-button-bottom tlMenu">
-                <div class="btn-group">
-                  <a id="histPlayer1" class="btn playBtn btn-default"><i class="fa fa-play"></i></a>
-                  <a id="histPlayer2" class="btn playBtn btn-default"><i class="fa fa-play"></i><i class="fa fa-play"></i></a>
-                  <a id="histPlayer3" class="btn playBtn btn-default"><i class="fa fa-play"></i><i class="fa fa-play"></i><i class="fa fa-play"></i></a>
-                </div>
-              </div>
-             </div>
-
-             <div id="tlMenuRight"  class="menu">
-              <div class="btn-toolbar header-button-bottom tlMenu">
-                <div class="btn-group" id="display-mode-switch">
-                  <a id="toggle-2D" class="btn btn-default active" onClick="load2D()">2D</a>
-                  <a id="toggle-3D" class="btn btn-default" onClick="load3D()">3D</a>
-                </div>
-              </div>
+          <!-- Now Marker in middle of page -->
+          <div id="now_marker">
+            <div id="now_marker_pointer">
+              <img src="img/timeline/pointer.png"/>
             </div>
-
-            <div id="timeline"  class="gradient-timeline-main">
-              <div id="tlMain">
-                <div id="tlScroller">
-                  <div id="tlDateMarkers">
-                    <!-- all markers are in here -->
-                    <div id="nowMarkerWrap">
-                      <div id="nowMarkerHead">
-                        <div id="nowDate" onsubmit="return false">
-                          <span id="polDate"></span>
-                        </div>
-                      </div>
-                      <div id="nowMarkerMain"></div>
-                    </div>
-                  </div>
-                </div>
+            <div id="now_marker_in">
+              <div id="now_marker_play" title="Click to play">
+                <img src="img/timeline/playIcon.png" />
               </div>
-
+              <input type="text" name="now_date" id="now_date_input" maxlength="10" size="10" />
             </div>
           </div>
+          <div id="timeline"></div>
+          <img src="img/timeline/nowMarkerSmall.png" id="now_marker_sign">
+          <div id="fullscreenMenuRight"  class="menu">
+            <div id="toggle-fullscreen" class="btn btn-default"><i class="icon-fullscreen"></i> Vollbild</div>
+          </div>
+
         </div>
       </div>
 

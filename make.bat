@@ -1,5 +1,5 @@
 @echo off
-call "C:\Program Files\nodejs\nodevars.bat"
+call "D:\Drafts\Code\NodeJS\nodevars.bat"
 
 @echo off
 call "data_src\hivents\generate.bat"
@@ -8,7 +8,7 @@ call "data_src\hivents\generate.bat"
 call "data_src\labels\generate.bat"
 
 @echo off
-call "data_src\pahts\generate.bat"
+call "data_src\paths\generate.bat"
 
 @echo off
 set cFiles=script/util/Mixin.coffee ^
@@ -20,6 +20,8 @@ set cFiles=script/util/Mixin.coffee ^
         script/display/Display.coffee ^
         script/areas/Area.coffee ^
         script/areas/AreaController.coffee ^
+        script/timeline/Timeline.coffee ^
+        script/timeline/YearMarker.coffee ^
         script/labels/Label.coffee ^
         script/labels/LabelController.coffee ^
         script/hivents/HiventHandle.coffee ^
@@ -31,13 +33,14 @@ set cFiles=script/util/Mixin.coffee ^
         script/hivents/HiventMarker2D.coffee ^
         script/hivents/HiventMarker3D.coffee ^
         script/hivents/HiventMarkerTimeline.coffee ^
+        script/timeline/NowMarker.coffee ^
+        script/timeline/DoublyLinkedList.coffee ^
         script/legend/Legend.coffee ^
         script/hivents/HiventInfoPopover.coffee ^
         script/paths/Path.coffee ^
         script/paths/ArcPath2D.coffee ^
         script/paths/PathController.coffee ^
-        script/paths/LinearPath2D.coffee ^
-        script/paths/ArcPath2D.coffee
+        script/paths/LinearPath2D.coffee
 
 @echo off
 set jFiles=build/Mixin.js ^
@@ -47,6 +50,8 @@ set jFiles=build/Mixin.js ^
         build/Display3D.js ^
         build/Area.js ^
         build/AreaController.js ^
+        build/Timeline.js ^
+        build/YearMarker.js ^
         build/Label.js ^
         build/LabelController.js ^
         script/timeline/Timeline.js ^
@@ -59,15 +64,17 @@ set jFiles=build/Mixin.js ^
         build/HiventMarker2D.js ^
         build/HiventMarker3D.js ^
         build/HiventMarkerTimeline.js ^
+        build/Legend.js ^
         build/HiventInfoPopover.js ^
-        build/legend/Legend.js ^
         build/Path.js ^
-        build/LinearPath2D.js ^
         build/ArcPath2D.js ^
         build/PathController.js ^
+        build/LinearPath2D.js ^
         build/Vector.js ^
         build/VideoPlayer.js ^
-        script/util/BrowserDetect.js
+        script/util/BrowserDetect.js ^
+        build/NowMarker.js ^
+        build/DoublyLinkedList.js
 
 IF not exist build ( mkdir build )
 
