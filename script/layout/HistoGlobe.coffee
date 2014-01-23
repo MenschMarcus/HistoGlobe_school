@@ -11,9 +11,15 @@ class HG.HistoGlobe
 
     @_container = container
 
-    @_createLayout()
-
+    @_createSidebar()
     @_createMap()
+    @_createTimeline()
+    @_createCollapseButton()
+
+    @_collapsed = @_isInMobileMode()
+    @_updateLayout()
+
+    $(window).on 'resize', @_updateLayout
 
     widget = new HG.TextWidget(@_sidebar_area, "fa-tags", "Vorstand", "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.")
     widget = new HG.TextWidget(@_sidebar_area, "fa-stop", "Toller Stuff", "Lorem ipsum")
@@ -26,9 +32,8 @@ class HG.HistoGlobe
   ##############################################################################
 
   # ============================================================================
-  _createLayout: ->
-    # base layout
-    @_sidebar_area = document.createElement "div"
+  _createSidebar: ->
+    @_sidebar_area = @_createElement "div", "sidebarArea"
 
     $(@_sidebar_area).click (e) =>
       if e.target is @_sidebar_area or
@@ -37,32 +42,20 @@ class HG.HistoGlobe
 
         @_collapse()
 
-    @_sidebar_area.id = "sidebarArea"
-    @_container.appendChild @_sidebar_area
-
-    @_map_area = document.createElement "div"
-    @_map_area.id = "mapArea"
-    @_container.appendChild @_map_area
-
-    @_timeline_area = document.createElement "div"
-    @_timeline_area.id = "timelineArea"
-    @_container.appendChild @_timeline_area
-
-
-    # collapse button
-    @_collapse_button = document.createElement "i"
-    @_collapse_button.id = "collapseButton"
+  # ============================================================================
+  _createCollapseButton: ->
+    @_collapse_button = @_createElement "i", "collapseButton"
     @_collapse_button.className = "fa fa-arrow-circle-o-left fa-2x"
-    @_container.appendChild @_collapse_button
-
-    @_collapsed = @_isInMobileMode()
-    @_updateLayout()
 
     $(@_collapse_button).click @_collapse
-    $(window).on 'resize', @_updateLayout
 
   # ============================================================================
-  _createMap: () ->
+  _createMap: ->
+    @_map_area = @_createElement "div", "mapArea"
+
+  # ============================================================================
+  _createTimeline: ->
+    @_timeline_area = @_createElement "div", "timelineArea"
 
   # ============================================================================
   _collapse: =>
@@ -71,8 +64,10 @@ class HG.HistoGlobe
 
   # ============================================================================
   _updateLayout: =>
+
     width = window.innerWidth
 
+    # update width of sidebar and map if in mobile mode
     if @_isInMobileMode()
       @_sidebar_area.style.width = "#{width - MAP_COLLAPSED_WIDTH}px"
       @_map_area.style.width = "#{width-SIDEBAR_COLLAPSED_WIDTH}px"
@@ -81,6 +76,8 @@ class HG.HistoGlobe
       @_sidebar_area.style.width = "#{SIDEBAR_MIN_WIDTH}px"
       @_map_area.style.width = "#{width-SIDEBAR_COLLAPSED_WIDTH}px"
 
+
+    # update div positions if collapsed or uncollapsed
     if @_collapsed
       @_collapse_button.className = "fa fa-arrow-circle-o-left fa-2x"
       @_map_area.style.right = "#{SIDEBAR_COLLAPSED_WIDTH}px"
@@ -107,6 +104,12 @@ class HG.HistoGlobe
   _isInMobileMode: =>
     window.innerWidth < SIDEBAR_MIN_WIDTH + MAP_MIN_WIDTH
 
+  # ============================================================================
+  _createElement: (type, id) ->
+    div = document.createElement type
+    div.id = id
+    @_container.appendChild div
+    return div
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #
