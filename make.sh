@@ -49,7 +49,6 @@ jFiles="build/Mixin.js \
         build/YearMarker.js \
         build/Label.js \
         build/LabelController.js \
-        script/timeline/Timeline.js \
         build/Hivent.js \
         build/HiventHandle.js \
         build/HiventBuilder.js \
