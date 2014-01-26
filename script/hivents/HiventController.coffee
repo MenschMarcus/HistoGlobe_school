@@ -1,5 +1,6 @@
 #include Hivent.coffee
 #include HiventHandle.coffee
+#include HiventDatabaseInterface.coffee
 
 window.HG ?= {}
 
@@ -11,10 +12,10 @@ class HG.HiventController
 
   # ============================================================================
   constructor: () ->
-    # @_initHivents(pathToHivents)
+    # @_loadHivents(pathToHivents)
     @_hiventHandles = [];
     @_hiventsLoaded = false;
-    @_onHiventsLoadedCallbacks = [];
+    @_onHiventAddedCallbacks = [];
 
     @_currentTimeFilter = null; # {start: <Date>, end: <Date>}
     @_currentSpaceFilter = null; # { min: {lat: <float>, long: <float>},
@@ -23,9 +24,9 @@ class HG.HiventController
 
 
   # ============================================================================
-  onHiventsLoaded: (callbackFunc) ->
+  onHiventAdded: (callbackFunc) ->
     if callbackFunc and typeof(callbackFunc) == "function"
-      @_onHiventsLoadedCallbacks.push callbackFunc
+      @_onHiventAddedCallbacks.push callbackFunc
 
       if @_hiventsLoaded
         callbackFunc @_hiventHandles
@@ -55,33 +56,49 @@ class HG.HiventController
   ############################### INIT FUNCTIONS ###############################
 
   # ============================================================================
-  initHivents: (pathToHivents) ->
-    $.getJSON(pathToHivents, (hivents) =>
-      for h in hivents
-        hivent = new HG.Hivent(
-          h.id,
-          h.name,
-          h.startYear,
-          h.startMonth,
-          h.startDay,
-          h.endYear,
-          h.endMonth,
-          h.endDay,
-          h.displayDate,
-          h.long,
-          h.lat,
-          h.category,
-          h.content,
-        )
+  # config =
+  #   hiventServerName: string -- name of the server
+  #   hiventDatabaseName: string -- name of the database
+  #   hiventTableName: string -- name of the table
+  #   multimediaServerName: string -- name of the server
+  #   multimediaDatabaseName: string -- name of the database
+  #   multimediaTableName: string -- name of the table
 
-        @_hiventHandles.push(new HG.HiventHandle hivent)
+  loadHiventsFromDatabase: (config) ->
+    dbInterface = new HG.HiventDatabaseInterface(config.hiventServerName, config.hiventDatabaseName)
+    dbInterface.getHivents {
+      tableName: config.hiventTableName,
+      upperLimit: 100,
+      success:
+        (data) =>
+          builder = new HG.HiventBuilder(config)
+          rows = data.split "\n"
+          for row in rows
+            builder.constructHiventFromDBString row, (hivent) =>
+              handle = new HG.HiventHandle hivent
+              @_hiventHandles.push handle
+              callback handle for callback in @_onHiventAddedCallbacks
+              @_filterHivents();
+
+          @_hiventsLoaded = true
+    }
+
+  # ============================================================================
+  # config =
+  #   hiventJSONPath: string -- path to hivent JSON file
+  #   multimediaJSONPath: string -- path to multimedia JSON file
+
+  loadHiventsFromJSON: (config) ->
+    $.getJSON(config.hiventJSONPath, (hivents) =>
+      builder = new HG.HiventBuilder(config)
+      for h in hivents
+        builder.constructHiventFromJSON h, (hivent) =>
+          handle = new HG.HiventHandle hivent
+          @_hiventHandles.push handle
+          callback handle for callback in @_onHiventAddedCallbacks
+          @_filterHivents();
 
       @_hiventsLoaded = true
-
-      callback @_hiventHandles for callback in @_onHiventsLoadedCallbacks
-
-      @_filterHivents()
-
     )
 
   ############################# MAIN FUNCTIONS #################################

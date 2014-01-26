@@ -1,0 +1,102 @@
+
+// radius of now marker box
+@radius:    100px;
+@inRadius:  80px;
+
+// main container of Now Marker
+#now_marker {
+
+    // position & size
+    position:       absolute;
+    z-index:        0;
+    left:           0px;
+    bottom:         65px;
+    width:          (@radius * 2);
+    height:         (@radius);
+    visibility:     hidden;
+
+    // colors
+    background:         rgba(235,235,235,0.71);
+    background-image:   url('../img/timeline/numbersNowMarker.png');
+    background-repeat:  no-repeat;
+    box-shadow:         0 0px 2px rgba(0, 0, 0, 0.2);
+
+    .border-radius(@roundness * @radius @roundness * @radius 0 0);
+}
+
+// pointer to show current speed of timeline
+#now_marker_pointer {
+
+    // position & size
+    position:   absolute;
+    z-index:    1;
+    left:       94px;
+    bottom:     -100px;
+    height:     (@radius * 2);
+    width:      12px;
+}
+
+// Inner circle
+#now_marker_in {
+
+    // position & size
+    position:       absolute;
+    z-index:        2;
+    width:          (@inRadius * 2);
+    height:         @inRadius;
+    margin:         (@radius - @inRadius) (@radius - @inRadius) 0px (@radius - @inRadius);
+
+    // colors
+    box-shadow:         0 0px 2px rgba(0, 0, 0, 0.2);
+    border:             1px solid #C4C4C4;
+    .border-radius(@roundness * @inRadius @roundness * @inRadius 0 0);
+    .linear-gradient-top(rgba(255,255,255, 0.0), #fff, 0, rgba(218, 218, 218, 1), 50%);
+}
+
+// input field for now marker year
+#now_date_input {
+
+    // position & size
+    width:          78px;
+    margin:         0px 0px 0px 39px;
+    padding-left:   3px;
+
+    // colors
+    color:      #909090;
+}
+
+// play button in the middle of Now Marker
+#now_marker_play {
+
+    // position & size
+    margin:     10px auto 10px auto;
+    height:     20px;
+    width:      28px;
+
+    // play button pic
+    img {       height: 20px;       }
+
+    // change cursor on mouse over
+    &:hover {   cursor: pointer;    }
+}
+
+// litte sign pointing on now marker on timeline
+#now_marker_sign {
+
+    // position & colors
+    position:   absolute;
+    z-index:    3;
+    left:       0px;
+    bottom:     48px;
+    width:      20px;
+    height:     20px;
+}
+
+// numbers to show values of speed
+.nrNM {
+
+    // position & size
+    position:   absolute;
+    left:       0px;
+    bottom:     0px;
+}

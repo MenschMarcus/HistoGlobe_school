@@ -209,7 +209,7 @@ class HG.Display3D extends HG.Display
 
   # ============================================================================
   _initHivents: ->
-    # @_hiventHandler.onHiventsLoaded (handles) =>
+    # @_hiventHandler.onHiventAdded (handles) =>
     #   for handle in handles
     #     hivent    = new HG.HiventMarker3D handle, this, HG.Display.CONTAINER
     #     position  = @_latLongToCart

@@ -20,7 +20,7 @@ class HG.PathController
 
     @_initMembers()
 
-    @_timeline.addListener @
+    #@_timeline.addListener @
 
 
   # ============================================================================
@@ -49,37 +49,37 @@ class HG.PathController
   # ============================================================================
   _initMembers: ->
     @_paths = []
-    @_now = @_timeline.getNow()
+    @_now = @_timeline.getNowDate()
     @_currentCategoryFilter = null
 
-    @_hiventController.onHiventsLoaded @_loadJson
+    @_hiventController.onHiventAdded @_loadJson
 
   # ============================================================================
   _loadJson: () =>
-    $.getJSON "data/path_collection.json", (paths) =>
-      for path in paths
-        startHiventHandle = @_hiventController.getHiventHandleById path.startHivent
-        endHiventHandle = @_hiventController.getHiventHandleById path.endHivent
+    # $.getJSON "data/path_collection.json", (paths) =>
+    #   for path in paths
+    #     startHiventHandle = @_hiventController.getHiventHandleById path.startHivent
+    #     endHiventHandle = @_hiventController.getHiventHandleById path.endHivent
 
-        startHivent = startHiventHandle.getHivent()
-        endHivent = endHiventHandle.getHivent()
+    #     startHivent = startHiventHandle.getHivent()
+    #     endHivent = endHiventHandle.getHivent()
 
-        unless startHivent.endDate.getTime() is endHivent.startDate.getTime()
+    #     unless startHivent.endDate.getTime() is endHivent.startDate.getTime()
 
-          newPath = null
-          if path.type is "ARC_PATH"
-            newPath = new HG.ArcPath2D startHiventHandle, endHiventHandle, path.category, @_map, "#000000", path.movingMarker, path.startMarker, path.endMarker, 0.2
-          else if  path.type is "LINEAR_PATH"
-            newPath = new HG.LinearPath2D startHiventHandle, endHiventHandle, path.category, @_map, "#000000"
-          else
-            console.error "Undefined path type \"#{path.type}\"!"
+    #       newPath = null
+    #       if path.type is "ARC_PATH"
+    #         newPath = new HG.ArcPath2D startHiventHandle, endHiventHandle, path.category, @_map, "#000000", path.movingMarker, path.startMarker, path.endMarker, 0.2
+    #       else if  path.type is "LINEAR_PATH"
+    #         newPath = new HG.LinearPath2D startHiventHandle, endHiventHandle, path.category, @_map, "#000000"
+    #       else
+    #         console.error "Undefined path type \"#{path.type}\"!"
 
-          if newPath?
-            @_paths.push newPath
+    #       if newPath?
+    #         @_paths.push newPath
 
-            newPath.setDate @_now
+    #         newPath.setDate @_now
 
-      @_filterPaths()
+    #   @_filterPaths()
 
   # ============================================================================
   _filterPaths: ->

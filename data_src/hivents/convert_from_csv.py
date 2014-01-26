@@ -15,21 +15,6 @@ import csv
 
 iframe_criteria = ['flv', 'ogv', 'mp4', 'ogg']
 
-class Multimedia:
-  type = ""
-  description = ""
-  link = ""
-  thumbnail = ""
-
-  def __init__(self, type, description, link):
-    self.type = type
-    self.description = description
-    self.link = link
-    self.thumbnail = link
-    if link.split('.')[-1] in iframe_criteria:
-      self.link += "?iframe=true"
-      self.thumbnail = "data/video.png"
-
 def main():
   csv_hivents_file_path = ""
   csv_multimedia_file_path = ""
@@ -44,27 +29,45 @@ def main():
   csv_multimedia_file_path = sys.argv[2]
   target_path = sys.argv[3]
 
-  assets_path =  target_path + "/hivent_assets/"
-  html_path = assets_path + "html/"
+  if not os.path.exists(target_path):
+    os.makedirs(target_path)
 
-  if not os.path.exists(html_path):
-    os.makedirs(html_path)
 
-  json_target = open(target_path + "/hivent_collection.json", "w")
-  json_target.write("[\n")
-
-  #load multimedia sheet and store combination of id/data for later use
-  multimedia_map = dict()
+  #load multimedia sheet
+  multimedia_json_target = open(target_path + "/multimedia_collection.json", "w")
+  multimedia_json_target.write("[\n")
 
   with open(csv_multimedia_file_path, 'rb') as csvfile:
     rows = list(csv.reader(csvfile, delimiter='|', quotechar='\"'))
     row_count = len(rows)
     for row in rows:
       if row != rows[0]:
-        id = row[0]
-        multimedia = Multimedia(row[1], row[2], row[3])
+        multimedia_id          = row[0]
+        multimedia_type        = row[1]
+        multimedia_description = row[2]
+        multimedia_link        = row[3]
 
-        multimedia_map[id] = multimedia
+        #create json
+
+        multimedia_json_target.write('\t{\n')
+        multimedia_json_target.write('\t\t\"id\": \"' + multimedia_id + '\",\n')
+        multimedia_json_target.write('\t\t\"type\": \"' + multimedia_type + '\",\n')
+
+        clean_description = multimedia_description.replace("\"", "\\\"")
+
+        multimedia_json_target.write('\t\t\"description\": \"' + clean_description + '\",\n')
+        multimedia_json_target.write('\t\t\"link\": \"' + multimedia_link + '\"\n')
+
+        multimedia_json_target.write('\t}')
+        if row != rows[-1]:
+          multimedia_json_target.write(',')
+        multimedia_json_target.write('\n')
+
+  multimedia_json_target.write("]")
+  multimedia_json_target.close()
+
+  hivent_json_target = open(target_path + "/hivent_collection.json", "w")
+  hivent_json_target.write("[\n")
 
   #load hivent sheet
   with open(csv_hivents_file_path, 'rb') as csvfile:
@@ -77,85 +80,43 @@ def main():
         hivent_description = row[2]
         hivent_startDate   = row[3]
         hivent_endDate     = row[4]
-        hivent_location    = row[5]
-        hivent_long        = row[7]
-        hivent_lat         = row[6]
-        hivent_category    = row[8]
-        hivent_mm_ids      = row[9]
-        hivent_displayDate = ""
-
-        mm_html_string = ""
-
-        if hivent_mm_ids != "":
-          gallery_id = hivent_id + "_gallery"
-          mm_html_string = '\t<ul class=\"gallery clearfix\">\n'
-          hivent_mm_ids = hivent_mm_ids.split(",")
-          gallery_tag = ""
-          if len(hivent_mm_ids) > 1:
-            gallery_tag = "[" + gallery_id + "]"
-          for id in hivent_mm_ids:
-            if not id in multimedia_map:
-              print "Multimedia ID " + hivent_mm_id + " is invalid!"
-            else:
-              multimedia = multimedia_map[id]
-              mm_html_string += str('\t\t<li><a class="thumbnail" href=\"' +
-                                multimedia.link + '\" rel=\"prettyPhoto' +
-                                gallery_tag + '\" title=\"' +
-                                multimedia.description + '\"><div class="img" style=\"background-image:url(\'' +
-                                multimedia.thumbnail + '\')\"></div></a></li>\n')
-
-          mm_html_string += "\t</ul>\n"
-
-        #create html
-        hivent_displayDate = hivent_startDate
-        if hivent_startDate != hivent_endDate:
-          hivent_displayDate += '-' + hivent_endDate
-
-        html_name = hivent_id + ".htm"
-        html_target = open(html_path + html_name, "w")
-        html_target.write('<div class = \"hiventInfoPopoverContent\">\n' +
-                           mm_html_string +
-                           '\t<h3>' + hivent_location + ', ' +
-                           hivent_displayDate+ '</h3>\n' +
-                           '\t<p>\n\t\t' +
-                           hivent_description +
-                           '\n\t</p>\n' +
-                          '</div>\n'
-                         )
-        html_target.close()
+        hivent_displayDate = row[5]
+        hivent_location    = row[6]
+        hivent_lat         = row[7]
+        hivent_long        = row[8]
+        hivent_category    = row[9]
+        hivent_mm_ids      = row[10]
 
         #create json
 
-        json_target.write('\t{\n')
-        json_target.write('\t\t\"id\": \"' + hivent_id + '\",\n')
-        json_target.write('\t\t\"name\": \"' + hivent_name + '\",\n')
+        hivent_json_target.write('\t{\n')
+        hivent_json_target.write('\t\t\"id\": \"' + hivent_id + '\",\n')
+        hivent_json_target.write('\t\t\"name\": \"' + hivent_name + '\",\n')
 
-        startDay, startMonth, startYear = hivent_startDate.split(".")
-        json_target.write('\t\t\"startDay\": ' + str(int(startDay)) + ',\n')
-        json_target.write('\t\t\"startMonth\": ' + str(int(startMonth)) + ',\n')
-        json_target.write('\t\t\"startYear\": ' + str(int(startYear)) + ',\n')
+        clean_description = hivent_description.replace("\"", "\\\"")
 
-        endDay, endMonth, endYear = hivent_endDate.split(".")
-        json_target.write('\t\t\"endDay\": ' + str(int(endDay)) + ',\n')
-        json_target.write('\t\t\"endMonth\": ' + str(int(endMonth)) + ',\n')
-        json_target.write('\t\t\"endYear\": ' + str(int(startYear)) + ',\n')
+        hivent_json_target.write('\t\t\"description\": \"' + clean_description + '\",\n')
+        hivent_json_target.write('\t\t\"multimedia\": \"' + hivent_mm_ids + '\",\n')
 
-        json_target.write('\t\t\"displayDate\": \"' + hivent_displayDate + '\",\n')
+        hivent_json_target.write('\t\t\"startDate\": \"' + hivent_startDate + '\",\n')
 
-        json_target.write('\t\t\"long\": ' + hivent_long + ',\n')
-        json_target.write('\t\t\"lat\": ' + hivent_lat + ',\n')
+        hivent_json_target.write('\t\t\"endDate\": \"' + hivent_endDate + '\",\n')
 
-        json_target.write('\t\t\"category\": \"' +  hivent_category + '\",\n')
+        hivent_json_target.write('\t\t\"displayDate\": \"' + hivent_displayDate + '\",\n')
+        hivent_json_target.write('\t\t\"location\": \"' + hivent_location + '\",\n')
 
-        json_target.write('\t\t\"content\": \"' + html_path + html_name + '\"\n')
+        hivent_json_target.write('\t\t\"long\": ' + hivent_long + ',\n')
+        hivent_json_target.write('\t\t\"lat\": ' + hivent_lat + ',\n')
 
-        json_target.write('\t}')
+        hivent_json_target.write('\t\t\"category\": \"' +  hivent_category + '\"\n')
+
+        hivent_json_target.write('\t}')
         if row != rows[-1]:
-          json_target.write(',')
-        json_target.write('\n')
+          hivent_json_target.write(',')
+        hivent_json_target.write('\n')
 
-  json_target.write("]")
-  json_target.close()
+  hivent_json_target.write("]")
+  hivent_json_target.close()
 
   return 0
 

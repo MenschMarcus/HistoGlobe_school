@@ -91,10 +91,9 @@ class HG.Display2D extends HG.Display
         maxClusterRadius: 20
       })
 
-    @_hiventController.onHiventsLoaded (handles) =>
-      for handle in handles
-        handle.onShow @, (self) =>
-          marker = new HG.HiventMarker2D self, this, @_map, @_markerGroup
+    @_hiventController.onHiventAdded (handle) =>
+      handle.onShow @, (self) =>
+        marker = new HG.HiventMarker2D self, this, @_map, @_markerGroup
 
     @_map.on "click", HG.HiventHandle.DEACTIVATE_ALL_HIVENTS
     @_map.addLayer @_markerGroup
@@ -112,11 +111,11 @@ class HG.Display2D extends HG.Display
 
     @_visibleAreas = []
 
-    @_areaController.onShowArea @, (area) =>
-      @_showAreaLayer area
+    # @_areaController.onShowArea @, (area) =>
+    #   @_showAreaLayer area
 
-    @_areaController.onHideArea @, (area) =>
-      @_hideAreaLayer area
+    # @_areaController.onHideArea @, (area) =>
+    #   @_hideAreaLayer area
 
   # ============================================================================
   _initLabels: ->
