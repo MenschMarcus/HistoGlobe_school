@@ -14,6 +14,7 @@ call "data_src\pahts\generate.bat"
 set cFiles=script/layout/HistoGlobe.coffee ^
         script/layout/Widget.coffee ^
         script/layout/TextWidget.coffee ^
+        script/layout/PictureWidget.coffee ^
         script/util/Mixin.coffee ^
         script/util/CallbackContainer.coffee ^
         script/util/VideoPlayer.coffee ^
@@ -44,6 +45,7 @@ set cFiles=script/layout/HistoGlobe.coffee ^
 set jFiles=build/HistoGlobe.js ^
         build/Widget.js ^
         build/TextWidget.js ^
+        build/PictureWidget.js ^
         build/Mixin.js ^
         build/CallbackContainer.js ^
         build/Display.js ^

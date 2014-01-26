@@ -1,22 +1,22 @@
 window.HG ?= {}
 
-class HG.TextWidget extends HG.Widget
+class HG.PictureWidget extends HG.Widget
 
   ##############################################################################
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
   # ============================================================================
-  constructor: (container, icon, name, text) ->
+  constructor: (container, icon, name, url) ->
 
     HG.Widget.call @, container
 
-    container.className = "textWidget"
+    $(container).addClass = "pictureWidget"
 
     @setName name
     @setIcon icon
 
-    content = document.createElement "div"
-    content.innerHTML = text
+    content = document.createElement "img"
+    content.src = url
 
     @setContent content
