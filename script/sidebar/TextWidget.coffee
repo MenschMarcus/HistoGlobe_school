@@ -7,14 +7,24 @@ class HG.TextWidget extends HG.Widget
   ##############################################################################
 
   # ============================================================================
-  constructor: (container, icon, name, text) ->
+  constructor: (config) ->
+    defaultConfig =
+      icon: ""
+      name: ""
+      text: ""
 
-    HG.Widget.call @, container
+    @_config = $.extend {}, defaultConfig, config
 
-    @setName name
-    @setIcon icon
+    HG.Widget.call @
+
+  # ============================================================================
+  init: (hgInstance) ->
+    super hgInstance
+
+    @setName @_config.name
+    @setIcon @_config.icon
 
     content = document.createElement "div"
-    content.innerHTML = text
+    content.innerHTML = @_config.text
 
     @setContent content

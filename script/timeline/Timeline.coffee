@@ -7,12 +7,14 @@ class HG.Timeline
   ##############################################################################
 
   # ============================================================================
-  # config =
-  #   parentDiv: div
-  #   nowYear: year
-  #   minYear: year
-  #   maxYear: year
   constructor: (config, hiventController) ->
+    defaultConfig =
+      parentDiv: undefined
+      nowYear: 1900
+      minYear: 1800
+      maxYear: 2000
+
+    config = $.extend {}, defaultConfig, config
 
     # convert years to date objects
     @_minDate = @_yearToDate config.minYear
