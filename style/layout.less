@@ -19,7 +19,8 @@
   position: absolute;
   width: @sidebar_width;
 
-  z-index: 0;
+  overflow-y:auto;
+  overflow-x:hidden;
 
   top: 0;
   bottom: @timeline_height;
@@ -91,11 +92,10 @@
   .widgetCollapseItem {
     .transform(rotate(90deg));
   }
-
 }
 
 .widgetContainer {
-  margin: 5px 15px 5px 15px;
+  margin: 10px;
   overflow: hidden;
 
   background-color: @widget_background_color;

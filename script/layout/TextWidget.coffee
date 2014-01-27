@@ -7,9 +7,9 @@ class HG.TextWidget extends HG.Widget
   ##############################################################################
 
   # ============================================================================
-  constructor: (container, swiper, icon, name, text) ->
+  constructor: (container, icon, name, text) ->
 
-    HG.Widget.call @, container, swiper
+    HG.Widget.call @, container
 
     @setName name
     @setIcon icon

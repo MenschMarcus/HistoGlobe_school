@@ -7,9 +7,8 @@ class HG.Widget
   ##############################################################################
 
   # ============================================================================
-  constructor: (container, swiper) ->
+  constructor: (container) ->
     @_container = container
-    @_swiper = swiper
     @_createLayout()
 
   # ============================================================================
@@ -33,13 +32,9 @@ class HG.Widget
 
   # ============================================================================
   _createLayout: () ->
-    slider_slide = document.createElement "div"
-    slider_slide.className = "swiper-slide"
-    @_container.appendChild slider_slide
-
     widget = document.createElement "div"
     widget.className = "widgetContainer"
-    slider_slide.appendChild widget
+    @_container.appendChild widget
 
     # header -------------------------------------------------------------------
     @_header = document.createElement "div"
@@ -117,8 +112,7 @@ class HG.Widget
     if $(@_header).hasClass("collapsed")
       $(body).animate
         height: 0
-      , WIDGET_ANIMATION_SPEED * 1000, () =>
-        @_swiper.reInit()
+      , WIDGET_ANIMATION_SPEED * 1000
 
     else
       $(body).css
@@ -134,7 +128,6 @@ class HG.Widget
       , WIDGET_ANIMATION_SPEED * 1000, () =>
         $(body).css
           "height": "auto"
-        @_swiper.reInit()
 
 
   ##############################################################################
