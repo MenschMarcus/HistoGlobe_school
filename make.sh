@@ -7,10 +7,10 @@
 (cd data_src/paths/; ./generate.sh)
 
 
-cFiles="script/layout/HistoGlobe.coffee \
-        script/layout/Widget.coffee \
-        script/layout/TextWidget.coffee \
-        script/layout/PictureWidget.coffee \
+cFiles="script/HistoGlobe.coffee \
+        script/sidebar/Widget.coffee \
+        script/sidebar/TextWidget.coffee \
+        script/sidebar/PictureWidget.coffee \
         script/util/Mixin.coffee \
         script/util/CallbackContainer.coffee \
         script/util/VideoPlayer.coffee \

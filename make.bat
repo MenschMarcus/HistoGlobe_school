@@ -11,10 +11,10 @@ call "data_src\labels\generate.bat"
 call "data_src\paths\generate.bat"
 
 @echo off
-set cFiles=script/layout/HistoGlobe.coffee ^
-        script/layout/Widget.coffee ^
-        script/layout/TextWidget.coffee ^
-        script/layout/PictureWidget.coffee ^
+set cFiles=script/HistoGlobe.coffee ^
+        script/sidebar/Widget.coffee ^
+        script/sidebar/TextWidget.coffee ^
+        script/sidebar/PictureWidget.coffee ^
         script/util/Mixin.coffee ^
         script/util/CallbackContainer.coffee ^
         script/util/VideoPlayer.coffee ^
