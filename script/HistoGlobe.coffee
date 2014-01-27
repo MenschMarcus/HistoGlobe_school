@@ -11,6 +11,9 @@ class HG.HistoGlobe
 
     @_container = container
 
+    @_timeline = null
+    @_map = null
+
     @_createSidebar()
     @_createMap()
     @_createTimeline()
@@ -29,6 +32,21 @@ class HG.HistoGlobe
 
     @_updateLayout()
 
+  # ============================================================================
+  addModule: (module) ->
+    module.init @
+
+  # ============================================================================
+  getTimeline: () ->
+    @_timeline
+
+  # ============================================================================
+  getMap: () ->
+    @_map
+
+  # ============================================================================
+  getSidebar: () ->
+    @_sidebar_area
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -38,9 +56,9 @@ class HG.HistoGlobe
   _createSidebar: ->
     @_sidebar_area = @_createElement "div", "sidebarArea"
 
-    scrollbar = document.createElement "div"
-    scrollbar.className = "swiper-scrollbar"
-    @_sidebar_area.appendChild scrollbar
+    # scrollbar = document.createElement "div"
+    # scrollbar.className = "swiper-scrollbar"
+    # @_sidebar_area.appendChild scrollbar
 
     $(@_sidebar_area).click (e) =>
       if e.target is @_sidebar_area or
@@ -76,6 +94,12 @@ class HG.HistoGlobe
   # ============================================================================
   _createTimeline: ->
     @_timeline_area = @_createElement "div", "timelineArea"
+    config =
+      parentDiv: @_timeline_area
+      nowYear: 1900
+      minYear: 1800
+      maxYear: 2000
+    @_timeline = new HG.Timeline config
 
   # ============================================================================
   _collapse: =>

@@ -7,17 +7,22 @@ class HG.Timeline
   ##############################################################################
 
   # ============================================================================
-  constructor: (nowYear, minYear, maxYear, timelineDiv, nowMarkerDiv, hiventController) ->
+  # config =
+  #   parentDiv: div
+  #   nowYear: year
+  #   minYear: year
+  #   maxYear: year
+  constructor: (config, hiventController) ->
 
     # convert years to date objects
-    @_minDate = @_yearToDate minYear
-    @_maxDate = @_yearToDate maxYear
-    @_nowDate = @_yearToDate nowYear
+    @_minDate = @_yearToDate config.minYear
+    @_maxDate = @_yearToDate config.maxYear
+    @_nowDate = @_yearToDate config.nowYear
 
     # get main timeline div and its width
     # get body div for mouse events
-    @_body      = document.getElementById("home")
-    @_tlDiv     = timelineDiv
+    @_body      = document.getElementsByTagName "body"
+    @_tlDiv     = config.parentDiv
     @_tlWidth   = @_tlDiv.offsetWidth
 
     # index to YEAR_INTERVALS
@@ -28,7 +33,7 @@ class HG.Timeline
 
     # create first now marker and get width of year markers from it
     # add now marker to doubly linked list
-    @_nowMarker = new HG.YearMarker(@_yearToDate(nowYear), 0, @_tlDiv)
+    @_nowMarker = new HG.YearMarker @_nowDate, 0, @_tlDiv
     @_yearMarkerWidth = @_nowMarker.getWidth() * 2
     @_nowMarker.setWidth @_yearMarkerWidth
     @_nowMarker.setPos(@_tlWidth/2 - @_yearMarkerWidth/2)
@@ -47,8 +52,9 @@ class HG.Timeline
     @_lastMousePosX = 0;
 
     # create now marker box in middle of page
-    @_nowMarkerBox = new HG.NowMarker(@_tlDiv, nowMarkerDiv, @)
-    @_nowMarkerBox.setNowDate(@_nowMarker.getDate())
+    nowMarkerDiv = document.createElement "div"
+    # @_nowMarkerBox = new HG.NowMarker(@_tlDiv, nowMarkerDiv, @)
+    # @_nowMarkerBox.setNowDate(@_nowMarker.getDate())
 
     # set animation for timeline play
     @_play = false
@@ -58,7 +64,7 @@ class HG.Timeline
     # show Hivents on Timeline
     @_hiventController = hiventController
     @_hiventMarkers = []
-    @_initHivents();
+    # @_initHivents();
 
     @_tlDiv.onmousedown = (e) =>
       @_clicked   = true
