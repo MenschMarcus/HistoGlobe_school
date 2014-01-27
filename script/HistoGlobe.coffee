@@ -11,6 +11,9 @@ class HG.HistoGlobe
 
     @_container = container
 
+    @_timeline = null
+    @_map = null
+
     @_createSidebar()
     @_createMap()
     @_createTimeline()
@@ -29,7 +32,13 @@ class HG.HistoGlobe
 
     @_updateLayout()
 
+  # ============================================================================
+  addModule: (module) ->
+    module.init @
 
+  # ============================================================================
+  getTimeline: () ->
+    @_timeline
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
@@ -76,6 +85,12 @@ class HG.HistoGlobe
   # ============================================================================
   _createTimeline: ->
     @_timeline_area = @_createElement "div", "timelineArea"
+    config =
+      parentDiv: @_timeline_area
+      nowYear: 1900
+      minYear: 1800
+      maxYear: 2000
+    @_timeline = new HG.Timeline config
 
   # ============================================================================
   _collapse: =>

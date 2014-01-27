@@ -64,14 +64,14 @@
     <script type="text/javascript" src="build/HiventMarker2D.js"></script>
     <script type="text/javascript" src="build/HiventMarker3D.js"></script>
     <script type="text/javascript" src="build/HiventMarkerTimeline.js"></script>
-    <script type="text/javascript" src="build/Timeline.js"></script>
-    <script type="text/javascript" src="build/YearMarker.js"></script>
     <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
-    <script type="text/javascript" src="build/NowMarker.js"></script>
-    <script type="text/javascript" src="build/DoublyLinkedList.js"></script>
     <script type="text/javascript" src="build/Legend.js"></script>
 -->
+    <script type="text/javascript" src="build/DoublyLinkedList.js"></script>
+    <script type="text/javascript" src="build/YearMarker.js"></script>
+    <script type="text/javascript" src="build/NowMarker.js"></script>
+    <script type="text/javascript" src="build/Timeline.js"></script>
     <!-- histoglobe javascript -->
     <!--   <script type="text/javascript" src="script/histoglobe.min.js"></script> -->
     <script type="text/javascript" src="build/Widget.js"></script>
