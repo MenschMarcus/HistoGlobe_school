@@ -25,7 +25,11 @@ class HG.PictureWidget extends HG.Widget
     @setName @_config.name
     @setIcon @_config.icon
 
-    content = document.createElement "img"
-    content.src = @_config.url
+    image = document.createElement "img"
+    image.src = @_config.url
+
+    content = document.createElement "div"
+    content.className = "pictureWidget"
+    content.appendChild image
 
     @setContent content
