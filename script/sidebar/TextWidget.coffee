@@ -15,6 +15,7 @@ class HG.TextWidget extends HG.Widget
     @setIcon icon
 
     content = document.createElement "div"
+    content.className = "textWidget"
     content.innerHTML = text
 
     @setContent content
