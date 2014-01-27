@@ -9,6 +9,8 @@
     <!-- third party css -->
     <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="style/third-party/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="style/third-party/idangerous.swiper.css">
+    <link rel="stylesheet" type="text/css" href="style/third-party/idangerous.swiper.scrollbar.css">
 <!--
     <link href='http://fonts.googleapis.com/css?family=Marcellus+SC' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="style/third-party/leaflet.css" />
@@ -33,6 +35,8 @@
     <script type="text/javascript" src="script/third-party/jquery.rotate.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.prettyPhoto.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.fullscreenApi.js"></script>
+    <script type="text/javascript" src="script/third-party/idangerous.swiper-2.4.2.min.js"></script>
+    <script type="text/javascript" src="script/third-party/idangerous.swiper.scrollbar-2.4.js"></script>
 
    <!-- <script type="text/javascript" src="script/histoglobe.min.js"></script>
 

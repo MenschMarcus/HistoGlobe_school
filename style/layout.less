@@ -17,7 +17,9 @@
 
 #sidebarArea {
   position: absolute;
-  overflow: auto;
+  width: @sidebar_width;
+
+  z-index: 0;
 
   top: 0;
   bottom: @timeline_height;
@@ -64,6 +66,15 @@
   }
 }
 
+.swiper-scrollbar {
+  background: none;
+  position: absolute;
+  right: 3px;
+  top: 0;
+  height: 100%;
+  width: 5px;
+}
+
 // ------------------------ WIDGETS --------------------------------------------
 
 // collapse animation
@@ -84,7 +95,7 @@
 }
 
 .widgetContainer {
-  margin: 10px 10px 10px 15px;
+  margin: 5px 15px 5px 15px;
   overflow: hidden;
 
   background-color: @widget_background_color;

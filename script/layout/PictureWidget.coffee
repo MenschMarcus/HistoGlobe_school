@@ -11,8 +11,6 @@ class HG.PictureWidget extends HG.Widget
 
     HG.Widget.call @, container
 
-    $(container).addClass = "pictureWidget"
-
     @setName name
     @setIcon icon
 

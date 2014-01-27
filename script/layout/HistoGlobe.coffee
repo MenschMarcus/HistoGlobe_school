@@ -17,14 +17,18 @@ class HG.HistoGlobe
     @_createCollapseButton()
 
     @_collapsed = @_isInMobileMode()
-    @_updateLayout()
 
     $(window).on 'resize', @_updateLayout
 
-    widget = new HG.TextWidget(@_sidebar_area, "fa-tags", "Vorstand", "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.")
-    widget = new HG.TextWidget(@_sidebar_area, "fa-stop", "Toller Stuff", "Lorem ipsum")
-    widget = new HG.PictureWidget(@_sidebar_area, "fa-gift", "Legende", "http://extreme.pcgameshardware.de/members/-painkiller--albums-einfach-lustig-3209-picture361371-incoming.jpg")
-    widget = new HG.TextWidget(@_sidebar_area, "fa-star", "Lorem Ipsum", "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.")
+    widget = new HG.TextWidget(@_widget_container, @_swiper, "fa-tags", "Vorstand", "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.")
+    widget = new HG.TextWidget(@_widget_container, @_swiper, "fa-stop", "Toller Stuff", "Lorem ipsum")
+    # widget = new HG.PictureWidget(@_widget_container, @_swiper, "fa-gift", "Legende", "http://extreme.pcgameshardware.de/members/-painkiller--albums-einfach-lustig-3209-picture361371-incoming.jpg")
+    widget = new HG.TextWidget(@_widget_container, @_swiper, "fa-star", "Lorem Ipsum", "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.")
+    widget = new HG.TextWidget(@_widget_container, @_swiper, "fa-star", "Lorem Ipsum", "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.")
+    widget = new HG.TextWidget(@_widget_container, @_swiper, "fa-star", "Lorem Ipsum", "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.")
+
+    @_updateLayout()
+    @_swiper.reInit()
 
 
   ##############################################################################
@@ -34,13 +38,36 @@ class HG.HistoGlobe
   # ============================================================================
   _createSidebar: ->
     @_sidebar_area = @_createElement "div", "sidebarArea"
+    @_sidebar_area.className = "swiper-container"
 
-    $(@_sidebar_area).click (e) =>
-      if e.target is @_sidebar_area or
+
+    @_widget_container = document.createElement "div"
+    @_widget_container.className = "swiper-wrapper"
+    @_sidebar_area.appendChild @_widget_container
+
+    scrollbar = document.createElement "div"
+    scrollbar.className = "swiper-scrollbar"
+    @_sidebar_area.appendChild scrollbar
+
+    $(@_widget_container).click (e) =>
+      if e.target is @_widget_container or
          $(e.target).hasClass("collapseOnClick") or
          $(e.target).parents(".collapseOnClick").length isnt 0
 
         @_collapse()
+
+    @_swiper = new Swiper ".swiper-container",
+      mode:'vertical',
+      # loop: false,
+      mousewheelControl:true,
+      # freeMode: true,
+      # freeModeFluid: true,
+      slidesPerView: 'auto',
+      scrollContainer: true
+      scrollbar:
+        container : '.swiper-scrollbar',
+        draggable : true,
+        hide: false
 
   # ============================================================================
   _createCollapseButton: ->
