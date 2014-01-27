@@ -76,6 +76,7 @@
     <!--   <script type="text/javascript" src="script/histoglobe.min.js"></script> -->
     <script type="text/javascript" src="build/Widget.js"></script>
     <script type="text/javascript" src="build/TextWidget.js"></script>
+    <script type="text/javascript" src="build/GalleryWidget.js"></script>
     <script type="text/javascript" src="build/PictureWidget.js"></script>
     <script type="text/javascript" src="build/HistoGlobe.js"></script>
 

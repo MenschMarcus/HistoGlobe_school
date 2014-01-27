@@ -10,6 +10,7 @@
 cFiles="script/HistoGlobe.coffee \
         script/sidebar/Widget.coffee \
         script/sidebar/TextWidget.coffee \
+        script/sidebar/GalleryWidget.coffee \
         script/sidebar/PictureWidget.coffee \
         script/util/Mixin.coffee \
         script/util/CallbackContainer.coffee \
@@ -45,6 +46,7 @@ cFiles="script/HistoGlobe.coffee \
 jFiles="build/HistoGlobe.js \
         build/Widget.js \
         build/TextWidget.js \
+        build/GalleryWidget.js \
         build/PictureWidget.js \
         build/Mixin.js \
         build/CallbackContainer.js \

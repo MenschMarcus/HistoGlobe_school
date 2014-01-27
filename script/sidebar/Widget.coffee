@@ -68,11 +68,11 @@ class HG.Widget
     $(collapse_button_container).click @_collapse
 
     # body ---------------------------------------------------------------------
-    body_collapsable = document.createElement "div"
-    widget.appendChild body_collapsable
+    # body_collapsable = document.createElement "div"
+    # widget.appendChild body_collapsable
 
     body_table = document.createElement "table"
-    body_collapsable.appendChild body_table
+    widget.appendChild body_table
 
     body = document.createElement "tr"
     body_table.appendChild body
