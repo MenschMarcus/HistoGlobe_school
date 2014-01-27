@@ -21,7 +21,7 @@
     background-repeat:  no-repeat;
     box-shadow:         0 0px 2px rgba(0, 0, 0, 0.2);
 
-    .border-radius(@roundness * @radius @roundness * @radius 0 0);
+    .border-radius(@timeline_roundness * @radius @timeline_roundness * @radius 0 0);
 }
 
 // pointer to show current speed of timeline
@@ -49,7 +49,7 @@
     // colors
     box-shadow:         0 0px 2px rgba(0, 0, 0, 0.2);
     border:             1px solid #C4C4C4;
-    .border-radius(@roundness * @inRadius @roundness * @inRadius 0 0);
+    .border-radius(@timeline_roundness * @inRadius @timeline_roundness * @inRadius 0 0);
     .linear-gradient-top(rgba(255,255,255, 0.0), #fff, 0, rgba(218, 218, 218, 1), 50%);
 }
 
