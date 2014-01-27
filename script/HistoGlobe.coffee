@@ -39,6 +39,15 @@ class HG.HistoGlobe
   # ============================================================================
   getTimeline: () ->
     @_timeline
+
+  # ============================================================================
+  getMap: () ->
+    @_map
+
+  # ============================================================================
+  getSidebar: () ->
+    @_sidebar_area
+
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
@@ -47,9 +56,9 @@ class HG.HistoGlobe
   _createSidebar: ->
     @_sidebar_area = @_createElement "div", "sidebarArea"
 
-    scrollbar = document.createElement "div"
-    scrollbar.className = "swiper-scrollbar"
-    @_sidebar_area.appendChild scrollbar
+    # scrollbar = document.createElement "div"
+    # scrollbar.className = "swiper-scrollbar"
+    # @_sidebar_area.appendChild scrollbar
 
     $(@_sidebar_area).click (e) =>
       if e.target is @_sidebar_area or
