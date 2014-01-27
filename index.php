@@ -13,12 +13,12 @@
     <link rel="stylesheet" type="text/css" href="style/third-party/idangerous.swiper.scrollbar.css">
 <!--
     <link href='http://fonts.googleapis.com/css?family=Marcellus+SC' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="style/third-party/leaflet.css" />
-    <link rel="stylesheet" href="style/third-party/leaflet.label.css" />
     <link rel="stylesheet" href="style/third-party/prettyPhoto/css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
     <link rel="stylesheet" href="style/third-party/MarkerCluster.css" />
     <link rel="stylesheet" href="style/third-party/MarkerCluster.Default.css" />
 -->
+    <link rel="stylesheet" href="style/third-party/leaflet.css" />
+    <link rel="stylesheet" href="style/third-party/leaflet.label.css" />
     <!--[if lte IE 8]>hivent
       <link rel="stylesheet" href="style/third-party/leaflet.ie.css" />
       <link rel="stylesheet" href="style/third-party/MarkerCluster.Default.ie.css" />
@@ -43,10 +43,8 @@
     <script type="text/javascript" src="build/Mixin.js"></script>
     <script type="text/javascript" src="build/CallbackContainer.js"></script>
     <script type="text/javascript" src="build/Vector.js"></script>
-    <script type="text/javascript" src="build/Display.js"></script>
     <script type="text/javascript" src="build/Display3D.js"></script>
     <script type="text/javascript" src="build/Hivent.js"></script>
-    <script type="text/javascript" src="build/Display2D.js"></script>
     <script type="text/javascript" src="build/HiventDatabaseInterface.js"></script>
     <script type="text/javascript" src="build/HiventBuilder.js"></script>
     <script type="text/javascript" src="build/HiventController.js"></script>
@@ -68,6 +66,11 @@
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
     <script type="text/javascript" src="build/Legend.js"></script>
 -->
+    <script type="text/javascript" src="script/third-party/leaflet.js"></script>
+    <script type="text/javascript" src="script/third-party/leaflet.label.js"></script>
+
+    <script type="text/javascript" src="build/Display.js"></script>
+    <script type="text/javascript" src="build/Display2D.js"></script>
     <script type="text/javascript" src="build/DoublyLinkedList.js"></script>
     <script type="text/javascript" src="build/YearMarker.js"></script>
     <script type="text/javascript" src="build/NowMarker.js"></script>

@@ -14,6 +14,10 @@
 
 ///////////////////////// LAYOUT ///////////////////////////////////////////////
 
+.noAnimation {
+  .transition-duration(0s);
+}
+
 // ------------------------ MAP ------------------------------------------------
 
 #mapArea {
@@ -24,9 +28,19 @@
   bottom: @timeline_height;
 
   box-shadow: 0 0 20px rgba(0,0,0,1.0);
-  background-color: #aaa;
 
   .transition-property(right);
+  .transition-property(width);
+  .transition-duration(@sidebar_aimation_speed);
+  .transition-timing-function(ease-in-out);
+}
+
+#mapCanvas {
+  position: absolute;
+  overflow: hidden;
+
+  .transition-property(right);
+  .transition-property(width);
   .transition-duration(@sidebar_aimation_speed);
   .transition-timing-function(ease-in-out);
 }

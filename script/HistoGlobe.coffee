@@ -84,6 +84,13 @@ class HG.HistoGlobe
   _createMap: ->
     @_map_area = @_createElement "div", "mapArea"
 
+    @_map_canvas = document.createElement "div"
+    @_map_canvas.id = "mapCanvas"
+
+    @_map_area.appendChild @_map_canvas
+
+    @_map = new HG.Display2D @_map_canvas
+
   # ============================================================================
   _createTimeline: ->
     @_timeline_area = @_createElement "div", "timelineArea"
@@ -103,18 +110,9 @@ class HG.HistoGlobe
   _updateLayout: =>
 
     width = window.innerWidth
+    mapWidth = 0
 
-    # update width of sidebar and map if in mobile mode
-    if @_isInMobileMode()
-      @_sidebar_area.style.width = "#{width - MAP_COLLAPSED_WIDTH}px"
-      @_map_area.style.width = "#{width-SIDEBAR_COLLAPSED_WIDTH}px"
-
-    else
-      @_sidebar_area.style.width = "#{SIDEBAR_MIN_WIDTH}px"
-      @_map_area.style.width = "#{width-SIDEBAR_COLLAPSED_WIDTH}px"
-
-
-    # update div positions if collapsed or uncollapsed
+    # update div positions and widths if collapsed or uncollapsed
     if @_collapsed
       @_collapse_button.className = "fa fa-arrow-circle-o-left fa-2x"
       @_map_area.style.right = "#{SIDEBAR_COLLAPSED_WIDTH}px"
@@ -122,8 +120,12 @@ class HG.HistoGlobe
 
       if @_isInMobileMode()
         @_sidebar_area.style.right = "#{SIDEBAR_COLLAPSED_WIDTH - width + MAP_COLLAPSED_WIDTH}px"
+        @_sidebar_area.style.width = "#{width - MAP_COLLAPSED_WIDTH}px"
+        mapWidth = width-SIDEBAR_COLLAPSED_WIDTH
       else
         @_sidebar_area.style.right = "#{SIDEBAR_COLLAPSED_WIDTH - SIDEBAR_MIN_WIDTH}px"
+        @_sidebar_area.style.width = "#{SIDEBAR_MIN_WIDTH}px"
+        mapWidth = width-SIDEBAR_COLLAPSED_WIDTH
 
     else
       @_collapse_button.className = "fa fa-arrow-circle-o-right fa-2x"
@@ -132,10 +134,38 @@ class HG.HistoGlobe
       if @_isInMobileMode()
         @_map_area.style.right = "#{width - MAP_COLLAPSED_WIDTH}px"
         @_collapse_button.style.right = "#{width - MAP_COLLAPSED_WIDTH}px"
+        @_sidebar_area.style.width = "#{width - MAP_COLLAPSED_WIDTH}px"
+        mapWidth = width-SIDEBAR_MIN_WIDTH
 
       else
         @_map_area.style.right = "#{SIDEBAR_MIN_WIDTH}px"
         @_collapse_button.style.right = "#{SIDEBAR_MIN_WIDTH}px"
+        @_sidebar_area.style.width = "#{SIDEBAR_MIN_WIDTH}px"
+        mapWidth = width-SIDEBAR_MIN_WIDTH
+
+    if @_collapsed
+      $(@_map_canvas).addClass "noAnimation"
+      $(@_map_area).addClass "noAnimation"
+      @_map_canvas.style.right = "#{(SIDEBAR_MIN_WIDTH-SIDEBAR_COLLAPSED_WIDTH)/2}px"
+      @_map_canvas.style.width = "#{mapWidth}px"
+      @_map_area.style.width = "#{mapWidth}px"
+      $(@_map_canvas).removeClass "noAnimation"
+      $(@_map_area).removeClass "noAnimation"
+      @_map_canvas.style.right = "0px"
+      @_map.resize mapWidth, @_map_area.offsetHeight
+
+    else
+      $(@_map_canvas).addClass "noAnimation"
+      @_map_canvas.style.right = "#{-(SIDEBAR_MIN_WIDTH-SIDEBAR_COLLAPSED_WIDTH)/2}px"
+      $(@_map_canvas).removeClass "noAnimation"
+      @_map_canvas.style.right = "0px"
+      @_map_area.style.width = "#{mapWidth}px"
+      @_map_canvas.style.width = "#{mapWidth}px"
+
+      window.setTimeout ()=>
+        @_map.resize mapWidth, @_map_area.offsetHeight
+      , COLLAPSE_DURATION
+
 
   # ============================================================================
   _isInMobileMode: =>
@@ -157,3 +187,5 @@ class HG.HistoGlobe
 
   MAP_MIN_WIDTH = 300
   MAP_COLLAPSED_WIDTH = 30
+
+  COLLAPSE_DURATION = 250 #ms
