@@ -57,7 +57,6 @@
     <script type="text/javascript" src="build/HiventMarkerTimeline.js"></script>
     <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
-    <script type="text/javascript" src="build/Legend.js"></script>
 -->
 
     <!-- histoglobe javascript -->
@@ -85,6 +84,7 @@
     <script type="text/javascript" src="build/PictureWidget.js"></script>
     <script type="text/javascript" src="build/HiventsOnMap.js"></script>
     <script type="text/javascript" src="build/HistoGlobe.js"></script>
+    <script type="text/javascript" src="build/Legend.js"></script>
 
     <!-- init histoglobe -->
     <script type="text/javascript">
@@ -283,6 +283,22 @@
         histoglobe.addModule(
           new HG.HiventsOnMap()
         );
+
+        legend = new HG.Legend({
+          icon: "fa-tags",
+          name: "Legende"
+        });
+
+        legend.addCategoryWithColor("eu", "#9F8BFF", "EU / EG", false);
+        legend.addCategoryWithColor("euro", "#5B309F", "Eurozone", false);
+
+        legend.addSpacer();
+
+        legend.addCategoryWithIcon("join", "data/hivent_icons/icon_join.png", "Beitritt", true);
+        legend.addCategoryWithIcon("contract", "data/hivent_icons/icon_contract.png", "Vertrag", true);
+        legend.addCategoryWithIcon("default", "data/hivent_icons/icon_default.png", "Sonstige", true);
+
+        histoglobe.addModule(legend);
 
 
         histoglobe.addModule(
