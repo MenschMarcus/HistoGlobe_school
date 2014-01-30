@@ -20,7 +20,7 @@ class HG.Display3D extends HG.Display
     @_initEventHandling()
     @_zoom()
 
-    @center x: 10, y: 50
+    @setCenter x: 10, y: 50
 
   # ============================================================================
   start: ->
@@ -48,7 +48,7 @@ class HG.Display3D extends HG.Display
   getCanvas: -> @_renderer.domElement
 
   # ============================================================================
-  center: (latLong) ->
+  setCenter: (latLong) ->
     @_targetCameraPos.x = latLong.x
     @_targetCameraPos.y = latLong.y
 

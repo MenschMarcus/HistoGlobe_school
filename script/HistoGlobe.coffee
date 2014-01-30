@@ -22,11 +22,11 @@ class HG.HistoGlobe
     @_createTimeline()
     @_createCollapseButton()
 
-    $(window).on 'resize', @_updateLayout
+    $(window).on 'resize', @_onResize
 
-    @_updateLayout()
+    @_onResize()
 
-    @_collapsed = @_isInMobileMode()
+    @_collapsed = !@_isInMobileMode()
     @_collapse()
 
   # ============================================================================
@@ -90,31 +90,48 @@ class HG.HistoGlobe
 
   # ============================================================================
   _collapse: =>
+    @_collapsed = not @_collapsed
+
     if @_collapsed
       @_top_swiper.swipePrev()
     else
       @_top_swiper.swipeNext()
 
-    # @_updateLayout()
-
   # ============================================================================
   _onSlide: () =>
     slide = @_top_swiper.slides[0].getOffset().left
 
-    @_collapsed = slide isnt 0
+    @_collapsed = slide is 0
 
     if @_collapsed
-      @_collapse_button.className = "fa fa-arrow-circle-o-right fa-2x"
-    else
       @_collapse_button.className = "fa fa-arrow-circle-o-left fa-2x"
+    else
+      @_collapse_button.className = "fa fa-arrow-circle-o-right fa-2x"
 
+
+  # ============================================================================
+  _onResize: () =>
+    @_updateLayout()
 
   # ============================================================================
   _updateLayout: =>
     width = window.innerWidth
-    @_map_area.style.width = "#{width - SIDEBAR_COLLAPSED_WIDTH}px"
+    height = window.innerHeight
 
-    @map.resize width - SIDEBAR_COLLAPSED_WIDTH
+    map_height = height - TIMELINE_HEIGHT
+    map_width = width - SIDEBAR_COLLAPSED_WIDTH
+    sidebar_width = 400
+
+    if @_isInMobileMode()
+      sidebar_width = width - MAP_COLLAPSED_WIDTH
+
+    @_map_area.style.width = "#{map_width}px"
+    @_map_area.style.height = "#{map_height}px"
+
+
+    @sidebar.resize sidebar_width, map_height
+    @map.resize map_width, map_height
+
     @_top_swiper.reInit()
 
   # ============================================================================
@@ -135,7 +152,9 @@ class HG.HistoGlobe
   SIDEBAR_MIN_WIDTH = 400
   SIDEBAR_COLLAPSED_WIDTH = 53
 
+  TIMELINE_HEIGHT = 80
+
   MAP_MIN_WIDTH = 300
-  MAP_COLLAPSED_WIDTH = 30
+  MAP_COLLAPSED_WIDTH = 50
 
   COLLAPSE_DURATION = 250 #ms

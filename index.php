@@ -331,13 +331,13 @@
           })
         );
 
-        histoglobe.addModule(
-          new HG.PictureWidget({
-            icon: "fa-gift",
-            name: "Legende",
-            url: "http://extreme.pcgameshardware.de/members/-painkiller--albums-einfach-lustig-3209-picture361371-incoming.jpg"
-          })
-        );
+        // histoglobe.addModule(
+        //   new HG.PictureWidget({
+        //     icon: "fa-gift",
+        //     name: "Legende",
+        //     url: "http://extreme.pcgameshardware.de/members/-painkiller--albums-einfach-lustig-3209-picture361371-incoming.jpg"
+        //   })
+        // );
 
         histoglobe.addModule(
           new HG.TextWidget({

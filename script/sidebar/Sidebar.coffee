@@ -30,10 +30,15 @@ class HG.Sidebar
     @_sidebar_swiper ?= new Swiper '#sidebar',
       mode:'vertical',
       scrollContainer: true,
-      autoResize: false,
       mousewheelControl: true
 
     @_sidebar_swiper.reInit()
+
+  # ============================================================================
+  resize: (width, height) ->
+    @_container.style.width = "#{width}px"
+    @_container.style.height = "#{height}px"
+    @_sidebar_swiper?.reInit()
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #

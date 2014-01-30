@@ -9,7 +9,8 @@ class HG.Widget
   # ============================================================================
   hgInit: (hgInstance) ->
     @_createLayout()
-    hgInstance.sidebar.addWidget @
+    @_sidebar = hgInstance.sidebar
+    @_sidebar.addWidget @
 
   # ============================================================================
   setName: (title) ->
@@ -100,7 +101,8 @@ class HG.Widget
     if $(@_header).hasClass("collapsed")
       $(body).animate
         height: 0
-      , WIDGET_ANIMATION_SPEED * 1000
+      , WIDGET_ANIMATION_SPEED * 1000, () =>
+        @_sidebar.resize()
 
     else
       $(body).css
@@ -116,6 +118,8 @@ class HG.Widget
       , WIDGET_ANIMATION_SPEED * 1000, () =>
         $(body).css
           "height": "auto"
+        @_sidebar.resize()
+
 
 
   ##############################################################################

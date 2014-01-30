@@ -10,7 +10,7 @@ class HG.Display
 
 
   focus: (hivent) ->
-    @center
+    @setCenter
       x: hivent.long
       y: hivent.lat
 

@@ -39,8 +39,12 @@ class HG.Display2D extends HG.Display
     @_mapParent
 
   # ============================================================================
-  center: (longLat) ->
+  setCenter: (longLat) ->
     @_map.panTo [longLat.y, longLat.x]
+
+  # ============================================================================
+  getCenter: () ->
+    [@_map.getCenter().long, @_map.getCenter().lat]
 
   # ============================================================================
   resize: (width, height) ->
