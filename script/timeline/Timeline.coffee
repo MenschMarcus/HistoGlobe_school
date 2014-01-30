@@ -23,7 +23,7 @@ class HG.Timeline
 
     # get main timeline div and its width
     # get body div for mouse events
-    @_body   = document.getElementsByTagName "body"
+    @_body   = document.getElementsByTagName("body")[0]
     @_parent = config.parentDiv
 
     @_tlDiv = document.createElement "div"
