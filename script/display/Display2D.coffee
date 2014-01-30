@@ -11,15 +11,15 @@ class HG.Display2D extends HG.Display
 
     HG.Display.call @, container
 
-    @_hiventController = hiventController
-    @_areaController = areaController
-    @_labelController = labelController
+    # @_hiventController = hiventController
+    # @_areaController = areaController
+    # @_labelController = labelController
     @_initMembers()
     @_initCanvas()
     @_initEventHandling()
-    @_initHivents()
-    @_initAreas()
-    @_initLabels()
+    # @_initHivents()
+    # @_initAreas()
+    # @_initLabels()
 
   # ============================================================================
   start: ->
@@ -43,6 +43,12 @@ class HG.Display2D extends HG.Display
   # ============================================================================
   center: (longLat) ->
     @_map.panTo [longLat.y, longLat.x]
+
+  # ============================================================================
+  resize: (width, height) ->
+    @_mapParent.style.width = width + "px"
+    @_mapParent.style.height = height + "px"
+    @_map.invalidateSize()
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -244,16 +250,16 @@ class HG.Display2D extends HG.Display
 
   # ============================================================================
   _onZoomEnd: (event) =>
-    for area in @_visibleAreas
-      shoulBeVisible = @_isLabelVisible area
+    # for area in @_visibleAreas
+    #   shoulBeVisible = @_isLabelVisible area
 
-      if shoulBeVisible and not area.myLeafletLabelIsVisible
-        @_showAreaLabel area
-      else if not shoulBeVisible and area.myLeafletLabelIsVisible
-        @_hideAreaLabel area
+    #   if shoulBeVisible and not area.myLeafletLabelIsVisible
+    #     @_showAreaLabel area
+    #   else if not shoulBeVisible and area.myLeafletLabelIsVisible
+    #     @_hideAreaLabel area
 
 
   # ============================================================================
   _onStyleChange: (area) =>
-    if area.myLeafletLayer?
-      @_animate area.myLeafletLayer, {"fill": area.getNormalStyle().fillColor}, 350
+    # if area.myLeafletLayer?
+    #   @_animate area.myLeafletLayer, {"fill": area.getNormalStyle().fillColor}, 350
