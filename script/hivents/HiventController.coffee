@@ -26,6 +26,9 @@ class HG.HiventController
   hgInit: (hgInstance) ->
     hgInstance.hiventController = @
 
+    hgInstance.timeline.onIntervalChanged @, (timeFilter) =>
+      @setTimeFilter timeFilter
+
   # ============================================================================
   onHiventAdded: (callbackFunc) ->
     if callbackFunc and typeof(callbackFunc) == "function"

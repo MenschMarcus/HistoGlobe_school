@@ -8,6 +8,12 @@ class HG.Timeline
 
   # ============================================================================
   constructor: (config) ->
+    HG.mixin @, HG.CallbackContainer
+    HG.CallbackContainer.call @
+
+    @addCallback "onNowChanged"
+    @addCallback "onIntervalChanged"
+
     defaultConfig =
       parentDiv: undefined
       nowYear: 1900
@@ -88,9 +94,9 @@ class HG.Timeline
         if((moveDist > 0 and @_yearMarkers.get(0).nodeData.getPos() + @_yearMarkerWidth / 2 < @_tlWidth / 2) or (moveDist < 0 and @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getPos() + @_yearMarkerWidth / 2 > @_tlWidth / 2))
           @_nowMarker.setPos moveDist + @_nowMarker.getPos()
           @_updateYearMarkerPositions(false)
-          @_updateHiventMarkerPositions()
           @_updateNowMarker()
           @_loadYearMarkers(false)
+          @notifyAll "onIntervalChanged", @_getTimeFilter()
         @_lastMousePosX = mousePosX
 
     @_body.onmouseup = (e) =>
@@ -98,10 +104,10 @@ class HG.Timeline
         @_clicked = false
         @_updateNowMarker()
         @_updateYearMarkerPositions(false)
-        @_updateHiventMarkerPositions()
         @_clearYearMarkers()
         @_lastMousePosX = e.pageX
         @_enableTextSelection()
+        @notifyAll "onIntervalChanged", @_getTimeFilter()
 
     @_tlDiv.onmousewheel = (e) =>
       e.preventDefault()
@@ -131,8 +137,8 @@ class HG.Timeline
         @_zoomLevel = @_roundNumber(@_zoomLevel, 1)
         @_clearYearMarkers()
         @_updateYearMarkerPositions(false)
-        @_updateHiventMarkerPositions()
         @_loadYearMarkers(true)
+        @notifyAll "onIntervalChanged", @_getTimeFilter()
 
   # ============================================================================
   getCanvas : ->
@@ -200,7 +206,7 @@ class HG.Timeline
       @_nowMarker.setPos(@_tlWidth/2 - @_yearMarkerWidth/2 - pixel)
       @_yearMarkers.addFirst(@_nowMarker)
       @_loadYearMarkers(false)
-      @_updateHiventMarkerPositions()
+      @notifyAll "onIntervalChanged", @_getTimeFilter()
     else
       alert "Date is out of Range."
 
@@ -367,6 +373,7 @@ class HG.Timeline
       i++
     @_nowMarker = @_yearMarkers.get(nId).nodeData
     @_nowMarkerBox.setNowDate(@_positionToDate((@_tlWidth / 2) - (@_yearMarkerWidth / 2)))
+    @notifyAll "onNowChanged", @_nowMarker.getDate()
 
   # ============================================================================
   _positionToDate: (position) ->
@@ -424,9 +431,9 @@ class HG.Timeline
       if((@_speed <= 0 and @_yearMarkers.get(0).nodeData.getPos() + @_yearMarkerWidth / 2 < @_tlWidth / 2) or (@_speed > 0 and @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getPos() + @_yearMarkerWidth / 2 > @_tlWidth / 2))
         @_nowMarker.setPos @_nowMarker.getPos() - @_speed
         @_updateYearMarkerPositions(false)
-        @_updateHiventMarkerPositions()
         @_updateNowMarker()
         @_loadYearMarkers(false)
+        @notifyAll "onIntervalChanged", @_getTimeFilter()
       else
         @_nowMarkerBox.animationSwitch()
 
