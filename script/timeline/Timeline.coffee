@@ -7,7 +7,7 @@ class HG.Timeline
   ##############################################################################
 
   # ============================================================================
-  constructor: (config, hiventController) ->
+  constructor: (config) ->
     defaultConfig =
       parentDiv: undefined
       nowYear: 1900
@@ -64,7 +64,7 @@ class HG.Timeline
     setInterval @_animTimeline, 100
 
     # show Hivents on Timeline
-    @_hiventController = hiventController
+    # @_hiventController = hiventController
     @_hiventMarkers = []
     # @_initHivents();
 
