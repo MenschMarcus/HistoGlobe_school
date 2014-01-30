@@ -237,20 +237,6 @@
       //   }
       // }
 
-      // function loadLegend() {
-      //   gui_container = document.getElementById('gui-container');
-      //   legend = new HG.Legend(gui_container, hiventController);
-
-      //   legend.addCategoryWithColor("eu", "#9F8BFF", "EU / EG", false);
-      //   legend.addCategoryWithColor("euro", "#5B309F", "Eurozone", false);
-
-      //   legend.addSpacer();
-
-      //   legend.addCategoryWithIcon("join", "data/hivent_icons/icon_join.png", "Beitritt", true);
-      //   legend.addCategoryWithIcon("contract", "data/hivent_icons/icon_contract.png", "Vertrag", true);
-      //   legend.addCategoryWithIcon("default", "data/hivent_icons/icon_default.png", "Sonstige", true);
-      // }
-
       // function loadTimeline(hiventController) {
       //   if (!timelineInitialized) {
       //     timeline = new HG.Timeline(1975, 1940, 2014, document.getElementById("timeline"), document.getElementById("now_marker"), hiventController);
@@ -285,7 +271,7 @@
         //   multimediaTableName: "eu_multimedia"
         // };
 
-        // hiventController.loadHiventsFromDatabase(config);
+        // histoglobe.hiventController.loadHiventsFromDatabase(config);
 
         config = {
           hiventJSONPath: "data/hivent_collection.json",

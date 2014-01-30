@@ -7,7 +7,7 @@ class HG.Timeline
   ##############################################################################
 
   # ============================================================================
-  constructor: (config, hiventController) ->
+  constructor: (config) ->
     defaultConfig =
       parentDiv: undefined
       nowYear: 1900
@@ -23,8 +23,13 @@ class HG.Timeline
 
     # get main timeline div and its width
     # get body div for mouse events
-    @_body      = document.getElementsByTagName "body"
-    @_tlDiv     = config.parentDiv
+    @_body   = document.getElementsByTagName "body"
+    @_parent = config.parentDiv
+
+    @_tlDiv = document.createElement "div"
+    @_tlDiv.id = "timeline"
+    @_parent.appendChild @_tlDiv
+
     @_tlWidth   = @_tlDiv.offsetWidth
 
     # index to YEAR_INTERVALS
@@ -55,8 +60,9 @@ class HG.Timeline
 
     # create now marker box in middle of page
     nowMarkerDiv = document.createElement "div"
-    # @_nowMarkerBox = new HG.NowMarker(@_tlDiv, nowMarkerDiv, @)
-    # @_nowMarkerBox.setNowDate(@_nowMarker.getDate())
+    @_tlDiv.appendChild nowMarkerDiv
+    @_nowMarkerBox = new HG.NowMarker(@)
+    @_nowMarkerBox.setNowDate(@_nowMarker.getDate())
 
     # set animation for timeline play
     @_play = false
@@ -64,7 +70,7 @@ class HG.Timeline
     setInterval @_animTimeline, 100
 
     # show Hivents on Timeline
-    @_hiventController = hiventController
+    # @_hiventController = hiventController
     @_hiventMarkers = []
     # @_initHivents();
 
@@ -127,6 +133,10 @@ class HG.Timeline
         @_updateYearMarkerPositions(false)
         @_updateHiventMarkerPositions()
         @_loadYearMarkers(true)
+
+  # ============================================================================
+  getCanvas : ->
+    @_tlDiv
 
   # ============================================================================
   _initHivents: ->

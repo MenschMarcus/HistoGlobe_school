@@ -7,18 +7,45 @@ class HG.NowMarker
     ##############################################################################
 
     # ============================================================================
-    constructor: (tlDiv, mainDiv, timeline) ->
+    constructor: (timeline) ->
         @_timeline  = timeline
-        @_mainDiv   = mainDiv
-        @_tlDiv     = tlDiv
+        @_mainDiv   = document.createElement "div"
+        @_mainDiv.id = "now_marker"
+        @_tlDiv     = timeline.getCanvas()
+
+        @_body = document.getElementsByTagName("body")[0]
+        @_body.appendChild @_mainDiv
 
         @_nowDate = new Date()
 
         # elements of now marker box
-        @_dateInputField    = document.getElementById("now_date_input")
-        @_playButton        = document.getElementById("now_marker_play")
-        @_pointer           = document.getElementById("now_marker_pointer")
-        @_arrow             = document.getElementById("now_marker_sign")
+        @_pointer    = document.createElement "img"
+        @_pointer.src = "data/timeline/pointer.png"
+        @_pointer.id = "now_marker_pointer"
+        @_mainDiv.appendChild @_pointer
+
+        nowMarkerIn = document.createElement "div"
+        nowMarkerIn.id = "now_marker_in"
+
+        @_playButton    = document.createElement "div"
+        @_playButton.id = "now_marker_play"
+
+        nowMarkerIn.appendChild @_playButton
+
+        @_dateInputField    = document.createElement "input"
+        @_dateInputField.name = "now_date"
+        @_dateInputField.id = "now_date_input"
+        @_dateInputField.type = "text"
+        @_dateInputField.maxlength = 10
+        @_dateInputField.size = 10
+        nowMarkerIn.appendChild @_dateInputField
+
+        @_mainDiv.appendChild nowMarkerIn
+
+        @_arrow  = document.createElement "img"
+        @_arrow.id = "now_marker_sign"
+        @_arrow.src = "data/timeline/nowMarkerSmall.png"
+        @_body.appendChild @_arrow
 
         # Set position of now marker
         @_setNowMarkerPosition()
