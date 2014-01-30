@@ -7,13 +7,9 @@ class HG.Widget
   ##############################################################################
 
   # ============================================================================
-  constructor: () ->
-    @_container = null
-
-  # ============================================================================
   hgInit: (hgInstance) ->
-    @_container = hgInstance.sidebar_area
     @_createLayout()
+    hgInstance.sidebar.addWidget @
 
   # ============================================================================
   setName: (title) ->
@@ -29,22 +25,19 @@ class HG.Widget
     $(@_content).empty()
     @_content.appendChild div
 
-
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
 
   # ============================================================================
   _createLayout: () ->
-    widget = document.createElement "div"
-    widget.className = "widgetContainer"
-    @_container.appendChild widget
+    @container = document.createElement "div"
+    @container.className = "widgetContainer"
 
     # header -------------------------------------------------------------------
     @_header = document.createElement "div"
     @_header.className = "widgetHeader"
-    widget.appendChild @_header
-
+    @container.appendChild @_header
 
     # icon
     icon_container = document.createElement "div"
@@ -73,32 +66,23 @@ class HG.Widget
 
     # body ---------------------------------------------------------------------
     body_collapsable = document.createElement "div"
-    widget.appendChild body_collapsable
-
-    body_table = document.createElement "table"
-    body_collapsable.appendChild body_table
-
-    body = document.createElement "tr"
-    body_table.appendChild body
+    body_collapsable.className = "collapsable"
+    @container.appendChild body_collapsable
 
     # title
-    title_container = document.createElement "td"
+    title_container = document.createElement "div"
     title_container.className = "verticalTitleContainer collapseOnClick"
-    body.appendChild title_container
-
-    title_container_inner = document.createElement "div"
-    title_container_inner.className = "verticalText"
-    title_container.appendChild title_container_inner
+    body_collapsable.appendChild title_container
 
     @_title = document.createElement "div"
     @_title.className = "verticalTextInner"
     @_title.innerHTML = name
-    title_container_inner.appendChild @_title
+    title_container.appendChild @_title
 
     # content
-    @_content = document.createElement "td"
+    @_content = document.createElement "div"
     @_content.className = "widgetBody"
-    body.appendChild @_content
+    body_collapsable.appendChild @_content
 
     @setName "New Widget"
     @setIcon "fa-star"

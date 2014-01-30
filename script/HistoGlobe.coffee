@@ -13,18 +13,21 @@ class HG.HistoGlobe
 
     @timeline = null
     @map = null
-    @sidebar_area = null
+    @sidebar = null
 
-    @_createSidebar()
+    @_createTopArea()
+
     @_createMap()
+    @_createSidebar()
     @_createTimeline()
     @_createCollapseButton()
-
-    @_collapsed = @_isInMobileMode()
 
     $(window).on 'resize', @_updateLayout
 
     @_updateLayout()
+
+    @_collapsed = @_isInMobileMode()
+    @_collapse()
 
   # ============================================================================
   addModule: (module) ->
@@ -35,136 +38,94 @@ class HG.HistoGlobe
   ##############################################################################
 
   # ============================================================================
+  _createTopArea: ->
+    @_top_area = @_createElement @_container, "div", "top-area"
+    @_top_area_wrapper = @_createElement @_top_area, "div", ""
+    @_top_area_wrapper.className = "swiper-wrapper"
+
+    @_top_swiper = new Swiper '#top-area',
+      mode:'horizontal',
+      slidesPerView: 'auto',
+      # cssWidthAndHeight: true,
+      resistance:'10%',
+      onSlideChangeEnd: () => @_onSlide()
+      onResistanceBefore: () => @_onSlide()
+      onResistanceAfter: () => @_onSlide()
+
+  # ============================================================================
   _createSidebar: ->
-    @sidebar_area = @_createElement "div", "sidebarArea"
+    @_sidebar_area = @_createElement @_top_area_wrapper, "div", "sidebar-area"
+    @_sidebar_area.className = "swiper-slide"
 
-    # scrollbar = document.createElement "div"
-    # scrollbar.className = "swiper-scrollbar"
-    # @sidebar_area.appendChild scrollbar
+    @sidebar = new HG.Sidebar
+      parentDiv: @_sidebar_area
 
-    $(@sidebar_area).click (e) =>
-      if e.target is @sidebar_area or
-         $(e.target).hasClass("collapseOnClick") or
-         $(e.target).parents(".collapseOnClick").length isnt 0
-
-        @_collapse()
-
-    # @_swiper = new Swiper ".swiper-container",
-    #   mode:'vertical',
-    #   # loop: false,
-    #   mousewheelControl:true,
-    #   # freeMode: true,
-    #   # freeModeFluid: true,
-    #   slidesPerView: 'auto',
-    #   scrollContainer: true
-    #   scrollbar:
-    #     container : '.swiper-scrollbar',
-    #     draggable : true,
-    #     hide: false
 
   # ============================================================================
   _createCollapseButton: ->
-    @_collapse_button = @_createElement "i", "collapseButton"
+    @_collapse_button = @_createElement @_map_area, "i", "collapse-button"
     @_collapse_button.className = "fa fa-arrow-circle-o-left fa-2x"
 
     $(@_collapse_button).click @_collapse
 
   # ============================================================================
   _createMap: ->
-    @map_area = @_createElement "div", "mapArea"
+    @_map_area = @_createElement @_top_area_wrapper, "div", "map-area"
+    @_map_area.className = "swiper-slide"
 
-    @map_canvas = document.createElement "div"
-    @map_canvas.id = "mapCanvas"
+    @_map_canvas = @_createElement @_map_area, "div", "map-canvas"
 
-    @map_area.appendChild @map_canvas
-
-    @map = new HG.Display2D @map_canvas
+    @_map_area.appendChild @_map_canvas
+    @map = new HG.Display2D @_map_canvas
 
   # ============================================================================
   _createTimeline: ->
-    @timeline_area = @_createElement "div", "timelineArea"
-    config =
-      parentDiv: @timeline_area
+    @_timeline_area = @_createElement @_container, "div", "timeline-area"
+
+    @timeline = new HG.Timeline
+      parentDiv: @_timeline_area
       nowYear: 1900
       minYear: 1800
       maxYear: 2000
-    @timeline = new HG.Timeline config
 
   # ============================================================================
   _collapse: =>
-    @_collapsed = not @_collapsed
-    @_updateLayout()
+    if (@_collapsed)
+      @_top_swiper.swipeNext()
+    else
+      @_top_swiper.swipePrev()
+
+    # @_updateLayout()
+
+  # ============================================================================
+  _onSlide: () =>
+    slide = @_top_swiper.slides[0].getOffset().left
+
+    @_collapsed = slide is 0
+
+    if @_collapsed
+      @_collapse_button.className = "fa fa-arrow-circle-o-left fa-2x"
+    else
+      @_collapse_button.className = "fa fa-arrow-circle-o-right fa-2x"
+
 
   # ============================================================================
   _updateLayout: =>
-
     width = window.innerWidth
-    mapWidth = 0
+    @_map_area.style.width = "#{width - SIDEBAR_COLLAPSED_WIDTH}px"
 
-    # update div positions and widths if collapsed or uncollapsed
-    if @_collapsed
-      @_collapse_button.className = "fa fa-arrow-circle-o-left fa-2x"
-      @map_area.style.right = "#{SIDEBAR_COLLAPSED_WIDTH}px"
-      @_collapse_button.style.right = "#{SIDEBAR_COLLAPSED_WIDTH}px"
-
-      if @_isInMobileMode()
-        @sidebar_area.style.right = "#{SIDEBAR_COLLAPSED_WIDTH - width + MAP_COLLAPSED_WIDTH}px"
-        @sidebar_area.style.width = "#{width - MAP_COLLAPSED_WIDTH}px"
-        mapWidth = width-SIDEBAR_COLLAPSED_WIDTH
-      else
-        @sidebar_area.style.right = "#{SIDEBAR_COLLAPSED_WIDTH - SIDEBAR_MIN_WIDTH}px"
-        @sidebar_area.style.width = "#{SIDEBAR_MIN_WIDTH}px"
-        mapWidth = width-SIDEBAR_COLLAPSED_WIDTH
-
-    else
-      @_collapse_button.className = "fa fa-arrow-circle-o-right fa-2x"
-      @sidebar_area.style.right = "0px"
-
-      if @_isInMobileMode()
-        @map_area.style.right = "#{width - MAP_COLLAPSED_WIDTH}px"
-        @_collapse_button.style.right = "#{width - MAP_COLLAPSED_WIDTH}px"
-        @sidebar_area.style.width = "#{width - MAP_COLLAPSED_WIDTH}px"
-        mapWidth = width-SIDEBAR_MIN_WIDTH
-
-      else
-        @map_area.style.right = "#{SIDEBAR_MIN_WIDTH}px"
-        @_collapse_button.style.right = "#{SIDEBAR_MIN_WIDTH}px"
-        @sidebar_area.style.width = "#{SIDEBAR_MIN_WIDTH}px"
-        mapWidth = width-SIDEBAR_MIN_WIDTH
-
-    if @_collapsed
-      $(@map_canvas).addClass "noAnimation"
-      $(@map_area).addClass "noAnimation"
-      @map_canvas.style.right = "#{(SIDEBAR_MIN_WIDTH-SIDEBAR_COLLAPSED_WIDTH)/2}px"
-      @map_canvas.style.width = "#{mapWidth}px"
-      @map_area.style.width = "#{mapWidth}px"
-      $(@map_canvas).removeClass "noAnimation"
-      $(@map_area).removeClass "noAnimation"
-      @map_canvas.style.right = "0px"
-      @map.resize mapWidth, @map_area.offsetHeight
-
-    else
-      $(@map_canvas).addClass "noAnimation"
-      @map_canvas.style.right = "#{-(SIDEBAR_MIN_WIDTH-SIDEBAR_COLLAPSED_WIDTH)/2}px"
-      $(@map_canvas).removeClass "noAnimation"
-      @map_canvas.style.right = "0px"
-      @map_area.style.width = "#{mapWidth}px"
-      @map_canvas.style.width = "#{mapWidth}px"
-
-      window.setTimeout ()=>
-        @map.resize mapWidth, @map_area.offsetHeight
-      , COLLAPSE_DURATION
-
+    @map.resize width - SIDEBAR_COLLAPSED_WIDTH
+    @_top_swiper.reInit()
 
   # ============================================================================
   _isInMobileMode: =>
     window.innerWidth < SIDEBAR_MIN_WIDTH + MAP_MIN_WIDTH
 
   # ============================================================================
-  _createElement: (type, id) ->
+  _createElement: (container, type, id) ->
     div = document.createElement type
     div.id = id
-    @_container.appendChild div
+    container.appendChild div
     return div
 
   ##############################################################################
