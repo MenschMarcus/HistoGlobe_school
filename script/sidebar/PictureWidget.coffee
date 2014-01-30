@@ -7,15 +7,26 @@ class HG.PictureWidget extends HG.Widget
   ##############################################################################
 
   # ============================================================================
-  constructor: (container, icon, name, url) ->
+  constructor: (config) ->
 
-    HG.Widget.call @, container
+    defaultConfig =
+      icon: ""
+      name: ""
+      url: ""
 
-    @setName name
-    @setIcon icon
+    @_config = $.extend {}, defaultConfig, config
+
+    HG.Widget.call @
+
+  # ============================================================================
+  init: (hgInstance) ->
+    super hgInstance
+
+    @setName @_config.name
+    @setIcon @_config.icon
 
     image = document.createElement "img"
-    image.src = url
+    image.src = @_config.url
 
     content = document.createElement "div"
     content.className = "pictureWidget"

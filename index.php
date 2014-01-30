@@ -267,6 +267,66 @@
 
       $(document).ready(function($) {
         var histoglobe = new HG.HistoGlobe(document.getElementById('histoglobe'));
+
+        var gallery = new HG.GalleryWidget({
+          icon: "fa-tags",
+          name: "Gallerie"
+        });
+
+        histoglobe.addModule(gallery);
+
+        gallery.addImageSlide("http://thechive.files.wordpress.com/2012/08/captions-makin-funny-35.jpg");
+        gallery.addImageSlide("http://www.dailyhiit.com/hiit-blog/wp-content/uploads/2013/06/Funny-Picture-Spirit-of-Baby.jpg");
+        gallery.addImageSlide("http://extreme.pcgameshardware.de/members/-painkiller--albums-einfach-lustig-3209-picture361371-incoming.jpg");
+
+
+        histoglobe.addModule(
+          new HG.TextWidget({
+            icon: "fa-tags",
+            name: "Vorstand",
+            text: "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+          })
+        );
+
+        histoglobe.addModule(
+          new HG.TextWidget({
+            icon: "fa-stop",
+            name: "Toller Stuff",
+            text: "Lorem ipsum"
+          })
+        );
+
+        histoglobe.addModule(
+          new HG.PictureWidget({
+            icon: "fa-gift",
+            name: "Legende",
+            url: "http://extreme.pcgameshardware.de/members/-painkiller--albums-einfach-lustig-3209-picture361371-incoming.jpg"
+          })
+        );
+
+        histoglobe.addModule(
+          new HG.TextWidget({
+            icon: "fa-star",
+            name: "Lorem Ipsum",
+            text: "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+          })
+        );
+
+        histoglobe.addModule(
+          new HG.TextWidget({
+            icon: "fa-star",
+            name: "Lorem Ipsum",
+            text: "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+          })
+        );
+
+        histoglobe.addModule(
+          new HG.TextWidget({
+            icon: "fa-star",
+            name: "Lorem Ipsum",
+            text: "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+          })
+        );
       });
     </script>
 
