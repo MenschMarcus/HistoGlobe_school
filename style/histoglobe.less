@@ -6,6 +6,8 @@
 @import "config.less";
 @import "common.less";
 
+@import "sidebar/sidebar.less";
+
 @import "timeline/timeline.less";
 @import "timeline/now_marker.less";
 
@@ -14,47 +16,65 @@
 
 ///////////////////////// LAYOUT ///////////////////////////////////////////////
 
-.noAnimation {
-  .transition-duration(0s);
+// .noAnimation {
+//   .transition-duration(0s);
+// }
+
+// ------------------------ MAP ------------------------------------------------
+
+#top-area {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  bottom: @timeline_height;
 }
 
 // ------------------------ MAP ------------------------------------------------
 
-#mapArea {
-  position: absolute;
-  overflow: hidden;
+#map-area {
+  position: relative;
+  // overflow: hidden;
 
-  top: 0;
-  bottom: @timeline_height;
+  // top: 0;
+  // left: 0;
+  // bottom: @timeline_height;
+
+  height: 100%;
 
   box-shadow: 0 0 20px rgba(0,0,0,1.0);
 
   .transition-property(right);
-  .transition-property(width);
+  // .transition-property(width);
   .transition-duration(@sidebar_aimation_speed);
   .transition-timing-function(ease-in-out);
 }
 
-#mapCanvas {
-  position: absolute;
+#map-canvas {
+  position: relative;
   overflow: hidden;
+  // right: 0;
+  // left: 0;
+  // top: 0;
+  // bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #555;
 
-  .transition-property(right);
-  .transition-property(width);
-  .transition-duration(@sidebar_aimation_speed);
-  .transition-timing-function(ease-in-out);
+  // .transition-property(right);
+  // .transition-property(width);
+  // .transition-duration(@sidebar_aimation_speed);
+  // .transition-timing-function(ease-in-out);
 }
 
 // ------------------------ SIDEBAR --------------------------------------------
-#sidebarArea {
-  position: absolute;
+#sidebar-area {
+  position: relative;
   width: @sidebar_width;
+  height: 100%;
 
-  overflow-y:auto;
-  overflow-x:hidden;
-
-  top: 0;
-  bottom: @timeline_height;
+  overflow:hidden;
 
   .transition-property(right width);
   .transition-duration(@sidebar_aimation_speed);
@@ -66,7 +86,7 @@
 }
 
 // ------------------------ TIMELINE -------------------------------------------
-#timelineArea {
+#timeline-area {
   position: absolute;
   overflow: hidden;
 
@@ -81,17 +101,18 @@
 }
 
 // ------------------------ SIDEBAR BUTTON -------------------------------------
-#collapseButton {
+#collapse-button {
   position: absolute;
 
   padding-right: 10px;
   font-size: @sidebar_collapse_button_size;
   top: 10px;
+  right: 0px;
   cursor: pointer;
 
-  .transition-property(right);
-  .transition-duration(@sidebar_aimation_speed);
-  .transition-timing-function(ease-in-out);
+  // .transition-property(right);
+  // .transition-duration(@sidebar_aimation_speed);
+  // .transition-timing-function(ease-in-out);
 
   color: rgba(0, 0, 0, 0.5);
 

@@ -77,6 +77,7 @@
     <script type="text/javascript" src="build/Timeline.js"></script>
     <!-- histoglobe javascript -->
     <!--   <script type="text/javascript" src="script/histoglobe.min.js"></script> -->
+    <script type="text/javascript" src="build/Sidebar.js"></script>
     <script type="text/javascript" src="build/Widget.js"></script>
     <script type="text/javascript" src="build/TextWidget.js"></script>
     <script type="text/javascript" src="build/GalleryWidget.js"></script>
@@ -271,16 +272,16 @@
       $(document).ready(function($) {
         var histoglobe = new HG.HistoGlobe(document.getElementById('histoglobe'));
 
-        var gallery = new HG.GalleryWidget({
-          icon: "fa-tags",
-          name: "Gallerie"
-        });
+        // var gallery = new HG.GalleryWidget({
+        //   icon: "fa-tags",
+        //   name: "Gallerie"
+        // });
 
-        histoglobe.addModule(gallery);
+        // histoglobe.addModule(gallery);
 
-        gallery.addImageSlide("http://thechive.files.wordpress.com/2012/08/captions-makin-funny-35.jpg");
-        gallery.addImageSlide("http://www.dailyhiit.com/hiit-blog/wp-content/uploads/2013/06/Funny-Picture-Spirit-of-Baby.jpg");
-        gallery.addImageSlide("http://extreme.pcgameshardware.de/members/-painkiller--albums-einfach-lustig-3209-picture361371-incoming.jpg");
+        // gallery.addImageSlide("http://thechive.files.wordpress.com/2012/08/captions-makin-funny-35.jpg");
+        // gallery.addImageSlide("http://www.dailyhiit.com/hiit-blog/wp-content/uploads/2013/06/Funny-Picture-Spirit-of-Baby.jpg");
+        // gallery.addImageSlide("http://extreme.pcgameshardware.de/members/-painkiller--albums-einfach-lustig-3209-picture361371-incoming.jpg");
 
 
         histoglobe.addModule(

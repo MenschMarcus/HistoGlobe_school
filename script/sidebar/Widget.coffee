@@ -7,13 +7,10 @@ class HG.Widget
   ##############################################################################
 
   # ============================================================================
-  constructor: () ->
-
-
-  # ============================================================================
   init: (hgInstance) ->
-    @_container = hgInstance.getSidebar()
     @_createLayout()
+    hgInstance.getSidebar().addWidget @
+
 
   # ============================================================================
   setName: (title) ->
@@ -29,22 +26,19 @@ class HG.Widget
     $(@_content).empty()
     @_content.appendChild div
 
-
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
 
   # ============================================================================
   _createLayout: () ->
-    widget = document.createElement "div"
-    widget.className = "widgetContainer"
-    @_container.appendChild widget
+    @container = document.createElement "div"
+    @container.className = "widgetContainer"
 
     # header -------------------------------------------------------------------
     @_header = document.createElement "div"
     @_header.className = "widgetHeader"
-    widget.appendChild @_header
-
+    @container.appendChild @_header
 
     # icon
     icon_container = document.createElement "div"
@@ -74,14 +68,7 @@ class HG.Widget
     # body ---------------------------------------------------------------------
     body_collapsable = document.createElement "div"
     body_collapsable.className = "collapsable"
-    widget.appendChild body_collapsable
-
-    # body_table = document.createElement "table"
-    # body_table.className = "widgetTable"
-    # body_collapsable.appendChild body_table
-
-    # body = document.createElement "tr"
-    # body_table.appendChild body
+    @container.appendChild body_collapsable
 
     # title
     title_container = document.createElement "div"
