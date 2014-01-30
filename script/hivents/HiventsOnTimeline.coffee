@@ -1,6 +1,6 @@
 window.HG ?= {}
 
-class HG.HiventsOnMap
+class HG.HiventsOnTimeline
 
   ##############################################################################
   #                            PUBLIC INTERFACE                                #
@@ -8,33 +8,34 @@ class HG.HiventsOnMap
 
   # ============================================================================
   constructor: () ->
-    @_map = null
+    @_timeline = null
     @_hiventController = null
+    @_hiventMarkers = []
 
   # ============================================================================
   hgInit: (hgInstance) ->
-    @_map = hgInstance.map._map
+    @_timeline = hgInstance.timeline
     @_hiventController = hgInstance.hiventController
 
     if @_hiventController
-      @_markerGroup = new L.MarkerClusterGroup(
-        {
-          showCoverageOnHover: false,
-          maxClusterRadius: 20
-        })
-
       @_hiventController.onHiventAdded (handle) =>
-        handle.onShow @, (self) =>
-          marker = new HG.HiventMarker2D self, hgInstance.map, @_map, @_markerGroup
+        hiventMarkerDate = @_timeline.nowMarkerBox.stringToDate handle.getHivent().displayDate
+        marker = new HG.HiventMarkerTimeline @_timeline, handle, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate)
+        @_hiventMarkers.push marker
 
-      @_map.on "click", HG.HiventHandle.DEACTIVATE_ALL_HIVENTS
-      @_map.addLayer @_markerGroup
+      @_timeline.onNowChanged @, @_updateHiventMarkerPositions
+      @_timeline.onIntervalChanged @, @_updateHiventMarkerPositions
     else
-      console.error "Unable to show hivents on Map: HiventController module not detected in HistoGlobe instance!"
+      console.error "Unable to show hivents on Timeline: HiventController module not detected in HistoGlobe instance!"
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
+
+  _updateHiventMarkerPositions: ->
+    for i in  [0...(@_hiventMarkers.length)]
+      hiventMarkerDate = @_timeline.nowMarkerBox.stringToDate(@_hiventMarkers[i].getHiventHandle()._hivent.displayDate)
+      @_hiventMarkers[i].setPosition(@_timeline.dateToPosition(hiventMarkerDate))
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #

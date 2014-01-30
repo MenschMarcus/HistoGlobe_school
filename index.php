@@ -54,7 +54,6 @@
     <script type="text/javascript" src="build/Label.js"></script>
     <script type="text/javascript" src="build/LabelController.js"></script>
     <script type="text/javascript" src="build/HiventMarker3D.js"></script>
-    <script type="text/javascript" src="build/HiventMarkerTimeline.js"></script>
     <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
 -->
@@ -72,6 +71,7 @@
     <script type="text/javascript" src="build/HiventHandle.js"></script>
     <script type="text/javascript" src="build/HiventMarker.js"></script>
     <script type="text/javascript" src="build/HiventMarker2D.js"></script>
+    <script type="text/javascript" src="build/HiventMarkerTimeline.js"></script>
     <script type="text/javascript" src="build/HiventController.js"></script>
     <script type="text/javascript" src="build/Display.js"></script>
     <script type="text/javascript" src="build/Display2D.js"></script>
@@ -85,6 +85,7 @@
     <script type="text/javascript" src="build/GalleryWidget.js"></script>
     <script type="text/javascript" src="build/PictureWidget.js"></script>
     <script type="text/javascript" src="build/HiventsOnMap.js"></script>
+    <script type="text/javascript" src="build/HiventsOnTimeline.js"></script>
     <script type="text/javascript" src="build/HistoGlobe.js"></script>
     <script type="text/javascript" src="build/Legend.js"></script>
 
@@ -282,6 +283,10 @@
 
         histoglobe.addModule(
           new HG.HiventsOnMap()
+        );
+
+        histoglobe.addModule(
+          new HG.HiventsOnTimeline()
         );
 
         legend = new HG.Legend({
