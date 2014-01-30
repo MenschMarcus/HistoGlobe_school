@@ -11,13 +11,11 @@ class HG.Display2D extends HG.Display
 
     HG.Display.call @, container
 
-    # @_hiventController = hiventController
     # @_areaController = areaController
     # @_labelController = labelController
     @_initMembers()
     @_initCanvas()
     @_initEventHandling()
-    # @_initHivents()
     # @_initAreas()
     # @_initLabels()
 

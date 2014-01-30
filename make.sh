@@ -35,6 +35,7 @@ cFiles="script/HistoGlobe.coffee \
         script/hivents/HiventMarker2D.coffee \
         script/hivents/HiventMarker3D.coffee \
         script/hivents/HiventMarkerTimeline.coffee \
+        script/hivents/HiventsOnMap.coffee \
         script/timeline/NowMarker.coffee \
         script/timeline/DoublyLinkedList.coffee \
         script/legend/Legend.coffee \
@@ -70,6 +71,7 @@ jFiles="build/HistoGlobe.js \
         build/HiventMarker2D.js \
         build/HiventMarker3D.js \
         build/HiventMarkerTimeline.js \
+        build/HiventsOnMap.js \
         build/Legend.js \
         build/HiventInfoPopover.js \
         build/Path.js \

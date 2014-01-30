@@ -7,10 +7,9 @@ class HG.Widget
   ##############################################################################
 
   # ============================================================================
-  init: (hgInstance) ->
+  hgInit: (hgInstance) ->
     @_createLayout()
-    hgInstance.getSidebar().addWidget @
-
+    hgInstance.sidebar.addWidget @
 
   # ============================================================================
   setName: (title) ->

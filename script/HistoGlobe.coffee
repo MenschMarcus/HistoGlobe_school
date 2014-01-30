@@ -11,8 +11,9 @@ class HG.HistoGlobe
 
     @_container = container
 
-    @_timeline = null
-    @_map = null
+    @timeline = null
+    @map = null
+    @sidebar = null
 
     @_createTopArea()
 
@@ -30,19 +31,7 @@ class HG.HistoGlobe
 
   # ============================================================================
   addModule: (module) ->
-    module.init @
-
-  # ============================================================================
-  getTimeline: () ->
-    @_timeline
-
-  # ============================================================================
-  getMap: () ->
-    @_map
-
-  # ============================================================================
-  getSidebar: () ->
-    @_sidebar
+    module.hgInit @
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -68,9 +57,9 @@ class HG.HistoGlobe
     @_sidebar_area = @_createElement @_top_area_wrapper, "div", "sidebar-area"
     @_sidebar_area.className = "swiper-slide"
 
-    @_sidebar = new HG.Sidebar(
+    @sidebar = new HG.Sidebar
       parentDiv: @_sidebar_area
-    )
+
 
   # ============================================================================
   _createCollapseButton: ->
@@ -87,17 +76,17 @@ class HG.HistoGlobe
     @_map_canvas = @_createElement @_map_area, "div", "map-canvas"
 
     @_map_area.appendChild @_map_canvas
-    @_map = new HG.Display2D @_map_canvas
+    @map = new HG.Display2D @_map_canvas
 
   # ============================================================================
   _createTimeline: ->
     @_timeline_area = @_createElement @_container, "div", "timeline-area"
-    config =
+
+    @timeline = new HG.Timeline
       parentDiv: @_timeline_area
       nowYear: 1900
       minYear: 1800
       maxYear: 2000
-    @_timeline = new HG.Timeline config
 
   # ============================================================================
   _collapse: =>
@@ -125,7 +114,7 @@ class HG.HistoGlobe
     width = window.innerWidth
     @_map_area.style.width = "#{width - SIDEBAR_COLLAPSED_WIDTH}px"
 
-    @_map.resize width - SIDEBAR_COLLAPSED_WIDTH
+    @map.resize width - SIDEBAR_COLLAPSED_WIDTH
     @_top_swiper.reInit()
 
   # ============================================================================

@@ -18,7 +18,7 @@ class HG.TextWidget extends HG.Widget
     HG.Widget.call @
 
   # ============================================================================
-  init: (hgInstance) ->
+  hgInit: (hgInstance) ->
     super hgInstance
 
     @setName @_config.name

@@ -1,18 +1,38 @@
 window.HG ?= {}
 
-class HG.Legend
+class HG.Legend extends HG.Widget
 
   ##############################################################################
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
   # ============================================================================
-  constructor: (container, hiventController) ->
+  constructor: (config) ->
+    defaultConfig =
+      icon: ""
+      name: ""
 
-    @_container = container
-    @_hiventController = hiventController
+    @_config = $.extend {}, defaultConfig, config
+
+    @_hiventController = null
 
     @_init()
+    HG.Widget.call @
+
+  # ============================================================================
+  hgInit: (hgInstance) ->
+    super hgInstance
+
+    @setName @_config.name
+    @setIcon @_config.icon
+
+    @setContent @_mainDiv
+
+    @_hiventController = hgInstance.hiventController
+
+    unless @_hiventController
+      console.error "Unable to filter hivents: HiventController module not detected in HistoGlobe instance!"
+
 
   # ============================================================================
   addCategoryWithIcon: (category, icon, name, filterable) ->
@@ -68,8 +88,6 @@ class HG.Legend
     @_mainDiv.id = "legend"
     @_mainDiv.className = "menu legend"
 
-    @_container.appendChild @_mainDiv
-
     @_categoryFilter = []
 
   ############################# MAIN FUNCTIONS #################################
@@ -89,4 +107,4 @@ class HG.Legend
       else
         @_categoryFilter = @_categoryFilter.filter (item) -> item isnt category
 
-      @_hiventController.setCategoryFilter @_categoryFilter
+      @_hiventController?.setCategoryFilter @_categoryFilter
