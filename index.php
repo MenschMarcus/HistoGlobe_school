@@ -13,10 +13,10 @@
     <link rel="stylesheet" type="text/css" href="style/third-party/idangerous.swiper.scrollbar.css">
 <!--
     <link href='http://fonts.googleapis.com/css?family=Marcellus+SC' rel='stylesheet' type='text/css'>
+-->
     <link rel="stylesheet" href="style/third-party/prettyPhoto/css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
     <link rel="stylesheet" href="style/third-party/MarkerCluster.css" />
     <link rel="stylesheet" href="style/third-party/MarkerCluster.Default.css" />
--->
     <link rel="stylesheet" href="style/third-party/leaflet.css" />
     <link rel="stylesheet" href="style/third-party/leaflet.label.css" />
     <!--[if lte IE 8]>hivent
@@ -38,18 +38,13 @@
     <script type="text/javascript" src="script/third-party/idangerous.swiper-2.4.2.min.js"></script>
     <script type="text/javascript" src="script/third-party/idangerous.swiper.scrollbar-2.4.js"></script>
 
-   <!-- <script type="text/javascript" src="script/histoglobe.min.js"></script>
-
-    <script type="text/javascript" src="build/Mixin.js"></script>
-    <script type="text/javascript" src="build/CallbackContainer.js"></script>
-    <script type="text/javascript" src="build/Vector.js"></script>
+    <script type="text/javascript" src="script/third-party/leaflet.js"></script>
+    <script type="text/javascript" src="script/third-party/leaflet.label.js"></script>
+    <script type="text/javascript" src="script/third-party/leaflet.markercluster.js"></script>
+    <script type="text/javascript" src="script/third-party/bootstrap.min.js"></script>
+    <script type="text/javascript" src="script/third-party/raphael.min.js"></script>
+<!--
     <script type="text/javascript" src="build/Display3D.js"></script>
-    <script type="text/javascript" src="build/Hivent.js"></script>
-    <script type="text/javascript" src="build/HiventDatabaseInterface.js"></script>
-    <script type="text/javascript" src="build/HiventBuilder.js"></script>
-    <script type="text/javascript" src="build/HiventController.js"></script>
-    <script type="text/javascript" src="build/HiventHandle.js"></script>
-    <script type="text/javascript" src="build/HiventInfoPopover.js"></script>
     <script type="text/javascript" src="build/Path.js"></script>
     <script type="text/javascript" src="build/ArcPath2D.js"></script>
     <script type="text/javascript" src="build/PathController.js"></script>
@@ -58,28 +53,37 @@
     <script type="text/javascript" src="build/AreaController.js"></script>
     <script type="text/javascript" src="build/Label.js"></script>
     <script type="text/javascript" src="build/LabelController.js"></script>
-    <script type="text/javascript" src="build/HiventMarker.js"></script>
-    <script type="text/javascript" src="build/HiventMarker2D.js"></script>
     <script type="text/javascript" src="build/HiventMarker3D.js"></script>
     <script type="text/javascript" src="build/HiventMarkerTimeline.js"></script>
     <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
     <script type="text/javascript" src="build/VideoPlayer.js"></script>
     <script type="text/javascript" src="build/Legend.js"></script>
 -->
-    <script type="text/javascript" src="script/third-party/leaflet.js"></script>
-    <script type="text/javascript" src="script/third-party/leaflet.label.js"></script>
 
+    <!-- histoglobe javascript -->
+    <!--   <script type="text/javascript" src="script/histoglobe.min.js"></script> -->
+
+    <script type="text/javascript" src="build/CallbackContainer.js"></script>
+    <script type="text/javascript" src="build/Vector.js"></script>
+    <script type="text/javascript" src="build/Mixin.js"></script>
+    <script type="text/javascript" src="build/Hivent.js"></script>
+    <script type="text/javascript" src="build/HiventInfoPopover.js"></script>
+    <script type="text/javascript" src="build/HiventDatabaseInterface.js"></script>
+    <script type="text/javascript" src="build/HiventBuilder.js"></script>
+    <script type="text/javascript" src="build/HiventHandle.js"></script>
+    <script type="text/javascript" src="build/HiventMarker.js"></script>
+    <script type="text/javascript" src="build/HiventMarker2D.js"></script>
+    <script type="text/javascript" src="build/HiventController.js"></script>
     <script type="text/javascript" src="build/Display.js"></script>
     <script type="text/javascript" src="build/Display2D.js"></script>
     <script type="text/javascript" src="build/DoublyLinkedList.js"></script>
     <script type="text/javascript" src="build/YearMarker.js"></script>
     <script type="text/javascript" src="build/NowMarker.js"></script>
     <script type="text/javascript" src="build/Timeline.js"></script>
-    <!-- histoglobe javascript -->
-    <!--   <script type="text/javascript" src="script/histoglobe.min.js"></script> -->
     <script type="text/javascript" src="build/Widget.js"></script>
     <script type="text/javascript" src="build/TextWidget.js"></script>
     <script type="text/javascript" src="build/PictureWidget.js"></script>
+    <script type="text/javascript" src="build/HiventsOnMap.js"></script>
     <script type="text/javascript" src="build/HistoGlobe.js"></script>
 
     <!-- init histoglobe -->
@@ -177,22 +181,6 @@
 
       //         loadLegend();
 
-      //         // config = {
-      //         //   hiventServerName: "histoglobe.com",
-      //         //   hiventDatabaseName: "hivents",
-      //         //   hiventTableName: "eu_hivents",
-      //         //   multimediaServerName: "histoglobe.com",
-      //         //   multimediaDatabaseName: "hivents",
-      //         //   multimediaTableName: "eu_multimedia"
-      //         // };
-
-      //         // hiventController.loadHiventsFromDatabase(config);
-
-      //         config = {
-      //           hiventJSONPath: "data/hivent_collection.json",
-      //           multimediaJSONPath: "data/multimedia_collection.json",
-      //         };
-      //         hiventController.loadHiventsFromJSON(config);
 
       //         $('#warning-close').button('reset')
 
@@ -269,6 +257,33 @@
 
       $(document).ready(function($) {
         var histoglobe = new HG.HistoGlobe(document.getElementById('histoglobe'));
+
+        histoglobe.addModule(
+          new HG.HiventController()
+        );
+
+        // config = {
+        //   hiventServerName: "histoglobe.com",
+        //   hiventDatabaseName: "hivents",
+        //   hiventTableName: "eu_hivents",
+        //   multimediaServerName: "histoglobe.com",
+        //   multimediaDatabaseName: "hivents",
+        //   multimediaTableName: "eu_multimedia"
+        // };
+
+        // hiventController.loadHiventsFromDatabase(config);
+
+        config = {
+          hiventJSONPath: "data/hivent_collection.json",
+          multimediaJSONPath: "data/multimedia_collection.json",
+        };
+
+        histoglobe.hiventController.loadHiventsFromJSON(config);
+
+        histoglobe.addModule(
+          new HG.HiventsOnMap()
+        );
+
 
         histoglobe.addModule(
           new HG.TextWidget({

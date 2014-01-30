@@ -12,7 +12,6 @@ class HG.HiventController
 
   # ============================================================================
   constructor: () ->
-    # @_loadHivents(pathToHivents)
     @_hiventHandles = [];
     @_hiventsLoaded = false;
     @_onHiventAddedCallbacks = [];
@@ -24,12 +23,16 @@ class HG.HiventController
 
 
   # ============================================================================
+  hgInit: (hgInstance) ->
+    hgInstance.hiventController = @
+
+  # ============================================================================
   onHiventAdded: (callbackFunc) ->
     if callbackFunc and typeof(callbackFunc) == "function"
       @_onHiventAddedCallbacks.push callbackFunc
 
       if @_hiventsLoaded
-        callbackFunc @_hiventHandles
+        callbackFunc handle for handle in @_hiventHandles
 
   # ============================================================================
   setTimeFilter: (timeFilter) ->
