@@ -90,10 +90,10 @@ class HG.HistoGlobe
 
   # ============================================================================
   _collapse: =>
-    if (@_collapsed)
-      @_top_swiper.swipeNext()
-    else
+    if @_collapsed
       @_top_swiper.swipePrev()
+    else
+      @_top_swiper.swipeNext()
 
     # @_updateLayout()
 
@@ -101,12 +101,12 @@ class HG.HistoGlobe
   _onSlide: () =>
     slide = @_top_swiper.slides[0].getOffset().left
 
-    @_collapsed = slide is 0
+    @_collapsed = slide isnt 0
 
     if @_collapsed
-      @_collapse_button.className = "fa fa-arrow-circle-o-left fa-2x"
-    else
       @_collapse_button.className = "fa fa-arrow-circle-o-right fa-2x"
+    else
+      @_collapse_button.className = "fa fa-arrow-circle-o-left fa-2x"
 
 
   # ============================================================================
