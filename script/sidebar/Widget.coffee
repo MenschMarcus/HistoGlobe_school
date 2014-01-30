@@ -12,7 +12,7 @@ class HG.Widget
 
   # ============================================================================
   init: (hgInstance) ->
-    @_container = hgInstance.getSidebar()
+    @_container = hgInstance.sidebar_area
     @_createLayout()
 
   # ============================================================================

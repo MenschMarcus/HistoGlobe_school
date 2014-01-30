@@ -11,8 +11,9 @@ class HG.HistoGlobe
 
     @_container = container
 
-    @_timeline = null
-    @_map = null
+    @timeline = null
+    @map = null
+    @sidebar_area = null
 
     @_createSidebar()
     @_createMap()
@@ -29,32 +30,20 @@ class HG.HistoGlobe
   addModule: (module) ->
     module.init @
 
-  # ============================================================================
-  getTimeline: () ->
-    @_timeline
-
-  # ============================================================================
-  getMap: () ->
-    @_map
-
-  # ============================================================================
-  getSidebar: () ->
-    @_sidebar_area
-
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
 
   # ============================================================================
   _createSidebar: ->
-    @_sidebar_area = @_createElement "div", "sidebarArea"
+    @sidebar_area = @_createElement "div", "sidebarArea"
 
     # scrollbar = document.createElement "div"
     # scrollbar.className = "swiper-scrollbar"
-    # @_sidebar_area.appendChild scrollbar
+    # @sidebar_area.appendChild scrollbar
 
-    $(@_sidebar_area).click (e) =>
-      if e.target is @_sidebar_area or
+    $(@sidebar_area).click (e) =>
+      if e.target is @sidebar_area or
          $(e.target).hasClass("collapseOnClick") or
          $(e.target).parents(".collapseOnClick").length isnt 0
 
@@ -82,24 +71,24 @@ class HG.HistoGlobe
 
   # ============================================================================
   _createMap: ->
-    @_map_area = @_createElement "div", "mapArea"
+    @map_area = @_createElement "div", "mapArea"
 
-    @_map_canvas = document.createElement "div"
-    @_map_canvas.id = "mapCanvas"
+    @map_canvas = document.createElement "div"
+    @map_canvas.id = "mapCanvas"
 
-    @_map_area.appendChild @_map_canvas
+    @map_area.appendChild @map_canvas
 
-    @_map = new HG.Display2D @_map_canvas
+    @map = new HG.Display2D @map_canvas
 
   # ============================================================================
   _createTimeline: ->
-    @_timeline_area = @_createElement "div", "timelineArea"
+    @timeline_area = @_createElement "div", "timelineArea"
     config =
-      parentDiv: @_timeline_area
+      parentDiv: @timeline_area
       nowYear: 1900
       minYear: 1800
       maxYear: 2000
-    @_timeline = new HG.Timeline config
+    @timeline = new HG.Timeline config
 
   # ============================================================================
   _collapse: =>
@@ -115,55 +104,55 @@ class HG.HistoGlobe
     # update div positions and widths if collapsed or uncollapsed
     if @_collapsed
       @_collapse_button.className = "fa fa-arrow-circle-o-left fa-2x"
-      @_map_area.style.right = "#{SIDEBAR_COLLAPSED_WIDTH}px"
+      @map_area.style.right = "#{SIDEBAR_COLLAPSED_WIDTH}px"
       @_collapse_button.style.right = "#{SIDEBAR_COLLAPSED_WIDTH}px"
 
       if @_isInMobileMode()
-        @_sidebar_area.style.right = "#{SIDEBAR_COLLAPSED_WIDTH - width + MAP_COLLAPSED_WIDTH}px"
-        @_sidebar_area.style.width = "#{width - MAP_COLLAPSED_WIDTH}px"
+        @sidebar_area.style.right = "#{SIDEBAR_COLLAPSED_WIDTH - width + MAP_COLLAPSED_WIDTH}px"
+        @sidebar_area.style.width = "#{width - MAP_COLLAPSED_WIDTH}px"
         mapWidth = width-SIDEBAR_COLLAPSED_WIDTH
       else
-        @_sidebar_area.style.right = "#{SIDEBAR_COLLAPSED_WIDTH - SIDEBAR_MIN_WIDTH}px"
-        @_sidebar_area.style.width = "#{SIDEBAR_MIN_WIDTH}px"
+        @sidebar_area.style.right = "#{SIDEBAR_COLLAPSED_WIDTH - SIDEBAR_MIN_WIDTH}px"
+        @sidebar_area.style.width = "#{SIDEBAR_MIN_WIDTH}px"
         mapWidth = width-SIDEBAR_COLLAPSED_WIDTH
 
     else
       @_collapse_button.className = "fa fa-arrow-circle-o-right fa-2x"
-      @_sidebar_area.style.right = "0px"
+      @sidebar_area.style.right = "0px"
 
       if @_isInMobileMode()
-        @_map_area.style.right = "#{width - MAP_COLLAPSED_WIDTH}px"
+        @map_area.style.right = "#{width - MAP_COLLAPSED_WIDTH}px"
         @_collapse_button.style.right = "#{width - MAP_COLLAPSED_WIDTH}px"
-        @_sidebar_area.style.width = "#{width - MAP_COLLAPSED_WIDTH}px"
+        @sidebar_area.style.width = "#{width - MAP_COLLAPSED_WIDTH}px"
         mapWidth = width-SIDEBAR_MIN_WIDTH
 
       else
-        @_map_area.style.right = "#{SIDEBAR_MIN_WIDTH}px"
+        @map_area.style.right = "#{SIDEBAR_MIN_WIDTH}px"
         @_collapse_button.style.right = "#{SIDEBAR_MIN_WIDTH}px"
-        @_sidebar_area.style.width = "#{SIDEBAR_MIN_WIDTH}px"
+        @sidebar_area.style.width = "#{SIDEBAR_MIN_WIDTH}px"
         mapWidth = width-SIDEBAR_MIN_WIDTH
 
     if @_collapsed
-      $(@_map_canvas).addClass "noAnimation"
-      $(@_map_area).addClass "noAnimation"
-      @_map_canvas.style.right = "#{(SIDEBAR_MIN_WIDTH-SIDEBAR_COLLAPSED_WIDTH)/2}px"
-      @_map_canvas.style.width = "#{mapWidth}px"
-      @_map_area.style.width = "#{mapWidth}px"
-      $(@_map_canvas).removeClass "noAnimation"
-      $(@_map_area).removeClass "noAnimation"
-      @_map_canvas.style.right = "0px"
-      @_map.resize mapWidth, @_map_area.offsetHeight
+      $(@map_canvas).addClass "noAnimation"
+      $(@map_area).addClass "noAnimation"
+      @map_canvas.style.right = "#{(SIDEBAR_MIN_WIDTH-SIDEBAR_COLLAPSED_WIDTH)/2}px"
+      @map_canvas.style.width = "#{mapWidth}px"
+      @map_area.style.width = "#{mapWidth}px"
+      $(@map_canvas).removeClass "noAnimation"
+      $(@map_area).removeClass "noAnimation"
+      @map_canvas.style.right = "0px"
+      @map.resize mapWidth, @map_area.offsetHeight
 
     else
-      $(@_map_canvas).addClass "noAnimation"
-      @_map_canvas.style.right = "#{-(SIDEBAR_MIN_WIDTH-SIDEBAR_COLLAPSED_WIDTH)/2}px"
-      $(@_map_canvas).removeClass "noAnimation"
-      @_map_canvas.style.right = "0px"
-      @_map_area.style.width = "#{mapWidth}px"
-      @_map_canvas.style.width = "#{mapWidth}px"
+      $(@map_canvas).addClass "noAnimation"
+      @map_canvas.style.right = "#{-(SIDEBAR_MIN_WIDTH-SIDEBAR_COLLAPSED_WIDTH)/2}px"
+      $(@map_canvas).removeClass "noAnimation"
+      @map_canvas.style.right = "0px"
+      @map_area.style.width = "#{mapWidth}px"
+      @map_canvas.style.width = "#{mapWidth}px"
 
       window.setTimeout ()=>
-        @_map.resize mapWidth, @_map_area.offsetHeight
+        @map.resize mapWidth, @map_area.offsetHeight
       , COLLAPSE_DURATION
 
 
