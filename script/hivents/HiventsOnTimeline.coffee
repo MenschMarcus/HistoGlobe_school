@@ -8,9 +8,13 @@ class HG.HiventsOnTimeline
 
   # ============================================================================
   constructor: () ->
+
     @_timeline = null
     @_hiventController = null
     @_hiventMarkers = []
+
+    @_onMarkerAddedCallbacks = []
+    @_markersLoaded = false
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -22,11 +26,20 @@ class HG.HiventsOnTimeline
         hiventMarkerDate = @_timeline.nowMarkerBox.stringToDate handle.getHivent().displayDate
         marker = new HG.HiventMarkerTimeline @_timeline, handle, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate)
         @_hiventMarkers.push marker
+        @_markersLoaded = @_hiventController._hiventsLoaded
 
       @_timeline.onNowChanged @, @_updateHiventMarkerPositions
       @_timeline.onIntervalChanged @, @_updateHiventMarkerPositions
     else
       console.error "Unable to show hivents on Timeline: HiventController module not detected in HistoGlobe instance!"
+
+  # ============================================================================
+  onMarkerAdded: (callbackFunc) ->
+    if callbackFunc and typeof(callbackFunc) == "function"
+      @_onMarkerAddedCallbacks.push callbackFunc
+
+      if @_markersLoaded
+        callbackFunc marker for marker in @_hiventMarkers
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #

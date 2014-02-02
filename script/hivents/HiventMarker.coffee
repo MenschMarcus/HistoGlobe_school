@@ -48,12 +48,9 @@ class HG.HiventMarker
   # ============================================================================
   showHiventInfo: (displayPosition) =>
     @_popover ?= new HG.HiventInfoPopover @_hiventHandle, new HG.Vector(0, 0), HG.Display.CONTAINER
-    @_hiventInfo.style.left = displayPosition.x + "px"
-    @_hiventInfo.style.top = displayPosition.y + "px"
     @_updatePopoverAnchor displayPosition
     @_popover.positionWindowAtAnchor()
     @_popover.show()
-    $(@_hiventInfo).tooltip "hide"
 
   # ============================================================================
   hideHiventInfo: (displayPosition) =>
@@ -63,6 +60,10 @@ class HG.HiventMarker
   enableShowName: ->
     @_hiventHandle.onMark(@, @showHiventName)
     @_hiventHandle.onUnMark(@, @hideHiventName)
+    @_hiventHandle.onActive @, (displayPosition) =>
+      @_hiventInfo.style.left = displayPosition.x + "px"
+      @_hiventInfo.style.top = displayPosition.y + "px"
+      $(@_hiventInfo).tooltip "hide"
 
   # ============================================================================
   enableShowInfo: ->
