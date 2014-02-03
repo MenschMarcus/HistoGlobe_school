@@ -46,12 +46,14 @@ class HG.HistoGlobe
     @_top_swiper = new Swiper '#top-area',
       mode:'horizontal',
       slidesPerView: 'auto',
-      # cssWidthAndHeight: true,
-      resistance:'10%',
       onSlideChangeEnd: () => @_onSlideEnd()
-      onResistanceBefore: () => @_onSlideEnd()
-      onResistanceAfter: () => @_onSlideEnd()
+      onTouchEnd: () => @_onSlideEnd()
       onSetWrapperTransform: (s, t) => @_onSlide(t)
+      onSetWrapperTransition: (s, d) =>
+        if d is 0
+          $(@_map_canvas).addClass("no-animation")
+        else
+          $(@_map_canvas).removeClass("no-animation")
 
   # ============================================================================
   _createSidebar: ->
@@ -102,7 +104,7 @@ class HG.HistoGlobe
   _onSlideEnd: () =>
     slide = @_top_swiper.slides[0].getOffset().left
 
-    @_collapsed = slide is 0
+    @_collapsed = slide >= 0
 
     if @_collapsed
       @_collapse_button.className = "fa fa-arrow-circle-o-left fa-2x"
