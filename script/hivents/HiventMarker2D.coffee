@@ -103,8 +103,8 @@ class HG.HiventMarker2D extends HG.HiventMarker
   _getDisplayPosition: ->
     pos =  @_map.layerPointToContainerPoint(new L.Point @_position.x, @_position.y - HIVENT_MARKER_2D_RADIUS )
     offset = $(@_map.getContainer()).offset()
-    pos.x += offset.left
-    pos.y += offset.top + HIVENT_MARKER_2D_RADIUS
+    # pos.x += offset.left
+    pos.y +=  HIVENT_MARKER_2D_RADIUS #+ offset.left
     pos
 
   # ============================================================================
