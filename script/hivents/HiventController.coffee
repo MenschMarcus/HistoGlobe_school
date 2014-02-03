@@ -98,8 +98,6 @@ class HG.HiventController
     $.getJSON(config.hiventJSONPath, (hivents) =>
       builder = new HG.HiventBuilder(config)
       for h in hivents
-        if h.name is "Schuman-Plan"
-          console.log h
         builder.constructHiventFromJSON h, (hivent) =>
           handle = new HG.HiventHandle hivent
           @_hiventHandles.push handle
