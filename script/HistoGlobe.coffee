@@ -82,7 +82,7 @@ class HG.HistoGlobe
   # ============================================================================
   _createMap: ->
     @_map_area = @_createElement @_top_area_wrapper, "div", "map-area"
-    @_map_area.className = "swiper-slide"
+    @_map_area.className = "swiper-slide swiper-no-swiping"
 
     @_map_canvas = @_createElement @_map_area, "div", "map-canvas"
 
