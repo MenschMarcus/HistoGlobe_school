@@ -28,6 +28,7 @@
     <link rel="stylesheet" type="text/css" href="style/histoglobe.min.css">
 
     <!-- third party javascript -->
+    <script type="text/javascript" src="script/third-party/d3.v3.min.js"></script>
     <script type="text/javascript" src="script/third-party/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.browser.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.disable.text.select.js"></script>
@@ -49,8 +50,6 @@
     <script type="text/javascript" src="build/ArcPath2D.js"></script>
     <script type="text/javascript" src="build/PathController.js"></script>
     <script type="text/javascript" src="build/LinearPath2D.js"></script>
-    <script type="text/javascript" src="build/Area.js"></script>
-    <script type="text/javascript" src="build/AreaController.js"></script>
     <script type="text/javascript" src="build/Label.js"></script>
     <script type="text/javascript" src="build/LabelController.js"></script>
     <script type="text/javascript" src="build/HiventMarker3D.js"></script>
@@ -73,6 +72,9 @@
     <script type="text/javascript" src="build/HiventMarker2D.js"></script>
     <script type="text/javascript" src="build/HiventMarkerTimeline.js"></script>
     <script type="text/javascript" src="build/HiventController.js"></script>
+    <script type="text/javascript" src="build/Area.js"></script>
+    <script type="text/javascript" src="build/AreaController.js"></script>
+    <script type="text/javascript" src="build/AreasOnMap.js"></script>
     <script type="text/javascript" src="build/Display.js"></script>
     <script type="text/javascript" src="build/Display2D.js"></script>
     <script type="text/javascript" src="build/DoublyLinkedList.js"></script>
@@ -249,6 +251,22 @@
 
         histoglobe.addModule(
           new HG.HiventInfoPopovers()
+        );
+
+        var areaController = new HG.AreaController()
+
+        areaController.loadAreasFromJSON({
+          path: "data/areas/countries.json"
+        })
+
+        areaController.loadAreasFromJSON({
+          path: "data/areas/countries_old.json"
+        })
+
+        histoglobe.addModule(areaController);
+
+        histoglobe.addModule(
+          new HG.AreasOnMap()
         );
 
         legend = new HG.Legend({
