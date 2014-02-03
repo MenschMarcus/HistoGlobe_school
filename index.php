@@ -245,7 +245,12 @@
       // }
 
       $(document).ready(function($) {
-        var histoglobe = new HG.HistoGlobe(document.getElementById('histoglobe'));
+        var histoglobe = new HG.HistoGlobe({
+          container: document.getElementById('histoglobe'),
+          maxYear: 2020,
+          minYear: 1800,
+          nowYear: 2000
+        });
 
 
 

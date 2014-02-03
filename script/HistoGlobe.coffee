@@ -7,9 +7,15 @@ class HG.HistoGlobe
   ##############################################################################
 
   # ============================================================================
-  constructor: (container) ->
+  constructor: (config) ->
 
-    @_container = container
+    defaultConfig =
+      container: undefined
+      nowYear: 2014
+      minYear: 1940
+      maxYear: 2020
+
+    @_config = $.extend {}, defaultConfig, config
 
     @timeline = null
     @map = null
@@ -39,7 +45,7 @@ class HG.HistoGlobe
 
   # ============================================================================
   _createTopArea: ->
-    @_top_area = @_createElement @_container, "div", "top-area"
+    @_top_area = @_createElement @_config.container, "div", "top-area"
     @_top_area_wrapper = @_createElement @_top_area, "div", ""
     @_top_area_wrapper.className = "swiper-wrapper"
 
@@ -83,13 +89,13 @@ class HG.HistoGlobe
 
   # ============================================================================
   _createTimeline: ->
-    @_timeline_area = @_createElement @_container, "div", "timeline-area"
+    @_timeline_area = @_createElement @_config.container, "div", "timeline-area"
 
     @timeline = new HG.Timeline
       parentDiv: @_timeline_area
-      nowYear: 2014
-      minYear: 1940
-      maxYear: 2020
+      nowYear: @_config.nowYear
+      minYear: @_config.minYear
+      maxYear: @_config.maxYear
 
   # ============================================================================
   _collapse: =>
