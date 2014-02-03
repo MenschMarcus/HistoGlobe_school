@@ -26,8 +26,8 @@ class HG.HiventInfoPopover
     @_mainDiv.style.position = "absolute"
     @_mainDiv.style.left = "#{anchor.at(0) + WINDOW_TO_ANCHOR_OFFSET_X}px"
     @_mainDiv.style.top = "#{anchor.at(1) + WINDOW_TO_ANCHOR_OFFSET_Y}px"
-    @_mainDiv.style.zIndex = "#{HG.Display.Z_INDEX + 10}"
     @_mainDiv.style.visibility = "hidden"
+    @_mainDiv.addEventListener 'mousedown', @_bringToFront, false
 
     @_titleDiv = document.createElement "h4"
     @_titleDiv.className = "hiventInfoPopoverTitle"
@@ -62,6 +62,7 @@ class HG.HiventInfoPopover
     @_arrow = @_raphael.path ""
     @_updateArrow()
 
+
     @_lastMousePos = null
 
     @_hiventHandle.onDestruction @, @_destroy
@@ -95,6 +96,7 @@ class HG.HiventInfoPopover
     showArrow = =>
       @_raphael.canvas.style.opacity = 1.0
 
+    @_bringToFront()
     @_mainDiv.style.opacity = 1.0
     window.setTimeout showArrow, 200
 
@@ -222,6 +224,11 @@ class HG.HiventInfoPopover
     @_lastMousePos = null
 
   # ============================================================================
+  _bringToFront: () =>
+    @_mainDiv.style.zIndex = "#{HG.Display.Z_INDEX + 10 + LAST_Z_INDEX}"
+    LAST_Z_INDEX++
+
+  # ============================================================================
   _destroy: () =>
     @_mainDiv.parentNode.removeChild @_mainDiv
     @_raphael.canvas.parentNode.removeChild @_raphael.canvas
@@ -241,3 +248,4 @@ class HG.HiventInfoPopover
   BODY_DEFAULT_HEIGHT = 300
   BODY_MAX_HEIGHT = 400
   TITLE_DEFAULT_HEIGHT = 20
+  LAST_Z_INDEX = 0
