@@ -7,9 +7,15 @@ class HG.HistoGlobe
   ##############################################################################
 
   # ============================================================================
-  constructor: (container) ->
+  constructor: (config) ->
 
-    @_container = container
+    defaultConfig =
+      container: undefined
+      nowYear: 2014
+      minYear: 1940
+      maxYear: 2020
+
+    @_config = $.extend {}, defaultConfig, config
 
     @timeline = null
     @map = null
@@ -39,18 +45,21 @@ class HG.HistoGlobe
 
   # ============================================================================
   _createTopArea: ->
-    @_top_area = @_createElement @_container, "div", "top-area"
+    @_top_area = @_createElement @_config.container, "div", "top-area"
     @_top_area_wrapper = @_createElement @_top_area, "div", ""
     @_top_area_wrapper.className = "swiper-wrapper"
 
     @_top_swiper = new Swiper '#top-area',
       mode:'horizontal',
       slidesPerView: 'auto',
-      # cssWidthAndHeight: true,
-      resistance:'10%',
-      onSlideChangeEnd: () => @_onSlide()
-      onResistanceBefore: () => @_onSlide()
-      onResistanceAfter: () => @_onSlide()
+      onSlideChangeEnd: () => @_onSlideEnd()
+      onTouchEnd: () => @_onSlideEnd()
+      onSetWrapperTransform: (s, t) => @_onSlide(t)
+      onSetWrapperTransition: (s, d) =>
+        if d is 0
+          $(@_map_canvas).addClass("no-animation")
+        else
+          $(@_map_canvas).removeClass("no-animation")
 
   # ============================================================================
   _createSidebar: ->
@@ -80,13 +89,13 @@ class HG.HistoGlobe
 
   # ============================================================================
   _createTimeline: ->
-    @_timeline_area = @_createElement @_container, "div", "timeline-area"
+    @_timeline_area = @_createElement @_config.container, "div", "timeline-area"
 
     @timeline = new HG.Timeline
       parentDiv: @_timeline_area
-      nowYear: 2014
-      minYear: 1940
-      maxYear: 2020
+      nowYear: @_config.nowYear
+      minYear: @_config.minYear
+      maxYear: @_config.maxYear
 
   # ============================================================================
   _collapse: =>
@@ -98,15 +107,25 @@ class HG.HistoGlobe
       @_top_swiper.swipeNext()
 
   # ============================================================================
-  _onSlide: () =>
+  _onSlideEnd: () =>
     slide = @_top_swiper.slides[0].getOffset().left
 
-    @_collapsed = slide is 0
+    @_collapsed = slide >= 0
 
     if @_collapsed
       @_collapse_button.className = "fa fa-arrow-circle-o-left fa-2x"
     else
       @_collapse_button.className = "fa fa-arrow-circle-o-right fa-2x"
+
+
+  # ============================================================================
+  _onSlide: (transform) =>
+    if (transform.x < 0)
+      @_map_canvas.style.right = "#{transform.x/2}px"
+    else
+      @_map_canvas.style.right = 0
+
+    # return false;
 
 
   # ============================================================================

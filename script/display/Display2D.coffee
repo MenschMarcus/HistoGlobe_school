@@ -74,7 +74,7 @@ class HG.Display2D extends HG.Display
     options =
       maxZoom:      6
       minZoom:      1
-      zoomControl:  false
+      zoomControl:  true
       #maxBounds:    [[-180,-90], [180, 90]]
 
     @_map = L.map @_mapParent, options

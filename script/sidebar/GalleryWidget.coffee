@@ -18,14 +18,15 @@ class HG.GalleryWidget extends HG.Widget
 
 
   # ============================================================================
-  init: (hgInstance) ->
+  hgInit: (hgInstance) ->
     super hgInstance
 
     content = document.createElement "div"
     content.className = "galleryWidget"
 
     gallery_container = document.createElement "div"
-    gallery_container.className = "swiper-container"
+    gallery_container.id = "horst"
+    gallery_container.className = "gallery-widget-slider"
 
     @_gallery = document.createElement "div"
     @_gallery.className = "swiper-wrapper"
@@ -49,7 +50,7 @@ class HG.GalleryWidget extends HG.Widget
     @setIcon @_config.icon
     @setContent content
 
-    @_swiper = new Swiper ".swiper-container",
+    @_swiper = new Swiper ".gallery-widget-slider",
       centeredSlides: true,
       grabCursor: true,
       paginationClickable: true,
