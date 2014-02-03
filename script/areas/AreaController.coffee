@@ -7,46 +7,38 @@ class HG.AreaController
   ##############################################################################
 
   # ============================================================================
-  constructor: (timeline) ->
+  constructor: () ->
 
-    # HG.mixin @, HG.CallbackContainer
-    # HG.CallbackContainer.call @
+    HG.mixin @, HG.CallbackContainer
+    HG.CallbackContainer.call @
 
-    # @addCallback "onShowArea"
-    # @addCallback "onHideArea"
+    @addCallback "onShowArea"
+    @addCallback "onHideArea"
 
-    # @_initMembers()
-
-    # timeline.addListener this
-
-  # ============================================================================
-  nowChanged: (date) ->
-    @_now = date
-    for area in @_areas
-      area.setDate date
-
-  # ============================================================================
-  periodChanged: (dateA, dateB) ->
-
-  # ============================================================================
-  categoryChanged: (c) ->
-
-
-  ##############################################################################
-  #                            PRIVATE INTERFACE                               #
-  ##############################################################################
-
-  # ============================================================================
-  _initMembers: ->
     @_areas = []
-    @_now = new Date(2000, 1, 1)
-
-    @_loadJson "data/areas/countries.json"
-    @_loadJson "data/areas/countries_old.json"
+    @_timeline = null
+    @_now = null
 
   # ============================================================================
-  _loadJson: (file) ->
-    $.getJSON file, (countries) =>
+  hgInit: (hgInstance) ->
+    hgInstance.areaController = @
+
+    @_timeline = hgInstance.timeline
+    @_now = @_timeline.getNowDate()
+
+    @_timeline.onNowChanged @, (date) ->
+      @_now = date
+      for area in @_areas
+        area.setDate date
+
+  # ============================================================================
+  loadAreasFromJSON: (config) ->
+    defaultConfig =
+      path: undefined
+
+    config = $.extend {}, defaultConfig, config
+
+    $.getJSON config.path, (countries) =>
       for country in countries.features
         newArea = new HG.Area country
 
@@ -59,4 +51,9 @@ class HG.AreaController
         @_areas.push newArea
 
         newArea.setDate @_now
+
+  ##############################################################################
+  #                            PRIVATE INTERFACE                               #
+  ##############################################################################
+
 
