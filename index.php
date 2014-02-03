@@ -86,6 +86,8 @@
     <script type="text/javascript" src="build/PictureWidget.js"></script>
     <script type="text/javascript" src="build/HiventsOnMap.js"></script>
     <script type="text/javascript" src="build/HiventsOnTimeline.js"></script>
+    <script type="text/javascript" src="build/HiventTooltips.js"></script>
+    <script type="text/javascript" src="build/HiventInfoPopovers.js"></script>
     <script type="text/javascript" src="build/HistoGlobe.js"></script>
     <script type="text/javascript" src="build/Legend.js"></script>
 
@@ -200,49 +202,6 @@
       //   }
       // }
 
-      // function load2D() {
-
-      //   if (display3D && display3D.isRunning()) {
-      //     $(display3D.getCanvas()).animate({opacity: 0.0}, 1000, 'linear');
-      //     display3D.stop();
-      //     $('#toggle-3D').button("toggle");
-      //     $('#toggle-2D').button("toggle");
-      //   }
-
-      //   if (!display2D) {
-      //     display2D = new HG.Display2D(container, hiventController, areaController, labelController);
-      //     $(display2D.getCanvas()).css({opacity: 0.0});
-      //   }
-
-      //   display2D.start();
-      //   $(display2D.getCanvas()).animate({opacity: 1.0}, 1000, 'linear');
-      // }
-
-      // function load3D() {
-      //   if (BrowserDetect.webglRenderingSupported) {
-      //     if (display2D && display2D.isRunning()){
-      //       $(display2D.getCanvas()).animate({opacity: 0.0}, 1000, 'linear');
-      //       display2D.stop();
-      //       $('#toggle-3D').button("toggle");
-      //       $('#toggle-2D').button("toggle");
-      //     }
-
-      //     if (!display3D) {
-      //       display3D = new HG.Display3D(container, hiventController, areaController, labelController);
-      //       $(display3D.getCanvas()).css({opacity: 0.0});
-      //     }
-
-      //     display3D.start();
-      //     $(display3D.getCanvas()).animate({opacity: 1.0}, 1000, 'linear');
-
-      //   }
-      // }
-
-      // function loadTimeline(hiventController) {
-      //   if (!timelineInitialized) {
-      //     timeline = new HG.Timeline(1975, 1940, 2014, document.getElementById("timeline"), document.getElementById("now_marker"), hiventController);
-      //   }
-      // }
 
       $(document).ready(function($) {
         var histoglobe = new HG.HistoGlobe({
@@ -282,6 +241,14 @@
 
         histoglobe.addModule(
           new HG.HiventsOnTimeline()
+        );
+
+        histoglobe.addModule(
+          new HG.HiventTooltips()
+        );
+
+        histoglobe.addModule(
+          new HG.HiventInfoPopovers()
         );
 
         legend = new HG.Legend({

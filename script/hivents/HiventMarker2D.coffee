@@ -3,7 +3,7 @@
 
 window.HG ?= {}
 
-class HG.HiventMarker2D
+class HG.HiventMarker2D extends HG.HiventMarker
 
   ##############################################################################
   #                            PUBLIC INTERFACE                                #
@@ -12,7 +12,6 @@ class HG.HiventMarker2D
   # ============================================================================
   constructor: (hiventHandle, display, map, markerGroup) ->
 
-    HG.mixin @, HG.HiventMarker
     HG.HiventMarker.call @, hiventHandle, map.getPanes()["popupPane"]
 
     VISIBLE_MARKERS_2D.push @
@@ -67,8 +66,6 @@ class HG.HiventMarker2D
     @getHiventHandle().onDestruction @, @_destroy
     @getHiventHandle().onHide @, @_destroy
 
-    @enableShowName()
-    @enableShowInfo()
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -100,8 +97,7 @@ class HG.HiventMarker2D
   # ============================================================================
   _updatePosition: =>
     @_position = @_map.latLngToLayerPoint @_marker.getLatLng()
-    @_updatePopoverAnchor @_getDisplayPosition()
-
+    @notifyAll "onPositionChanged", @_getDisplayPosition()
 
   # ============================================================================
   _getDisplayPosition: ->
@@ -131,7 +127,7 @@ class HG.HiventMarker2D
     @_hiventHandle.removeListener "onHide", @
     @_hiventHandle.removeListener "onDestruction", @
 
-    @_destroyMarker()
+    super()
     delete @
 
     return

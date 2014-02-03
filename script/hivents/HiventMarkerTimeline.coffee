@@ -3,7 +3,7 @@
 
 window.HG ?= {}
 
-class HG.HiventMarkerTimeline
+class HG.HiventMarkerTimeline extends HG.HiventMarker
 
   ##############################################################################
   #                            PUBLIC INTERFACE                                #
@@ -13,7 +13,6 @@ class HG.HiventMarkerTimeline
   # ============================================================================
   constructor: (timeline, hiventHandle, parent, posX) ->
 
-    HG.mixin @, HG.HiventMarker
     HG.HiventMarker.call @, hiventHandle, parent
 
     @_timeline = timeline
@@ -77,9 +76,6 @@ class HG.HiventMarkerTimeline
     @getHiventHandle().onDestruction @, @_destroy
     #@getHiventHandle().onHide @, @_destroy
 
-    @enableShowName()
-    #@_timeline.addListener @
-
   # ============================================================================
   nowChanged: ->
     posX = @_timeline._dateToPosition @_hiventHandle.getHivent().startDate
@@ -126,7 +122,7 @@ class HG.HiventMarkerTimeline
     @_hiventHandle.removeListener "onHide", @
     @_hiventHandle.removeListener "onDestruction", @
 
-    @_destroyMarker()
+    super()
 
     delete @
     return
