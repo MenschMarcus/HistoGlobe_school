@@ -87,6 +87,7 @@
     <script type="text/javascript" src="build/HiventsOnMap.js"></script>
     <script type="text/javascript" src="build/HiventsOnTimeline.js"></script>
     <script type="text/javascript" src="build/HiventTooltips.js"></script>
+    <script type="text/javascript" src="build/HiventInfoPopovers.js"></script>
     <script type="text/javascript" src="build/HistoGlobe.js"></script>
     <script type="text/javascript" src="build/Legend.js"></script>
 
@@ -287,6 +288,10 @@
 
         histoglobe.addModule(
           new HG.HiventTooltips()
+        );
+
+        histoglobe.addModule(
+          new HG.HiventInfoPopovers()
         );
 
         legend = new HG.Legend({

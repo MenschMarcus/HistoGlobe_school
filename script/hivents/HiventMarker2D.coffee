@@ -67,7 +67,6 @@ class HG.HiventMarker2D
     @getHiventHandle().onDestruction @, @_destroy
     @getHiventHandle().onHide @, @_destroy
 
-    @enableShowInfo()
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -99,8 +98,7 @@ class HG.HiventMarker2D
   # ============================================================================
   _updatePosition: =>
     @_position = @_map.latLngToLayerPoint @_marker.getLatLng()
-    @_updatePopoverAnchor @_getDisplayPosition()
-
+    @notifyAll "onPositionChanged", @_getDisplayPosition()
 
   # ============================================================================
   _getDisplayPosition: ->

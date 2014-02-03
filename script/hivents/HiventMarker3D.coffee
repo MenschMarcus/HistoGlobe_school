@@ -50,8 +50,6 @@ class HG.HiventMarker3D extends THREE.Mesh
 
     @getHiventHandle().onDestruction @, @_destroy
 
-    @enableShowInfo()
-
   # ============================================================================
   _destroy: ->
     delete @;

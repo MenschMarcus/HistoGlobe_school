@@ -42,6 +42,7 @@ set cFiles=script/HistoGlobe.coffee ^
         script/hivents/HiventsOnMap.coffee ^
         script/hivents/HiventsOnTimeline.coffee ^
         script/hivents/HiventTooltips.coffee ^
+        script/hivents/HiventInfoPopovers.coffee ^
         script/timeline/NowMarker.coffee ^
         script/timeline/DoublyLinkedList.coffee ^
         script/legend/Legend.coffee ^
@@ -81,6 +82,7 @@ set jFiles=build/HistoGlobe.js ^
         build/HiventsOnMap.js ^
         build/HiventsOnTimeline.js ^
         build/HiventTooltips.js ^
+        build/HiventInfoPopovers.js ^
         build/Legend.js ^
         build/HiventInfoPopover.js ^
         build/Path.js ^
