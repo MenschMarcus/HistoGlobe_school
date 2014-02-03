@@ -48,9 +48,10 @@ class HG.HistoGlobe
       slidesPerView: 'auto',
       # cssWidthAndHeight: true,
       resistance:'10%',
-      onSlideChangeEnd: () => @_onSlide()
-      onResistanceBefore: () => @_onSlide()
-      onResistanceAfter: () => @_onSlide()
+      onSlideChangeEnd: () => @_onSlideEnd()
+      onResistanceBefore: () => @_onSlideEnd()
+      onResistanceAfter: () => @_onSlideEnd()
+      onSetWrapperTransform: (s, t) => @_onSlide(t)
 
   # ============================================================================
   _createSidebar: ->
@@ -98,7 +99,7 @@ class HG.HistoGlobe
       @_top_swiper.swipeNext()
 
   # ============================================================================
-  _onSlide: () =>
+  _onSlideEnd: () =>
     slide = @_top_swiper.slides[0].getOffset().left
 
     @_collapsed = slide is 0
@@ -107,6 +108,16 @@ class HG.HistoGlobe
       @_collapse_button.className = "fa fa-arrow-circle-o-left fa-2x"
     else
       @_collapse_button.className = "fa fa-arrow-circle-o-right fa-2x"
+
+
+  # ============================================================================
+  _onSlide: (transform) =>
+    if (transform.x < 0)
+      @_map_canvas.style.right = "#{transform.x/2}px"
+    else
+      @_map_canvas.style.right = 0
+
+    # return false;
 
 
   # ============================================================================

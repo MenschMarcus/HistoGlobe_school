@@ -37,15 +37,11 @@
 
 #map-area {
   position: relative;
-  // overflow: hidden;
-
-  // top: 0;
-  // left: 0;
-  // bottom: @timeline_height;
 
   height: 100%;
+  overflow: hidden;
 
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  box-shadow: 0 0 20px rgba(0,0,0,0.8);
 
   .transition-property(right);
   // .transition-property(width);
@@ -56,28 +52,15 @@
 #map-canvas {
   position: relative;
   overflow: hidden;
-  // right: 0;
-  // left: 0;
-  // top: 0;
-  // bottom: 0;
   width: 100%;
   height: 100%;
   background-color: #555;
-
-  // .transition-property(right);
-  // .transition-property(width);
-  // .transition-duration(@sidebar_aimation_speed);
-  // .transition-timing-function(ease-in-out);
 }
 
 // ------------------------ SIDEBAR --------------------------------------------
 #sidebar-area {
   position: relative;
   overflow:hidden;
-
-  .transition-property(right width);
-  .transition-duration(@sidebar_aimation_speed);
-  .transition-timing-function(ease-in-out);
 }
 
 // ------------------------ TIMELINE -------------------------------------------
