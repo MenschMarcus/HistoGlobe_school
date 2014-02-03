@@ -77,9 +77,6 @@ class HG.HiventMarkerTimeline
     @getHiventHandle().onDestruction @, @_destroy
     #@getHiventHandle().onHide @, @_destroy
 
-    @enableShowName()
-    #@_timeline.addListener @
-
   # ============================================================================
   nowChanged: ->
     posX = @_timeline._dateToPosition @_hiventHandle.getHivent().startDate

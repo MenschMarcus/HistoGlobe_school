@@ -18,6 +18,8 @@ class HG.HiventsOnTimeline
 
   # ============================================================================
   hgInit: (hgInstance) ->
+    hgInstance.hiventsOnTimeline = @
+
     @_timeline = hgInstance.timeline
     @_hiventController = hgInstance.hiventController
 
@@ -27,6 +29,7 @@ class HG.HiventsOnTimeline
         marker = new HG.HiventMarkerTimeline @_timeline, handle, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate)
         @_hiventMarkers.push marker
         @_markersLoaded = @_hiventController._hiventsLoaded
+        callback marker for callback in @_onMarkerAddedCallbacks
 
       @_timeline.onNowChanged @, @_updateHiventMarkerPositions
       @_timeline.onIntervalChanged @, @_updateHiventMarkerPositions

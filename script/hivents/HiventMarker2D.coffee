@@ -67,7 +67,6 @@ class HG.HiventMarker2D
     @getHiventHandle().onDestruction @, @_destroy
     @getHiventHandle().onHide @, @_destroy
 
-    @enableShowName()
     @enableShowInfo()
 
   ##############################################################################

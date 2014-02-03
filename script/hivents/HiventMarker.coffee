@@ -11,23 +11,28 @@ class HG.HiventMarker
   # ============================================================================
   constructor: (hiventHandle, parentDiv) ->
 
-    @_parentDiv = parentDiv
+    HG.mixin @, HG.CallbackContainer
+    HG.CallbackContainer.call @
+
+    @addCallback "onDestruction"
+
+    @parentDiv = parentDiv
 
     @_hiventHandle = hiventHandle
-    @_hiventInfo = document.createElement("div")
-    @_hiventInfo.class = "btn btn-default"
-    @_hiventInfo.style.position = "absolute"
-    @_hiventInfo.style.left = "0px"
-    @_hiventInfo.style.top = "0px"
-    @_hiventInfo.style.visibility = "hidden"
-    @_hiventInfo.style.pointerEvents = "none"
+    # @_hiventInfo = document.createElement("div")
+    # @_hiventInfo.class = "btn btn-default"
+    # @_hiventInfo.style.position = "absolute"
+    # @_hiventInfo.style.left = "0px"
+    # @_hiventInfo.style.top = "0px"
+    # @_hiventInfo.style.visibility = "hidden"
+    # @_hiventInfo.style.pointerEvents = "none"
 
-    if @_parentDiv
-      @_parentDiv.appendChild @_hiventInfo
+    # if @parentDiv
+    #   @parentDiv.appendChild @_hiventInfo
 
-    hivent = @_hiventHandle.getHivent()
+    # hivent = @_hiventHandle.getHivent()
 
-    $(@_hiventInfo).tooltip {title: "#{hivent.displayDate}<br />#{hivent.name}", html:true, placement: "top", container:"body"}
+    # $(@_hiventInfo).tooltip {title: "#{hivent.displayDate}<br />#{hivent.name}", html:true, placement: "top", container:"body"}
 
     @_popover = null
 
@@ -56,14 +61,6 @@ class HG.HiventMarker
   hideHiventInfo: (displayPosition) =>
     @_popover?.hide()
 
-  # ============================================================================
-  enableShowName: ->
-    @_hiventHandle.onMark(@, @showHiventName)
-    @_hiventHandle.onUnMark(@, @hideHiventName)
-    @_hiventHandle.onActive @, (displayPosition) =>
-      @_hiventInfo.style.left = displayPosition.x + "px"
-      @_hiventInfo.style.top = displayPosition.y + "px"
-      $(@_hiventInfo).tooltip "hide"
 
   # ============================================================================
   enableShowInfo: ->
@@ -82,5 +79,6 @@ class HG.HiventMarker
   # ============================================================================
   _destroyMarker: =>
     @_popover?._destroy()
-    @_hiventInfo.parentNode.removeChild @_hiventInfo
+    # @_hiventInfo.parentNode.removeChild @_hiventInfo
+    @notifyAll "onDestruction"
 
