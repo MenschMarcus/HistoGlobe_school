@@ -87,9 +87,9 @@ class HG.HistoGlobe
 
     @timeline = new HG.Timeline
       parentDiv: @_timeline_area
-      nowYear: 1900
-      minYear: 1800
-      maxYear: 2000
+      nowYear: 2014
+      minYear: 1940
+      maxYear: 2020
 
   # ============================================================================
   _collapse: =>
