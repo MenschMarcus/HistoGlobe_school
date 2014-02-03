@@ -50,9 +50,10 @@ class HG.HistoGlobe
     @_top_area_wrapper.className = "swiper-wrapper"
 
     @_top_swiper = new Swiper '#top-area',
-      mode:'horizontal',
-      slidesPerView: 'auto',
-      noSwiping: true,
+      mode:'horizontal'
+      slidesPerView: 'auto'
+      noSwiping: true
+      longSwipesRatio: 0.1
       onSlideChangeEnd: () => @_onSlideEnd()
       onTouchEnd: () => @_onSlideEnd()
       onSetWrapperTransform: (s, t) => @_onSlide(t)

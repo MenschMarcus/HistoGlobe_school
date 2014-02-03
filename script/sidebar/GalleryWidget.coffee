@@ -11,6 +11,7 @@ class HG.GalleryWidget extends HG.Widget
     defaultConfig =
       icon: ""
       name: ""
+      height: 300
 
     @_config = $.extend {}, defaultConfig, config
 
@@ -24,14 +25,12 @@ class HG.GalleryWidget extends HG.Widget
     content = document.createElement "div"
     content.className = "galleryWidget"
 
-    stop_swiping = document.createElement "div"
-    stop_swiping.className = "swiper-no-swiping"
-
     gallery_container = document.createElement "div"
     gallery_container.className = "gallery-widget-slider"
+    gallery_container.style.width = "#{@_config.width}px"
 
     @_gallery = document.createElement "div"
-    @_gallery.className = "swiper-wrapper"
+    @_gallery.className = "swiper-wrapper swiper-no-swiping"
 
     left = document.createElement "div"
     left.className = "arrow arrow-left"
@@ -45,8 +44,7 @@ class HG.GalleryWidget extends HG.Widget
     content.appendChild left
     content.appendChild right
     content.appendChild pagination
-    content.appendChild stop_swiping
-    stop_swiping.appendChild gallery_container
+    content.appendChild gallery_container
     gallery_container.appendChild @_gallery
 
     @setName @_config.name
@@ -54,10 +52,10 @@ class HG.GalleryWidget extends HG.Widget
     @setContent content
 
     @_swiper = new Swiper ".gallery-widget-slider",
-      centeredSlides: true,
-      grabCursor: true,
-      paginationClickable: true,
+      grabCursor: true
+      paginationClickable: true
       pagination: ".pagination"
+      longSwipesRatio: 0.2
 
     $(left).click () =>
       @_swiper.swipePrev()
@@ -69,6 +67,17 @@ class HG.GalleryWidget extends HG.Widget
     slide = document.createElement "div"
     slide.className = "swiper-slide"
     slide.appendChild div
+
+    @_gallery.appendChild slide
+    @_swiper.reInit()
+
+  addHTMLSlide: (html) ->
+    slide = document.createElement "div"
+    slide.className = "swiper-slide"
+
+    content = document.createElement "div"
+    content.innerHTML = html
+    slide.appendChild content
 
     @_gallery.appendChild slide
     @_swiper.reInit()
