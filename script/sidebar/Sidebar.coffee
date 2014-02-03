@@ -30,7 +30,8 @@ class HG.Sidebar
     @_sidebar_swiper ?= new Swiper '#sidebar',
       mode:'vertical',
       scrollContainer: true,
-      mousewheelControl: true
+      mousewheelControl: true,
+      noSwiping: true
 
     @_sidebar_swiper.reInit()
 

@@ -24,8 +24,10 @@ class HG.GalleryWidget extends HG.Widget
     content = document.createElement "div"
     content.className = "galleryWidget"
 
+    stop_swiping = document.createElement "div"
+    stop_swiping.className = "swiper-no-swiping"
+
     gallery_container = document.createElement "div"
-    gallery_container.id = "horst"
     gallery_container.className = "gallery-widget-slider"
 
     @_gallery = document.createElement "div"
@@ -43,7 +45,8 @@ class HG.GalleryWidget extends HG.Widget
     content.appendChild left
     content.appendChild right
     content.appendChild pagination
-    content.appendChild gallery_container
+    content.appendChild stop_swiping
+    stop_swiping.appendChild gallery_container
     gallery_container.appendChild @_gallery
 
     @setName @_config.name

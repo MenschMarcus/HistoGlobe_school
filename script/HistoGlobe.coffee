@@ -52,6 +52,7 @@ class HG.HistoGlobe
     @_top_swiper = new Swiper '#top-area',
       mode:'horizontal',
       slidesPerView: 'auto',
+      noSwiping: true,
       onSlideChangeEnd: () => @_onSlideEnd()
       onTouchEnd: () => @_onSlideEnd()
       onSetWrapperTransform: (s, t) => @_onSlide(t)
