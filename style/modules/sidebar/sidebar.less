@@ -1,0 +1,27 @@
+//////////////////////// INCLUDES //////////////////////////////////////////////
+
+@import "widgets.less";
+
+@import "gallery_widget.less";
+@import "legend_widget.less";
+@import "picture_widget.less";
+@import "text_widget.less";
+
+// ------------------------ SIDEBAR --------------------------------------------
+#sidebar {
+  position: relative;
+
+  #sidebar-scrollbar {
+    height: 100%;
+    width: @sidebar_scrollbar_width;
+    position: absolute;
+    bottom: 0;
+    right: 0px;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.2);
+
+    .swiper-scrollbar-drag {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  }
+}

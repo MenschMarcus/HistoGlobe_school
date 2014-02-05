@@ -13,6 +13,7 @@ cFiles="script/HistoGlobe.coffee \
         script/sidebar/TextWidget.coffee \
         script/sidebar/GalleryWidget.coffee \
         script/sidebar/PictureWidget.coffee \
+        script/sidebar/LegendWidget.coffee \
         script/util/Mixin.coffee \
         script/util/CallbackContainer.coffee \
         script/util/VideoPlayer.coffee \
@@ -42,7 +43,6 @@ cFiles="script/HistoGlobe.coffee \
         script/hivents/HiventInfoPopovers.coffee \
         script/timeline/NowMarker.coffee \
         script/timeline/DoublyLinkedList.coffee \
-        script/legend/Legend.coffee \
         script/hivents/HiventInfoPopover.coffee \
         script/paths/Path.coffee \
         script/paths/ArcPath2D.coffee \
@@ -56,6 +56,7 @@ jFiles="build/config.js \
         build/TextWidget.js \
         build/GalleryWidget.js \
         build/PictureWidget.js \
+        build/LegendWidget.js \
         build/Mixin.js \
         build/CallbackContainer.js \
         build/Display.js \
@@ -81,7 +82,6 @@ jFiles="build/config.js \
         build/HiventsOnTimeline.js \
         build/HiventTooltips.js \
         build/HiventInfoPopovers.js \
-        build/Legend.js \
         build/HiventInfoPopover.js \
         build/Path.js \
         build/ArcPath2D.js \

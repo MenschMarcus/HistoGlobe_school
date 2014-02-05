@@ -17,6 +17,8 @@ class HG.Sidebar
     @_container = @_createElement @_config.parentDiv, "div", "sidebar"
     @_container.className = "swiper-container"
 
+    scrollbar = @_createElement @_container, "div", "sidebar-scrollbar"
+
     @_wrapper = @_createElement @_container, "div", ""
     @_wrapper.className = "swiper-wrapper"
 
@@ -28,10 +30,14 @@ class HG.Sidebar
     @_slide.appendChild widget.container
 
     @_sidebar_swiper ?= new Swiper '#sidebar',
-      mode:'vertical',
-      scrollContainer: true,
-      mousewheelControl: true,
+      mode:'vertical'
+      scrollContainer: true
+      mousewheelControl: true
       noSwiping: true
+      scrollbar:
+        hide: false
+        container: '#sidebar-scrollbar'
+
 
     @_sidebar_swiper.reInit()
 
@@ -39,7 +45,8 @@ class HG.Sidebar
   resize: (width, height) ->
     @_container.style.width = "#{width}px"
     @_container.style.height = "#{height}px"
-    $(".widgetBody").css("width", width - HGConfig.widget_title_size.val)
+    $(".widgetBody").css("width", width - 2*HGConfig.widget_margin.val - HGConfig.sidebar_scrollbar_width.val)
+    $(".widgetContainer").css("width", width - HGConfig.widget_title_size.val + HGConfig.widget_margin.val - HGConfig.sidebar_scrollbar_width.val)
     @_sidebar_swiper?.reInit()
 
   ##############################################################################

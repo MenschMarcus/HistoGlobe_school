@@ -1,9 +1,3 @@
-
-//////////////////////// INCLUDES //////////////////////////////////////////////
-
-@import "sidebar/gallery_widget.less";
-@import "sidebar/picture_widget.less";
-
 //////////////////// BASE WIDGET CLASSES ///////////////////////////////////////
 
 // collapse animation
@@ -18,7 +12,8 @@
 }
 
 .widgetContainer {
-  margin: 10px 10px 10px 20px;
+  margin: @widget_margin;
+  width: @sidebar_width - 2*@widget_margin - @sidebar_scrollbar_width;
   overflow: hidden;
 
   background-color: @widget_background_color;
@@ -113,9 +108,9 @@
     // position: relative;
     // margin: 0px 0px 0px -@widget_title_size - 15px;
     // padding: 0px 0px 0px 2*@widget_title_size + 30px;
-    padding: 0px 0px 0px @widget_title_size + 15px;
+    padding: 0px 0px 0px @widget_title_size;
     // width: @sidebar_width;
-    width: @sidebar_width - @widget_title_size;
+    width: @sidebar_width - @widget_title_size + @widget_margin - @sidebar_scrollbar_width;
     font-size: @widget_font_size;
     background-color: @widget_background_color;
     color: @widget_text_color;

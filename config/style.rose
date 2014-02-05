@@ -7,7 +7,8 @@ $map_collapsed_width                = 50px
 $sidebar_collapse_button_size       = 40px
 $sidebar_aimation_speed             = 0.3s
 $sidebar_width                      = 400px
-$sidebar_collapsed_width            = 50px
+$sidebar_collapsed_width            = 40px
+$sidebar_scrollbar_width            = 10px
 
 
 // ------------------- WIDGET OPTIONS ------------------------------------------
@@ -17,6 +18,10 @@ $widget_title_background_color      = #cccccc
 $widget_title_text_color            = #666666
 $widget_background_color            = #ffffff
 $widget_text_color                  = #333333
+
+$widget_margin                      = 10px
+$widget_body_padding                = 15px
+
 
 $widget_title_gradient_effect       = 0%
 

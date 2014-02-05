@@ -1,6 +1,6 @@
 window.HG ?= {}
 
-class HG.Legend extends HG.Widget
+class HG.LegendWidget extends HG.Widget
 
   ##############################################################################
   #                            PUBLIC INTERFACE                                #
@@ -85,8 +85,7 @@ class HG.Legend extends HG.Widget
   # ============================================================================
   _init: () ->
     @_mainDiv = document.createElement "div"
-    @_mainDiv.id = "legend"
-    @_mainDiv.className = "menu legend"
+    @_mainDiv.className = "legend-widget"
 
     @_categoryFilter = []
 

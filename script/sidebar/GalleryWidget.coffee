@@ -22,7 +22,7 @@ class HG.GalleryWidget extends HG.Widget
     super hgInstance
 
     content = document.createElement "div"
-    content.className = "galleryWidget"
+    content.className = "gallery-widget"
 
     gallery_container = document.createElement "div"
     gallery_container.className = "gallery-widget-slider"
@@ -34,12 +34,20 @@ class HG.GalleryWidget extends HG.Widget
     left = document.createElement "div"
     left.className = "arrow arrow-left"
 
+    left_shadow = document.createElement "div"
+    left_shadow.className = "shadow shadow-left"
+
     right = document.createElement "div"
     right.className = "arrow arrow-right"
+
+    right_shadow = document.createElement "div"
+    right_shadow.className = "shadow shadow-right"
 
     pagination = document.createElement "div"
     pagination.className = "pagination"
 
+    content.appendChild left_shadow
+    content.appendChild right_shadow
     content.appendChild left
     content.appendChild right
     content.appendChild pagination
