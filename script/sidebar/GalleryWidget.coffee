@@ -14,6 +14,11 @@ class HG.GalleryWidget extends HG.Widget
 
     @_config = $.extend {}, defaultConfig, config
 
+    HG.mixin @, HG.CallbackContainer
+    HG.CallbackContainer.call @
+
+    @addCallback "onSlideChanged"
+
     @_id = ++LAST_GALLERY_ID
 
     HG.Widget.call @
@@ -67,6 +72,8 @@ class HG.GalleryWidget extends HG.Widget
       pagination: "#gallery-widget-pagination-#{@_id}"
       longSwipesRatio: 0.2
       calculateHeight: true
+      onSlideChangeEnd: () =>
+        @notifyAll "onSlideChanged", @getActiveSlide()
 
 
     $(left).click () =>
@@ -75,30 +82,38 @@ class HG.GalleryWidget extends HG.Widget
     $(right).click () =>
       @_swiper.swipeNext()
 
+  # ============================================================================
   addDivSlide: (div) ->
     slide = document.createElement "div"
     slide.className = "swiper-slide"
     slide.appendChild div
 
-    @_gallery.appendChild slide
-    @_swiper.reInit()
+    @_addSlide slide
 
+  # ============================================================================
   addHTMLSlide: (html) ->
     slide = document.createElement "div"
     slide.className = "swiper-slide"
+    slide.innerHTML = html
 
-    content = document.createElement "div"
-    content.innerHTML = html
-    slide.appendChild content
+    @_addSlide slide
 
+  # ============================================================================
+  getSlideCount: () ->
+    @_swiper.slides.length
+
+  # ============================================================================
+  getActiveSlide: () ->
+    @_swiper.activeIndex
+
+  ##############################################################################
+  #                            PRIVATE INTERFACE                               #
+  ##############################################################################
+
+  # ============================================================================
+  _addSlide: (slide) ->
     @_gallery.appendChild slide
     @_swiper.reInit()
-
-  addImageSlide: (url) ->
-    image = document.createElement "img"
-    image.src = url
-
-    @addDivSlide image
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #

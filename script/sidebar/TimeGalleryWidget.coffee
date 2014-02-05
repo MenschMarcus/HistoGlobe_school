@@ -14,5 +14,35 @@ class HG.TimeGalleryWidget extends HG.GalleryWidget
   hgInit: (hgInstance) ->
     super hgInstance
 
-    hgInstance.timeline.onNowChanged @, (data) =>
-      console.log date
+    @_timeline = hgInstance.timeline
+    @_timeline.onNowChanged @, @_nowChanged
+
+    @_changeDates = {}
+
+    @onSlideChanged @, (index) =>
+      @_timeline._scrollToDate @_changeDates[index]
+
+  # ============================================================================
+  addDivSlide: (date, div) ->
+    @_changeDates[@getSlideCount()] = date
+    super div
+
+  # ============================================================================
+  addHTMLSlide: (date, html) ->
+    @_changeDates[@getSlideCount()] = date
+    super html
+
+  ##############################################################################
+  #                            PRIVATE INTERFACE                               #
+  ##############################################################################
+
+  # ============================================================================
+  _nowChanged: (now) =>
+    target = 0
+    for index, date of @_changeDates
+      if date > now
+        break;
+      else
+        target = index
+
+    @_swiper.swipeTo(target, 500, false)
