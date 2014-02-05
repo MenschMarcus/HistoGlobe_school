@@ -39,6 +39,7 @@ class HG.Sidebar
   resize: (width, height) ->
     @_container.style.width = "#{width}px"
     @_container.style.height = "#{height}px"
+    $(".widgetBody").css("width", width - HGConfig.widget_title_size.val)
     @_sidebar_swiper?.reInit()
 
   ##############################################################################

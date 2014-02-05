@@ -139,12 +139,12 @@ class HG.HistoGlobe
     width = window.innerWidth
     height = window.innerHeight
 
-    map_height = height - TIMELINE_HEIGHT
-    map_width = width - SIDEBAR_COLLAPSED_WIDTH
-    sidebar_width = 400
+    map_height = height - HGConfig.timeline_height.val
+    map_width = width - HGConfig.sidebar_collapsed_width.val
+    sidebar_width = HGConfig.sidebar_width.val
 
     if @_isInMobileMode()
-      sidebar_width = width - MAP_COLLAPSED_WIDTH
+      sidebar_width = width - HGConfig.map_collapsed_width.val
 
     @_map_area.style.width = "#{map_width}px"
     @_map_area.style.height = "#{map_height}px"
@@ -157,7 +157,7 @@ class HG.HistoGlobe
 
   # ============================================================================
   _isInMobileMode: =>
-    window.innerWidth < SIDEBAR_MIN_WIDTH + MAP_MIN_WIDTH
+    window.innerWidth < HGConfig.sidebar_width.val + HGConfig.map_min_width.val
 
   # ============================================================================
   _createElement: (container, type, id) ->
@@ -165,17 +165,3 @@ class HG.HistoGlobe
     div.id = id
     container.appendChild div
     return div
-
-  ##############################################################################
-  #                             STATIC MEMBERS                                 #
-  ##############################################################################
-
-  SIDEBAR_MIN_WIDTH = 400
-  SIDEBAR_COLLAPSED_WIDTH = 53
-
-  TIMELINE_HEIGHT = 80
-
-  MAP_MIN_WIDTH = 300
-  MAP_COLLAPSED_WIDTH = 50
-
-  COLLAPSE_DURATION = 250 #ms

@@ -1,8 +1,22 @@
 .galleryWidget {
   position: relative;
+  // width: 100%;
+  // height: 100%;
 
   .swiper-slide {
-    padding: 20px;
+    position: relative;
+    padding: 10px;
+  }
+
+  .portrait {
+    float: left;
+    width: 100px;
+    height: 100px;
+
+    padding: 5px;
+    margin-right: 5px;
+    border: 1px solid #999;
+    border-radius: 5px;
   }
 
   .arrow {
@@ -32,7 +46,7 @@
   .pagination {
     position: absolute;
     z-index: 2;
-    margin: 10px;
+    margin: 5px 10px;
     bottom: 0px;
 
     .swiper-pagination-switch {
@@ -57,15 +71,18 @@
 
 .gallery-widget-slider {
   position: relative;
+  // position: relative;
   // width: 100%;
-  background-color: #346;
-
+  // height: 100%;
   overflow: hidden;
+  // text-align: center;
+  // margin: 0 auto;
+  z-index: 1;
+
+  // background-color: #f87;
+
 
   .swiper-wrapper {
-
-    img {
-      width: 100%;
-    }
+    position: relative;
   }
 }

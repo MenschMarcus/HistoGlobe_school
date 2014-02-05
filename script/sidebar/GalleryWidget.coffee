@@ -17,7 +17,6 @@ class HG.GalleryWidget extends HG.Widget
 
     HG.Widget.call @
 
-
   # ============================================================================
   hgInit: (hgInstance) ->
     super hgInstance
@@ -56,6 +55,7 @@ class HG.GalleryWidget extends HG.Widget
       paginationClickable: true
       pagination: ".pagination"
       longSwipesRatio: 0.2
+      calculateHeight: true
 
     $(left).click () =>
       @_swiper.swipePrev()

@@ -101,7 +101,7 @@ class HG.Widget
     if $(@_header).hasClass("collapsed")
       $(body).animate
         height: 0
-      , WIDGET_ANIMATION_SPEED * 1000, () =>
+      , HGConfig.widget_aimation_speed.val * 1000, () =>
         @_sidebar.resize()
 
     else
@@ -115,15 +115,9 @@ class HG.Widget
 
       $(body).animate
         height: targetHeight
-      , WIDGET_ANIMATION_SPEED * 1000, () =>
+      , HGConfig.widget_aimation_speed.val * 1000, () =>
         $(body).css
           "height": "auto"
         @_sidebar.resize()
 
 
-
-  ##############################################################################
-  #                             STATIC MEMBERS                                 #
-  ##############################################################################
-
-  WIDGET_ANIMATION_SPEED = 0.3

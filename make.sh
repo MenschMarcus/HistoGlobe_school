@@ -49,7 +49,8 @@ cFiles="script/HistoGlobe.coffee \
         script/paths/PathController.coffee \
         script/paths/LinearPath2D.coffee"
 
-jFiles="build/HistoGlobe.js \
+jFiles="build/config.js \
+        build/HistoGlobe.js \
         build/Sidebar.js \
         build/Widget.js \
         build/TextWidget.js \
@@ -95,6 +96,12 @@ jFiles="build/HistoGlobe.js \
 if [ ! -d "build" ]; then
     mkdir build
 fi
+
+rosetta --jsOut "build/config.js" \
+        --jsFormat "flat" \
+        --jsTemplate $'var HGConfig;\n(function() {\n<%= preamble %>\nHGConfig = <%= blob %>;\n})();' \
+        --cssOut "build/config.less" \
+        --cssFormat "less" config/**/*.rose
 
 coffee -c -o build $cFiles
 
