@@ -85,6 +85,10 @@ class HG.Widget
     @_content.className = "widgetBody"
     body_collapsable.appendChild @_content
 
+    clear = document.createElement "div"
+    clear.className = "clear"
+    @container.appendChild clear
+
     @setName "New Widget"
     @setIcon "fa-star"
 
@@ -102,7 +106,7 @@ class HG.Widget
       $(body).animate
         height: 0
       , HGConfig.widget_aimation_speed.val * 1000, () =>
-        @_sidebar.resize()
+        @_sidebar.updateSize()
 
     else
       $(body).css
@@ -118,6 +122,6 @@ class HG.Widget
       , HGConfig.widget_aimation_speed.val * 1000, () =>
         $(body).css
           "height": "auto"
-        @_sidebar.resize()
+        @_sidebar.updateSize()
 
 

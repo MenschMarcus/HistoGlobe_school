@@ -87,6 +87,7 @@
     <script type="text/javascript" src="build/TextWidget.js"></script>
     <script type="text/javascript" src="build/GalleryWidget.js"></script>
     <script type="text/javascript" src="build/TimeGalleryWidget.js"></script>
+    <script type="text/javascript" src="build/VIPWidget.js"></script>
     <script type="text/javascript" src="build/PictureWidget.js"></script>
     <script type="text/javascript" src="build/LegendWidget.js"></script>
     <script type="text/javascript" src="build/HiventsOnMap.js"></script>
@@ -301,72 +302,43 @@
         gallery.addHTMLSlide(new Date(1991, 7, 24), "<b>24.8.1991</b><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis.");
 
 
-        var gallery = new HG.GalleryWidget({
-          icon: "fa-tags",
-          name: "Gallerie 2"
+        var gallery = new HG.VIPWidget({
+          icon: "fa-user",
+          name: "Cheffe"
         });
 
         histoglobe.addModule(gallery);
 
-        gallery.addHTMLSlide("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis.");
-        gallery.addHTMLSlide("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis.");
-        gallery.addHTMLSlide("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis.");
-        gallery.addHTMLSlide("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis.");
-        gallery.addHTMLSlide("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis.");
-        gallery.addHTMLSlide("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis.");
-        gallery.addHTMLSlide("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis.");
-        gallery.addHTMLSlide("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis.");
-        gallery.addHTMLSlide("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis.");
-        gallery.addHTMLSlide("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis.");
-        gallery.addHTMLSlide("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis.");
-        gallery.addHTMLSlide("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis.");
-        gallery.addHTMLSlide("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis.");
-        gallery.addHTMLSlide("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis.");
-        gallery.addHTMLSlide("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis.");
-        gallery.addHTMLSlide("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis.");
-        gallery.addHTMLSlide("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis.");
-        gallery.addHTMLSlide("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis.");
+        gallery.addPerson({
+          name: "Silvio Berlusconi",
+          date: new Date(1936, 10, 29),
+          display_date: "seit 29.11.1936",
+          image: "http://media.npr.org/assets/img/2012/10/26/berlusconi-59427b7fb84e0729056c096c71bcfff20f536a57-s6-c30.jpg",
+          description: "Silvio Berlusconi is an Italian politician, entrepreneur, media tycoon, frequent criminal defendant and convicted tax evader who served three times as Prime Minister of Italy, from 1994 to 1995, 2001 to 2006 and 2008 to 2011."
+        });
 
+        gallery.addPerson({
+          name: "Angela Merkel",
+          date: new Date(1954, 6, 17),
+          display_date: "seit 17.07.1954",
+          image: "http://upload.wikimedia.org/wikipedia/commons/f/fd/Angela_Merkel_(2008).jpg",
+          description: "Angela Dorothea Merkel is a German politician and former research scientist, who has been the Chancellor of Germany since 2005 and the leader of the Christian Democratic Union since 2000."
+        });
 
+        gallery.addPerson({
+          name: "Barack Obama",
+          date: new Date(1961, 7, 4),
+          display_date: "seit 04.08.1961",
+          image: "http://www.washingtonpost.com/wp-srv/special/lifestyle/the-age-of-obama/img/obama-v2/obama11.jpg",
+          description: "Barack Hussein Obama II is the 44th and current President of the United States, and the first African American to hold the office."
+        });
 
-
-        histoglobe.addModule(
-          new HG.TextWidget({
-            icon: "fa-tags",
-            name: "Vorstand",
-            text: "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
-          })
-        );
-
-        histoglobe.addModule(
-          new HG.TextWidget({
-            icon: "fa-stop",
-            name: "Toller Stuff",
-            text: "Lorem ipsum"
-          })
-        );
 
         histoglobe.addModule(
           new HG.PictureWidget({
             icon: "fa-gift",
             name: "Legende",
             url: "http://extreme.pcgameshardware.de/members/-painkiller--albums-einfach-lustig-3209-picture361371-incoming.jpg"
-          })
-        );
-
-        histoglobe.addModule(
-          new HG.TextWidget({
-            icon: "fa-star",
-            name: "Lorem Ipsum",
-            text: "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
-          })
-        );
-
-        histoglobe.addModule(
-          new HG.TextWidget({
-            icon: "fa-star",
-            name: "Lorem Ipsum",
-            text: "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
           })
         );
 

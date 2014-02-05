@@ -76,7 +76,7 @@
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
-// ------------------------ SIDEBAR BUTTON -------------------------------------
+// ----------------------- COLLAPSE BUTTON -------------------------------------
 #collapse-button {
   position: absolute;
 
@@ -86,6 +86,7 @@
   right: 0px;
   cursor: pointer;
 
+  z-index: 100;
 
   color: rgba(0, 0, 0, 0.5);
 
@@ -94,12 +95,22 @@
   }
 }
 
-.swiper-scrollbar {
-  background: none;
+#collapse-area-left,
+#collapse-area-right {
   position: absolute;
-  right: 3px;
-  top: 0;
+  top:0;
   height: 100%;
-  width: 5px;
+  cursor: -webkit-grab;
+  z-index: 99;
 }
+
+#collapse-area-right {
+  left: 0;
+  width: @sidebar_collapsed_width;
+}
+
+#collapse-area-left {
+  right: 0;
+}
+
 

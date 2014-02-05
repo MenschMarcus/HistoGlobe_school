@@ -82,6 +82,11 @@ class HG.GalleryWidget extends HG.Widget
     $(right).click () =>
       @_swiper.swipeNext()
 
+    # for some reason needed...
+    window.setTimeout () =>
+      @_swiper.reInit()
+    , 1000
+
   # ============================================================================
   addDivSlide: (div) ->
     slide = document.createElement "div"

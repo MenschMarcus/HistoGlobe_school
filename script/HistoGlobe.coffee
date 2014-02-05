@@ -54,14 +54,14 @@ class HG.HistoGlobe
       slidesPerView: 'auto'
       noSwiping: true
       longSwipesRatio: 0.1
-      onSlideChangeEnd: () => @_onSlideEnd()
-      onTouchEnd: () => @_onSlideEnd()
       onSetWrapperTransform: (s, t) => @_onSlide(t)
       onSetWrapperTransition: (s, d) =>
         if d is 0
           $(@_map_canvas).addClass("no-animation")
         else
           $(@_map_canvas).removeClass("no-animation")
+
+    @_top_swiper.wrapperTransitionEnd(@_onSlideEnd, true)
 
   # ============================================================================
   _createSidebar: ->
@@ -74,17 +74,24 @@ class HG.HistoGlobe
 
   # ============================================================================
   _createCollapseButton: ->
+    @_collapse_area_left = @_createElement @_map_area, "div", "collapse-area-left"
+    @_collapse_area_right = @_createElement @_sidebar_area, "div", "collapse-area-right"
+
     @_collapse_button = @_createElement @_map_area, "i", "collapse-button"
     @_collapse_button.className = "fa fa-arrow-circle-o-left fa-2x"
 
+
     $(@_collapse_button).click @_collapse
+    $(@_collapse_area_left).click @_collapse
+    # $(@_collapse_area_right).click @_collapse
 
   # ============================================================================
   _createMap: ->
     @_map_area = @_createElement @_top_area_wrapper, "div", "map-area"
-    @_map_area.className = "swiper-slide swiper-no-swiping"
+    @_map_area.className = "swiper-slide"
 
     @_map_canvas = @_createElement @_map_area, "div", "map-canvas"
+    @_map_canvas.className = "swiper-no-swiping"
 
     @_map_area.appendChild @_map_canvas
     @map = new HG.Display2D @_map_canvas
@@ -116,9 +123,13 @@ class HG.HistoGlobe
 
     if @_collapsed
       @_collapse_button.className = "fa fa-arrow-circle-o-left fa-2x"
+      @_collapse_area_left.style.width = "0px"
+      @_collapse_area_right.style.width = "#{HGConfig.sidebar_collapsed_width.val}px"
     else
       @_collapse_button.className = "fa fa-arrow-circle-o-right fa-2x"
-
+      @_collapse_area_right.style.width = "0px"
+      if @_isInMobileMode()
+        @_collapse_area_left.style.width = "#{HGConfig.map_collapsed_width.val}px"
 
   # ============================================================================
   _onSlide: (transform) =>
