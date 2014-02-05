@@ -12,6 +12,7 @@ cFiles="script/HistoGlobe.coffee \
         script/sidebar/Widget.coffee \
         script/sidebar/TextWidget.coffee \
         script/sidebar/GalleryWidget.coffee \
+        script/sidebar/TimeGalleryWidget.coffee \
         script/sidebar/PictureWidget.coffee \
         script/sidebar/LegendWidget.coffee \
         script/util/Mixin.coffee \
@@ -55,6 +56,7 @@ jFiles="build/config.js \
         build/Widget.js \
         build/TextWidget.js \
         build/GalleryWidget.js \
+        build/TimeGalleryWidget.js \
         build/PictureWidget.js \
         build/LegendWidget.js \
         build/Mixin.js \
@@ -105,7 +107,7 @@ rosetta --jsOut "build/config.js" \
 
 coffee -c -o build $cFiles
 
-uglifyjs $jFiles -o script/histoglobe.min.js #-mc
+uglifyjs $jFiles -o script/histoglobe.min.js -mc
 
 lessc --no-color -x style/histoglobe.less style/histoglobe.min.css
 

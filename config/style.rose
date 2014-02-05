@@ -32,6 +32,8 @@ $widget_border_radius_bottom_right  = 3px
 
 $widget_font_size                   = 12px
 
+// GALLERY WIDGET
+
 
 // ------------------ TIMELINE OPTIONS -----------------------------------------
 $timeline_height                    = 80px

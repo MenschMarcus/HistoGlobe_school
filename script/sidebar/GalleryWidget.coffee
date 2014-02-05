@@ -11,9 +11,10 @@ class HG.GalleryWidget extends HG.Widget
     defaultConfig =
       icon: ""
       name: ""
-      height: 300
 
     @_config = $.extend {}, defaultConfig, config
+
+    @_id = ++LAST_GALLERY_ID
 
     HG.Widget.call @
 
@@ -25,6 +26,7 @@ class HG.GalleryWidget extends HG.Widget
     content.className = "gallery-widget"
 
     gallery_container = document.createElement "div"
+    gallery_container.id = "gallery-widget-#{@_id}"
     gallery_container.className = "gallery-widget-slider"
     gallery_container.style.width = "#{@_config.width}px"
 
@@ -44,6 +46,7 @@ class HG.GalleryWidget extends HG.Widget
     right_shadow.className = "shadow shadow-right"
 
     pagination = document.createElement "div"
+    pagination.id = "gallery-widget-pagination-#{@_id}"
     pagination.className = "pagination"
 
     content.appendChild left_shadow
@@ -58,12 +61,13 @@ class HG.GalleryWidget extends HG.Widget
     @setIcon @_config.icon
     @setContent content
 
-    @_swiper = new Swiper ".gallery-widget-slider",
+    @_swiper = new Swiper "#gallery-widget-#{@_id}",
       grabCursor: true
       paginationClickable: true
-      pagination: ".pagination"
+      pagination: "#gallery-widget-pagination-#{@_id}"
       longSwipesRatio: 0.2
       calculateHeight: true
+
 
     $(left).click () =>
       @_swiper.swipePrev()
@@ -95,3 +99,9 @@ class HG.GalleryWidget extends HG.Widget
     image.src = url
 
     @addDivSlide image
+
+  ##############################################################################
+  #                             STATIC MEMBERS                                 #
+  ##############################################################################
+
+  LAST_GALLERY_ID = 0
