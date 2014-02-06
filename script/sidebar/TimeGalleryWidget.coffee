@@ -20,7 +20,7 @@ class HG.TimeGalleryWidget extends HG.GalleryWidget
     @_changeDates = {}
 
     @onSlideChanged @, (index) =>
-      @_timeline._scrollToDate @_changeDates[index]
+      @_timeline.scrollToDate @_changeDates[index]
 
   # ============================================================================
   addDivSlide: (date, div) ->

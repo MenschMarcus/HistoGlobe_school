@@ -65,7 +65,6 @@
     <script type="text/javascript" src="build/Vector.js"></script>
     <script type="text/javascript" src="build/Mixin.js"></script>
     <script type="text/javascript" src="build/Hivent.js"></script>
-    <script type="text/javascript" src="build/HiventInfoPopover.js"></script>
     <script type="text/javascript" src="build/HiventDatabaseInterface.js"></script>
     <script type="text/javascript" src="build/HiventBuilder.js"></script>
     <script type="text/javascript" src="build/HiventHandle.js"></script>
@@ -93,7 +92,9 @@
     <script type="text/javascript" src="build/HiventsOnMap.js"></script>
     <script type="text/javascript" src="build/HiventsOnTimeline.js"></script>
     <script type="text/javascript" src="build/HiventTooltips.js"></script>
+    <script type="text/javascript" src="build/HiventInfoPopover.js"></script>
     <script type="text/javascript" src="build/HiventInfoPopovers.js"></script>
+    <script type="text/javascript" src="build/HiventInfoAtTag.js"></script>
     <script type="text/javascript" src="build/HistoGlobe.js"></script>
 
     <!-- init histoglobe -->
@@ -254,6 +255,12 @@
 
         histoglobe.addModule(
           new HG.HiventInfoPopovers()
+        );
+
+        histoglobe.addModule(
+          new HG.HiventInfoAtTag( {
+            tag: window.location.hash
+          })
         );
 
         var areaController = new HG.AreaController()
