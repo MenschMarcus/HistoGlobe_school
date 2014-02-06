@@ -7,8 +7,11 @@ class HG.NowMarker
     ##############################################################################
 
     # ============================================================================
-    constructor: (timeline) ->
+    constructor: (timeline, date) ->
+        @_nowDate = date
         @_timeline  = timeline
+
+        # OLD STUFF
         @_mainDiv   = document.createElement "div"
         @_mainDiv.id = "now_marker"
         @_tlDiv     = timeline.getCanvas()
@@ -16,7 +19,7 @@ class HG.NowMarker
         @_body = document.getElementsByTagName("body")[0]
         @_body.appendChild @_mainDiv
 
-        @_nowDate = new Date()
+        #@_nowDate = new Date()
 
         # elements of now marker box
         @_pointer    = document.createElement "img"
@@ -109,6 +112,15 @@ class HG.NowMarker
                     d.setDate(res[i - 3])
                 timeline._scrollToDate(d)
 
+    #   --------------------------------------------------------------------------
+    getDate: ->
+        @_nowDate
+
+    #   --------------------------------------------------------------------------
+    #setDate: (date) ->
+    #    @_nowDate = date
+
+    # OLD STUFF
     # ============================================================================
     _distanceToMiddlepoint : (e) ->
         xs = 0
@@ -185,8 +197,7 @@ class HG.NowMarker
     _enableTextSelection : () ->    return true
 
     # ============================================================================
-    getNowDate: ->
-        @_nowDate
+
 
     # ============================================================================
     stringToDate: (string) ->

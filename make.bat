@@ -30,7 +30,7 @@ set cFiles=script/HistoGlobe.coffee ^
         script/areas/AreaController.coffee ^
         script/areas/AreasOnMap.coffee ^
         script/timeline/Timeline.coffee ^
-        script/timeline/YearMarker.coffee ^
+        script/timeline/DateMarker.coffee ^
         script/labels/Label.coffee ^
         script/labels/LabelController.coffee ^
         script/hivents/HiventHandle.coffee ^
@@ -72,7 +72,7 @@ set jFiles=build/HistoGlobe.js ^
         build/AreaController.js ^
         build/AreasOnMap.js ^
         build/Timeline.js ^
-        build/YearMarker.js ^
+        build/DateMarker.js ^
         build/Label.js ^
         build/LabelController.js ^
         build/Hivent.js ^

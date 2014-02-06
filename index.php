@@ -79,7 +79,7 @@
     <script type="text/javascript" src="build/Display.js"></script>
     <script type="text/javascript" src="build/Display2D.js"></script>
     <script type="text/javascript" src="build/DoublyLinkedList.js"></script>
-    <script type="text/javascript" src="build/YearMarker.js"></script>
+    <script type="text/javascript" src="build/DateMarker.js"></script>
     <script type="text/javascript" src="build/NowMarker.js"></script>
     <script type="text/javascript" src="build/Timeline.js"></script>
     <script type="text/javascript" src="build/Sidebar.js"></script>
@@ -210,9 +210,10 @@
       $(document).ready(function($) {
         var histoglobe = new HG.HistoGlobe({
           container: document.getElementById('histoglobe'),
+          zoom: 1,
           maxYear: 2020,
           minYear: 1800,
-          nowYear: 2000
+          nowYear: 1900
         });
 
 

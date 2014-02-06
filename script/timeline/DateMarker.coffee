@@ -6,57 +6,45 @@ class HG.DateMarker
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
-  constructor: (date, pos, parentDiv) ->
-    @_date = date
-    @_pos = pos
-    @_parentDiv = parentDiv
-    #@_width = width
+  #   --------------------------------------------------------------------------
+  #   D E S C R I P T I O N
+  #   each dateMarker has an start and end date
+  #   one div for the year
+  #   one div for each day
+  #   12 divs for the months
 
-    # create HTML div
-    @_dateMarkerDiv = document.createElement "div"
-    @_dateMarkerDiv.id = "date" + @_date.getFullYear() + "/" + (@_date.getMonth + 1) + "/" + @_date.getDate()
-    @_dateMarkerDiv.className = "dateMarker"
-    @_dateMarkerDiv.style.left = @_pos + "px"
-    @_dateMarkerDiv.innerHTML = '<p>'+ @_date.getFullYear() + "/" + (@_date.getMonth + 1) + "/" + @_date.getDate() + '</p>'
+  #   --------------------------------------------------------------------------
+  constructor: (startDate, endDate, timeline) ->
+    @_startDate = startDate
+    @_endDate   = endDate
+    @_timeline = timeline
 
-    # add to DOM
-    @_parentDiv.appendChild @_dateMarkerDiv
+    #   ------------------------------------------------------------------------
+    @_year =
+      div:      document.createElement("div")
+      date:     @_startDate
+      content:  @_startDate.getFullYear()
 
-    # show year marker with nice fade in effect from jQuery
-    $(@_dateMarkerDiv).fadeIn(400)
+    @_year.div.id = "tl_year_" + @_year.date.getFullYear()
+    @_year.div.className = "tl_marker"
+    @_year.div.innerHTML = @_year.content
+    @_year.div.style.left = @_timeline.dateToPosition(@_year.date) + "px"
 
-  # ============================================================================
-  ###setDate : (date) ->
-    @_date = date
-    @_dateMarkerDiv.innerHTML = '<p>'+ @_date +'</p>'###
+    @_timeline.getUIElements().yearRow.appendChild @_year.div
 
-  setPos : (pos) ->
-    @_pos = pos
-    @_dateMarkerDiv.style.left = @_pos + "px"
+  #   --------------------------------------------------------------------------
+  getStartDate: ->
+    @_startDate
 
-  setWidth : (width) ->
-    @_dateMarkerDiv.style.width = width + "px"
+  getEndDate: ->
+    @_endDate
 
-  moveTo : (time, pos) ->
-    @_pos = pos
-    $(@_dateMarkerDiv).animate({
-      left: pos + "px",
-    }, time );
+  getYear: ->
+    @_year
 
-  getDiv : () -> @_dateMarkerDiv
-  getPos : () -> @_pos
-  getDate : () -> @_date
+  #   --------------------------------------------------------------------------
+  setStartDate: (date) ->
+    @_startDate = date
 
-  getWidth : () -> width = @_dateMarkerDiv.offsetWidth
-
-  highlight: (step) ->
-    if step == 2
-      @_dateMarkerDiv.className = "dateMarkerH2"
-    if step == 1
-      @_dateMarkerDiv.className = "dateMarkerH1"
-    if step == 0
-      @_dateMarkerDiv.className = "dateMarker"
-
-  destroy : () ->
-    $(@_dateMarkerDiv).fadeOut(400, `function() { $(this).remove(); }`);
-
+  setEndDate: (date) ->
+    @_endDate = date
