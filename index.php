@@ -216,8 +216,6 @@
           nowYear: 1900
         });
 
-
-
         histoglobe.addModule(
           new HG.HiventController()
         );

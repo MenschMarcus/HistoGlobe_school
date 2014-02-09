@@ -31,10 +31,14 @@ class HG.Timeline
   #   show months?
   #
   # http://www.idangero.us/sliders/swiper/api.php
-
-  #   STATICS
-  DATE_OBJ_START_YEAR = 1970
-  HIGHLIGHT_INTERVALS = []
+  #
+  #
+  #
+  #   timeline
+  #   --> updateLayout
+  #     height of rows
+  #   loadDateMarkers
+  #
 
   #   ---------------------------------------------------------------------
   constructor: (config) ->
@@ -88,10 +92,16 @@ class HG.Timeline
     @_nowMarker = new HG.NowMarker(@, @yearToDate @_config.nowYear)
 
     #   --------------------------------------------------------------------------
-    #
+    @_maxIntervalIndex = @_maxIntervalIndex()
+
+    #   --------------------------------------------------------------------------
     @_dateMarkers   = new HG.DoublyLinkedList()
     @_loadDateMarkers()
 
+    #   --------------------------------------------------------------------------
+    console.log @maxZoomLevel()
+
+    # OLD STUFF
     @_minDate = @yearToDate config.minYear
     @_maxDate = @yearToDate config.maxYear
     @_nowDate = @yearToDate config.nowYear
@@ -190,37 +200,56 @@ class HG.Timeline
         @_loadYearMarkers(true)
         @notifyAll "onIntervalChanged", @_getTimeFilter()###
 
+
   #   --------------------------------------------------------------------------
   millisPerPixel: ->
-    millisPerPixel = (@yearToMillis((@_config.maxYear + DATE_OBJ_START_YEAR) - (@_config.minYear + DATE_OBJ_START_YEAR)) / @_uiElements.tlDiv.offsetWidth) / @_config.zoom
+    mpp = (@yearToMillis(@_config.maxYear - @_config.minYear) / @_uiElements.tlDiv.offsetWidth) / @_config.zoom    
 
   minVisibleDate: ->
-    new Date(@_nowMarker.getDate().getTime() - (@millisPerPixel * @_uiElements.tlDiv.offsetWidth))
+    d = new Date(@_nowMarker.getDate().getTime() - (@millisPerPixel() * @_uiElements.tlDiv.offsetWidth / 2))
 
   maxVisibleDate: ->
-    new Date(@_nowMarker.getDate().getTime() + (@millisPerPixel * @_uiElements.tlDiv.offsetWidth))
+    d = new Date(@_nowMarker.getDate().getTime() + (@millisPerPixel() * @_uiElements.tlDiv.offsetWidth / 2))
 
-  # uüdate now marker only when moved timeline
-  # move whole div tl when moved
-  # when scrolling load new now marker
+  maxZoomLevel: ->
+    f = false
+    zoom = 1
+    while !f
+      mpp = (@yearToMillis(@_config.maxYear - @_config.minYear) / @_uiElements.tlDiv.offsetWidth) / zoom
+      if @millisToDays(@_uiElements.tlDiv.offsetWidth * mpp) > 31
+        zoom++
+      else
+        f = true
+        return zoom
 
   #   --------------------------------------------------------------------------
   _makeLayout: ->
     tlHeight = HGConfig.timeline_height.val
     tlHeightType = HGConfig.timeline_height.unit
 
-    @_uiElements.tlDiv.style.fontSize = (0.25 * tlHeight) + tlHeightType
+    zoom = @_config.zoom
+    maxZoom = @maxZoomLevel()
 
-    @_uiElements.dayRow.style.height = (0.25 * tlHeight) + tlHeightType
+    hp = 0.75 * tlHeight
+
+    dayRowHeight = (zoom / maxZoom) * (1/3)
+    monthRowHeight = (zoom / maxZoom) * (2/3)
+    yearRowHeight = ((maxZoom - zoom) / maxZoom)
+
+    @_uiElements.dayRow.style.height = (dayRowHeight * hp) + tlHeightType
+    @_uiElements.dayRow.style.fontSize = (dayRowHeight * hp) + tlHeightType
     @_uiElements.dayRow.style.backgroundColor = "#ff0000"
 
-    @_uiElements.monthRow.style.height = (0.25 * tlHeight) + tlHeightType
+    @_uiElements.monthRow.style.height = (monthRowHeight * hp) + tlHeightType
+    @_uiElements.monthRow.style.fontSize = (monthRowHeight * hp) + tlHeightType
     @_uiElements.monthRow.style.backgroundColor = "#00ff00"
 
-    @_uiElements.monthRow.style.height = (0.25 * tlHeight) + tlHeightType
+    @_uiElements.yearRow.style.height = (yearRowHeight * hp) + tlHeightType
+    @_uiElements.yearRow.style.fontSize = (yearRowHeight * hp) + tlHeightType
     @_uiElements.yearRow.style.backgroundColor = "#ff00ff"
 
     @_uiElements.symbolRow.style.height = (0.25 * tlHeight) + tlHeightType
+    @_uiElements.symbolRow.style.fontSize = (0.25 * tlHeight) + tlHeightType
     @_uiElements.symbolRow.style.backgroundColor = "#ffff00"
 
   #   --------------------------------------------------------------------------
@@ -232,36 +261,28 @@ class HG.Timeline
       dateMarker = new HG.DateMarker(start, end, @)
       @_dateMarkers.addFirst(dateMarker)
 
-  ###_filterDateMarkers: ->
-    for i in [0..@_dateMarkers.length()]
-      if(@_dateMarkers.get(i).nodeData.getYearHighlightLevel())
-        #TODO: FILTER DATA
-        false###
+  #   --------------------------------------------------------------------------
+  _maxIntervalIndex: ->
+    maxRange = @maxVisibleDate().getTime() - @minVisibleDate().getTime()
+    inLimit = true
+    i = 0
+    while inLimit
+      if @timeInterval(i) < maxRange
+        i++
+      else
+        inLimit = false
+    i--
 
   #   --------------------------------------------------------------------------
-  #   calculate date interval in millis to show
-  #
-  getTimeInterval: ->
-    if HIGHLIGHT_INTERVALS.size() == 0
-      inLimit = true
-      i = 0
-      while inLimit
-        if i % 2 == 0
-          HIGHLIGHT_INTERVALS.push(5 * Math.pow(10, Math.floor(i / 2)))
-        else
-          HIGHLIGHT_INTERVALS.push(Math.pow(10, Math.floor(i / 2)))
-      HIGHLIGHT_INTERVALS.inverse()
-    for i in HIGHLIGHT_INTERVALS
-      if @_year.date.getFullYear() % HIGHLIGHT_INTERVALS[i] == 0
-        return i
+  timeInterval: (i) ->
+    if i % 2 != 0
+      return @yearToMillis(5 * Math.pow(10, Math.floor(i / 2)))
+    else
+      return @yearToMillis(Math.pow(10, Math.floor(i / 2)))
 
   #   --------------------------------------------------------------------------
-  #   calculate max zoom level,
-  #   so that full interval from minYear to maxYear would be visible
-  #   than calculate millis per pixel
   dateToPosition: (date) ->
     dateDiff = date.getTime() - @_nowMarker.getDate().getTime()
-    console.log @_nowMarker.getDate().getFullYear()
     pos = (@_uiElements.tlDiv.offsetWidth / 2) + (dateDiff / @millisPerPixel())
 
   #   --------------------------------------------------------------------------
@@ -271,9 +292,13 @@ class HG.Timeline
   getNowDate: ->
     @_nowMarker.getDate()
 
-  #   --------------------------------------------------------------------------
-  #   methods to convert objects
+  getNowMarker: ->
+    @_nowMarker
 
+  getMaxIntervalIndex: ->
+    @_maxIntervalIndex
+
+  #   --------------------------------------------------------------------------
   yearToDate: (year) ->
     date = new Date(0)
     date.setFullYear year
@@ -283,6 +308,16 @@ class HG.Timeline
 
   yearToMillis: (year) ->
     millis = year * 365.25 * 24 * 60 * 60 * 1000
+
+  millisToYear: (millis) ->
+    year = millis / 1000 / 60 / 60 / 24 / 365.25
+
+  daysToMillis: (days) ->
+    millis = days * 24 * 60 * 60 * 1000
+
+  millisToDays: (millis) ->
+    days = millis / 1000 / 60 / 60 / 24
+
 
   # OLD STUFF
   # ============================================================================
