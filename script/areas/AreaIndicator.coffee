@@ -60,21 +60,23 @@ class HG.AreaIndicator
 
     $.getJSON path, (indicator) =>
       for entry in indicator[1]
-        @_indicator[entry.country.id] ?= []
+        if entry.value?
+          @_indicator[entry.country.id] ?= []
 
-        date = entry.date.split '.'
-        day = 1
-        month = 1
-        year = date[date.length-1]
+          date = entry.date.split '.'
+          day = 1
+          month = 1
+          year = date[date.length-1]
 
-        if date.length is 3
-          day = date[0]
-          month = date[1]
-        else if date.length is 2
-          month = date[0]
+          if date.length is 3
+            day = date[0]
+            month = date[1]
+          else if date.length is 2
+            month = date[0]
 
-        d = new Date(year, month-1, day)
-        @_indicator[entry.country.id].push([d, entry.value])
+          d = new Date(year, month-1, day)
+
+          @_indicator[entry.country.id].push([d, entry.value])
 
 
       for id, entry of @_indicator

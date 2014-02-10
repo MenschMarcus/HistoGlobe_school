@@ -11,6 +11,7 @@ class HG.LegendWidget extends HG.Widget
     defaultConfig =
       icon: ""
       name: ""
+      elements: []
 
     @_config = $.extend {}, defaultConfig, config
 
@@ -18,6 +19,14 @@ class HG.LegendWidget extends HG.Widget
 
     @_init()
     HG.Widget.call @
+
+    for element in @_config.elements
+      if element.type is "categoryWithColor"
+        @addCategoryWithColor element
+      else if element.type is "categoryWithIcon"
+        @addCategoryWithIcon element
+      else
+        @addSpacer()
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -35,42 +44,58 @@ class HG.LegendWidget extends HG.Widget
 
 
   # ============================================================================
-  addCategoryWithIcon: (category, icon, name, filterable) ->
+  addCategoryWithIcon: (config) ->
+    defaultConfig =
+      category: ""
+      icon: ""
+      name: ""
+      filterable: false
+
+    config = $.extend {}, defaultConfig, config
+
     row = document.createElement "div"
     row.className = "legend-row"
     @_mainDiv.appendChild row
 
     cellIcon = document.createElement "span"
     cellIcon.className = "legend-icon"
-    cellIcon.style.backgroundImage = "url('#{icon}')"
+    cellIcon.style.backgroundImage = "url('#{config.icon}')"
     row.appendChild cellIcon
 
-    if filterable
-      @_addCheckbox(row, category)
-      @_categoryFilter.push category
+    if config.filterable
+      @_addCheckbox(row, config.category)
+      @_categoryFilter.push config.category
 
     cellName = document.createElement "span"
-    cellName.innerHTML = name
+    cellName.innerHTML = config.name
     cellName.className = "legend-text"
     row.appendChild cellName
 
   # ============================================================================
-  addCategoryWithColor: (category, color, name, filterable) ->
+  addCategoryWithColor: (config) ->
+    defaultConfig =
+      category: ""
+      color: ""
+      name: ""
+      filterable: false
+
+    config = $.extend {}, defaultConfig, config
+
     row = document.createElement "div"
     row.className = "legend-row"
     @_mainDiv.appendChild row
 
     cellColor = document.createElement "span"
-    cellColor.style.backgroundColor = color
+    cellColor.style.backgroundColor = config.color
     cellColor.className = "legend-color"
     row.appendChild cellColor
 
-    if filterable
-      @_addCheckbox(row, category)
-      @_categoryFilter.push category
+    if config.filterable
+      @_addCheckbox(row, config.category)
+      @_categoryFilter.push config.category
 
     cellName = document.createElement "span"
-    cellName.innerHTML = name
+    cellName.innerHTML = config.name
     cellName.className = "legend-text"
     row.appendChild cellName
 

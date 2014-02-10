@@ -8,12 +8,8 @@ class HG.HiventInfoAtTag
 
   # ============================================================================
   constructor: (config) ->
-    defaultConfig =
-      tag: ""
 
-    config = $.extend {}, defaultConfig, config
-
-    @_hiventID = config.tag.substring config.tag.indexOf("#") + 1
+    @_hiventID = window.location.hash.substring window.location.hash.indexOf("#") + 1
 
     @_timeline = null
     @_hiventInfoPopovers = null

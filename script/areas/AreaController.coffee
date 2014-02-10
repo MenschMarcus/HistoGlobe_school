@@ -7,7 +7,7 @@ class HG.AreaController
   ##############################################################################
 
   # ============================================================================
-  constructor: () ->
+  constructor: (config) ->
 
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
@@ -18,6 +18,13 @@ class HG.AreaController
     @_areas = []
     @_timeline = null
     @_now = null
+
+    defaultConfig =
+      areaJSONPaths: undefined
+
+    conf = $.extend {}, defaultConfig, config
+
+    @loadAreasFromJSON conf
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -38,31 +45,27 @@ class HG.AreaController
 
   # ============================================================================
   loadAreasFromJSON: (config) ->
-    defaultConfig =
-      path: undefined
 
-    config = $.extend {}, defaultConfig, config
+    for path in config.areaJSONPaths
+      $.getJSON path, (countries) =>
+        for country in countries.features
 
-    $.getJSON config.path, (countries) =>
-      for country in countries.features
+          execute_async = (c) =>
+            setTimeout () =>
+              newArea = new HG.Area c, @_indicator
 
-        execute_async = (c) =>
-          setTimeout () =>
-            newArea = new HG.Area c, @_indicator
+              newArea.onShow @, (area) =>
+                @notifyAll "onShowArea", area
 
-            newArea.onShow @, (area) =>
-              @notifyAll "onShowArea", area
+              newArea.onHide @, (area) =>
+                @notifyAll "onHideArea", area
 
-            newArea.onHide @, (area) =>
-              @notifyAll "onHideArea", area
+              @_areas.push newArea
 
-            @_areas.push newArea
+              newArea.setDate @_now
+            , 0
 
-            newArea.setDate @_now
-          , 0
-
-        execute_async(country)
-
+          execute_async country
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #

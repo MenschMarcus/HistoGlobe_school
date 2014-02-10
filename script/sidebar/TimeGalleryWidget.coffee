@@ -8,7 +8,13 @@ class HG.TimeGalleryWidget extends HG.GalleryWidget
 
   # ============================================================================
   constructor: (config) ->
-    HG.GalleryWidget.call @, config
+    defaultConfig =
+      htmlSlides : []
+      divSlides : []
+
+    @_config = $.extend {}, defaultConfig, config
+
+    HG.GalleryWidget.call @, @_config
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -22,15 +28,34 @@ class HG.TimeGalleryWidget extends HG.GalleryWidget
     @onSlideChanged @, (index) =>
       @_timeline.scrollToDate @_changeDates[index]
 
-  # ============================================================================
-  addDivSlide: (date, div) ->
-    @_changeDates[@getSlideCount()] = date
-    super div
+    for slide in @_config.htmlSlides
+      @addHTMLSlide slide
+
+    for slide in @_config.divSlides
+      @addDivSlide slide
 
   # ============================================================================
-  addHTMLSlide: (date, html) ->
-    @_changeDates[@getSlideCount()] = date
-    super html
+  addDivSlide: (config) ->
+    defaultConfig =
+      date : undefined
+      div : undefined
+
+    config = $.extend {}, defaultConfig, config
+
+    date = config.date.split "."
+    @_changeDates[@getSlideCount()] = new Date date[2], date[1] - 1, date[0]
+    super config.div
+
+  # ============================================================================
+  addHTMLSlide: (config) ->
+    defaultConfig =
+      date : undefined
+      html : undefined
+
+    config = $.extend {}, defaultConfig, config
+    date = config.date.split "."
+    @_changeDates[@getSlideCount()] = new Date date[2], date[1] - 1, date[0]
+    super config.html
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
