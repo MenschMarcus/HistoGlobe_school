@@ -76,6 +76,8 @@ class HG.Globe extends HG.Display
         hgInstance.map.start();
         $(hgInstance.map.getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
 
+        button.innerHTML = "Globe"
+
 
 
 

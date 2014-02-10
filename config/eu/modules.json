@@ -1,0 +1,170 @@
+{
+  "HistoGlobe" :
+  {
+    "container": "histoglobe",
+    "maxYear": 2015,
+    "minYear": 1800,
+    "nowYear": 2000
+  },
+
+  "HiventController" :
+  {
+    "hiventJSONPaths": ["data/hivent_collection.json"],
+    "multimediaJSONPaths": ["data/multimedia_collection.json"],
+
+    "hiventServerName": "histoglobe.com",
+    "hiventDatabaseName": "hivents",
+    "hiventTableName": "eu_hivents",
+    "multimediaServerName": "histoglobe.com",
+    "multimediaDatabaseName": "hivents",
+    "multimediaTableName": "eu_multimedia"
+  },
+
+  "HiventsOnMap" : {},
+
+  "HiventsOnTimeline" : {},
+  
+  "HiventTooltips" : {},
+  "HiventInfoPopovers" : {},
+  "HiventInfoAtTag" : {},
+
+
+  "AreaIndicator" :
+  {
+    "domain": [0, 1],
+    "range": ["darkgreen", "purple"],
+    "data": "config/eu/data/eu.json",
+    "fallback": "white",
+    "extrapolatePast": false
+  },
+
+  "AreaController" :
+  {
+    "areaJSONPaths" : ["config/common/countries/europe.json", "config/common/countries/europe_old.json"]
+  },
+
+  "AreasOnMap" : {},
+  "Globe" : {},
+
+  "LegendWidget":
+  {
+    "icon": "fa-tags",
+    "name": "Legende",
+    "elements" : [
+      {
+        "type" : "categoryWithColor",
+        "category" : "eu",
+        "color" : "#9F8BFF",
+        "name" : "EU / EG",
+        "filterable" : false
+      },
+      {
+        "type" : "categoryWithColor",
+        "category" : "euro",
+        "color" : "#5B309F",
+        "name" : "Eurozone",
+        "filterable" : false
+      },
+      {
+        "type" : "spacer"
+      },
+      {
+        "type" : "categoryWithIcon",
+        "category" : "join",
+        "icon" : "data/hivent_icons/icon_join.png",
+        "name" : "Beitritt",
+        "filterable" : true
+      },
+      {
+        "type" : "categoryWithIcon",
+        "category" : "contract",
+        "icon" : "data/hivent_icons/icon_contract.png",
+        "name" : "Vertrag",
+        "filterable" : true
+      },
+      {
+        "type" : "categoryWithIcon",
+        "category" : "default",
+        "icon" : "data/hivent_icons/icon_default.png",
+        "name" : "Sonstige",
+        "filterable" : true
+      }
+    ]
+
+  },
+
+  "TimeGalleryWidget" :
+  {
+    "icon" : "fa-tags",
+    "name" : "Galerie",
+    "htmlSlides" :
+    [
+      {
+        "date" : "4.2.1900",
+        "html" : "<b>4.2.1900</b><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis."
+      },
+      {
+        "date" : "4.5.1920",
+        "html" : "<b>4.5.1920</b><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis."
+      },
+      {
+        "date" : "14.2.1950",
+        "html" : "<b>14.2.1950</b><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis."
+      },
+      {
+        "date" : "24.7.1970",
+        "html" : "<b>24.7.1970</b><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis."
+      },
+      {
+        "date" : "24.7.1991",
+        "html" : "<b>24.7.1991</b><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis."
+      }
+    ]
+  },
+
+  "VIPWidget" :
+  {
+    "icon" : "fa-user",
+    "name" : "Cheffe",
+    "persons" :
+    [
+      {
+        "name": "Silvio Berlusconi",
+        "date": "29.11.1936",
+        "displayDate": "seit 29.11.1936",
+        "image": "http://media.npr.org/assets/img/2012/10/26/berlusconi-59427b7fb84e0729056c096c71bcfff20f536a57-s6-c30.jpg",
+        "description": "Silvio Berlusconi is an Italian politician, entrepreneur, media tycoon, frequent criminal defendant and convicted tax evader who served three times as Prime Minister of Italy, from 1994 to 1995, 2001 to 2006 and 2008 to 2011."
+      },
+      {
+        "name": "Angela Merkel",
+        "date": "17.7.1954",
+        "displayDate": "seit 17.07.1954",
+        "image": "http://upload.wikimedia.org/wikipedia/commons/f/fd/Angela_Merkel_(2008).jpg",
+        "description": "Angela Dorothea Merkel is a German politician and former research scientist, who has been the Chancellor of Germany since 2005 and the leader of the Christian Democratic Union since 2000."
+      },
+      {
+        "name": "Barack Obama",
+        "date": "4.8.1961",
+        "displayDate": "seit 04.08.1961",
+        "image": "http://www.washingtonpost.com/wp-srv/special/lifestyle/the-age-of-obama/img/obama-v2/obama11.jpg",
+        "description": "Barack Hussein Obama II is the 44th and current President of the United States, and the first African American to hold the office."
+      }
+    ]
+  },
+
+  "PictureWidget" :
+  {
+    "icon": "fa-gift",
+    "name": "Legende",
+    "url": "http://extreme.pcgameshardware.de/members/-painkiller--albums-einfach-lustig-3209-picture361371-incoming.jpg"
+  },
+
+  "TextWidget" :
+  {
+    "icon": "fa-star",
+    "name": "Lorem Ipsum",
+    "text": "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+  }
+
+
+}

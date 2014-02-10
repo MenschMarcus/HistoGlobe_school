@@ -60,7 +60,7 @@ class HG.Area
 
     if @_active and @_indicator?
       color = @_indicator.getColor @_iso_a2, newDate
-      if color?
+      if color? and color isnt @_color
         @_color = color
         @notifyAll "onStyleChange", @
 
