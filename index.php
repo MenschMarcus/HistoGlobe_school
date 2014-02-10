@@ -44,6 +44,9 @@
     <script type="text/javascript" src="script/third-party/leaflet.markercluster.js"></script>
     <script type="text/javascript" src="script/third-party/bootstrap.min.js"></script>
     <script type="text/javascript" src="script/third-party/raphael.min.js"></script>
+
+    <script type="text/javascript" src="script/third-party/three.min.js"></script>
+    <script type="text/javascript" src="script/third-party/TessellateModifier.js"></script>
 <!--
     <script type="text/javascript" src="build/Display3D.js"></script>
     <script type="text/javascript" src="build/Path.js"></script>
@@ -96,6 +99,8 @@
     <script type="text/javascript" src="build/HiventInfoPopovers.js"></script>
     <script type="text/javascript" src="build/HiventInfoAtTag.js"></script>
     <script type="text/javascript" src="build/HistoGlobe.js"></script>
+
+    <script type="text/javascript" src="build/Globe.js"></script>
 
     <!-- init histoglobe -->
     <script type="text/javascript">
@@ -278,6 +283,13 @@
         histoglobe.addModule(
           new HG.AreasOnMap()
         );
+
+
+        //new:
+        histoglobe.addModule(
+          new HG.Globe()
+        );
+
 
         legend = new HG.LegendWidget({
           icon: "fa-tags",

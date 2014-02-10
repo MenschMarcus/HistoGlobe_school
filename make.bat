@@ -1,5 +1,5 @@
 @echo off
-call "H:\Stuff\NodeJs\nodevars.bat"
+call "C:\Program Files\nodejs\nodevars.bat"
 
 @echo off
 call "data_src\hivents\generate.bat"
@@ -24,7 +24,7 @@ set cFiles=script/HistoGlobe.coffee ^
         script/util/CallbackContainer.coffee ^
         script/util/VideoPlayer.coffee ^
         script/util/Vector.coffee ^
-        script/display/Display3D.coffee ^
+        script/display/Globe.coffee ^
         script/display/Display2D.coffee ^
         script/display/Display.coffee ^
         script/areas/Area.coffee ^
@@ -70,7 +70,7 @@ set jFiles=build/HistoGlobe.js ^
         build/CallbackContainer.js ^
         build/Display.js ^
         build/Display2D.js ^
-        build/Display3D.js ^
+        build/Globe.js ^
         build/Area.js ^
         build/AreaController.js ^
         build/AreasOnMap.js ^
