@@ -66,6 +66,13 @@ class HG.HiventMarker2D extends HG.HiventMarker
     @getHiventHandle().onDestruction @, @_destroy
     @getHiventHandle().onHide @, @_destroy
 
+  # ============================================================================
+  getDisplayPosition: ->
+    pos =  @_map.layerPointToContainerPoint(new L.Point @_position.x, @_position.y - HIVENT_MARKER_2D_RADIUS )
+    offset = $(@_map.getContainer()).offset()
+    # pos.x += offset.left
+    pos.y +=  HIVENT_MARKER_2D_RADIUS #+ offset.left
+    pos
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -92,20 +99,13 @@ class HG.HiventMarker2D extends HG.HiventMarker
 
   # ============================================================================
   _onClick: (e) =>
-    @getHiventHandle().toggleActive @, @_getDisplayPosition()
+    @getHiventHandle().toggleActive @, @getDisplayPosition()
 
   # ============================================================================
   _updatePosition: =>
     @_position = @_map.latLngToLayerPoint @_marker.getLatLng()
-    @notifyAll "onPositionChanged", @_getDisplayPosition()
+    @notifyAll "onPositionChanged", @getDisplayPosition()
 
-  # ============================================================================
-  _getDisplayPosition: ->
-    pos =  @_map.layerPointToContainerPoint(new L.Point @_position.x, @_position.y - HIVENT_MARKER_2D_RADIUS )
-    offset = $(@_map.getContainer()).offset()
-    # pos.x += offset.left
-    pos.y +=  HIVENT_MARKER_2D_RADIUS #+ offset.left
-    pos
 
   # ============================================================================
   _destroy: =>

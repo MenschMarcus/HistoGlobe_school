@@ -107,7 +107,7 @@ class HG.NowMarker
                     d.setMonth(res[i - 2] - 1)
                 if i > 2
                     d.setDate(res[i - 3])
-                timeline._scrollToDate(d)
+                timeline.scrollToDate(d)
 
     # ============================================================================
     _distanceToMiddlepoint : (e) ->

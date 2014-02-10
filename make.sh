@@ -43,10 +43,11 @@ cFiles="script/HistoGlobe.coffee \
         script/hivents/HiventsOnMap.coffee \
         script/hivents/HiventsOnTimeline.coffee \
         script/hivents/HiventTooltips.coffee \
+        script/hivents/HiventInfoPopover.coffee \
         script/hivents/HiventInfoPopovers.coffee \
+        script/hivents/HiventInfoAtTag.coffee \
         script/timeline/NowMarker.coffee \
         script/timeline/DoublyLinkedList.coffee \
-        script/hivents/HiventInfoPopover.coffee \
         script/paths/Path.coffee \
         script/paths/ArcPath2D.coffee \
         script/paths/PathController.coffee \
@@ -87,8 +88,9 @@ jFiles="build/config.js \
         build/HiventsOnMap.js \
         build/HiventsOnTimeline.js \
         build/HiventTooltips.js \
-        build/HiventInfoPopovers.js \
         build/HiventInfoPopover.js \
+        build/HiventInfoPopovers.js \
+        build/HiventInfoAtTag.js \
         build/Path.js \
         build/ArcPath2D.js \
         build/PathController.js \
@@ -111,7 +113,7 @@ rosetta --jsOut "build/config.js" \
 
 coffee -c -o build $cFiles
 
-uglifyjs $jFiles -o script/histoglobe.min.js -mc
+uglifyjs $jFiles -o script/histoglobe.min.js #-mc
 
 lessc --no-color -x style/histoglobe.less style/histoglobe.min.css
 

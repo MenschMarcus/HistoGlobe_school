@@ -1,5 +1,5 @@
 @echo off
-call "D:\Drafts\Code\NodeJS\nodevars.bat"
+call "H:\Stuff\NodeJs\nodevars.bat"
 
 @echo off
 call "data_src\hivents\generate.bat"
@@ -47,10 +47,11 @@ set cFiles=script/HistoGlobe.coffee ^
         script/hivents/HiventsOnMap.coffee ^
         script/hivents/HiventsOnTimeline.coffee ^
         script/hivents/HiventTooltips.coffee ^
+        script/hivents/HiventInfoPopover.coffee ^
         script/hivents/HiventInfoPopovers.coffee ^
+        script/hivents/HiventInfoAtTag.coffee ^
         script/timeline/NowMarker.coffee ^
         script/timeline/DoublyLinkedList.coffee ^
-        script/hivents/HiventInfoPopover.coffee ^
         script/paths/Path.coffee ^
         script/paths/ArcPath2D.coffee ^
         script/paths/PathController.coffee ^
@@ -91,8 +92,9 @@ set jFiles=build/HistoGlobe.js ^
         build/HiventsOnMap.js ^
         build/HiventsOnTimeline.js ^
         build/HiventTooltips.js ^
-        build/HiventInfoPopovers.js ^
         build/HiventInfoPopover.js ^
+        build/HiventInfoPopovers.js ^
+        build/HiventInfoAtTag.js ^
         build/Path.js ^
         build/ArcPath2D.js ^
         build/PathController.js ^

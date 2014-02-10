@@ -154,16 +154,7 @@ class HG.Timeline
     date
 
   # ============================================================================
-  _getTimeFilter: ->
-    timefilter = []
-    ###timefilter.start = @_yearMarkers.get(0).nodeData.getDate()
-    timefilter.end = @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getDate()###
-    timefilter.end = @_positionToDate(@_tlWidth)
-    timefilter.start = @_positionToDate(0)
-    timefilter
-
-  # ============================================================================
-  _scrollToDate: (date) ->
+  scrollToDate: (date) ->
     if date.getFullYear() > @_minDate.getFullYear() and date.getFullYear() < @_maxDate.getFullYear()
 
       # delete old year markers
@@ -190,6 +181,16 @@ class HG.Timeline
       @notifyAll "onNowChanged", @_positionToDate(@_tlWidth / 2)
     else
       alert "Date is out of Range."
+
+  # ============================================================================
+  _getTimeFilter: ->
+    timefilter = []
+    ###timefilter.start = @_yearMarkers.get(0).nodeData.getDate()
+    timefilter.end = @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getDate()###
+    timefilter.end = @_positionToDate(@_tlWidth)
+    timefilter.start = @_positionToDate(0)
+    timefilter
+
 
   # ============================================================================
   _highlightIntervals: ->
