@@ -24,11 +24,16 @@ class HG.AreaController
     hgInstance.areaController = @
 
     @_timeline = hgInstance.timeline
+    @_indicator = hgInstance.areaIndicator
     @_now = @_timeline.getNowDate()
 
     @_timeline.onNowChanged @, (date) ->
       @_now = date
       for area in @_areas
+        # execute_async = (area) =>
+        #   setTimeout () => area.setDate date, 0
+        # execute_async(area)
+
         area.setDate date
 
   # ============================================================================
@@ -40,7 +45,7 @@ class HG.AreaController
 
     $.getJSON config.path, (countries) =>
       for country in countries.features
-        newArea = new HG.Area country
+        newArea = new HG.Area country, @_indicator
 
         newArea.onShow @, (area) =>
           @notifyAll "onShowArea", area

@@ -1,3 +1,5 @@
+<?php $debug_mode = true; ?>
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de-de" lang="de-de" dir="ltr">
   <head>
@@ -6,14 +8,11 @@
 
     <title>HistoGlobe</title>
 
-    <!-- third party css -->
+    <?php // third party css ?>
     <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="style/third-party/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="style/third-party/idangerous.swiper.css">
     <link rel="stylesheet" type="text/css" href="style/third-party/idangerous.swiper.scrollbar.css">
-<!--
-    <link href='http://fonts.googleapis.com/css?family=Marcellus+SC' rel='stylesheet' type='text/css'>
--->
     <link rel="stylesheet" href="style/third-party/prettyPhoto/css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
     <link rel="stylesheet" href="style/third-party/MarkerCluster.css" />
     <link rel="stylesheet" href="style/third-party/MarkerCluster.Default.css" />
@@ -24,11 +23,12 @@
       <link rel="stylesheet" href="style/third-party/MarkerCluster.Default.ie.css" />
     <![endif]-->
 
-    <!-- histoglobe css -->
+    <?php // histoglobe css ?>
     <link rel="stylesheet" type="text/css" href="style/histoglobe.min.css">
 
-    <!-- third party javascript -->
+    <?php // third party javascript ?>
     <script type="text/javascript" src="script/third-party/d3.v3.min.js"></script>
+
     <script type="text/javascript" src="script/third-party/jquery-1.9.0.min.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.browser.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.disable.text.select.js"></script>
@@ -36,29 +36,20 @@
     <script type="text/javascript" src="script/third-party/jquery.rotate.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.prettyPhoto.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.fullscreenApi.js"></script>
+
     <script type="text/javascript" src="script/third-party/idangerous.swiper-2.4.2.min.js"></script>
     <script type="text/javascript" src="script/third-party/idangerous.swiper.scrollbar-2.4.js"></script>
 
     <script type="text/javascript" src="script/third-party/leaflet.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.label.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.markercluster.js"></script>
-    <script type="text/javascript" src="script/third-party/bootstrap.min.js"></script>
-    <script type="text/javascript" src="script/third-party/raphael.min.js"></script>
-<!--
-    <script type="text/javascript" src="build/Display3D.js"></script>
-    <script type="text/javascript" src="build/Path.js"></script>
-    <script type="text/javascript" src="build/ArcPath2D.js"></script>
-    <script type="text/javascript" src="build/PathController.js"></script>
-    <script type="text/javascript" src="build/LinearPath2D.js"></script>
-    <script type="text/javascript" src="build/Label.js"></script>
-    <script type="text/javascript" src="build/LabelController.js"></script>
-    <script type="text/javascript" src="build/HiventMarker3D.js"></script>
-    <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
-    <script type="text/javascript" src="build/VideoPlayer.js"></script>
--->
 
-    <!-- histoglobe javascript -->
-    <!--   <script type="text/javascript" src="script/histoglobe.min.js"></script> -->
+    <script type="text/javascript" src="script/third-party/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="script/third-party/raphael.min.js"></script>
+
+    <?php // histoglobe javascript ?>
+    <?php if ($debug_mode) {?>
 
     <script type="text/javascript" src="build/config.js"></script>
     <script type="text/javascript" src="build/CallbackContainer.js"></script>
@@ -75,6 +66,7 @@
     <script type="text/javascript" src="build/HiventController.js"></script>
     <script type="text/javascript" src="build/Area.js"></script>
     <script type="text/javascript" src="build/AreaController.js"></script>
+    <script type="text/javascript" src="build/AreaIndicator.js"></script>
     <script type="text/javascript" src="build/AreasOnMap.js"></script>
     <script type="text/javascript" src="build/Display.js"></script>
     <script type="text/javascript" src="build/Display2D.js"></script>
@@ -96,7 +88,13 @@
     <script type="text/javascript" src="build/HiventInfoPopovers.js"></script>
     <script type="text/javascript" src="build/HistoGlobe.js"></script>
 
-    <!-- init histoglobe -->
+    <?php } else { ?>
+
+    <script type="text/javascript" src="script/histoglobe.min.js"></script>
+
+    <?php } ?>
+
+    <?php // init histoglobe ?>
     <script type="text/javascript">
       // var display2D, display3D, timeline, legend, hiventController, areaController, pathController, labelController;
       // var timelineInitialized = false;
@@ -211,8 +209,8 @@
       $(document).ready(function($) {
         var histoglobe = new HG.HistoGlobe({
           container: document.getElementById('histoglobe'),
-          maxYear: 2020,
-          minYear: 1800,
+          maxYear: 2015,
+          minYear: 1960,
           nowYear: 2000
         });
 
@@ -256,17 +254,32 @@
           new HG.HiventInfoPopovers()
         );
 
+        histoglobe.addModule(new HG.AreaIndicator({
+          domain: [1, 2.099, 2.1, 4],
+          range: ["darkgreen", "lightgreen", "yellow", "red"],
+          data: "data/areas/fertility.json"
+        }));
+
         var areaController = new HG.AreaController()
 
         areaController.loadAreasFromJSON({
-          path: "data/areas/countries.json"
+          path: "data/areas/europe.json"
         })
 
         areaController.loadAreasFromJSON({
-          path: "data/areas/countries_old.json"
+          path: "data/areas/europe_old.json"
         })
 
+        // areaController.loadAreasFromJSON({
+        //   path: "data/areas/countries.json"
+        // })
+
+        // areaController.loadAreasFromJSON({
+        //   path: "data/areas/countries_old.json"
+        // })
         histoglobe.addModule(areaController);
+
+
 
         histoglobe.addModule(
           new HG.AreasOnMap()
