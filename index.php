@@ -211,7 +211,7 @@
         var histoglobe = new HG.HistoGlobe({
           container: document.getElementById('histoglobe'),
           maxYear: 2015,
-          minYear: 1960,
+          minYear: 1940,
           nowYear: 2000
         });
 
@@ -261,6 +261,14 @@
           data: "data/areas/fertility.json"
         }));
 
+
+        // histoglobe.addModule(new HG.AreaIndicator({
+        //   domain: [-1, 0, 1],
+        //   range: ["blue", "darkgreen", "red"],
+        //   data: "data/areas/eu.json",
+        //   fallback: "grey"
+        // }));
+
         histoglobe.addModule(
           new HG.HiventInfoAtTag( {
             tag: window.location.hash
@@ -271,12 +279,12 @@
         var areaController = new HG.AreaController()
 
         areaController.loadAreasFromJSON({
-          path: "data/areas/europe.json"
+          path: "data/areas/world.json"
         })
 
-        areaController.loadAreasFromJSON({
-          path: "data/areas/europe_old.json"
-        })
+        // areaController.loadAreasFromJSON({
+        //   path: "data/areas/europe_old.json"
+        // })
 
         // areaController.loadAreasFromJSON({
         //   path: "data/areas/countries.json"

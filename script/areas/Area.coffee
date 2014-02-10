@@ -59,7 +59,7 @@ class HG.Area
       @notifyAll "onHide", @
 
     if @_active and @_indicator?
-      color = @_indicator.getColor @_iso_a2, newDate.getFullYear()
+      color = @_indicator.getColor @_iso_a2, newDate
       if color?
         @_color = color
         @notifyAll "onStyleChange", @
