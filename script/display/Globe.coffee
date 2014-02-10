@@ -19,12 +19,13 @@ class HG.Globe extends HG.Display
 
     @_initMembers()
     @_initWindowGeometry()
-    @_initGlobe()
+
     @_initRenderer()
+    
 
 
-    @_initEventHandling()
-    @_zoom()
+
+    
 
     @center x: 10, y: 50
 
@@ -55,8 +56,15 @@ class HG.Globe extends HG.Display
 
         $(@getCanvas()).css({opacity: 0.0})
 
+        @_initGlobe()
+        @_initAreas()
+
+        @_initEventHandling()
+        @_zoom()
+
         @start();
         $(@getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
+
 
       else
 
@@ -76,7 +84,7 @@ class HG.Globe extends HG.Display
 
 
     #@_initHivents()#disabled
-    @_initAreas()
+    
 
       #test
       #@_areaController._initMembers()#??????????????????????????
@@ -172,6 +180,9 @@ class HG.Globe extends HG.Display
 
     @_visibleAreas = []
 
+    for area in @_areaController.getActiveAreas()
+      @_showAreaLayer area
+
     @_areaController.onShowArea @, (area) =>
       @_showAreaLayer area
 
@@ -182,10 +193,19 @@ class HG.Globe extends HG.Display
   #new
   _showAreaLayer: (area) ->
 
-    #if area.getLabel() is "Spanien<br /><span class='leaflet-label-small'>(España)</span>"
+      
       
       data = area.getData()
       materialData = area.getNormalStyle()
+
+
+      #adaptive tessellation try
+      '''if area.getLabel() is "Spain"
+        console.log area.getData()
+
+        options = area.getNormalStyle()
+        plArea = L.polyline(data[0],options)
+        console.log plArea.getBounds()'''
 
       #console.log area.getNormalStyle()
 
@@ -234,8 +254,8 @@ class HG.Globe extends HG.Display
 
       #operations for the whole country (with all area parts):
 
-      tessellateModifier = new THREE.TessellateModifier(0.5)
-      for i in [0 .. 10]
+      tessellateModifier = new THREE.TessellateModifier(3.5)
+      for i in [0 .. 6]
         tessellateModifier.modify shapeGeometry
 
       countryMaterial = new THREE.MeshLambertMaterial
@@ -256,7 +276,7 @@ class HG.Globe extends HG.Display
         cart_coords = @_latLongToCart(
             x:vertex.x
             y:vertex.y,
-            EARTH_RADIUS+0.1)
+            EARTH_RADIUS+0.5)
         vertex.x = cart_coords.x
         vertex.y = cart_coords.y
         vertex.z = cart_coords.z
@@ -415,6 +435,7 @@ class HG.Globe extends HG.Display
     @_width                = null
     @_height               = null
     @_camera               = null
+
     @_renderer             = null
     @_sceneGlobe           = null
     @_sceneAtmosphere      = null
@@ -447,6 +468,7 @@ class HG.Globe extends HG.Display
     #@_currentZoom          = CAMERA_MIN_ZOOM
     @_currentZoom          = CAMERA_MAX_ZOOM
     @_isZooming            = false
+
 
   # ============================================================================
   _initWindowGeometry: ->
@@ -499,13 +521,7 @@ class HG.Globe extends HG.Display
     geometry = new THREE.SphereGeometry EARTH_RADIUS, 64, 132
     shader = SHADERS.earth
 
-    @_camera             = new THREE.PerspectiveCamera @_currentFOV,
-                                                        @_width / @_myHeight,
-                                                        1, 10000
-
-    @_camera.useQuaternion = true
-
-    @_camera.position.z  = CAMERA_DISTANCE
+    
     @_sceneGlobe         = new THREE.Scene
     @_sceneAtmosphere    = new THREE.Scene
 
@@ -563,6 +579,13 @@ class HG.Globe extends HG.Display
     @_renderer.domElement.style.zIndex = "#{HG.Display.Z_INDEX}"
 
     HG.Display.CONTAINER.appendChild @_renderer.domElement
+
+    @_camera               = new THREE.PerspectiveCamera @_currentFOV,
+                                                        @_width / @_myHeight,
+                                                        1, 10000
+    @_camera.useQuaternion = true
+
+    @_camera.position.z    = CAMERA_DISTANCE
 
   # ============================================================================
   _initEventHandling: ->

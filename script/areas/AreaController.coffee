@@ -57,6 +57,14 @@ class HG.AreaController
 
         newArea.setDate @_now
 
+  # ============================================================================
+  getActiveAreas:()->
+    newArray = []
+    for a in @_areas
+      if a.isActive
+        newArray.push a
+    return newArray
+
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################

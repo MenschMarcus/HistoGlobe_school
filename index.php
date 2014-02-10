@@ -292,9 +292,9 @@
           path: "data/areas/europe.json"
         })
 
-        areaController.loadAreasFromJSON({
+        /*areaController.loadAreasFromJSON({
           path: "data/areas/europe_old.json"
-        })
+        })*/
 
         // areaController.loadAreasFromJSON({
         //   path: "data/areas/countries.json"
