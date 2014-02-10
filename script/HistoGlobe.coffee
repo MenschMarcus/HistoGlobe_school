@@ -7,33 +7,49 @@ class HG.HistoGlobe
   ##############################################################################
 
   # ============================================================================
-  constructor: (config) ->
-
-    defaultConfig =
-      container: undefined
-      nowYear: 2014
-      minYear: 1940
-      maxYear: 2020
-
-    @_config = $.extend {}, defaultConfig, config
+  constructor: (pathToJson) ->
 
     @timeline = null
     @map = null
     @sidebar = null
 
-    @_createTopArea()
+    @_config = null
 
-    @_createMap()
-    @_createSidebar()
-    @_createTimeline()
-    @_createCollapseButton()
+    defaultConfig =
+      container: "histoglobe"
+      nowYear: 2014
+      minYear: 1940
+      maxYear: 2020
 
-    $(window).on 'resize', @_onResize
+    $.getJSON(pathToJson, (config) =>
+      hgConf = config["HistoGlobe"]
+      @_config = $.extend {}, defaultConfig, hgConf
+      @_config.container =  document.getElementById @_config.container
 
-    @_onResize()
+      @_createTopArea()
 
-    @_collapsed = !@_isInMobileMode()
-    @_collapse()
+      @_createMap()
+      @_createSidebar()
+      @_createTimeline()
+      @_createCollapseButton()
+
+      $(window).on 'resize', @_onResize
+
+      @_onResize()
+
+      @_collapsed = !@_isInMobileMode()
+      @_collapse()
+
+      for moduleName, moduleConfig of config
+        unless moduleName is "HistoGlobe"
+          if window["HG"][moduleName]?
+            newMod = new window["HG"][moduleName] moduleConfig
+            @addModule newMod
+          else
+            console.error "The module #{moduleName} is not part of the HG namespace!"
+    )
+
+
 
   # ============================================================================
   addModule: (module) ->

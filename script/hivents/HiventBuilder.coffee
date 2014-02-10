@@ -110,14 +110,15 @@ class HG.HiventBuilder
 
       mmDatabase = {}
       multimediaLoaded = false
-      unless config.multimediaJSONPath is ""
-        $.getJSON(config.multimediaJSONPath, (multimedia) =>
+      if @_config.multimediaJSONPaths?
+        for multimediaJSONPath in @_config.multimediaJSONPaths
+          $.getJSON(multimediaJSONPath, (multimedia) =>
 
-          for mm in multimedia
-            mmDatabase["#{mm.id}"] = mm
+            for mm in multimedia
+              mmDatabase["#{mm.id}"] = mm
 
-          multimediaLoaded = true
-        )
+            multimediaLoaded = true
+          )
       else
         multimediaLoaded = true
 

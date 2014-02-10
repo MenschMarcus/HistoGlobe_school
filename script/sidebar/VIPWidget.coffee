@@ -8,23 +8,28 @@ class HG.VIPWidget extends HG.TimeGalleryWidget
 
   # ============================================================================
   constructor: (config) ->
-    HG.TimeGalleryWidget.call @, config
+    defaultConfig =
+      persons : []
+
+    @_config = $.extend {}, defaultConfig, config
+
+    HG.TimeGalleryWidget.call @, @_config
 
   # ============================================================================
   hgInit: (hgInstance) ->
     super hgInstance
 
+    for person in @_config.persons
+      @addPerson person
+
   # ============================================================================
   addPerson: (config) ->
     defaultConfig =
-      name: "Max Mustermann",
-      date: new Date(1990, 0, 1),
-      display_date: "Seit 01.01.1990",
-      image: "http://placehold.it/150x150",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Nulla vulputate tortor eget justo elementum, ac adipiscing
-                    purus luctus. Integer risus quam, feugiat a tincidunt
-                    suscipit, gravida vel nulla."
+      name: ""
+      date: ""
+      displayDate: ""
+      image: ""
+      description: ""
 
     config = $.extend {}, defaultConfig, config
 
@@ -42,7 +47,7 @@ class HG.VIPWidget extends HG.TimeGalleryWidget
 
     date = document.createElement "div"
     date.className = "date"
-    date.innerHTML = config.display_date
+    date.innerHTML = config.displayDate
     div.appendChild date
 
     text = document.createElement "div"
@@ -50,4 +55,4 @@ class HG.VIPWidget extends HG.TimeGalleryWidget
     text.innerHTML = config.description
     div.appendChild text
 
-    @addDivSlide(config.date, div)
+    @addDivSlide {date: config.date, div: div}

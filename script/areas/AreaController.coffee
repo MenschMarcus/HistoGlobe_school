@@ -7,7 +7,7 @@ class HG.AreaController
   ##############################################################################
 
   # ============================================================================
-  constructor: () ->
+  constructor: (config) ->
 
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
@@ -18,6 +18,13 @@ class HG.AreaController
     @_areas = []
     @_timeline = null
     @_now = null
+
+    defaultConfig =
+      areaJSONPaths: undefined
+
+    conf = $.extend {}, defaultConfig, config
+
+    @loadAreasFromJSON conf
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -38,24 +45,21 @@ class HG.AreaController
 
   # ============================================================================
   loadAreasFromJSON: (config) ->
-    defaultConfig =
-      path: undefined
 
-    config = $.extend {}, defaultConfig, config
+    for path in config.areaJSONPaths
+      $.getJSON path, (countries) =>
+        for country in countries.features
+          newArea = new HG.Area country, @_indicator
 
-    $.getJSON config.path, (countries) =>
-      for country in countries.features
-        newArea = new HG.Area country, @_indicator
+          newArea.onShow @, (area) =>
+            @notifyAll "onShowArea", area
 
-        newArea.onShow @, (area) =>
-          @notifyAll "onShowArea", area
+          newArea.onHide @, (area) =>
+            @notifyAll "onHideArea", area
 
-        newArea.onHide @, (area) =>
-          @notifyAll "onHideArea", area
+          @_areas.push newArea
 
-        @_areas.push newArea
-
-        newArea.setDate @_now
+          newArea.setDate @_now
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #

@@ -11,7 +11,7 @@ class HG.HiventController
   ##############################################################################
 
   # ============================================================================
-  constructor: () ->
+  constructor: (config) ->
     @_hiventHandles = [];
     @_hiventsLoaded = false;
     @_onHiventAddedCallbacks = [];
@@ -20,6 +20,25 @@ class HG.HiventController
     @_currentSpaceFilter = null; # { min: {lat: <float>, long: <float>},
                                  #   max: {lat: <float>, long: <float>}}
     @_currentCategoryFilter = null; # [category_a, category_b, ...]
+
+    defaultConfig =
+      hiventJSONPaths: undefined
+      multimediaJSONPaths: undefined
+      hiventServerName: undefined
+      hiventDatabaseName: undefined
+      hiventTableName: undefined
+      multimediaServerName: undefined
+      multimediaDatabaseName: undefined
+      multimediaTableName: undefined
+
+    conf = $.extend {}, defaultConfig, config
+
+    if conf.hiventJSONPath?
+      @loadHiventsFromJSON conf
+    else if conf.hiventServerName?
+      @loadHiventsFromDatabase conf
+    else
+      console.error "Unable to load Hivents: No JSON path or database specified!"
 
 
   # ============================================================================
@@ -77,7 +96,7 @@ class HG.HiventController
       upperLimit: 100,
       success:
         (data) =>
-          builder = new HG.HiventBuilder(config)
+          builder = new HG.HiventBuilder config
           rows = data.split "\n"
           for row in rows
             builder.constructHiventFromDBString row, (hivent) =>
@@ -95,17 +114,18 @@ class HG.HiventController
   #   multimediaJSONPath: string -- path to multimedia JSON file
 
   loadHiventsFromJSON: (config) ->
-    $.getJSON(config.hiventJSONPath, (hivents) =>
-      builder = new HG.HiventBuilder(config)
-      for h in hivents
-        builder.constructHiventFromJSON h, (hivent) =>
-          handle = new HG.HiventHandle hivent
-          @_hiventHandles.push handle
-          callback handle for callback in @_onHiventAddedCallbacks
-          @_filterHivents();
+    for hiventJSONPath in config.hiventJSONPaths
+      $.getJSON(hiventJSONPath, (hivents) =>
+        builder = new HG.HiventBuilder config
+        for h in hivents
+          builder.constructHiventFromJSON h, (hivent) =>
+            handle = new HG.HiventHandle hivent
+            @_hiventHandles.push handle
+            callback handle for callback in @_onHiventAddedCallbacks
+            @_filterHivents();
 
-      @_hiventsLoaded = true
-    )
+        @_hiventsLoaded = true
+      )
 
   ############################# MAIN FUNCTIONS #################################
 
