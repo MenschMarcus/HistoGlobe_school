@@ -72,7 +72,7 @@ class HG.Timeline
 
     # set animation for timeline play
     @_play = false
-    @_speed = 0
+    @_speed = 3
     setInterval @_animTimeline, 100
 
     @_tlDiv.onmousedown = (e) =>
