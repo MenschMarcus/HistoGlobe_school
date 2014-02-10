@@ -20,6 +20,7 @@ set cFiles=script/HistoGlobe.coffee ^
         script/sidebar/VIPWidget.coffee ^
         script/sidebar/PictureWidget.coffee ^
         script/sidebar/LegendWidget.coffee ^
+        script/sidebar/StatisticsWidget.coffee ^
         script/util/Mixin.coffee ^
         script/util/CallbackContainer.coffee ^
         script/util/VideoPlayer.coffee ^
@@ -67,6 +68,7 @@ set jFiles=build/HistoGlobe.js ^
         build/VIPWidget.js ^
         build/PictureWidget.js ^
         build/LegendWidget.js ^
+        build/StatisticsWidget.js ^
         build/Mixin.js ^
         build/CallbackContainer.js ^
         build/Display.js ^

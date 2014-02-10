@@ -81,6 +81,7 @@
     <script type="text/javascript" src="build/VIPWidget.js"></script>
     <script type="text/javascript" src="build/PictureWidget.js"></script>
     <script type="text/javascript" src="build/LegendWidget.js"></script>
+    <script type="text/javascript" src="build/StatisticsWidget.js"></script>
     <script type="text/javascript" src="build/HiventsOnMap.js"></script>
     <script type="text/javascript" src="build/HiventsOnTimeline.js"></script>
     <script type="text/javascript" src="build/HiventTooltips.js"></script>
