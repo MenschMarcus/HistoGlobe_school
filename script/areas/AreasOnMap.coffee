@@ -94,7 +94,7 @@ class HG.AreasOnMap
     max = @_map.project area._maxLatLng
     min = @_map.project area._minLatLng
 
-    width = area.getLabel().length * 1.5
+    width = area.getLabel().length * 4.5
 
     visible = (max.x - min.x) > width * 0.75 or @_map.getZoom() is @_map.getMaxZoom()
 
@@ -120,9 +120,9 @@ class HG.AreasOnMap
   _animate: (area, attributes, durartion) ->
     if area._layers?
       for id, path of area._layers
-        d3.select(path._path).transition().duration(durartion).attr(attributes)
+        d3.select(path._path).transition().duration(durartion*0).attr(attributes)
     else if area._path?
-      d3.select(area._path).transition().duration(durartion).attr(attributes)
+      d3.select(area._path).transition().duration(durartion*0).attr(attributes)
 
   # ============================================================================
   _onHover: (event) =>
