@@ -242,21 +242,7 @@
             <div id="toggle-fullscreen" class="btn btn-default"><i class="fa fa-fullscreen"></i> Vollbild</div>
           </div> -->
 
-
-          <!-- Now Marker in middle of page -->
-          <!-- <div id="now_marker">
-            <div id="now_marker_pointer">
-              <img src="img/timeline/pointer.png"/>
-            </div>
-            <div id="now_marker_in">
-              <div id="now_marker_play" title="Click to play">
-                <img src="img/timeline/playIcon.png" />
-              </div>
-              <input type="text" name="now_date" id="now_date_input" maxlength="10" size="10" />
-            </div>
-          </div>
-          <div id="timeline"></div>
-          <img src="img/timeline/nowMarkerSmall.png" id="now_marker_sign">
+          <!--
           <div id="fullscreenMenuRight"  class="menu">
             <div id="toggle-fullscreen" class="btn btn-default"><i class="icon-fullscreen"></i> Vollbild</div>
           </div>
