@@ -72,9 +72,9 @@ class HG.NowMarker
             if @_clicked
                 if not @_timeline.getPlayStatus()
                     if @_hiddenSpeed < 0 and e.pageX - @_middlePointX >= 0
-                        @_playButton.innerHTML = "<img src='img/timeline/playIcon.png'>"
+                        @_playButton.innerHTML = "<img src='data/timeline/playIcon.png'>"
                     else if @_hiddenSpeed >= 0 and e.pageX - @_middlePointX < 0
-                        @_playButton.innerHTML = "<img src='img/timeline/playIconPrev.png'>"
+                        @_playButton.innerHTML = "<img src='data/timeline/playIconPrev.png'>"
                 @_hiddenSpeed = e.pageX - @_middlePointX
                 $(@_pointer).rotate(@_angleOnCircle(e))
 
@@ -173,10 +173,10 @@ class HG.NowMarker
     animationSwitch: ->
         if @_timeline.getPlayStatus()
             @_timeline.stopTimeline()
-            @_playButton.innerHTML = "<img src='img/timeline/playIcon.png'>"
+            @_playButton.innerHTML = "<img src='data/timeline/playIcon.png'>"
         else
             @_timeline.playTimeline()
-            @_playButton.innerHTML = "<img src='img/timeline/pauseIcon.png'>"
+            @_playButton.innerHTML = "<img src='data/timeline/pauseIcon.png'>"
 
     # ============================================================================
     _disableTextSelection : (e) ->  return false
