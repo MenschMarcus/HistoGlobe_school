@@ -2,9 +2,9 @@
   "HistoGlobe" :
   {
     "container": "histoglobe",
-    "maxYear": 2015,
-    "minYear": 1800,
-    "nowYear": 2000
+    "maxYear": 2014,
+    "minYear": 1940,
+    "nowYear": 1950
   },
 
   "HiventController" :
@@ -30,7 +30,7 @@
   "AreaIndicator" :
   {
     "domain": [0, 1],
-    "range": ["darkgreen", "purple"],
+    "range": ["lightgreen", "darkgreen"],
     "data": "config/eu/data/eu.json",
     "fallback": "white",
     "extrapolatePast": false

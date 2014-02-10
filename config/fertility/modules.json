@@ -20,13 +20,6 @@
     "multimediaTableName": "eu_multimedia"
   },
 
-  "HiventsOnMap" : {},
-  "HiventsOnTimeline" : {},
-  "HiventTooltips" : {},
-  "HiventInfoPopovers" : {},
-  "HiventInfoAtTag" : {},
-
-
   "AreaIndicator" :
   {
     "domain": [-10, 1, 2.099, 2.1, 4, 10],
@@ -121,7 +114,7 @@
   "VIPWidget" :
   {
     "icon" : "fa-user",
-    "name" : "Cheffe",
+    "name" : "Verträge",
     "persons" :
     [
       {
