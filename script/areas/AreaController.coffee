@@ -49,17 +49,23 @@ class HG.AreaController
     for path in config.areaJSONPaths
       $.getJSON path, (countries) =>
         for country in countries.features
-          newArea = new HG.Area country, @_indicator
 
-          newArea.onShow @, (area) =>
-            @notifyAll "onShowArea", area
+          execute_async = (c) =>
+            setTimeout () =>
+              newArea = new HG.Area c, @_indicator
 
-          newArea.onHide @, (area) =>
-            @notifyAll "onHideArea", area
+              newArea.onShow @, (area) =>
+                @notifyAll "onShowArea", area
 
-          @_areas.push newArea
+              newArea.onHide @, (area) =>
+                @notifyAll "onHideArea", area
 
-          newArea.setDate @_now
+              @_areas.push newArea
+
+              newArea.setDate @_now
+            , 0
+
+          execute_async country
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
