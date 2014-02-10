@@ -56,14 +56,11 @@ class HG.Globe extends HG.Display
 
         $(@getCanvas()).css({opacity: 0.0})
 
-        @_initGlobe()
-        @_initAreas()
-
-        @_initEventHandling()
-        @_zoom()
 
         @start();
         $(@getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
+
+        button.innerHTML = "Map"
 
 
       else
@@ -92,6 +89,14 @@ class HG.Globe extends HG.Display
 
   # ============================================================================
   start: ->
+
+    unless @_sceneGlobe
+      @_initGlobe()
+      @_initAreas()
+
+      @_initEventHandling()
+      @_zoom()
+
     unless @_isRunning
       @_isRunning = true
       @_renderer.domElement.style.display = "inline"
@@ -181,7 +186,14 @@ class HG.Globe extends HG.Display
     @_visibleAreas = []
 
     for area in @_areaController.getActiveAreas()
-      @_showAreaLayer area
+      execute_async = (a) =>
+          setTimeout () =>
+          
+            @_showAreaLayer a
+
+          , 0
+
+        execute_async(area)
 
     @_areaController.onShowArea @, (area) =>
       @_showAreaLayer area
@@ -206,6 +218,7 @@ class HG.Globe extends HG.Display
         options = area.getNormalStyle()
         plArea = L.polyline(data[0],options)
         console.log plArea.getBounds()'''
+      options = area.getNormalStyle()
 
       #console.log area.getNormalStyle()
 
@@ -215,8 +228,16 @@ class HG.Globe extends HG.Display
       mesh = null
       countryShape = null
       borderLines = []
+      bounds = null
 
       for array in data
+
+        #calc bounds
+        plArea = L.polyline(array,options)
+        if bounds is null
+          bounds = plArea.getBounds()
+        else
+          bounds.extend(plArea.getBounds())
 
         PtsArea = []
 
@@ -252,17 +273,37 @@ class HG.Globe extends HG.Display
 
 
 
+
       #operations for the whole country (with all area parts):
 
-      tessellateModifier = new THREE.TessellateModifier(3.5)
-      for i in [0 .. 6]
+      lat_distance = Math.abs(Math.abs(bounds.getSouthWest().lat) - Math.abs(bounds.getNorthEast().lat))
+      lng_distance = Math.abs(Math.abs(bounds.getSouthWest().lng) - Math.abs(bounds.getNorthEast().lng))
+      
+      max_dist = Math.max(lat_distance,lng_distance)
+      
+      #iterations = Math.min(Math.max(0,Math.round(max_dist/3.5)),11)
+      #iterations = Math.min(Math.max(0,Math.round(max_dist^2/140)),11)
+      iterations = Math.min(Math.max(0,Math.round(max_dist^3/5500)),11)
+
+      '''if area.getLabel() is "Russia"
+        console.log max_dist,"!!!!!!!!!!!!!!!!!"
+        console.log lat_distance
+        console.log lng_distance
+        console.log "iterations: ",iterations
+      console.log iterations'''
+
+      tessellateModifier = new THREE.TessellateModifier(7.5)
+      #for i in [0 .. 6]
+      for i in [0 .. iterations]
         tessellateModifier.modify shapeGeometry
 
       countryMaterial = new THREE.MeshLambertMaterial
               #color       : "#5b309f"
               color       : materialData.fillColor
               side        : THREE.DoubleSide,
-              opacity     : materialData.fillOpacity+0.25,
+              #side        : THREE.BackSide,
+              #side        : THREE.FrontSide,
+              opacity     : materialData.fillOpacity,#+0.25,
               transparent : true,
               depthWrite  : false,
               wireframe   : false,
@@ -465,8 +506,8 @@ class HG.Globe extends HG.Display
     @_globeTextures        = []
     @_globeUniforms        = null
     @_isRunning            = false
-    #@_currentZoom          = CAMERA_MIN_ZOOM
-    @_currentZoom          = CAMERA_MAX_ZOOM
+    @_currentZoom          = CAMERA_MIN_ZOOM
+    #@_currentZoom          = CAMERA_MAX_ZOOM
     @_isZooming            = false
 
 
