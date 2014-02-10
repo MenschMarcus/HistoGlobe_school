@@ -210,8 +210,8 @@
       $(document).ready(function($) {
         var histoglobe = new HG.HistoGlobe({
           container: document.getElementById('histoglobe'),
-          maxYear: 2015,
-          minYear: 1940,
+          maxYear: 2035,
+          minYear: 1900,
           nowYear: 2000
         });
 
@@ -255,19 +255,21 @@
           new HG.HiventInfoPopovers()
         );
 
-        histoglobe.addModule(new HG.AreaIndicator({
-          domain: [1, 2.099, 2.1, 4],
-          range: ["darkgreen", "lightgreen", "yellow", "red"],
-          data: "data/areas/fertility.json"
-        }));
-
-
         // histoglobe.addModule(new HG.AreaIndicator({
-        //   domain: [-1, 0, 1],
-        //   range: ["blue", "darkgreen", "red"],
-        //   data: "data/areas/eu.json",
-        //   fallback: "grey"
+        //   domain: [1, 2.099, 2.1, 4],
+        //   range: ["darkgreen", "lightgreen", "yellow", "red"],
+        //   data: "data/areas/fertility.json"
         // }));
+
+
+        histoglobe.addModule(new HG.AreaIndicator({
+          domain: [0, 1],
+          range: ["darkgreen", "purple"],
+          data: "data/areas/eu.json",
+          fallback: "grey",
+          extrapolateFuture: true,
+          extrapolatePast: false
+        }));
 
         histoglobe.addModule(
           new HG.HiventInfoAtTag( {
@@ -283,16 +285,13 @@
         })
 
         // areaController.loadAreasFromJSON({
+        //   path: "data/areas/europe.json"
+        // })
+
+        // areaController.loadAreasFromJSON({
         //   path: "data/areas/europe_old.json"
         // })
 
-        // areaController.loadAreasFromJSON({
-        //   path: "data/areas/countries.json"
-        // })
-
-        // areaController.loadAreasFromJSON({
-        //   path: "data/areas/countries_old.json"
-        // })
         histoglobe.addModule(areaController);
 
 

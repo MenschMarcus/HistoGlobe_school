@@ -13,7 +13,8 @@ class HG.AreaIndicator
       range: ["red", "green"]
       data: undefined
       fallback: "grey"
-      extrapolate: false
+      extrapolateFuture: true
+      extrapolatePast: true
 
     @_config = $.extend {}, defaultConfig, config
 
@@ -30,12 +31,28 @@ class HG.AreaIndicator
   getColor: (id, now) ->
     result = @_config.fallback
 
-    for date, value of @_indicator[id]
-      if new Date(date) < new Date(now)
-        color = @_color(value)
-        break
+    tmp = undefined
 
-    return color
+    if @_indicator[id]?
+      for entry in @_indicator[id]
+        date = new Date(entry[0])
+        value = entry[1]
+
+        if date < now
+          tmp = value
+        else if tmp?
+          result = @_color(tmp)
+          tmp = undefined
+          break
+        else
+          if @_config.extrapolatePast
+            result = @_color(@_indicator[id][0][1])
+          break
+
+      if tmp? and @_config.extrapolateFuture
+        result = @_color(tmp)
+
+    return result
 
   # ============================================================================
   loadFromJSON: (path) ->
@@ -57,11 +74,18 @@ class HG.AreaIndicator
           month = date[0]
 
         d = new Date(year, month-1, day)
-        @_indicator[entry.country.id][d] = entry.value
+        @_indicator[entry.country.id].push([d, entry.value])
 
-      for id, values of @_indicator
-        values.sort (a, b) ->
-          a = new Date(a.dateModified);
-          b = new Date(b.dateModified);
-          return a>b ? -1 : a<b ? 1 : 0;
+
+      for id, entry of @_indicator
+        entry.sort (a, b) ->
+          a = new Date(a[0]);
+          b = new Date(b[0]);
+
+          if a<b
+            return -1
+          if a>b
+            return  1
+
+          return 0;
 
