@@ -31,6 +31,7 @@ set cFiles=script/HistoGlobe.coffee ^
         script/areas/AreaController.coffee ^
         script/areas/AreaIndicator.coffee ^
         script/areas/AreasOnMap.coffee ^
+        script/areas/AreasOnGlobe.coffee ^
         script/timeline/Timeline.coffee ^
         script/timeline/YearMarker.coffee ^
         script/labels/Label.coffee ^
