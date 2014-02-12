@@ -3,7 +3,7 @@
   {
     "container": "histoglobe",
     "maxYear": 2015,
-    "minYear": 1800,
+    "minYear": 1960,
     "nowYear": 2000
   },
 
@@ -21,7 +21,9 @@
   },
 
   "HiventsOnMap" : {},
+
   "HiventsOnTimeline" : {},
+  
   "HiventTooltips" : {},
   "HiventInfoPopovers" : {},
   "HiventInfoAtTag" : {},
@@ -29,41 +31,19 @@
 
   "AreaIndicator" :
   {
-    "domain": [1, 2.099, 2.1, 4],
-    "range": ["darkgreen", "lightgreen", "yellow", "red"],
-    "data": "data/areas/fertility.json"
+    "domain": [-10, 1, 2.099, 2.1, 4, 10],
+    "range": ["darkgreen", "darkgreen", "lightgreen", "yellow", "red", "red"],
+    "data": "config/fertility/data/fertility.json",
+    "fallback": "white"
   },
 
   "AreaController" :
   {
-    "areaJSONPaths" : ["data/areas/europe.json", "data/areas/europe_old.json"]
+    "areaJSONPaths" : ["config/common/countries/europe.json", "config/common/countries/europe_old.json"]
   },
 
   "AreasOnMap" : {},
-
-  "StatisticsWidget" :
-  {
-    "icon" : "fa-star",
-    "name" : "Statistik",
-    "title" : "Coole Entwicklung",
-    "xAxis" :
-    {
-      "caption" : "Jahre",
-      "labels" : [1900, 1910, 1920, 1930, 1940, 1950, 1960, 1970, 1980, 1990, 2000]
-    },
-    "yAxis" :
-    {
-      "caption" : "Werte",
-      "labels" : [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-    },
-    "values":
-    [
-      {"x" : 1905, "y" : 40},
-      {"x" : 1922, "y" : 55},
-      {"x" : 1940, "y" : 77},
-      {"x" : 1956, "y" : 100}
-    ]
-  },
+  "Globe" : {},
 
   "LegendWidget":
   {
@@ -176,6 +156,14 @@
     "icon": "fa-gift",
     "name": "Legende",
     "url": "http://extreme.pcgameshardware.de/members/-painkiller--albums-einfach-lustig-3209-picture361371-incoming.jpg"
+  },
+
+  "TextWidget" :
+  {
+    "icon": "fa-star",
+    "name": "Lorem Ipsum",
+    "text": "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
   }
+
 
 }

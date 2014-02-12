@@ -114,15 +114,15 @@ class HG.AreasOnMap
   # ============================================================================
   _onStyleChange: (area) =>
     if area.myLeafletLayer?
-      @_animate area.myLeafletLayer, {"fill": area.getNormalStyle().fillColor}, 350
+      @_animate area.myLeafletLayer, {"fill": area.getNormalStyle().fillColor}, 200
 
   # ============================================================================
   _animate: (area, attributes, durartion) ->
     if area._layers?
       for id, path of area._layers
-        d3.select(path._path).transition().duration(durartion*0).attr(attributes)
+        d3.select(path._path).transition().duration(durartion).attr(attributes)
     else if area._path?
-      d3.select(area._path).transition().duration(durartion*0).attr(attributes)
+      d3.select(area._path).transition().duration(durartion).attr(attributes)
 
   # ============================================================================
   _onHover: (event) =>

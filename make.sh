@@ -21,7 +21,7 @@ cFiles="script/HistoGlobe.coffee \
         script/util/CallbackContainer.coffee \
         script/util/VideoPlayer.coffee \
         script/util/Vector.coffee \
-        script/display/Display3D.coffee \
+        script/display/Globe.coffee \
         script/display/Display2D.coffee \
         script/display/Display.coffee \
         script/areas/Area.coffee \
@@ -69,7 +69,7 @@ jFiles="build/config.js \
         build/CallbackContainer.js \
         build/Display.js \
         build/Display2D.js \
-        build/Display3D.js \
+        build/Globe.js \
         build/Area.js \
         build/AreaController.js \
         build/AreaIndicator.js \
@@ -111,7 +111,7 @@ rosetta --jsOut "build/config.js" \
         --jsFormat "flat" \
         --jsTemplate $'var HGConfig;\n(function() {\n<%= preamble %>\nHGConfig = <%= blob %>;\n})();' \
         --cssOut "build/config.less" \
-        --cssFormat "less" config/**/*.rose
+        --cssFormat "less" config/fertility/style.rose
 
 coffee -c -o build $cFiles
 
