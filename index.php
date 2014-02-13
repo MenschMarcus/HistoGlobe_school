@@ -225,7 +225,7 @@
       // }
 
       $(document).ready(function($) {
-        var histoglobe = new HG.HistoGlobe("config/fertility/modules.json");
+        var histoglobe = new HG.HistoGlobe("config/eu/modules.json");
       });
 
     </script>
