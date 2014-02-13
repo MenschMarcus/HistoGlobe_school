@@ -9,29 +9,26 @@ class HG.Globe extends HG.Display
   # ============================================================================
   constructor: () ->
 
-    
-
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
 
     @addCallback "onZoomEnd"
     @addCallback "onMoveEnd"
+    @addCallback "onMove"
+    @addCallback "onLoaded"
 
     @_initMembers()
     @_initWindowGeometry()
 
     @_initRenderer()
-    
-
-
-
-    
 
     @center x: 10, y: 50
 
 
   # ============================================================================
   hgInit: (hgInstance) ->
+
+    hgInstance.globe = @
 
     @_hiventHandler = hgInstance.hiventController
     @_areaController = hgInstance.areaController
@@ -94,7 +91,6 @@ class HG.Globe extends HG.Display
 
     unless @_sceneGlobe
       @_initGlobe()
-      @_initAreas()
 
       @_initEventHandling()
       @_zoom()
@@ -109,6 +105,8 @@ class HG.Globe extends HG.Display
           requestAnimationFrame animate
 
       animate()
+
+    @notifyAll "onLoaded"
 
   # ============================================================================
   stop: ->
@@ -141,6 +139,36 @@ class HG.Globe extends HG.Display
   #new
   getZoom:() ->
     return @_currentZoom
+
+  # ============================================================================
+  #new
+  getMaxZoom:() ->
+    return CAMERA_MAX_ZOOM
+
+  # ============================================================================
+  #new
+  getMinZoom:() ->
+    return CAMERA_MIN_ZOOM
+
+  # ============================================================================
+  #new
+  getMaxFov:() ->
+    return CAMERA_MAX_FOV
+  # ============================================================================
+  #new
+  getMinFov:() ->
+    return CAMERA_MIN_FOV
+
+  # ============================================================================
+  getRaycaster:() ->
+    return RAYCASTER
+
+  # ============================================================================
+  getGlobeRadius:() ->
+    return EARTH_RADIUS
+
+
+
 
   # ============================================================================
   #new
@@ -179,294 +207,9 @@ class HG.Globe extends HG.Display
       return L.latLngBounds(southWestL, northEastL);
 
 
-
-
   # ============================================================================
-  #new
-  _initAreas: ->
-
-    @_visibleAreas = []
-
-    for area in @_areaController.getActiveAreas()
-      execute_async = (a) =>
-          setTimeout () =>
-          
-            @_showAreaLayer a
-
-          , 0
-
-        execute_async(area)
-
-    @_areaController.onShowArea @, (area) =>
-      @_showAreaLayer area
-
-    @_areaController.onHideArea @, (area) =>
-      @_hideAreaLayer area
-
-  # ============================================================================
-  #new
-  _showAreaLayer: (area) ->
-
-      
-      
-      data = area.getData()
-      materialData = area.getNormalStyle()
-
-
-      #adaptive tessellation try
-      '''if area.getLabel() is "Spain"
-        console.log area.getData()
-
-        options = area.getNormalStyle()
-        plArea = L.polyline(data[0],options)
-        console.log plArea.getBounds()'''
-      options = area.getNormalStyle()
-
-      #console.log area.getNormalStyle()
-
-
-      #create flat shape====================================
-      shapeGeometry = null
-      mesh = null
-      countryShape = null
-      borderLines = []
-      bounds = null
-
-      for array in data
-
-        #calc bounds
-        plArea = L.polyline(array,options)
-        if bounds is null
-          bounds = plArea.getBounds()
-        else
-          bounds.extend(plArea.getBounds())
-
-        PtsArea = []
-
-        for point in array
-          PtsArea.push new THREE.Vector3(point.lng, point.lat,0)
-
-        countryShape = new THREE.Shape PtsArea ;
-
-        #put all country parts in one shape
-        unless shapeGeometry?
-          shapeGeometry = new THREE.ShapeGeometry countryShape
-          shapeGeometry.dynamic = true
-        else
-          #shapeGeometry.addShape countryShape
-          newGeometry = new THREE.ShapeGeometry countryShape
-          THREE.GeometryUtils.merge(shapeGeometry,newGeometry)
-
-        #borderline mapping of single area!!!
-        lineGeometry = new THREE.Geometry
-        for vertex in PtsArea
-          line_coord = @_latLongToCart(
-            x:vertex.x
-            y:vertex.y,
-            EARTH_RADIUS+0.15)
-          lineGeometry.vertices.push line_coord
-        #close line:
-        lineGeometry.vertices.push lineGeometry.vertices[0]
-
-        lineMaterial = new THREE.LineBasicMaterial color: 0x646464, linewidth: 2
-        borderline = new THREE.Line( lineGeometry, lineMaterial)
-        @_sceneCountries.add borderline
-        borderLines.push borderline
-
-
-
-
-      #operations for the whole country (with all area parts):
-
-      lat_distance = Math.abs(Math.abs(bounds.getSouthWest().lat) - Math.abs(bounds.getNorthEast().lat))
-      lng_distance = Math.abs(Math.abs(bounds.getSouthWest().lng) - Math.abs(bounds.getNorthEast().lng))
-      
-      max_dist = Math.max(lat_distance,lng_distance)
-      
-      #iterations = Math.min(Math.max(0,Math.round(max_dist/3.5)),11)
-      #iterations = Math.min(Math.max(0,Math.round(max_dist^2/140)),11)
-      iterations = Math.min(Math.max(0,Math.round(max_dist^3/5500)),11)
-
-      '''if area.getLabel() is "Russia"
-        console.log max_dist,"!!!!!!!!!!!!!!!!!"
-        console.log lat_distance
-        console.log lng_distance
-        console.log "iterations: ",iterations
-      console.log iterations'''
-
-      tessellateModifier = new THREE.TessellateModifier(7.5)
-      #for i in [0 .. 6]
-      for i in [0 .. iterations]
-        tessellateModifier.modify shapeGeometry
-
-      countryMaterial = new THREE.MeshLambertMaterial
-              #color       : "#5b309f"
-              color       : materialData.fillColor
-              side        : THREE.DoubleSide,
-              #side        : THREE.BackSide,
-              #side        : THREE.FrontSide,
-              opacity     : materialData.fillOpacity,#+0.25,
-              transparent : true,
-              depthWrite  : false,
-              wireframe   : false,
-        
-
-      mesh = new THREE.Mesh( shapeGeometry, countryMaterial );
-
-
-      #gps to cart mapping================================
-      for vertex in mesh.geometry.vertices
-        cart_coords = @_latLongToCart(
-            x:vertex.x
-            y:vertex.y,
-            EARTH_RADIUS+0.5)
-        vertex.x = cart_coords.x
-        vertex.y = cart_coords.y
-        vertex.z = cart_coords.z
-
-      mesh.geometry.verticesNeedUpdate = true;
-      mesh.geometry.normalsNeedUpdate = true;
-      mesh.geometry.computeVertexNormals();
-      mesh.geometry.computeFaceNormals();
-      mesh.geometry.computeBoundingSphere();
-
-      @_sceneCountries.add mesh
-
-      mesh.Label = area.getLabel()
-      mesh.Borderlines = borderLines
-
-      mesh.Area = area
-
-      area.onStyleChange @, @_onStyleChange3D
-
-      area.Mesh3D = mesh
-      area.Borderlines3D = borderLines
-      
-      @_initLabel(area)
-      if @_isLabelVisible area
-        @_showLabel area
-
-      # add area
-      @_visibleAreas.push area
-      
-
-  # ============================================================================
-  #new
-  _hideAreaLayer: (area) ->
-    if area.Mesh3D? and area.Borderlines3D
-
-      area.removeListener "onStyleChange", @
-      @_visibleAreas.splice(@_visibleAreas.indexOf(area), 1)
-
-      for line in area.Borderlines3D
-        @_sceneCountries.remove line  
-      @_sceneCountries.remove area.Mesh3D
-
-    @_hideLabel area
-
-  # ============================================================================
-  #new:
-  _initLabel: (area) =>
-    area.Label3DIsVisible = false
-    
-    unless area.Label3D?
-      text = area.getLabel().split "<"
-      text = text[0]
-
-      metrics = TEST_CONTEXT.measureText(text);
-      textWidth = metrics.width+1;
-
-      canvas = document.createElement('canvas')
-      canvas.width = textWidth
-      canvas.height = TEXT_HEIGHT
-      canvas.className = "leaflet-label"#TODO!!!!!!!
-      #console.log canvas
-
-      context = canvas.getContext('2d')
-      context.textAlign = 'center'
-      context.font = "#{TEXT_HEIGHT}px Arial"
-
-      #context.fillStyle="#FF0000";
-      #context.fillRect(0,0,textWidth,TEXT_HEIGHT);
-      #context.fillStyle="#000000";
-      '''context.shadowColor = "#e6d4bb"
-      context.shadowOffsetX =  2
-      context.shadowOffsetY = -2
-
-      context.fillText(text,textWidth/2,TEXT_HEIGHT*0.75)
-
-      context.shadowOffsetX =  2
-      context.shadowOffsetY = -2
-
-      context.fillText(text,textWidth/2,TEXT_HEIGHT*0.75)
-
-      context.shadowOffsetX = -2
-      context.shadowOffsetY =  2
-
-      context.fillText(text,textWidth/2,TEXT_HEIGHT*0.75)
-
-      context.shadowOffsetX =  2
-      context.shadowOffsetY =  2'''
-
-      context.fillText(text,textWidth/2,TEXT_HEIGHT*0.75)
-
-      texture = new THREE.Texture(canvas)
-      texture.needsUpdate = true
-      material = new THREE.SpriteMaterial({
-        map: texture,
-        transparent:false,
-        useScreenCoordinates: false,
-        scaleByViewport: true,
-        sizeAttenuation: false,
-        depthTest: false,
-        affectedByDistance: false
-        })
-
-      sprite = new THREE.Sprite(material)
-      sprite.textWidth = textWidth
-
-      #position calculation
-      textLatLng = area.getLabelLatLng()
-      cart_coords = @_latLongToCart(
-              x:textLatLng[1]
-              y:textLatLng[0],
-              EARTH_RADIUS+1.0)
-
-      ##@_sceneCountries.add sprite
-      sprite.scale.set(textWidth,TEXT_HEIGHT,1.0)
-      sprite.position.set cart_coords.x,cart_coords.y,cart_coords.z
-
-      sprite.MaxWidth = textWidth
-      sprite.MaxHeight = TEXT_HEIGHT
-
-      area.Label3D = sprite
-
-  # ============================================================================
-  #new:
-  _showLabel: (area) =>
-    area.Label3DIsVisible = true
-    if area.Label3D?
-      @_sceneCountries.add area.Label3D
-    else
-      @_initLabel()
-
-  # ============================================================================
-  _hideLabel: (area) =>
-    area.Label3DIsVisible = false
-    
-    if area.Label3D?
-      @_sceneCountries.remove area.Label3D
-
-  # ============================================================================
-  _isLabelVisible: (area) ->
-    if area.Label3D?
-
-      max = @_latLongToPixel new THREE.Vector2(area._maxLatLng[1],area._maxLatLng[0])
-      min = @_latLongToPixel new THREE.Vector2(area._minLatLng[1],area._minLatLng[0])
-
-      width = area.Label3D.textWidth
-
-      visible = (max.x*@_width - min.x*@_width) > width*2.0 or @_currentZoom  is CAMERA_MAX_ZOOM
+  addSceneToRenderer:(scene) ->
+    @_addedScenes.push scene
 
 
   ##############################################################################
@@ -482,19 +225,17 @@ class HG.Globe extends HG.Display
     @_renderer             = null
     @_sceneGlobe           = null
     @_sceneAtmosphere      = null
-    @_sceneCountries       = null
+    
     @_sceneInterface       = null
 
-    #new:
-    @_countryLight           = null
+    @_addedScenes          = []
+
 
     @_canvasOffsetX        = null
     @_canvasOffsetY        = null
     @_lastIntersected      = []
 
-    #new:
-    @_intersectedCountries = []
-    #@_dragStartTime        = null
+    
 
     @_currentCameraPos     = x: 0, y: 0
     @_targetCameraPos      = x: 0, y: 0
@@ -568,13 +309,8 @@ class HG.Globe extends HG.Display
     @_sceneGlobe         = new THREE.Scene
     @_sceneAtmosphere    = new THREE.Scene
 
-    @_sceneCountries     = new THREE.Scene
+    
     @_sceneInterface     = new THREE.Scene
-
-    #new:
-    @_countryLight         = new THREE.DirectionalLight( 0xffffff, 1.0);
-    @_countryLight.position.set 0, 0, 300
-    @_sceneCountries.add   @_countryLight
 
 
     @_globeUniforms      = THREE.UniformsUtils.clone shader.uniforms
@@ -724,44 +460,7 @@ class HG.Globe extends HG.Display
     PROJECTOR.unprojectVector vector, @_camera
     RAYCASTER.set @_camera.position, vector.sub(@_camera.position).normalize()
 
-    #new:
-    countryIntersects = RAYCASTER.intersectObjects @_sceneCountries.children
-
-    if countryIntersects.length > 0
-      HG.Display.CONTAINER.style.cursor = "pointer"
-    else
-      HG.Display.CONTAINER.style.cursor = "auto"
-
-    for intersect in @_intersectedCountries
-      intersect.material.opacity =  intersect.material.opacity - 0.2 #nicht schön
-
-    #hover countries
-    for intersect in countryIntersects 
-      index = $.inArray(intersect.object, @_intersectedCountries)
-      @_intersectedCountries.splice index, 1  if index >= 0
-    # unmark previous countries
     
-    '''for intersect in @_intersectedCountries
-      if intersect.Area?
-        #intersect.material.color.setHex 0x5b309f
-        ##intersect.material.opacity =  intersect.oldOpacity
-        if intersect.Area.Label3DIsVisible
-          @_hideLabel intersect.Area'''
-
-
-    @_intersectedCountries = []
-    # hover intersected countries
-    for intersect in countryIntersects
-      if intersect.object.Area?
-        #console.log intersect.object.id,intersect.object.Label
-        #intersect.object.oldOpacity = intersect.object.material.opacity
-        intersect.object.material.opacity = intersect.object.material.opacity + 0.2
-        '''unless intersect.object.Area.Label3DIsVisible
-          @_showLabel intersect.object.Area'''
-        @_intersectedCountries.push intersect.object
-        #intersect.object.material.color.setHex 0x04ba67
-
-
 
     '''tmp_intersects = []
     for hivent in @_markerGroup.getVisibleHivents()
@@ -901,9 +600,8 @@ class HG.Globe extends HG.Display
     alpha = 0.01
     if (@_currentCameraPos.x + alpha < @_targetCameraPos.x or @_currentCameraPos.x - alpha > @_targetCameraPos.x) and (@_currentCameraPos.y + alpha < @_targetCameraPos.y or @_currentCameraPos.y - alpha > @_targetCameraPos.y)
       '''@_updateHiventSizes()'''#TODO
-      @_filterLabels()
-      @_updateLabelSizes()
       '''@_markerGroup.update()'''#TODO
+      @notifyAll "onMove"
       
 
     # zooming ------------------------------------------------------------------
@@ -927,7 +625,6 @@ class HG.Globe extends HG.Display
         @_currentFOV = @_targetFOV
         @_isZooming  = false
 
-        @_filterLabels()
 
     # rendering ----------------------------------------------------------------
     @_renderer.clear()
@@ -938,7 +635,11 @@ class HG.Globe extends HG.Display
     @_renderer.setDepthTest    true
     @_renderer.setFaceCulling  THREE.CullFaceFront
     @_renderer.render          @_sceneAtmosphere, @_camera
-    @_renderer.render          @_sceneCountries, @_camera
+
+
+    for scene in @_addedScenes
+      @_renderer.render          scene, @_camera
+
     @_renderer.render          @_sceneInterface, @_camera
 
 
@@ -948,31 +649,8 @@ class HG.Globe extends HG.Display
                         (CAMERA_MAX_ZOOM - CAMERA_MIN_ZOOM) *
                         (CAMERA_MAX_FOV - CAMERA_MIN_FOV) + CAMERA_MIN_FOV
 
-  # ============================================================================
-  #new:
-  _filterLabels: ->
-    for area in @_visibleAreas
-      shoulBeVisible = @_isLabelVisible area
+  
 
-      if shoulBeVisible and not area.Label3DIsVisible
-        @_showLabel area
-      else if not shoulBeVisible and area.Label3DIsVisible
-        @_hideLabel area
-
-  # ============================================================================
-  #new:
-  _updateLabelSizes: ->
-    for area in @_visibleAreas
-      if area.Label3DIsVisible
-        cam_pos = new THREE.Vector3(@_camera.position.x,@_camera.position.y,@_camera.position.z).normalize()
-        label_pos = new THREE.Vector3(area.Label3D.position.x,area.Label3D.position.y,area.Label3D.position.z).normalize()
-        #perspective compensation
-        dot = (cam_pos.dot(label_pos)-0.4)/0.6
-
-        if dot > 0.0
-          area.Label3D.scale.set(area.Label3D.MaxWidth*dot,area.Label3D.MaxHeight*dot,1.0)
-        else
-          area.Label3D.scale.set(0.0,0.0,1.0)
   # ============================================================================
   #new:
   _updateHiventSizes:->
@@ -1025,56 +703,14 @@ class HG.Globe extends HG.Display
 
       
 
-      if @_lastIntersected.length is 0
+      '''if @_lastIntersected.length is 0
         #HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()->done in mousedown now
-
         #no hivents -> look for countries
-        '''now = new Date()
-        console.log now.getTime() - @_dragStartTime.getTime()'''
-
-        clickMouse =
-          x: (event.clientX - @_canvasOffsetX) / @_width * 2 - 1
-          y: (event.clientY - @_canvasOffsetY) / @_myHeight * 2 - 1
-
-        clickPos = @_pixelToLatLong(clickMouse)
-
-        if clickPos? and @_dragStartPos?
-          if (clickPos.x - @_dragStartPos.x is 0) and (clickPos.y - @_dragStartPos.y is 0)
-            countryIntersects = RAYCASTER.intersectObjects @_sceneCountries.children
-            if countryIntersects.length > 0
-              countryIntersects[0].object.geometry.computeBoundingBox()
-              bb = countryIntersects[0].object.geometry.boundingBox
-              bb_center = bb.center()
-
-              target = @_cartToLatLong(new THREE.Vector3(bb_center.x,bb_center.y,bb_center.z).clone().normalize())
-              
-              #set target position:
-              @_targetCameraPos = new THREE.Vector2(-1*target.y,target.x)
-
-              pos = @_camera.position
-              cam_pos = new THREE.Vector3(pos.x,pos.y,pos.z)
-              dist = cam_pos.length() - EARTH_RADIUS
-
-              height = (bb.max.y - bb.min.y)*2
-
-              #set target fov:
-              targetFOV = 2* Math.atan(height/(2* dist)) * (180/Math.PI)
-              #@_targetFOV = targetFOV
-              if targetFOV < CAMERA_MAX_FOV
-                if targetFOV > CAMERA_MIN_FOV 
-                  @_targetFOV = targetFOV
-                  factor = (targetFOV - CAMERA_MIN_FOV) / (CAMERA_MAX_FOV - CAMERA_MIN_FOV)
-                  targetZoom = ((1-factor) * (CAMERA_MAX_ZOOM - CAMERA_MIN_ZOOM)) + CAMERA_MIN_ZOOM
-                  @_currentZoom = targetZoom
-                else
-                  @_targetFOV = CAMERA_MIN_FOV
-                  @_currentZoom = CAMERA_MAX_ZOOM
-              else
-                @_targetFOV = CAMERA_MAX_FOV
-                @_currentZoom = CAMERA_MIN_ZOOM
+  
 
 
-      else for hivent in @_lastIntersected
+      else '''
+      for hivent in @_lastIntersected
         pos =
           x: @_mousePos.x - @_canvasOffsetX
           y: @_mousePos.y - @_canvasOffsetY
@@ -1111,36 +747,7 @@ class HG.Globe extends HG.Display
     @_initWindowGeometry()
 
 
-  # ============================================================================
-  #new:
-  _onStyleChange3D: (area) =>
-    #@_animate area.myLeafletLayer, {"fill": area.getNormalStyle().fillColor}, 350#animation maybe later!
-    if area.Mesh3D?
-      #newColor = area.getNormalStyle().fillColor
-      #area.Mesh3D.material.color.setHex "0x"+newColor[1..]
-
-      final_color = @_rgbify area.getNormalStyle().fillColor
-      #console.log area.Mesh3D.material.color.r
-      #console.log final_color[0]/255
-
-
-      $({
-        colorR:area.Mesh3D.material.color.r,
-        colorG:area.Mesh3D.material.color.g,
-        colorB:area.Mesh3D.material.color.b
-      }).animate({
-        colorR: final_color[0]/255,
-        colorG: final_color[1]/255,
-        colorB: final_color[2]/255
-      },{
-        duration: 350,
-        step: ->
-          area.Mesh3D.material.color.r = this.colorR
-          area.Mesh3D.material.color.g = this.colorG
-          area.Mesh3D.material.color.b = this.colorB
-
-        
-      })
+  
 
   '''# ============================================================================
   #new:
@@ -1432,14 +1039,6 @@ class HG.Globe extends HG.Display
   CAMERA_MAX_LONG = 80
   CAMERA_ZOOM_SPEED = 0.1
 
-  #testCanvas for Sprites
-  TEST_CANVAS = document.createElement('canvas')
-  TEST_CANVAS.width = 1
-  TEST_CANVAS.height = 1
-  TEST_CONTEXT = TEST_CANVAS.getContext('2d')
-  TEST_CONTEXT.textAlign = 'center'
-  TEXT_HEIGHT = 11
-  TEST_CONTEXT.font = "#{TEXT_HEIGHT}px Arial"
 
   # shaders for the globe and its atmosphere
   SHADERS =
