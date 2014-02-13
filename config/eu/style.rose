@@ -34,6 +34,8 @@ $widget_font_size                   = 12px
 
 // GALLERY WIDGET
 
+// STATISTICS WIDGET
+$statistics_widget_min_height       = 200px
 
 // ------------------ TIMELINE OPTIONS -----------------------------------------
 $timeline_height                    = 80px

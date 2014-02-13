@@ -9,6 +9,11 @@ class HG.Sidebar
   # ============================================================================
   constructor: (config) ->
 
+    HG.mixin @, HG.CallbackContainer
+    HG.CallbackContainer.call @
+
+    @addCallback "onResize"
+
     defaultConfig =
       parentDiv: undefined
 
@@ -42,6 +47,7 @@ class HG.Sidebar
   # ============================================================================
   addWidget: (widget) ->
     @_slide.appendChild widget.container
+    widget.setWidth $(".widgetBody").width() - HGConfig.widget_title_size.val - 2*HGConfig.widget_body_padding.val
     @updateSize()
 
   # ============================================================================
@@ -55,6 +61,7 @@ class HG.Sidebar
     $(".widgetBody").css("width", width - 2*HGConfig.widget_margin.val - HGConfig.sidebar_scrollbar_width.val)
     $(".widgetContainer").css("width", width - HGConfig.widget_title_size.val + HGConfig.widget_margin.val - HGConfig.sidebar_scrollbar_width.val)
     @_sidebar_swiper?.reInit()
+    @notifyAll "onResize", width, height
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
