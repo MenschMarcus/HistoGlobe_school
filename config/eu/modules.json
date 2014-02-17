@@ -45,6 +45,7 @@
 
   "AreasOnMap" : {},
   "Globe" : {},
+  "AreasOnGlobe" : {},
 
   "LegendWidget":
   {
@@ -54,14 +55,14 @@
       {
         "type" : "categoryWithColor",
         "category" : "eu",
-        "color" : "#9F8BFF",
+        "color" : "lightgreen",
         "name" : "EU / EG",
         "filterable" : false
       },
       {
         "type" : "categoryWithColor",
         "category" : "euro",
-        "color" : "#5B309F",
+        "color" : "darkgreen",
         "name" : "Eurozone",
         "filterable" : false
       },

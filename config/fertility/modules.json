@@ -35,6 +35,7 @@
 
   "AreasOnMap" : {},
   "Globe" : {},
+  "AreasOnGlobe" : {},
 
   "LegendWidget":
   {

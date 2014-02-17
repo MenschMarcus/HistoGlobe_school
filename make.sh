@@ -27,6 +27,7 @@ cFiles="script/HistoGlobe.coffee \
         script/areas/AreaController.coffee \
         script/areas/AreaIndicator.coffee \
         script/areas/AreasOnMap.coffee \
+        script/areas/AreasOnGlobe.coffee \
         script/timeline/Timeline.coffee \
         script/timeline/YearMarker.coffee \
         script/labels/Label.coffee \
@@ -72,6 +73,7 @@ jFiles="build/config.js \
         build/AreaController.js \
         build/AreaIndicator.js \
         build/AreasOnMap.js \
+        build/AreasOnGlobe.js \
         build/Timeline.js \
         build/YearMarker.js \
         build/Label.js \

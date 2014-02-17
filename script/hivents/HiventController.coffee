@@ -33,7 +33,7 @@ class HG.HiventController
 
     conf = $.extend {}, defaultConfig, config
 
-    if conf.hiventJSONPath?
+    if conf.hiventJSONPaths?
       @loadHiventsFromJSON conf
     else if conf.hiventServerName?
       @loadHiventsFromDatabase conf
