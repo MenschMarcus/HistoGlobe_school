@@ -23,7 +23,7 @@
   "HiventsOnMap" : {},
 
   "HiventsOnTimeline" : {},
-  
+
   "HiventTooltips" : {},
   "HiventInfoPopovers" : {},
   "HiventInfoAtTag" : {},
@@ -32,7 +32,7 @@
   "AreaIndicator" :
   {
     "domain": [0, 1],
-    "range": ["darkgreen", "purple"],
+    "range": ["lightgreen", "darkgreen"],
     "data": "config/eu/data/eu.json",
     "fallback": "white",
     "extrapolatePast": false
@@ -40,7 +40,7 @@
 
   "AreaController" :
   {
-    "areaJSONPaths" : ["config/common/countries/europe.json", "config/common/countries/europe_old.json"]
+    "areaJSONPaths" : ["config/common/countries/europe.json", "config/common/countries/europe_old_old.json"]
   },
 
   "AreasOnMap" : {},
@@ -78,14 +78,14 @@
       {
         "type" : "categoryWithColor",
         "category" : "eu",
-        "color" : "#9F8BFF",
+        "color" : "lightgreen",
         "name" : "EU / EG",
         "filterable" : false
       },
       {
         "type" : "categoryWithColor",
         "category" : "euro",
-        "color" : "#5B309F",
+        "color" : "darkgreen",
         "name" : "Eurozone",
         "filterable" : false
       },

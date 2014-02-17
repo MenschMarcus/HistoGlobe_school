@@ -82,6 +82,7 @@
     <script type="text/javascript" src="build/AreaController.js"></script>
     <script type="text/javascript" src="build/AreaIndicator.js"></script>
     <script type="text/javascript" src="build/AreasOnMap.js"></script>
+    <script type="text/javascript" src="build/AreasOnGlobe.js"></script>
     <script type="text/javascript" src="build/Display.js"></script>
     <script type="text/javascript" src="build/Display2D.js"></script>
     <script type="text/javascript" src="build/DoublyLinkedList.js"></script>
