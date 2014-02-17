@@ -70,6 +70,7 @@ class HG.HistoGlobe
       slidesPerView: 'auto'
       noSwiping: true
       longSwipesRatio: 0.1
+      onSlideReset: @_onSlideEnd
       onSetWrapperTransform: (s, t) => @_onSlide(t)
       onSetWrapperTransition: (s, d) =>
         if d is 0

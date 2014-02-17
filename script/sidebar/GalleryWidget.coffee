@@ -38,14 +38,14 @@ class HG.GalleryWidget extends HG.Widget
     @_gallery = document.createElement "div"
     @_gallery.className = "swiper-wrapper swiper-no-swiping"
 
-    left = document.createElement "i"
-    left.className = "arrow arrow-left  fa fa-chevron-left"
+    @_left_arrow = document.createElement "i"
+    @_left_arrow.className = "arrow arrow-left  fa fa-chevron-left"
 
     left_shadow = document.createElement "div"
     left_shadow.className = "shadow shadow-left"
 
-    right = document.createElement "i"
-    right.className = "arrow arrow-right fa fa-chevron-right"
+    @_right_arrow = document.createElement "i"
+    @_right_arrow.className = "arrow arrow-right fa fa-chevron-right"
 
     right_shadow = document.createElement "div"
     right_shadow.className = "shadow shadow-right"
@@ -60,8 +60,8 @@ class HG.GalleryWidget extends HG.Widget
 
     content.appendChild left_shadow
     content.appendChild right_shadow
-    content.appendChild left
-    content.appendChild right
+    content.appendChild @_left_arrow
+    content.appendChild @_right_arrow
     content.appendChild pagination_container
     content.appendChild gallery_container
     gallery_container.appendChild @_gallery
@@ -76,19 +76,20 @@ class HG.GalleryWidget extends HG.Widget
       pagination: "#gallery-widget-pagination-#{@_id}"
       longSwipesRatio: 0.2
       calculateHeight: true
-      onSlideChangeEnd: () =>
-        @notifyAll "onSlideChanged", @getActiveSlide()
+      onSlideChangeEnd: @_onSlideEnd
+      # onSlideReset: @_onSlideEnd
 
 
-    $(left).click () =>
+    $(@_left_arrow).click () =>
       @_swiper.swipePrev()
 
-    $(right).click () =>
+    $(@_right_arrow).click () =>
       @_swiper.swipeNext()
 
     # for some reason needed...
     window.setTimeout () =>
       @_swiper.reInit()
+      @_updateArrows()
     , 1000
 
   # ============================================================================
@@ -123,6 +124,25 @@ class HG.GalleryWidget extends HG.Widget
   _addSlide: (slide) ->
     @_gallery.appendChild slide
     @_swiper.reInit()
+
+  # ============================================================================
+  _onSlideEnd: () =>
+    @_updateArrows()
+    @notifyAll "onSlideChanged", @getActiveSlide()
+
+  # ============================================================================
+  _updateArrows: () =>
+    slide = @getActiveSlide()
+
+    if slide is 0
+      $(@_left_arrow).addClass("hidden")
+      $(@_right_arrow).removeClass("hidden")
+    else if slide is @getSlideCount() - 1
+      $(@_right_arrow).addClass("hidden")
+      $(@_left_arrow).removeClass("hidden")
+    else
+      $(@_left_arrow).removeClass("hidden")
+      $(@_right_arrow).removeClass("hidden")
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #
