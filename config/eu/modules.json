@@ -51,23 +51,11 @@
     "icon" : "fa-star",
     "name" : "Statistik",
     "title" : "Coole Entwicklung",
-    "xAxis" :
-    {
-      "caption" : "Jahre",
-      "labels" : [1900, 1910, 1920, 1930, 1940, 1950, 1960, 1970, 1980, 1990, 2000]
-    },
-    "yAxis" :
-    {
-      "caption" : "Werte",
-      "labels" : [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-    },
-    "values":
-    [
-      {"x" : 1905, "y" : 40},
-      {"x" : 1922, "y" : 55},
-      {"x" : 1940, "y" : 77},
-      {"x" : 1956, "y" : 100}
-    ]
+    "data" : "config/eu/data/statistics_data.dsv",
+    "xAttributeName" : "year",
+    "yAttributeName" : "amount",
+    "yLableDistance" : 10,
+    "yCaption" : "Anzahl"
   },
 
   "LegendWidget":

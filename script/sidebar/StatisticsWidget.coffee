@@ -11,15 +11,30 @@ class HG.StatisticsWidget extends HG.Widget
     defaultConfig =
       icon: ""
       name: ""
-      text: ""
+      title: ""
+      data: ""
+      xAttributeName: ""
+      yAttributeName: ""
+      yLableDistance: 0
+      yCaption: ""
 
     @_config = $.extend {}, defaultConfig, config
+    @_canvas = null
+    @_canvasWidth = 0
+    @_canvasHeight = 0
+    @_minYear = 0
+    @_maxYear = 0
+    @_nowMarker = null
+
+    @_timeline = null
 
     HG.Widget.call @
 
   # ============================================================================
   hgInit: (hgInstance) ->
     super hgInstance
+
+    @_timeline = hgInstance.timeline
 
     @setName @_config.name
     @setIcon @_config.icon
@@ -33,14 +48,14 @@ class HG.StatisticsWidget extends HG.Widget
 
     height -= 2*HGConfig.widget_body_padding.val
 
-    canvasWidth = @_width - HGConfig.statistics_widget_margin_left.val - HGConfig.statistics_widget_margin_right.val
-    canvasHeight = height - HGConfig.statistics_widget_margin_top.val - HGConfig.statistics_widget_margin_bottom.val
+    @_canvasWidth = @_width - HGConfig.statistics_widget_margin_left.val - HGConfig.statistics_widget_margin_right.val
+    @_canvasHeight = height - HGConfig.statistics_widget_margin_top.val - HGConfig.statistics_widget_margin_bottom.val
 
     x = d3.scale.ordinal()
-        .rangeRoundBands([0, canvasWidth], .1)
+        .rangeRoundBands([0, @_canvasWidth], .1)
 
     y = d3.scale.linear()
-        .range([canvasHeight, 0])
+        .range([@_canvasHeight, 0])
 
     xAxis = d3.svg.axis()
         .scale(x)
@@ -49,49 +64,91 @@ class HG.StatisticsWidget extends HG.Widget
     yAxis = d3.svg.axis()
         .scale(y)
         .orient("left")
-        .ticks(10, "%")
+        .ticks(@_config.yLableDistance, "")
 
-    svg = d3.select(content).append("svg")
+    @_canvas = d3.select(content).append("svg")
         .attr("width", @_width)
         .attr("height", height)
         .append("g")
         .attr("transform", "translate(" + HGConfig.statistics_widget_margin_left.val + "," + HGConfig.statistics_widget_margin_top.val + ")")
 
-    type = (d) ->
-      d.frequency = +d.frequency
+    type = (d) =>
+      d[@_config.yAttributeName] = +d[@_config.yAttributeName]
       return d
 
     dsv = d3.dsv "|", "text/plain"
 
-    dsv("config/eu/data/statistics_data.dsv", type, (error, data) =>
-      x.domain(data.map((d) -> return d.letter ))
-      y.domain([0, d3.max(data, (d) -> return d.frequency )])
+    dsv(@_config.data, type, (error, data) =>
+      x.domain(data.map((d) => return d[@_config.xAttributeName] ))
+      y.domain([0, d3.max(data, (d) => return d[@_config.yAttributeName] )])
 
-      svg.append("g")
+      @_minYear = d3.min(data, (d) => return d[@_config.xAttributeName])
+      @_maxYear = d3.max(data, (d) => return d[@_config.xAttributeName])
+
+      @_canvas.append("g")
           .attr("class", "x axis")
-          .attr("transform", "translate(0," + canvasHeight + ")")
+          .attr("transform", "translate(0," + @_canvasHeight + ")")
           .call(xAxis)
 
-      svg.append("g")
+      @_canvas.append("g")
           .attr("class", "y axis")
           .call(yAxis)
-        .append("text")
+          .append("text")
           .attr("transform", "rotate(-90)")
           .attr("y", 6)
           .attr("dy", ".71em")
           .style("text-anchor", "end")
-          .text("Frequency")
+          .text(@_config.yCaption)
 
-      svg.selectAll(".bar")
+
+      @_canvas.selectAll(".bar")
           .data(data)
           .enter().append("rect")
           .attr("class", "bar")
-          .attr("x", (d) -> return x(d.letter) )
+          .attr("x", (d) => return x(d[@_config.xAttributeName]) )
           .attr("width", x.rangeBand())
-          .attr("y", (d) -> return y(d.frequency) )
-          .attr("height", (d) -> return canvasHeight - y(d.frequency) )
+          .attr("y", (d) => return y(d[@_config.yAttributeName]) )
+          .attr("height", (d) => return @_canvasHeight - y(d[@_config.yAttributeName]) )
+
+      @_initNowMarker()
 
       @setContent content
     )
 
+  ##############################################################################
+  #                            PRIVATE INTERFACE                               #
+  ##############################################################################
 
+  # ============================================================================
+  _initNowMarker: ->
+    startYear = @_timeline.getNowDate().getFullYear()
+
+    @_nowMarker = @_canvas.append("rect")
+          .attr("id", "statistics_now_marker")
+          .attr("x", @_yearToXCoordinate startYear)
+          .attr("y", 0)
+          .attr("width", 4)
+          .attr("height", @_canvasHeight)
+
+    @_timeline.onNowChanged @, (date) =>
+      @_nowMarker.attr("x", @_yearToXCoordinate date.getFullYear())
+
+  # ============================================================================
+  _yearToXCoordinate: (year) =>
+    if year > @_maxYear
+      return @_canvasWidth
+
+    if year < @_minYear
+      return 0
+
+    return @_canvasWidth * (year - @_minYear) / (@_maxYear - @_minYear)
+
+  # ============================================================================
+  _xCoordinateToYear: (x) =>
+    if x > @_canvasWidth
+      return @_maxYear
+
+    if x < 0
+      return @_minYear
+
+    return Math.round (@_maxYear * x / @_canvasWidth)
