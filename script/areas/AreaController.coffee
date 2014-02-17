@@ -71,7 +71,7 @@ class HG.AreaController
   getActiveAreas:()->
     newArray = []
     for a in @_areas
-      if a.isActive
+      if a._active
         newArray.push a
     return newArray
 

@@ -29,7 +29,7 @@ class HG.AreaIndicator
 
   # ============================================================================
   getColor: (id, now) ->
-    result = @_config.fallback
+    result = d3.rgb(@_config.fallback).toString()
 
     tmp = undefined
 

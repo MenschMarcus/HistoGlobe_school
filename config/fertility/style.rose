@@ -33,6 +33,8 @@ $widget_border_radius_bottom_right  = 3px
 $widget_font_size                   = 12px
 
 // GALLERY WIDGET
+$gallery_widget_pagination_size     = 20px
+
 
 
 // ------------------ TIMELINE OPTIONS -----------------------------------------
