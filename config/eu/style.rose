@@ -9,7 +9,7 @@ $sidebar_aimation_speed             = 0.3s
 $sidebar_width                      = 400px
 $sidebar_collapsed_width            = 45px
 $sidebar_scrollbar_width            = 10px
-
+$sidebar_background_color           = rgba(0, 0, 0, 0)
 
 // ------------------- WIDGET OPTIONS ------------------------------------------
 $widget_aimation_speed              = 0.3s
