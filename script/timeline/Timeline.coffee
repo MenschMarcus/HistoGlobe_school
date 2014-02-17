@@ -180,7 +180,7 @@ class HG.Timeline
       @notifyAll "onIntervalChanged", @_getTimeFilter()
       @notifyAll "onNowChanged", @_positionToDate((@_tlWidth / 2) - (@_yearMarkerWidth / 2))
     else
-      alert "Date is out of Range."
+      console.error "Date #{date} is out of Range."
 
   # ============================================================================
   _getTimeFilter: ->

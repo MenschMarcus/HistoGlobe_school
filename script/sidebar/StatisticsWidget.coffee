@@ -82,8 +82,8 @@ class HG.StatisticsWidget extends HG.Widget
       x.domain(data.map((d) => return d[@_config.xAttributeName] ))
       y.domain([0, d3.max(data, (d) => return d[@_config.yAttributeName] )])
 
-      @_minYear = d3.min(data, (d) => return d[@_config.xAttributeName])
-      @_maxYear = d3.max(data, (d) => return d[@_config.xAttributeName])
+      @_minYear = +d3.min(data, (d) => return d[@_config.xAttributeName])
+      @_maxYear = +d3.max(data, (d) => return d[@_config.xAttributeName])
 
       @_canvas.append("g")
           .attr("class", "x axis")
@@ -130,6 +130,20 @@ class HG.StatisticsWidget extends HG.Widget
           .attr("width", 4)
           .attr("height", @_canvasHeight)
 
+    drag = d3.behavior.drag()
+    drag.myLastX = 0
+    drag.on "drag", () =>
+        x = d3.event.x
+        drag.myLastX = x
+        @_nowMarker.attr "x", Math.min(@_canvasWidth, Math.max(x, 0))
+        d3.event.sourceEvent.stopPropagation()
+
+    drag.on "dragend", () =>
+        @_timeline.scrollToDate new Date @_xCoordinateToYear(drag.myLastX), 0, 1
+        d3.event.sourceEvent.stopPropagation()
+
+    @_nowMarker.call drag
+
     @_timeline.onNowChanged @, (date) =>
       @_nowMarker.attr("x", @_yearToXCoordinate date.getFullYear())
 
@@ -151,4 +165,4 @@ class HG.StatisticsWidget extends HG.Widget
     if x < 0
       return @_minYear
 
-    return Math.round (@_maxYear * x / @_canvasWidth)
+    return Math.round ( (@_maxYear - @_minYear) * x / @_canvasWidth + @_minYear)
