@@ -49,14 +49,15 @@ class HG.Area
     oldDate = @_now
     @_now = newDate
 
-    oldActive = @_active
-    @_active = @_isActive()
+    new_active = @_isActive()
 
-    if @_active and not oldActive
+    if new_active and not @_active
       @notifyAll "onShow", @
 
-    if not @_active and oldActive
+    if not new_active and @_active
       @notifyAll "onHide", @
+
+    @_active = new_active
 
     if @_active and @_indicator?
       color = @_indicator.getColor @_iso_a2, newDate

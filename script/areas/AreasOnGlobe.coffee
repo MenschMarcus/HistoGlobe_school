@@ -62,7 +62,7 @@ class HG.AreasOnGlobe
       for area in @_areaController.getActiveAreas()
         execute_async = (a) =>
           setTimeout () =>
-          
+
             @_showAreaLayer a
 
           , 0
@@ -91,7 +91,7 @@ class HG.AreasOnGlobe
   # ============================================================================
   _showAreaLayer: (area) ->
 
-      
+
       data = area.getData()
       materialData = area.getNormalStyle()
 
@@ -163,9 +163,9 @@ class HG.AreasOnGlobe
 
       lat_distance = Math.abs(Math.abs(bounds.getSouthWest().lat) - Math.abs(bounds.getNorthEast().lat))
       lng_distance = Math.abs(Math.abs(bounds.getSouthWest().lng) - Math.abs(bounds.getNorthEast().lng))
-      
+
       max_dist = Math.max(lat_distance,lng_distance)
-      
+
       #iterations = Math.min(Math.max(0,Math.round(max_dist/3.5)),11)
       #iterations = Math.min(Math.max(0,Math.round(max_dist^2/140)),11)
       iterations = Math.min(Math.max(0,Math.round(max_dist^3/5500)),11)
@@ -192,7 +192,7 @@ class HG.AreasOnGlobe
               transparent : true,
               depthWrite  : false,
               wireframe   : false,
-        
+
 
       mesh = new THREE.Mesh( shapeGeometry, countryMaterial );
 
@@ -224,14 +224,14 @@ class HG.AreasOnGlobe
 
       area.Mesh3D = mesh
       area.Borderlines3D = borderLines
-      
+
       @_initLabel(area)
       if @_isLabelVisible area
         @_showLabel area
 
       # add area
       @_visibleAreas.push area
-      
+
 
   # ============================================================================
   _hideAreaLayer: (area) ->
@@ -241,7 +241,7 @@ class HG.AreasOnGlobe
       @_visibleAreas.splice(@_visibleAreas.indexOf(area), 1)
 
       for line in area.Borderlines3D
-        @_sceneCountries.remove line  
+        @_sceneCountries.remove line
       @_sceneCountries.remove area.Mesh3D
 
     @_hideLabel area
@@ -280,7 +280,7 @@ class HG.AreasOnGlobe
   # ============================================================================
   _initLabel: (area) =>
     area.Label3DIsVisible = false
-    
+
     unless area.Label3D?
       text = area.getLabel().split "<"
       text = text[0]
@@ -364,7 +364,7 @@ class HG.AreasOnGlobe
   # ============================================================================
   _hideLabel: (area) =>
     area.Label3DIsVisible = false
-    
+
     if area.Label3D?
       @_sceneCountries.remove area.Label3D
 
@@ -443,7 +443,7 @@ class HG.AreasOnGlobe
           bb_center = bb.center()
 
           target = @_globe._cartToLatLong(new THREE.Vector3(bb_center.x,bb_center.y,bb_center.z).clone().normalize())
-          
+
           #set target position:
           @_globe._targetCameraPos = new THREE.Vector2(-1*target.y,target.x)
 
@@ -457,13 +457,13 @@ class HG.AreasOnGlobe
           targetFOV = 2* Math.atan(height/(2* dist)) * (180/Math.PI)
           #@_targetFOV = targetFOV
           if targetFOV < @_globe.getMaxFov()
-            if targetFOV > @_globe.getMinFov() 
+            if targetFOV > @_globe.getMinFov()
               @_globe._targetFOV = targetFOV
               factor = (targetFOV - @_globe.getMinFov() ) / (@_globe.getMaxFov() - @_globe.getMinFov() )
               targetZoom = ((1-factor) * (@_globe.getMaxZoom() - @_globe.getMinZoom() )) + @_globe.getMinZoom()
               @_globe._currentZoom = targetZoom
             else
-              @_globe._targetFOV = @_globe.getMinFov() 
+              @_globe._targetFOV = @_globe.getMinFov()
               @_globe._currentZoom = @_globe.getMaxZoom()
           else
             @_globe._targetFOV = @_globe.getMaxFov()
@@ -489,11 +489,11 @@ class HG.AreasOnGlobe
       intersect.material.opacity =  intersect.material.opacity - 0.2 #nicht schön
 
     #hover countries
-    for intersect in countryIntersects 
+    for intersect in countryIntersects
       index = $.inArray(intersect.object, @_intersectedCountries)
       @_intersectedCountries.splice index, 1  if index >= 0
     # unmark previous countries
-    
+
     '''for intersect in @_intersectedCountries
       if intersect.Area?
         #intersect.material.color.setHex 0x5b309f

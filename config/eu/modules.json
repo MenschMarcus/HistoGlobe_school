@@ -2,9 +2,9 @@
   "HistoGlobe" :
   {
     "container": "histoglobe",
-    "maxYear": 2015,
-    "minYear": 1800,
-    "nowYear": 2000
+    "maxYear": 2014,
+    "minYear": 1940,
+    "nowYear": 1950
   },
 
   "HiventController" :
@@ -40,11 +40,12 @@
 
   "AreaController" :
   {
-    "areaJSONPaths" : ["config/common/countries/europe.json", "config/common/countries/europe_old_old.json"]
+    "areaJSONPaths" : ["config/common/countries/europe.json", "config/common/countries/europe_old.json"]
   },
 
   "AreasOnMap" : {},
   "Globe" : {},
+  "AreasOnGlobe" : {},
 
   "StatisticsWidget" :
   {

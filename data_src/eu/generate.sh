@@ -30,9 +30,10 @@ unzip -u tmp/ne_50m_admin_0_boundary_lines_land.zip -d tmp
 rm *.json
 
 ogr2ogr -f GeoJSON world.json tmp/ne_50m_admin_0_countries.shp
-ogr2ogr -f GeoJSON -where "continent IN ('North America')" north_america.json tmp/ne_50m_admin_0_countries.shp
-ogr2ogr -f GeoJSON -where "continent IN ('South America')" south_america.json tmp/ne_50m_admin_0_countries.shp
-ogr2ogr -f GeoJSON -where "continent IN ('Africa')" africa.json tmp/ne_50m_admin_0_countries.shp
-ogr2ogr -f GeoJSON -where "continent IN ('Asia')" asia.json tmp/ne_50m_admin_0_countries.shp
-ogr2ogr -f GeoJSON -where "continent IN ('Europe') AND NOT sov_a3 IN ('RUS')" europe.json tmp/ne_50m_admin_0_countries.shp
+# ogr2ogr -f GeoJSON -where "continent IN ('North America')" north_america.json tmp/ne_50m_admin_0_countries.shp
+# ogr2ogr -f GeoJSON -where "continent IN ('South America')" south_america.json tmp/ne_50m_admin_0_countries.shp
+# ogr2ogr -f GeoJSON -where "continent IN ('Africa')" africa.json tmp/ne_50m_admin_0_countries.shp
+# ogr2ogr -f GeoJSON -where "continent IN ('Asia')" asia.json tmp/ne_50m_admin_0_countries.shp
+# ogr2ogr -f GeoJSON -where "continent IN ('Europe') AND NOT sov_a3 IN ('RUS')" europe.json tmp/ne_50m_admin_0_countries.shp
+ogr2ogr -f GeoJSON -where "continent IN ('Asia') OR sov_a3 IN ('RUS')" asia.json tmp/ne_50m_admin_0_countries.shp
 
