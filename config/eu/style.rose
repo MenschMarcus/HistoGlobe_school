@@ -36,6 +36,12 @@ $widget_font_size                   = 12px
 
 // STATISTICS WIDGET
 $statistics_widget_min_height       = 200px
+$statistics_widget_margin_top       = 20px
+$statistics_widget_margin_right     = 20px
+$statistics_widget_margin_bottom    = 30px
+$statistics_widget_margin_left      = 40px
+
+
 
 // ------------------ TIMELINE OPTIONS -----------------------------------------
 $timeline_height                    = 80px
