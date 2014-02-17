@@ -20,18 +20,9 @@
     "multimediaTableName": "eu_multimedia"
   },
 
-  "HiventsOnMap" : {},
-
-  "HiventsOnTimeline" : {},
-  
-  "HiventTooltips" : {},
-  "HiventInfoPopovers" : {},
-  "HiventInfoAtTag" : {},
-
-
   "AreaIndicator" :
   {
-    "domain": [-10, 1, 2.099, 2.1, 4, 10],
+    "domain": [-10, 1, 2.099, 2.1, 8, 10],
     "range": ["darkgreen", "darkgreen", "lightgreen", "yellow", "red", "red"],
     "data": "config/fertility/data/fertility.json",
     "fallback": "white"
@@ -39,7 +30,7 @@
 
   "AreaController" :
   {
-    "areaJSONPaths" : ["config/common/countries/europe.json", "config/common/countries/europe_old.json"]
+    "areaJSONPaths" : ["config/common/countries/asia.json"]
   },
 
   "AreasOnMap" : {},
@@ -125,7 +116,7 @@
   "VIPWidget" :
   {
     "icon" : "fa-user",
-    "name" : "Cheffe",
+    "name" : "Verträge",
     "persons" :
     [
       {

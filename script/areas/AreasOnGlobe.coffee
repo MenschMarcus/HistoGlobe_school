@@ -64,7 +64,7 @@ class HG.AreasOnGlobe
       for area in @_areaController.getActiveAreas()
         execute_async = (a) =>
           setTimeout () =>
-          
+
             @_showAreaLayer a
 
           , 0
@@ -92,7 +92,6 @@ class HG.AreasOnGlobe
   # ============================================================================
   _showAreaLayer: (area) ->
 
-     
       data = area.getData()
       materialData = area.getNormalStyle()
 
@@ -193,7 +192,6 @@ class HG.AreasOnGlobe
               transparent : true,
               depthWrite  : false,
               wireframe   : false,
-        
 
       mesh = new THREE.Mesh( shapeGeometry, countryMaterial );
 
@@ -225,7 +223,7 @@ class HG.AreasOnGlobe
 
       area.Mesh3D = mesh
       area.Borderlines3D = borderLines
-      
+
       @_initLabel(area)
       if @_isLabelVisible area
         @_showLabel area
@@ -233,7 +231,6 @@ class HG.AreasOnGlobe
       # add area
       @_visibleAreas.push area
       
-
   # ============================================================================
   _hideAreaLayer: (area) ->
 
@@ -246,7 +243,6 @@ class HG.AreasOnGlobe
       for line in area.Borderlines3D
         @_sceneCountries.remove line  
       @_sceneCountries.remove area.Mesh3D
-
 
     @_hideLabel area
 
@@ -304,7 +300,7 @@ class HG.AreasOnGlobe
   # ============================================================================
   _initLabel: (area) =>
     area.Label3DIsVisible = false
-    
+
     unless area.Label3D?
       text = area.getLabel().split "<"
       text = text[0]
@@ -388,7 +384,7 @@ class HG.AreasOnGlobe
   # ============================================================================
   _hideLabel: (area) =>
     area.Label3DIsVisible = false
-    
+
     if area.Label3D?
       @_sceneCountries.remove area.Label3D
 
@@ -465,7 +461,7 @@ class HG.AreasOnGlobe
           bb_center = bb.center()
 
           target = @_globe._cartToLatLong(new THREE.Vector3(bb_center.x,bb_center.y,bb_center.z).clone().normalize())
-          
+
           #set target position:
           @_globe._targetCameraPos = new THREE.Vector2(-1*target.y,target.x)
 
@@ -548,7 +544,6 @@ class HG.AreasOnGlobe
           @_showLabel intersect.object.Area'''
         @_intersectedCountries.push intersect.object
         #intersect.object.material.color.setHex 0x04ba67
-
 
 
   ##############################################################################

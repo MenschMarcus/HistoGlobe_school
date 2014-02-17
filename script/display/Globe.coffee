@@ -109,6 +109,7 @@ class HG.Globe extends HG.Display
       animate()
 
 
+
   # ============================================================================
   stop: ->
     @_isRunning = false
