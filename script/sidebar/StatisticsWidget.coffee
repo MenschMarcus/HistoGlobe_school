@@ -110,6 +110,11 @@ class HG.StatisticsWidget extends HG.Widget
           .attr("y", (d) => return y(d[@_config.yAttributeName]) )
           .attr("height", (d) => return @_canvasHeight - y(d[@_config.yAttributeName]) )
 
+      $(content).on "click", (event) =>
+        x = event.offsetX - HGConfig.statistics_widget_margin_left.val
+        @_setNowMarkerPosition x
+        @_updateTimeline x
+
       @_initNowMarker()
 
       @setContent content
@@ -135,17 +140,17 @@ class HG.StatisticsWidget extends HG.Widget
     drag.on "drag", () =>
         x = d3.event.x
         drag.myLastX = x
-        @_nowMarker.attr "x", Math.min(@_canvasWidth, Math.max(x, 0))
+        @_setNowMarkerPosition x
         d3.event.sourceEvent.stopPropagation()
 
     drag.on "dragend", () =>
-        @_timeline.scrollToDate new Date @_xCoordinateToYear(drag.myLastX), 0, 1
+        @_updateTimeline drag.myLastX
         d3.event.sourceEvent.stopPropagation()
 
     @_nowMarker.call drag
 
     @_timeline.onNowChanged @, (date) =>
-      @_nowMarker.attr("x", @_yearToXCoordinate date.getFullYear())
+      @_setNowMarkerPosition @_yearToXCoordinate date.getFullYear()
 
   # ============================================================================
   _yearToXCoordinate: (year) =>
@@ -166,3 +171,12 @@ class HG.StatisticsWidget extends HG.Widget
       return @_minYear
 
     return Math.round ( (@_maxYear - @_minYear) * x / @_canvasWidth + @_minYear)
+
+  # ============================================================================
+  _setNowMarkerPosition: (x) =>
+    @_nowMarker.attr "x", Math.min(@_canvasWidth, Math.max(x, 0))
+
+  # ============================================================================
+  _updateTimeline: (x) =>
+    @_timeline.scrollToDate new Date @_xCoordinateToYear(x), 0, 1
+
