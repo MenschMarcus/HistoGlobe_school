@@ -67,6 +67,14 @@ class HG.AreaController
 
           execute_async country
 
+  # ============================================================================
+  getActiveAreas:()->
+    newArray = []
+    for a in @_areas
+      if a.isActive
+        newArray.push a
+    return newArray
+
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################

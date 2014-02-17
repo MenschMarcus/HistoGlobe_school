@@ -38,14 +38,14 @@ class HG.GalleryWidget extends HG.Widget
     @_gallery = document.createElement "div"
     @_gallery.className = "swiper-wrapper swiper-no-swiping"
 
-    left = document.createElement "div"
-    left.className = "arrow arrow-left"
+    left = document.createElement "i"
+    left.className = "arrow arrow-left  fa fa-toggle-left"
 
     left_shadow = document.createElement "div"
     left_shadow.className = "shadow shadow-left"
 
-    right = document.createElement "div"
-    right.className = "arrow arrow-right"
+    right = document.createElement "i"
+    right.className = "arrow arrow-right fa fa-toggle-right"
 
     right_shadow = document.createElement "div"
     right_shadow.className = "shadow shadow-right"
@@ -54,11 +54,15 @@ class HG.GalleryWidget extends HG.Widget
     pagination.id = "gallery-widget-pagination-#{@_id}"
     pagination.className = "pagination"
 
+    pagination_container = document.createElement "div"
+    pagination_container.className = "pagination-container"
+    pagination_container.appendChild pagination
+
     content.appendChild left_shadow
     content.appendChild right_shadow
     content.appendChild left
     content.appendChild right
-    content.appendChild pagination
+    content.appendChild pagination_container
     content.appendChild gallery_container
     gallery_container.appendChild @_gallery
 

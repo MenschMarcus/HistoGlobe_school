@@ -21,7 +21,9 @@
   },
 
   "HiventsOnMap" : {},
+
   "HiventsOnTimeline" : {},
+
   "HiventTooltips" : {},
   "HiventInfoPopovers" : {},
   "HiventInfoAtTag" : {},
@@ -42,6 +44,7 @@
   },
 
   "AreasOnMap" : {},
+  "Globe" : {},
 
   "LegendWidget":
   {

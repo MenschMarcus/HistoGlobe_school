@@ -1,5 +1,5 @@
 @echo off
-call "H:\Stuff\NodeJs\nodevars.bat"
+call "C:\Program Files\nodejs\nodevars.bat"
 
 @echo off
 call "data_src\hivents\generate.bat"
@@ -24,7 +24,7 @@ set cFiles=script/HistoGlobe.coffee ^
         script/util/CallbackContainer.coffee ^
         script/util/VideoPlayer.coffee ^
         script/util/Vector.coffee ^
-        script/display/Display3D.coffee ^
+        script/display/Globe.coffee ^
         script/display/Display2D.coffee ^
         script/display/Display.coffee ^
         script/areas/Area.coffee ^
@@ -71,7 +71,7 @@ set jFiles=build/HistoGlobe.js ^
         build/CallbackContainer.js ^
         build/Display.js ^
         build/Display2D.js ^
-        build/Display3D.js ^
+        build/Globe.js ^
         build/Area.js ^
         build/AreaController.js ^
         build/AreaIndicator.js ^
@@ -111,6 +111,6 @@ rosetta --jsOut "build/config.js" ^
         --jsFormat "flat" ^
         --jsTemplate "var HGConfig;(function() {<%%= preamble %%>HGConfig = <%%= blob %%>;})();" ^
         --cssOut "build/config.less" ^
-        --cssFormat "less" config/**/*.rose && ^
+        --cssFormat "less" config/fertility/style.rose && ^
 coffee -c -o build %cFiles% && uglifyjs %jFiles% -o script\histoglobe.min.js && ^
 lessc --no-color -x style\histoglobe.less style\histoglobe.min.css

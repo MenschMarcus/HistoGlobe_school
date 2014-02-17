@@ -48,6 +48,21 @@
 
     <script type="text/javascript" src="script/third-party/raphael.min.js"></script>
 
+    <script type="text/javascript" src="script/third-party/three.min.js"></script>
+    <script type="text/javascript" src="script/third-party/TessellateModifier.js"></script>
+<!--
+    <script type="text/javascript" src="build/Display3D.js"></script>
+    <script type="text/javascript" src="build/Path.js"></script>
+    <script type="text/javascript" src="build/ArcPath2D.js"></script>
+    <script type="text/javascript" src="build/PathController.js"></script>
+    <script type="text/javascript" src="build/LinearPath2D.js"></script>
+    <script type="text/javascript" src="build/Label.js"></script>
+    <script type="text/javascript" src="build/LabelController.js"></script>
+    <script type="text/javascript" src="build/HiventMarker3D.js"></script>
+    <script type="text/javascript" src="script/util/BrowserDetect.js"></script>
+    <script type="text/javascript" src="build/VideoPlayer.js"></script>
+-->
+
     <?php // histoglobe javascript ?>
     <?php if ($debug_mode) {?>
 
@@ -89,6 +104,9 @@
     <script type="text/javascript" src="build/HiventInfoAtTag.js"></script>
     <script type="text/javascript" src="build/HistoGlobe.js"></script>
 
+    <script type="text/javascript" src="build/Globe.js"></script>
+
+    <!-- init histoglobe -->
     <?php } else { ?>
 
     <script type="text/javascript" src="script/histoglobe.min.js"></script>
