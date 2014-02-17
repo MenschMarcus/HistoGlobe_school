@@ -95,6 +95,8 @@ class HG.Globe extends HG.Display
       @_initEventHandling()
       @_zoom()
 
+      @notifyAll "onLoaded"
+
     unless @_isRunning
       @_isRunning = true
       @_renderer.domElement.style.display = "inline"
@@ -106,7 +108,6 @@ class HG.Globe extends HG.Display
 
       animate()
 
-    @notifyAll "onLoaded"
 
   # ============================================================================
   stop: ->
@@ -162,6 +163,10 @@ class HG.Globe extends HG.Display
   # ============================================================================
   getRaycaster:() ->
     return RAYCASTER
+
+  # ============================================================================
+  getProjector:() ->
+    return PROJECTOR
 
   # ============================================================================
   getGlobeRadius:() ->
@@ -810,27 +815,6 @@ class HG.Globe extends HG.Display
       when "group_highlight" then return @_hiventLogos.group_highlight
       when "group_new" then return @_hiventLogos.group_new
       when "group_highlight_new" then return @_hiventLogos.group_highlight_new
-
-  # ============================================================================
-  #new:(# http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript)
-  _rgbify: (colr) ->
-    colr = colr.replace /#/, ''
-    if colr.length is 3
-      [
-        parseInt(colr.slice(0,1) + colr.slice(0, 1), 16)
-        parseInt(colr.slice(1,2) + colr.slice(1, 1), 16)
-        parseInt(colr.slice(2,3) + colr.slice(2, 1), 16)
-      ]
-    else if colr.length is 6
-      [
-        parseInt(colr.slice(0,2), 16)
-        parseInt(colr.slice(2,4), 16)
-        parseInt(colr.slice(4,6), 16)
-      ]
-    else
-      # just return black
-      [0, 0, 0]
-
 
 
   # ============================================================================
