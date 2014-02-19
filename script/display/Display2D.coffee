@@ -77,7 +77,7 @@ class HG.Display2D extends HG.Display
     options =
       maxZoom:      @_hgInstance._config.maxZoom
       minZoom:      @_hgInstance._config.minZoom
-      zoomControl:  true
+      zoomControl:  false
       maxBounds:    @_hgInstance._config.maxBounds
 
     @_map = L.map @_mapParent, options
@@ -85,6 +85,14 @@ class HG.Display2D extends HG.Display
     @_map.attributionControl.setPrefix ''
 
     L.tileLayer('data/tiles/{z}/{x}/{y}.png').addTo @_map
+
+    @_hgInstance.onAllModulesLoaded @, () =>
+      if @_hgInstance.zoom_buttons?
+        @_hgInstance.zoom_buttons.onZoomIn @, () =>
+          @_map.zoomIn()
+
+        @_hgInstance.zoom_buttons.onZoomOut @, () =>
+          @_map.zoomOut()
 
     @_isRunning = true
 

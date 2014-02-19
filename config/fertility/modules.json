@@ -34,7 +34,12 @@
   },
 
   "AreasOnMap" : {},
-  "Globe" : {},
+
+  "ControlButtonArea": {},
+  "ZoomButtons": {},
+  "Globe": {},
+  "FullscreenButton": {},
+
   "AreasOnGlobe" : {},
 
   "LegendWidget":

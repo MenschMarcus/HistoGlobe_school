@@ -17,6 +17,9 @@ cFiles="script/HistoGlobe.coffee \
         script/sidebar/LogoWidget.coffee \
         script/sidebar/PictureWidget.coffee \
         script/sidebar/LegendWidget.coffee \
+        script/modules/control_buttons/ControlButtonArea.coffee \
+        script/modules/control_buttons/ZoomButtons.coffee \
+        script/modules/control_buttons/FullscreenButton.coffee \
         script/util/Mixin.coffee \
         script/util/CallbackContainer.coffee \
         script/util/VideoPlayer.coffee \
@@ -66,6 +69,9 @@ jFiles="build/config.js \
         build/LogoWidget.js \
         build/PictureWidget.js \
         build/LegendWidget.js \
+        build/ControlButtonArea.js \
+        build/ZoomButtons.js \
+        build/FullscreenButton.js \
         build/Mixin.js \
         build/CallbackContainer.js \
         build/Display.js \
@@ -113,7 +119,7 @@ rosetta --jsOut "build/config.js" \
         --jsFormat "flat" \
         --jsTemplate $'var HGConfig;\n(function() {\n<%= preamble %>\nHGConfig = <%= blob %>;\n})();' \
         --cssOut "build/config.less" \
-        --cssFormat "less" config/sdw/style.rose
+        --cssFormat "less" config/eu/style.rose
 
 coffee -c -o build $cFiles
 

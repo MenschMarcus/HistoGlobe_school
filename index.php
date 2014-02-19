@@ -98,6 +98,9 @@
     <script type="text/javascript" src="build/LogoWidget.js"></script>
     <script type="text/javascript" src="build/PictureWidget.js"></script>
     <script type="text/javascript" src="build/LegendWidget.js"></script>
+    <script type="text/javascript" src="build/ControlButtonArea.js"></script>
+    <script type="text/javascript" src="build/ZoomButtons.js"></script>
+    <script type="text/javascript" src="build/FullscreenButton.js"></script>
     <script type="text/javascript" src="build/HiventsOnMap.js"></script>
     <script type="text/javascript" src="build/HiventsOnTimeline.js"></script>
     <script type="text/javascript" src="build/HiventTooltips.js"></script>
@@ -227,8 +230,8 @@
       // }
 
       $(document).ready(function($) {
-        var histoglobe = new HG.HistoGlobe("config/sdw/modules.json");
         // var histoglobe = new HG.HistoGlobe("config/sdw/modules.json");
+        var histoglobe = new HG.HistoGlobe("config/eu/modules.json");
         // var histoglobe = new HG.HistoGlobe("config/fertility/modules.json");
       });
 

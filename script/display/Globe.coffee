@@ -38,47 +38,36 @@ class HG.Globe extends HG.Display
     HG.Display.call @, hgInstance._map_canvas
 
     #button
-    button = document.createElement "a"
-    button.id = "toggle-3D"
-    button.className = "btn"
-    button.innerHTML = "Globe"
-    hgInstance._map_canvas.appendChild button
+    if hgInstance.control_button_area?
+      state_a = {}
+      state_b = {}
 
-    $(button).click () =>
+      state_a =
+        icon: "fa-globe"
+        tooltip: "Zur 3D-Ansicht wechseln"
+        callback: () =>
+          $(hgInstance.map.getCanvas()).animate({opacity: 0.0}, 1000, 'linear')
+          hgInstance.map.stop()
+          $(@getCanvas()).css({opacity: 0.0})
+          @start();
+          $(@getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
+          return state_b
 
-      if (hgInstance.map.isRunning())
-        $(hgInstance.map.getCanvas()).animate({opacity: 0.0}, 1000, 'linear')
-        hgInstance.map.stop()
-        #$('#toggle-3D').button("toggle")
-        #$('#toggle-2D').button("toggle")
+      state_b =
+        icon: "fa-calendar"
+        tooltip: "Zur 2D-Ansicht zurückkehren"
+        callback: () =>
+          $(@getCanvas()).animate({opacity: 0.0}, 1000, 'linear')
+          @stop()
+          $(@getCanvas()).css({opacity: 0.0})
+          hgInstance.map.start();
+          $(hgInstance.map.getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
+          return state_a
 
+      hgInstance.control_button_area.addButton state_a
 
-        $(@getCanvas()).css({opacity: 0.0})
-
-
-        @start();
-        $(@getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
-
-        button.innerHTML = "Map"
-
-
-      else
-
-        $(@getCanvas()).animate({opacity: 0.0}, 1000, 'linear')
-        @stop()
-        #$('#toggle-3D').button("toggle")
-        #$('#toggle-2D').button("toggle")
-
-
-        $(@getCanvas()).css({opacity: 0.0})
-
-        hgInstance.map.start();
-        $(hgInstance.map.getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
-
-        button.innerHTML = "Globe"
-
-
-
+    else
+      console.error "Failed to add globe button: ControlButtons module not found!"
 
 
     #@_initHivents()#disabled

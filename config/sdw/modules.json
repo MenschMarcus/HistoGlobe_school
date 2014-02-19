@@ -12,6 +12,11 @@
     "startLatLong": [51.505, 10.09]
   },
 
+  "ControlButtonArea": {},
+  "ZoomButtons": {},
+  "Globe": {},
+  "FullscreenButton": {},
+
   "LogoWidget" :
   {
     "icon" : "fa-picture-o",
@@ -58,7 +63,7 @@
 
   "TimeGalleryWidget" :
   {
-    "icon" : "fa-tags",
+    "icon" : "fa-star",
     "name" : "Schlüsselereignisse",
     "htmlSlides" :
     [
@@ -87,7 +92,7 @@
 
   "LegendWidget":
   {
-    "icon": "fa-tags",
+    "icon": "fa-list-ul",
     "name": "Legende & Filter",
     "columns": [
       {

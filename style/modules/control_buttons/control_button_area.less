@@ -1,0 +1,38 @@
+.control-buttons {
+  position: absolute;
+  top: 0px;
+  padding-top: 20px;
+  padding-left: 20px;
+
+  .transition-property(left);
+  .transition-duration(@sidebar_aimation_speed);
+
+
+  .control-buttons-group {
+    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+    margin: 5px;
+    font-size: 16pt;
+    border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
+
+    .control-buttons-button {
+      color: @widget_title_text_color;
+      cursor: pointer;
+      padding: 0px 6px;
+      background-color: @widget_title_background_color;
+
+      &:first-child {
+        border-top-left-radius: @widget_border_radius_top_left;
+        border-top-right-radius: @widget_border_radius_top_right;
+      }
+
+      &:last-child {
+        border-bottom-right-radius: @widget_border_radius_bottom_right;
+        border-bottom-left-radius: @widget_border_radius_bottom_left;
+      }
+
+      &:hover {
+        background-color: lighten(@widget_title_background_color, 20%);
+      }
+    }
+  }
+}
