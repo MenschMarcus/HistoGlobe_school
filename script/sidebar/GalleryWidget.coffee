@@ -39,13 +39,13 @@ class HG.GalleryWidget extends HG.Widget
     @_gallery.className = "swiper-wrapper swiper-no-swiping"
 
     @_left_arrow = document.createElement "i"
-    @_left_arrow.className = "arrow arrow-left  fa fa-chevron-left"
+    @_left_arrow.className = "arrow arrow-left  fa fa-chevron-circle-left"
 
     left_shadow = document.createElement "div"
     left_shadow.className = "shadow shadow-left"
 
     @_right_arrow = document.createElement "i"
-    @_right_arrow.className = "arrow arrow-right fa fa-chevron-right"
+    @_right_arrow.className = "arrow arrow-right fa fa-chevron-circle-right"
 
     right_shadow = document.createElement "div"
     right_shadow.className = "shadow shadow-right"

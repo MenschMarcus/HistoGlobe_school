@@ -113,7 +113,7 @@ rosetta --jsOut "build/config.js" \
         --jsFormat "flat" \
         --jsTemplate $'var HGConfig;\n(function() {\n<%= preamble %>\nHGConfig = <%= blob %>;\n})();' \
         --cssOut "build/config.less" \
-        --cssFormat "less" config/eu/style.rose
+        --cssFormat "less" config/sdw/style.rose
 
 coffee -c -o build $cFiles
 

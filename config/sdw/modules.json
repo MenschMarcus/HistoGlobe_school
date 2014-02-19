@@ -4,7 +4,12 @@
     "container": "histoglobe",
     "maxYear": 2014,
     "minYear": 1993,
-    "nowYear": 2000
+    "nowYear": 2000,
+    "minZoom": 6,
+    "maxZoom": 8,
+    "startZoom": 6,
+    "maxBounds": [[35,-20], [65, 50]],
+    "startLatLong": [51.505, 10.09]
   },
 
   "LogoWidget" :
@@ -59,23 +64,23 @@
     [
       {
         "date" : "4.2.1996",
-        "html" : "<b>4.2.1996</b><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis."
+        "html" : "<b>4.2.1996</b><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim."
       },
       {
         "date" : "4.5.1998",
-        "html" : "<b>4.5.1998</b><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis."
+        "html" : "<b>4.5.1998</b><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim."
       },
       {
         "date" : "14.2.2003",
-        "html" : "<b>14.2.2003</b><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis."
+        "html" : "<b>14.2.2003</b><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim."
       },
       {
         "date" : "24.7.2008",
-        "html" : "<b>24.7.2008</b><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis."
+        "html" : "<b>24.7.2008</b><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim."
       },
       {
         "date" : "24.7.2010",
-        "html" : "<b>24.7.2010</b><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis."
+        "html" : "<b>24.7.2010</b><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim."
       }
     ]
   },
@@ -83,45 +88,37 @@
   "LegendWidget":
   {
     "icon": "fa-tags",
-    "name": "Legende",
-    "elements" : [
+    "name": "Legende & Filter",
+    "columns": [
       {
-        "type" : "categoryWithColor",
-        "category" : "eu",
-        "color" : "lightgreen",
-        "name" : "EU / EG",
-        "filterable" : false
-      },
-      {
-        "type" : "categoryWithColor",
-        "category" : "euro",
-        "color" : "darkgreen",
-        "name" : "Eurozone",
-        "filterable" : false
-      },
-      {
-        "type" : "spacer"
-      },
-      {
-        "type" : "categoryWithIcon",
-        "category" : "join",
-        "icon" : "data/hivent_icons/icon_join.png",
-        "name" : "Beitritt",
-        "filterable" : true
-      },
-      {
-        "type" : "categoryWithIcon",
-        "category" : "contract",
-        "icon" : "data/hivent_icons/icon_contract.png",
-        "name" : "Vertrag",
-        "filterable" : true
-      },
-      {
-        "type" : "categoryWithIcon",
-        "category" : "default",
-        "icon" : "data/hivent_icons/icon_default.png",
-        "name" : "Sonstige",
-        "filterable" : true
+        "groups" : [
+          {
+            "name": "Ereignisse",
+            "elements" : [
+              {
+                "type" : "categoryWithIcon",
+                "category" : "join",
+                "icon" : "data/hivent_icons/icon_join.png",
+                "name" : "Beitritt",
+                "filterable" : true
+              },
+              {
+                "type" : "categoryWithIcon",
+                "category" : "contract",
+                "icon" : "data/hivent_icons/icon_contract.png",
+                "name" : "Vertrag",
+                "filterable" : true
+              },
+              {
+                "type" : "categoryWithIcon",
+                "category" : "default",
+                "icon" : "data/hivent_icons/icon_default.png",
+                "name" : "Sonstige",
+                "filterable" : true
+              }
+            ]
+          }
+        ]
       }
     ]
   }

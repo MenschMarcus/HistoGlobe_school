@@ -20,6 +20,11 @@ class HG.HistoGlobe
       nowYear: 2014
       minYear: 1940
       maxYear: 2020
+      minZoom: 1
+      maxZoom: 6
+      startZoom: 4
+      maxBounds: undefined
+      startLatLong: [51.505, 10.09]
 
     $.getJSON(pathToJson, (config) =>
       hgConf = config["HistoGlobe"]
@@ -86,7 +91,7 @@ class HG.HistoGlobe
     @_sidebar_area.className = "swiper-slide"
 
     @sidebar = new HG.Sidebar
-      parentDiv: @_sidebar_area
+    @addModule @sidebar
 
 
   # ============================================================================
@@ -111,7 +116,8 @@ class HG.HistoGlobe
     @_map_canvas.className = "swiper-no-swiping"
 
     @_map_area.appendChild @_map_canvas
-    @map = new HG.Display2D @_map_canvas
+    @map = new HG.Display2D
+    @addModule @map
 
   # ============================================================================
   _createTimeline: ->

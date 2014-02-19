@@ -20,13 +20,19 @@ class HG.LegendWidget extends HG.Widget
     @_init()
     HG.Widget.call @
 
-    for element in @_config.elements
-      if element.type is "categoryWithColor"
-        @addCategoryWithColor element
-      else if element.type is "categoryWithIcon"
-        @addCategoryWithIcon element
-      else
-        @addSpacer()
+    for column in @_config.columns
+      col_div = @addColumn @_config.columns.length
+
+      for group in column.groups
+        group_div = @addGroup group.name, col_div
+
+        for element in group.elements
+          if element.type is "categoryWithColor"
+            @addCategoryWithColor element, group_div
+          else if element.type is "categoryWithIcon"
+            @addCategoryWithIcon element, group_div
+          else
+            @addSpacer()
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -44,7 +50,14 @@ class HG.LegendWidget extends HG.Widget
 
 
   # ============================================================================
-  addCategoryWithIcon: (config) ->
+  addColumn: (column_count) ->
+    col_div = document.createElement "div"
+    col_div.className = "legend-column legend-column-#{column_count}"
+    @_mainDiv.appendChild col_div
+    return col_div
+
+  # ============================================================================
+  addCategoryWithIcon: (config, col_div) ->
     defaultConfig =
       category: ""
       icon: ""
@@ -54,25 +67,26 @@ class HG.LegendWidget extends HG.Widget
     config = $.extend {}, defaultConfig, config
 
     row = document.createElement "div"
-    row.className = "legend-row"
-    @_mainDiv.appendChild row
+    col_div.appendChild row
 
     cellIcon = document.createElement "span"
     cellIcon.className = "legend-icon"
     cellIcon.style.backgroundImage = "url('#{config.icon}')"
     row.appendChild cellIcon
 
-    if config.filterable
-      @_addCheckbox(row, config.category)
-      @_categoryFilter.push config.category
+    @_make_filterable row, config
 
     cellName = document.createElement "span"
     cellName.innerHTML = config.name
     cellName.className = "legend-text"
     row.appendChild cellName
 
+    cellCheck = document.createElement "i"
+    cellCheck.className = "fa fa-check legend-check"
+    row.appendChild cellCheck
+
   # ============================================================================
-  addCategoryWithColor: (config) ->
+  addCategoryWithColor: (config, col_div) ->
     defaultConfig =
       category: ""
       color: ""
@@ -82,28 +96,45 @@ class HG.LegendWidget extends HG.Widget
     config = $.extend {}, defaultConfig, config
 
     row = document.createElement "div"
-    row.className = "legend-row"
-    @_mainDiv.appendChild row
+    col_div.appendChild row
 
     cellColor = document.createElement "span"
     cellColor.style.backgroundColor = config.color
     cellColor.className = "legend-color"
     row.appendChild cellColor
 
-    if config.filterable
-      @_addCheckbox(row, config.category)
-      @_categoryFilter.push config.category
+    @_make_filterable row, config
 
     cellName = document.createElement "span"
     cellName.innerHTML = config.name
     cellName.className = "legend-text"
     row.appendChild cellName
 
+    cellCheck = document.createElement "i"
+    cellCheck.className = "fa fa-check legend-check"
+    row.appendChild cellCheck
+
   # ============================================================================
-  addSpacer: () ->
+  addSpacer: (col_div) ->
     row = document.createElement "div"
-    row.className = "legend-row legend-spacer"
-    @_mainDiv.appendChild row
+    row.className = "legend-row legend-row-spacer"
+    col_div.appendChild row
+
+  # ============================================================================
+  addGroup: (name, col_div) ->
+
+    group_div = document.createElement "div"
+    group_div.className = "legend-group"
+
+    heading = document.createElement "div"
+    heading.className = "legend-row legend-row-heading"
+    heading.innerHTML = name
+
+    col_div.appendChild group_div
+    group_div.appendChild heading
+
+    return group_div
+
 
   ############################### INIT FUNCTIONS ###############################
 
@@ -117,18 +148,23 @@ class HG.LegendWidget extends HG.Widget
   ############################# MAIN FUNCTIONS #################################
 
   # ============================================================================
-  _addCheckbox: (container, category) ->
-    cellCheckParent = document.createElement "span"
-    cellCheck = document.createElement "input"
-    cellCheck.type = "checkbox"
-    cellCheck.checked = true
-    container.appendChild cellCheckParent
-    cellCheckParent.appendChild cellCheck
+  _make_filterable : (row, config) ->
 
-    $(cellCheck).change () =>
-      if cellCheck.checked
-        @_categoryFilter.push category
-      else
-        @_categoryFilter = @_categoryFilter.filter (item) -> item isnt category
+    if config.filterable
+      row.className = "legend-row legend-row-filterable active"
 
-      @_hiventController?.setCategoryFilter @_categoryFilter
+      @_categoryFilter.push config.category
+
+      $(row).click () =>
+        $(row).toggleClass "active"
+
+        if $(row).hasClass("active")
+          @_categoryFilter.push config.category
+        else
+          @_categoryFilter = @_categoryFilter.filter (item) -> item isnt config.category
+
+        @_hiventController?.setCategoryFilter @_categoryFilter
+
+    else
+      row.className = "legend-row legend-row-non-filterable"
+

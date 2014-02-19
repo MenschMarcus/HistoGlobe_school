@@ -41,48 +41,61 @@
   {
     "icon": "fa-tags",
     "name": "Legende",
-    "elements" : [
+    "columns": [
       {
-        "type" : "categoryWithColor",
-        "category" : "eu",
-        "color" : "#9F8BFF",
-        "name" : "EU / EG",
-        "filterable" : false
+        "elements" : [
+          {
+            "type" : "heading",
+            "name" : "Ereignisse"
+          },
+          {
+            "type" : "categoryWithIcon",
+            "category" : "join",
+            "icon" : "data/hivent_icons/icon_join.png",
+            "name" : "Beitritt",
+            "filterable" : true
+          },
+          {
+            "type" : "categoryWithIcon",
+            "category" : "contract",
+            "icon" : "data/hivent_icons/icon_contract.png",
+            "name" : "Vertrag",
+            "filterable" : true
+          },
+          {
+            "type" : "categoryWithIcon",
+            "category" : "default",
+            "icon" : "data/hivent_icons/icon_default.png",
+            "name" : "Sonstige",
+            "filterable" : true
+          }
+        ]
       },
       {
-        "type" : "categoryWithColor",
-        "category" : "euro",
-        "color" : "#5B309F",
-        "name" : "Eurozone",
-        "filterable" : false
-      },
-      {
-        "type" : "spacer"
-      },
-      {
-        "type" : "categoryWithIcon",
-        "category" : "join",
-        "icon" : "data/hivent_icons/icon_join.png",
-        "name" : "Beitritt",
-        "filterable" : true
-      },
-      {
-        "type" : "categoryWithIcon",
-        "category" : "contract",
-        "icon" : "data/hivent_icons/icon_contract.png",
-        "name" : "Vertrag",
-        "filterable" : true
-      },
-      {
-        "type" : "categoryWithIcon",
-        "category" : "default",
-        "icon" : "data/hivent_icons/icon_default.png",
-        "name" : "Sonstige",
-        "filterable" : true
+        "elements" : [
+          {
+            "type" : "heading",
+            "name" : "Mitgliedsstatus"
+          },
+          {
+            "type" : "categoryWithColor",
+            "category" : "eu",
+            "color" : "lightgreen",
+            "name" : "EU / EG",
+            "filterable" : false
+          },
+          {
+            "type" : "categoryWithColor",
+            "category" : "euro",
+            "color" : "darkgreen",
+            "name" : "Eurozone",
+            "filterable" : false
+          }
+        ]
       }
     ]
-
   },
+
 
   "TimeGalleryWidget" :
   {

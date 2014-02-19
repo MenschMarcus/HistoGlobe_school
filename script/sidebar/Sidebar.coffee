@@ -7,14 +7,9 @@ class HG.Sidebar
   ##############################################################################
 
   # ============================================================================
-  constructor: (config) ->
+  hgInit: (hgInstance) ->
 
-    defaultConfig =
-      parentDiv: undefined
-
-    @_config = $.extend {}, defaultConfig, config
-
-    @_container = @_createElement @_config.parentDiv, "div", "sidebar"
+    @_container = @_createElement hgInstance._sidebar_area, "div", "sidebar"
     @_container.className = "swiper-container"
 
     scrollbar = @_createElement @_container, "div", "sidebar-scrollbar"

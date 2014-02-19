@@ -7,9 +7,14 @@ class HG.Display2D extends HG.Display
   ##############################################################################
 
   # ============================================================================
-  constructor: (container) ->
+  constructor: () ->
+    HG.Display.call @
 
-    HG.Display.call @, container
+  # ============================================================================
+  hgInit: (hgInstance) ->
+    super hgInstance
+
+    @_hgInstance = hgInstance
 
     # @_labelController = labelController
     @_initMembers()
@@ -70,13 +75,13 @@ class HG.Display2D extends HG.Display
     HG.Display.CONTAINER.appendChild @_mapParent
 
     options =
-      maxZoom:      6
-      minZoom:      1
+      maxZoom:      @_hgInstance._config.maxZoom
+      minZoom:      @_hgInstance._config.minZoom
       zoomControl:  true
-      #maxBounds:    [[-180,-90], [180, 90]]
+      maxBounds:    @_hgInstance._config.maxBounds
 
     @_map = L.map @_mapParent, options
-    @_map.setView [51.505, 10.09], 4
+    @_map.setView @_hgInstance._config.startLatLong, @_hgInstance._config.startZoom
     @_map.attributionControl.setPrefix ''
 
     L.tileLayer('data/tiles/{z}/{x}/{y}.png').addTo @_map
