@@ -26,6 +26,16 @@ class HG.Widget
     $(@_content).empty()
     @_content.appendChild div
 
+  # ============================================================================
+  onDivClick: (div, callback) ->
+    div.onmousedown = (e) =>
+      div.my_click_x = e.x
+      div.my_click_y = e.y
+
+    $(div).click (e) =>
+      unless Math.abs(div.my_click_x - e.clientX) > 10 or Math.abs(div.my_click_y - e.clientY) > 10
+        callback()
+
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################

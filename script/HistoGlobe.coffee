@@ -46,7 +46,7 @@ class HG.HistoGlobe
 
       $(window).on 'resize', @_onResize
 
-      @_onResize()
+      # @_onResize()
 
       @_collapsed = !@isInMobileMode()
       @_collapse()
@@ -60,8 +60,8 @@ class HG.HistoGlobe
             console.error "The module #{moduleName} is not part of the HG namespace!"
 
       @notifyAll "onAllModulesLoaded"
+      @_updateLayout()
     )
-
 
 
   # ============================================================================
@@ -87,6 +87,7 @@ class HG.HistoGlobe
       slidesPerView: 'auto'
       noSwiping: true
       longSwipesRatio: 0.1
+      moveStartThreshold: 10
       onSlideReset: @_onSlideEnd
       onSetWrapperTransform: (s, t) => @_onSlide(t)
       onSetWrapperTransition: (s, d) =>
