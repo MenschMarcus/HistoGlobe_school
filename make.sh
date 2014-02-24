@@ -14,9 +14,13 @@ cFiles="script/HistoGlobe.coffee \
         script/sidebar/GalleryWidget.coffee \
         script/sidebar/TimeGalleryWidget.coffee \
         script/sidebar/VIPWidget.coffee \
+        script/sidebar/LogoWidget.coffee \
         script/sidebar/PictureWidget.coffee \
         script/sidebar/LegendWidget.coffee \
         script/sidebar/StatisticsWidget.coffee \
+        script/modules/control_buttons/ControlButtonArea.coffee \
+        script/modules/control_buttons/ZoomButtons.coffee \
+        script/modules/control_buttons/FullscreenButton.coffee \
         script/util/Mixin.coffee \
         script/util/CallbackContainer.coffee \
         script/util/VideoPlayer.coffee \
@@ -63,9 +67,13 @@ jFiles="build/config.js \
         build/GalleryWidget.js \
         build/TimeGalleryWidget.js \
         build/VIPWidget.js \
+        build/LogoWidget.js \
         build/PictureWidget.js \
         build/LegendWidget.js \
         build/StatisticsWidget.js \
+        build/ControlButtonArea.js \
+        build/ZoomButtons.js \
+        build/FullscreenButton.js \
         build/Mixin.js \
         build/CallbackContainer.js \
         build/Display.js \

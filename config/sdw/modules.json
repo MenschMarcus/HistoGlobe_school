@@ -1,0 +1,131 @@
+{
+  "HistoGlobe" :
+  {
+    "container": "histoglobe",
+    "maxYear": 2014,
+    "minYear": 1993,
+    "nowYear": 2000,
+    "minZoom": 6,
+    "maxZoom": 8,
+    "startZoom": 6,
+    "maxBounds": [[35,-20], [65, 50]],
+    "startLatLong": [51.505, 10.09]
+  },
+
+  "ControlButtonArea": {},
+  "ZoomButtons": {},
+  "Globe": {},
+  "FullscreenButton": {},
+
+  "LogoWidget" :
+  {
+    "icon" : "fa-picture-o",
+    "name" : "Name & Logo",
+    "persons" :
+    [
+      {
+        "date": "1.1.1994",
+        "text": "Bis 1996 heißt die Stiftung der deutschen Wirtschaft sdw GmbH.",
+        "logo": "http://www.sdw.org/uploads/pics/sdw-stiftung-der-deutschen-wirtschaft_01.png"
+      }
+    ]
+  },
+
+  "VIPWidget" :
+  {
+    "icon" : "fa-user",
+    "name" : "Vorsitzender",
+    "persons" :
+    [
+      {
+        "name": "Silvio Berlusconi",
+        "date": "29.11.1995",
+        "displayDate": "seit 29.11.1995",
+        "image": "http://media.npr.org/assets/img/2012/10/26/berlusconi-59427b7fb84e0729056c096c71bcfff20f536a57-s6-c30.jpg",
+        "description": ""
+      },
+      {
+        "name": "Angela Merkel",
+        "date": "17.7.1999",
+        "displayDate": "seit 17.07.1999",
+        "image": "http://upload.wikimedia.org/wikipedia/commons/f/fd/Angela_Merkel_(2008).jpg",
+        "description": ""
+      },
+      {
+        "name": "Barack Obama",
+        "date": "4.8.2005",
+        "displayDate": "seit 04.08.2005",
+        "image": "http://www.washingtonpost.com/wp-srv/special/lifestyle/the-age-of-obama/img/obama-v2/obama11.jpg",
+        "description": ""
+      }
+    ]
+  },
+
+  "TimeGalleryWidget" :
+  {
+    "icon" : "fa-star",
+    "name" : "Schlüsselereignisse",
+    "htmlSlides" :
+    [
+      {
+        "date" : "4.2.1996",
+        "html" : "<b>4.2.1996</b><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim."
+      },
+      {
+        "date" : "4.5.1998",
+        "html" : "<b>4.5.1998</b><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim."
+      },
+      {
+        "date" : "14.2.2003",
+        "html" : "<b>14.2.2003</b><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim."
+      },
+      {
+        "date" : "24.7.2008",
+        "html" : "<b>24.7.2008</b><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim."
+      },
+      {
+        "date" : "24.7.2010",
+        "html" : "<b>24.7.2010</b><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim."
+      }
+    ]
+  },
+
+  "LegendWidget":
+  {
+    "icon": "fa-list-ul",
+    "name": "Legende & Filter",
+    "columns": [
+      {
+        "groups" : [
+          {
+            "name": "Ereignisse",
+            "elements" : [
+              {
+                "type" : "categoryWithIcon",
+                "category" : "join",
+                "icon" : "data/hivent_icons/icon_join.png",
+                "name" : "Beitritt",
+                "filterable" : true
+              },
+              {
+                "type" : "categoryWithIcon",
+                "category" : "contract",
+                "icon" : "data/hivent_icons/icon_contract.png",
+                "name" : "Vertrag",
+                "filterable" : true
+              },
+              {
+                "type" : "categoryWithIcon",
+                "category" : "default",
+                "icon" : "data/hivent_icons/icon_default.png",
+                "name" : "Sonstige",
+                "filterable" : true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+
+}

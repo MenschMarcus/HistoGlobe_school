@@ -10,4 +10,5 @@ build
 histoglobe.sublime-workspace
 script/histoglobe.min.js
 style/*.min.css
-
+config/sdw/map/tiles
+config/sdw/map/tmp

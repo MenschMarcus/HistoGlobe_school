@@ -9,6 +9,12 @@ class HG.HistoGlobe
   # ============================================================================
   constructor: (pathToJson) ->
 
+    HG.mixin @, HG.CallbackContainer
+    HG.CallbackContainer.call @
+
+    @addCallback "onTopAreaSlide"
+    @addCallback "onAllModulesLoaded"
+
     @timeline = null
     @map = null
     @sidebar = null
@@ -20,6 +26,11 @@ class HG.HistoGlobe
       nowYear: 2014
       minYear: 1940
       maxYear: 2020
+      minZoom: 1
+      maxZoom: 6
+      startZoom: 4
+      maxBounds: undefined
+      startLatLong: [51.505, 10.09]
 
     $.getJSON(pathToJson, (config) =>
       hgConf = config["HistoGlobe"]
@@ -37,7 +48,7 @@ class HG.HistoGlobe
 
       @_onResize()
 
-      @_collapsed = !@_isInMobileMode()
+      @_collapsed = !@isInMobileMode()
       @_collapse()
 
       for moduleName, moduleConfig of config
@@ -47,6 +58,8 @@ class HG.HistoGlobe
             @addModule newMod
           else
             console.error "The module #{moduleName} is not part of the HG namespace!"
+
+      @notifyAll "onAllModulesLoaded"
     )
 
 
@@ -54,6 +67,10 @@ class HG.HistoGlobe
   # ============================================================================
   addModule: (module) ->
     module.hgInit @
+
+  # ============================================================================
+  isInMobileMode: =>
+    window.innerWidth < HGConfig.sidebar_width.val + HGConfig.map_min_width.val
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -70,6 +87,7 @@ class HG.HistoGlobe
       slidesPerView: 'auto'
       noSwiping: true
       longSwipesRatio: 0.1
+      onSlideReset: @_onSlideEnd
       onSetWrapperTransform: (s, t) => @_onSlide(t)
       onSetWrapperTransition: (s, d) =>
         if d is 0
@@ -85,7 +103,7 @@ class HG.HistoGlobe
     @_sidebar_area.className = "swiper-slide"
 
     @sidebar = new HG.Sidebar
-      parentDiv: @_sidebar_area
+    @addModule @sidebar
 
 
   # ============================================================================
@@ -110,7 +128,8 @@ class HG.HistoGlobe
     @_map_canvas.className = "swiper-no-swiping"
 
     @_map_area.appendChild @_map_canvas
-    @map = new HG.Display2D @_map_canvas
+    @map = new HG.Display2D
+    @addModule @map
 
   # ============================================================================
   _createTimeline: ->
@@ -144,7 +163,7 @@ class HG.HistoGlobe
     else
       @_collapse_button.className = "fa fa-arrow-circle-o-right fa-2x"
       @_collapse_area_right.style.width = "0px"
-      if @_isInMobileMode()
+      if @isInMobileMode()
         @_collapse_area_left.style.width = "#{HGConfig.map_collapsed_width.val}px"
 
   # ============================================================================
@@ -154,7 +173,7 @@ class HG.HistoGlobe
     else
       @_map_canvas.style.right = 0
 
-    # return false;
+    @notifyAll "onTopAreaSlide", transform.x
 
 
   # ============================================================================
@@ -170,7 +189,7 @@ class HG.HistoGlobe
     map_width = width - HGConfig.sidebar_collapsed_width.val
     sidebar_width = HGConfig.sidebar_width.val
 
-    if @_isInMobileMode()
+    if @isInMobileMode()
       sidebar_width = width - HGConfig.map_collapsed_width.val
 
     @_map_area.style.width = "#{map_width}px"
@@ -181,10 +200,6 @@ class HG.HistoGlobe
     @map.resize map_width, map_height
 
     @_top_swiper.reInit()
-
-  # ============================================================================
-  _isInMobileMode: =>
-    window.innerWidth < HGConfig.sidebar_width.val + HGConfig.map_min_width.val
 
   # ============================================================================
   _createElement: (container, type, id) ->

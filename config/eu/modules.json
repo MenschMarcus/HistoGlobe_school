@@ -44,7 +44,12 @@
   },
 
   "AreasOnMap" : {},
-  "Globe" : {},
+
+  "ControlButtonArea": {},
+  "ZoomButtons": {},
+  "Globe": {},
+  "FullscreenButton": {},
+
   "AreasOnGlobe" : {},
 
   "StatisticsWidget" :
@@ -53,8 +58,9 @@
     "name" : "Statistik",
     "title" : "Coole Entwicklung",
     "data" : "config/eu/data/statistics_data.dsv",
-    "xAttributeName" : "year",
+    "xAttributeName" : "date",
     "yAttributeName" : "amount",
+    "yDomain" : [0, 400],
     "yLableDistance" : 10,
     "yCaption" : "Anzahl"
   },
@@ -62,48 +68,62 @@
   "LegendWidget":
   {
     "icon": "fa-tags",
-    "name": "Legende",
-    "elements" : [
+    "name": "Legende & Filter",
+    "columns": [
       {
-        "type" : "categoryWithColor",
-        "category" : "eu",
-        "color" : "lightgreen",
-        "name" : "EU / EG",
-        "filterable" : false
+        "groups" : [
+          {
+            "name": "Ereignisse",
+            "elements" : [
+              {
+                "type" : "categoryWithIcon",
+                "category" : "join",
+                "icon" : "data/hivent_icons/icon_join.png",
+                "name" : "Beitritt",
+                "filterable" : true
+              },
+              {
+                "type" : "categoryWithIcon",
+                "category" : "contract",
+                "icon" : "data/hivent_icons/icon_contract.png",
+                "name" : "Vertrag",
+                "filterable" : true
+              },
+              {
+                "type" : "categoryWithIcon",
+                "category" : "default",
+                "icon" : "data/hivent_icons/icon_default.png",
+                "name" : "Sonstige",
+                "filterable" : true
+              }
+            ]
+          }
+        ]
       },
       {
-        "type" : "categoryWithColor",
-        "category" : "euro",
-        "color" : "darkgreen",
-        "name" : "Eurozone",
-        "filterable" : false
-      },
-      {
-        "type" : "spacer"
-      },
-      {
-        "type" : "categoryWithIcon",
-        "category" : "join",
-        "icon" : "data/hivent_icons/icon_join.png",
-        "name" : "Beitritt",
-        "filterable" : true
-      },
-      {
-        "type" : "categoryWithIcon",
-        "category" : "contract",
-        "icon" : "data/hivent_icons/icon_contract.png",
-        "name" : "Vertrag",
-        "filterable" : true
-      },
-      {
-        "type" : "categoryWithIcon",
-        "category" : "default",
-        "icon" : "data/hivent_icons/icon_default.png",
-        "name" : "Sonstige",
-        "filterable" : true
+        "groups" : [
+          {
+            "name" : "Mitgliedsstatus",
+            "elements" : [
+              {
+                "type" : "categoryWithColor",
+                "category" : "eu",
+                "color" : "lightgreen",
+                "name" : "EU / EG",
+                "filterable" : false
+              },
+              {
+                "type" : "categoryWithColor",
+                "category" : "euro",
+                "color" : "darkgreen",
+                "name" : "Eurozone",
+                "filterable" : false
+              }
+            ]
+          }
+        ]
       }
     ]
-
   },
 
   "TimeGalleryWidget" :

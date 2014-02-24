@@ -4,7 +4,6 @@
 @import "third-party/prefixer.less";
 
 @import "../build/config.less";
-@import "common.less";
 
 @import "timeline/timeline.less";
 @import "timeline/now_marker.less";
@@ -13,6 +12,39 @@
 
 
 ///////////////////////// LAYOUT ///////////////////////////////////////////////
+
+// ------------------ COMMON CLASSES -------------------------------------------
+
+@font-face {
+  font-family: roman_caps;
+  src: url('../font/lmromancaps10-regular.otf');
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: @sidebar_background_color;
+}
+
+*, *:before, *:after {
+  .box-sizing(border-box);
+}
+
+.hg {
+  font-family: 'Marcellus SC' !important;
+}
+
+.clear {
+  clear: both;
+}
+
+.hg:after {
+  content: "®";
+  position: relative;
+  top: -0.3em;
+  font-size: 0.7em;
+}
 
 .no-animation {
   .transition-duration(0s) !important;

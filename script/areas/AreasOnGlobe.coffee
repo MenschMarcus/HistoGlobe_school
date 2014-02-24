@@ -27,6 +27,8 @@ class HG.AreasOnGlobe
   hgInit: (hgInstance) ->
     hgInstance.areasOnGlobe = @
 
+    @_globeCanvas = hgInstance._map_canvas
+
     @_globe = hgInstance.globe
 
     if @_globe
@@ -76,21 +78,19 @@ class HG.AreasOnGlobe
         @_hideAreaLayer area
 
 
-
-      animate = =>
-        if @_globe._isRunning
-          @_evaluate()
-          requestAnimationFrame animate
-
-      animate()
-
+      setInterval(@_animate, 100)
+      
     else
       console.error "Unable to show areas on Map: AreaController module not detected in HistoGlobe instance!"
+
+  # ============================================================================
+  _animate:() =>
+    if @_globe._isRunning
+      @_evaluate()
 
 
   # ============================================================================
   _showAreaLayer: (area) ->
-
 
       data = area.getData()
       materialData = area.getNormalStyle()
@@ -163,9 +163,9 @@ class HG.AreasOnGlobe
 
       lat_distance = Math.abs(Math.abs(bounds.getSouthWest().lat) - Math.abs(bounds.getNorthEast().lat))
       lng_distance = Math.abs(Math.abs(bounds.getSouthWest().lng) - Math.abs(bounds.getNorthEast().lng))
-
+      
       max_dist = Math.max(lat_distance,lng_distance)
-
+      
       #iterations = Math.min(Math.max(0,Math.round(max_dist/3.5)),11)
       #iterations = Math.min(Math.max(0,Math.round(max_dist^2/140)),11)
       iterations = Math.min(Math.max(0,Math.round(max_dist^3/5500)),11)
@@ -192,7 +192,6 @@ class HG.AreasOnGlobe
               transparent : true,
               depthWrite  : false,
               wireframe   : false,
-
 
       mesh = new THREE.Mesh( shapeGeometry, countryMaterial );
 
@@ -231,17 +230,18 @@ class HG.AreasOnGlobe
 
       # add area
       @_visibleAreas.push area
-
-
+      
   # ============================================================================
   _hideAreaLayer: (area) ->
+
     if area.Mesh3D? and area.Borderlines3D
 
       area.removeListener "onStyleChange", @
       @_visibleAreas.splice(@_visibleAreas.indexOf(area), 1)
 
+
       for line in area.Borderlines3D
-        @_sceneCountries.remove line
+        @_sceneCountries.remove line  
       @_sceneCountries.remove area.Mesh3D
 
     @_hideLabel area
@@ -254,7 +254,7 @@ class HG.AreasOnGlobe
       #newColor = area.getNormalStyle().fillColor
       #area.Mesh3D.material.color.setHex "0x"+newColor[1..]
 
-      final_color = @_globe._rgbify area.getNormalStyle().fillColor
+      final_color = @_rgbify area.getNormalStyle().fillColor
       #console.log area.Mesh3D.material.color.r
       #console.log final_color[0]/255
 
@@ -275,6 +275,26 @@ class HG.AreasOnGlobe
           area.Mesh3D.material.color.b = this.colorB
       })
 
+  # ============================================================================
+  #new:(# http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript)
+  _rgbify: (colr) ->
+    
+    colr = colr.replace /#/, ''
+    if colr.length is 3
+      [
+        parseInt(colr.slice(0,1) + colr.slice(0, 1), 16)
+        parseInt(colr.slice(1,2) + colr.slice(1, 1), 16)
+        parseInt(colr.slice(2,3) + colr.slice(2, 1), 16)
+      ]
+    else if colr.length is 6
+      [
+        parseInt(colr.slice(0,2), 16)
+        parseInt(colr.slice(2,4), 16)
+        parseInt(colr.slice(4,6), 16)
+      ]
+    else
+      # just return black
+      [0, 0, 0]
 
 
   # ============================================================================
@@ -409,10 +429,11 @@ class HG.AreasOnGlobe
   # ============================================================================
   _onMouseDown: (event) =>
 
+    rightOffset = parseFloat($(@_globeCanvas).css("right").replace('px',''))
 
     event.preventDefault()
     clickMouse =
-      x: (event.clientX - @_globe._canvasOffsetX) / @_globe._width * 2 - 1
+      x: (event.clientX - @_globe._canvasOffsetX - rightOffset) / @_globe._width * 2 - 1
       y: (event.clientY - @_globe._canvasOffsetY) / @_globe._myHeight * 2 - 1
 
     @_dragStartPos = @_globe._pixelToLatLong(clickMouse)
@@ -421,20 +442,17 @@ class HG.AreasOnGlobe
   # ============================================================================
   _onMouseUp: (event) =>
 
+    rightOffset = parseFloat($(@_globeCanvas).css("right").replace('px',''))
 
     clickMouse =
-      x: (event.clientX - @_globe._canvasOffsetX) / @_globe._width * 2 - 1
+      x: (event.clientX - @_globe._canvasOffsetX - rightOffset) / @_globe._width * 2 - 1
       y: (event.clientY - @_globe._canvasOffsetY) / @_globe._myHeight * 2 - 1
 
     clickPos = @_globe._pixelToLatLong(clickMouse)
 
     raycaster = @_globe.getRaycaster()
 
-    console.log "drag start pos" , @_dragStartPos
-    console.log "click pos" , clickPos
-
     if clickPos? and @_dragStartPos?
-      console.log "mouseup in areas on globe2"
       if (clickPos.x - @_dragStartPos.x is 0) and (clickPos.y - @_dragStartPos.y is 0)
         countryIntersects = raycaster.intersectObjects @_sceneCountries.children
         if countryIntersects.length > 0
@@ -457,13 +475,13 @@ class HG.AreasOnGlobe
           targetFOV = 2* Math.atan(height/(2* dist)) * (180/Math.PI)
           #@_targetFOV = targetFOV
           if targetFOV < @_globe.getMaxFov()
-            if targetFOV > @_globe.getMinFov()
+            if targetFOV > @_globe.getMinFov() 
               @_globe._targetFOV = targetFOV
               factor = (targetFOV - @_globe.getMinFov() ) / (@_globe.getMaxFov() - @_globe.getMinFov() )
               targetZoom = ((1-factor) * (@_globe.getMaxZoom() - @_globe.getMinZoom() )) + @_globe.getMinZoom()
               @_globe._currentZoom = targetZoom
             else
-              @_globe._targetFOV = @_globe.getMinFov()
+              @_globe._targetFOV = @_globe.getMinFov() 
               @_globe._currentZoom = @_globe.getMaxZoom()
           else
             @_globe._targetFOV = @_globe.getMaxFov()
@@ -471,11 +489,24 @@ class HG.AreasOnGlobe
 
 
   # ============================================================================
-  #not yet triggered
   _evaluate: () =>
 
+    rightOffset = parseFloat($(@_globeCanvas).css("right").replace('px',''))
+
+    mouseRel =
+      x: (@_globe._mousePos.x - @_globe._canvasOffsetX - rightOffset) / @_globe._width * 2 - 1
+      y: (@_globe._mousePos.y - @_globe._canvasOffsetY) / @_globe._myHeight * 2 - 1
+
+
+    # picking ------------------------------------------------------------------
+    # test for mark and highlight hivents
+    vector = new THREE.Vector3 mouseRel.x, -mouseRel.y, 0.5
+    projector = @_globe.getProjector()
+    projector.unprojectVector vector, @_globe._camera
 
     raycaster = @_globe.getRaycaster()
+
+    raycaster.set @_globe._camera.position, vector.sub(@_globe._camera.position).normalize()
 
     #new:
     countryIntersects = raycaster.intersectObjects @_sceneCountries.children
@@ -489,11 +520,11 @@ class HG.AreasOnGlobe
       intersect.material.opacity =  intersect.material.opacity - 0.2 #nicht schön
 
     #hover countries
-    for intersect in countryIntersects
+    for intersect in countryIntersects 
       index = $.inArray(intersect.object, @_intersectedCountries)
       @_intersectedCountries.splice index, 1  if index >= 0
     # unmark previous countries
-
+    
     '''for intersect in @_intersectedCountries
       if intersect.Area?
         #intersect.material.color.setHex 0x5b309f
@@ -513,6 +544,11 @@ class HG.AreasOnGlobe
           @_showLabel intersect.object.Area'''
         @_intersectedCountries.push intersect.object
         #intersect.object.material.color.setHex 0x04ba67
+
+
+  ##############################################################################
+  #                             STATIC MEMBERS                                 #
+  ##############################################################################
 
   #testCanvas for Sprites
   TEST_CANVAS = document.createElement('canvas')

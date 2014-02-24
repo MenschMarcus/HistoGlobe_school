@@ -18,9 +18,13 @@ set cFiles=script/HistoGlobe.coffee ^
         script/sidebar/GalleryWidget.coffee ^
         script/sidebar/TimeGalleryWidget.coffee ^
         script/sidebar/VIPWidget.coffee ^
+        script/sidebar/LogoWidget.coffee ^
         script/sidebar/PictureWidget.coffee ^
         script/sidebar/LegendWidget.coffee ^
         script/sidebar/StatisticsWidget.coffee ^
+        script/modules/control_buttons/ControlButtonArea.coffee ^
+        script/modules/control_buttons/ZoomButtons.coffee ^
+        script/modules/control_buttons/FullscreenButton.coffee ^
         script/util/Mixin.coffee ^
         script/util/CallbackContainer.coffee ^
         script/util/VideoPlayer.coffee ^
@@ -67,9 +71,13 @@ set jFiles=build/HistoGlobe.js ^
         build/GalleryWidget.js ^
         build/TimeGalleryWidget.js ^
         build/VIPWidget.js ^
+        build/LogoWidget.js ^
         build/PictureWidget.js ^
         build/LegendWidget.js ^
         build/StatisticsWidget.js ^
+        build/ControlButtons.js ^
+        build/ZoomButtons.js ^
+        build/FullscreenButton.js ^
         build/Mixin.js ^
         build/CallbackContainer.js ^
         build/Display.js ^
@@ -114,6 +122,6 @@ rosetta --jsOut "build/config.js" ^
         --jsFormat "flat" ^
         --jsTemplate "var HGConfig;(function() {<%%= preamble %%>HGConfig = <%%= blob %%>;})();" ^
         --cssOut "build/config.less" ^
-        --cssFormat "less" config/fertility/style.rose && ^
+        --cssFormat "less" config/eu/style.rose && ^
 coffee -c -o build %cFiles% && uglifyjs %jFiles% -o script\histoglobe.min.js && ^
 lessc --no-color -x style\histoglobe.less style\histoglobe.min.css

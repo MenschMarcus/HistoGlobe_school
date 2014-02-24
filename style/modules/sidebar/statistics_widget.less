@@ -2,12 +2,14 @@
   padding: 0 @widget_body_padding @widget_body_padding @widget_body_padding;
 }
 
-.bar {
-  fill: lightgrey;
+.statistics-widget:hover {
+  cursor: pointer;
 }
 
-.bar:hover {
-  fill: lightgreen;
+.line {
+  fill: none;
+  stroke: lightgreen;
+  stroke-width: 1.5px;
 }
 
 .axis {
@@ -21,11 +23,11 @@
   shape-rendering: crispEdges;
 }
 
-.x.axis path {
-  display: none;
-}
+// .x.axis path {
+//   display: none;
+// }
 
 #statistics_now_marker {
   fill: grey;
-  fill-opacity: 0.8;
+  fill-opacity: 0.4;
 }

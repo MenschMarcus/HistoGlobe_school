@@ -8,6 +8,7 @@ class HG.Globe extends HG.Display
 
   # ============================================================================
   constructor: () ->
+    HG.Display.call @
 
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
@@ -17,16 +18,17 @@ class HG.Globe extends HG.Display
     @addCallback "onMove"
     @addCallback "onLoaded"
 
+
+  # ============================================================================
+  hgInit: (hgInstance) ->
+    super hgInstance
+
     @_initMembers()
     @_initWindowGeometry()
 
     @_initRenderer()
 
     @center x: 10, y: 50
-
-
-  # ============================================================================
-  hgInit: (hgInstance) ->
 
     hgInstance.globe = @
 
@@ -36,51 +38,40 @@ class HG.Globe extends HG.Display
     HG.Display.call @, hgInstance._map_canvas
 
     #button
-    button = document.createElement "a"
-    button.id = "toggle-3D"
-    button.className = "btn"
-    button.innerHTML = "Globe"
-    hgInstance._map_canvas.appendChild button
+    if hgInstance.control_button_area?
+      state_a = {}
+      state_b = {}
 
-    $(button).click () =>
+      state_a =
+        icon: "fa-globe"
+        tooltip: "Zur 3D-Ansicht wechseln"
+        callback: () =>
+          $(hgInstance.map.getCanvas()).animate({opacity: 0.0}, 1000, 'linear')
+          hgInstance.map.stop()
+          $(@getCanvas()).css({opacity: 0.0})
+          @start();
+          $(@getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
+          return state_b
 
-      if (hgInstance.map.isRunning())
-        $(hgInstance.map.getCanvas()).animate({opacity: 0.0}, 1000, 'linear')
-        hgInstance.map.stop()
-        #$('#toggle-3D').button("toggle")
-        #$('#toggle-2D').button("toggle")
+      state_b =
+        icon: "fa-calendar"
+        tooltip: "Zur 2D-Ansicht zurückkehren"
+        callback: () =>
+          $(@getCanvas()).animate({opacity: 0.0}, 1000, 'linear')
+          @stop()
+          $(@getCanvas()).css({opacity: 0.0})
+          hgInstance.map.start();
+          $(hgInstance.map.getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
+          return state_a
 
+      hgInstance.control_button_area.addButton state_a
 
-        $(@getCanvas()).css({opacity: 0.0})
-
-
-        @start();
-        $(@getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
-
-        button.innerHTML = "Map"
-
-
-      else
-
-        $(@getCanvas()).animate({opacity: 0.0}, 1000, 'linear')
-        @stop()
-        #$('#toggle-3D').button("toggle")
-        #$('#toggle-2D').button("toggle")
-
-
-        $(@getCanvas()).css({opacity: 0.0})
-
-        hgInstance.map.start();
-        $(hgInstance.map.getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
-
-        button.innerHTML = "Globe"
-
-
-
+    else
+      console.error "Failed to add globe button: ControlButtons module not found!"
 
 
     #@_initHivents()#disabled
-    
+
 
       #test
       #@_areaController._initMembers()#??????????????????????????
@@ -95,6 +86,8 @@ class HG.Globe extends HG.Display
       @_initEventHandling()
       @_zoom()
 
+      @notifyAll "onLoaded"
+
     unless @_isRunning
       @_isRunning = true
       @_renderer.domElement.style.display = "inline"
@@ -106,7 +99,7 @@ class HG.Globe extends HG.Display
 
       animate()
 
-    @notifyAll "onLoaded"
+
 
   # ============================================================================
   stop: ->
@@ -134,7 +127,7 @@ class HG.Globe extends HG.Display
     @_targetFOV = CAMERA_MIN_FOV;
     @_currentZoom = CAMERA_MAX_ZOOM
 
-  
+
   # ============================================================================
   #new
   getZoom:() ->
@@ -162,6 +155,10 @@ class HG.Globe extends HG.Display
   # ============================================================================
   getRaycaster:() ->
     return RAYCASTER
+
+  # ============================================================================
+  getProjector:() ->
+    return PROJECTOR
 
   # ============================================================================
   getGlobeRadius:() ->
@@ -225,7 +222,7 @@ class HG.Globe extends HG.Display
     @_renderer             = null
     @_sceneGlobe           = null
     @_sceneAtmosphere      = null
-    
+
     @_sceneInterface       = null
 
     @_addedScenes          = []
@@ -235,7 +232,7 @@ class HG.Globe extends HG.Display
     @_canvasOffsetY        = null
     @_lastIntersected      = []
 
-    
+
 
     @_currentCameraPos     = x: 0, y: 0
     @_targetCameraPos      = x: 0, y: 0
@@ -305,11 +302,11 @@ class HG.Globe extends HG.Display
     geometry = new THREE.SphereGeometry EARTH_RADIUS, 64, 132
     shader = SHADERS.earth
 
-    
+
     @_sceneGlobe         = new THREE.Scene
     @_sceneAtmosphere    = new THREE.Scene
 
-    
+
     @_sceneInterface     = new THREE.Scene
 
 
@@ -416,7 +413,7 @@ class HG.Globe extends HG.Display
 
         logo = @getHiventIcon(handle.getHivent().category)
         logo_highlight = @getHiventIcon(handle.getHivent().category+"_highlight")
-        logos = 
+        logos =
         default:logo
         highlight:logo_highlight
 
@@ -426,7 +423,7 @@ class HG.Globe extends HG.Display
                        x:handle.getHivent().long
                        y:handle.getHivent().lat,
                        EARTH_RADIUS+0.2)
-          
+
         hivent.sprite.position.set(position.x,position.y,position.z)
 
 
@@ -434,9 +431,9 @@ class HG.Globe extends HG.Display
 
 
 
-      window.setTimeout(@_updateMarkerGroup,1);      
+      window.setTimeout(@_updateMarkerGroup,1);
 
-      
+
   _updateMarkerGroup:()=>
         console.log "update"
         '''@_updateHiventSizes()
@@ -460,13 +457,13 @@ class HG.Globe extends HG.Display
     PROJECTOR.unprojectVector vector, @_camera
     RAYCASTER.set @_camera.position, vector.sub(@_camera.position).normalize()
 
-    
+
 
     '''tmp_intersects = []
     for hivent in @_markerGroup.getVisibleHivents()
 
       if hivent.sprite.visible and hivent.sprite.scale.x isnt 0.0 and hivent.sprite.scale.y isnt 0.0
-        
+
         ScreenCoordinates = @_getScreenCoordinates(hivent.sprite.position)
 
         if ScreenCoordinates
@@ -476,7 +473,7 @@ class HG.Globe extends HG.Display
 
           h = hivent.sprite.scale.y
           w = hivent.sprite.scale.x
-          
+
           if @_mousePos.x > x - (w/2) and @_mousePos.x < x + (w/2) and
           @_mousePos.y > y - (h/2) and @_mousePos.y < y + (h/2)
             handle = hivent.getHiventHandle()
@@ -487,7 +484,7 @@ class HG.Globe extends HG.Display
             index = $.inArray(hivent, @_lastIntersected)
             @_lastIntersected.splice index, 1  if index >= 0
             HG.Display.CONTAINER.style.cursor = "pointer"'''#TODO!!!!!!!!!!!!!!!
-        
+
     for hivent in @_lastIntersected
       handle = hivent.getHiventHandle()
       if handle
@@ -602,14 +599,14 @@ class HG.Globe extends HG.Display
       '''@_updateHiventSizes()'''#TODO
       '''@_markerGroup.update()'''#TODO
       @notifyAll "onMove"
-      
+
 
     # zooming ------------------------------------------------------------------
     unless @_currentFOV is @_targetFOV
 
       '''@_updateHiventSizes()
       @_markerGroup.update()'''#TODO!!!!!!!
-      
+
 
       smoothness = 0.8
       @_currentFOV = @_currentFOV * smoothness + @_targetFOV * (1.0-smoothness)
@@ -649,7 +646,7 @@ class HG.Globe extends HG.Display
                         (CAMERA_MAX_ZOOM - CAMERA_MIN_ZOOM) *
                         (CAMERA_MAX_FOV - CAMERA_MIN_FOV) + CAMERA_MIN_FOV
 
-  
+
 
   # ============================================================================
   #new:
@@ -664,7 +661,7 @@ class HG.Globe extends HG.Display
           hivent.sprite.scale.set(hivent.sprite.MaxWidth*dot,hivent.sprite.MaxHeight*dot,1.0)
         else
           hivent.sprite.scale.set(0.0,0.0,1.0)
-  
+
   ############################ EVENT FUNCTIONS #################################
 
   # ============================================================================
@@ -701,12 +698,12 @@ class HG.Globe extends HG.Display
   _onMouseUp: (event) =>
     if @_isRunning
 
-      
+
 
       '''if @_lastIntersected.length is 0
         #HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()->done in mousedown now
         #no hivents -> look for countries
-  
+
 
 
       else '''
@@ -747,7 +744,7 @@ class HG.Globe extends HG.Display
     @_initWindowGeometry()
 
 
-  
+
 
   '''# ============================================================================
   #new:
@@ -810,27 +807,6 @@ class HG.Globe extends HG.Display
       when "group_highlight" then return @_hiventLogos.group_highlight
       when "group_new" then return @_hiventLogos.group_new
       when "group_highlight_new" then return @_hiventLogos.group_highlight_new
-
-  # ============================================================================
-  #new:(# http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript)
-  _rgbify: (colr) ->
-    colr = colr.replace /#/, ''
-    if colr.length is 3
-      [
-        parseInt(colr.slice(0,1) + colr.slice(0, 1), 16)
-        parseInt(colr.slice(1,2) + colr.slice(1, 1), 16)
-        parseInt(colr.slice(2,3) + colr.slice(2, 1), 16)
-      ]
-    else if colr.length is 6
-      [
-        parseInt(colr.slice(0,2), 16)
-        parseInt(colr.slice(2,4), 16)
-        parseInt(colr.slice(4,6), 16)
-      ]
-    else
-      # just return black
-      [0, 0, 0]
-
 
 
   # ============================================================================

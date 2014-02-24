@@ -15,6 +15,7 @@ class HG.StatisticsWidget extends HG.Widget
       data: ""
       xAttributeName: ""
       yAttributeName: ""
+      yDomain: [0,0]
       yLableDistance: 0
       yCaption: ""
 
@@ -22,8 +23,8 @@ class HG.StatisticsWidget extends HG.Widget
     @_canvas = null
     @_canvasWidth = 0
     @_canvasHeight = 0
-    @_minYear = 0
-    @_maxYear = 0
+    @_minDate = 0
+    @_maxDate = 0
     @_nowMarker = null
 
     @_timeline = null
@@ -40,7 +41,7 @@ class HG.StatisticsWidget extends HG.Widget
     @setIcon @_config.icon
 
     content = document.createElement "div"
-    content.className = "statistics-widget"
+    content.className = "statistics-widget swiper-no-swiping"
 
     height = @_width * 9/16
     unless height >= HGConfig.statistics_widget_min_height.val
@@ -51,8 +52,10 @@ class HG.StatisticsWidget extends HG.Widget
     @_canvasWidth = @_width - HGConfig.statistics_widget_margin_left.val - HGConfig.statistics_widget_margin_right.val
     @_canvasHeight = height - HGConfig.statistics_widget_margin_top.val - HGConfig.statistics_widget_margin_bottom.val
 
-    x = d3.scale.ordinal()
-        .rangeRoundBands([0, @_canvasWidth], .1)
+    parseDate = d3.time.format("%d.%m.%Y").parse
+
+    x = d3.time.scale()
+        .range([0, @_canvasWidth])
 
     y = d3.scale.linear()
         .range([@_canvasHeight, 0])
@@ -66,24 +69,28 @@ class HG.StatisticsWidget extends HG.Widget
         .orient("left")
         .ticks(@_config.yLableDistance, "")
 
+    line = d3.svg.line()
+      .x((d) => return x(d[@_config.xAttributeName]) )
+      .y((d) => return y(d[@_config.yAttributeName]) )
+
     @_canvas = d3.select(content).append("svg")
         .attr("width", @_width)
         .attr("height", height)
         .append("g")
         .attr("transform", "translate(" + HGConfig.statistics_widget_margin_left.val + "," + HGConfig.statistics_widget_margin_top.val + ")")
 
-    type = (d) =>
-      d[@_config.yAttributeName] = +d[@_config.yAttributeName]
-      return d
-
     dsv = d3.dsv "|", "text/plain"
 
-    dsv(@_config.data, type, (error, data) =>
-      x.domain(data.map((d) => return d[@_config.xAttributeName] ))
-      y.domain([0, d3.max(data, (d) => return d[@_config.yAttributeName] )])
+    dsv(@_config.data, (error, data) =>
+      data.forEach (d) =>
+        d[@_config.xAttributeName] = parseDate(d[@_config.xAttributeName])
+        d[@_config.yAttributeName] = +d[@_config.yAttributeName]
 
-      @_minYear = +d3.min(data, (d) => return d[@_config.xAttributeName])
-      @_maxYear = +d3.max(data, (d) => return d[@_config.xAttributeName])
+      x.domain(d3.extent(data, (d) => return d[@_config.xAttributeName] ))
+      y.domain(@_config.yDomain)
+
+      @_minDate = d3.min(data, (d) => return d[@_config.xAttributeName])
+      @_maxDate = d3.max(data, (d) => return d[@_config.xAttributeName])
 
       @_canvas.append("g")
           .attr("class", "x axis")
@@ -101,16 +108,12 @@ class HG.StatisticsWidget extends HG.Widget
           .text(@_config.yCaption)
 
 
-      @_canvas.selectAll(".bar")
-          .data(data)
-          .enter().append("rect")
-          .attr("class", "bar")
-          .attr("x", (d) => return x(d[@_config.xAttributeName]) )
-          .attr("width", x.rangeBand())
-          .attr("y", (d) => return y(d[@_config.yAttributeName]) )
-          .attr("height", (d) => return @_canvasHeight - y(d[@_config.yAttributeName]) )
+      @_canvas.append("path")
+        .datum(data)
+        .attr("class", "line")
+        .attr("d", line);
 
-      $(content).on "click", (event) =>
+      $(content).on "mousedown", (event) =>
         x = event.offsetX - HGConfig.statistics_widget_margin_left.val
         @_setNowMarkerPosition x
         @_updateTimeline x
@@ -126,51 +129,36 @@ class HG.StatisticsWidget extends HG.Widget
 
   # ============================================================================
   _initNowMarker: ->
-    startYear = @_timeline.getNowDate().getFullYear()
 
     @_nowMarker = @_canvas.append("rect")
           .attr("id", "statistics_now_marker")
-          .attr("x", @_yearToXCoordinate startYear)
+          .attr("x", @_dateToXCoordinate @_timeline.getNowDate())
           .attr("y", 0)
-          .attr("width", 4)
+          .attr("width", 2)
           .attr("height", @_canvasHeight)
 
-    drag = d3.behavior.drag()
-    drag.myLastX = 0
-    drag.on "drag", () =>
-        x = d3.event.x
-        drag.myLastX = x
-        @_setNowMarkerPosition x
-        d3.event.sourceEvent.stopPropagation()
-
-    drag.on "dragend", () =>
-        @_updateTimeline drag.myLastX
-        d3.event.sourceEvent.stopPropagation()
-
-    @_nowMarker.call drag
-
     @_timeline.onNowChanged @, (date) =>
-      @_setNowMarkerPosition @_yearToXCoordinate date.getFullYear()
+      @_setNowMarkerPosition @_dateToXCoordinate date
 
   # ============================================================================
-  _yearToXCoordinate: (year) =>
-    if year > @_maxYear
+  _dateToXCoordinate: (date) =>
+    if date.getTime() > @_maxDate.getTime()
       return @_canvasWidth
 
-    if year < @_minYear
+    if date.getTime() <= @_minDate.getTime()
       return 0
 
-    return @_canvasWidth * (year - @_minYear) / (@_maxYear - @_minYear)
+    return @_canvasWidth * (date.getTime() - @_minDate.getTime()) / (@_maxDate.getTime() - @_minDate.getTime())
 
   # ============================================================================
-  _xCoordinateToYear: (x) =>
+  _xCoordinateToDate: (x) =>
     if x > @_canvasWidth
-      return @_maxYear
+      return @_maxDate
 
     if x < 0
-      return @_minYear
+      return @_minDate
 
-    return Math.round ( (@_maxYear - @_minYear) * x / @_canvasWidth + @_minYear)
+    return new Date (@_maxDate.getTime() - @_minDate.getTime()) * x / @_canvasWidth + @_minDate.getTime()
 
   # ============================================================================
   _setNowMarkerPosition: (x) =>
@@ -178,5 +166,5 @@ class HG.StatisticsWidget extends HG.Widget
 
   # ============================================================================
   _updateTimeline: (x) =>
-    @_timeline.scrollToDate new Date @_xCoordinateToYear(x), 0, 1
+    @_timeline.scrollToDate @_xCoordinateToDate(x)
 

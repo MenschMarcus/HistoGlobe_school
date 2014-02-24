@@ -7,19 +7,14 @@ class HG.Sidebar
   ##############################################################################
 
   # ============================================================================
-  constructor: (config) ->
+  hgInit: (hgInstance) ->
 
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
 
     @addCallback "onResize"
 
-    defaultConfig =
-      parentDiv: undefined
-
-    @_config = $.extend {}, defaultConfig, config
-
-    @_container = @_createElement @_config.parentDiv, "div", "sidebar"
+    @_container = @_createElement hgInstance._sidebar_area, "div", "sidebar"
     @_container.className = "swiper-container"
 
     scrollbar = @_createElement @_container, "div", "sidebar-scrollbar"
@@ -47,7 +42,8 @@ class HG.Sidebar
   # ============================================================================
   addWidget: (widget) ->
     @_slide.appendChild widget.container
-    widget.setWidth $(".widgetBody").width() - HGConfig.widget_title_size.val - 2*HGConfig.widget_body_padding.val
+    console.log $(widget._content).width()
+    widget.setWidth $(widget._content).width() - HGConfig.widget_title_size.val - 2*HGConfig.widget_body_padding.val
     @updateSize()
 
   # ============================================================================
