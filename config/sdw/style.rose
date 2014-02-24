@@ -25,9 +25,9 @@ $widget_body_padding                = 15px
 
 $widget_title_gradient_effect       = 0%
 
-$widget_border_radius_top_left      = 0px
+$widget_border_radius_top_left      = 5px
 $widget_border_radius_top_right     = 0px
-$widget_border_radius_bottom_left   = 0px
+$widget_border_radius_bottom_left   = 5px
 $widget_border_radius_bottom_right  = 0px
 
 $widget_font_size                   = 12px
