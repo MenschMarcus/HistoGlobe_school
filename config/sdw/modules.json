@@ -30,6 +30,22 @@
     ]
   },
 
+  "StatisticsWidget" :
+  {
+    "icon" : "fa-bar-chart-o",
+    "name" : "Statistik",
+    "title" : "Coole Entwicklung",
+    "data" : "config/sdw/data/statistics_data.dsv",
+    "lineColor" : "red",
+    "lineWidth" : "2px",
+    "xAttributeName" : "date",
+    "yAttributeName" : "amount",
+    "yDomain" : [0, 400],
+    "xLableTicks" : 5,
+    "yLableTicks" : 10,
+    "yCaption" : "Anzahl"
+  },
+
   "VIPWidget" :
   {
     "icon" : "fa-user",

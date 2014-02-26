@@ -21,6 +21,7 @@ set cFiles=script/HistoGlobe.coffee ^
         script/sidebar/LogoWidget.coffee ^
         script/sidebar/PictureWidget.coffee ^
         script/sidebar/LegendWidget.coffee ^
+        script/sidebar/StatisticsWidget.coffee ^
         script/modules/control_buttons/ControlButtonArea.coffee ^
         script/modules/control_buttons/ZoomButtons.coffee ^
         script/modules/control_buttons/FullscreenButton.coffee ^
@@ -73,6 +74,7 @@ set jFiles=build/HistoGlobe.js ^
         build/LogoWidget.js ^
         build/PictureWidget.js ^
         build/LegendWidget.js ^
+        build/StatisticsWidget.js ^
         build/ControlButtons.js ^
         build/ZoomButtons.js ^
         build/FullscreenButton.js ^

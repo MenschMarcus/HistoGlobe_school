@@ -178,9 +178,9 @@ class HG.Timeline
       @_yearMarkers.addFirst(@_nowMarker)
       @_loadYearMarkers(false)
       @notifyAll "onIntervalChanged", @_getTimeFilter()
-      @notifyAll "onNowChanged", @_positionToDate(@_tlWidth / 2)
+      @notifyAll "onNowChanged", @_positionToDate((@_tlWidth / 2) - (@_yearMarkerWidth / 2))
     else
-      alert "Date is out of Range."
+      console.error "Date #{date} is out of Range."
 
   # ============================================================================
   _getTimeFilter: ->
@@ -355,7 +355,7 @@ class HG.Timeline
       i++
     @_nowMarker = @_yearMarkers.get(nId).nodeData
     @nowMarkerBox.setNowDate(@_positionToDate((@_tlWidth / 2) - (@_yearMarkerWidth / 2)))
-    @notifyAll "onNowChanged", @_positionToDate(@_tlWidth / 2)
+    @notifyAll "onNowChanged", @_positionToDate((@_tlWidth / 2) - (@_yearMarkerWidth / 2))
 
   # ============================================================================
   _positionToDate: (position) ->

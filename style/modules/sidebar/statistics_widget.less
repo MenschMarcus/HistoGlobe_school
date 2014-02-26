@@ -1,0 +1,38 @@
+.statistics-widget {
+  padding: 0 @widget_body_padding @widget_body_padding @widget_body_padding;
+}
+
+.statistics-widget:hover {
+  cursor: pointer;
+}
+
+.line {
+  fill: none;
+}
+
+.axis text {
+  font: @statistics_widget_axis_font_size @hg_font_face;
+  fill: @statistics_widget_axis_color;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: @statistics_widget_axis_color;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  stroke: @statistics_widget_axis_color;
+  stroke-width: @statistics_widget_axis_width;
+}
+
+.y.axis path {
+  stroke: @statistics_widget_axis_color;
+  stroke-width: @statistics_widget_axis_width;
+}
+
+#statistics_now_marker {
+  fill: grey;
+  fill-opacity: 0.4;
+}
