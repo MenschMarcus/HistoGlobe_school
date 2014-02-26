@@ -15,6 +15,7 @@ class HG.StatisticsWidget extends HG.Widget
       data: ""
       lineColor: ""
       lineWidth: ""
+      smoothLine: false
       xAttributeName: ""
       yAttributeName: ""
       yDomain: [0,0]
@@ -42,6 +43,31 @@ class HG.StatisticsWidget extends HG.Widget
 
     @setName @_config.name
     @setIcon @_config.icon
+
+    @_sidebar.onResize @, (width, height) =>
+      @_drawStatistics()
+
+  ##############################################################################
+  #                            PRIVATE INTERFACE                               #
+  ##############################################################################
+
+  # ============================================================================
+  _initNowMarker: ->
+
+    @_nowMarker = @_canvas.append("rect")
+          .attr("class", "statistics-widget-now-marker")
+          .attr("x", @_dateToXCoordinate @_timeline.getNowDate())
+          .attr("y", 0)
+          .attr("width", 2)
+          .attr("height", @_canvasHeight)
+
+    @_timeline.onNowChanged @, (date) =>
+      @_setNowMarkerPosition @_dateToXCoordinate date
+
+  # ============================================================================
+  _drawStatistics: () =>
+    if @_canvas?
+      d3.select(@_canvas).remove()
 
     content = document.createElement "div"
     content.className = "statistics-widget swiper-no-swiping"
@@ -85,9 +111,10 @@ class HG.StatisticsWidget extends HG.Widget
         .ticks(@_config.yLableTicks, "")
 
     line = d3.svg.line()
-      .interpolate("basis")
       .x((d) => return x(d[@_config.xAttributeName]) )
       .y((d) => return y(d[@_config.yAttributeName]) )
+
+    line.interpolate("basis") if @_config.smoothLine
 
     @_canvas = d3.select(content).append("svg")
         .attr("width", width)
@@ -138,23 +165,6 @@ class HG.StatisticsWidget extends HG.Widget
       @_initNowMarker()
 
     )
-
-  ##############################################################################
-  #                            PRIVATE INTERFACE                               #
-  ##############################################################################
-
-  # ============================================================================
-  _initNowMarker: ->
-
-    @_nowMarker = @_canvas.append("rect")
-          .attr("class", "statistics-widget-now-marker")
-          .attr("x", @_dateToXCoordinate @_timeline.getNowDate())
-          .attr("y", 0)
-          .attr("width", 2)
-          .attr("height", @_canvasHeight)
-
-    @_timeline.onNowChanged @, (date) =>
-      @_setNowMarkerPosition @_dateToXCoordinate date
 
   # ============================================================================
   _dateToXCoordinate: (date) =>

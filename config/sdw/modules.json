@@ -40,6 +40,7 @@
     "data" : "config/sdw/data/statistics_data.dsv",
     "lineColor" : "red",
     "lineWidth" : "2px",
+    "smoothLine" : true,
     "xAttributeName" : "date",
     "yAttributeName" : "amount",
     "yDomain" : [0, 400],

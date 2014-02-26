@@ -56,12 +56,17 @@
   {
     "icon" : "fa-bar-chart-o",
     "name" : "Statistik",
-    "title" : "Coole Entwicklung",
+    "title" : "Stipendiatenzahlen",
+    "subtitle" : "Entwicklung von 1950 bis 2010",
     "data" : "config/eu/data/statistics_data.dsv",
+    "lineColor" : "red",
+    "lineWidth" : "2px",
+    "smoothLine" : true,
     "xAttributeName" : "date",
     "yAttributeName" : "amount",
     "yDomain" : [0, 400],
-    "yLableDistance" : 10,
+    "xLableTicks" : 5,
+    "yLableTicks" : 10,
     "yCaption" : "Anzahl"
   },
 
