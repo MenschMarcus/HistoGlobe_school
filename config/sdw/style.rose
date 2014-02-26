@@ -15,40 +15,42 @@ $sidebar_scrollbar_width            = 10px
 $sidebar_background_color           = #666666
 
 // ------------------- WIDGET OPTIONS ------------------------------------------
-$widget_aimation_speed              = 0.3s
-$widget_title_size                  = 30px
-$widget_title_background_color      = #ffcc00
-$widget_title_text_color            = #333333
-$widget_background_color            = #ffffff
-$widget_text_color                  = #666666
+$widget_aimation_speed                = 0.3s
+$widget_title_size                    = 30px
+$widget_title_background_color        = #ffcc00
+$widget_title_text_color              = #333333
+$widget_background_color              = #ffffff
+$widget_text_color                    = #666666
 
-$widget_margin                      = 10px
-$widget_body_padding                = 15px
+$widget_margin                        = 10px
+$widget_body_padding                  = 15px
 
 
-$widget_title_gradient_effect       = 0%
+$widget_title_gradient_effect         = 0%
 
-$widget_border_radius_top_left      = 5px
-$widget_border_radius_top_right     = 0px
-$widget_border_radius_bottom_left   = 5px
-$widget_border_radius_bottom_right  = 0px
+$widget_border_radius_top_left        = 5px
+$widget_border_radius_top_right       = 0px
+$widget_border_radius_bottom_left     = 5px
+$widget_border_radius_bottom_right    = 0px
 
-$widget_font_size                   = 12px
+$widget_font_size                     = 12px
 
 // GALLERY WIDGET
-$gallery_widget_pagination_size     = 20px
+$gallery_widget_pagination_size       = 20px
 
 // STATISTICS WIDGET
-$statistics_widget_min_height       = 200px
-$statistics_widget_margin_top       = 10px
-$statistics_widget_margin_right     = 15px
-$statistics_widget_margin_bottom    = 20px
-$statistics_widget_margin_left      = 30px
+$statistics_widget_min_height         = 200px
+$statistics_widget_margin_top         = 10px
+$statistics_widget_margin_right       = 15px
+$statistics_widget_margin_bottom      = 20px
+$statistics_widget_margin_left        = 30px
 
-$statistics_widget_axis_width       = 2px
-$statistics_widget_axis_color       = grey
-$statistics_widget_axis_font_size   = 1em
+$statistics_widget_axis_width         = 2px
+$statistics_widget_axis_color         = grey
+$statistics_widget_axis_font_size     = 1em
+$statistics_widget_title_font_size    = 2em
+$statistics_widget_subtitle_font_size = 1.5em
 
 // ------------------ TIMELINE OPTIONS -----------------------------------------
-$timeline_height                    = 80px
-$timeline_roundness                 = 8px
+$timeline_height                      = 80px
+$timeline_roundness                   = 8px

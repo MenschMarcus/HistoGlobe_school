@@ -45,6 +45,19 @@ class HG.StatisticsWidget extends HG.Widget
 
     content = document.createElement "div"
     content.className = "statistics-widget swiper-no-swiping"
+
+    if @_config.title?
+      title = document.createElement "div"
+      title.className = "statistics-widget statistics-widget-title"
+      title.innerHTML = @_config.title
+      content.appendChild title
+
+    if @_config.subtitle?
+      subtitle = document.createElement "div"
+      subtitle.className = "statistics-widget statistics-widget-subtitle"
+      subtitle.innerHTML = @_config.subtitle
+      content.appendChild subtitle
+
     @setContent content
 
     width = $(content).width()
@@ -134,7 +147,7 @@ class HG.StatisticsWidget extends HG.Widget
   _initNowMarker: ->
 
     @_nowMarker = @_canvas.append("rect")
-          .attr("id", "statistics_now_marker")
+          .attr("class", "statistics-widget-now-marker")
           .attr("x", @_dateToXCoordinate @_timeline.getNowDate())
           .attr("y", 0)
           .attr("width", 2)
