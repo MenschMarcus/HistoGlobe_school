@@ -12,3 +12,5 @@ script/histoglobe.min.js
 style/*.min.css
 config/sdw/map/tiles
 config/sdw/map/tmp
+config/exemplum/map/tiles
+config/exemplum/map/tmp

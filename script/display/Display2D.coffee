@@ -84,7 +84,7 @@ class HG.Display2D extends HG.Display
     @_map.setView @_hgInstance._config.startLatLong, @_hgInstance._config.startZoom
     @_map.attributionControl.setPrefix ''
 
-    L.tileLayer('data/tiles/{z}/{x}/{y}.png').addTo @_map
+    L.tileLayer(@_hgInstance._config.tiles + '/{z}/{x}/{y}.png').addTo @_map
 
     @_hgInstance.onAllModulesLoaded @, () =>
       if @_hgInstance.zoom_buttons?

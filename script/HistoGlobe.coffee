@@ -31,6 +31,7 @@ class HG.HistoGlobe
       startZoom: 4
       maxBounds: undefined
       startLatLong: [51.505, 10.09]
+      tiles: 'data/tiles/'
 
     $.getJSON(pathToJson, (config) =>
       hgConf = config["HistoGlobe"]
