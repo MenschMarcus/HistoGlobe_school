@@ -6,11 +6,10 @@
     "minYear": 1993,
     "nowYear": 2000,
     "minZoom": 6,
-    "maxZoom": 8,
+    "maxZoom": 7,
     "startZoom": 6,
     "maxBounds": [[35,-20], [65, 50]],
-    "startLatLong": [51.505, 10.09],
-    "tiles": "config/exemplum/map/tiles/"
+    "startLatLong": [51.505, 10.09]
   },
 
   "ControlButtonArea": {},

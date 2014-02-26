@@ -118,9 +118,15 @@ set jFiles=build/HistoGlobe.js ^
 
 IF not exist build ( mkdir build )
 
-rosetta --jsOut "build/config.js" ^
+rosetta --jsOut "build/default_config.js" ^
         --jsFormat "flat" ^
         --jsTemplate "var HGConfig;(function() {<%%= preamble %%>HGConfig = <%%= blob %%>;})();" ^
+        --cssOut "build/default_config.less" ^
+        --cssFormat "less" config/common/default.rose && ^
+
+rosetta --jsOut "build/config.js" ^
+        --jsFormat "flat" ^
+        --jsTemplate "(function() {<%= preamble %> $.extend(HGConfig, <%= blob %>);})();" ^
         --cssOut "build/config.less" ^
         --cssFormat "less" config/eu/style.rose && ^
 coffee -c -o build %cFiles% && uglifyjs %jFiles% -o script\histoglobe.min.js && ^

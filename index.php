@@ -66,6 +66,7 @@
     <?php // histoglobe javascript ?>
     <?php if ($debug_mode) {?>
 
+    <script type="text/javascript" src="build/default_config.js"></script>
     <script type="text/javascript" src="build/config.js"></script>
     <script type="text/javascript" src="build/CallbackContainer.js"></script>
     <script type="text/javascript" src="build/Vector.js"></script>
