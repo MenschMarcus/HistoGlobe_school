@@ -72,8 +72,10 @@ class HG.Widget
     collapse_button.className = "fa fa-chevron-down widgetCollapseItem"
     collapse_button_container.appendChild collapse_button
 
-    $(@_title_top).click @_collapse
-    $(collapse_button_container).click @_collapse
+    @onDivClick @_title_top, @_collapse
+    @onDivClick collapse_button_container, @_collapse
+    # $(@_title_top).click @_collapse
+    # $(collapse_button_container).click @_collapse
 
     # body ---------------------------------------------------------------------
     body_collapsable = document.createElement "div"

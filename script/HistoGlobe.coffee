@@ -46,8 +46,6 @@ class HG.HistoGlobe
 
       $(window).on 'resize', @_onResize
 
-      # @_onResize()
-
       @_collapsed = !@isInMobileMode()
       @_collapse()
 

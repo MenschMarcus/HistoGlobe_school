@@ -32,14 +32,6 @@ class HG.Sidebar
         hide: false
         container: '#sidebar-scrollbar'
 
-    # @_hgInstance.onAllModulesLoaded @, () =>
-    #   @updateSize()
-
-    # for some reason needed...
-    # window.setTimeout () =>
-    #   @updateSize()
-    # , 1000
-
   # ============================================================================
   addWidget: (widget) ->
     @_slide.appendChild widget.container
