@@ -25,25 +25,29 @@ class HG.Sidebar
     @_slide = @_createElement @_wrapper, "div", ""
     @_slide.className = "swiper-slide"
 
+    @_isScrolling = false
+
     @_sidebar_swiper = new Swiper '#sidebar',
       mode:'vertical'
       grabCursor: true
       scrollContainer: true
       mousewheelControl: true
+      moveStartThreshold: 10
       scrollbar:
         hide: false
         container: '#sidebar-scrollbar'
 
+    # @_hgInstance.onAllModulesLoaded @, () =>
+    #   @updateSize()
+
     # for some reason needed...
-    window.setTimeout () =>
-      @updateSize()
-    , 1000
+    # window.setTimeout () =>
+    #   @updateSize()
+    # , 1000
 
   # ============================================================================
   addWidget: (widget) ->
     @_slide.appendChild widget.container
-    console.log $(widget._content).width()
-    widget.setWidth $(widget._content).width() - HGConfig.widget_title_size.val - 2*HGConfig.widget_body_padding.val
     @updateSize()
 
   # ============================================================================

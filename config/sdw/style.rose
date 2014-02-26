@@ -1,3 +1,6 @@
+// --------------------- GLOBAL OPTIONS ----------------------------------------
+$hg_font_face                       = sans-serif
+
 // --------------------- MAP OPTIONS -------------------------------------------
 $map_min_width                      = 300px
 $map_collapsed_width                = 50px
@@ -25,15 +28,26 @@ $widget_body_padding                = 15px
 
 $widget_title_gradient_effect       = 0%
 
-$widget_border_radius_top_left      = 0px
+$widget_border_radius_top_left      = 5px
 $widget_border_radius_top_right     = 0px
-$widget_border_radius_bottom_left   = 0px
+$widget_border_radius_bottom_left   = 5px
 $widget_border_radius_bottom_right  = 0px
 
 $widget_font_size                   = 12px
 
 // GALLERY WIDGET
 $gallery_widget_pagination_size     = 20px
+
+// STATISTICS WIDGET
+$statistics_widget_min_height       = 200px
+$statistics_widget_margin_top       = 10px
+$statistics_widget_margin_right     = 15px
+$statistics_widget_margin_bottom    = 20px
+$statistics_widget_margin_left      = 30px
+
+$statistics_widget_axis_width       = 2px
+$statistics_widget_axis_color       = grey
+$statistics_widget_axis_font_size   = 1em
 
 // ------------------ TIMELINE OPTIONS -----------------------------------------
 $timeline_height                    = 80px

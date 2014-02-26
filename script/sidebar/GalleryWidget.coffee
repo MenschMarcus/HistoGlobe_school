@@ -77,7 +77,6 @@ class HG.GalleryWidget extends HG.Widget
       longSwipesRatio: 0.2
       calculateHeight: true
       onSlideChangeEnd: @_onSlideEnd
-      # onSlideReset: @_onSlideEnd
 
 
     $(@_left_arrow).click () =>

@@ -54,7 +54,7 @@
 
   "StatisticsWidget" :
   {
-    "icon" : "fa-star",
+    "icon" : "fa-bar-chart-o",
     "name" : "Statistik",
     "title" : "Coole Entwicklung",
     "data" : "config/eu/data/statistics_data.dsv",

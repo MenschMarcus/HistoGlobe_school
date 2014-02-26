@@ -13,10 +13,13 @@ class HG.StatisticsWidget extends HG.Widget
       name: ""
       title: ""
       data: ""
+      lineColor: ""
+      lineWidth: ""
       xAttributeName: ""
       yAttributeName: ""
       yDomain: [0,0]
-      yLableDistance: 0
+      xLableTicks: 0
+      yLableTicks: 0
       yCaption: ""
 
     @_config = $.extend {}, defaultConfig, config
@@ -42,14 +45,12 @@ class HG.StatisticsWidget extends HG.Widget
 
     content = document.createElement "div"
     content.className = "statistics-widget swiper-no-swiping"
+    @setContent content
 
-    height = @_width * 9/16
-    unless height >= HGConfig.statistics_widget_min_height.val
-      height = @_width
+    width = $(content).width()
+    height = Math.max width * 9/16, HGConfig.statistics_widget_min_height.val
 
-    height -= 2*HGConfig.widget_body_padding.val
-
-    @_canvasWidth = @_width - HGConfig.statistics_widget_margin_left.val - HGConfig.statistics_widget_margin_right.val
+    @_canvasWidth = width - HGConfig.statistics_widget_margin_left.val - HGConfig.statistics_widget_margin_right.val
     @_canvasHeight = height - HGConfig.statistics_widget_margin_top.val - HGConfig.statistics_widget_margin_bottom.val
 
     parseDate = d3.time.format("%d.%m.%Y").parse
@@ -63,18 +64,20 @@ class HG.StatisticsWidget extends HG.Widget
     xAxis = d3.svg.axis()
         .scale(x)
         .orient("bottom")
+        .ticks(@_config.xLableTicks, "")
 
     yAxis = d3.svg.axis()
         .scale(y)
         .orient("left")
-        .ticks(@_config.yLableDistance, "")
+        .ticks(@_config.yLableTicks, "")
 
     line = d3.svg.line()
+      .interpolate("basis")
       .x((d) => return x(d[@_config.xAttributeName]) )
       .y((d) => return y(d[@_config.yAttributeName]) )
 
     @_canvas = d3.select(content).append("svg")
-        .attr("width", @_width)
+        .attr("width", width)
         .attr("height", height)
         .append("g")
         .attr("transform", "translate(" + HGConfig.statistics_widget_margin_left.val + "," + HGConfig.statistics_widget_margin_top.val + ")")
@@ -103,15 +106,16 @@ class HG.StatisticsWidget extends HG.Widget
           .append("text")
           .attr("transform", "rotate(-90)")
           .attr("y", 6)
-          .attr("dy", ".71em")
+          .attr("dy", "0.71em")
           .style("text-anchor", "end")
           .text(@_config.yCaption)
-
 
       @_canvas.append("path")
         .datum(data)
         .attr("class", "line")
-        .attr("d", line);
+        .attr("d", line)
+        .attr("stroke", "#{@_config.lineColor}")
+        .attr("stroke-width", "#{@_config.lineWidth}")
 
       $(content).on "mousedown", (event) =>
         x = event.offsetX - HGConfig.statistics_widget_margin_left.val
@@ -120,7 +124,6 @@ class HG.StatisticsWidget extends HG.Widget
 
       @_initNowMarker()
 
-      @setContent content
     )
 
   ##############################################################################

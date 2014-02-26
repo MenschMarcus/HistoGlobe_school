@@ -155,7 +155,7 @@ class HG.LegendWidget extends HG.Widget
 
       @_categoryFilter.push config.category
 
-      $(row).click () =>
+      @onDivClick row, () =>
         $(row).toggleClass "active"
 
         if $(row).hasClass("active")
