@@ -98,6 +98,7 @@
     <script type="text/javascript" src="build/LogoWidget.js"></script>
     <script type="text/javascript" src="build/PictureWidget.js"></script>
     <script type="text/javascript" src="build/LegendWidget.js"></script>
+    <script type="text/javascript" src="build/StatisticsWidget.js"></script>
     <script type="text/javascript" src="build/ControlButtonArea.js"></script>
     <script type="text/javascript" src="build/ZoomButtons.js"></script>
     <script type="text/javascript" src="build/FullscreenButton.js"></script>
