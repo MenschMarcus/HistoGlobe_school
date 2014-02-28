@@ -36,6 +36,7 @@
     <script type="text/javascript" src="script/third-party/jquery.rotate.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.prettyPhoto.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.fullscreenApi.js"></script>
+    <script type="text/javascript" src="script/third-party/jquery.parse.min.js"></script>
 
     <script type="text/javascript" src="script/third-party/idangerous.swiper-2.4.2.min.js"></script>
     <script type="text/javascript" src="script/third-party/idangerous.swiper.scrollbar-2.4.js"></script>

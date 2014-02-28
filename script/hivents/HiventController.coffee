@@ -24,6 +24,8 @@ class HG.HiventController
     defaultConfig =
       hiventJSONPaths: undefined
       multimediaJSONPaths: undefined
+      hiventDSVPaths: undefined
+      multimediaDSVPaths: undefined
       hiventServerName: undefined
       hiventDatabaseName: undefined
       hiventTableName: undefined
@@ -35,10 +37,12 @@ class HG.HiventController
 
     if conf.hiventJSONPaths?
       @loadHiventsFromJSON conf
+    else if conf.hiventDSVPaths?
+      @loadHiventsFromDSV conf
     else if conf.hiventServerName?
       @loadHiventsFromDatabase conf
     else
-      console.error "Unable to load Hivents: No JSON path or database specified!"
+      console.error "Unable to load Hivents: No JSON path, DSV path or database specified!"
 
 
   # ============================================================================
@@ -81,15 +85,17 @@ class HG.HiventController
   ############################### INIT FUNCTIONS ###############################
 
   # ============================================================================
-  # config =
-  #   hiventServerName: string -- name of the server
-  #   hiventDatabaseName: string -- name of the database
-  #   hiventTableName: string -- name of the table
-  #   multimediaServerName: string -- name of the server
-  #   multimediaDatabaseName: string -- name of the database
-  #   multimediaTableName: string -- name of the table
-
   loadHiventsFromDatabase: (config) ->
+    defaultConfig =
+      hiventServerName: ""
+      hiventDatabaseName: ""
+      hiventTableName: ""
+      multimediaServerName: ""
+      multimediaDatabaseName: ""
+      multimediaTableName: ""
+
+    config = $.extend {}, defaultConfig, config
+
     dbInterface = new HG.HiventDatabaseInterface(config.hiventServerName, config.hiventDatabaseName)
     dbInterface.getHivents {
       tableName: config.hiventTableName,
@@ -109,11 +115,13 @@ class HG.HiventController
     }
 
   # ============================================================================
-  # config =
-  #   hiventJSONPath: string -- path to hivent JSON file
-  #   multimediaJSONPath: string -- path to multimedia JSON file
-
   loadHiventsFromJSON: (config) ->
+    defaultConfig =
+      hiventJSONPaths: []
+      multimediaJSONPaths: []
+
+    config = $.extend {}, defaultConfig, config
+
     for hiventJSONPath in config.hiventJSONPaths
       $.getJSON(hiventJSONPath, (hivents) =>
         builder = new HG.HiventBuilder config
@@ -126,6 +134,20 @@ class HG.HiventController
 
         @_hiventsLoaded = true
       )
+
+  # ============================================================================
+  loadHiventsFromDSV: (config) ->
+    defaultConfig =
+      hiventDSVPaths: []
+      multimediaDSVPaths: []
+
+    config = $.extend {}, defaultConfig, config
+
+    for hiventDSVPath in config.hiventDSVPaths
+      console.log $.parse hiventDSVPath,
+        config:
+          delimiter: "|"
+          header: false
 
   ############################# MAIN FUNCTIONS #################################
 
