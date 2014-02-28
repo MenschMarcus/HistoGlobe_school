@@ -5,10 +5,9 @@
     "maxYear": 2014,
     "minYear": 1993,
     "nowYear": 2000,
-    "minZoom": 6,
-    "maxZoom": 8,
+    "minZoom": 3,
+    "maxZoom": 6,
     "startZoom": 6,
-    "maxBounds": [[35,-20], [65, 50]],
     "startLatLong": [51.505, 10.09],
     "tiles": "config/exemplum/map/tiles/"
   },
