@@ -18,7 +18,8 @@
 
   "HiventController" :
   {
-    "hiventDSVPaths": ["config/exemplum/data/exemplum_data.csv"]
+    "hiventDSVPaths": ["config/exemplum/data/exemplum_event.csv"],
+    "ignoredLines" : [1,2,3,4,5,6]
   },
 
   "HiventsOnMap" : {},

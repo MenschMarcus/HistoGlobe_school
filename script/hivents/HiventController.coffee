@@ -140,14 +140,24 @@ class HG.HiventController
     defaultConfig =
       hiventDSVPaths: []
       multimediaDSVPaths: []
+      delimiter: "|"
+      ignoredLines: [] # line indices starting at 1
 
     config = $.extend {}, defaultConfig, config
 
+    parse_config =
+      delimiter: config.delimiter
+      header: false
+
     for hiventDSVPath in config.hiventDSVPaths
-      console.log $.parse hiventDSVPath,
-        config:
-          delimiter: "|"
-          header: false
+      $.get hiventDSVPath,
+        (data) =>
+          parse_result = $.parse data, parse_config
+          for result, i in parse_result.results
+            unless i+1 in config.ignoredLines
+              console.log result
+
+
 
   ############################# MAIN FUNCTIONS #################################
 
