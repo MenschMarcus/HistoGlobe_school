@@ -6,7 +6,7 @@
     "minYear": 1993,
     "nowYear": 2000,
     "minZoom": 3,
-    "maxZoom": 6,
+    "maxZoom": 8,
     "startZoom": 6,
     "startLatLong": [51.505, 10.09],
     "tiles": "config/exemplum/map/tiles/"
@@ -15,6 +15,28 @@
   "ControlButtonArea": {},
   "ZoomButtons": {},
   "FullscreenButton": {},
+
+  "AreaIndicator" :
+  {
+    "domain": [0, 1],
+    "data": "config/exemplum/data/products.json",
+    "rangeFillColor": ["rgb(0, 250, 0)", "rgb(255, 50, 50)"],
+    "rangeFillOpacity": [0.3, 0.3],
+    "rangeLineOpacity": [1, 1],
+    "rangeLineWidth": [10, 10],
+    "fallbackFillColor": "rgb(0, 250, 0)",
+    "fallbackFillOpacity": 0.0,
+    "fallbackLineOpacity": 0.0,
+    "fallbackLineWidth": 0.0,
+    "extrapolatePast": false
+  },
+
+  "AreaController" :
+  {
+    "areaJSONPaths" : ["config/exemplum/data/exemplum.json", "config/common/countries/europe_old.json"]
+  },
+
+  "AreasOnMap" : {},
 
   "LogoWidget" :
   {

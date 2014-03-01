@@ -9,16 +9,28 @@ class HG.AreaIndicator
   # ============================================================================
   constructor: (config) ->
     defaultConfig =
-      domain: [0, 1]
-      range: ["red", "green"]
       data: undefined
-      fallback: "grey"
+      domain: [0, 1]
+      rangeFillColor: ["red", "green"]
+      rangeFillOpacity: [1, 1]
+      rangeLineColor: ["grey", "grey"]
+      rangeLineOpacity: [1, 1]
+      rangeLineWidth: [2, 2]
+      fallbackFillColor: "grey"
+      fallbackFillOpacity: 1
+      fallbackLineColor: "grey"
+      fallbackLineOpacity: 1
+      fallbackLineWidth: 1
       extrapolateFuture: true
       extrapolatePast: true
 
     @_config = $.extend {}, defaultConfig, config
 
-    @_color = d3.scale.linear().domain(config.domain).range(config.range)
+    @_fill_color    = d3.scale.linear().domain(@_config.domain).range(@_config.rangeFillColor)
+    @_fill_opacity  = d3.scale.linear().domain(@_config.domain).range(@_config.rangeFillOpacity)
+    @_line_color    = d3.scale.linear().domain(@_config.domain).range(@_config.rangeLineColor)
+    @_line_opacity  = d3.scale.linear().domain(@_config.domain).range(@_config.rangeLineOpacity)
+    @_line_width    = d3.scale.linear().domain(@_config.domain).range(@_config.rangeLineWidth)
 
     if config.data?
       @loadFromJSON config.data
@@ -28,8 +40,14 @@ class HG.AreaIndicator
     hgInstance.areaIndicator = @
 
   # ============================================================================
-  getColor: (id, now) ->
-    result = d3.rgb(@_config.fallback).toString()
+  getStyle: (id, now) ->
+
+    result =
+      fillColor:   d3.rgb(@_config.fallbackFillColor).toString()
+      fillOpacity: @_config.fallbackFillOpacity
+      lineColor:   d3.rgb(@_config.fallbackLineColor).toString()
+      lineOpacity: @_config.fallbackLineOpacity
+      lineWidth:   @_config.fallbackLineWidth
 
     tmp = undefined
 
@@ -41,16 +59,28 @@ class HG.AreaIndicator
         if date < now
           tmp = value
         else if tmp?
-          result = @_color(tmp)
+          result.fillColor      = @_fill_color(tmp)
+          result.fillOpacity    = @_fill_opacity(tmp)
+          result.lineColor      = @_line_color(tmp)
+          result.lineOpacity    = @_line_opacity(tmp)
+          result.lineWidth      = @_line_width(tmp)
           tmp = undefined
           break
         else
           if @_config.extrapolatePast
-            result = @_color(@_indicator[id][0][1])
+            result.fillColor    = @_fill_color(@_indicator[id][0][1])
+            result.fillOpacity  = @_fill_opacity(@_indicator[id][0][1])
+            result.lineColor    = @_line_color(@_indicator[id][0][1])
+            result.lineOpacity  = @_line_opacity(@_indicator[id][0][1])
+            result.lineWidth    = @_line_width(@_indicator[id][0][1])
           break
 
       if tmp? and @_config.extrapolateFuture
-        result = @_color(tmp)
+        result.fillColor        = @_fill_color(tmp)
+        result.fillOpacity      = @_fill_opacity(tmp)
+        result.lineColor        = @_line_color(tmp)
+        result.lineOpacity      = @_line_opacity(tmp)
+        result.lineWidth        = @_line_width(tmp)
 
     return result
 

@@ -35,11 +35,11 @@ class HG.Area
   # ============================================================================
   getNormalStyle: ->
     style =
-      fillColor:    @_color
-      color:        "#666"
-      weight:       1
-      fillOpacity:  0.4
-      opacity:      1
+      fillColor:    @_style.fillColor
+      fillOpacity:  @_style.fillOpacity
+      lineColor:    @_style.lineColor
+      lineOpacity:  @_style.lineOpacity
+      lineWidth:    @_style.lineWidth
       noClip:       true
       smoothFactor: 1.0
 
@@ -60,9 +60,13 @@ class HG.Area
     @_active = new_active
 
     if @_active and @_indicator?
-      color = @_indicator.getColor @_iso_a2, newDate
-      if color? and color isnt @_color
-        @_color = color
+      style = @_indicator.getStyle @_iso_a2, newDate
+
+      a =  JSON.stringify @_style
+      b =  JSON.stringify style
+
+      if style? and a != b
+        @_style = style
         @notifyAll "onStyleChange", @
 
   # ============================================================================
@@ -118,7 +122,12 @@ class HG.Area
   # ============================================================================
   _initMembers: ->
 
-    @_color = "#D2CDC3"
+    @_style =
+      fillColor:   "#16f"
+      lineColor:   "#666"
+      lineWidth:   1.0
+      fillOpacity: 0.5
+      lineOpacity: 0.8
 
     @_start =
       "DEU": new Date(1990, 10, 3)

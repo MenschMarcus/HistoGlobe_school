@@ -1,48 +1,14 @@
-// --------------------- MAP OPTIONS -------------------------------------------
-$map_min_width                      = 300px
-$map_collapsed_width                = 50px
-
 
 // ------------------ SIDE_BAR OPTIONS -----------------------------------------
-$sidebar_collapse_button_size       = 40px
-$sidebar_aimation_speed             = 0.3s
-$sidebar_width                      = 400px
-$sidebar_collapsed_width            = 45px
-$sidebar_scrollbar_width            = 10px
 $sidebar_background_color           = rgba(0, 0, 0, 0)
 
 // ------------------- WIDGET OPTIONS ------------------------------------------
-$widget_aimation_speed              = 0.3s
-$widget_title_size                  = 30px
 $widget_title_background_color      = #666666
 $widget_title_text_color            = #ffffff
 $widget_background_color            = #ffffff
 $widget_text_color                  = #333333
 
-$widget_margin                      = 10px
-$widget_body_padding                = 15px
-
-
-$widget_title_gradient_effect       = 0%
-
 $widget_border_radius_top_left      = 3px
 $widget_border_radius_top_right     = 3px
 $widget_border_radius_bottom_left   = 3px
 $widget_border_radius_bottom_right  = 3px
-
-$widget_font_size                   = 12px
-
-// GALLERY WIDGET
-$gallery_widget_pagination_size     = 20px
-
-// STATISTICS WIDGET
-$statistics_widget_min_height       = 200px
-$statistics_widget_margin_top       = 0px
-$statistics_widget_margin_right     = 0px
-$statistics_widget_margin_bottom    = 20px
-$statistics_widget_margin_left      = 30px
-
-
-// ------------------ TIMELINE OPTIONS -----------------------------------------
-$timeline_height                    = 80px
-$timeline_roundness                 = 8px
