@@ -5,10 +5,9 @@
     "maxYear": 2014,
     "minYear": 1960,
     "nowYear": 2010,
-    "minZoom": 6,
+    "minZoom": 5,
     "maxZoom": 7,
     "startZoom": 6,
-    "maxBounds": [[35,-20], [65, 50]],
     "startLatLong": [51.505, 10.09]
   },
 
@@ -18,8 +17,36 @@
 
   "HiventController" :
   {
-    "hiventDSVPaths": ["config/exemplum/data/exemplum_event.csv"],
-    "ignoredLines" : [1,2,3,4,5,6]
+    "hiventConfig": {
+      "dsvPaths": ["config/exemplum/data/exemplum_event.csv"],
+      "ignoredLines" : [1,2,3,4,5,6],
+      "indexMapping" : {
+        "hiventID"          : 0,
+        "hiventName"        : 1,
+        "hiventDescription" : 7,
+        "hiventStartDate"   : 2,
+        "hiventEndDate"     : 2,
+        "hiventDisplayDate" : 2,
+        "hiventLocation"    : 3,
+        "hiventLat"         : 4,
+        "hiventLong"        : 5,
+        "hiventCategory"    : 8,
+        "hiventMultimedia"  : 6
+      }
+
+    },
+
+    "multimediaConfig": {
+      "dsvPaths": ["config/exemplum/data/exemplum_medium.csv"],
+      "rootDirs": ["config/exemplum/data/media"],
+      "ignoredLines" : [1,2,3,4,5,6],
+      "indexMapping": {
+        "multimediaID"          : 0,
+        "multimediaType"        : 2,
+        "multimediaDescription" : 3,
+        "multimediaLink"        : 1
+      }
+    }
   },
 
   "HiventsOnMap" : {},

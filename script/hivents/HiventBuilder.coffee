@@ -9,15 +9,105 @@ class HG.HiventBuilder
   ##############################################################################
 
   # ============================================================================
-  # config =
-  #   hiventServerName: string -- name of the server
-  #   hiventDatabaseName: string -- name of the database
-  #   hiventTableName: string -- name of the table
-  #   multimediaServerName: string -- name of the server
-  #   multimediaDatabaseName: string -- name of the database
-  #   multimediaTableName: string -- name of the table
   constructor: (config) ->
     @_config = config
+
+  # ============================================================================
+  constructHiventFromArray: (dataArray, successCallback) ->
+    if dataArray isnt []
+      successCallback?= (hivent) -> console.log hivent
+
+      hiventID          = dataArray[@_config.hiventConfig.indexMapping.hiventID]
+      hiventName        = dataArray[@_config.hiventConfig.indexMapping.hiventName]
+      hiventDescription = dataArray[@_config.hiventConfig.indexMapping.hiventDescription]
+      hiventStartDate   = dataArray[@_config.hiventConfig.indexMapping.hiventStartDate]
+      hiventEndDate     = dataArray[@_config.hiventConfig.indexMapping.hiventEndDate]
+      hiventDisplayDate = dataArray[@_config.hiventConfig.indexMapping.hiventDisplayDate]
+      hiventLocation    = dataArray[@_config.hiventConfig.indexMapping.hiventLocation]
+      hiventLat         = dataArray[@_config.hiventConfig.indexMapping.hiventLat]
+      hiventLong        = dataArray[@_config.hiventConfig.indexMapping.hiventLong]
+      hiventCategory    = if dataArray[@_config.hiventConfig.indexMapping.hiventCategory] == '' then 'default' else dataArray[@_config.hiventConfig.indexMapping.hiventCategory]
+      hiventMultimedia  = dataArray[@_config.hiventConfig.indexMapping.hiventMultimedia]
+
+      mmDatabase = {}
+      multimediaLoaded = false
+      if @_config.multimediaConfig?.dsvPaths?
+        parse_config =
+          delimiter: @_config.multimediaConfig.delimiter
+          header: false
+
+        for dsvPath, pathIndex in @_config.multimediaConfig.dsvPaths
+          p = pathIndex
+          $.get(dsvPath,
+            (data) =>
+              pars_result = $.parse data, parse_config
+              for result, i in pars_result.results
+                unless i+1 in @_config.multimediaConfig.ignoredLines
+                  mm =
+                    id : result[@_config.multimediaConfig.indexMapping.multimediaID]
+                    type : result[@_config.multimediaConfig.indexMapping.multimediaType]
+                    description : result[@_config.multimediaConfig.indexMapping.multimediaDescription]
+                    link : @_config.multimediaConfig.rootDirs[p] + "/" +
+                           result[@_config.multimediaConfig.indexMapping.multimediaLink]
+
+                  mmDatabase["#{mm.id}"] = mm
+
+              multimediaLoaded = true
+          )
+      else
+        multimediaLoaded = true
+
+      mmLoadFinished = () ->
+        multimediaLoaded
+
+      parseMultimedia = () =>
+
+        mmHtmlString = ''
+        #get related multimedia
+        if hiventMultimedia != ""
+          galleryID = hiventID + "_gallery"
+          mmHtmlString = '\t<ul class=\"gallery clearfix\">\n'
+          hiventMMIDs = hiventMultimedia.split(",")
+          galleryTag = ""
+          if hiventMMIDs.length > 1
+            galleryTag = "[" + galleryID + "]"
+
+          #get all related entries from multimedia database and concatenate html string
+          somethingWentWrong = false
+          loadedIds = []
+          for id in hiventMMIDs
+            if mmDatabase.hasOwnProperty id
+              entry = mmDatabase["#{id}"]
+              mm = @_createMultiMedia entry.type, entry.description, entry.link
+              mmHtmlString +=  '\t\t<li><a href=\"' +
+                                mm.link + '\" rel=\"prettyPhoto' +
+                                galleryTag + '\" title=\"' +
+                                mm.description + '\"> <img src=\"' +
+                                mm.thumbnail + '\" width=\"60px\" /></a></li>\n'
+
+              loadedIds.push id
+            else
+              console.error "A multimedia entry with the id #{id} does not exist!"
+              somethingWentWrong = true
+
+          loadFinished = () ->
+            (loadedIds.length is hiventMMIDs.length) or somethingWentWrong
+
+          loadSuccessFunction = () =>
+            mmHtmlString += "\t</ul>\n"
+            successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
+                                    hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
+                                    hiventCategory, hiventMultimedia, mmHtmlString)
+
+          @_waitFor loadFinished, loadSuccessFunction
+
+        else
+          successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
+                                      hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
+                                      hiventCategory, hiventMultimedia, '')
+
+      @_waitFor mmLoadFinished, parseMultimedia
+
 
   # ============================================================================
   constructHiventFromDBString: (dataString, successCallback) ->
@@ -174,50 +264,48 @@ class HG.HiventBuilder
       @_waitFor mmLoadFinished, parseMultimedia
 
 
-  ############################### INIT FUNCTIONS ###############################
-
-
-
   ############################# MAIN FUNCTIONS #################################
   _createHivent: (hiventID, hiventName, hiventDescription, hiventStartDate,
                   hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
                   hiventCategory, hiventMMIDs, mmHtmlString) ->
 
-    #check whether location is set
-    locationString = ''
-    if hiventLocation != ''
-      locationString = hiventLocation + ','
+    if hiventID != "" and hiventName != ""
 
-    #concatenate content
-    content = '\t<h3>' + locationString + hiventDisplayDate + '</h3>\n' +
-              mmHtmlString +
-              '\t<p>\n\t\t' +
-              hiventDescription +
-              '\n\t<p>\n'
+      #check whether location is set
+      locationString = ''
+      if hiventLocation != ''
+        locationString = hiventLocation + ','
 
-    startDate = hiventStartDate.split '.'
-    endDate = hiventEndDate.split '.'
+      #concatenate content
+      content = '\t<h3>' + locationString + hiventDisplayDate + '</h3>\n' +
+                mmHtmlString +
+                '\t<p>\n\t\t' +
+                hiventDescription +
+                '\n\t<p>\n'
 
-    hivent = new HG.Hivent(
-      hiventID,
-      hiventName,
-      startDate[2],
-      startDate[1],
-      startDate[0],
-      endDate[2],
-      endDate[1],
-      endDate[0],
-      hiventDisplayDate,
-      hiventLocation,
-      hiventLong,
-      hiventLat,
-      hiventCategory,
-      content,
-      hiventDescription,
-      hiventMMIDs
-    )
+      startDate = hiventStartDate.split '.'
+      endDate = hiventEndDate.split '.'
 
-    hivent
+      hivent = new HG.Hivent(
+        hiventID,
+        hiventName,
+        startDate[2],
+        startDate[1],
+        startDate[0],
+        endDate[2],
+        endDate[1],
+        endDate[0],
+        hiventDisplayDate,
+        hiventLocation,
+        hiventLong,
+        hiventLat,
+        hiventCategory,
+        content,
+        hiventDescription,
+        hiventMMIDs
+      )
+
+      hivent
 
 
   # ============================================================================

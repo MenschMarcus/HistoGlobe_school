@@ -37,7 +37,7 @@ class HG.HiventController
 
     if conf.hiventJSONPaths?
       @loadHiventsFromJSON conf
-    else if conf.hiventDSVPaths?
+    else if conf.hiventConfig?.dsvPaths?
       @loadHiventsFromDSV conf
     else if conf.hiventServerName?
       @loadHiventsFromDatabase conf
@@ -106,10 +106,11 @@ class HG.HiventController
           rows = data.split "\n"
           for row in rows
             builder.constructHiventFromDBString row, (hivent) =>
-              handle = new HG.HiventHandle hivent
-              @_hiventHandles.push handle
-              callback handle for callback in @_onHiventAddedCallbacks
-              @_filterHivents();
+              if hivent
+                handle = new HG.HiventHandle hivent
+                @_hiventHandles.push handle
+                callback handle for callback in @_onHiventAddedCallbacks
+                @_filterHivents()
 
           @_hiventsLoaded = true
     }
@@ -127,10 +128,11 @@ class HG.HiventController
         builder = new HG.HiventBuilder config
         for h in hivents
           builder.constructHiventFromJSON h, (hivent) =>
-            handle = new HG.HiventHandle hivent
-            @_hiventHandles.push handle
-            callback handle for callback in @_onHiventAddedCallbacks
-            @_filterHivents();
+            if hivent
+              handle = new HG.HiventHandle hivent
+              @_hiventHandles.push handle
+              callback handle for callback in @_onHiventAddedCallbacks
+              @_filterHivents()
 
         @_hiventsLoaded = true
       )
@@ -138,24 +140,57 @@ class HG.HiventController
   # ============================================================================
   loadHiventsFromDSV: (config) ->
     defaultConfig =
-      hiventDSVPaths: []
-      multimediaDSVPaths: []
-      delimiter: "|"
-      ignoredLines: [] # line indices starting at 1
+      hiventConfig:
+        dsvPaths: []
+        delimiter: "|"
+        ignoredLines: [] # line indices starting at 1
+        indexMapping:
+          hiventID          : 0
+          hiventName        : 1
+          hiventDescription : 2
+          hiventStartDate   : 3
+          hiventEndDate     : 4
+          hiventDisplayDate : 5
+          hiventLocation    : 6
+          hiventLat         : 7
+          hiventLong        : 8
+          hiventCategory    : 9
+          hiventMultimedia  : 10
+      multimediaConfig:
+        dsvPaths: []
+        rootDirs: []
+        delimiter: "|"
+        ignoredLines: [] # line indices starting at 1
+        indexMapping:
+          multimediaID          : 0
+          multimediaType        : 1
+          multimediaDescription : 2
+          multimediaLink        : 3
+
 
     config = $.extend {}, defaultConfig, config
+    config.hiventConfig = $.extend {}, defaultConfig.hiventConfig, config.hiventConfig
+    config.multimediaConfig = $.extend {}, defaultConfig.multimediaConfig, config.multimediaConfig
 
     parse_config =
       delimiter: config.delimiter
       header: false
 
-    for hiventDSVPath in config.hiventDSVPaths
-      $.get hiventDSVPath,
+    for dsvPath in config.hiventConfig.dsvPaths
+      $.get dsvPath,
         (data) =>
           parse_result = $.parse data, parse_config
+          builder = new HG.HiventBuilder config
           for result, i in parse_result.results
-            unless i+1 in config.ignoredLines
-              console.log result
+            unless i+1 in config.hiventConfig.ignoredLines
+              builder.constructHiventFromArray result, (hivent) =>
+                if hivent
+                  handle = new HG.HiventHandle hivent
+                  @_hiventHandles.push handle
+                  callback handle for callback in @_onHiventAddedCallbacks
+                  @_filterHivents()
+
+          @_hiventsLoaded = true
 
 
 
