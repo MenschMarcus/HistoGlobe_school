@@ -13,21 +13,21 @@ class HG.HiventBuilder
     @_config = config
 
   # ============================================================================
-  constructHiventFromArray: (dataArray, successCallback) ->
+  constructHiventFromArray: (dataArray, pathIndex, successCallback) ->
     if dataArray isnt []
       successCallback?= (hivent) -> console.log hivent
 
-      hiventID          = dataArray[@_config.hiventConfig.indexMapping.hiventID]
-      hiventName        = dataArray[@_config.hiventConfig.indexMapping.hiventName]
-      hiventDescription = dataArray[@_config.hiventConfig.indexMapping.hiventDescription]
-      hiventStartDate   = dataArray[@_config.hiventConfig.indexMapping.hiventStartDate]
-      hiventEndDate     = dataArray[@_config.hiventConfig.indexMapping.hiventEndDate]
-      hiventDisplayDate = dataArray[@_config.hiventConfig.indexMapping.hiventDisplayDate]
-      hiventLocation    = dataArray[@_config.hiventConfig.indexMapping.hiventLocation]
-      hiventLat         = dataArray[@_config.hiventConfig.indexMapping.hiventLat]
-      hiventLong        = dataArray[@_config.hiventConfig.indexMapping.hiventLong]
-      hiventCategory    = if dataArray[@_config.hiventConfig.indexMapping.hiventCategory] == '' then 'default' else dataArray[@_config.hiventConfig.indexMapping.hiventCategory]
-      hiventMultimedia  = dataArray[@_config.hiventConfig.indexMapping.hiventMultimedia]
+      hiventID          = dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventID]
+      hiventName        = dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventName]
+      hiventDescription = dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventDescription]
+      hiventStartDate   = dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventStartDate]
+      hiventEndDate     = dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventEndDate]
+      hiventDisplayDate = dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventDisplayDate]
+      hiventLocation    = dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventLocation]
+      hiventLat         = dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventLat]
+      hiventLong        = dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventLong]
+      hiventCategory    = if dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventCategory] == '' then 'default' else dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventCategory]
+      hiventMultimedia  = dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventMultimedia]
 
       mmDatabase = {}
       multimediaLoaded = false
@@ -36,23 +36,24 @@ class HG.HiventBuilder
           delimiter: @_config.multimediaConfig.delimiter
           header: false
 
-        for dsvPath, pathIndex in @_config.multimediaConfig.dsvPaths
-          p = pathIndex
+        index = 0
+        for dsvPath in @_config.multimediaConfig.dsvPaths
           $.get(dsvPath,
             (data) =>
               pars_result = $.parse data, parse_config
               for result, i in pars_result.results
                 unless i+1 in @_config.multimediaConfig.ignoredLines
                   mm =
-                    id : result[@_config.multimediaConfig.indexMapping.multimediaID]
-                    type : result[@_config.multimediaConfig.indexMapping.multimediaType]
-                    description : result[@_config.multimediaConfig.indexMapping.multimediaDescription]
-                    link : @_config.multimediaConfig.rootDirs[p] + "/" +
-                           result[@_config.multimediaConfig.indexMapping.multimediaLink]
+                    id : result[@_config.multimediaConfig.indexMappings[pathIndex].multimediaID]
+                    type : result[@_config.multimediaConfig.indexMappings[pathIndex].multimediaType]
+                    description : result[@_config.multimediaConfig.indexMappings[pathIndex].multimediaDescription]
+                    link : @_config.multimediaConfig.rootDirs[index] + "/" +
+                           result[@_config.multimediaConfig.indexMappings[pathIndex].multimediaLink]
 
                   mmDatabase["#{mm.id}"] = mm
 
               multimediaLoaded = true
+              index++
           )
       else
         multimediaLoaded = true

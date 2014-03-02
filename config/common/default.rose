@@ -54,3 +54,7 @@ $statistics_widget_subtitle_font_size = 1.5em
 // ------------------ TIMELINE OPTIONS -----------------------------------------
 $timeline_height                      = 80px
 $timeline_roundness                   = 8px
+
+// ------------------ HIVENT OPTIONS -------------------------------------------
+$hivent_marker_2D_width               = 32px;
+$hivent_marker_2D_height              = 32px;

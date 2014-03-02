@@ -5,7 +5,7 @@
     "maxYear": 2014,
     "minYear": 1960,
     "nowYear": 2010,
-    "minZoom": 5,
+    "minZoom": 3,
     "maxZoom": 7,
     "startZoom": 6,
     "startLatLong": [51.505, 10.09]
@@ -18,36 +18,83 @@
   "HiventController" :
   {
     "hiventConfig": {
-      "dsvPaths": ["config/exemplum/data/exemplum_event.csv"],
+      "dsvPaths": ["config/exemplum/data/exemplum_event.csv", "config/exemplum/data/exemplum_branch.csv"],
       "ignoredLines" : [1,2,3,4,5,6],
-      "indexMapping" : {
-        "hiventID"          : 0,
-        "hiventName"        : 1,
-        "hiventDescription" : 7,
-        "hiventStartDate"   : 2,
-        "hiventEndDate"     : 2,
-        "hiventDisplayDate" : 2,
-        "hiventLocation"    : 3,
-        "hiventLat"         : 4,
-        "hiventLong"        : 5,
-        "hiventCategory"    : 8,
-        "hiventMultimedia"  : 6
-      }
+      "indexMappings" : [
+        {
+          "hiventID"          : 0,
+          "hiventName"        : 1,
+          "hiventDescription" : 7,
+          "hiventStartDate"   : 2,
+          "hiventEndDate"     : 2,
+          "hiventDisplayDate" : 2,
+          "hiventLocation"    : 3,
+          "hiventLat"         : 4,
+          "hiventLong"        : 5,
+          "hiventCategory"    : 8,
+          "hiventMultimedia"  : 6
+        },
+
+        {
+          "hiventID"          : 0,
+          "hiventName"        : 1,
+          "hiventDescription" : 9,
+          "hiventStartDate"   : 2,
+          "hiventEndDate"     : 3,
+          "hiventDisplayDate" : 4,
+          "hiventLocation"    : 5,
+          "hiventLat"         : 6,
+          "hiventLong"        : 7,
+          "hiventCategory"    : 10,
+          "hiventMultimedia"  : 8
+        }
+      ]
 
     },
 
     "multimediaConfig": {
-      "dsvPaths": ["config/exemplum/data/exemplum_medium.csv"],
-      "rootDirs": ["config/exemplum/data/media"],
+      "dsvPaths": ["config/exemplum/data/exemplum_medium.csv", "config/exemplum/data/exemplum_medium.csv"],
+      "rootDirs": ["config/exemplum/data/media", "config/exemplum/data/media"],
       "ignoredLines" : [1,2,3,4,5,6],
-      "indexMapping": {
-        "multimediaID"          : 0,
-        "multimediaType"        : 2,
-        "multimediaDescription" : 3,
-        "multimediaLink"        : 1
-      }
+      "indexMappings": [
+        {
+          "multimediaID"          : 0,
+          "multimediaType"        : 2,
+          "multimediaDescription" : 3,
+          "multimediaLink"        : 1
+        },
+        {
+          "multimediaID"          : 0,
+          "multimediaType"        : 2,
+          "multimediaDescription" : 3,
+          "multimediaLink"        : 1
+        }
+      ]
     }
   },
+
+  "CategoryIconMapping" : {
+      "Z" : {
+        "default" : "data/hivent_icons/icon_default.png",
+        "highlighted" : "data/hivent_icons/icon_default_highlight.png"
+      },
+      "F" : {
+        "default" : "data/hivent_icons/icon_default.png",
+        "highlighted" : "data/hivent_icons/icon_default_highlight.png"
+      },
+      "P" : {
+        "default" : "data/hivent_icons/icon_default.png",
+        "highlighted" : "data/hivent_icons/icon_default_highlight.png"
+      },
+      "S" : {
+        "default" : "data/hivent_icons/icon_default.png",
+        "highlighted" : "data/hivent_icons/icon_default_highlight.png"
+      },
+      "E" : {
+        "default" : "data/hivent_icons/icon_default.png",
+        "highlighted" : "data/hivent_icons/icon_default_highlight.png"
+      }
+    },
 
   "HiventsOnMap" : {},
 

@@ -144,7 +144,7 @@ class HG.HiventController
         dsvPaths: []
         delimiter: "|"
         ignoredLines: [] # line indices starting at 1
-        indexMapping:
+        indexMappings: [
           hiventID          : 0
           hiventName        : 1
           hiventDescription : 2
@@ -156,16 +156,18 @@ class HG.HiventController
           hiventLong        : 8
           hiventCategory    : 9
           hiventMultimedia  : 10
+        ]
       multimediaConfig:
         dsvPaths: []
         rootDirs: []
         delimiter: "|"
         ignoredLines: [] # line indices starting at 1
-        indexMapping:
+        indexMappings: [
           multimediaID          : 0
           multimediaType        : 1
           multimediaDescription : 2
           multimediaLink        : 3
+        ]
 
 
     config = $.extend {}, defaultConfig, config
@@ -176,6 +178,7 @@ class HG.HiventController
       delimiter: config.delimiter
       header: false
 
+    pathIndex = 0
     for dsvPath in config.hiventConfig.dsvPaths
       $.get dsvPath,
         (data) =>
@@ -183,12 +186,13 @@ class HG.HiventController
           builder = new HG.HiventBuilder config
           for result, i in parse_result.results
             unless i+1 in config.hiventConfig.ignoredLines
-              builder.constructHiventFromArray result, (hivent) =>
+              builder.constructHiventFromArray result, pathIndex, (hivent) =>
                 if hivent
                   handle = new HG.HiventHandle hivent
                   @_hiventHandles.push handle
                   callback handle for callback in @_onHiventAddedCallbacks
                   @_filterHivents()
+          pathIndex++
 
           @_hiventsLoaded = true
 
