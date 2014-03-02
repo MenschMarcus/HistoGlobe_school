@@ -58,3 +58,6 @@ $timeline_roundness                   = 8px
 // ------------------ HIVENT OPTIONS -------------------------------------------
 $hivent_marker_2D_width               = 32px;
 $hivent_marker_2D_height              = 32px;
+
+$hivent_marker_timeline_width         = 16px;
+$hivent_marker_timeline_height        = 16px;
