@@ -24,6 +24,8 @@ class HG.HiventController
     defaultConfig =
       hiventJSONPaths: undefined
       multimediaJSONPaths: undefined
+      hiventDSVPaths: undefined
+      multimediaDSVPaths: undefined
       hiventServerName: undefined
       hiventDatabaseName: undefined
       hiventTableName: undefined
@@ -35,10 +37,12 @@ class HG.HiventController
 
     if conf.hiventJSONPaths?
       @loadHiventsFromJSON conf
+    else if conf.hiventConfig?.dsvPaths?
+      @loadHiventsFromDSV conf
     else if conf.hiventServerName?
       @loadHiventsFromDatabase conf
     else
-      console.error "Unable to load Hivents: No JSON path or database specified!"
+      console.error "Unable to load Hivents: No JSON path, DSV path or database specified!"
 
 
   # ============================================================================
@@ -81,15 +85,17 @@ class HG.HiventController
   ############################### INIT FUNCTIONS ###############################
 
   # ============================================================================
-  # config =
-  #   hiventServerName: string -- name of the server
-  #   hiventDatabaseName: string -- name of the database
-  #   hiventTableName: string -- name of the table
-  #   multimediaServerName: string -- name of the server
-  #   multimediaDatabaseName: string -- name of the database
-  #   multimediaTableName: string -- name of the table
-
   loadHiventsFromDatabase: (config) ->
+    defaultConfig =
+      hiventServerName: ""
+      hiventDatabaseName: ""
+      hiventTableName: ""
+      multimediaServerName: ""
+      multimediaDatabaseName: ""
+      multimediaTableName: ""
+
+    config = $.extend {}, defaultConfig, config
+
     dbInterface = new HG.HiventDatabaseInterface(config.hiventServerName, config.hiventDatabaseName)
     dbInterface.getHivents {
       tableName: config.hiventTableName,
@@ -100,32 +106,97 @@ class HG.HiventController
           rows = data.split "\n"
           for row in rows
             builder.constructHiventFromDBString row, (hivent) =>
-              handle = new HG.HiventHandle hivent
-              @_hiventHandles.push handle
-              callback handle for callback in @_onHiventAddedCallbacks
-              @_filterHivents();
+              if hivent
+                handle = new HG.HiventHandle hivent
+                @_hiventHandles.push handle
+                callback handle for callback in @_onHiventAddedCallbacks
+                @_filterHivents()
 
           @_hiventsLoaded = true
     }
 
   # ============================================================================
-  # config =
-  #   hiventJSONPath: string -- path to hivent JSON file
-  #   multimediaJSONPath: string -- path to multimedia JSON file
-
   loadHiventsFromJSON: (config) ->
+    defaultConfig =
+      hiventJSONPaths: []
+      multimediaJSONPaths: []
+
+    config = $.extend {}, defaultConfig, config
+
     for hiventJSONPath in config.hiventJSONPaths
       $.getJSON(hiventJSONPath, (hivents) =>
         builder = new HG.HiventBuilder config
         for h in hivents
           builder.constructHiventFromJSON h, (hivent) =>
-            handle = new HG.HiventHandle hivent
-            @_hiventHandles.push handle
-            callback handle for callback in @_onHiventAddedCallbacks
-            @_filterHivents();
+            if hivent
+              handle = new HG.HiventHandle hivent
+              @_hiventHandles.push handle
+              callback handle for callback in @_onHiventAddedCallbacks
+              @_filterHivents()
 
         @_hiventsLoaded = true
       )
+
+  # ============================================================================
+  loadHiventsFromDSV: (config) ->
+    defaultConfig =
+      hiventConfig:
+        dsvPaths: []
+        delimiter: "|"
+        ignoredLines: [] # line indices starting at 1
+        indexMappings: [
+          hiventID          : 0
+          hiventName        : 1
+          hiventDescription : 2
+          hiventStartDate   : 3
+          hiventEndDate     : 4
+          hiventDisplayDate : 5
+          hiventLocation    : 6
+          hiventLat         : 7
+          hiventLong        : 8
+          hiventCategory    : 9
+          hiventMultimedia  : 10
+        ]
+      multimediaConfig:
+        dsvPaths: []
+        rootDirs: []
+        delimiter: "|"
+        ignoredLines: [] # line indices starting at 1
+        indexMappings: [
+          multimediaID          : 0
+          multimediaType        : 1
+          multimediaDescription : 2
+          multimediaLink        : 3
+        ]
+
+
+    config = $.extend {}, defaultConfig, config
+    config.hiventConfig = $.extend {}, defaultConfig.hiventConfig, config.hiventConfig
+    config.multimediaConfig = $.extend {}, defaultConfig.multimediaConfig, config.multimediaConfig
+
+    parse_config =
+      delimiter: config.delimiter
+      header: false
+
+    pathIndex = 0
+    for dsvPath in config.hiventConfig.dsvPaths
+      $.get dsvPath,
+        (data) =>
+          parse_result = $.parse data, parse_config
+          builder = new HG.HiventBuilder config
+          for result, i in parse_result.results
+            unless i+1 in config.hiventConfig.ignoredLines
+              builder.constructHiventFromArray result, pathIndex, (hivent) =>
+                if hivent
+                  handle = new HG.HiventHandle hivent
+                  @_hiventHandles.push handle
+                  callback handle for callback in @_onHiventAddedCallbacks
+                  @_filterHivents()
+          pathIndex++
+
+          @_hiventsLoaded = true
+
+
 
   ############################# MAIN FUNCTIONS #################################
 

@@ -1,0 +1,34 @@
+wichtige Firmenereignisse||||||||
+prefix:|Ev|||||||
+||||||||
+id|name|date|location|lat|long|(media)|(description)|(category)
+text|text|date|text|num|num|[text]|text|text
+|||name of location, e.g. 'Berlin'|first GPS-coordinate|second GPS-coordinate|key: Medium.id||
+Ev-1|Gründung der Exemplum GmbH|01.06.1964|Hamburg|53.33|10.0||Martin Exelsior und Robert Plumbum gründen am ersten Januar die Exemplum GmbH In Hamburg-Altona. Martin Exelsior erbte im Jahr zuvor den Kafffeegroßhandel seines Vaters, Robert Plumbum leitete seit der Währungsreform eine Limonadenfarbik aus dem Familienbesitz in Hamburg-Bergedorf. Der Vetrieb der Produkte lief über Supermärkte in der Region und ein Ladengeschäft in Hamburg.|
+Ev-2|Aufkauf der englischen Supper-Bubble Ltd.|01.01.1974|Manchester|53.48|-2.24||Die insolvenzgefärdete Limonadenfirma Supper-Bubble wird aufgekauft. Das traditionsträchtige Unternehmen war wegen betriebswirtschaftlicher Fehlentscheidungen in die roten Zahlen geraten. Mit dem Kauf der Firma erlangt die Exemplum GmbH eine hohe Expertise im Bereich Produktentwicklung. Die bestehenden Produkte werden beibehalten und teilweise in Deutschland, Österreich, Frankreich und der Schweiz eingeführt|
+Ev-3|Die Handel mit Kaffee wird eingestellt|01.01.1976|Hamburg|53.33|10.0||Aufgrund der starken Konkurrenz und der Konzentration auf den Limonadenmarkt wird der Handel mit Kaffee eingestellt|
+Ev-4|Auszeichnung als bester Arbeitgeber Deutschlands in der Kategorie Lebensmittel|01.01.1978|München|48.13|11.57||Die Deutsche Vereinigung der Industrie zeichnet die Exemplum GmbH als besten Arbeitgeber in Deutschland aus. Die Exemplum GmbH hatte sich durch die Einführung der 37 Stunden Woche, Firmenkindergärten und ein umfangreiches Weiterbildungsangebot gegen die Konkurrenz durchgesetzt.|
+Ev-5|Aufkauf der italienischen Firma Forza Foods|01.01.1979|Mailand|45.46|9.18||Die italienische Limonadenfirma Forza wird von der Exemplum GmbH aufgekauft. Hiermit erfolgt neben dem neuen Produkt auch der Markteintritt in Italien.|
+Ev-6|Sponsor bei der Fußballweltmeisterschaft in Spanien|13.06.1982|Madrid|40.42|-3.7|M-19|Um den Absatz im neuen Markt Spanien anzukurbeln, wird die Exemplum GmbH einer der Sponsoren der Fußball WM in Spanien.|
+Ev-7|Start der einjährigen Exemplum Tour|04.04.1986|Hamburg|53.33|10.0|M-20|Die Exemplum Tour ist eine Werbetour durch Deutschland, Österreich, die Schweiz und Frankreich. Ein Exemplum-Truck fährt durch große Städte und verteilt Gratisproben.|
+Ev-8|Exemplum Tour|28.04.1986|Hannover|52.38|9.75|M-21|Die Exemplum Tour stoppt in Hannover.|
+Ev-9|Exemplum Tour|27.05.1986|Köln|50.93|6.96|M-22|Die Exemplum Tour stoppt in Köln.|
+Ev-10|Exemplum Tour|15.06.1986|Frankfurt am Main|50.10|8.68|M-23|Die Exemplum Tour stoppt in Frankfurt am Main.|
+Ev-11|Exemplum Tour|04.10.1986|Stuttgart|48.46|9.12|M-24|Die Exemplum Tour stoppt in Stuttgart.|
+Ev-12|Exemplum Tour|26.10.1986|München|48.13|11.57|M-25|Die Exemplum Tour stoppt in München.|
+Ev-13|Exemplum Tour|05.04.1987|Wien|48.20|16.36|M-26|Die Exemplum Tour stoppt in Wien.|
+Ev-14|Exemplum Tour|25.04.1987|Bern|46.94|7.43|M-27|Die Exemplum Tour stoppt in Bern.|
+Ev-15|Exemplum Tour|15.05.1987|Marseille|43.29|5.36|M-28|Die Exemplum Tour stoppt in Marseille.|
+Ev-16|Exemplum Tour|23.06.1987|Paris|48.84|2.34|M-29|Die Exemplum Tour stoppt in Paris.|
+Ev-17|Exemplum Tour|16.07.1987|Lille|50.62|3.06|M-30|Die Exemplum Tour stoppt in Lille.|
+Ev-18|Auszeichnung durch den Deutschen Preis für Nachhaltige Erfrischungsgetränke|23.08.1992|Berlin|52.51|13.39||Die Exemplum GmbH wird für Ihre Nachhaltigkeit ausgezeichnet. Zum einen, weil sie von Beginn an natürliche Aromen und Pflanzen aus nachhaltigem Anbau verwendet und zum anderen, weil die Exemplum GmbH einer der beliebtesten Arbeitgeber in Deutschland ist. Des Weiteren war die wirtschaftliche Entwicklung stehts organisch und zuverlässig.|
+Ev-19|Aufkauf der Nippon Energy Corporation|01.01.1995|Tokio|35.7|139.72||Die japanische Nippon Energy Corporation wird aufgekauft.|
+Ev-20|"Start des Wohltätigkeitsprojekt "" Water for everybody"" in Addis Abeba, Äthiopien"|01.01.1998|Addis Abeba|9.01|38.44|M-31|"""Water for everybody"" unterstützt lokale Projekte in Äthiopien. Vor allem geht es darum, Farmer zu schulen, nachhaltig Brunnen zu bauen."|
+Ev-21|Wiedereinführung der Superbrause und der Superbrause + mit dem Beinamen Retro in Deutschland|29.10.2000|Hamburg|53.33|10.0||"Die Superbrause und die Superbrause + werden wieder produziert und vertrieben. Sie erhalten den Beinamen ""Retro"". Die Wiederaufnahme des Vertriebs in Deutschland erfolgte, da sich eine Interessengemeinschaft ""Wir wollen unsere Superbrause"" gebildet hatte. Diese Gemeinschaft bestand aus früheren Superbrause-Fans, die ihr geliebtes Produkt wieder kaufen wollten."|
+Ev-22|Sponsor bei der Fußballweltmeisterschaft in Deutschland|09.06.2006|Berlin|52.51|13.39|M-32|Die Exemplum GmbH ist einer der Sponsoren der Fußballweltmeisterschaft in Deutschland.|
+Ev-23|Aufkauf der Insolventa GmbH|01.01.2010|München|48.13|11.57||Die Insolventa GmbH wird aufgekauft. Dies ist die bis dahin größte Firmenübernahme der Exemplum GmbH. Die Insolventa GmbH vertreibt den East Tea in Osteuropa.|
+Ev-24|Jubiläumsfeier zum 50. Gründungstag|01.01.2014|Hamburg|53.33|10.0||Zur Jubiläumsfeier im Jahr 2014 beauftragt die Exemplum GmbH die HistoGlobe GmbH, ihre Firmengeschichte zu visualisieren.|
+Ev-25||||||||
+Ev-26||||||||
+Ev-27||||||||
+Ev-28||||||||
