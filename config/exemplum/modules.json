@@ -178,52 +178,82 @@
       ]
     },
     {
-      "type" : "VIPWidget",
-      "icon" : "fa-user",
-      "name" : "Produkte",
-      "persons" :
-      [
-        {
-          "name": "Martin Exelsior",
-          "date": "01.06.1964",
-          "displayDate": "1964 - 1976",
-          "image": "config/exemplum/data/media/exelsior.jpg",
-          "copyright": "© Drew Coffman",
-          "description": "Martin Exelsior übernimmt als Gründer die Geschäftsführung der Exemplum GmbH."
-        },
-        {
-          "name": "Peter Paulsen",
-          "date": "04.03.1976",
-          "displayDate": "1976 - 1990",
-          "image": "config/exemplum/data/media/peter_paulsen.jpg",
-          "copyright": "© Victor1558",
-          "description": "Martin Exelsior tritt aus gesundheitlichen Gründen zurück und wird durch seinen Neffen Peter Paulsen abgelöst. Peter Paulsen war zuvor Zweigstellenleiter in Österreich und der Schweiz."
-        },
-        {
-          "name": "Frank Schneider",
-          "date": "01.02.1990",
-          "displayDate": "1990 - 1997",
-          "image": "config/exemplum/data/media/frank_schneider.jpg",
-          "copyright": "© Victor1558",
-          "description": "Peter Paulsen geht in den Ruhestand. Er wird von Frank Schneider abgelöst. Frank Schneider war zuvor Leiter des Produktmarketings. Von nun an ist die Geschäftsführung nicht mehr in den Händen der Familie Exelsior."
-        },
-        {
-          "name": "Sabrina Fahrenkamp",
-          "date": "02.03.1997",
-          "displayDate": "1997 - 2005",
-          "image": "config/exemplum/data/media/sabrina_fahrenkamp.jpg",
-          "copyright": "© Victor1558",
-          "description": "Frank Schneider tritt zurück. Er sah seine persönliche Zukunft nicht mehr in der Exemplum GmbH. Er wird durch Sabrina Fahrenkamp abgelöst. Sabrina Fahrenkamp war zuvor Zweigstellenleiterin in den USA und für die interne Unternehmenskommunikation verantwortlich."
-        },
-        {
-          "name": "Geoffrey Brooks",
-          "date": "25.06.2005",
-          "displayDate": "seit dem 25.06.2005",
-          "image": "config/exemplum/data/media/geoffrey_brooks.jpg",
-          "copyright": "© Victor1558",
-          "description": "Sabrina Fahrenkamp tritt altersbedingt zurück. Sie wird durch Geoffrey Brooks abgelöst. Er war zuvor bei einer großen Unternehmensberatung als Partner tätig. Geoffrey Brooks ist der erste Geschäftsführer, der nicht aus den eigenen Reihen kommt."
-        }
-      ]
+    "type" : "PictureGalleryWidget",
+    "icon" : "fa-glass",
+    "name" : "Produkte",
+    "pictures" :
+    [
+      {
+        "image": "config/exemplum/data/media/kaffee_exelsior.jpg",
+        "copyright": "© Julius Schorzman",
+        "description": "Der Kaffee Exelsior ist ein Kaffee mit mildem Aroma. Es werden ausschließlich Arabica Bohnen zur Herstellung verwendet."
+      },
+      {
+        "image": "config/exemplum/data/media/kaffee_exelsior_exquisit.jpg",
+        "copyright": "© Tim Boyd",
+        "description": "Der Kaffee Exelsior Exquisit ist ein Kaffee mit kräftigem leicht nussigem Aroma. Die verwendeten Arabica Bohnen sind handverlesen und gehören zu den besten einer jeden Ernte"
+      },
+      {
+        "image": "config/exemplum/data/media/superbrause.jpg",
+        "copyright": "© John Phelan",
+        "description": "Die Superbrause ist ein Erfrischungsgetränk mit Orangengeschmack."
+      },
+      {
+        "image": "config/exemplum/data/media/superbrause_plus.jpg",
+        "copyright": "© pic_p_ter",
+        "description": "Die Superbrause+ ist ein Erfrischungsgetränk mit Colageschmack. Sie enthält Koffein und hat eine anregende und erfrischende Wirkung"
+      },
+      {
+        "image": "config/exemplum/data/media/kaffee_paris.jpg",
+        "copyright": "© V. Kostitsin-Teterin",
+        "description": "Der Kaffe Paris wurde eigens für den franzöischen Markt entwickelt. Er ist cremiger und intensiver im Geschmack als der Kaffe Exelsior."
+      },
+      {
+        "image": "config/exemplum/data/media/limonade_avance.jpg",
+        "copyright": "© Michael Fludkov",
+        "description": "Die Limonade Avance ist ein Erfrischungsgetränk mit Limettengeschack. Sie wurde eigens für den französischen Markt entwickelt und orientiert sich an einem beliebten französischem Zitronentee."
+      },
+      {
+        "image": "config/exemplum/data/media/lucky_lemonade.jpg",
+        "copyright": "© Onderwijsgek",
+        "description": "Die Lucky Lemonade ist ein Erfrischungsgetränk mit einem sehr süßen Beerengeschmack."
+      },
+      {
+        "image": "config/exemplum/data/media/lucky_lemonade_sugarfree.jpg",
+        "copyright": "© miss karen",
+        "description": "Die Lucky Lemonade Sugarfree wird ohne den Beisatz von Zucker hergestellt."
+      },
+      {
+        "image": "config/exemplum/data/media/tropical_explosion.jpg",
+        "copyright": "© Vera Kratochvil",
+        "description": "Tropical Explosion ist ein Erfrischungsgetränk mit tropischen Geschmack. Eine Mischung aus Mango, Maracuja und Drachenfrucht."
+      },
+      {
+        "image": "config/exemplum/data/media/limonade_avance.jpg",
+        "copyright": "© Michael Fludkov",
+        "description": "Die Limonade Avance Zero ist die zuckerfreie Variante der Lemonade Avance. Sie wird exklusiv für den französischem Markt produziert."
+      },
+      {
+        "image": "config/exemplum/data/media/ristoro.jpg",
+        "copyright": "© newleaf01",
+        "description": "Ristoro ist ein italienisches Erfrischungsgetränk. Es ist leicht bitter und schmeckt im Abgang nach Grapefruit."
+      },
+      {
+        "image": "config/exemplum/data/media/nippon_booster.jpg",
+        "copyright": "© abdallahh",
+        "description": "Der Nippon Booster ist ein Energydrink. Er wurde von der Nippon Energy Corporation für den japanischen Markt entwickelt. Der Koffeingehalt ist wesenlich höher als in Kaffee oder anderen koffeinhaltigen Erfrischungsgetränken der Exemplum GmbH."
+      },
+      {
+        "image": "config/exemplum/data/media/blue_cow.jpg",
+        "copyright": "© zolon",
+        "description": "Der Blue Cow Energydrink ist der erste Energydrink der von der Exemplum GmbH selbst entwickelt wurde. Er orientiert sich am europäischen Geschmack und hat ein leichtes Beerenaroma."
+      },
+      {
+        "image": "config/exemplum/data/media/east_tea.jpg",
+        "copyright": "© Ted Van Pelt",
+        "description": "Der East-Tea ist ein Eistee aus dem osteuropäischen Markt. Er hat ein Pfirsicharoma und durch seinen Teeingehalt eine anregende Wirkung."
+      }
+    ]
     },
     {
       "type" : "StatisticsWidget",
