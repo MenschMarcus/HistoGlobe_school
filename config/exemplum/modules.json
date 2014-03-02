@@ -277,6 +277,39 @@
                   "name" : "Superbrause",
                   "filterable" : true
                 }
+              ],
+              "name": "Firmenniederlassung",
+              "elements" : [
+                {
+                  "type" : "category",
+                  "category" : "Z",
+                  "name" : "Zweigstelle",
+                  "filterable" : true
+                },
+                {
+                  "type" : "category",
+                  "category" : "F",
+                  "name" : "Fabrik",
+                  "filterable" : true
+                },
+                {
+                  "type" : "category",
+                  "category" : "P",
+                  "name" : "Plantage",
+                  "filterable" : true
+                },
+                {
+                  "type" : "category",
+                  "category" : "S",
+                  "name" : "Store",
+                  "filterable" : true
+                },
+                {
+                  "type" : "category",
+                  "category" : "E",
+                  "name" : "Erlebniszentrum",
+                  "filterable" : true
+                }
               ]
             }
           ]
