@@ -208,7 +208,7 @@ class HG.HiventController
       isVisible = true
 
       if isVisible and @_currentCategoryFilter?
-        isVisible = hivent.category in @_currentCategoryFilter
+        isVisible = (hivent.category is "default") or (hivent.category in @_currentCategoryFilter)
 
       if isVisible and @_currentTimeFilter?
         isVisible = not (hivent.startDate.getTime() > @_currentTimeFilter.end.getTime()) and
