@@ -1,4 +1,11 @@
 // ------------------- WIDGET OPTIONS ------------------------------------------
-$widget_title_background_color      = #77C4CF
+$widget_title_background_color      = #99CDC8
+$widget_title_text_color            = #333333
+$statistics_widget_margin_left      = 40px
 
+$widget_title_gradient_effect         = -10%
 
+$widget_border_radius_top_left        = 0px
+$widget_border_radius_top_right       = 0px
+$widget_border_radius_bottom_left     = 0px
+$widget_border_radius_bottom_right    = 0px

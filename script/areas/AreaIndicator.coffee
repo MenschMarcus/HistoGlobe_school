@@ -49,9 +49,11 @@ class HG.AreaIndicator
       lineOpacity: @_config.fallbackLineOpacity
       lineWidth:   @_config.fallbackLineWidth
 
-    tmp = undefined
 
     if @_indicator[id]?
+
+      tmp = undefined
+
       for entry in @_indicator[id]
         date = new Date(entry[0])
         value = entry[1]

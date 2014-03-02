@@ -50,13 +50,20 @@ class HG.HistoGlobe
       @_collapsed = !@isInMobileMode()
       @_collapse()
 
+      load_module = (moduleName, moduleConfig) =>
+        if window["HG"][moduleName]?
+          newMod = new window["HG"][moduleName] moduleConfig
+          @addModule newMod
+        else
+          console.error "The module #{moduleName} is not part of the HG namespace!"
+
       for moduleName, moduleConfig of config
-        unless moduleName is "HistoGlobe"
-          if window["HG"][moduleName]?
-            newMod = new window["HG"][moduleName] moduleConfig
-            @addModule newMod
-          else
-            console.error "The module #{moduleName} is not part of the HG namespace!"
+        if moduleName is "Widgets"
+          for widget in moduleConfig
+            load_module widget.type, widget
+        else if moduleName isnt "HistoGlobe"
+          load_module moduleName, moduleConfig
+
 
       @notifyAll "onAllModulesLoaded"
       @_updateLayout()

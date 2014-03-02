@@ -30,28 +30,31 @@ class HG.VIPWidget extends HG.TimeGalleryWidget
       displayDate: ""
       image: ""
       description: ""
+      copyright: ""
 
     config = $.extend {}, defaultConfig, config
 
     div = document.createElement "div"
     div.className = "vip-widget"
 
-    portrait = document.createElement "img"
-    portrait.src = config.image
+    portrait = document.createElement "div"
+    portrait.className = "vip-widget-image"
+    portrait.style.backgroundImage = "url('#{config.image}')"
     div.appendChild portrait
 
     name = document.createElement "div"
-    name.className = "name"
-    name.innerHTML = config.name
-    div.appendChild name
+    name.className = "vip-widget-name"
+    name.innerHTML = config.name + "<br/><small><small>" + config.displayDate + "</small></small>"
+    portrait.appendChild name
 
-    date = document.createElement "div"
-    date.className = "date"
-    date.innerHTML = config.displayDate
-    div.appendChild date
+    unless config.copyright is ""
+      copyright = document.createElement "div"
+      copyright.className = "vip-widget-copyright"
+      copyright.innerHTML = config.copyright
+      portrait.appendChild copyright
 
     text = document.createElement "div"
-    text.className = "clear text"
+    text.className = "clear vip-widget-text"
     text.innerHTML = config.description
     div.appendChild text
 

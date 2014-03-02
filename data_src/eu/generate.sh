@@ -36,5 +36,5 @@ rm *.json
 # ogr2ogr -f GeoJSON -where "continent IN ('Asia')" asia.json tmp/ne_50m_admin_0_countries.shp
 # ogr2ogr -f GeoJSON -where "continent IN ('Europe') AND NOT sov_a3 IN ('RUS')" europe.json tmp/ne_50m_admin_0_countries.shp
 #ogr2ogr -f GeoJSON -where "continent IN ('Asia') OR sov_a3 IN ('RUS')" asia.json tmp/ne_50m_admin_0_countries.shp
-./ogr2ogr -f GeoJSON -where " sov_a3 IN ('DEU') OR sov_a3 IN ('RUS')" exemplum.json tmp/ne_50m_admin_0_countries.shp
+ogr2ogr -f GeoJSON -where "iso_a2 IN ('AE') OR iso_a2 IN ('AU') OR iso_a2 IN ('BA') OR iso_a2 IN ('BG') OR iso_a2 IN ('BY') OR iso_a2 IN ('CH') OR iso_a2 IN ('CZ') OR iso_a2 IN ('DE') OR iso_a2 IN ('ES') OR iso_a2 IN ('FR') OR iso_a2 IN ('GB') OR iso_a2 IN ('HR') OR iso_a2 IN ('IT') OR iso_a2 IN ('JP') OR iso_a2 IN ('PL') OR iso_a2 IN ('PT') OR iso_a2 IN ('RO') OR iso_a2 IN ('RU') OR iso_a2 IN ('SI') OR iso_a2 IN ('SK') OR iso_a2 IN ('TR') OR iso_a2 IN ('UA') OR iso_a2 IN ('US')" exemplum.json tmp/ne_50m_admin_0_countries.shp
 

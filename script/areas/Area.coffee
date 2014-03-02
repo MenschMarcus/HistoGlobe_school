@@ -57,6 +57,8 @@ class HG.Area
     if not new_active and @_active
       @notifyAll "onHide", @
 
+    became_active = not @_active and new_active
+
     @_active = new_active
 
     if @_active and @_indicator?
@@ -65,7 +67,7 @@ class HG.Area
       a =  JSON.stringify @_style
       b =  JSON.stringify style
 
-      if style? and a != b
+      if style? and (became_active or a != b)
         @_style = style
         @notifyAll "onStyleChange", @
 
@@ -82,7 +84,6 @@ class HG.Area
     @_data      = []
     @_state     = geoJson.properties.sov_a3
     @_name      = geoJson.properties.name
-    # @_name      = geoJson.properties.name_de + "<br /><span class='leaflet-label-small'>(" + geoJson.properties.name_orig + ")</span>"
     @_iso_a2    = geoJson.properties.iso_a2
 
     @_maxLatLng = [-180, -90]
@@ -130,43 +131,43 @@ class HG.Area
       lineOpacity: 0.8
 
     @_start =
-      "DEU": new Date(1990, 10, 3)
+      "DEU": new Date(1990, 9, 3)
 
-      "BIH": new Date(1991, 1, 1)
-      "BLR": new Date(1991, 1, 1)
-      "EST": new Date(1991, 1, 1)
-      "HRV": new Date(1991, 1, 1)
-      "LTU": new Date(1991, 1, 1)
-      "LVA": new Date(1991, 1, 1)
-      "MDA": new Date(1991, 1, 1)
-      "MKD": new Date(1991, 1, 1)
-      "SBM_2": new Date(1991, 1, 1)
-      "SVN": new Date(1991, 1, 1)
-      "UKR": new Date(1991, 1, 1)
+      "BIH": new Date(1991, 0, 1)
+      "BLR": new Date(1991, 0, 1)
+      "EST": new Date(1991, 0, 1)
+      "HRV": new Date(1991, 0, 1)
+      "LTU": new Date(1991, 0, 1)
+      "LVA": new Date(1991, 0, 1)
+      "MDA": new Date(1991, 0, 1)
+      "MKD": new Date(1991, 0, 1)
+      "SBM_2": new Date(1991, 0, 1)
+      "SVN": new Date(1991, 0, 1)
+      "UKR": new Date(1991, 0, 1)
 
-      "CZE": new Date(1993, 1, 1)
-      "SVK": new Date(1993, 1, 1)
+      "CZE": new Date(1993, 0, 1)
+      "SVK": new Date(1993, 0, 1)
 
-      "MNE": new Date(2006, 6, 8)
-      "SEB_2": new Date(2006, 6, 8)
+      "MNE": new Date(2006, 5, 8)
+      "SEB_2": new Date(2006, 5, 8)
 
-      "KOS": new Date(2008, 2, 17)
-      "SRB": new Date(2008, 2, 17)
+      "KOS": new Date(2008, 1, 17)
+      "SRB": new Date(2008, 1, 17)
 
 
     @_end =
-      "DDR_2": new Date(1990, 10, 3)
-      "GER_2": new Date(1990, 10, 3)
+      "DDR_2": new Date(1990, 9, 3)
+      "GER_2": new Date(1990, 9, 3)
 
-      "YUG_2": new Date(1991, 1, 1)
+      "YUG_2": new Date(1991, 0, 1)
 
-      "CZE_2": new Date(1993, 1, 1)
+      "CZE_2": new Date(1993, 0, 1)
 
-      "SBM_2": new Date(2006, 6, 8)
+      "SBM_2": new Date(2006, 5, 8)
 
-      "SEB_2": new Date(2008, 2, 17)
+      "SEB_2": new Date(2008, 1, 17)
 
-    @_now = new Date(2000, 1, 1)
+    @_now = new Date(2000, 0, 1)
     @_active = false
 
   # ============================================================================
