@@ -7,8 +7,16 @@
 @import "picture_widget.less";
 @import "text_widget.less";
 @import "vip_widget.less";
+@import "picture_gallery_widget.less";
+@import "statistics_widget.less";
+@import "logo_widget.less";
 
 // ------------------------ SIDEBAR --------------------------------------------
+#sidebar-area {
+  position: relative;
+  overflow:hidden;
+}
+
 #sidebar {
   position: relative;
 
@@ -19,7 +27,6 @@
     bottom: 0;
     right: 0px;
     z-index: 1;
-    // background-color: rgba(0, 0, 0, 0.2);
 
     .swiper-scrollbar-drag {
       background-color: rgba(0, 0, 0, 0.5);

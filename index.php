@@ -36,6 +36,7 @@
     <script type="text/javascript" src="script/third-party/jquery.rotate.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.prettyPhoto.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.fullscreenApi.js"></script>
+    <script type="text/javascript" src="script/third-party/jquery.parse.min.js"></script>
 
     <script type="text/javascript" src="script/third-party/idangerous.swiper-2.4.2.min.js"></script>
     <script type="text/javascript" src="script/third-party/idangerous.swiper.scrollbar-2.4.js"></script>
@@ -66,8 +67,10 @@
     <?php // histoglobe javascript ?>
     <?php if ($debug_mode) {?>
 
+    <script type="text/javascript" src="build/default_config.js"></script>
     <script type="text/javascript" src="build/config.js"></script>
     <script type="text/javascript" src="build/CallbackContainer.js"></script>
+    <script type="text/javascript" src="build/CSSCreator.js"></script>
     <script type="text/javascript" src="build/Vector.js"></script>
     <script type="text/javascript" src="build/Mixin.js"></script>
     <script type="text/javascript" src="build/Hivent.js"></script>
@@ -94,9 +97,15 @@
     <script type="text/javascript" src="build/TextWidget.js"></script>
     <script type="text/javascript" src="build/GalleryWidget.js"></script>
     <script type="text/javascript" src="build/TimeGalleryWidget.js"></script>
+    <script type="text/javascript" src="build/PictureGalleryWidget.js"></script>
     <script type="text/javascript" src="build/VIPWidget.js"></script>
+    <script type="text/javascript" src="build/LogoWidget.js"></script>
     <script type="text/javascript" src="build/PictureWidget.js"></script>
     <script type="text/javascript" src="build/LegendWidget.js"></script>
+    <script type="text/javascript" src="build/StatisticsWidget.js"></script>
+    <script type="text/javascript" src="build/ControlButtonArea.js"></script>
+    <script type="text/javascript" src="build/ZoomButtons.js"></script>
+    <script type="text/javascript" src="build/FullscreenButton.js"></script>
     <script type="text/javascript" src="build/HiventsOnMap.js"></script>
     <script type="text/javascript" src="build/HiventsOnTimeline.js"></script>
     <script type="text/javascript" src="build/HiventTooltips.js"></script>
@@ -104,6 +113,7 @@
     <script type="text/javascript" src="build/HiventInfoPopovers.js"></script>
     <script type="text/javascript" src="build/HiventInfoAtTag.js"></script>
     <script type="text/javascript" src="build/HistoGlobe.js"></script>
+    <script type="text/javascript" src="build/CategoryIconMapping.js"></script>
 
     <script type="text/javascript" src="build/Globe.js"></script>
 
@@ -226,8 +236,10 @@
       // }
 
       $(document).ready(function($) {
-        //var histoglobe = new HG.HistoGlobe("config/eu/modules.json");
-         var histoglobe = new HG.HistoGlobe("config/fertility/modules.json");
+        var histoglobe = new HG.HistoGlobe("config/exemplum/modules.json");
+        // var histoglobe = new HG.HistoGlobe("config/sdw/modules.json");
+        // var histoglobe = new HG.HistoGlobe("config/eu/modules.json");
+        // var histoglobe = new HG.HistoGlobe("config/fertility/modules.json");
       });
 
     </script>

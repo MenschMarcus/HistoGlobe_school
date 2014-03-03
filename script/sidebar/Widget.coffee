@@ -8,8 +8,14 @@ class HG.Widget
 
   # ============================================================================
   hgInit: (hgInstance) ->
+    @_width = 0
+    @_height = 0
     @_createLayout()
     @_sidebar = hgInstance.sidebar
+    @_sidebar.onResize @, (width, height) =>
+      @setWidth width - 2*HGConfig.widget_margin.val - HGConfig.sidebar_scrollbar_width.val - HGConfig.widget_title_size.val - 2*HGConfig.widget_body_padding.val
+      @setHeight height - 2*HGConfig.widget_body_padding.val
+
     @_sidebar.addWidget @
 
   # ============================================================================
@@ -25,6 +31,25 @@ class HG.Widget
   setContent: (div) ->
     $(@_content).empty()
     @_content.appendChild div
+    @setHeight $(@_content).height()
+
+  # ============================================================================
+  setWidth: (width) ->
+    @_width = width
+
+  # ============================================================================
+  setHeight: (height) ->
+    @_height = height
+
+  # ============================================================================
+  onDivClick: (div, callback) ->
+    div.onmousedown = (e) =>
+      div.my_click_x = e.x
+      div.my_click_y = e.y
+
+    $(div).click (e) =>
+      unless Math.abs(div.my_click_x - e.clientX) > 10 or Math.abs(div.my_click_y - e.clientY) > 10
+        callback()
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -62,8 +87,10 @@ class HG.Widget
     collapse_button.className = "fa fa-chevron-down widgetCollapseItem"
     collapse_button_container.appendChild collapse_button
 
-    $(@_title_top).click @_collapse
-    $(collapse_button_container).click @_collapse
+    @onDivClick @_title_top, @_collapse
+    @onDivClick collapse_button_container, @_collapse
+    # $(@_title_top).click @_collapse
+    # $(collapse_button_container).click @_collapse
 
     # body ---------------------------------------------------------------------
     body_collapsable = document.createElement "div"
@@ -92,10 +119,6 @@ class HG.Widget
     @setName "New Widget"
     @setIcon "fa-star"
 
-  ##############################################################################
-  #                            PRIVATE INTERFACE                               #
-  ##############################################################################
-
   # ============================================================================
   _collapse: () =>
     body = @_header.nextSibling
@@ -123,5 +146,3 @@ class HG.Widget
         $(body).css
           "height": "auto"
         @_sidebar.updateSize()
-
-

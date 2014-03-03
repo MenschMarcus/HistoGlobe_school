@@ -48,8 +48,8 @@ class HG.AreasOnMap
 
     area.myLeafletLayer = L.multiPolygon(area.getData(), options)
 
-    area.myLeafletLayer.on "mouseover", @_onHover
-    area.myLeafletLayer.on "mouseout", @_onUnHover
+    # area.myLeafletLayer.on "mouseover", @_onHover
+    # area.myLeafletLayer.on "mouseout", @_onUnHover
     area.myLeafletLayer.on "click", @_onClick
 
     area.onStyleChange @, @_onStyleChange
@@ -94,9 +94,9 @@ class HG.AreasOnMap
     max = @_map.project area._maxLatLng
     min = @_map.project area._minLatLng
 
-    width = area.getLabel().length * 4.5
+    width = area.getLabel().length * 10
 
-    visible = (max.x - min.x) > width * 0.75 or @_map.getZoom() is @_map.getMaxZoom()
+    visible = (max.x - min.x) > width or @_map.getZoom() is @_map.getMaxZoom()
 
 
   # ============================================================================
@@ -114,7 +114,15 @@ class HG.AreasOnMap
   # ============================================================================
   _onStyleChange: (area) =>
     if area.myLeafletLayer?
-      @_animate area.myLeafletLayer, {"fill": area.getNormalStyle().fillColor}, 200
+      @_animate area.myLeafletLayer,
+        "fill":           area.getNormalStyle().fillColor
+        "fill-opacity":   area.getNormalStyle().fillOpacity
+        "stroke":         area.getNormalStyle().lineColor
+        "stroke-opacity": area.getNormalStyle().lineOpacity
+        "stroke-width":   area.getNormalStyle().lineWidth
+      , 200
+
+
 
   # ============================================================================
   _animate: (area, attributes, durartion) ->

@@ -7,14 +7,14 @@ class HG.Sidebar
   ##############################################################################
 
   # ============================================================================
-  constructor: (config) ->
+  hgInit: (hgInstance) ->
 
-    defaultConfig =
-      parentDiv: undefined
+    HG.mixin @, HG.CallbackContainer
+    HG.CallbackContainer.call @
 
-    @_config = $.extend {}, defaultConfig, config
+    @addCallback "onResize"
 
-    @_container = @_createElement @_config.parentDiv, "div", "sidebar"
+    @_container = @_createElement hgInstance._sidebar_area, "div", "sidebar"
     @_container.className = "swiper-container"
 
     scrollbar = @_createElement @_container, "div", "sidebar-scrollbar"
@@ -25,11 +25,14 @@ class HG.Sidebar
     @_slide = @_createElement @_wrapper, "div", ""
     @_slide.className = "swiper-slide"
 
+    @_isScrolling = false
+
     @_sidebar_swiper = new Swiper '#sidebar',
       mode:'vertical'
       grabCursor: true
       scrollContainer: true
       mousewheelControl: true
+      moveStartThreshold: 10
       scrollbar:
         hide: false
         container: '#sidebar-scrollbar'
@@ -55,6 +58,7 @@ class HG.Sidebar
     $(".widgetBody").css("width", width - 2*HGConfig.widget_margin.val - HGConfig.sidebar_scrollbar_width.val)
     $(".widgetContainer").css("width", width - HGConfig.widget_title_size.val + HGConfig.widget_margin.val - HGConfig.sidebar_scrollbar_width.val)
     @_sidebar_swiper?.reInit()
+    @notifyAll "onResize", width, height
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #

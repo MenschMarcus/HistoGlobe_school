@@ -3,8 +3,8 @@
 
 @import "third-party/prefixer.less";
 
+@import "../build/default_config.less";
 @import "../build/config.less";
-@import "common.less";
 
 @import "timeline/timeline.less";
 @import "timeline/now_marker.less";
@@ -13,6 +13,41 @@
 
 
 ///////////////////////// LAYOUT ///////////////////////////////////////////////
+
+// ------------------ COMMON CLASSES -------------------------------------------
+
+@font-face {
+  font-family: roman_caps;
+  src: url('../font/lmromancaps10-regular.otf');
+}
+
+body {
+  font-family: @hg_font_face;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-image: url("../data/bg.png");
+  background-repeat: repeat;
+}
+
+*, *:before, *:after {
+  .box-sizing(border-box);
+}
+
+.hg {
+  font-family: 'Marcellus SC' !important;
+}
+
+.clear {
+  clear: both;
+}
+
+.hg:after {
+  content: "®";
+  position: relative;
+  top: -0.3em;
+  font-size: 0.7em;
+}
 
 .no-animation {
   .transition-duration(0s) !important;
@@ -40,7 +75,6 @@
   box-shadow: 0 0 20px rgba(0,0,0,0.8);
 
   .transition-property(right);
-  // .transition-property(width);
   .transition-duration(@sidebar_aimation_speed);
   .transition-timing-function(ease-in-out);
 }
@@ -54,12 +88,6 @@
 
   .transition-property(right);
   .transition-duration(@sidebar_aimation_speed);
-}
-
-// ------------------------ SIDEBAR --------------------------------------------
-#sidebar-area {
-  position: relative;
-  overflow:hidden;
 }
 
 // ------------------------ TIMELINE -------------------------------------------

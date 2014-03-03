@@ -1,0 +1,352 @@
+{
+  "HistoGlobe" :
+  {
+    "container": "histoglobe",
+    "maxYear": 2014,
+    "minYear": 1963,
+    "nowYear": 2000,
+    "minZoom": 3,
+    "maxZoom": 7,
+    "startZoom": 6,
+    "startLatLong": [51.505, 10.09],
+    "tiles": "config/exemplum/map/tiles/"
+  },
+
+  "ControlButtonArea": {},
+  "ZoomButtons": {},
+  "FullscreenButton": {},
+
+  "AreaIndicator" :
+  {
+    "domain": [0, 1],
+    "data": "config/exemplum/data/product.json",
+    "rangeFillColor": ["rgb(0, 250, 0)", "rgb(255, 50, 50)"],
+    "rangeFillOpacity": [0.3, 0.3],
+    "rangeLineColor": ["rgb(0, 250, 0)", "rgb(255, 50, 50)"],
+    "rangeLineOpacity": [0.0, 0.0],
+    "rangeLineWidth": [5, 5],
+    "fallbackFillColor": "rgb(0, 250, 0)",
+    "fallbackFillOpacity": 0.0,
+    "fallbackLineOpacity": 0.0,
+    "fallbackLineWidth": 0.0,
+    "extrapolatePast": false
+  },
+
+  "HiventController" :
+  {
+    "hiventConfig": {
+      "dsvPaths": ["config/exemplum/data/exemplum_event.csv", "config/exemplum/data/exemplum_branch.csv"],
+      "ignoredLines" : [1,2,3,4,5,6],
+      "indexMappings" : [
+        {
+          "hiventID"          : 0,
+          "hiventName"        : 1,
+          "hiventDescription" : 7,
+          "hiventStartDate"   : 2,
+          "hiventEndDate"     : 2,
+          "hiventDisplayDate" : 2,
+          "hiventLocation"    : 3,
+          "hiventLat"         : 4,
+          "hiventLong"        : 5,
+          "hiventCategory"    : 8,
+          "hiventMultimedia"  : 6
+        },
+
+        {
+          "hiventID"          : 0,
+          "hiventName"        : 1,
+          "hiventDescription" : 9,
+          "hiventStartDate"   : 2,
+          "hiventEndDate"     : 3,
+          "hiventDisplayDate" : 4,
+          "hiventLocation"    : 5,
+          "hiventLat"         : 6,
+          "hiventLong"        : 7,
+          "hiventCategory"    : 10,
+          "hiventMultimedia"  : 8
+        }
+      ]
+
+    },
+
+    "multimediaConfig": {
+      "dsvPaths": ["config/exemplum/data/exemplum_medium.csv", "config/exemplum/data/exemplum_medium.csv"],
+      "rootDirs": ["config/exemplum/data/media", "config/exemplum/data/media"],
+      "ignoredLines" : [1,2,3,4,5,6],
+      "indexMappings": [
+        {
+          "multimediaID"          : 0,
+          "multimediaType"        : 2,
+          "multimediaDescription" : 3,
+          "multimediaLink"        : 1
+        },
+        {
+          "multimediaID"          : 0,
+          "multimediaType"        : 2,
+          "multimediaDescription" : 3,
+          "multimediaLink"        : 1
+        }
+      ]
+    }
+  },
+
+  "CategoryIconMapping" : {
+      "Z" : {
+        "default" : "data/hivent_icons/icon_default.png",
+        "highlighted" : "data/hivent_icons/icon_default_highlight.png"
+      },
+      "F" : {
+        "default" : "data/hivent_icons/icon_default.png",
+        "highlighted" : "data/hivent_icons/icon_default_highlight.png"
+      },
+      "P" : {
+        "default" : "data/hivent_icons/icon_default.png",
+        "highlighted" : "data/hivent_icons/icon_default_highlight.png"
+      },
+      "S" : {
+        "default" : "data/hivent_icons/icon_default.png",
+        "highlighted" : "data/hivent_icons/icon_default_highlight.png"
+      },
+      "E" : {
+        "default" : "data/hivent_icons/icon_default.png",
+        "highlighted" : "data/hivent_icons/icon_default_highlight.png"
+      }
+    },
+
+  "HiventsOnMap" : {},
+  "HiventsOnTimeline" : {},
+
+  "HiventTooltips" : {},
+  "HiventInfoPopovers" : {},
+  "HiventInfoAtTag" : {},
+
+  "AreaController" :
+  {
+    "areaJSONPaths" : ["config/exemplum/data/areas.json", "config/common/countries/europe_old.json"]
+  },
+
+  "AreasOnMap" : {},
+
+  "Widgets" :
+  [
+    {
+      "type" : "VIPWidget",
+      "icon" : "fa-user",
+      "name" : "Vorsitzender",
+      "persons" :
+      [
+        {
+          "name": "Martin Exelsior",
+          "date": "01.06.1964",
+          "displayDate": "1964 - 1976",
+          "image": "config/exemplum/data/media/exelsior.jpg",
+          "copyright": "© Drew Coffman",
+          "description": "Martin Exelsior übernimmt als Gründer die Geschäftsführung der Exemplum GmbH."
+        },
+        {
+          "name": "Peter Paulsen",
+          "date": "04.03.1976",
+          "displayDate": "1976 - 1990",
+          "image": "config/exemplum/data/media/peter_paulsen.jpg",
+          "copyright": "© Victor1558",
+          "description": "Martin Exelsior tritt aus gesundheitlichen Gründen zurück und wird durch seinen Neffen Peter Paulsen abgelöst. Peter Paulsen war zuvor Zweigstellenleiter in Österreich und der Schweiz."
+        },
+        {
+          "name": "Frank Schneider",
+          "date": "01.02.1990",
+          "displayDate": "1990 - 1997",
+          "image": "config/exemplum/data/media/frank_schneider.jpg",
+          "copyright": "© Victor1558",
+          "description": "Peter Paulsen geht in den Ruhestand. Er wird von Frank Schneider abgelöst. Frank Schneider war zuvor Leiter des Produktmarketings. Von nun an ist die Geschäftsführung nicht mehr in den Händen der Familie Exelsior."
+        },
+        {
+          "name": "Sabrina Fahrenkamp",
+          "date": "02.03.1997",
+          "displayDate": "1997 - 2005",
+          "image": "config/exemplum/data/media/sabrina_fahrenkamp.jpg",
+          "copyright": "© Victor1558",
+          "description": "Frank Schneider tritt zurück. Er sah seine persönliche Zukunft nicht mehr in der Exemplum GmbH. Er wird durch Sabrina Fahrenkamp abgelöst. Sabrina Fahrenkamp war zuvor Zweigstellenleiterin in den USA und für die interne Unternehmenskommunikation verantwortlich."
+        },
+        {
+          "name": "Geoffrey Brooks",
+          "date": "25.06.2005",
+          "displayDate": "seit dem 25.06.2005",
+          "image": "config/exemplum/data/media/geoffrey_brooks.jpg",
+          "copyright": "© Victor1558",
+          "description": "Sabrina Fahrenkamp tritt altersbedingt zurück. Sie wird durch Geoffrey Brooks abgelöst. Er war zuvor bei einer großen Unternehmensberatung als Partner tätig. Geoffrey Brooks ist der erste Geschäftsführer, der nicht aus den eigenen Reihen kommt."
+        }
+      ]
+    },
+    {
+    "type" : "PictureGalleryWidget",
+    "icon" : "fa-glass",
+    "name" : "Produkte",
+    "pictures" :
+    [
+      {
+        "image": "config/exemplum/data/media/kaffee_exelsior.jpg",
+        "copyright": "© Julius Schorzman",
+        "description": "Der Kaffee Exelsior ist ein Kaffee mit mildem Aroma. Es werden ausschließlich Arabica Bohnen zur Herstellung verwendet."
+      },
+      {
+        "image": "config/exemplum/data/media/kaffee_exelsior_exquisit.jpg",
+        "copyright": "© Tim Boyd",
+        "description": "Der Kaffee Exelsior Exquisit ist ein Kaffee mit kräftigem leicht nussigem Aroma. Die verwendeten Arabica Bohnen sind handverlesen und gehören zu den besten einer jeden Ernte"
+      },
+      {
+        "image": "config/exemplum/data/media/superbrause.jpg",
+        "copyright": "© John Phelan",
+        "description": "Die Superbrause ist ein Erfrischungsgetränk mit Orangengeschmack."
+      },
+      {
+        "image": "config/exemplum/data/media/superbrause_plus.jpg",
+        "copyright": "© pic_p_ter",
+        "description": "Die Superbrause+ ist ein Erfrischungsgetränk mit Colageschmack. Sie enthält Koffein und hat eine anregende und erfrischende Wirkung"
+      },
+      {
+        "image": "config/exemplum/data/media/kaffee_paris.jpg",
+        "copyright": "© V. Kostitsin-Teterin",
+        "description": "Der Kaffe Paris wurde eigens für den franzöischen Markt entwickelt. Er ist cremiger und intensiver im Geschmack als der Kaffe Exelsior."
+      },
+      {
+        "image": "config/exemplum/data/media/limonade_avance.jpg",
+        "copyright": "© Michael Fludkov",
+        "description": "Die Limonade Avance ist ein Erfrischungsgetränk mit Limettengeschack. Sie wurde eigens für den französischen Markt entwickelt und orientiert sich an einem beliebten französischem Zitronentee."
+      },
+      {
+        "image": "config/exemplum/data/media/lucky_lemonade.jpg",
+        "copyright": "© Onderwijsgek",
+        "description": "Die Lucky Lemonade ist ein Erfrischungsgetränk mit einem sehr süßen Beerengeschmack."
+      },
+      {
+        "image": "config/exemplum/data/media/lucky_lemonade_sugarfree.jpg",
+        "copyright": "© miss karen",
+        "description": "Die Lucky Lemonade Sugarfree wird ohne den Beisatz von Zucker hergestellt."
+      },
+      {
+        "image": "config/exemplum/data/media/tropical_explosion.jpg",
+        "copyright": "© Vera Kratochvil",
+        "description": "Tropical Explosion ist ein Erfrischungsgetränk mit tropischen Geschmack. Eine Mischung aus Mango, Maracuja und Drachenfrucht."
+      },
+      {
+        "image": "config/exemplum/data/media/limonade_avance.jpg",
+        "copyright": "© Michael Fludkov",
+        "description": "Die Limonade Avance Zero ist die zuckerfreie Variante der Lemonade Avance. Sie wird exklusiv für den französischem Markt produziert."
+      },
+      {
+        "image": "config/exemplum/data/media/ristoro.jpg",
+        "copyright": "© newleaf01",
+        "description": "Ristoro ist ein italienisches Erfrischungsgetränk. Es ist leicht bitter und schmeckt im Abgang nach Grapefruit."
+      },
+      {
+        "image": "config/exemplum/data/media/nippon_booster.jpg",
+        "copyright": "© abdallahh",
+        "description": "Der Nippon Booster ist ein Energydrink. Er wurde von der Nippon Energy Corporation für den japanischen Markt entwickelt. Der Koffeingehalt ist wesenlich höher als in Kaffee oder anderen koffeinhaltigen Erfrischungsgetränken der Exemplum GmbH."
+      },
+      {
+        "image": "config/exemplum/data/media/blue_cow.jpg",
+        "copyright": "© zolon",
+        "description": "Der Blue Cow Energydrink ist der erste Energydrink der von der Exemplum GmbH selbst entwickelt wurde. Er orientiert sich am europäischen Geschmack und hat ein leichtes Beerenaroma."
+      },
+      {
+        "image": "config/exemplum/data/media/east_tea.jpg",
+        "copyright": "© Ted Van Pelt",
+        "description": "Der East-Tea ist ein Eistee aus dem osteuropäischen Markt. Er hat ein Pfirsicharoma und durch seinen Teeingehalt eine anregende Wirkung."
+      }
+    ]
+    },
+    {
+      "type" : "StatisticsWidget",
+      "icon" : "fa-bar-chart-o",
+      "name" : "Umsatzentwicklung",
+      "title" : "Umsatzentwicklung",
+      "subtitle" : "von 1964 bis heute",
+      "data" : "config/exemplum/data/statistics_revenue.dsv",
+      "lineColor" : "lightblue",
+      "lineWidth" : "5px",
+      "smoothLine" : true,
+      "xAttributeName" : "date",
+      "yAttributeName" : "amount",
+      "yDomain" : [0, 600],
+      "xLableTicks" : 5,
+      "yLableTicks" : 5,
+      "yCaption" : "Umsatz in Mio. €"
+    },
+    {
+      "type" : "StatisticsWidget",
+      "icon" : "fa-bar-chart-o",
+      "name" : "Mitarbeiterzahlentwicklung",
+      "title" : "Mitarbeiterzahlentwicklung",
+      "subtitle" : "von 1964 bis heute",
+      "data" : "config/exemplum/data/statistics_employees.dsv",
+      "lineColor" : "lightgreen",
+      "lineWidth" : "5px",
+      "smoothLine" : true,
+      "xAttributeName" : "date",
+      "yAttributeName" : "amount",
+      "yDomain" : [0, 5500],
+      "xLableTicks" : 5,
+      "yLableTicks" : 5,
+      "yCaption" : "Anzahl"
+    },
+    {
+      "type": "LegendWidget",
+      "icon": "fa-list-ul",
+      "name": "Legende & Filter",
+      "columns":
+      [
+        {
+          "groups" : [
+            {
+              "name": "Limonade",
+              "elements" : [
+                {
+                  "type" : "categoryWithIcon",
+                  "category" : "join",
+                  "icon" : "data/hivent_icons/icon_join.png",
+                  "name" : "Superbrause",
+                  "filterable" : true
+                }
+              ],
+              "name": "Firmenniederlassung",
+              "elements" : [
+                {
+                  "type" : "category",
+                  "category" : "Z",
+                  "name" : "Zweigstelle",
+                  "filterable" : true
+                },
+                {
+                  "type" : "category",
+                  "category" : "F",
+                  "name" : "Fabrik",
+                  "filterable" : true
+                },
+                {
+                  "type" : "category",
+                  "category" : "P",
+                  "name" : "Plantage",
+                  "filterable" : true
+                },
+                {
+                  "type" : "category",
+                  "category" : "S",
+                  "name" : "Store",
+                  "filterable" : true
+                },
+                {
+                  "type" : "category",
+                  "category" : "E",
+                  "name" : "Erlebniszentrum",
+                  "filterable" : true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+
+    }
+  ]
+
+}

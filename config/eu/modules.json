@@ -44,54 +44,91 @@
   },
 
   "AreasOnMap" : {},
-  "Globe" : {},
+
+  "ControlButtonArea": {},
+  "ZoomButtons": {},
+  "Globe": {},
+  "FullscreenButton": {},
+
   "AreasOnGlobe" : {},
+
+  "StatisticsWidget" :
+  {
+    "icon" : "fa-bar-chart-o",
+    "name" : "Statistik",
+    "title" : "Stipendiatenzahlen",
+    "subtitle" : "Entwicklung von 1950 bis 2010",
+    "data" : "config/eu/data/statistics_data.dsv",
+    "lineColor" : "red",
+    "lineWidth" : "2px",
+    "smoothLine" : true,
+    "xAttributeName" : "date",
+    "yAttributeName" : "amount",
+    "yDomain" : [0, 400],
+    "xLableTicks" : 5,
+    "yLableTicks" : 10,
+    "yCaption" : "Anzahl"
+  },
 
   "LegendWidget":
   {
     "icon": "fa-tags",
-    "name": "Legende",
-    "elements" : [
+    "name": "Legende & Filter",
+    "columns": [
       {
-        "type" : "categoryWithColor",
-        "category" : "eu",
-        "color" : "lightgreen",
-        "name" : "EU / EG",
-        "filterable" : false
+        "groups" : [
+          {
+            "name": "Ereignisse",
+            "elements" : [
+              {
+                "type" : "categoryWithIcon",
+                "category" : "join",
+                "icon" : "data/hivent_icons/icon_join.png",
+                "name" : "Beitritt",
+                "filterable" : true
+              },
+              {
+                "type" : "categoryWithIcon",
+                "category" : "contract",
+                "icon" : "data/hivent_icons/icon_contract.png",
+                "name" : "Vertrag",
+                "filterable" : true
+              },
+              {
+                "type" : "categoryWithIcon",
+                "category" : "default",
+                "icon" : "data/hivent_icons/icon_default.png",
+                "name" : "Sonstige",
+                "filterable" : true
+              }
+            ]
+          }
+        ]
       },
       {
-        "type" : "categoryWithColor",
-        "category" : "euro",
-        "color" : "darkgreen",
-        "name" : "Eurozone",
-        "filterable" : false
-      },
-      {
-        "type" : "spacer"
-      },
-      {
-        "type" : "categoryWithIcon",
-        "category" : "join",
-        "icon" : "data/hivent_icons/icon_join.png",
-        "name" : "Beitritt",
-        "filterable" : true
-      },
-      {
-        "type" : "categoryWithIcon",
-        "category" : "contract",
-        "icon" : "data/hivent_icons/icon_contract.png",
-        "name" : "Vertrag",
-        "filterable" : true
-      },
-      {
-        "type" : "categoryWithIcon",
-        "category" : "default",
-        "icon" : "data/hivent_icons/icon_default.png",
-        "name" : "Sonstige",
-        "filterable" : true
+        "groups" : [
+          {
+            "name" : "Mitgliedsstatus",
+            "elements" : [
+              {
+                "type" : "categoryWithColor",
+                "category" : "eu",
+                "color" : "lightgreen",
+                "name" : "EU / EG",
+                "filterable" : false
+              },
+              {
+                "type" : "categoryWithColor",
+                "category" : "euro",
+                "color" : "darkgreen",
+                "name" : "Eurozone",
+                "filterable" : false
+              }
+            ]
+          }
+        ]
       }
     ]
-
   },
 
   "TimeGalleryWidget" :
@@ -158,14 +195,6 @@
     "icon": "fa-gift",
     "name": "Legende",
     "url": "http://extreme.pcgameshardware.de/members/-painkiller--albums-einfach-lustig-3209-picture361371-incoming.jpg"
-  },
-
-  "TextWidget" :
-  {
-    "icon": "fa-star",
-    "name": "Lorem Ipsum",
-    "text": "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
   }
-
 
 }
