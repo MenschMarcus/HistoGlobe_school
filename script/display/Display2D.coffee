@@ -79,6 +79,7 @@ class HG.Display2D extends HG.Display
       minZoom:      @_hgInstance._config.minZoom
       zoomControl:  false
       maxBounds:    @_hgInstance._config.maxBounds
+      worldCopyJump: true
 
     @_map = L.map @_mapParent, options
     @_map.setView @_hgInstance._config.startLatLong, @_hgInstance._config.startZoom

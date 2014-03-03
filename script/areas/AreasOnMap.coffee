@@ -102,13 +102,13 @@ class HG.AreasOnMap
   # ============================================================================
   _showAreaLabel: (area) =>
     area.myLeafletLabelIsVisible = true
-    $(area.myLeafletLabel._container).addClass("visible")
+    $(area.myLeafletLabel._container).removeClass("invisible")
 
 
   # ============================================================================
   _hideAreaLabel: (area) =>
     area.myLeafletLabelIsVisible = false
-    $(area.myLeafletLabel._container).removeClass("visible")
+    $(area.myLeafletLabel._container).addClass("invisible")
 
 
   # ============================================================================
@@ -121,7 +121,8 @@ class HG.AreasOnMap
         "stroke-opacity": area.getNormalStyle().lineOpacity
         "stroke-width":   area.getNormalStyle().lineWidth
       , 200
-
+    if area.myLeafletLabel?
+      area.myLeafletLabel._container.style.opacity = area.getNormalStyle().labelOpacity
 
 
   # ============================================================================
@@ -153,6 +154,7 @@ class HG.AreasOnMap
         @_showAreaLabel area
       else if not shoulBeVisible and area.myLeafletLabelIsVisible
         @_hideAreaLabel area
+
   ##############################################################################
   #                             STATIC MEMBERS                                 #
   ##############################################################################

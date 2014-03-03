@@ -7,7 +7,7 @@ class HG.Area
   ##############################################################################
 
   # ============================================================================
-  constructor: (geoJson, indicator) ->
+  constructor: (geoJson, area_styler) ->
 
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
@@ -16,7 +16,7 @@ class HG.Area
     @addCallback "onHide"
     @addCallback "onStyleChange"
 
-    @_indicator = indicator
+    @_area_styler = area_styler
     @_initData(geoJson)
     @_initMembers()
 
@@ -34,14 +34,7 @@ class HG.Area
 
   # ============================================================================
   getNormalStyle: ->
-    style =
-      fillColor:    @_style.fillColor
-      fillOpacity:  @_style.fillOpacity
-      lineColor:    @_style.lineColor
-      lineOpacity:  @_style.lineOpacity
-      lineWidth:    @_style.lineWidth
-      noClip:       true
-      smoothFactor: 1.0
+    @_style
 
   # ============================================================================
   setDate: (newDate) ->
@@ -49,7 +42,7 @@ class HG.Area
     oldDate = @_now
     @_now = newDate
 
-    new_active = @_isActive()
+    new_active = @isActive()
 
     if new_active and not @_active
       @notifyAll "onShow", @
@@ -61,8 +54,8 @@ class HG.Area
 
     @_active = new_active
 
-    if @_active and @_indicator?
-      style = @_indicator.getStyle @_iso_a2, newDate
+    if @_active and @_area_styler?
+      style = @_area_styler.getStyle @, newDate
 
       a =  JSON.stringify @_style
       b =  JSON.stringify style
@@ -73,7 +66,7 @@ class HG.Area
 
   # ============================================================================
   isActive:()->
-    return @_active
+    return true
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -130,61 +123,6 @@ class HG.Area
       fillOpacity: 0.5
       lineOpacity: 0.8
 
-    @_start =
-      "DEU": new Date(1990, 9, 3)
-
-      "BIH": new Date(1991, 0, 1)
-      "BLR": new Date(1991, 0, 1)
-      "EST": new Date(1991, 0, 1)
-      "HRV": new Date(1991, 0, 1)
-      "LTU": new Date(1991, 0, 1)
-      "LVA": new Date(1991, 0, 1)
-      "MDA": new Date(1991, 0, 1)
-      "MKD": new Date(1991, 0, 1)
-      "SBM_2": new Date(1991, 0, 1)
-      "SVN": new Date(1991, 0, 1)
-      "UKR": new Date(1991, 0, 1)
-
-      "CZE": new Date(1993, 0, 1)
-      "SVK": new Date(1993, 0, 1)
-
-      "MNE": new Date(2006, 5, 8)
-      "SEB_2": new Date(2006, 5, 8)
-
-      "KOS": new Date(2008, 1, 17)
-      "SRB": new Date(2008, 1, 17)
-
-
-    @_end =
-      "DDR_2": new Date(1990, 9, 3)
-      "GER_2": new Date(1990, 9, 3)
-
-      "YUG_2": new Date(1991, 0, 1)
-
-      "CZE_2": new Date(1993, 0, 1)
-
-      "SBM_2": new Date(2006, 5, 8)
-
-      "SEB_2": new Date(2008, 1, 17)
-
     @_now = new Date(2000, 0, 1)
     @_active = false
 
-  # ============================================================================
-  _isActive: () =>
-
-    if not @_start[@_state]? and not @_end[@_state]?
-      return true
-
-    if @_start[@_state]? and @_end[@_state]?
-      return @_start[@_state] < @_now and @_now < @_end[@_state]
-
-    if @_start[@_state]? and @_start[@_state] < @_now
-      return true
-
-    if @_end[@_state]? and @_end[@_state] > @_now
-      return true
-
-    false
-
-    # true

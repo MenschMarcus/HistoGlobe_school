@@ -15,22 +15,7 @@
   "ControlButtonArea": {},
   "ZoomButtons": {},
   "FullscreenButton": {},
-
-  "AreaIndicator" :
-  {
-    "domain": [0, 1],
-    "data": "config/exemplum/data/product.json",
-    "rangeFillColor": ["rgb(0, 250, 0)", "rgb(255, 50, 50)"],
-    "rangeFillOpacity": [0.3, 0.3],
-    "rangeLineColor": ["rgb(0, 250, 0)", "rgb(255, 50, 50)"],
-    "rangeLineOpacity": [0.0, 0.0],
-    "rangeLineWidth": [5, 5],
-    "fallbackFillColor": "rgb(0, 250, 0)",
-    "fallbackFillOpacity": 0.0,
-    "fallbackLineOpacity": 0.0,
-    "fallbackLineWidth": 0.0,
-    "extrapolatePast": false
-  },
+  "Globe": {},
 
   "HiventController" :
   {
@@ -120,9 +105,75 @@
   "HiventInfoPopovers" : {},
   "HiventInfoAtTag" : {},
 
+  "AreaStyler" :
+  {
+    "stylerConfigs" :
+    [
+      {
+        "domain": [0, 1],
+        "fillColor": {
+          "range": ["white", "white"],
+          "fallback": "white"
+        },
+        "fillOpacity": {
+          "range": [0, 1],
+          "fallback": 1
+        },
+        "lineColor": {
+          "range": ["white", "white"],
+          "fallback": "white"
+        },
+        "lineOpacity": {
+          "range": [0, 1],
+          "fallback": 1
+        },
+        "lineWidth": {
+          "range": [3, 3],
+          "fallback": 3
+        },
+        "labelOpacity": {
+          "range": [0, 1],
+          "fallback": 1
+        },
+        "extrapolatePast": true,
+        "extrapolateFuture": true
+      },
+      {
+        "domain": [0, 1],
+        "fillColor": {
+          "range": ["white", "red"],
+          "fallback": "white"
+        },
+        "fillOpacity": {
+          "range": [0, 1],
+          "fallback": 1
+        },
+        "lineColor": {
+          "range": ["grey", "grey"],
+          "fallback": "grey"
+        },
+        "lineOpacity": {
+          "range": [0, 1],
+          "fallback": 1
+        },
+        "lineWidth": {
+          "range": [3, 3],
+          "fallback": 3
+        },
+        "labelOpacity": {
+          "range": [0, 1],
+          "fallback": 1
+        },
+        "extrapolatePast": true,
+        "extrapolateFuture": true
+      }
+    ],
+    "timeMappings" : ["config/common/countries/eu_history.json", "config/exemplum/data/products.json"]
+  },
+
   "AreaController" :
   {
-    "areaJSONPaths" : ["config/exemplum/data/areas.json", "config/common/countries/europe_old.json"]
+    "areaJSONPaths" : ["config/common/countries/europe_old.json", "config/exemplum/data/areas.json"]
   },
 
   "AreasOnMap" : {},
