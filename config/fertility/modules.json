@@ -30,7 +30,7 @@
 
   "AreaController" :
   {
-    "areaJSONPaths" : ["config/common/countries/asia.json"]
+    "areaJSONPaths" : ["config/common/countries/world.json"]
   },
 
   "AreasOnMap" : {},

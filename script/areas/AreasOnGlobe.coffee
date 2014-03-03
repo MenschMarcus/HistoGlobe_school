@@ -20,12 +20,22 @@ class HG.AreasOnGlobe
 
     @_visibleAreas            = []
 
+    @_wholeGeometry           = null
+    @_wholeMesh               = null
+    @_materials               = []
+    @_areasToLoad             = 0
+    @_allLines                = null
+
     @_dragStartPos            = null
 
 
   # ============================================================================
   hgInit: (hgInstance) ->
     hgInstance.areasOnGlobe = @
+
+
+    # use L.GeometryUtil (third party) here (????)
+    #console.log "test", L.GeometryUtil.closestLayer(hgInstance.map._map,hgInstance.map._map.layers,L.latLng(50.5, 30.5))
 
     @_globeCanvas = hgInstance._map_canvas
 
@@ -60,12 +70,16 @@ class HG.AreasOnGlobe
       @_globe.onZoomEnd @, @_filterLabels
       @_globe.onMove @, @_updateLabelSizes
 
-
-      for area in @_areaController.getActiveAreas()
+      @_areasToLoad = @_areaController.getActiveAreas().length
+      for area in @_areaController.getAllAreas()
         execute_async = (a) =>
           setTimeout () =>
 
-            @_showAreaLayer a
+            @_loadAreaLayer a
+
+            --@_areasToLoad
+            if @_areasToLoad is 0
+              @_finishLoading()
 
           , 0
 
@@ -78,10 +92,25 @@ class HG.AreasOnGlobe
         @_hideAreaLayer area
 
 
-      setInterval(@_animate, 100)
+      #setInterval(@_animate, 100) # too expensive!!!
       
     else
       console.error "Unable to show areas on Map: AreaController module not detected in HistoGlobe instance!"
+
+
+
+  # ============================================================================
+  _finishLoading:() =>
+
+
+    @_wholeMesh = new THREE.Mesh( @_wholeGeometry, new THREE.MeshFaceMaterial( @_materials ) );
+    @_sceneCountries.add @_wholeMesh
+
+
+    '''lineMaterial = new THREE.LineBasicMaterial color: 0x646464, linewidth: 2
+    borders = new THREE.Line( @_allLines, lineMaterial, THREE.LinePieces)
+
+    @_sceneCountries.add borders'''
 
   # ============================================================================
   _animate:() =>
@@ -90,7 +119,7 @@ class HG.AreasOnGlobe
 
 
   # ============================================================================
-  _showAreaLayer: (area) ->
+  _loadAreaLayer: (area) ->
 
       data = area.getData()
       materialData = area.getNormalStyle()
@@ -153,8 +182,16 @@ class HG.AreasOnGlobe
 
         lineMaterial = new THREE.LineBasicMaterial color: 0x646464, linewidth: 2
         borderline = new THREE.Line( lineGeometry, lineMaterial)
+        
         @_sceneCountries.add borderline
         borderLines.push borderline
+
+        '''#merge geometry
+        @_materials.push lineMaterial
+        unless @_wholeGeometry
+          @_wholeGeometry = lineGeometry
+        else
+          THREE.GeometryUtils.merge(@_wholeGeometry, lineGeometry , @_materials.length-1);'''
 
 
 
@@ -182,16 +219,22 @@ class HG.AreasOnGlobe
       for i in [0 .. iterations]
         tessellateModifier.modify shapeGeometry
 
+
+      #invisible if not active
+      opacity = 0.0
+      opacity = materialData.fillOpacity if @_isAreaActive(area)
+
       countryMaterial = new THREE.MeshLambertMaterial
               #color       : "#5b309f"
               color       : materialData.fillColor
               side        : THREE.DoubleSide,
               #side        : THREE.BackSide,
               #side        : THREE.FrontSide,
-              opacity     : materialData.fillOpacity,#+0.25,
+              opacity     : opacity,#+0.25,
               transparent : true,
               depthWrite  : false,
               wireframe   : false,
+
 
       mesh = new THREE.Mesh( shapeGeometry, countryMaterial );
 
@@ -206,22 +249,36 @@ class HG.AreasOnGlobe
         vertex.y = cart_coords.y
         vertex.z = cart_coords.z
 
+        vertex.id = mesh.id
+
       mesh.geometry.verticesNeedUpdate = true;
       mesh.geometry.normalsNeedUpdate = true;
       mesh.geometry.computeVertexNormals();
       mesh.geometry.computeFaceNormals();
       mesh.geometry.computeBoundingSphere();
 
-      @_sceneCountries.add mesh
+      #merge geometry
+      @_materials.push mesh.material
+      unless @_wholeGeometry
+        @_wholeGeometry = mesh.geometry
+      else
+        THREE.GeometryUtils.merge(@_wholeGeometry, mesh , @_materials.length-1);
+
+
+
+      area.Material3D = mesh.material
+      area.VertexID = mesh.id
+      area.onStyleChange @, @_onStyleChange3D
+
+
+      '''@_sceneCountries.add mesh'''
 
       mesh.Label = area.getLabel()
-      mesh.Borderlines = borderLines
+      '''mesh.Borderlines = borderLines
 
       mesh.Area = area
 
-      area.onStyleChange @, @_onStyleChange3D
-
-      area.Mesh3D = mesh
+      area.Mesh3D = mesh'''
       area.Borderlines3D = borderLines
 
       @_initLabel(area)
@@ -230,19 +287,37 @@ class HG.AreasOnGlobe
 
       # add area
       @_visibleAreas.push area
+
+  # ============================================================================
+  _showAreaLayer: (area) ->
+    area.Material3D.opacity = area.getNormalStyle().fillOpacity
+
+
+    if area.Borderlines3D
+      for line in area.Borderlines3D
+        @_sceneCountries.add line  
+
+    @_showLabel area
       
   # ============================================================================
   _hideAreaLayer: (area) ->
 
-    if area.Mesh3D? and area.Borderlines3D
+    area.Material3D.opacity = 0.0
+
+    '''vertices = @_wholeGeometry.vertices
+    for vertex in vertices
+      if vertex.id is area.VertexID
+        index = vertices.indexOf(5);
+        vertices.splice(index, 1) if index >= 0'''
+
+    '''if area.Mesh3D? and area.Borderlines3D
 
       area.removeListener "onStyleChange", @
-      @_visibleAreas.splice(@_visibleAreas.indexOf(area), 1)
+      @_visibleAreas.splice(@_visibleAreas.indexOf(area), 1)'''
 
-
+    if area.Borderlines3D
       for line in area.Borderlines3D
         @_sceneCountries.remove line  
-      @_sceneCountries.remove area.Mesh3D
 
     @_hideLabel area
 
@@ -250,19 +325,19 @@ class HG.AreasOnGlobe
   # ============================================================================
   _onStyleChange3D: (area) =>
     #@_animate area.myLeafletLayer, {"fill": area.getNormalStyle().fillColor}, 350#animation maybe later!
-    if area.Mesh3D?
+    if area.Material3D?
       #newColor = area.getNormalStyle().fillColor
-      #area.Mesh3D.material.color.setHex "0x"+newColor[1..]
+      #area.Material3D.color.setHex "0x"+newColor[1..]
 
       final_color = @_rgbify area.getNormalStyle().fillColor
-      #console.log area.Mesh3D.material.color.r
+      #console.log area.Material3D.color.r
       #console.log final_color[0]/255
 
 
       $({
-        colorR:area.Mesh3D.material.color.r,
-        colorG:area.Mesh3D.material.color.g,
-        colorB:area.Mesh3D.material.color.b
+        colorR:area.Material3D.color.r,
+        colorG:area.Material3D.color.g,
+        colorB:area.Material3D.color.b
       }).animate({
         colorR: final_color[0]/255,
         colorG: final_color[1]/255,
@@ -270,9 +345,9 @@ class HG.AreasOnGlobe
       },{
         duration: 350,
         step: ->
-          area.Mesh3D.material.color.r = this.colorR
-          area.Mesh3D.material.color.g = this.colorG
-          area.Mesh3D.material.color.b = this.colorB
+          area.Material3D.color.r = this.colorR
+          area.Material3D.color.g = this.colorG
+          area.Material3D.color.b = this.colorB
       })
 
   # ============================================================================
@@ -296,6 +371,13 @@ class HG.AreasOnGlobe
       # just return black
       [0, 0, 0]
 
+  # ============================================================================
+  _isAreaActive: (area) =>
+    index = $.inArray(area, @_areaController.getActiveAreas())
+    if index >= 0
+      return true
+    
+    return false
 
   # ============================================================================
   _initLabel: (area) =>
