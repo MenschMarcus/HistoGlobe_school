@@ -184,7 +184,7 @@ class HG.AreasOnGlobe
         lineMaterial = new THREE.LineBasicMaterial color: 0x646464, linewidth: 2
         borderline = new THREE.Line( lineGeometry, lineMaterial)
         
-        @_sceneCountries.add borderline
+        @_sceneCountries.add borderline if @_isAreaActive(area)
         borderLines.push borderline
 
         '''#merge geometry
@@ -480,7 +480,8 @@ class HG.AreasOnGlobe
 
       width = area.Label3D.textWidth
 
-      visible = (max.x*@_globe._width - min.x*@_globe._width) > width*2.0 or @_globe.getZoom()  is @_globe.getMaxZoom
+      visible = ((max.x*@_globe._width - min.x*@_globe._width) > width*2.0 or @_globe.getZoom()  is @_globe.getMaxZoom) and
+      @_isAreaActive(area)
 
 
   # ============================================================================

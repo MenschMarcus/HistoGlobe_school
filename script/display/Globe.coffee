@@ -18,12 +18,16 @@ class HG.Globe extends HG.Display
     @addCallback "onMove"
     @addCallback "onLoaded"
 
+    @_globeCanvas = null
+
 
   # ============================================================================
   hgInit: (hgInstance) ->
     super hgInstance
 
     @_initMembers()
+    @_globeCanvas = hgInstance._map_canvas
+
     @_initWindowGeometry()
 
     @_initRenderer()
@@ -259,7 +263,6 @@ class HG.Globe extends HG.Display
   # ============================================================================
   _initWindowGeometry: ->
     @_width                = HG.Display.CONTAINER.parentNode.offsetWidth
-    console.log "width in init window geometry", @_width
     @_myHeight             = HG.Display.CONTAINER.parentNode.offsetHeight
     @_canvasOffsetX        = HG.Display.CONTAINER.parentNode.offsetLeft
     @_canvasOffsetY        = HG.Display.CONTAINER.parentNode.offsetTop
@@ -674,10 +677,16 @@ class HG.Globe extends HG.Display
   _onMouseDown: (event) =>
 
     if @_isRunning
+
+      offset = 0
+      rightOffset = parseFloat($(@_globeCanvas).css("right").replace('px',''))
+      offset = rightOffset if rightOffset
+
       event.preventDefault()
       clickMouse =
-        x: (event.clientX - @_canvasOffsetX) / @_width * 2 - 1
+        x: (event.clientX - @_canvasOffsetX - offset) / @_width * 2 - 1
         y: (event.clientY - @_canvasOffsetY) / @_myHeight * 2 - 1
+
 
       @_dragStartPos = @_pixelToLatLong(clickMouse)
       #@_dragStartTime = new Date()
@@ -696,9 +705,15 @@ class HG.Globe extends HG.Display
   # ============================================================================
   _onMouseMove: (event) =>
     if @_isRunning
+
+      offset = 0
+      rightOffset = parseFloat($(@_globeCanvas).css("right").replace('px',''))
+      offset = rightOffset if rightOffset
+
       @_mousePos =
-        x: event.clientX
+        x: event.clientX - offset
         y: event.clientY
+
 
   # ============================================================================
   _onMouseUp: (event) =>
@@ -1007,7 +1022,8 @@ class HG.Globe extends HG.Display
 
   # background color
   BACKGROUND = new THREE.Color(0xCCCCCC)
-  TILE_PATH = "data/tiles/"
+  #TILE_PATH = "data/tiles/"
+  TILE_PATH = "config/exemplum/map/tiles/"
 
   # radius of the globe
   EARTH_RADIUS = 200
