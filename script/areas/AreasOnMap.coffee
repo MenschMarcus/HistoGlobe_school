@@ -45,12 +45,14 @@ class HG.AreasOnMap
     area.myLeafletLayer = null
 
     options = area.getNormalStyle()
+    options.clickable = false
+    options.pointerEvents = "none"
 
     area.myLeafletLayer = L.multiPolygon(area.getData(), options)
 
     # area.myLeafletLayer.on "mouseover", @_onHover
     # area.myLeafletLayer.on "mouseout", @_onUnHover
-    area.myLeafletLayer.on "click", @_onClick
+    # area.myLeafletLayer.on "click", @_onClick
 
     area.onStyleChange @, @_onStyleChange
 
@@ -78,9 +80,9 @@ class HG.AreasOnMap
 
       @_visibleAreas.splice(@_visibleAreas.indexOf(area), 1)
 
-      area.myLeafletLayer.off "mouseover", @_onHover
-      area.myLeafletLayer.off "mouseout", @_onUnHover
-      area.myLeafletLayer.off "click", @_onClick
+      # area.myLeafletLayer.off "mouseover", @_onHover
+      # area.myLeafletLayer.off "mouseout", @_onUnHover
+      # area.myLeafletLayer.off "click", @_onClick
 
       area.removeListener "onStyleChange", @
 

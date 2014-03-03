@@ -107,42 +107,14 @@
 
   "AreaStyler" :
   {
-    "stylerConfigs" :
+    "stylers" :
     [
       {
+        "mapping": "config/common/countries/eu_history.json",
         "domain": [0, 1],
         "fillColor": {
-          "range": ["white", "white"],
-          "fallback": "white"
-        },
-        "fillOpacity": {
-          "range": [0, 1],
-          "fallback": 1
-        },
-        "lineColor": {
-          "range": ["white", "white"],
-          "fallback": "white"
-        },
-        "lineOpacity": {
-          "range": [0, 1],
-          "fallback": 1
-        },
-        "lineWidth": {
-          "range": [3, 3],
-          "fallback": 3
-        },
-        "labelOpacity": {
-          "range": [0, 1],
-          "fallback": 1
-        },
-        "extrapolatePast": true,
-        "extrapolateFuture": true
-      },
-      {
-        "domain": [0, 1],
-        "fillColor": {
-          "range": ["white", "red"],
-          "fallback": "white"
+          "range": ["red", "red"],
+          "fallback": "red"
         },
         "fillOpacity": {
           "range": [0, 1],
@@ -163,12 +135,37 @@
         "labelOpacity": {
           "range": [0, 1],
           "fallback": 1
+        }
+      },
+      {
+        "mapping": "config/exemplum/data/products.json",
+        "domain": [0, 1],
+        "fillColor": {
+          "range": ["red", "red"],
+          "fallback": "red"
         },
-        "extrapolatePast": true,
-        "extrapolateFuture": true
+        "fillOpacity": {
+          "range": [0, 1],
+          "fallback": 0
+        },
+        "lineColor": {
+          "range": ["grey", "grey"],
+          "fallback": "grey"
+        },
+        "lineOpacity": {
+          "range": [0, 1],
+          "fallback": 0
+        },
+        "lineWidth": {
+          "range": [0, 3],
+          "fallback": 0
+        },
+        "labelOpacity": {
+          "range": [0, 1],
+          "fallback": 0
+        }
       }
-    ],
-    "timeMappings" : ["config/common/countries/eu_history.json", "config/exemplum/data/products.json"]
+    ]
   },
 
   "AreaController" :

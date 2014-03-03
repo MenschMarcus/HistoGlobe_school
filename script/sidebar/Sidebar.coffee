@@ -56,7 +56,7 @@ class HG.Sidebar
     @_container.style.width = "#{width}px"
     @_container.style.height = "#{height}px"
     $(".widgetBody").css("width", width - 2*HGConfig.widget_margin.val - HGConfig.sidebar_scrollbar_width.val)
-    $(".widgetContainer").css("width", width - HGConfig.widget_title_size.val + HGConfig.widget_margin.val - HGConfig.sidebar_scrollbar_width.val)
+    $(".widgetContainer").css("width", width - 2*HGConfig.widget_margin.val - HGConfig.sidebar_scrollbar_width.val)
     @_sidebar_swiper?.reInit()
     @notifyAll "onResize", width, height
 

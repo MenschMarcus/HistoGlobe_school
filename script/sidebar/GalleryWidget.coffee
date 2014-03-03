@@ -50,11 +50,11 @@ class HG.GalleryWidget extends HG.Widget
     rightShadow = document.createElement "div"
     rightShadow.className = "shadow shadow-right"
 
-    pagination = document.createElement "div"
+    pagination = document.createElement "span"
     pagination.id = "gallery-widget-pagination-#{@_id}"
     pagination.className = "gallery-pagination"
 
-    paginationContainer = document.createElement "div"
+    paginationContainer = document.createElement "span"
     paginationContainer.className = "pagination-container"
     paginationContainer.appendChild pagination
 
@@ -62,8 +62,8 @@ class HG.GalleryWidget extends HG.Widget
     @_galleryContent.appendChild rightShadow
     @_galleryContent.appendChild @_leftArrow
     @_galleryContent.appendChild @_rightArrow
-    @_galleryContent.appendChild paginationContainer
     @_galleryContent.appendChild galleryContainer
+    @_galleryContent.appendChild paginationContainer
     galleryContainer.appendChild @_gallery
 
     @setName @_config.name

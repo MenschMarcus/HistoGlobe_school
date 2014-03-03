@@ -19,14 +19,14 @@
   background-color: @widget_background_color;
 
   border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  box-shadow: 0 0 @shadow_radius rgba(0,0,0,@shadow_intensity);
 
   // header
   .widgetHeader {
     position: relative;
     height: @widget_title_size;
 
-    color: @widget_text_color;
+    color: @text_color;
 
 
     // icon
@@ -117,7 +117,7 @@
     width: @sidebar_width - @widget_title_size + @widget_margin - @sidebar_scrollbar_width;
     font-size: @widget_font_size;
     background-color: @widget_background_color;
-    color: @widget_text_color;
+    color: @text_color;
   }
 }
 

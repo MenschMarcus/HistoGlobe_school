@@ -116,12 +116,7 @@ class HG.Area
   # ============================================================================
   _initMembers: ->
 
-    @_style =
-      fillColor:   "#16f"
-      lineColor:   "#666"
-      lineWidth:   1.0
-      fillOpacity: 0.5
-      lineOpacity: 0.8
+    @_style = @_area_styler.getFallbackStyle @
 
     @_now = new Date(2000, 0, 1)
     @_active = false

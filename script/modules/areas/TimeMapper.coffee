@@ -7,22 +7,20 @@ class HG.TimeMapper
   ##############################################################################
 
   # ============================================================================
-  constructor: (config) ->
-    defaultConfig =
-      domain: ["01.01.1900", "01.01.2000"]
-      range: [0, 1]
+  constructor: (mapping) ->
 
-    @_config = $.extend {}, defaultConfig, config
-
-    date_domain = []
-    for date in @_config.domain
+    @_date_domain = []
+    for date in mapping.domain
       tmp = date.split '.'
-      date_domain.push new Date tmp[2], tmp[1]-1, tmp[0]
+      @_date_domain.push new Date tmp[2], tmp[1]-1, tmp[0]
 
-    @_map = d3.scale.linear().domain(date_domain).range(@_config.range)
+    @_map = d3.scale.linear().domain(@_date_domain).range(mapping.range)
 
   # ============================================================================
-  map: (date) ->
-    @_map(date)
+  getValue: (date) ->
+    if date >= @_date_domain[0] and date <= @_date_domain[@_date_domain.length-1]
+      @_map(date)
+    else
+      undefined
 
 

@@ -28,8 +28,6 @@ class HG.Styler
       labelOpacity:
         range: [1, 1]
         fallback: 1
-      extrapolateFuture: true
-      extrapolatePast: true
 
     @_config = $.extend {}, defaultConfig, config
     @_config.fillColor = $.extend {}, defaultConfig.fillColor, config.fillColor
@@ -71,16 +69,13 @@ class HG.Styler
       labelOpacity: @_label_opacity(alpha)
 
   # ============================================================================
-  getStyle: (value, debug) ->
+  getStyle: (value) ->
+
+    unless value?
+      return @getFallbackStyle()
 
     if value >= @_config.domain[0] and value <= @_config.domain[@_config.domain.length-1]
       return @getInterpolatedStyle value
-
-    else if value < @_config.domain[0] and @_config.extrapolatePast
-      return @getInterpolatedStyle @_config.domain[0]
-
-    else if value > @_config.domain[@_config.domain.length-1] and @_config.extrapolateFuture
-      return @getInterpolatedStyle @_config.domain[@_config.domain.length-1]
 
     else
       return @getFallbackStyle()

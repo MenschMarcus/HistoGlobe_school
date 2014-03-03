@@ -9,14 +9,11 @@ class HG.AreaStyler
   # ============================================================================
   constructor: (config) ->
     defaultConfig =
-      stylerConfigs: []
-      timeMappings: []
+      stylers: []
 
     config = $.extend {}, defaultConfig, config
 
-    @_style_compositor = new HG.StyleCompositor config.stylerConfigs
-
-    @_load_time_mappings config.timeMappings
+    @_load_stylers config.stylers
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -25,20 +22,76 @@ class HG.AreaStyler
   # ============================================================================
   getStyle: (area, now) ->
 
-    unless area.my_time_mappers?
-      area.my_time_mappers = @_time_mappers[area._state]
+    @_init_area area
 
-    return @_style_compositor.getStyle now, area.my_time_mappers
+    style = null
+
+    for styler, i in @_stylers
+
+      new_style = null
+
+      if area.myTimeMappers[i]?
+        new_style = styler.getStyle(area.myTimeMappers[i].getValue(now))
+      else
+        new_style = styler.getFallbackStyle()
+
+      if style?
+        style = @_composite_styles(style, new_style)
+      else
+        style = new_style
+
+    return style
 
   # ============================================================================
-  _load_time_mappings: (time_mappings) ->
+  getFallbackStyle: (area) ->
 
-    @_time_mappers = {}
+    style = null
 
-    for time_mapping in time_mappings
-      $.getJSON time_mapping, (result) =>
-        for country, mapping of result
-          unless @_time_mappers[country]?
-            @_time_mappers[country] = []
+    for styler, i in @_stylers
+      new_style = styler.getFallbackStyle()
 
-          @_time_mappers[country].push new HG.TimeMapper mapping
+      if style?
+        style = @_composite_styles(style, new_style)
+      else
+        style = new_style
+
+    return style
+
+  # ============================================================================
+  _init_area: (area) ->
+    unless area.myTimeMappers?
+      area.myTimeMappers = []
+
+      for styler in @_stylers
+        area.myTimeMappers.push styler.myTimeMappers[area._state]
+
+
+  # ============================================================================
+  _load_stylers: (configs) ->
+    @_stylers = []
+
+    for config in configs
+      newStyler = new HG.Styler config
+      newStyler.myTimeMappers = {}
+      @_stylers.push newStyler
+      @_load_mapping newStyler, config
+
+  # ============================================================================
+  _load_mapping: (styler, config) ->
+    $.getJSON config.mapping, (result) =>
+      for country, mapping of result
+        newMapper = new HG.TimeMapper mapping
+        styler.myTimeMappers[country] = newMapper
+
+  # ============================================================================
+  _composite_styles: (styleSrc, styleDst) ->
+    result = {}
+
+    for attrib, value of styleSrc
+
+      if typeof(value) is "number"
+        result[attrib] = value * styleDst[attrib]
+      else if typeof(value) is "string"
+        result[attrib] = d3.interpolateRgb(value, styleDst[attrib])(0.5)
+
+    return result
