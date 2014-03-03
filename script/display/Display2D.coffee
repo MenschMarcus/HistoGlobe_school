@@ -94,6 +94,7 @@ class HG.Display2D extends HG.Display
         @_hgInstance.zoom_buttons.onZoomOut @, () =>
           @_map.zoomOut()
 
+    @overlayContainer = @_map.getPanes().mapPane
     @_isRunning = true
 
   # ============================================================================

@@ -18,6 +18,8 @@ class HG.HiventInfoPopovers
     hgInstance.hiventInfoPopovers = @
 
     @_hiventsOnMap = hgInstance.hiventsOnMap
+    @_map = hgInstance.map
+    @_mapArea = hgInstance._map_area
 
     if @_hiventsOnMap
       @_hiventsOnMap.onMarkerAdded (marker) =>
@@ -42,11 +44,15 @@ class HG.HiventInfoPopovers
 
     handle = marker.getHiventHandle()
 
-    showHiventInfoPopover = (displayPosition) ->
-      marker.hiventInfoPopover?= new HG.HiventInfoPopover handle, new HG.Vector(0, 0), HG.Display.CONTAINER
+    showHiventInfoPopover = (displayPosition) =>
+      # marker.hiventInfoPopover?= new HG.HiventInfoPopover handle, new HG.Vector(0, 0), HG.Display.CONTAINER
+      marker.hiventInfoPopover?= new HG.HiventInfoPopover handle,
+                                 new HG.Vector(0, 0),
+                                 @_map.overlayContainer,
+                                 @_mapArea
+      marker.hiventInfoPopover.show()
       marker.hiventInfoPopover.setAnchor new HG.Vector(displayPosition.x, displayPosition.y)
       marker.hiventInfoPopover.positionWindowAtAnchor()
-      marker.hiventInfoPopover.show()
 
     hideHiventInfoPopover = (displayPosition) =>
       marker.hiventInfoPopover?.hide()
