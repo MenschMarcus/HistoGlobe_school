@@ -61,7 +61,10 @@ set cFiles=script/HistoGlobe.coffee ^
         script/paths/Path.coffee ^
         script/paths/ArcPath2D.coffee ^
         script/paths/PathController.coffee ^
-        script/paths/LinearPath2D.coffee
+        script/paths/LinearPath2D.coffee ^
+        script/modules/category_icon_mapping/CategoryIconMapping.coffee ^
+        script/sidebar/PictureGalleryWidget.coffee ^
+        script/util/CSSCreator.coffee
 
 @echo off
 set jFiles=build/HistoGlobe.js ^
@@ -75,7 +78,7 @@ set jFiles=build/HistoGlobe.js ^
         build/PictureWidget.js ^
         build/LegendWidget.js ^
         build/StatisticsWidget.js ^
-        build/ControlButtons.js ^
+        build/ControlButtonArea.js ^
         build/ZoomButtons.js ^
         build/FullscreenButton.js ^
         build/Mixin.js ^
@@ -114,7 +117,12 @@ set jFiles=build/HistoGlobe.js ^
         build/VideoPlayer.js ^
         script/util/BrowserDetect.js ^
         build/NowMarker.js ^
-        build/DoublyLinkedList.js
+        build/DoublyLinkedList.js ^
+        build/CategoryIconMapping.js ^
+        build/PictureGalleryWidget.js ^
+        build/CSSCreator.js ^
+        build/default_config.js ^
+        build/config.js
 
 IF not exist build ( mkdir build )
 
@@ -123,10 +131,9 @@ rosetta --jsOut "build/default_config.js" ^
         --jsTemplate "var HGConfig;(function() {<%%= preamble %%>HGConfig = <%%= blob %%>;})();" ^
         --cssOut "build/default_config.less" ^
         --cssFormat "less" config/common/default.rose && ^
-
 rosetta --jsOut "build/config.js" ^
         --jsFormat "flat" ^
-        --jsTemplate "(function() {<%= preamble %> $.extend(HGConfig, <%= blob %>);})();" ^
+        --jsTemplate "(function() {<%%= preamble %%> $.extend(HGConfig, <%%= blob %%>);})();" ^
         --cssOut "build/config.less" ^
         --cssFormat "less" config/eu/style.rose && ^
 coffee -c -o build %cFiles% && uglifyjs %jFiles% -o script\histoglobe.min.js && ^

@@ -80,7 +80,12 @@ class HG.Globe extends HG.Display
   # ============================================================================
   start: ->
 
+
     unless @_sceneGlobe
+
+      #update initial container size
+      @_onWindowResize()
+
       @_initGlobe()
 
       @_initEventHandling()
@@ -254,6 +259,7 @@ class HG.Globe extends HG.Display
   # ============================================================================
   _initWindowGeometry: ->
     @_width                = HG.Display.CONTAINER.parentNode.offsetWidth
+    console.log "width in init window geometry", @_width
     @_myHeight             = HG.Display.CONTAINER.parentNode.offsetHeight
     @_canvasOffsetX        = HG.Display.CONTAINER.parentNode.offsetLeft
     @_canvasOffsetY        = HG.Display.CONTAINER.parentNode.offsetTop

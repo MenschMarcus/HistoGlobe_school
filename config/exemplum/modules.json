@@ -16,6 +16,8 @@
   "ZoomButtons": {},
   "FullscreenButton": {},
 
+  "Globe": {},
+
   "AreaIndicator" :
   {
     "domain": [0, 1],
@@ -126,6 +128,8 @@
   },
 
   "AreasOnMap" : {},
+
+  "AreasOnGlobe": {},
 
   "Widgets" :
   [

@@ -68,6 +68,7 @@ class HG.AreasOnGlobe
       window.addEventListener   "mouseup",  @_onMouseUp,         false #for country intersections
       window.addEventListener   "mousedown",@_onMouseDown,       false #for country intersections
       @_globe.onZoomEnd @, @_filterLabels
+      @_globe.onMove @, @_filterLabels
       @_globe.onMove @, @_updateLabelSizes
 
       @_areasToLoad = @_areaController.getActiveAreas().length
