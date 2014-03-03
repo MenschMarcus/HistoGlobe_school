@@ -9,6 +9,7 @@ class HG.Display
   # ============================================================================
   hgInit: (hgInstance) ->
     HG.Display.CONTAINER ?= hgInstance._map_canvas
+    @overlayContainer = null
 
   # ============================================================================
   focus: (hivent) ->

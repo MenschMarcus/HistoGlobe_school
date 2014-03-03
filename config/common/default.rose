@@ -67,3 +67,6 @@ $hivent_marker_2D_height              = 32px;
 
 $hivent_marker_timeline_width         = 16px;
 $hivent_marker_timeline_height        = 16px;
+
+// ------------------ HIVENTINFO OPTIONS ---------------------------------------
+$hivent_info_popover_arrow_height     = 15px;
