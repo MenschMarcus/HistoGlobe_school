@@ -1,0 +1,106 @@
+.time-gallery-widget {
+  position: relative;
+
+  // basic geometry ------------------------------------------------------------
+  .swiper-slide {
+    position: relative;
+    padding-left: @widget_body_padding;
+    padding-right: @widget_body_padding;
+    padding-bottom: @widget_body_padding + @gallery_widget_pagination_size;
+    overflow: hidden;
+  }
+
+  .gallery-widget-slider {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  // basic style ---------------------------------------------------------------
+  .shadow {
+    z-index: 2;
+    position: absolute;
+    height: 100%;
+    width: @widget_body_padding;
+  }
+
+  .shadow-left {
+    left: 0px;
+    .linear-gradient-left(rgba(255, 255, 255, 0.0), rgba(255, 255, 255, 1), 0%, rgba(255, 255, 255, 0), 100%);
+  }
+
+  .shadow-right {
+    right: 0px;
+    .linear-gradient-left(rgba(255, 255, 255, 0.0), rgba(255, 255, 255, 0), 0%, rgba(255, 255, 255, 1), 100%);
+  }
+
+  // pagination ----------------------------------------------------------------
+
+  .pagination-container {
+
+    position: absolute;
+    left: 50%;
+    z-index: 2;
+    bottom: @widget_body_padding * 0.5;
+
+    .gallery-pagination {
+      margin: 0 0 0 -50%;
+
+      .swiper-pagination-switch {
+        color: #888;
+        text-align: center;
+        display: inline-block;
+        height: @gallery_widget_pagination_size * 0.6;
+        margin-right: @gallery_widget_pagination_size * 0.2;
+
+        cursor: pointer;
+
+        .transition-property(color font-size);
+        .transition-duration(0.2s);
+      }
+
+      .swiper-pagination-switch:hover {
+        color: #555;
+      }
+
+      .swiper-active-switch, .swiper-active-switch:hover {
+        font-size: 1.5em;
+      }
+    }
+  }
+
+  // pagination arrows ---------------------------------------------------------
+  .arrow {
+    z-index: 2;
+    position: absolute;
+    bottom: @widget_body_padding * 0.5;
+    opacity: 0;
+    font-size: @gallery_widget_pagination_size;
+    width: @gallery_widget_pagination_size;
+    height: @gallery_widget_pagination_size;
+
+    cursor: pointer !important;
+
+    .transition(opacity 0.5s);
+
+    &:hover {
+      opacity: 1 !important;
+    }
+
+    .hidden {
+      display: none;
+    }
+  }
+
+  &:hover .arrow {
+    opacity: 0.5;
+  }
+
+  .arrow-left {
+    left: @widget_body_padding;
+  }
+
+  .arrow-right {
+    right: @widget_body_padding;
+  }
+}

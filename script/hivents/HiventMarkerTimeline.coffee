@@ -74,7 +74,7 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
       @_div.setAttribute "class", @_classDefault
 
     @getHiventHandle().onDestruction @, @_destroy
-    #@getHiventHandle().onHide @, @_destroy
+    @getHiventHandle().onHide @, @_destroy
 
   # ============================================================================
   nowChanged: ->

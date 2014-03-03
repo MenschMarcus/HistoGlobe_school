@@ -100,6 +100,7 @@
     <script type="text/javascript" src="build/TextWidget.js"></script>
     <script type="text/javascript" src="build/GalleryWidget.js"></script>
     <script type="text/javascript" src="build/TimeGalleryWidget.js"></script>
+    <script type="text/javascript" src="build/PictureGalleryWidget.js"></script>
     <script type="text/javascript" src="build/VIPWidget.js"></script>
     <script type="text/javascript" src="build/LogoWidget.js"></script>
     <script type="text/javascript" src="build/PictureWidget.js"></script>

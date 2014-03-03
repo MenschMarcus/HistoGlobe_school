@@ -20,19 +20,6 @@ class HG.LegendWidget extends HG.Widget
     @_init()
     HG.Widget.call @
 
-    for column in @_config.columns
-      col_div = @addColumn @_config.columns.length
-
-      for group in column.groups
-        group_div = @addGroup group.name, col_div
-
-        for element in group.elements
-          if element.type is "categoryWithColor"
-            @addCategoryWithColor element, group_div
-          else if element.type is "categoryWithIcon"
-            @addCategoryWithIcon element, group_div
-          else
-            @addSpacer()
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -44,6 +31,23 @@ class HG.LegendWidget extends HG.Widget
     @setContent @_mainDiv
 
     @_hiventController = hgInstance.hiventController
+    @_categoryIconMapping = hgInstance.categoryIconMapping
+
+    for column in @_config.columns
+      col_div = @addColumn @_config.columns.length
+
+      for group in column.groups
+        group_div = @addGroup group.name, col_div
+
+        for element in group.elements
+          if element.type is "category"
+            @addCategory element, group_div
+          else if element.type is "categoryWithColor"
+            @addCategoryWithColor element, group_div
+          else if element.type is "categoryWithIcon"
+            @addCategoryWithIcon element, group_div
+          else
+            @addSpacer()
 
     unless @_hiventController
       console.error "Unable to filter hivents: HiventController module not detected in HistoGlobe instance!"
@@ -55,6 +59,35 @@ class HG.LegendWidget extends HG.Widget
     col_div.className = "legend-column legend-column-#{column_count}"
     @_mainDiv.appendChild col_div
     return col_div
+
+  # ============================================================================
+  addCategory: (config, col_div) ->
+    defaultConfig =
+      category: ""
+      name: ""
+      filterable: false
+
+    config = $.extend {}, defaultConfig, config
+
+    row = document.createElement "div"
+    col_div.appendChild row
+
+    if @_categoryIconMapping
+      cellIcon = document.createElement "span"
+      cellIcon.className = "legend-icon"
+      cellIcon.style.backgroundImage = "url('#{@_categoryIconMapping.getIcons(config.category).default}')"
+      row.appendChild cellIcon
+
+    @_make_filterable row, config
+
+    cellName = document.createElement "span"
+    cellName.innerHTML = config.name
+    cellName.className = "legend-text"
+    row.appendChild cellName
+
+    cellCheck = document.createElement "i"
+    cellCheck.className = "fa fa-check legend-check"
+    row.appendChild cellCheck
 
   # ============================================================================
   addCategoryWithIcon: (config, col_div) ->
