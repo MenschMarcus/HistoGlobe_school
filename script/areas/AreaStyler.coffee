@@ -40,7 +40,8 @@ class HG.AreaStyler
       else
         style = new_style
 
-    return style
+
+    return style.style
 
   # ============================================================================
   getFallbackStyle: (area) ->
@@ -55,7 +56,7 @@ class HG.AreaStyler
       else
         style = new_style
 
-    return style
+    return style.style
 
   # ============================================================================
   _init_area: (area) ->
@@ -84,14 +85,36 @@ class HG.AreaStyler
         styler.myTimeMappers[country] = newMapper
 
   # ============================================================================
-  _composite_styles: (styleSrc, styleDst) ->
+  _composite_styles: (base, newStyle) ->
     result = {}
+    result.style = {}
 
-    for attrib, value of styleSrc
+    for attrib, value of newStyle.style
 
-      if typeof(value) is "number"
-        result[attrib] = value * styleDst[attrib]
-      else if typeof(value) is "string"
-        result[attrib] = d3.interpolateRgb(value, styleDst[attrib])(0.5)
+      compOp = newStyle.compOp[attrib]
+
+      if compOp is "replace"
+        result.style[attrib] = value
+      else if compOp is "ignore"
+        result.style[attrib] = base.style[attrib]
+      else
+        if typeof(value) is "number"
+          if compOp is "mix"
+            result.style[attrib] = (value + base.style[attrib])/2
+          else if compOp is "multiply"
+            result.style[attrib] = value * base.style[attrib]
+          else
+            log.warn "Compositing operation " + compOp + " is not supported! Please use ignore, replace, multiply or mix!"
+
+        else if typeof(value) is "string"
+          if compOp is "mix"
+            result.style[attrib] = d3.interpolateRgb(value, base.style[attrib])(0.5)
+          else if compOp is "multiply"
+            src = d3.rgb(base.style[attrib])
+            dst = d3.rgb(value)
+            fac = 1.0 / 255.0
+            result.style[attrib] = d3.rgb(fac * src.r * dst.r, fac * src.g * dst.g, fac *src.b * dst.b)
+          else
+            log.warn "Compositing operation " + compOp + " is not supported! Please use ignore, replace, multiply or mix!"
 
     return result

@@ -13,21 +13,27 @@ class HG.Styler
       fillColor:
         range: ["red", "green"]
         fallback: "grey"
+        compOp: "multiply"
       fillOpacity:
         range: [1, 1]
         fallback: 1
+        compOp: "multiply"
       lineColor:
         range: ["grey", "grey"]
         fallback: "grey"
+        compOp: "multiply"
       lineOpacity:
         range: [1, 1]
         fallback: 1
+        compOp: "multiply"
       lineWidth:
         range: [2, 2]
         fallback: 1
+        compOp: "multiply"
       labelOpacity:
         range: [1, 1]
         fallback: 1
+        compOp: "multiply"
 
     @_config = $.extend {}, defaultConfig, config
     @_config.fillColor = $.extend {}, defaultConfig.fillColor, config.fillColor
@@ -51,22 +57,38 @@ class HG.Styler
   # ============================================================================
   getFallbackStyle: (value) ->
     result =
-      fillColor:    d3.rgb(@_config.fillColor.fallback).toString()
-      fillOpacity:  @_config.fillOpacity.fallback
-      lineColor:    d3.rgb(@_config.lineColor.fallback).toString()
-      lineOpacity:  @_config.lineOpacity.fallback
-      lineWidth:    @_config.lineWidth.fallback
-      labelOpacity: @_config.labelOpacity.fallback
+      style:
+        fillColor:    d3.rgb(@_config.fillColor.fallback).toString()
+        fillOpacity:  @_config.fillOpacity.fallback
+        lineColor:    d3.rgb(@_config.lineColor.fallback).toString()
+        lineOpacity:  @_config.lineOpacity.fallback
+        lineWidth:    @_config.lineWidth.fallback
+        labelOpacity: @_config.labelOpacity.fallback
+      compOp:
+        fillColor:    @_config.fillColor.compOp
+        fillOpacity:  @_config.fillOpacity.compOp
+        lineColor:    @_config.lineColor.compOp
+        lineOpacity:  @_config.lineOpacity.compOp
+        lineWidth:    @_config.lineWidth.compOp
+        labelOpacity: @_config.labelOpacity.compOp
 
   # ============================================================================
   getInterpolatedStyle: (alpha) ->
     result =
-      fillColor:    @_fill_color(alpha)
-      fillOpacity:  @_fill_opacity(alpha)
-      lineColor:    @_line_color(alpha)
-      lineOpacity:  @_line_opacity(alpha)
-      lineWidth:    @_line_width(alpha)
-      labelOpacity: @_label_opacity(alpha)
+      style:
+        fillColor:    @_fill_color(alpha)
+        fillOpacity:  @_fill_opacity(alpha)
+        lineColor:    @_line_color(alpha)
+        lineOpacity:  @_line_opacity(alpha)
+        lineWidth:    @_line_width(alpha)
+        labelOpacity: @_label_opacity(alpha)
+      compOp:
+        fillColor:    @_config.fillColor.compOp
+        fillOpacity:  @_config.fillOpacity.compOp
+        lineColor:    @_config.lineColor.compOp
+        lineOpacity:  @_config.lineOpacity.compOp
+        lineWidth:    @_config.lineWidth.compOp
+        labelOpacity: @_config.labelOpacity.compOp
 
   # ============================================================================
   getStyle: (value) ->

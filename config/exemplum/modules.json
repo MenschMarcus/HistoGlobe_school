@@ -112,25 +112,13 @@
       {
         "mapping": "config/common/countries/eu_history.json",
         "domain": [0, 1],
-        "fillColor": {
-          "range": ["red", "red"],
-          "fallback": "red"
-        },
         "fillOpacity": {
           "range": [0, 1],
           "fallback": 1
         },
-        "lineColor": {
-          "range": ["grey", "grey"],
-          "fallback": "grey"
-        },
         "lineOpacity": {
           "range": [0, 1],
           "fallback": 1
-        },
-        "lineWidth": {
-          "range": [3, 3],
-          "fallback": 3
         },
         "labelOpacity": {
           "range": [0, 1],
@@ -141,28 +129,34 @@
         "mapping": "config/exemplum/data/products.json",
         "domain": [0, 1],
         "fillColor": {
-          "range": ["red", "red"],
-          "fallback": "red"
+          "range": ["#D2FF95", "#D2FF95"],
+          "fallback": "#D2FF95",
+          "compOp": "replace"
         },
         "fillOpacity": {
-          "range": [0, 1],
-          "fallback": 0
+          "range": [0, 0.5],
+          "fallback": 0,
+          "compOp": "multiply"
         },
         "lineColor": {
           "range": ["grey", "grey"],
-          "fallback": "grey"
+          "fallback": "grey",
+          "compOp": "replace"
         },
         "lineOpacity": {
           "range": [0, 1],
-          "fallback": 0
+          "fallback": 0,
+          "compOp": "multiply"
         },
         "lineWidth": {
-          "range": [0, 3],
-          "fallback": 0
+          "range": [0, 5],
+          "fallback": 0,
+          "compOp": "replace"
         },
         "labelOpacity": {
           "range": [0, 1],
-          "fallback": 0
+          "fallback": 0,
+          "compOp": "multiply"
         }
       }
     ]
