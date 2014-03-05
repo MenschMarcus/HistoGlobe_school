@@ -9,7 +9,7 @@
     "maxZoom": 7,
     "startZoom": 6,
     "startLatLong": [51.505, 10.09],
-    "tiles": "config/exemplum/map/tiles/"
+    "tiles": "config/exemplum/data/tiles/"
   },
 
   "ControlButtonArea": {},
@@ -129,18 +129,18 @@
         "mapping": "config/exemplum/data/products.json",
         "domain": [0, 1],
         "fillColor": {
-          "range": ["#D2FF95", "#D2FF95"],
-          "fallback": "#D2FF95",
+          "range": ["#deffe4", "#deffe4"],
+          "fallback": "#deffe4",
           "compOp": "replace"
         },
         "fillOpacity": {
-          "range": [0, 0.5],
+          "range": [0, 0.3],
           "fallback": 0,
           "compOp": "multiply"
         },
         "lineColor": {
-          "range": ["grey", "grey"],
-          "fallback": "grey",
+          "range": ["#deffe4", "#deffe4"],
+          "fallback": "#deffe4",
           "compOp": "replace"
         },
         "lineOpacity": {
