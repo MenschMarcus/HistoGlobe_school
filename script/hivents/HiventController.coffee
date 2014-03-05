@@ -223,5 +223,10 @@ class HG.HiventController
       if isVisible
         unless handle._visible
           handle.showAll()
+        if @_currentTimeFilter?
+          new_age = Math.min(1, (hivent.endDate.getTime() - @_currentTimeFilter.start.getTime()) / (@_currentTimeFilter.end.getTime() - @_currentTimeFilter.start.getTime()))
+          if new_age isnt handle._age
+            handle.setAge new_age
+
       else if handle._visible
         handle.hideAll()

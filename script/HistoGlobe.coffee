@@ -116,7 +116,6 @@ class HG.HistoGlobe
   # ============================================================================
   _createCollapseButton: ->
     @_collapse_area_left = @_createElement @_map_area, "div", "collapse-area-left"
-    @_collapse_area_right = @_createElement @_sidebar_area, "div", "collapse-area-right"
 
     @_collapse_button = @_createElement @_map_area, "i", "collapse-button"
     @_collapse_button.className = "fa fa-arrow-circle-o-left fa-2x"
@@ -124,7 +123,6 @@ class HG.HistoGlobe
 
     $(@_collapse_button).click @_collapse
     $(@_collapse_area_left).click @_collapse
-    # $(@_collapse_area_right).click @_collapse
 
   # ============================================================================
   _createMap: ->
@@ -166,10 +164,8 @@ class HG.HistoGlobe
     if @_collapsed
       @_collapse_button.className = "fa fa-arrow-circle-o-left fa-2x"
       @_collapse_area_left.style.width = "0px"
-      @_collapse_area_right.style.width = "#{HGConfig.sidebar_collapsed_width.val}px"
     else
       @_collapse_button.className = "fa fa-arrow-circle-o-right fa-2x"
-      @_collapse_area_right.style.width = "0px"
       if @isInMobileMode()
         @_collapse_area_left.style.width = "#{HGConfig.map_collapsed_width.val}px"
 

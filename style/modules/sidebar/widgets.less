@@ -34,6 +34,7 @@
       .linear-gradient-left(@widget_title_background_color, lighten(@widget_title_background_color, @widget_title_gradient_effect), 0%, @widget_title_background_color, 100%);
       border-right: @border_width solid @border_color;
 
+      cursor: pointer;
       color: @widget_title_text_color;
       position: absolute;
       font-size: @widget_title_size * 0.6;
@@ -99,7 +100,7 @@
     width: @widget_title_size;
     border-right: @border_width solid @border_color;
 
-    pointer-events:none;
+    cursor: pointer;
 
     height: 100%;
 
@@ -125,6 +126,7 @@
 // ------------------ VERTICAL TEXT --------------------------------------------
 
 .verticalTextInner {
+  pointer-events:none;
   display: inline-block;
   white-space: nowrap;
   line-height: 1.5;

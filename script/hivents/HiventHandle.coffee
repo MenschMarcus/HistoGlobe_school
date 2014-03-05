@@ -19,6 +19,7 @@ class HG.HiventHandle
     @_marked = false
     @_linked = false
     @_focussed = false
+    @_age = 0.0
 
     @_visible = false
 
@@ -34,6 +35,7 @@ class HG.HiventHandle
     @addCallback "onFocus"
     @addCallback "onUnFocus"
     @addCallback "onDestruction"
+    @addCallback "onAgeChanged"
 
     @addCallback "onShow"
     @addCallback "onHide"
@@ -185,6 +187,11 @@ class HG.HiventHandle
   hideAll: () ->
     @_visible = false
     @notifyAll "onHide", @
+
+  # ============================================================================
+  setAge: (age) ->
+    @_age = age
+    @notifyAll "onAgeChanged", age, @
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
