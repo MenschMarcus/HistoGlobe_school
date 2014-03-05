@@ -160,9 +160,6 @@ class HG.HiventInfoPopover
       bottom : @_visibleArea.offsetHeight - @_anchor.at(1)
       right : @_visibleArea.offsetWidth - @_anchor.at(0)
 
-    console.log canvasOffset
-    console.log anchorOffset
-
     neededWidth = @_width +
                   HGConfig.hivent_marker_2D_width.val / 2 +
                   HGConfig.hivent_info_popover_arrow_height.val
@@ -297,7 +294,7 @@ class HG.HiventInfoPopover
   # ============================================================================
   _destroy: () =>
     @_mainDiv.parentNode.removeChild @_mainDiv
-    @_raphael.canvas.parentNode.removeChild @_raphael.canvas
+    # @_raphael.canvas.parentNode.removeChild @_raphael.canvas
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #

@@ -76,25 +76,29 @@
   },
 
   "CategoryIconMapping" : {
+      "default" : {
+        "default" : "config/exemplum/data/icons/default_default.png",
+        "highlighted" : "config/exemplum/data/icons/default_highlight.png"
+      },
       "Z" : {
-        "default" : "data/hivent_icons/icon_default.png",
-        "highlighted" : "data/hivent_icons/icon_default_highlight.png"
+        "default" : "config/exemplum/data/icons/zweigstelle_default.png",
+        "highlighted" : "config/exemplum/data/icons/zweigstelle_highlight.png"
       },
       "F" : {
-        "default" : "data/hivent_icons/icon_default.png",
-        "highlighted" : "data/hivent_icons/icon_default_highlight.png"
+        "default" : "config/exemplum/data/icons/fabrik_default.png",
+        "highlighted" : "config/exemplum/data/icons/fabrik_highlight.png"
       },
       "P" : {
-        "default" : "data/hivent_icons/icon_default.png",
-        "highlighted" : "data/hivent_icons/icon_default_highlight.png"
+        "default" : "config/exemplum/data/icons/plantage_default.png",
+        "highlighted" : "config/exemplum/data/icons/plantage_highlight.png"
       },
       "S" : {
-        "default" : "data/hivent_icons/icon_default.png",
-        "highlighted" : "data/hivent_icons/icon_default_highlight.png"
+        "default" : "config/exemplum/data/icons/shop_default.png",
+        "highlighted" : "config/exemplum/data/icons/shop_highlight.png"
       },
       "E" : {
-        "default" : "data/hivent_icons/icon_default.png",
-        "highlighted" : "data/hivent_icons/icon_default_highlight.png"
+        "default" : "config/exemplum/data/icons/erlebniszentrum_default.png",
+        "highlighted" : "config/exemplum/data/icons/erlebniszentrum_highlight.png"
       }
     },
 

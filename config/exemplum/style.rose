@@ -23,3 +23,10 @@ $widget_border_radius_top_left      = 5px
 $widget_border_radius_top_right     = 5px
 $widget_border_radius_bottom_left   = 5px
 $widget_border_radius_bottom_right  = 5px
+
+// ------------------ HIVENT OPTIONS -------------------------------------------
+$hivent_marker_2D_width               = 48px;
+$hivent_marker_2D_height              = 48px;
+
+$hivent_marker_timeline_width         = 16px;
+$hivent_marker_timeline_height        = 16px;
