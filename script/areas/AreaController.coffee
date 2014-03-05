@@ -20,7 +20,8 @@ class HG.AreaController
     @_now = null
 
     defaultConfig =
-      areaJSONPaths: undefined
+      areaJSONPaths: undefined,
+      areaStylerConfig: undefined
 
     conf = $.extend {}, defaultConfig, config
 
@@ -31,16 +32,12 @@ class HG.AreaController
     hgInstance.areaController = @
 
     @_timeline = hgInstance.timeline
-    @_indicator = hgInstance.areaIndicator
+    @_area_styler = hgInstance.areaStyler
     @_now = @_timeline.getNowDate()
 
     @_timeline.onNowChanged @, (date) ->
       @_now = date
       for area in @_areas
-        # execute_async = (area) =>
-        #   setTimeout () => area.setDate date, 0
-        # execute_async(area)
-
         area.setDate date
 
   # ============================================================================
@@ -52,7 +49,7 @@ class HG.AreaController
 
           execute_async = (c) =>
             setTimeout () =>
-              newArea = new HG.Area c, @_indicator
+              newArea = new HG.Area c, @_area_styler
 
               newArea.onShow @, (area) =>
                 @notifyAll "onShowArea", area

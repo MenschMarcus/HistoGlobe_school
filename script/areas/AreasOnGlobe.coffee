@@ -43,7 +43,7 @@ class HG.AreasOnGlobe
       console.log "test", leafletPip.pointInLayer([50.5, 30.5],hgInstance.map._map._layers[layer],true)'''
 
 
-    @_globeCanvas = hgInstance._map_canvas
+    @_globeCanvas = hgInstance.mapCanvas
 
     @_globe = hgInstance.globe
 
@@ -187,7 +187,23 @@ class HG.AreasOnGlobe
         #close line:
         lineGeometry.vertices.push lineGeometry.vertices[0]
 
-        lineMaterial = new THREE.LineBasicMaterial color: 0x646464, linewidth: 2
+
+        lineWidth = area.getNormalStyle().lineWidth
+        opacity = area.getNormalStyle().lineOpacity
+        # linewidth cant be zero in rendering
+
+        unless lineWidth > 0.01
+          '''if area._name is "Russia"
+            console.log "area ", area._name
+            console.log "lineWidth: ",lineWidth'''
+          #console.log area._name
+          lineWidth = 1
+          opacity = 0
+        lineMaterial = new THREE.LineBasicMaterial(
+          color: area.getNormalStyle().lineColor, 
+          linewidth: lineWidth,
+          transparent: true,
+          opacity: opacity )
         borderline = new THREE.Line( lineGeometry, lineMaterial)
         
         @_sceneCountries.add borderline if @_isAreaActive(area)
@@ -334,6 +350,18 @@ class HG.AreasOnGlobe
 
   # ============================================================================
   _onStyleChange3D: (area) =>
+    '''if area.myLeafletLayer?
+      @_animate area.myLeafletLayer,
+        "fill":           area.getNormalStyle().fillColor
+        "fill-opacity":   area.getNormalStyle().fillOpacity
+        "stroke":         area.getNormalStyle().lineColor
+        "stroke-opacity": area.getNormalStyle().lineOpacity
+        "stroke-width":   area.getNormalStyle().lineWidth
+      , 200
+    if area.myLeafletLabel?
+      area.myLeafletLabel._container.style.opacity = area.getNormalStyle().labelOpacity'''
+
+
     #@_animate area.myLeafletLayer, {"fill": area.getNormalStyle().fillColor}, 350#animation maybe later!
     if area.Material3D?
       #newColor = area.getNormalStyle().fillColor
@@ -347,18 +375,54 @@ class HG.AreasOnGlobe
       $({
         colorR:area.Material3D.color.r,
         colorG:area.Material3D.color.g,
-        colorB:area.Material3D.color.b
+        colorB:area.Material3D.color.b,
+        opacity:area.Material3D.opacity
+
       }).animate({
-        colorR: final_color[0]/255,
-        colorG: final_color[1]/255,
-        colorB: final_color[2]/255
+        colorR:         final_color[0]/255,
+        colorG:         final_color[1]/255,
+        colorB:         final_color[2]/255,
+        opacity:        area.getNormalStyle().fillOpacity
       },{
         duration: 350,
         step: ->
           area.Material3D.color.r = this.colorR
           area.Material3D.color.g = this.colorG
           area.Material3D.color.b = this.colorB
+          area.Material3D.opacity = this.opacity
       })
+
+      if area.Borderlines3D
+        for line in area.Borderlines3D
+
+          final_stroke_color = @_rgbify area.getNormalStyle().lineColor
+
+          $({
+            strokeColorR:line.material.color.r,
+            strokeColorG:line.material.color.g,
+            strokeColorB:line.material.color.b,
+            strokeOpacity:line.material.opacity,
+            strokeWidth:line.material.linewidth
+
+          }).animate({
+            strokeColorR: final_stroke_color[0]/255,
+            strokeColorG: final_stroke_color[1]/255,
+            strokeColorB: final_stroke_color[2]/255,
+            strokeOpacity: area.getNormalStyle().lineOpacity,
+            strokeWidth: area.getNormalStyle().lineWidth
+          },{
+            duration: 350,
+            step: ->
+              line.material.color.r = this.strokeColorR
+              line.material.color.g = this.strokeColorG
+              line.material.color.b = this.strokeColorB
+              line.material.opacity = this.strokeOpacity
+              line.material.linewidth = this.strokeWidth
+          })
+
+      if area.Label3D
+        area.Label3D.material.opacity = area.getNormalStyle().labelOpacity
+          
 
   # ============================================================================
   #new:(# http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript)
@@ -408,7 +472,7 @@ class HG.AreasOnGlobe
 
       context = canvas.getContext('2d')
       context.textAlign = 'center'
-      context.font = "#{TEXT_HEIGHT}px Arial"
+      context.font = "#{TEXT_HEIGHT}px Lobster"
 
       #context.fillStyle="#FF0000";
       #context.fillRect(0,0,textWidth,TEXT_HEIGHT);
@@ -438,7 +502,8 @@ class HG.AreasOnGlobe
       texture.needsUpdate = true
       material = new THREE.SpriteMaterial({
         map: texture,
-        transparent:false,
+        transparent:true,
+        opacity: area.getNormalStyle().labelOpacity
         useScreenCoordinates: false,
         scaleByViewport: true,
         sizeAttenuation: false,
@@ -651,7 +716,7 @@ class HG.AreasOnGlobe
 
       index = intersect.face.materialIndex
       to_change = intersect.object.material.materials[index]
-      if to_change.opacity > 0
+      if to_change.opacity > 0.01
         to_change.opacity = to_change.opacity + 0.2
         @_intersectedMaterials.push to_change
 
@@ -676,5 +741,5 @@ class HG.AreasOnGlobe
   TEST_CANVAS.height = 1
   TEST_CONTEXT = TEST_CANVAS.getContext('2d')
   TEST_CONTEXT.textAlign = 'center'
-  TEXT_HEIGHT = 11
-  TEST_CONTEXT.font = "#{TEXT_HEIGHT}px Arial"
+  TEXT_HEIGHT = 24
+  TEST_CONTEXT.font = "#{TEXT_HEIGHT}px Lobster"

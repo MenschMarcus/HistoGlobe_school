@@ -56,25 +56,25 @@
   }
 
   .legend-row-non-filterable {
-    border: 1px solid #eee;
+    border: 1px solid mix(@widget_background_color, @text_color, 80%);
     background-color: #fff;
   }
 
   .legend-row-filterable {
-    border: 1px solid #eee;
+    border: 1px solid mix(@widget_background_color, @text_color, 80%);
     cursor: pointer;
     color: #aaa;
 
     &:hover {
-      background-color: #efefef;
+      background-color: lighten(@widget_background_color, 10%);
     }
 
     &.active {
-      color: @widget_text_color;
+      color: @text_color;
       font-weight: bold;
 
       .legend-check {
-        color: @widget_text_color;
+        color: @text_color;
         opacity: 1;
       }
 

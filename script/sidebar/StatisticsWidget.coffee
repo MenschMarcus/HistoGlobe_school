@@ -157,7 +157,7 @@ class HG.StatisticsWidget extends HG.Widget
         .attr("stroke", "#{@_config.lineColor}")
         .attr("stroke-width", "#{@_config.lineWidth}")
 
-      $(content).on "mousedown", (event) =>
+      @onDivClick content, () =>
         x = event.offsetX - HGConfig.statistics_widget_margin_left.val
         @_setNowMarkerPosition x
         @_updateTimeline x

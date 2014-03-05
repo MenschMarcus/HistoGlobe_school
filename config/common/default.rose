@@ -1,6 +1,14 @@
 // --------------------- GLOBAL OPTIONS ----------------------------------------
 $hg_font_face                       = sans-serif
 
+$shadow_intensity                   = 0.5;
+$shadow_radius                      = 15px;
+
+$text_color                         = #666666
+$text_highlight_color               = #AE3030
+
+$background_color                   = #333333
+
 // --------------------- MAP OPTIONS -------------------------------------------
 $map_min_width                      = 300px
 $map_collapsed_width                = 50px
@@ -20,7 +28,6 @@ $widget_title_size                    = 30px
 $widget_title_background_color        = #ffcc00
 $widget_title_text_color              = #333333
 $widget_background_color              = #ffffff
-$widget_text_color                    = #666666
 
 $widget_margin                        = 10px
 $widget_body_padding                  = 15px
@@ -46,7 +53,6 @@ $statistics_widget_margin_bottom      = 20px
 $statistics_widget_margin_left        = 30px
 
 $statistics_widget_axis_width         = 2px
-$statistics_widget_axis_color         = grey
 $statistics_widget_axis_font_size     = 1em
 $statistics_widget_title_font_size    = 2em
 $statistics_widget_subtitle_font_size = 1.5em
@@ -61,3 +67,6 @@ $hivent_marker_2D_height              = 32px;
 
 $hivent_marker_timeline_width         = 16px;
 $hivent_marker_timeline_height        = 16px;
+
+// ------------------ HIVENTINFO OPTIONS ---------------------------------------
+$hivent_info_popover_arrow_height     = 15px;

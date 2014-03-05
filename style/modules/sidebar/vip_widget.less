@@ -38,10 +38,12 @@
     background-repeat: no-repeat;
     background-position: 50% 50%;
 
-    border: 1px solid #bbb;
+    border: 1px solid darken(@widget_background_color, 50%);
     border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
 
     margin-right: @widget_body_padding;
     margin-bottom: @widget_body_padding;
+
+    overflow: hidden;
   }
 }

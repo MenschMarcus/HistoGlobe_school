@@ -23,6 +23,8 @@ class HG.TimeGalleryWidget extends HG.GalleryWidget
     @_timeline = hgInstance.timeline
     @_timeline.onNowChanged @, @_nowChanged
 
+    @_galleryContent.className = "time-gallery-widget"
+
     @_changeDates = {}
 
     @onSlideChanged @, (index) =>
@@ -33,6 +35,10 @@ class HG.TimeGalleryWidget extends HG.GalleryWidget
 
     for slide in @_config.divSlides
       @addDivSlide slide
+
+    hgInstance.onAllModulesLoaded @, () =>
+      for i in [0...@_swiper.paginationButtons.length]
+        @_setPaginationDate(@_changeDates[i].getFullYear(), i)
 
   # ============================================================================
   addDivSlide: (config) ->
@@ -71,3 +77,7 @@ class HG.TimeGalleryWidget extends HG.GalleryWidget
         target = index
 
     @_swiper.swipeTo(target, 500, false)
+
+  # ============================================================================
+  _setPaginationDate: (dateString, paginationIndex) =>
+    @_swiper.paginationButtons[paginationIndex].innerHTML = dateString

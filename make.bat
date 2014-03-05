@@ -34,7 +34,6 @@ set cFiles=script/HistoGlobe.coffee ^
         script/display/Display.coffee ^
         script/areas/Area.coffee ^
         script/areas/AreaController.coffee ^
-        script/areas/AreaIndicator.coffee ^
         script/areas/AreasOnMap.coffee ^
         script/areas/AreasOnGlobe.coffee ^
         script/timeline/Timeline.coffee ^
@@ -65,7 +64,10 @@ set cFiles=script/HistoGlobe.coffee ^
         script/paths/LinearPath2D.coffee ^
         script/modules/category_icon_mapping/CategoryIconMapping.coffee ^
         script/sidebar/PictureGalleryWidget.coffee ^
-        script/util/CSSCreator.coffee
+        script/util/CSSCreator.coffee ^
+        script/modules/areas/TimeMapper.coffee ^
+        script/areas/AreaStyler.coffee ^
+        script/modules/areas/Styler.coffee
 
 @echo off
 set jFiles=build/HistoGlobe.js ^
@@ -89,7 +91,6 @@ set jFiles=build/HistoGlobe.js ^
         build/Globe.js ^
         build/Area.js ^
         build/AreaController.js ^
-        build/AreaIndicator.js ^
         build/AreasOnMap.js ^
         build/Timeline.js ^
         build/YearMarker.js ^
@@ -124,7 +125,10 @@ set jFiles=build/HistoGlobe.js ^
         build/PictureGalleryWidget.js ^
         build/CSSCreator.js ^
         build/default_config.js ^
-        build/config.js
+        build/config.js ^
+        build/TimeMapper.js ^
+        build/AreaStyler.js ^
+        build/Styler.js
 
 IF not exist build ( mkdir build )
 
@@ -137,6 +141,6 @@ rosetta --jsOut "build/config.js" ^
         --jsFormat "flat" ^
         --jsTemplate "(function() {<%%= preamble %%> $.extend(HGConfig, <%%= blob %%>);})();" ^
         --cssOut "build/config.less" ^
-        --cssFormat "less" config/eu/style.rose && ^
+        --cssFormat "less" config/exemplum/style.rose && ^
 coffee -c -o build %cFiles% && uglifyjs %jFiles% -o script\histoglobe.min.js && ^
 lessc --no-color -x style\histoglobe.less style\histoglobe.min.css

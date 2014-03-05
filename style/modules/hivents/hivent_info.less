@@ -4,9 +4,10 @@
 @popover_title_padding: 15px;
 @popover_body_padding: 15px;
 @popover_roundness: 2px;
+@popover_arrow_side_length: (@hivent_info_popover_arrow_height / 0.866) / 2;
 
 .hiventInfoPopover {
-  max-width: @popover_width;
+  width: @popover_width;
   background: #fff;
   .border-radius(3px * @popover_roundness);
   opacity: 0;
@@ -22,6 +23,7 @@
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
+    overflow: hidden;
   }
 
   ::-webkit-scrollbar-thumb {
@@ -34,6 +36,54 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
+  .arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    display: none;
+
+    &.arrow-up {
+      margin-top: -@hivent_info_popover_arrow_height;
+      margin-left: @popover_width/2 - @hivent_info_popover_arrow_height/2;
+
+      border-left: @popover_arrow_side_length solid transparent;
+      border-right: @popover_arrow_side_length solid transparent;
+
+      border-bottom: @hivent_info_popover_arrow_height solid white;
+    }
+
+    &.arrow-down {
+      margin-bottom: @hivent_info_popover_arrow_height;
+      margin-left: @popover_width/2 - @hivent_info_popover_arrow_height/2;
+
+      border-left: @popover_arrow_side_length solid transparent;
+      border-right: @popover_arrow_side_length solid transparent;
+
+      border-top: @hivent_info_popover_arrow_height solid white;
+    }
+
+    &.arrow-right {
+      margin-left: @popover_width;
+      // margin-top: @popover_height/2 - @hivent_info_popover_arrow_height/2;
+
+      border-top: @popover_arrow_side_length solid transparent;
+      border-bottom: @popover_arrow_side_length solid transparent;
+
+      border-left: @hivent_info_popover_arrow_height solid white;
+    }
+
+    &.arrow-left {
+      margin-left: -@hivent_info_popover_arrow_height;
+      // margin-top: @popover_height/2 - @hivent_info_popover_arrow_height/2;
+
+      border-top: @popover_arrow_side_length solid transparent;
+      border-bottom: @popover_arrow_side_length solid transparent;
+
+      border-right: @hivent_info_popover_arrow_height solid white;
+    }
+  }
+
 }
 
 
@@ -54,7 +104,6 @@
   text-align: justify;
   font-size: 10pt;
   padding-left: 0px;
-  text-align: left;
 
   h3 {
     color: #A5A5A5;

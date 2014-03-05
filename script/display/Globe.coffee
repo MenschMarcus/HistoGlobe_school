@@ -26,7 +26,7 @@ class HG.Globe extends HG.Display
     super hgInstance
 
     @_initMembers()
-    @_globeCanvas = hgInstance._map_canvas
+    @_globeCanvas = hgInstance.mapCanvas
 
     @_initWindowGeometry()
 
@@ -38,7 +38,7 @@ class HG.Globe extends HG.Display
 
     @_areaController = hgInstance.areaController
 
-    HG.Display.call @, hgInstance._map_canvas
+    HG.Display.call @, hgInstance.mapCanvas
 
     #button
     if hgInstance.control_button_area?
@@ -930,7 +930,7 @@ class HG.Globe extends HG.Display
   # background color
   BACKGROUND = new THREE.Color(0xCCCCCC)
   #TILE_PATH = "data/tiles/"
-  TILE_PATH = "config/exemplum/map/tiles/"
+  TILE_PATH = "config/exemplum/data/tiles/"
 
   # radius of the globe
   EARTH_RADIUS = 200

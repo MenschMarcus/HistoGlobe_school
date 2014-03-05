@@ -1,11 +1,25 @@
 // ------------------- WIDGET OPTIONS ------------------------------------------
-$widget_title_background_color      = #99CDC8
+$widget_title_background_color      = #ffc836
 $widget_title_text_color            = #333333
+$widget_background_color            = #ffc836
+$widget_title_size                  = 50px
+
+$text_color                         = #555555
+$text_highlight_color               = #58A84B
+
+$background_color                   = #43ca92
+
+$widget_margin                      = 15px
+
+$shadow_intensity                   = 0.5;
+$shadow_radius                      = 30px;
+
+$sidebar_collapsed_width            = 65px
+$sidebar_width                      = 500px
+
 $statistics_widget_margin_left      = 40px
 
-$widget_title_gradient_effect         = -10%
-
-$widget_border_radius_top_left        = 0px
-$widget_border_radius_top_right       = 0px
-$widget_border_radius_bottom_left     = 0px
-$widget_border_radius_bottom_right    = 0px
+$widget_border_radius_top_left      = 5px
+$widget_border_radius_top_right     = 5px
+$widget_border_radius_bottom_left   = 5px
+$widget_border_radius_bottom_right  = 5px
