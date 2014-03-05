@@ -91,7 +91,7 @@
 
   // vertical title
   .verticalTitleContainer {
-    font-family: 'Lobster', cursive;
+    font-family: @secondary_font_face;
     position: absolute;
     padding: @widget_title_size * 0.1;
     color: @widget_title_text_color;
@@ -111,13 +111,9 @@
   }
 
   .widgetBody {
-    // position: relative;
-    // margin: 0px 0px 0px -@widget_title_size - 15px;
-    // padding: 0px 0px 0px 2*@widget_title_size + 30px;
     padding: 0px 0px 0px @widget_title_size;
-    // width: @sidebar_width;
     width: @sidebar_width - @widget_title_size + @widget_margin - @sidebar_scrollbar_width;
-    font-size: @widget_font_size;
+    font-size: 14pt * @widget_font_size_factor;
     background-color: @widget_background_color;
     color: @text_color;
   }

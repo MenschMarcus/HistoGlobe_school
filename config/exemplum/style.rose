@@ -1,7 +1,14 @@
+// ------------------- GLOBAL OPTIONS ------------------------------------------
+$primary_font_face                  = sans-serif
+$secondary_font_face                = Lobster
+
+$border_width                       = 5px
+$border_color                       = #deffe4
+
 // ------------------- WIDGET OPTIONS ------------------------------------------
 $widget_title_background_color      = #ffc836
 $widget_title_text_color            = #333333
-$widget_background_color            = #ffc836
+$widget_background_color            = #FFFDCB
 $widget_title_size                  = 50px
 
 $text_color                         = #555555

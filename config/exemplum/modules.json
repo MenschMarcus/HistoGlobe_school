@@ -134,7 +134,7 @@
           "compOp": "replace"
         },
         "fillOpacity": {
-          "range": [0, 0.3],
+          "range": [0, 0.6],
           "fallback": 0,
           "compOp": "multiply"
         },
@@ -174,7 +174,7 @@
     {
       "type" : "VIPWidget",
       "icon" : "fa-user",
-      "name" : "Vorsitzender",
+      "name" : "Vorstand",
       "persons" :
       [
         {
@@ -300,9 +300,8 @@
     {
       "type" : "StatisticsWidget",
       "icon" : "fa-bar-chart-o",
-      "name" : "Umsatzentwicklung",
-      "title" : "Umsatzentwicklung",
-      "subtitle" : "von 1964 bis heute",
+      "name" : "Jahresumsatz",
+      "title" : "Jahresumsatz seit 1964",
       "data" : "config/exemplum/data/statistics_revenue.dsv",
       "lineColor" : "lightblue",
       "lineWidth" : "5px",
@@ -317,9 +316,8 @@
     {
       "type" : "StatisticsWidget",
       "icon" : "fa-bar-chart-o",
-      "name" : "Mitarbeiterzahlentwicklung",
-      "title" : "Mitarbeiterzahlentwicklung",
-      "subtitle" : "von 1964 bis heute",
+      "name" : "Mitarbeiterzahl",
+      "title" : "Mitarbeiterzahl seit 1964",
       "data" : "config/exemplum/data/statistics_employees.dsv",
       "lineColor" : "lightgreen",
       "lineWidth" : "5px",

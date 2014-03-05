@@ -11,7 +11,8 @@
 }
 
 .axis text {
-  font: @statistics_widget_axis_font_size @hg_font_face;
+  font-size: 10pt * @widget_font_size_factor;
+  font-family: @primary_font_face;
   fill: @text_color;
 }
 
@@ -35,13 +36,14 @@
 .statistics-widget-title {
   padding: 0px;
   text-align: right;
-  font-size: @statistics_widget_title_font_size;
+  font-size: 28pt * @widget_font_size_factor;
+  font-family: @secondary_font_face;
 }
 
 .statistics-widget-subtitle {
   padding-right: 0px;
   text-align: right;
-  font-size: @statistics_widget_subtitle_font_size;
+  font-size: 18pt * @widget_font_size_factor;
 }
 
 .statistics-widget-now-marker {
