@@ -82,7 +82,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
   _onMouseOver: (e) =>
     pos = {
             x : @_position.x,
-            y : @_position.y - HIVENT_MARKER_2D_RADIUS
+            y : @_position.y - HGConfig.hivent_marker_2D_height.val/2
           }
 
     @getHiventHandle().mark @, pos
@@ -92,7 +92,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
   _onMouseOut: (e) =>
     pos = {
             x : @_position.x,
-            y : @_position.y - HIVENT_MARKER_2D_RADIUS
+            y : @_position.y - HGConfig.hivent_marker_2D_height.val/2
           }
     @getHiventHandle().unMark @, pos
     @getHiventHandle().unLinkAll pos
