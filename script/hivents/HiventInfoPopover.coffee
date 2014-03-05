@@ -11,13 +11,11 @@ class HG.HiventInfoPopover
   ##############################################################################
 
   # ============================================================================
-  constructor: (hiventHandle, hgInstance, anchor, parentDiv, visibleArea) ->
+  constructor: (hiventHandle, anchor, parentDiv) ->
 
     @_hiventHandle = hiventHandle
-    @_hgInstance = hgInstance
     @_parentDiv = parentDiv
     @_anchor = anchor
-    @_visibleArea = visibleArea
     @_contentLoaded = false
     @_placement = undefined
 
@@ -155,7 +153,7 @@ class HG.HiventInfoPopover
   # ============================================================================
   _updateWindowPos: ->
 
-    canvasOffset = $(@_hgInstance.mapCanvas).offset()
+    canvasOffset = $(@_parentDiv).offset()
 
     unless @_placement?
       @_placement = new HG.Vector 0, -1
@@ -164,8 +162,8 @@ class HG.HiventInfoPopover
       anchorOffset =
         top : @_anchor.at(1)
         left : @_anchor.at(0) + canvasOffset.left
-        bottom : @_visibleArea.offsetHeight - @_anchor.at(1)
-        right : @_visibleArea.offsetWidth - @_anchor.at(0)
+        bottom : @_parentDiv.offsetHeight - @_anchor.at(1)
+        right : @_parentDiv.offsetWidth - @_anchor.at(0)
 
       neededWidth = @_width +
                     HGConfig.hivent_marker_2D_width.val / 2 +
