@@ -7,7 +7,12 @@ class HG.HiventInfoPopovers
   ##############################################################################
 
   # ============================================================================
-  constructor: () ->
+  constructor: (config) ->
+    defaultConfig =
+      allowMultiplePopovers : false
+
+    @_config = $.extend {}, defaultConfig, config
+
     @_hiventsOnMap = null
 
     @_hiventMarkers = []
@@ -45,8 +50,10 @@ class HG.HiventInfoPopovers
     handle = marker.getHiventHandle()
 
     showHiventInfoPopover = (displayPosition) =>
-      console.log "show"
-      HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()
+
+      unless @_config.allowMultiplePopovers
+        HG.HiventHandle.DEACTIVATE_ALL_OTHER_HIVENTS(handle)
+
       marker.hiventInfoPopover?= new HG.HiventInfoPopover handle,
                                  new HG.Vector(0, 0),
                                  @_map.overlayContainer,
@@ -57,7 +64,6 @@ class HG.HiventInfoPopovers
       marker.hiventInfoPopover.positionWindowAtAnchor()
 
     hideHiventInfoPopover = (displayPosition) =>
-      console.log "hide"
       marker.hiventInfoPopover?.hide()
 
     handle.onActive marker, showHiventInfoPopover
