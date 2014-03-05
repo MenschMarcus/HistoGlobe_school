@@ -38,7 +38,7 @@ class HG.HiventsOnMap
          margin-top: 0px;
          margin-left: 5px;
          position: absolute !important;
-         background-image: url(#{icons[element]}) !important;
+         background-image: url(#{icons.default}) !important;
          background-size: cover !important;"
 
     @_map = hgInstance.map._map
@@ -48,6 +48,7 @@ class HG.HiventsOnMap
       @_markerGroup = new L.MarkerClusterGroup
         showCoverageOnHover: false
         maxClusterRadius: HGConfig.hivent_marker_2D_width.val
+        spiderfyDistanceMultiplier: 1.5
         iconCreateFunction: (cluster) =>
           depth = 0
           html = ""
@@ -55,7 +56,7 @@ class HG.HiventsOnMap
           for marker in cluster.getAllChildMarkers()
             category = marker.myHiventMarker2D.getHiventHandle().getHivent().category
             html += "<div class='#{category}'>"
-            if ++depth is 50
+            if ++depth is 3
               break
           for i in [0..depth]
             html += "</div>"
