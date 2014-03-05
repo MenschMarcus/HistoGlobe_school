@@ -2,13 +2,15 @@
 $primary_font_face                  = sans-serif
 $secondary_font_face                = Lobster
 
-$border_width                       = 5px
-$border_color                       = #deffe4
+$border_width                       = 6px
+$border_color                       = #338A66
+$border_color_bright                = #ffffff
+$border_color_dark                  = #333333
 
 // ------------------- WIDGET OPTIONS ------------------------------------------
 $widget_title_background_color      = #ffc836
 $widget_title_text_color            = #333333
-$widget_background_color            = #FFFDCB
+$widget_background_color            = #ffffff
 $widget_title_size                  = 50px
 
 $text_color                         = #555555
@@ -26,14 +28,10 @@ $sidebar_width                      = 500px
 
 $statistics_widget_margin_left      = 40px
 
-$widget_border_radius_top_left      = 5px
-$widget_border_radius_top_right     = 5px
-$widget_border_radius_bottom_left   = 5px
-$widget_border_radius_bottom_right  = 5px
+$widget_border_radius_top_left      = 0px
+$widget_border_radius_top_right     = 0px
+$widget_border_radius_bottom_left   = 0px
+$widget_border_radius_bottom_right  = 0px
 
-// ------------------ HIVENT OPTIONS -------------------------------------------
 $hivent_marker_2D_width               = 48px;
 $hivent_marker_2D_height              = 48px;
-
-$hivent_marker_timeline_width         = 16px;
-$hivent_marker_timeline_height        = 16px;

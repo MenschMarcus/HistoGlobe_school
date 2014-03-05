@@ -32,6 +32,7 @@
     // icon
     .iconContainer {
       .linear-gradient-left(@widget_title_background_color, lighten(@widget_title_background_color, @widget_title_gradient_effect), 0%, @widget_title_background_color, 100%);
+      border-right: @border_width solid @border_color;
 
       color: @widget_title_text_color;
       position: absolute;
@@ -96,6 +97,7 @@
     padding: @widget_title_size * 0.1;
     color: @widget_title_text_color;
     width: @widget_title_size;
+    border-right: @border_width solid @border_color;
 
     pointer-events:none;
 

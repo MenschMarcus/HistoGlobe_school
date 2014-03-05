@@ -12,6 +12,8 @@ $background_color                   = #333333
 
 $border_width                       = 0px
 $border_color                       = #ffffff
+$border_color_bright                = #ffffff
+$border_color_dark                  = #000000
 
 // --------------------- MAP OPTIONS -------------------------------------------
 $map_min_width                      = 300px
