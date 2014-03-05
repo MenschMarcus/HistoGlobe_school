@@ -48,7 +48,7 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
     text = document.createElement "div"
     text.className = "clear picture-gallery-widget-text"
     text.innerHTML = config.description
-    image.appendChild text
+    div.appendChild text
 
     @addDivSlide div
 

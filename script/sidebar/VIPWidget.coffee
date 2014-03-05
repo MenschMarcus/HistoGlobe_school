@@ -45,7 +45,7 @@ class HG.VIPWidget extends HG.TimeGalleryWidget
     name = document.createElement "div"
     name.className = "vip-widget-name"
     name.innerHTML = config.name + "<br/><small><small>" + config.displayDate + "</small></small>"
-    portrait.appendChild name
+    div.appendChild name
 
     unless config.copyright is ""
       copyright = document.createElement "div"

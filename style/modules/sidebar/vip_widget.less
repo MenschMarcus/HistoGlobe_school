@@ -3,15 +3,12 @@
   .vip-widget-name {
     font-family: @secondary_font_face;
     font-size: 28pt * @widget_font_size_factor;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background-color: rgba(0,0,0,0.8);
-    color: #fff;
-    padding: 10px 10px 0px 5px;
+    color: @widget_title_text_color;
 
     line-height: 1.1em;
-    text-align: right;
+    text-align: center;
+
+    margin-bottom: 20px;
 
     small {
       font-size: 18pt * @widget_font_size_factor;
@@ -40,9 +37,9 @@
 
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: 50% 50%;
+    background-position: 50% 0%;
 
-    border: @border_width solid @border_color;
+    border-bottom: @border_width*2 solid @border_color_dark;
     border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
 
     margin-right: @widget_body_padding;
