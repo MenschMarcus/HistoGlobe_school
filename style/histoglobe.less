@@ -1,6 +1,15 @@
 
 //////////////////////// INCLUDES //////////////////////////////////////////////
 
+@font-face {
+  font-family: 'Lobster';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lobster'), url("../config/exemplum/data/fonts/Lobster.woff") format('woff');
+}
+
+
+
 @import "third-party/prefixer.less";
 
 @import "../build/default_config.less";
@@ -26,7 +35,9 @@ body {
   height: 100%;
   width: 100%;
   overflow: hidden;
-  background-color: @background_color;
+  // background-color: @background_color;
+  background-image: url("../config/exemplum/data/bg.png");
+  background-repeat: repeat;
 }
 
 *, *:before, *:after {
