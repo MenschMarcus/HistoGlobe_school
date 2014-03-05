@@ -22,6 +22,7 @@ class HG.HiventInfoPopovers
   hgInit: (hgInstance) ->
     hgInstance.hiventInfoPopovers = @
 
+    @_hgInstance = hgInstance
     @_hiventsOnMap = hgInstance.hiventsOnMap
     @_map = hgInstance.map
     @_mapArea = hgInstance._map_area
@@ -55,6 +56,7 @@ class HG.HiventInfoPopovers
         HG.HiventHandle.DEACTIVATE_ALL_OTHER_HIVENTS(handle)
 
       marker.hiventInfoPopover?= new HG.HiventInfoPopover handle,
+                                 @_hgInstance,
                                  new HG.Vector(0, 0),
                                  @_map.overlayContainer,
                                  @_mapArea

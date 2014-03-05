@@ -98,9 +98,9 @@ class HG.HistoGlobe
       onSetWrapperTransform: (s, t) => @_onSlide(t)
       onSetWrapperTransition: (s, d) =>
         if d is 0
-          $(@_map_canvas).addClass("no-animation")
+          $(@mapCanvas).addClass("no-animation")
         else
-          $(@_map_canvas).removeClass("no-animation")
+          $(@mapCanvas).removeClass("no-animation")
 
     @_top_swiper.wrapperTransitionEnd(@_onSlideEnd, true)
 
@@ -131,10 +131,10 @@ class HG.HistoGlobe
     @_map_area = @_createElement @_top_area_wrapper, "div", "map-area"
     @_map_area.className = "swiper-slide"
 
-    @_map_canvas = @_createElement @_map_area, "div", "map-canvas"
-    @_map_canvas.className = "swiper-no-swiping"
+    @mapCanvas = @_createElement @_map_area, "div", "map-canvas"
+    @mapCanvas.className = "swiper-no-swiping"
 
-    @_map_area.appendChild @_map_canvas
+    @_map_area.appendChild @mapCanvas
     @map = new HG.Display2D
     @addModule @map
 
@@ -176,9 +176,9 @@ class HG.HistoGlobe
   # ============================================================================
   _onSlide: (transform) =>
     if (transform.x < 0)
-      @_map_canvas.style.right = "#{transform.x/2}px"
+      @mapCanvas.style.right = "#{transform.x/2}px"
     else
-      @_map_canvas.style.right = 0
+      @mapCanvas.style.right = 0
 
     @notifyAll "onTopAreaSlide", transform.x
 

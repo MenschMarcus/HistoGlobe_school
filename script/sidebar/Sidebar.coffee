@@ -37,7 +37,7 @@ class HG.Sidebar
         hide: false
         container: '#sidebar-scrollbar'
 
-    # for some reason needed...
+    # needed for some reason...
     window.setTimeout () =>
       @updateSize()
     , 1000
