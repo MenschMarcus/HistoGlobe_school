@@ -11,9 +11,10 @@ class HG.HiventInfoPopover
   ##############################################################################
 
   # ============================================================================
-  constructor: (hiventHandle, anchor, parentDiv, visibleArea) ->
+  constructor: (hiventHandle, hgInstance, anchor, parentDiv, visibleArea) ->
 
     @_hiventHandle = hiventHandle
+    @_hgInstance = hgInstance
     @_parentDiv = parentDiv
     @_anchor = anchor
     @_visibleArea = visibleArea
@@ -28,7 +29,7 @@ class HG.HiventInfoPopover
     @_mainDiv.style.left = "#{anchor.at(0) + WINDOW_TO_ANCHOR_OFFSET_X}px"
     @_mainDiv.style.top = "#{anchor.at(1) + WINDOW_TO_ANCHOR_OFFSET_Y}px"
     @_mainDiv.style.visibility = "hidden"
-    @_mainDiv.addEventListener 'mousedown', @_bringToFront, false
+    @_mainDiv.addEventListener "mousedown", @_bringToFront(), false
 
     @_topArrow = document.createElement "div"
     @_topArrow.className = "arrow arrow-up"
@@ -151,11 +152,16 @@ class HG.HiventInfoPopover
 
     placement = new HG.Vector 0, -1
 
+    canvasOffset = $(@_hgInstance.mapCanvas).offset()
+
     anchorOffset =
       top : @_anchor.at(1)
-      left : @_anchor.at(0)
+      left : @_anchor.at(0) + canvasOffset.left
       bottom : @_visibleArea.offsetHeight - @_anchor.at(1)
       right : @_visibleArea.offsetWidth - @_anchor.at(0)
+
+    console.log canvasOffset
+    console.log anchorOffset
 
     neededWidth = @_width +
                   HGConfig.hivent_marker_2D_width.val / 2 +
@@ -197,7 +203,7 @@ class HG.HiventInfoPopover
     $(@_rightArrow).css "margin-top", "#{verticalArrowMargin}px"
 
     $(@_mainDiv).offset {
-      left: @_anchor.at(0) +
+      left: @_anchor.at(0) + canvasOffset.left +
             placement.at(0) * (HGConfig.hivent_marker_2D_width.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
             placement.at(0) * ((@_width - @_width * placement.at(0)) / 2) -
             Math.abs(placement.at(1)) *  @_width / 2
