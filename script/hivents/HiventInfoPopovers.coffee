@@ -45,16 +45,19 @@ class HG.HiventInfoPopovers
     handle = marker.getHiventHandle()
 
     showHiventInfoPopover = (displayPosition) =>
-      # marker.hiventInfoPopover?= new HG.HiventInfoPopover handle, new HG.Vector(0, 0), HG.Display.CONTAINER
+      console.log "show"
+      HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()
       marker.hiventInfoPopover?= new HG.HiventInfoPopover handle,
                                  new HG.Vector(0, 0),
                                  @_map.overlayContainer,
                                  @_mapArea
+
       marker.hiventInfoPopover.show()
       marker.hiventInfoPopover.setAnchor new HG.Vector(displayPosition.x, displayPosition.y)
       marker.hiventInfoPopover.positionWindowAtAnchor()
 
     hideHiventInfoPopover = (displayPosition) =>
+      console.log "hide"
       marker.hiventInfoPopover?.hide()
 
     handle.onActive marker, showHiventInfoPopover

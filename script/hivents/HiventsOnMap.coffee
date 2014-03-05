@@ -14,6 +14,7 @@ class HG.HiventsOnMap
 
     @_onMarkerAddedCallbacks = []
     @_markersLoaded = false
+    @_dragStart = new HG.Vector 0, 0
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -50,7 +51,16 @@ class HG.HiventsOnMap
           @_markersLoaded = @_hiventController._hiventsLoaded
           callback marker for callback in @_onMarkerAddedCallbacks
 
-      @_map.on "click", HG.HiventHandle.DEACTIVATE_ALL_HIVENTS
+      @_map.getPanes().overlayPane.addEventListener "mousedown", (event) =>
+        @_dragStart = new HG.Vector event.x, event.y
+
+      @_map.getPanes().overlayPane.addEventListener "mouseup", (event) =>
+        mousepos = new HG.Vector event.x, event.y
+        distance = mousepos.clone()
+        distance.sub @_dragStart
+        if distance.length() <= 2
+          HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()
+
       @_map.addLayer @_markerGroup
     else
       console.error "Unable to show hivents on Map: HiventController module not detected in HistoGlobe instance!"
