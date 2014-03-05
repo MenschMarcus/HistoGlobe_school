@@ -542,9 +542,6 @@ class HG.Globe extends HG.Display
         @_mousePosLastFrame.x = @_mousePos.x
         @_mousePosLastFrame.y = @_mousePos.y
 
-      '''if @_lastIntersected.length is 0
-        HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()'''
-
   # ============================================================================
   _onMouseMove: (event) =>
     if @_isRunning
@@ -561,23 +558,6 @@ class HG.Globe extends HG.Display
   # ============================================================================
   _onMouseUp: (event) =>
     if @_isRunning
-
-
-
-      '''if @_lastIntersected.length is 0
-        #HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()->done in mousedown now
-        #no hivents -> look for countries
-
-
-
-      else '''
-      '''for hivent in @_lastIntersected
-        pos =
-          x: @_mousePos.x - @_canvasOffsetX
-          y: @_mousePos.y - @_canvasOffsetY
-
-        #hivent.getHiventHandle().active pos
-        hivent.onclick(pos)'''
 
       event.preventDefault()
       HG.Display.CONTAINER.style.cursor = "auto"

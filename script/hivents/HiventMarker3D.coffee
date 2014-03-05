@@ -64,9 +64,8 @@ class HG.HiventMarker3D extends HG.HiventMarker
 
 
     @getHiventHandle().onFocus(@, (mousePos) =>
-      if display.isRunning()
-        console.log "clícked hiventmarker!!!!!"
-        display.focus @getHiventHandle().getHivent()
+      '''if display.isRunning()
+        display.focus @getHiventHandle().getHivent()'''#not neccessary
     )
 
     @getHiventHandle().onMark @, (mousePos) =>
@@ -97,7 +96,6 @@ class HG.HiventMarker3D extends HG.HiventMarker
 
   # ============================================================================
   destroy: ->
-    console.log "destroy marker"
     @notifyAll "onMarkerDestruction"
     @_destroy()  
 
@@ -118,7 +116,7 @@ class HG.HiventMarker3D extends HG.HiventMarker
   #                             STATIC MEMBERS                                 #
   ##############################################################################
 
-  WIDTH = 32*1.2
-  HEIGHT = 32*1.2
+  WIDTH = 32/1.2
+  HEIGHT = 32/1.2
 
 

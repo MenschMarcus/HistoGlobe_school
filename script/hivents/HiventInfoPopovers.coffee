@@ -14,6 +14,7 @@ class HG.HiventInfoPopovers
     @_config = $.extend {}, defaultConfig, config
 
     @_hiventsOnMap = null
+    @_hiventsOnGlobe = null
 
     @_hiventMarkers = []
     @_onPopoverAddedCallbacks = []
@@ -24,13 +25,20 @@ class HG.HiventInfoPopovers
 
     @_hgInstance = hgInstance
     @_hiventsOnMap = hgInstance.hiventsOnMap
+    @_hiventsOnGlobe = hgInstance.hiventsOnGlobe
     @_map = hgInstance.map
+    @_globe = hgInstance.globe
     @_mapArea = hgInstance._map_area
 
     if @_hiventsOnMap
       @_hiventsOnMap.onMarkerAdded (marker) =>
         if marker.parentDiv
-          @_addPopover marker
+          @_addPopover marker, @_map.overlayContainer
+
+    if @_hiventsOnGlobe
+      @_hiventsOnGlobe.onMarkerAdded (marker) =>
+        if marker.parentDiv
+          @_addPopover marker ,@_globe._globeCanvas
 
   # ============================================================================
   onPopoverAdded: (callbackFunc) ->
@@ -43,7 +51,7 @@ class HG.HiventInfoPopovers
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
-  _addPopover: (marker) =>
+  _addPopover: (marker,container) =>
     @_hiventMarkers.push(marker)
 
     marker.hiventInfoPopover = null
@@ -58,7 +66,7 @@ class HG.HiventInfoPopovers
       marker.hiventInfoPopover?= new HG.HiventInfoPopover handle,
                                  @_hgInstance,
                                  new HG.Vector(0, 0),
-                                 @_map.overlayContainer,
+                                 container,
                                  @_mapArea
 
       marker.hiventInfoPopover.show()

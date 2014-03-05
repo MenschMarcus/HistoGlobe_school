@@ -198,6 +198,28 @@ class HG.HiventController
 
 
 
+
+  # ============================================================================
+  showVisibleHivents: ->
+    for handle in @_hiventHandles
+      isVisible = true
+
+      if isVisible and @_currentCategoryFilter?
+        isVisible = (hivent.category is "default") or (hivent.category in @_currentCategoryFilter)
+
+      if isVisible and @_currentTimeFilter?
+        isVisible = not (hivent.startDate.getTime() > @_currentTimeFilter.end.getTime()) and
+                    not (hivent.endDate.getTime() < @_currentTimeFilter.start.getTime())
+
+      '''if isVisible and @_currentSpaceFilter?
+        isVisible = hivent.lat >= @_currentSpaceFilter.min.lat and
+                    hivent.long >= @_currentSpaceFilter.min.long and
+                    hivent.lat <= @_currentSpaceFilter.max.lat and
+                    hivent.long <= @_currentSpaceFilter.max.long'''
+      if isVisible
+        handle.showAll()
+
+
   ############################# MAIN FUNCTIONS #################################
 
   # ============================================================================

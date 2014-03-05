@@ -21,6 +21,10 @@ class HG.HiventsOnGlobe
 
     @_sceneInterface          = new THREE.Scene
 
+    @_backupFOV               = null
+    @_backupZoom              = null
+    @_backupCenter            = null
+
   # ============================================================================
   hgInit: (hgInstance) ->
 
@@ -67,6 +71,9 @@ class HG.HiventsOnGlobe
       @_globe.addSceneToRenderer(@_sceneInterface)
 
       @_globe.onMove @, @_updateHiventSizes
+      @_globe.onMove @, HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()
+      window.addEventListener   "mouseup",  @_onMouseUp,         false #for hivent intersections
+      window.addEventListener   "mousedown",@_onMouseDown,       false #for hivent intersections
 
 
       '''@_hiventLogos.group_new.src = "data/hivent_icons/icon_cluster_default.png"
@@ -78,7 +85,6 @@ class HG.HiventsOnGlobe
 
       @_hiventController.onHiventAdded (handle) =>
         handle.onShow @, (self) =>
-
           logos =
             default:@_hiventLogos[handle.getHivent().category]
             highlight:@_hiventLogos[handle.getHivent().category+"_highlighted"]
@@ -100,10 +106,17 @@ class HG.HiventsOnGlobe
           @_markersLoaded = @_hiventController._hiventsLoaded
           callback marker for callback in @_onMarkerAddedCallbacks
 
+          '''marker.onDestruction @,() =>
+            console.log "delete marker ftom hivent markers"
+            index = $.inArray(marker, @_hiventMarkers)
+            @_hiventMarkers.splice index, 1  if index >= 0'''
 
-          #@_updateHiventSizes() #TODO (after filter)
+
+          @_updateHiventSizes() #TODO (after filter)
 
 
+      @_hiventController.showVisibleHivents() # force all hivents to show
+      
       setInterval(@_animate, 100)
 
     else
@@ -129,6 +142,35 @@ class HG.HiventsOnGlobe
           hivent.sprite.scale.set(hivent.sprite.MaxWidth*dot,hivent.sprite.MaxHeight*dot,1.0)
         else
           hivent.sprite.scale.set(0.0,0.0,1.0)
+
+  # ============================================================================
+  _onMouseDown: (event) =>
+
+    @_backupFOV = @_globe._currentFOV
+    @_backupZoom = @_globe._currentZoom
+    @_backupCenter = @_globe._targetCameraPos
+
+    if @_lastIntersected.length is 0
+        HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()
+
+
+  # ============================================================================
+  _onMouseUp: (event) =>
+
+    if @_lastIntersected.length > 0
+
+      for hivent in @_lastIntersected
+        pos =
+          x: @_globe._mousePos.x - @_globe._canvasOffsetX
+          y: @_globe._mousePos.y - @_globe._canvasOffsetY
+
+        #hivent.getHiventHandle().active pos
+        hivent.onclick(pos)
+
+      #freeze globe because of area intersection etc
+      @_globe._targetFOV = @_backupFOV
+      @_globe._currentZoom = @_backupZoom
+      @_globe._targetCameraPos =  @_backupCenter
 
   # ============================================================================
   _evaluate: () =>

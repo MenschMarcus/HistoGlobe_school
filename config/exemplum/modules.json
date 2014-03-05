@@ -102,10 +102,6 @@
   "HiventsOnMap" : {},
   "HiventsOnTimeline" : {},
 
-  "HiventTooltips" : {},
-  "HiventInfoPopovers" : {},
-  "HiventInfoAtTag" : {},
-
   "AreaStyler" :
   {
     "stylers" :
@@ -173,6 +169,10 @@
   "AreasOnGlobe": {},
 
   "HiventsOnGlobe" : {},
+
+  "HiventTooltips" : {},
+  "HiventInfoPopovers" : {},
+  "HiventInfoAtTag" : {},
 
   "Widgets" :
   [

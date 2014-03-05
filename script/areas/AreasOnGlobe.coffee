@@ -621,40 +621,41 @@ class HG.AreasOnGlobe
 
           index = countryIntersects[0].face.materialIndex
           mat = countryIntersects[0].object.material.materials[index]
-          bb = mat.bb
-          #console.log "bb: ",bb
-          #console.log "bb.center: ",bb.center
-          bb_center = bb.center()
-          #countryIntersects[0].object.geometry.computeBoundingBox()
-          #bb = countryIntersects[0].object.geometry.boundingBox
-          #bb_center = bb.center()
+          if mat.opacity > 0.1 #dont select invisible countries (????????)
+            bb = mat.bb
+            #console.log "bb: ",bb
+            #console.log "bb.center: ",bb.center
+            bb_center = bb.center()
+            #countryIntersects[0].object.geometry.computeBoundingBox()
+            #bb = countryIntersects[0].object.geometry.boundingBox
+            #bb_center = bb.center()
 
-          target = @_globe._cartToLatLong(new THREE.Vector3(bb_center.x,bb_center.y,bb_center.z).clone().normalize())
+            target = @_globe._cartToLatLong(new THREE.Vector3(bb_center.x,bb_center.y,bb_center.z).clone().normalize())
 
-          #set target position:
-          @_globe._targetCameraPos = new THREE.Vector2(-1*target.y,target.x)
+            #set target position:
+            @_globe._targetCameraPos = new THREE.Vector2(-1*target.y,target.x)
 
-          pos = @_globe._camera.position
-          cam_pos = new THREE.Vector3(pos.x,pos.y,pos.z)
-          dist = cam_pos.length() - @_globe.getGlobeRadius()
+            pos = @_globe._camera.position
+            cam_pos = new THREE.Vector3(pos.x,pos.y,pos.z)
+            dist = cam_pos.length() - @_globe.getGlobeRadius()
 
-          height = (bb.max.y - bb.min.y)*2
+            height = (bb.max.y - bb.min.y)*2
 
-          #set target fov:
-          targetFOV = 2* Math.atan(height/(2* dist)) * (180/Math.PI)
-          #@_targetFOV = targetFOV
-          if targetFOV < @_globe.getMaxFov()
-            if targetFOV > @_globe.getMinFov() 
-              @_globe._targetFOV = targetFOV
-              factor = (targetFOV - @_globe.getMinFov() ) / (@_globe.getMaxFov() - @_globe.getMinFov() )
-              targetZoom = ((1-factor) * (@_globe.getMaxZoom() - @_globe.getMinZoom() )) + @_globe.getMinZoom()
-              @_globe._currentZoom = targetZoom
+            #set target fov:
+            targetFOV = 2* Math.atan(height/(2* dist)) * (180/Math.PI)
+            #@_targetFOV = targetFOV
+            if targetFOV < @_globe.getMaxFov()
+              if targetFOV > @_globe.getMinFov() 
+                @_globe._targetFOV = targetFOV
+                factor = (targetFOV - @_globe.getMinFov() ) / (@_globe.getMaxFov() - @_globe.getMinFov() )
+                targetZoom = ((1-factor) * (@_globe.getMaxZoom() - @_globe.getMinZoom() )) + @_globe.getMinZoom()
+                @_globe._currentZoom = targetZoom
+              else
+                @_globe._targetFOV = @_globe.getMinFov() 
+                @_globe._currentZoom = @_globe.getMaxZoom()
             else
-              @_globe._targetFOV = @_globe.getMinFov() 
-              @_globe._currentZoom = @_globe.getMaxZoom()
-          else
-            @_globe._targetFOV = @_globe.getMaxFov()
-            @_globe_currentZoom = @_globe.getMinZoom()
+              @_globe._targetFOV = @_globe.getMaxFov()
+              @_globe_currentZoom = @_globe.getMinZoom()
 
 
   # ============================================================================
