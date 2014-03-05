@@ -110,7 +110,7 @@ class HG.Globe extends HG.Display
   # ============================================================================
   stop: ->
     @_isRunning = false
-    HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()
+    '''HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()'''
     @_renderer.domElement.style.display = "none"
 
   # ============================================================================
@@ -234,8 +234,6 @@ class HG.Globe extends HG.Display
 
     @_canvasOffsetX        = null
     @_canvasOffsetY        = null
-    @_lastIntersected      = []
-
 
 
     @_currentCameraPos     = x: 0, y: 0
@@ -393,85 +391,13 @@ class HG.Globe extends HG.Display
   # ============================================================================
   _render: ->
 
+    #offset = 0
+    #rightOffset = parseFloat($(@_globeCanvas).css("right").replace('px',''))
+    #offset = rightOffset if rightOffset
+
     mouseRel =
       x: (@_mousePos.x - @_canvasOffsetX) / @_width * 2 - 1
       y: (@_mousePos.y - @_canvasOffsetY) / @_myHeight * 2 - 1
-
-    # picking ------------------------------------------------------------------
-    # test for mark and highlight hivents
-    vector = new THREE.Vector3 mouseRel.x, -mouseRel.y, 0.5
-    PROJECTOR.unprojectVector vector, @_camera
-    RAYCASTER.set @_camera.position, vector.sub(@_camera.position).normalize()
-
-
-
-    '''tmp_intersects = []
-    for hivent in @_markerGroup.getVisibleHivents()
-
-      if hivent.sprite.visible and hivent.sprite.scale.x isnt 0.0 and hivent.sprite.scale.y isnt 0.0
-
-        ScreenCoordinates = @_getScreenCoordinates(hivent.sprite.position)
-
-        if ScreenCoordinates
-          hivent.ScreenCoordinates = ScreenCoordinates
-          x = ScreenCoordinates.x
-          y = ScreenCoordinates.y
-
-          h = hivent.sprite.scale.y
-          w = hivent.sprite.scale.x
-
-          if @_mousePos.x > x - (w/2) and @_mousePos.x < x + (w/2) and
-          @_mousePos.y > y - (h/2) and @_mousePos.y < y + (h/2)
-            handle = hivent.getHiventHandle()
-            if handle
-              hivent.getHiventHandle().mark hivent, {x:x, y:y}
-              hivent.getHiventHandle().linkAll {x:x, y:y}
-            tmp_intersects.push hivent
-            index = $.inArray(hivent, @_lastIntersected)
-            @_lastIntersected.splice index, 1  if index >= 0
-            HG.Display.CONTAINER.style.cursor = "pointer"'''#TODO!!!!!!!!!!!!!!!
-
-    for hivent in @_lastIntersected
-      handle = hivent.getHiventHandle()
-      if handle
-        handle.unMark hivent
-        handle.unLinkAll()
-
-    '''if tmp_intersects.length is 0
-      HG.Display.CONTAINER.style.cursor = "auto"
-    @_lastIntersected = tmp_intersects'''#TODO!!!!!!!!!!!!
-
-
-    #intersects = RAYCASTER.intersectObjects @_sceneGlobe.children
-    #intersects2 = RAYCASTER.intersectObjects @_sceneInterface.children
-
-    #newIntersects = []
-
-    '''for intersect in intersects2
-      if intersect.object instanceof HG.HiventMarker3D
-        index = $.inArray(intersect.object, @_lastIntersected)
-        @_lastIntersected.splice index, 1  if index >= 0
-
-    # unmark previous hits
-    for intersect in @_lastIntersected
-      intersect.getHiventHandle().unMark intersect
-      intersect.getHiventHandle().unLinkAll()
-
-    @_lastIntersected = []
-
-    # hover intersected objects
-    for intersect in intersects2
-
-      console.log intersect
-
-      if intersect.object instanceof HG.HiventMarker3D
-        @_lastIntersected.push intersect.object
-        pos =
-          x: @_mousePos.x - @_canvasOffsetX
-          y: @_mousePos.y - @_canvasOffsetY
-
-        intersect.object.getHiventHandle().mark intersect.object, pos
-        intersect.object.getHiventHandle().linkAll pos'''
 
     # globe rotation -----------------------------------------------------------
     # if there is a drag going on - rotate globe
@@ -542,17 +468,12 @@ class HG.Globe extends HG.Display
     #new:
     alpha = 0.01
     if (@_currentCameraPos.x + alpha < @_targetCameraPos.x or @_currentCameraPos.x - alpha > @_targetCameraPos.x) and (@_currentCameraPos.y + alpha < @_targetCameraPos.y or @_currentCameraPos.y - alpha > @_targetCameraPos.y)
-      '''@_updateHiventSizes()'''#TODO
-      '''@_markerGroup.update()'''#TODO
+
       @notifyAll "onMove"
 
 
     # zooming ------------------------------------------------------------------
     unless @_currentFOV is @_targetFOV
-
-      '''@_updateHiventSizes()
-      @_markerGroup.update()'''#TODO!!!!!!!
-
 
       smoothness = 0.8
       @_currentFOV = @_currentFOV * smoothness + @_targetFOV * (1.0-smoothness)
@@ -621,8 +542,8 @@ class HG.Globe extends HG.Display
         @_mousePosLastFrame.x = @_mousePos.x
         @_mousePosLastFrame.y = @_mousePos.y
 
-      if @_lastIntersected.length is 0
-        HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()
+      '''if @_lastIntersected.length is 0
+        HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()'''
 
   # ============================================================================
   _onMouseMove: (event) =>
@@ -650,13 +571,13 @@ class HG.Globe extends HG.Display
 
 
       else '''
-      for hivent in @_lastIntersected
+      '''for hivent in @_lastIntersected
         pos =
           x: @_mousePos.x - @_canvasOffsetX
           y: @_mousePos.y - @_canvasOffsetY
 
         #hivent.getHiventHandle().active pos
-        hivent.onclick(pos)
+        hivent.onclick(pos)'''
 
       event.preventDefault()
       HG.Display.CONTAINER.style.cursor = "auto"

@@ -99,7 +99,7 @@ class HG.AreasOnGlobe
         @_hideAreaLayer area
 
 
-      setInterval(@_animate, 100) # too expensive!!!
+      '''setInterval(@_animate, 100)'''#no hover
       
     else
       console.error "Unable to show areas on Map: AreaController module not detected in HistoGlobe instance!"
@@ -670,7 +670,6 @@ class HG.AreasOnGlobe
 
 
     # picking ------------------------------------------------------------------
-    # test for mark and highlight hivents
     vector = new THREE.Vector3 mouseRel.x, -mouseRel.y, 0.5
     projector = @_globe.getProjector()
     projector.unprojectVector vector, @_globe._camera

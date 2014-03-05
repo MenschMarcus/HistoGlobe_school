@@ -3,7 +3,7 @@
 
 window.HG ?= {}
 
-class HG.HiventMarker3D# extends THREE.Mesh
+class HG.HiventMarker3D extends HG.HiventMarker
 
   ##############################################################################
   #                            PUBLIC INTERFACE                                #
@@ -13,7 +13,8 @@ class HG.HiventMarker3D# extends THREE.Mesh
   #constructor: (hiventHandle, display, parent, scene, markerGroup, logos, latlng) ->
   constructor: (hiventHandle, display, parent, scene, logos) ->
 
-    HG.mixin @, HG.HiventMarker
+    #HG.mixin @, HG.HiventMarker
+
     HG.HiventMarker.call @, hiventHandle, parent
 
 
@@ -64,6 +65,7 @@ class HG.HiventMarker3D# extends THREE.Mesh
 
     @getHiventHandle().onFocus(@, (mousePos) =>
       if display.isRunning()
+        console.log "clícked hiventmarker!!!!!"
         display.focus @getHiventHandle().getHivent()
     )
 
@@ -82,6 +84,7 @@ class HG.HiventMarker3D# extends THREE.Mesh
       @sprite.material.map = @_hiventTexture
 
     @getHiventHandle().onDestruction @, @destroy
+    @getHiventHandle().onHide @, @destroy
 
     '''@enableShowName()
     @enableShowInfo()'''
@@ -94,7 +97,7 @@ class HG.HiventMarker3D# extends THREE.Mesh
 
   # ============================================================================
   destroy: ->
-    #console.log "destroy marker"
+    console.log "destroy marker"
     @notifyAll "onMarkerDestruction"
     @_destroy()  
 
@@ -102,10 +105,12 @@ class HG.HiventMarker3D# extends THREE.Mesh
   _destroy: ->
     
     #@_markergroup.removeLayer @
+    @getHiventHandle().inActiveAll()
     @_scene.remove @sprite 
 
     @_onMarkerDestructionCallbacks = []
 
+    super()
     delete @;
     return
 
@@ -113,7 +118,7 @@ class HG.HiventMarker3D# extends THREE.Mesh
   #                             STATIC MEMBERS                                 #
   ##############################################################################
 
-  WIDTH = 32/1.5
-  HEIGHT = 32/1.5
+  WIDTH = 32*1.2
+  HEIGHT = 32*1.2
 
 
