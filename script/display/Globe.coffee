@@ -36,7 +36,6 @@ class HG.Globe extends HG.Display
 
     hgInstance.globe = @
 
-    @_hiventHandler = hgInstance.hiventController
     @_areaController = hgInstance.areaController
 
     HG.Display.call @, hgInstance._map_canvas
@@ -73,8 +72,6 @@ class HG.Globe extends HG.Display
     else
       console.error "Failed to add globe button: ControlButtons module not found!"
 
-
-    #@_initHivents()#disabled
 
 
       #test
@@ -232,8 +229,6 @@ class HG.Globe extends HG.Display
     @_sceneGlobe           = null
     @_sceneAtmosphere      = null
 
-    @_sceneInterface       = null
-
     @_addedScenes          = []
 
 
@@ -316,9 +311,6 @@ class HG.Globe extends HG.Display
     @_sceneAtmosphere    = new THREE.Scene
 
 
-    @_sceneInterface     = new THREE.Scene
-
-
     @_globeUniforms      = THREE.UniformsUtils.clone shader.uniforms
     @_globeTextures      = initTile {x: 0.0, y: 0.0}, 1.0, 2, 0, 0
 
@@ -392,61 +384,6 @@ class HG.Globe extends HG.Display
     window.addEventListener   "resize",   @_onWindowResize,   false
     window.addEventListener   "mouseup",  @_onMouseUp,         false
 
-  # ============================================================================
-  _initHivents: ->
-
-     @_hiventLogos =
-      default:THREE.ImageUtils.loadTexture('data/hivent_icons/icon_default.png')
-      default_highlight: THREE.ImageUtils.loadTexture('data/hivent_icons/icon_default_highlight.png')
-      join: THREE.ImageUtils.loadTexture('data/hivent_icons/icon_join.png')
-      join_highlight: THREE.ImageUtils.loadTexture('data/hivent_icons/icon_join_highlight.png')
-      contract: THREE.ImageUtils.loadTexture('data/hivent_icons/icon_law.png')
-      contract_highlight: THREE.ImageUtils.loadTexture('data/hivent_icons/icon_law_highlight.png')
-      group: THREE.ImageUtils.loadTexture('data/hivent_icons/icon_cluster_default.png')
-      group_highlight: THREE.ImageUtils.loadTexture('data/hivent_icons/icon_cluster_highlight.png'),
-      group_new: new Image(),
-      group_highlight_new: new Image()
-
-     @_hiventLogos.group_new.src = "data/hivent_icons/icon_cluster_default.png"
-     @_hiventLogos.group_highlight_new.src = "data/hivent_icons/icon_cluster_highlight.png"
-
-
-     @_markerGroup = new HG.Marker3DClusterGroup(@,{maxClusterRadius:20})
-     console.log @_markerGroup
-
-     @_hiventHandler.onHiventsChanged (handles) =>
-
-       #console.log "on hivents changed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-
-      for handle in handles
-
-        logo = @getHiventIcon(handle.getHivent().category)
-        logo_highlight = @getHiventIcon(handle.getHivent().category+"_highlight")
-        logos =
-        default:logo
-        highlight:logo_highlight
-
-        hivent    = new HG.HiventMarker3D handle, this, HG.Display.CONTAINER, @_sceneInterface, @_markerGroup, logos,
-                    L.latLng(handle.getHivent().lat, handle.getHivent().long)
-        position  = @_latLongToCart(
-                       x:handle.getHivent().long
-                       y:handle.getHivent().lat,
-                       EARTH_RADIUS+0.2)
-
-        hivent.sprite.position.set(position.x,position.y,position.z)
-
-
-         #@_sceneInterface.add hivent.sprite
-
-
-
-      window.setTimeout(@_updateMarkerGroup,1);
-
-
-  _updateMarkerGroup:()=>
-        console.log "update"
-        '''@_updateHiventSizes()
-        @_markerGroup.update()'''#TODO
 
 
   ############################# MAIN FUNCTIONS #################################
@@ -506,7 +443,7 @@ class HG.Globe extends HG.Display
 
 
     #intersects = RAYCASTER.intersectObjects @_sceneGlobe.children
-    intersects2 = RAYCASTER.intersectObjects @_sceneInterface.children
+    #intersects2 = RAYCASTER.intersectObjects @_sceneInterface.children
 
     #newIntersects = []
 
@@ -646,8 +583,6 @@ class HG.Globe extends HG.Display
     for scene in @_addedScenes
       @_renderer.render          scene, @_camera
 
-    @_renderer.render          @_sceneInterface, @_camera
-
 
   # ============================================================================
   _zoom: ->
@@ -657,19 +592,6 @@ class HG.Globe extends HG.Display
 
 
 
-  # ============================================================================
-  #new:
-  _updateHiventSizes:->
-    for hivent in @_markerGroup.getVisibleHivents()
-        cam_pos = new THREE.Vector3(@_camera.position.x,@_camera.position.y,@_camera.position.z).normalize()
-        hivent_pos = new THREE.Vector3(hivent.sprite.position.x,hivent.sprite.position.y,hivent.sprite.position.z).normalize()
-        #perspective compensation
-        dot = (cam_pos.dot(hivent_pos)-0.4)/0.6
-
-        if dot > 0.0
-          hivent.sprite.scale.set(hivent.sprite.MaxWidth*dot,hivent.sprite.MaxHeight*dot,1.0)
-        else
-          hivent.sprite.scale.set(0.0,0.0,1.0)
 
   ############################ EVENT FUNCTIONS #################################
 
@@ -813,21 +735,6 @@ class HG.Globe extends HG.Display
       return {x:x,y:y}
     else
       return null
-
-  # ============================================================================
-  #new:
-  getHiventIcon:(category) ->
-    switch category
-      when "default" then return @_hiventLogos.default
-      when "default_highlight" then return @_hiventLogos.default_highlight
-      when "join" then return @_hiventLogos.join
-      when "join_highlight" then return @_hiventLogos.join_highlight
-      when "contract" then return @_hiventLogos.contract
-      when "contract_highlight" then return @_hiventLogos.contract_highlight
-      when "group" then return @_hiventLogos.group
-      when "group_highlight" then return @_hiventLogos.group_highlight
-      when "group_new" then return @_hiventLogos.group_new
-      when "group_highlight_new" then return @_hiventLogos.group_highlight_new
 
 
   # ============================================================================

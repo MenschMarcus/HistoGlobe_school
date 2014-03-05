@@ -16,7 +16,7 @@ class HG.AreasOnGlobe
 
     @_countryLight            = null
 
-    @_intersectedCountries    = []
+    @_intersectedMaterials    = []
 
     @_visibleAreas            = []
 
@@ -36,6 +36,12 @@ class HG.AreasOnGlobe
 
     # use L.GeometryUtil (third party) here (????)
     #console.log "test", L.GeometryUtil.closestLayer(hgInstance.map._map,hgInstance.map._map.layers,L.latLng(50.5, 30.5))
+    '''console.log "vorher"
+    console.log hgInstance.map._map
+    for layer of hgInstance.map._map._layers
+      console.log hgInstance.map._map._layers[layer]
+      console.log "test", leafletPip.pointInLayer([50.5, 30.5],hgInstance.map._map._layers[layer],true)'''
+
 
     @_globeCanvas = hgInstance._map_canvas
 
@@ -93,7 +99,7 @@ class HG.AreasOnGlobe
         @_hideAreaLayer area
 
 
-      #setInterval(@_animate, 100) # too expensive!!!
+      setInterval(@_animate, 100) # too expensive!!!
       
     else
       console.error "Unable to show areas on Map: AreaController module not detected in HistoGlobe instance!"
@@ -237,8 +243,11 @@ class HG.AreasOnGlobe
               wireframe   : false,
 
 
+      #for later onclick purposes
+      shapeGeometry.computeBoundingBox()
+      countryMaterial.bb = shapeGeometry.boundingBox
+      
       mesh = new THREE.Mesh( shapeGeometry, countryMaterial );
-
 
       #gps to cart mapping================================
       for vertex in mesh.geometry.vertices
@@ -513,11 +522,13 @@ class HG.AreasOnGlobe
   # ============================================================================
   _onMouseDown: (event) =>
 
+    offset = 0
     rightOffset = parseFloat($(@_globeCanvas).css("right").replace('px',''))
+    offset = rightOffset if rightOffset
 
     event.preventDefault()
     clickMouse =
-      x: (event.clientX - @_globe._canvasOffsetX - rightOffset) / @_globe._width * 2 - 1
+      x: (event.clientX - @_globe._canvasOffsetX - offset) / @_globe._width * 2 - 1
       y: (event.clientY - @_globe._canvasOffsetY) / @_globe._myHeight * 2 - 1
 
     @_dragStartPos = @_globe._pixelToLatLong(clickMouse)
@@ -526,10 +537,12 @@ class HG.AreasOnGlobe
   # ============================================================================
   _onMouseUp: (event) =>
 
+    offset = 0
     rightOffset = parseFloat($(@_globeCanvas).css("right").replace('px',''))
+    offset = rightOffset if rightOffset
 
     clickMouse =
-      x: (event.clientX - @_globe._canvasOffsetX - rightOffset) / @_globe._width * 2 - 1
+      x: (event.clientX - @_globe._canvasOffsetX - offset) / @_globe._width * 2 - 1
       y: (event.clientY - @_globe._canvasOffsetY) / @_globe._myHeight * 2 - 1
 
     clickPos = @_globe._pixelToLatLong(clickMouse)
@@ -540,9 +553,16 @@ class HG.AreasOnGlobe
       if (clickPos.x - @_dragStartPos.x is 0) and (clickPos.y - @_dragStartPos.y is 0)
         countryIntersects = raycaster.intersectObjects @_sceneCountries.children
         if countryIntersects.length > 0
-          countryIntersects[0].object.geometry.computeBoundingBox()
-          bb = countryIntersects[0].object.geometry.boundingBox
+
+          index = countryIntersects[0].face.materialIndex
+          mat = countryIntersects[0].object.material.materials[index]
+          bb = mat.bb
+          #console.log "bb: ",bb
+          #console.log "bb.center: ",bb.center
           bb_center = bb.center()
+          #countryIntersects[0].object.geometry.computeBoundingBox()
+          #bb = countryIntersects[0].object.geometry.boundingBox
+          #bb_center = bb.center()
 
           target = @_globe._cartToLatLong(new THREE.Vector3(bb_center.x,bb_center.y,bb_center.z).clone().normalize())
 
@@ -575,10 +595,12 @@ class HG.AreasOnGlobe
   # ============================================================================
   _evaluate: () =>
 
-    rightOffset = parseFloat($(@_globeCanvas).css("right").replace('px',''))
+    #offset = 0
+    #rightOffset = parseFloat($(@_globeCanvas).css("right").replace('px',''))
+    #offset = rightOffset if rightOffset
 
     mouseRel =
-      x: (@_globe._mousePos.x - @_globe._canvasOffsetX - rightOffset) / @_globe._width * 2 - 1
+      x: (@_globe._mousePos.x - @_globe._canvasOffsetX) / @_globe._width * 2 - 1
       y: (@_globe._mousePos.y - @_globe._canvasOffsetY) / @_globe._myHeight * 2 - 1
 
 
@@ -600,16 +622,20 @@ class HG.AreasOnGlobe
     else
       HG.Display.CONTAINER.style.cursor = "auto"
 
-    for intersect in @_intersectedCountries
-      intersect.material.opacity =  intersect.material.opacity - 0.2 #nicht schön
+    for mat in @_intersectedMaterials
+      mat.opacity = mat.opacity - 0.2
+      #intersect.material.opacity =  intersect.material.opacity - 0.2 #nicht schön
 
     #hover countries
-    for intersect in countryIntersects 
-      index = $.inArray(intersect.object, @_intersectedCountries)
-      @_intersectedCountries.splice index, 1  if index >= 0
+    for intersect in countryIntersects
+      matIndex = intersect.face.materialIndex
+      mat = intersect.object.material.materials[matIndex]
+
+      index = $.inArray(mat, @_intersectedMaterials)
+      @_intersectedMaterials.splice index, 1  if index >= 0
     # unmark previous countries
     
-    '''for intersect in @_intersectedCountries
+    '''for intersect in @_intersectedMaterials
       if intersect.Area?
         #intersect.material.color.setHex 0x5b309f
         ##intersect.material.opacity =  intersect.oldOpacity
@@ -617,17 +643,27 @@ class HG.AreasOnGlobe
           @_hideLabel intersect.Area'''
 
 
-    @_intersectedCountries = []
+    @_intersectedMaterials = []
     # hover intersected countries
     for intersect in countryIntersects
-      if intersect.object.Area?
-        #console.log intersect.object.id,intersect.object.Label
-        #intersect.object.oldOpacity = intersect.object.material.opacity
-        intersect.object.material.opacity = intersect.object.material.opacity + 0.2
-        '''unless intersect.object.Area.Label3DIsVisible
-          @_showLabel intersect.object.Area'''
-        @_intersectedCountries.push intersect.object
-        #intersect.object.material.color.setHex 0x04ba67
+      #console.log "intersected face: ", intersect.face.materialIndex
+      #console.log "intersected face: ", intersect.object.material.materials[intersect.face.materialIndex]
+
+      index = intersect.face.materialIndex
+      to_change = intersect.object.material.materials[index]
+      if to_change.opacity > 0
+        to_change.opacity = to_change.opacity + 0.2
+        @_intersectedMaterials.push to_change
+
+
+      #if intersect.object.Area?
+      #  #console.log intersect.object.id,intersect.object.Label
+      #  #intersect.object.oldOpacity = intersect.object.material.opacity
+      #  intersect.object.material.opacity = intersect.object.material.opacity + 0.2
+      #  '''unless intersect.object.Area.Label3DIsVisible
+      #    @_showLabel intersect.object.Area'''
+      #  @_intersectedMaterials.push intersect.object
+      #  #intersect.object.material.color.setHex 0x04ba67
 
 
   ##############################################################################
