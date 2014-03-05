@@ -21,6 +21,10 @@ class HG.HiventInfoPopover
     @_contentLoaded = false
     @_placement = undefined
 
+    # $(@_hgInstance.mapCanvas).mousewheel (e) =>
+    # $(window).mousewheel (e) =>
+    #   console.log "scroll"
+
     @_width = BODY_DEFAULT_WIDTH
     @_height = BODY_DEFAULT_HEIGHT
 
