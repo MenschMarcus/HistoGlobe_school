@@ -211,9 +211,9 @@
         var histoglobe = new HG.HistoGlobe({
           container: document.getElementById('histoglobe'),
           zoom: 1,
-          maxYear: 2020,
-          minYear: 1800,
-          nowYear: 1900
+          maxYear: 2000,
+          minYear: 0,
+          nowYear: 1000
         });
 
         histoglobe.addModule(

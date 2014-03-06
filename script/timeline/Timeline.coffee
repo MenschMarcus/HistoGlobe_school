@@ -51,60 +51,89 @@ class HG.Timeline
     defaultConfig =
       parentDiv: undefined
       zoom: 1
-      nowYear: 1900
-      minYear: 1800
-      maxYear: 2500
+      nowYear: 1000
+      minYear: 0
+      maxYear: 2000
 
     @_config = $.extend {}, defaultConfig, config
 
     #   --------------------------------------------------------------------------
-    #   keeps all ui elements
-    @_uiElements =
-      body:      document.getElementsByTagName("body")[0]
-      tlDiv:     document.createElement("div")
-      dayRow:    document.createElement("div")
-      monthRow:  document.createElement("div")
-      yearRow:   document.createElement("div")
-      symbolRow: document.createElement("div")
+    @_uiElements = @_createUIElements()
 
-    @_uiElements.tlDiv.id     = "timeline"
-    @_uiElements.dayRow.id    = "dayRow"
-    @_uiElements.monthRow.id  = "monthRow"
-    @_uiElements.yearRow.id   = "yearRow"
-    @_uiElements.symbolRow.id = "symbolRow"
+    #   --------------------------------------------------------------------------
+    @_maxZoom = @maxZoomLevel()
+    @_maxIntervalIndex = @_calcMaxIntervalIndex()
 
-    @_uiElements.dayRow.className    = "tl_row"
-    @_uiElements.monthRow.className  = "tl_row"
-    @_uiElements.yearRow.className   = "tl_row"
-    @_uiElements.symbolRow.className = "tl_row"
+    #   --------------------------------------------------------------------------
+    #   Swiper for timeline
+    @_timeline_swiper ?= new Swiper '#timeline',
+      mode:'horizontal'
+      freeModeFluid: true
+      freeMode: true
 
-    @_config.parentDiv.appendChild @_uiElements.tlDiv
-    @_uiElements.tlDiv.appendChild @_uiElements.dayRow
-    @_uiElements.tlDiv.appendChild @_uiElements.monthRow
-    @_uiElements.tlDiv.appendChild @_uiElements.yearRow
-    @_uiElements.tlDiv.appendChild @_uiElements.symbolRow
+    @_timeline_swiper.reInit()
 
     #   --------------------------------------------------------------------------
     @_makeLayout()
 
     #   --------------------------------------------------------------------------
-    #   now marker is always in middle of page and contains the nowDate
-    @_nowMarker = new HG.NowMarker(@, @yearToDate @_config.nowYear)
+    @_nowDate = @yearToDate(@_config.nowYear)
 
     #   --------------------------------------------------------------------------
-    @_maxIntervalIndex = @_maxIntervalIndex()
+    #   now marker is always in middle of page and contains the nowDate
+    #   TODO: make new now marker
+    @_nowMarker = new HG.NowMarker(@, @_nowDate)
+    nowMarkerDiv = document.createElement "div"
+    @_uiElements.tlDiv.appendChild nowMarkerDiv
 
     #   --------------------------------------------------------------------------
     @_dateMarkers   = new HG.DoublyLinkedList()
-    @_loadDateMarkers()
+    @_updateDateMarkers()
 
     #   --------------------------------------------------------------------------
-    console.log @maxZoomLevel()
+    #   mouse and touch events
+    ###@c = false
+    @lmp = 0
+    @_uiElements.tlDiv.onmousedown = (e) =>
+      @c = true
+      @lmp = e.pageX
+
+    @_uiElements.body.onmousemove = (e) =>
+      if @c
+        pos = @_uiElements.tlDiv.offsetLeft + (e.pageX - @lmp)
+        @_uiElements.tlDiv.style.left = pos + "px"
+        @lmp = e.pageX
+
+    @_uiElements.body.onmouseup = (e) =>
+      @c = false if @c
+      @lmp = e.pageX###
+
+    @_uiElements.tlDiv.onmousewheel = (e) =>
+      e.preventDefault()
+      zoomed = false
+      if e.wheelDeltaY > 0
+        if @_config.zoom < @_maxZoom
+          @_config.zoom *= 1.2
+          zoomed = true
+      else
+        if @_config.zoom > 1
+          @_config.zoom /= 1.2
+          zoomed = true
+      if zoomed
+        @_maxIntervalIndex = @_calcMaxIntervalIndex()
+        @_makeLayout()
+        @_updateDateMarkers()
+
+    @_uiElements.tlDivWrapper.addEventListener "webkitTransitionEnd", (e) =>
+      alert( "Finished transition!" )
+    , false
+
+    #   --------------------------------------------------------------------------
 
     # OLD STUFF
-    @_minDate = @yearToDate config.minYear
-    @_maxDate = @yearToDate config.maxYear
-    @_nowDate = @yearToDate config.nowYear
+    #@_minDate = @yearToDate config.minYear
+    #@_maxDate = @yearToDate config.maxYear
+    #@_nowDate = @yearToDate config.nowYear
 
     # create doubly linked list for year markers
     #@_yearMarkers   = new HG.DoublyLinkedList()
@@ -114,7 +143,7 @@ class HG.Timeline
     ###@_nowMarker = new HG.YearMarker @_nowDate, 0, @_uiElements.tlDiv
     @_yearMarkerWidth = @_nowMarker.getWidth() * 2
     @_nowMarker.setWidth @_yearMarkerWidth
-    @_nowMarker.setPos(@_uiElements.tlDiv.offsetWidth/2 - @_yearMarkerWidth/2)
+    @_nowMarker.setPos(window.innerWidth/2 - @_yearMarkerWidth/2)
     @_yearMarkers.addFirst(@_nowMarker)
 
     # get standard font size from now marker
@@ -130,8 +159,8 @@ class HG.Timeline
     #@_lastMousePosX = 0;
 
     # create now marker box in middle of page
-    nowMarkerDiv = document.createElement "div"
-    @_uiElements.tlDiv.appendChild nowMarkerDiv
+    #nowMarkerDiv = document.createElement "div"
+    #@_uiElements.tlDiv.appendChild nowMarkerDiv
     ###@nowMarkerBox = new HG.NowMarker(@)
     @nowMarkerBox.setNowDate(@_nowMarker.getDate())###
 
@@ -140,157 +169,234 @@ class HG.Timeline
     #@_speed = 0
     #setInterval @_animTimeline, 100
 
-    @_uiElements.tlDiv.onmousedown = (e) =>
-      ###@_clicked   = true
-      @_lastMousePosX = e.pageX
-      @_disableTextSelection e###
+    #@_uiElements.tlDiv.onmousedown = (e) =>
+    ###@_clicked   = true
+    @_lastMousePosX = e.pageX
+    @_disableTextSelection e###
 
-    @_uiElements.body.onmousemove = (e) =>
-      ###if @_clicked
-        mousePosX = e.pageX
-        moveDist = mousePosX - @_lastMousePosX
+    #@_uiElements.body.onmousemove = (e) =>
+    ###if @_clicked
+      mousePosX = e.pageX
+      moveDist = mousePosX - @_lastMousePosX
 
-        # stop scrolling timeline when min or max is reached
-        if((moveDist > 0 and @_yearMarkers.get(0).nodeData.getPos() + @_yearMarkerWidth / 2 < @_uiElements.tlDiv.offsetWidth / 2) or (moveDist < 0 and @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getPos() + @_yearMarkerWidth / 2 > @_uiElements.tlDiv.offsetWidth / 2))
-          @_nowMarker.setPos moveDist + @_nowMarker.getPos()
-          @_updateYearMarkerPositions(false)
-          @_updateNowMarker()
-          @_loadYearMarkers(false)
-          @notifyAll "onIntervalChanged", @_getTimeFilter()
-        @_lastMousePosX = mousePosX###
+      # stop scrolling timeline when min or max is reached
+      if((moveDist > 0 and @_yearMarkers.get(0).nodeData.getPos() + @_yearMarkerWidth / 2 < window.innerWidth / 2) or (moveDist < 0 and @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getPos() + @_yearMarkerWidth / 2 > window.innerWidth / 2))
+        @_nowMarker.setPos moveDist + @_nowMarker.getPos()
+        @_updateYearMarkerPositions(false)
+        @_updateNowMarker()
+        @_loadYearMarkers(false)
+        @notifyAll "onIntervalChanged", @_getTimeFilter()
+      @_lastMousePosX = mousePosX###
 
     @_uiElements.body.onmouseup = (e) =>
-      ###if @_clicked
-        @_clicked = false
-        @_updateNowMarker()
-        @_updateYearMarkerPositions(false)
-        @_clearYearMarkers()
-        @_lastMousePosX = e.pageX
-        @_enableTextSelection()
-        @notifyAll "onIntervalChanged", @_getTimeFilter()###
+      console.log "left position of timeline: " + @_uiElements.tlDivWrapper.style.getPropertyCSSValue('-webkit-transform')[0][0].getFloatValue(CSSPrimitiveValue.CSS_PX)
+      console.log "now Date: " + @_calcNowDate()
+    ###if @_clicked
+      @_clicked = false
+      @_updateNowMarker()
+      @_updateYearMarkerPositions(false)
+      @_clearYearMarkers()
+      @_lastMousePosX = e.pageX
+      @_enableTextSelection()
+      @notifyAll "onIntervalChanged", @_getTimeFilter()###
 
-    @_uiElements.tlDiv.onmousewheel = (e) =>
-      ###e.preventDefault()
-      zoom = false
-      if e.wheelDeltaY > 0
-        if @_zoomLevel > 0
-          @_zoomLevel -= 0.1
-          zoom = true
+    #@_uiElements.tlDiv.onmousewheel = (e) =>
+    ###e.preventDefault()
+    zoom = false
+    if e.wheelDeltaY > 0
+      if @_zoomLevel > 0
+        @_zoomLevel -= 0.1
+        zoom = true
+    else
+
+      # stop zooming when interval is to big for size of hole timeline (minDate and maxDate)
+      if @_minDate.getFullYear() < 0
+        mY = @_minDate.getFullYear() * -1
       else
+        mY = @_minDate.getFullYear()
+      maxScale = @_maxDate.getFullYear() - mY
+      numberOfIntervals = window.innerWidth / @_yearMarkerWidth
+      if @_timeInterval(@_zoomLevel, false) * numberOfIntervals < maxScale
+        @_zoomLevel += 0.1
+        zoom = true
 
-        # stop zooming when interval is to big for size of hole timeline (minDate and maxDate)
-        if @_minDate.getFullYear() < 0
-          mY = @_minDate.getFullYear() * -1
-        else
-          mY = @_minDate.getFullYear()
-        maxScale = @_maxDate.getFullYear() - mY
-        numberOfIntervals = @_uiElements.tlDiv.offsetWidth / @_yearMarkerWidth
-        if @_timeInterval(@_zoomLevel, false) * numberOfIntervals < maxScale
-          @_zoomLevel += 0.1
-          zoom = true
+    # console.log "Timeline: \n     ZoomLevel: " + @_zoomLevel
 
-      # console.log "Timeline: \n     ZoomLevel: " + @_zoomLevel
+    # execute changed year interval
+    # if interval was changed
+    if zoom
+      @_zoomLevel = @_roundNumber(@_zoomLevel, 1)
+      @_clearYearMarkers()
+      @_updateYearMarkerPositions(false)
+      @_loadYearMarkers(true)
+      @notifyAll "onIntervalChanged", @_getTimeFilter()###
 
-      # execute changed year interval
-      # if interval was changed
-      if zoom
-        @_zoomLevel = @_roundNumber(@_zoomLevel, 1)
-        @_clearYearMarkers()
-        @_updateYearMarkerPositions(false)
-        @_loadYearMarkers(true)
-        @notifyAll "onIntervalChanged", @_getTimeFilter()###
+  #   --------------------------------------------------------------------------
+  _createUIElements: ->
 
+    uiElements =
+      body:         document.getElementsByTagName("body")[0]
+      tlDiv:        document.createElement("div")
+      tlDivWrapper: document.createElement("div")
+      dayRow:       document.createElement("div")
+      monthRow:     document.createElement("div")
+      yearRow:      document.createElement("div")
+      symbolRow:    document.createElement("div")
+
+    uiElements.tlDiv.id         = "timeline"
+    uiElements.tlDivWrapper.id  = "timelineWrapper"
+    uiElements.dayRow.id        = "dayRow"
+    uiElements.monthRow.id      = "monthRow"
+    uiElements.yearRow.id       = "yearRow"
+    uiElements.symbolRow.id     = "symbolRow"
+
+    uiElements.tlDiv.className        = "swiper-container"
+    uiElements.tlDivWrapper.className = "swiper-wrapper"
+
+    uiElements.dayRow.className    = "tl_row swiper-slide"
+    uiElements.monthRow.className  = "tl_row swiper-slide"
+    uiElements.yearRow.className   = "tl_row swiper-slide"
+    uiElements.symbolRow.className = "tl_row swiper-slide"
+
+    uiElements.tlDiv.style.width = window.innerWidth + "px"
+    uiElements.dayRow.style.width = (@timelineLength() + window.innerWidth/2) + "px"
+    uiElements.monthRow.style.width = (@timelineLength() + window.innerWidth/2) + "px"
+    uiElements.yearRow.style.width = (@timelineLength() + window.innerWidth/2) + "px"
+    uiElements.symbolRow.style.width = (@timelineLength() + window.innerWidth/2) + "px"
+
+    @_config.parentDiv.appendChild uiElements.tlDiv
+    uiElements.tlDiv.appendChild uiElements.tlDivWrapper
+    uiElements.tlDivWrapper.appendChild uiElements.dayRow
+    uiElements.tlDivWrapper.appendChild uiElements.monthRow
+    uiElements.tlDivWrapper.appendChild uiElements.yearRow
+    uiElements.tlDivWrapper.appendChild uiElements.symbolRow
+
+    uiElements
 
   #   --------------------------------------------------------------------------
   millisPerPixel: ->
-    mpp = (@yearToMillis(@_config.maxYear - @_config.minYear) / @_uiElements.tlDiv.offsetWidth) / @_config.zoom    
+    mpp = (@yearToMillis(@_config.maxYear - @_config.minYear) / window.innerWidth) / @_config.zoom
 
   minVisibleDate: ->
-    d = new Date(@_nowMarker.getDate().getTime() - (@millisPerPixel() * @_uiElements.tlDiv.offsetWidth / 2))
+    d = new Date(@_nowMarker.getDate().getTime() - (@millisPerPixel() * window.innerWidth / 2))
 
   maxVisibleDate: ->
-    d = new Date(@_nowMarker.getDate().getTime() + (@millisPerPixel() * @_uiElements.tlDiv.offsetWidth / 2))
+    d = new Date(@_nowMarker.getDate().getTime() + (@millisPerPixel() * window.innerWidth / 2))
+
+  timelineLength: ->
+    @yearToMillis(@_config.maxYear - @_config.minYear) / @millisPerPixel()
 
   maxZoomLevel: ->
     f = false
     zoom = 1
     while !f
-      mpp = (@yearToMillis(@_config.maxYear - @_config.minYear) / @_uiElements.tlDiv.offsetWidth) / zoom
-      if @millisToDays(@_uiElements.tlDiv.offsetWidth * mpp) > 31
+      mpp = (@yearToMillis(@_config.maxYear - @_config.minYear) / window.innerWidth) / zoom
+      if @millisToDays(window.innerWidth * mpp) > 31
         zoom++
       else
         f = true
         return zoom
 
-  #   --------------------------------------------------------------------------
-  _makeLayout: ->
-    tlHeight = HGConfig.timeline_height.val
-    tlHeightType = HGConfig.timeline_height.unit
+  _calcMaxIntervalIndex: ->
+    index = 0
+    while @timeInterval(index) <= window.innerWidth * @millisPerPixel()
+      index++
+    (index - 1)
 
-    zoom = @_config.zoom
-    maxZoom = @maxZoomLevel()
-
-    hp = 0.75 * tlHeight
-
-    dayRowHeight = (zoom / maxZoom) * (1/3)
-    monthRowHeight = (zoom / maxZoom) * (2/3)
-    yearRowHeight = ((maxZoom - zoom) / maxZoom)
-
-    @_uiElements.dayRow.style.height = (dayRowHeight * hp) + tlHeightType
-    @_uiElements.dayRow.style.fontSize = (dayRowHeight * hp) + tlHeightType
-    @_uiElements.dayRow.style.backgroundColor = "#ff0000"
-
-    @_uiElements.monthRow.style.height = (monthRowHeight * hp) + tlHeightType
-    @_uiElements.monthRow.style.fontSize = (monthRowHeight * hp) + tlHeightType
-    @_uiElements.monthRow.style.backgroundColor = "#00ff00"
-
-    @_uiElements.yearRow.style.height = (yearRowHeight * hp) + tlHeightType
-    @_uiElements.yearRow.style.fontSize = (yearRowHeight * hp) + tlHeightType
-    @_uiElements.yearRow.style.backgroundColor = "#ff00ff"
-
-    @_uiElements.symbolRow.style.height = (0.25 * tlHeight) + tlHeightType
-    @_uiElements.symbolRow.style.fontSize = (0.25 * tlHeight) + tlHeightType
-    @_uiElements.symbolRow.style.backgroundColor = "#ffff00"
+  _calcNowDate: ->
+    new Date(@yearToDate(@_config.minYear).getTime() + (-1) * @_uiElements.tlDivWrapper.style.getPropertyCSSValue('-webkit-transform')[0][0].getFloatValue(CSSPrimitiveValue.CSS_PX) * @millisPerPixel())
 
   #   --------------------------------------------------------------------------
-  _loadDateMarkers: ->
-    count = @_config.maxYear - @_config.minYear
-    for i in [0..count]
-      start = new Date(@_config.minYear + i, 0, 1, 0, 0, 0)
-      end = new Date(@_config.minYear + i, 11, 31, 0, 0, 0)
-      dateMarker = new HG.DateMarker(start, end, @)
-      @_dateMarkers.addFirst(dateMarker)
-
-  #   --------------------------------------------------------------------------
-  _maxIntervalIndex: ->
-    maxRange = @maxVisibleDate().getTime() - @minVisibleDate().getTime()
-    inLimit = true
-    i = 0
-    while inLimit
-      if @timeInterval(i) < maxRange
-        i++
-      else
-        inLimit = false
-    i--
-
-  #   --------------------------------------------------------------------------
+  #   for i e {0,1,2,3,...} it should return 1,5,10,50,100,...
+  #   needed for highlightinh timescale dates
   timeInterval: (i) ->
     if i % 2 != 0
       return @yearToMillis(5 * Math.pow(10, Math.floor(i / 2)))
     else
       return @yearToMillis(Math.pow(10, Math.floor(i / 2)))
 
+
   #   --------------------------------------------------------------------------
+  #   set HEIGHT and WIDTH of TIMELINE
+  _makeLayout: ->
+    tlHeight = HGConfig.timeline_height.val
+    tlHeightType = HGConfig.timeline_height.unit
+
+    zoom = @_config.zoom * 5
+
+    hp = 0.75 * tlHeight
+
+    dayRowHeight = (zoom / @_maxZoom) * (1/3)
+    monthRowHeight = (zoom / @_maxZoom) * (2/3)
+    yearRowHeight = ((@_maxZoom - zoom) / @_maxZoom)
+
+    @_uiElements.dayRow.style.height = (dayRowHeight * hp) + tlHeightType
+    @_uiElements.dayRow.style.width = (@timelineLength() + window.innerWidth/2) + tlHeightType
+    @_uiElements.dayRow.style.fontSize = (dayRowHeight * hp) + tlHeightType
+    @_uiElements.dayRow.style.backgroundColor = "#ff0000"
+
+    @_uiElements.monthRow.style.height = (monthRowHeight * hp) + tlHeightType
+    @_uiElements.monthRow.style.width = (@timelineLength() + window.innerWidth/2) + tlHeightType
+    @_uiElements.monthRow.style.fontSize = (monthRowHeight * hp) + tlHeightType
+    @_uiElements.monthRow.style.backgroundColor = "#00ff00"
+
+    @_uiElements.yearRow.style.height = (yearRowHeight * hp) + tlHeightType
+    @_uiElements.yearRow.style.width = (@timelineLength() + window.innerWidth/2) + tlHeightType
+    @_uiElements.yearRow.style.fontSize = (yearRowHeight * hp) + tlHeightType
+    @_uiElements.yearRow.style.backgroundColor = "#ff00ff"
+
+    @_uiElements.symbolRow.style.height = (0.25 * tlHeight) + tlHeightType
+    @_uiElements.symbolRow.style.width = (@timelineLength() + window.innerWidth/2) + tlHeightType
+    @_uiElements.symbolRow.style.fontSize = (0.25 * tlHeight) + tlHeightType
+    @_uiElements.symbolRow.style.backgroundColor = "#ffff00"
+
+  #   --------------------------------------------------------------------------
+  _updateDateMarkers: ->
+    console.log "Update DateMarkers"
+
+    #   count possible years to show
+    count = @_config.maxYear - @_config.minYear
+
+    #   if list of datemarkers is not available
+    #   fill it with nulls
+    if @_dateMarkers.getLength() == 0
+      for i in [0..count]
+        @_dateMarkers.addLast(null)
+
+    #   calculate interval between years to show
+    intervalIndex = @_maxIntervalIndex - 1
+    intervalIndex = 0 if intervalIndex < 0
+
+    maxDate = @maxVisibleDate()
+    minDate = @minVisibleDate()
+
+    #   walk through list an create, or hide datemarkers
+    for i in [0..count]
+      if (@_config.minYear + i) % @millisToYear(@timeInterval(intervalIndex)) == 0 && (@_config.minYear + i) >= minDate.getFullYear() && (@_config.minYear + i) <= maxDate.getFullYear()
+        if @_dateMarkers.get(i).nodeData?
+          @_dateMarkers.get(i).nodeData.updateView(true)
+        else
+          date = new Date(@_config.minYear + i, 0, 1, 0, 0, 0)
+          @_dateMarkers.get(i).nodeData = new HG.DateMarker(date, @)
+      else
+        if @_dateMarkers.get(i).nodeData?
+          @_dateMarkers.get(i).nodeData.updateView(false)
+          @_dateMarkers.get(i).nodeData = null
+
+  #   --------------------------------------------------------------------------
+  #   left border of timeline has date value @_config.minYear
+  #   so position of marker on timeline is calculated by millisPerPixel and difference between
+  #   the date of the marker and the minYear
   dateToPosition: (date) ->
-    dateDiff = date.getTime() - @_nowMarker.getDate().getTime()
-    pos = (@_uiElements.tlDiv.offsetWidth / 2) + (dateDiff / @millisPerPixel())
+    dateDiff = date.getTime() - @yearToDate(@_config.minYear).getTime()
+    pos = (dateDiff / @millisPerPixel()) + window.innerWidth/2
 
   #   --------------------------------------------------------------------------
   getUIElements: ->
     @_uiElements
 
   getNowDate: ->
-    @_nowMarker.getDate()
+    @_nowDate
 
   getNowMarker: ->
     @_nowMarker
@@ -337,7 +443,7 @@ class HG.Timeline
     timefilter = []
     ###timefilter.start = @_yearMarkers.get(0).nodeData.getDate()
     timefilter.end = @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getDate()###
-    timefilter.end = @_positionToDate(@_uiElements.tlDiv.offsetWidth)
+    timefilter.end = @_positionToDate(window.innerWidth)
     timefilter.start = @_positionToDate(0)
     timefilter
 
@@ -362,7 +468,7 @@ class HG.Timeline
       @_nowMarker = new HG.YearMarker(nowDate, 0, @_uiElements.tlDiv)
       @_yearMarkerWidth = @_nowMarker.getWidth() * 2
       @_nowMarker.setWidth @_yearMarkerWidth
-      @_nowMarker.setPos(@_uiElements.tlDiv.offsetWidth/2 - @_yearMarkerWidth/2 - pixel)
+      @_nowMarker.setPos(window.innerWidth/2 - @_yearMarkerWidth/2 - pixel)
       @_yearMarkers.addFirst(@_nowMarker)
       @_loadYearMarkers(false)
       @notifyAll "onIntervalChanged", @_getTimeFilter()
@@ -415,7 +521,7 @@ class HG.Timeline
         @_yearMarkers.get(i).nodeData.destroy()
         @_yearMarkers.remove(i)
       else
-        if @_yearMarkers.get(i).nodeData.getPos() > @_uiElements.tlDiv.offsetWidth and @_yearMarkers.get(i + 1).nodeData.getPos() > @_uiElements.tlDiv.offsetWidth
+        if @_yearMarkers.get(i).nodeData.getPos() > window.innerWidth and @_yearMarkers.get(i + 1).nodeData.getPos() > window.innerWidth
           @_yearMarkers.get(i + 1).nodeData.destroy()
           @_yearMarkers.remove(i + 1)
         else
@@ -473,7 +579,7 @@ class HG.Timeline
         @_yearMarkers.addFirst(newYearMarker)
 
       # is new year marker needed?
-      if xPosRight < @_uiElements.tlDiv.offsetWidth + @_yearMarkerWidth and dateRight.getFullYear() <= @_maxDate.getFullYear()
+      if xPosRight < window.innerWidth + @_yearMarkerWidth and dateRight.getFullYear() <= @_maxDate.getFullYear()
         drawn = true
         newYearMarker = new HG.YearMarker(dateRight, @dateToPosition(dateRight), @_uiElements.tlDiv)
         newYearMarker.setWidth @_yearMarkerWidth
@@ -487,7 +593,7 @@ class HG.Timeline
     @_highlightIntervals()
 
   # ============================================================================
-  _timeInterval: (index, exact) ->
+  ###_timeInterval: (index, exact) ->
     yearIntervals = [1,5,10,50,100,500,1000,5000,10000,50000,100000,500000,1000000,5000000]
 
     # index is zoomlevel
@@ -502,7 +608,7 @@ class HG.Timeline
       res = yearIntervals[prev] + (yearIntervals[next] - yearIntervals[prev]) * dis
     else
       res = yearIntervals[Math.round(index)]
-    res
+    res###
 
   # ============================================================================
   _calcZoomLevel: (year) ->
@@ -524,14 +630,14 @@ class HG.Timeline
     i = 0
     nId = 0
     while i < @_yearMarkers.getLength()
-      dis = @_uiElements.tlDiv.offsetWidth / 2 - (@_yearMarkers.get(i).nodeData.getPos() + @_yearMarkerWidth / 2)
+      dis = window.innerWidth / 2 - (@_yearMarkers.get(i).nodeData.getPos() + @_yearMarkerWidth / 2)
       dis *= -1 if dis < 0
       if (smallestDis is null or dis < smallestDis)
         smallestDis = dis
         nId = i
       i++
     @_nowMarker = @_yearMarkers.get(nId).nodeData
-    @nowMarkerBox.setNowDate(@_positionToDate((@_uiElements.tlDiv.offsetWidth / 2) - (@_yearMarkerWidth / 2)))
+    @nowMarkerBox.setNowDate(@_positionToDate((window.innerWidth / 2) - (@_yearMarkerWidth / 2)))
     @notifyAll "onNowChanged", @_nowMarker.getDate()
 
   # ============================================================================
@@ -574,7 +680,7 @@ class HG.Timeline
 
     # move timeline periodic
     if @_play
-      if((@_speed <= 0 and @_yearMarkers.get(0).nodeData.getPos() + @_yearMarkerWidth / 2 < @_uiElements.tlDiv.offsetWidth / 2) or (@_speed > 0 and @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getPos() + @_yearMarkerWidth / 2 > @_uiElements.tlDiv.offsetWidth / 2))
+      if((@_speed <= 0 and @_yearMarkers.get(0).nodeData.getPos() + @_yearMarkerWidth / 2 < window.innerWidth / 2) or (@_speed > 0 and @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getPos() + @_yearMarkerWidth / 2 > window.innerWidth / 2))
         @_nowMarker.setPos @_nowMarker.getPos() - @_speed
         @_updateYearMarkerPositions(false)
         @_updateNowMarker()
@@ -585,7 +691,7 @@ class HG.Timeline
 
   # TODO: set timeline now date via input field
   ###_setNowMarker: () ->
-    @_nowMarker.setPos @_uiElements.tlDiv.offsetWidth / 2
+    @_nowMarker.setPos window.innerWidth / 2
     @_nowMarker._date = ###
 
   # ============================================================================
