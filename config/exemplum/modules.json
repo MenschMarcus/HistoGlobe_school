@@ -76,7 +76,7 @@
   },
 
   "CategoryIconMapping" : {
-      "default" : {
+      "A" : {
         "default" : "config/exemplum/data/icons/default_default.png",
         "highlighted" : "config/exemplum/data/icons/default_highlight.png"
       },
@@ -99,6 +99,10 @@
       "E" : {
         "default" : "config/exemplum/data/icons/erlebniszentrum_default.png",
         "highlighted" : "config/exemplum/data/icons/erlebniszentrum_highlight.png"
+      },
+      "T" : {
+        "default" : "config/exemplum/data/icons/tour_default.png",
+        "highlighted" : "config/exemplum/data/icons/tour_highlight.png"
       }
     },
 
@@ -342,16 +346,23 @@
         {
           "groups" : [
             {
-              "name": "Limonade",
+              "name": "Wichtiges Ereignis",
               "elements" : [
                 {
-                  "type" : "categoryWithIcon",
-                  "category" : "join",
-                  "icon" : "data/hivent_icons/icon_join.png",
-                  "name" : "Superbrause",
+                  "type" : "category",
+                  "category" : "A",
+                  "name" : "Aktivität",
+                  "filterable" : true
+                },
+                {
+                  "type" : "category",
+                  "category" : "T",
+                  "name" : "Exemplum Tour",
                   "filterable" : true
                 }
-              ],
+              ]
+            },
+            {
               "name": "Firmenniederlassung",
               "elements" : [
                 {
