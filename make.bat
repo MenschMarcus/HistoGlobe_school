@@ -1,5 +1,5 @@
 @echo off
-call "C:\Program Files\nodejs\nodevars.bat"
+call "H:\Drafts\Code\NodeJS\nodevars.bat"
 
 @echo off
 call "data_src\hivents\generate.bat"
