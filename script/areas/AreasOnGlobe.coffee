@@ -67,7 +67,7 @@ class HG.AreasOnGlobe
     if @_areaController
 
       @_countryLight         = new THREE.DirectionalLight( 0xffffff, 1.0);
-      @_countryLight.position.set 0, 0, 300
+      @_countryLight.position.set 0, 0, -300
       @_sceneCountries.add   @_countryLight
       @_globe.addSceneToRenderer(@_sceneCountries)
 
@@ -250,8 +250,8 @@ class HG.AreasOnGlobe
       countryMaterial = new THREE.MeshLambertMaterial
               #color       : "#5b309f"
               color       : materialData.fillColor
-              side        : THREE.DoubleSide,
-              #side        : THREE.BackSide,
+              #side        : THREE.DoubleSide,
+              side        : THREE.BackSide,
               #side        : THREE.FrontSide,
               opacity     : opacity,#+0.25,
               transparent : true,
@@ -316,14 +316,15 @@ class HG.AreasOnGlobe
 
   # ============================================================================
   _showAreaLayer: (area) ->
-    area.Material3D.opacity = area.getNormalStyle().fillOpacity
+    if area.Material3D
+      area.Material3D.opacity = area.getNormalStyle().fillOpacity
 
 
-    if area.Borderlines3D
-      for line in area.Borderlines3D
-        @_sceneCountries.add line  
+      if area.Borderlines3D
+        for line in area.Borderlines3D
+          @_sceneCountries.add line  
 
-    @_showLabel area
+      @_showLabel area
       
   # ============================================================================
   _hideAreaLayer: (area) ->
@@ -350,17 +351,6 @@ class HG.AreasOnGlobe
 
   # ============================================================================
   _onStyleChange3D: (area) =>
-    '''if area.myLeafletLayer?
-      @_animate area.myLeafletLayer,
-        "fill":           area.getNormalStyle().fillColor
-        "fill-opacity":   area.getNormalStyle().fillOpacity
-        "stroke":         area.getNormalStyle().lineColor
-        "stroke-opacity": area.getNormalStyle().lineOpacity
-        "stroke-width":   area.getNormalStyle().lineWidth
-      , 200
-    if area.myLeafletLabel?
-      area.myLeafletLabel._container.style.opacity = area.getNormalStyle().labelOpacity'''
-
 
     #@_animate area.myLeafletLayer, {"fill": area.getNormalStyle().fillColor}, 350#animation maybe later!
     if area.Material3D?
@@ -368,6 +358,23 @@ class HG.AreasOnGlobe
       #area.Material3D.color.setHex "0x"+newColor[1..]
 
       final_color = @_rgbify area.getNormalStyle().fillColor
+
+
+      '''#quickhack for cebit (borderbugs)
+      ######################################################
+      final_opacity = area.getNormalStyle().fillOpacity
+      final_border_opacity = area.getNormalStyle().lineOpacity
+      unless final_opacity > 0.01
+        final_border_opacity = 0.0
+      else
+        final_border_opacity = 1.0
+
+      if area._name is "Russia"
+        console.log "final opacity". final_opacity
+        console.log "final border opacity". final_border_opacity
+      #######################################################'''
+
+
       #console.log area.Material3D.color.r
       #console.log final_color[0]/255
 
@@ -408,7 +415,8 @@ class HG.AreasOnGlobe
             strokeColorR: final_stroke_color[0]/255,
             strokeColorG: final_stroke_color[1]/255,
             strokeColorB: final_stroke_color[2]/255,
-            strokeOpacity: area.getNormalStyle().lineOpacity,
+            #strokeOpacity: area.getNormalStyle().lineOpacity,
+            strokeOpacity: final_border_opacity,
             strokeWidth: area.getNormalStyle().lineWidth
           },{
             duration: 350,

@@ -42,41 +42,45 @@ class HG.Globe extends HG.Display
     HG.Display.call @, hgInstance.mapCanvas
 
     #button
-    if hgInstance.control_button_area?
-      state_a = {}
-      state_b = {}
 
-      state_a =
-        icon: "fa-globe"
-        tooltip: "Zur 3D-Ansicht wechseln"
-        callback: () =>
-          $(hgInstance.map.getCanvas()).animate({opacity: 0.0}, 1000, 'linear')
-          hgInstance.map.stop()
-          $(@getCanvas()).css({opacity: 0.0})
-          @start();
-          $(@getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
-          return state_b
+    hgInstance.onAllModulesLoaded @, () =>
+      if hgInstance.zoom_buttons?
+        hgInstance.zoom_buttons.onZoomIn @, @_zoomIn
 
-      state_b =
-        icon: "fa-calendar"
-        tooltip: "Zur 2D-Ansicht zurückkehren"
-        callback: () =>
-          $(@getCanvas()).animate({opacity: 0.0}, 1000, 'linear')
-          @stop()
-          $(@getCanvas()).css({opacity: 0.0})
-          hgInstance.map.start();
-          $(hgInstance.map.getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
-          return state_a
-
-      hgInstance.control_button_area.addButton state_a
-
-    else
-      console.error "Failed to add globe button: ControlButtons module not found!"
+        hgInstance.zoom_buttons.onZoomOut @, @_zoomOut
 
 
+      if hgInstance.control_button_area?
+        state_a = {}
+        state_b = {}
 
-      #test
-      #@_areaController._initMembers()#??????????????????????????
+        state_a =
+          icon: "fa-globe"
+          tooltip: "Zur 3D-Ansicht wechseln"
+          callback: () =>
+            $(hgInstance.map.getCanvas()).animate({opacity: 0.0}, 1000, 'linear')
+            hgInstance.map.stop()
+            $(@getCanvas()).css({opacity: 0.0})
+            @start();
+            $(@getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
+            return state_b
+
+        state_b =
+          icon: "fa-calendar"
+          tooltip: "Zur 2D-Ansicht zurückkehren"
+          callback: () =>
+            $(@getCanvas()).animate({opacity: 0.0}, 1000, 'linear')
+            @stop()
+            $(@getCanvas()).css({opacity: 0.0})
+            hgInstance.map.start();
+            $(hgInstance.map.getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
+            return state_a
+
+        hgInstance.control_button_area.addButton state_a
+
+      else
+        console.error "Failed to add globe button: ControlButtons module not found!"
+
 
 
   # ============================================================================
@@ -513,6 +517,20 @@ class HG.Globe extends HG.Display
     @_targetFOV = (CAMERA_MAX_ZOOM - @_currentZoom) /
                         (CAMERA_MAX_ZOOM - CAMERA_MIN_ZOOM) *
                         (CAMERA_MAX_FOV - CAMERA_MIN_FOV) + CAMERA_MIN_FOV
+
+
+
+  # ============================================================================
+  _zoomOut: ->
+    #@_targetFOV = Math.max(CAMERA_MIN_FOV,--@_currentFOV)
+    @_currentZoom = Math.max(CAMERA_MIN_ZOOM,--@_currentZoom)
+    @_zoom()
+
+  # ============================================================================
+  _zoomIn: ->
+    #@_targetFOV = Math.min(CAMERA_MAX_FOV,++@_currentFOV)
+    @_currentZoom = Math.min(CAMERA_MAX_ZOOM,++@_currentZoom)
+    @_zoom()
 
 
 

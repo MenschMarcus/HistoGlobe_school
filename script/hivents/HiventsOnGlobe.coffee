@@ -100,20 +100,20 @@ class HG.HiventsOnGlobe
 
           marker.sprite.position.set(position.x,position.y,position.z)
 
-
           @_sceneInterface.add marker.sprite
 
           @_hiventMarkers.push marker
+
           @_markersLoaded = @_hiventController._hiventsLoaded
           callback marker for callback in @_onMarkerAddedCallbacks
 
-          '''marker.onDestruction @,() =>
-            console.log "delete marker ftom hivent markers"
+          marker.onDestruction @,() =>
             index = $.inArray(marker, @_hiventMarkers)
-            @_hiventMarkers.splice index, 1  if index >= 0'''
+            @_hiventMarkers.splice index, 1  if index >= 0
 
 
-          @_updateHiventSizes() #TODO (after filter)
+          @_updateHiventSizes()
+
 
 
       @_hiventController.showVisibleHivents() # force all hivents to show

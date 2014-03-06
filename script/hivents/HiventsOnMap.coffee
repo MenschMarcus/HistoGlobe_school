@@ -69,8 +69,13 @@ class HG.HiventsOnMap
           marker = new HG.HiventMarker2D self, hgInstance.map, @_map, @_markerGroup
 
           @_hiventMarkers.push marker
+
           @_markersLoaded = @_hiventController._hiventsLoaded
           callback marker for callback in @_onMarkerAddedCallbacks
+
+          marker.onDestruction @,() =>
+            index = $.inArray(marker, @_hiventMarkers)
+            @_hiventMarkers.splice index, 1  if index >= 0
 
       @_map.getPanes().overlayPane.addEventListener "mousedown", (event) =>
         @_dragStart = new HG.Vector event.x, event.y

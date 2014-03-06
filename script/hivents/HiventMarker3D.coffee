@@ -106,7 +106,14 @@ class HG.HiventMarker3D extends HG.HiventMarker
     @getHiventHandle().inActiveAll()
     @_scene.remove @sprite 
 
-    @_onMarkerDestructionCallbacks = []
+    #@_onMarkerDestructionCallbacks = []
+    @_hiventHandle.removeListener "onFocus", @
+    @_hiventHandle.removeListener "onActive", @
+    @_hiventHandle.removeListener "onInActive", @
+    @_hiventHandle.removeListener "onLink", @
+    @_hiventHandle.removeListener "onUnLink", @
+    @_hiventHandle.removeListener "onHide", @
+    @_hiventHandle.removeListener "onDestruction", @
 
     super()
     delete @;

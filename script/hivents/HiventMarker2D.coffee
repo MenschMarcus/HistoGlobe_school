@@ -69,6 +69,8 @@ class HG.HiventMarker2D extends HG.HiventMarker
     @getHiventHandle().onDestruction @, @_destroy
     @getHiventHandle().onHide @, @_destroy
 
+    @addCallback "onMarkerDestruction"
+
   # ============================================================================
   getDisplayPosition: ->
     pos =  @_map.layerPointToContainerPoint(new L.Point @_position.x, @_position.y - HIVENT_MARKER_2D_RADIUS )
@@ -112,6 +114,9 @@ class HG.HiventMarker2D extends HG.HiventMarker
 
   # ============================================================================
   _destroy: =>
+
+    @notifyAll "onMarkerDestruction"
+
     @getHiventHandle().inActiveAll()
     @_marker.off "mouseover", @_onMouseOver
     @_marker.off "mouseout", @_onMouseOut

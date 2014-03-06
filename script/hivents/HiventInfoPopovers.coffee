@@ -26,14 +26,13 @@ class HG.HiventInfoPopovers
     @_hgInstance = hgInstance
     @_hiventsOnMap = hgInstance.hiventsOnMap
     @_hiventsOnGlobe = hgInstance.hiventsOnGlobe
-    @_map = hgInstance.map
     @_globe = hgInstance.globe
     @_mapArea = hgInstance._map_area
 
     if @_hiventsOnMap
       @_hiventsOnMap.onMarkerAdded (marker) =>
         if marker.parentDiv
-          @_addPopover marker, @_map.overlayContainer
+          @_addPopover marker, @_hgInstance.mapCanvas
 
     if @_hiventsOnGlobe
       @_hiventsOnGlobe.onMarkerAdded (marker) =>

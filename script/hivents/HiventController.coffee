@@ -202,6 +202,7 @@ class HG.HiventController
   # ============================================================================
   showVisibleHivents: ->
     for handle in @_hiventHandles
+      hivent = handle.getHivent()
       isVisible = true
 
       if isVisible and @_currentCategoryFilter?
@@ -217,6 +218,7 @@ class HG.HiventController
                     hivent.lat <= @_currentSpaceFilter.max.lat and
                     hivent.long <= @_currentSpaceFilter.max.long'''
       if isVisible
+        handle.hideAll()
         handle.showAll()
 
 
