@@ -360,7 +360,7 @@ class HG.AreasOnGlobe
       final_color = @_rgbify area.getNormalStyle().fillColor
 
 
-      '''#quickhack for cebit (borderbugs)
+      #quickhack for cebit (borderbugs)
       ######################################################
       final_opacity = area.getNormalStyle().fillOpacity
       final_border_opacity = area.getNormalStyle().lineOpacity
@@ -372,8 +372,7 @@ class HG.AreasOnGlobe
       if area._name is "Russia"
         console.log "final opacity". final_opacity
         console.log "final border opacity". final_border_opacity
-      #######################################################'''
-
+      #######################################################
 
       #console.log area.Material3D.color.r
       #console.log final_color[0]/255
