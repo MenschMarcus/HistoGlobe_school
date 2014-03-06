@@ -71,7 +71,8 @@ class HG.HiventsOnGlobe
       @_globe.addSceneToRenderer(@_sceneInterface)
 
       @_globe.onMove @, @_updateHiventSizes
-      @_globe.onMove @, HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()
+      @_globe.onMove @, @_deactivateAllHivents
+      @_globe.onZoom @, @_deactivateAllHivents
       window.addEventListener   "mouseup",  @_onMouseUp,         false #for hivent intersections
       window.addEventListener   "mousedown",@_onMouseDown,       false #for hivent intersections
 
@@ -122,6 +123,10 @@ class HG.HiventsOnGlobe
     else
       console.error "Unable to show hivents on Globe: HiventController module not detected in HistoGlobe instance!"
 
+
+  # ============================================================================
+  _deactivateAllHivents:() =>
+    HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()
 
   # ============================================================================
   _animate:() =>

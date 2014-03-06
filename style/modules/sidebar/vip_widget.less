@@ -1,31 +1,32 @@
 .vip-widget {
 
   .vip-widget-name {
-    font-size: 2em;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background-color: rgba(50,50,50,0.6);
-    color: #fff;
-    padding: 10px 10px 0px 5px;
+    font-family: @secondary_font_face;
+    font-size: 28pt * @widget_font_size_factor;
+    color: @widget_title_text_color;
 
     line-height: 1.1em;
-    text-align: right;
+    text-align: center;
+
+    margin-bottom: 20px;
+
+    small {
+      font-size: 18pt * @widget_font_size_factor;
+    }
   }
 
   .vip-widget-copyright {
-    font-size: 0.8em;
+    font-size: 10pt * @widget_font_size_factor;
     position: absolute;
     top: 0;
     right: 0;
-    // background-color: rgba(50,50,50,0.6);
     color: #000;
     padding-right: 5px;
     padding-top: 2px;
   }
 
   .vip-widget-text {
-    text-align: justify;
+    text-align: left;
   }
 
   .vip-widget-image {
@@ -36,9 +37,9 @@
 
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: 50% 50%;
+    background-position: 50% 0%;
 
-    border: 1px solid darken(@widget_background_color, 50%);
+    border-bottom: @border_width*2 solid @border_color_dark;
     border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
 
     margin-right: @widget_body_padding;

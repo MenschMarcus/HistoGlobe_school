@@ -116,7 +116,7 @@ class HG.HiventMarker3D extends HG.HiventMarker
   #                             STATIC MEMBERS                                 #
   ##############################################################################
 
-  WIDTH = 32/1.2
-  HEIGHT = 32/1.2
+  WIDTH = 32#/1.2
+  HEIGHT = 32#/1.2
 
 

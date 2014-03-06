@@ -32,16 +32,37 @@ class HG.HiventsOnMap
            position: absolute !important;
            background-image: url(#{icons[element]}) !important;
            background-size: cover !important;"
+        HG.createCSSSelector ".hivent_marker_2D_stack .#{category}",
+        "width: #{HGConfig.hivent_marker_2D_width.val}px !important;
+         height: #{HGConfig.hivent_marker_2D_height.val}px !important;
+         margin-top: 0px;
+         margin-left: 5px;
+         position: absolute !important;
+         background-image: url(#{icons.default}) !important;
+         background-size: cover !important;"
 
     @_map = hgInstance.map._map
     @_hiventController = hgInstance.hiventController
 
     if @_hiventController
-      @_markerGroup = new L.MarkerClusterGroup(
-        {
-          showCoverageOnHover: false,
-          maxClusterRadius: 20
-        })
+      @_markerGroup = new L.MarkerClusterGroup
+        showCoverageOnHover: false
+        maxClusterRadius: HGConfig.hivent_marker_2D_width.val
+        spiderfyDistanceMultiplier: 1.5
+        iconCreateFunction: (cluster) =>
+          depth = 0
+          html = ""
+
+          for marker in cluster.getAllChildMarkers()
+            category = marker.myHiventMarker2D.getHiventHandle().getHivent().category
+            html += "<div class='#{category}'>"
+            if ++depth is 3
+              break
+          for i in [0..depth]
+            html += "</div>"
+
+          new L.DivIcon {className: "hivent_marker_2D_stack", iconAnchor: [HGConfig.hivent_marker_2D_width.val*0.5 + 5*0.5*depth, HGConfig.hivent_marker_2D_height.val*0.5], html: html}
+
 
       @_hiventController.onHiventAdded (handle) =>
         handle.onShow @, (self) =>

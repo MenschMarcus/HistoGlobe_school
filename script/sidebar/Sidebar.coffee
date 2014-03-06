@@ -52,6 +52,25 @@ class HG.Sidebar
     @_sidebar_swiper?.reInit()
 
   # ============================================================================
+  scrollWidgetToTop: (widget) ->
+    @_sidebar_swiper.setTransition @_wrapper, 1000 * HGConfig.sidebar_aimation_speed.val
+    @_sidebar_swiper.setTranslate @_wrapper,
+      y: @_clampSidebarPosition(-$(widget.container).position().top + HGConfig.widget_margin.val)
+
+    # ============================================================================
+  scrollWidgetToBottom: (widget) ->
+    @_sidebar_swiper.setTransition @_wrapper, 1000 * HGConfig.sidebar_aimation_speed.val
+    @_sidebar_swiper.setTranslate @_wrapper,
+      y: @_clampSidebarPosition(-$(widget.container).position().top - $(widget.container).height() + $(@_container).height() - 3*HGConfig.widget_margin.val)
+
+  # ============================================================================
+  scrollToWidgetIntoView: (widget) ->
+    if $(widget.container).offset().top < -HGConfig.widget_margin.val
+      @scrollWidgetToTop widget
+    else if $(widget.container).offset().top + $(widget.container).height() + 3*HGConfig.widget_margin.val > $(@_container).height()
+      @scrollWidgetToBottom widget
+
+  # ============================================================================
   resize: (width, height) ->
     @_container.style.width = "#{width}px"
     @_container.style.height = "#{height}px"
@@ -63,6 +82,10 @@ class HG.Sidebar
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
+
+  # ============================================================================
+  _clampSidebarPosition: (offset) ->
+    Math.min(0, Math.max(-($(@_wrapper).height() - $(@_container).height()), offset))
 
   # ============================================================================
   _createElement: (container, type, id) ->

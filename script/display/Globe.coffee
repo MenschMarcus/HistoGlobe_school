@@ -15,6 +15,7 @@ class HG.Globe extends HG.Display
 
     @addCallback "onZoomEnd"
     @addCallback "onMoveEnd"
+    @addCallback "onZoom"
     @addCallback "onMove"
     @addCallback "onLoaded"
 
@@ -474,6 +475,8 @@ class HG.Globe extends HG.Display
 
     # zooming ------------------------------------------------------------------
     unless @_currentFOV is @_targetFOV
+
+      @notifyAll "onZoom"
 
       smoothness = 0.8
       @_currentFOV = @_currentFOV * smoothness + @_targetFOV * (1.0-smoothness)

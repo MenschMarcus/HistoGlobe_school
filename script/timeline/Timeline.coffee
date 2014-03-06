@@ -187,7 +187,8 @@ class HG.Timeline
     timefilter = []
     ###timefilter.start = @_yearMarkers.get(0).nodeData.getDate()
     timefilter.end = @_yearMarkers.get(@_yearMarkers.getLength() - 1).nodeData.getDate()###
-    timefilter.end = @_positionToDate(@_tlWidth)
+    # timefilter.end = @_positionToDate(@_tlWidth)
+    timefilter.end = @_positionToDate(@_tlWidth/2)
     timefilter.start = @_positionToDate(0)
     timefilter
 

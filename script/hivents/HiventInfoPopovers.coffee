@@ -64,10 +64,8 @@ class HG.HiventInfoPopovers
         HG.HiventHandle.DEACTIVATE_ALL_OTHER_HIVENTS(handle)
 
       marker.hiventInfoPopover?= new HG.HiventInfoPopover handle,
-                                 @_hgInstance,
                                  new HG.Vector(0, 0),
-                                 container,
-                                 @_mapArea
+                                 container
 
       marker.hiventInfoPopover.show()
       marker.hiventInfoPopover.setAnchor new HG.Vector(displayPosition.x, displayPosition.y)

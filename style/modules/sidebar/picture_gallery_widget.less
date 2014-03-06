@@ -1,17 +1,13 @@
 .picture-gallery-widget {
 
   .picture-gallery-widget-text {
-    font-size: 1em;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background-color: rgba(50,50,50,0.6);
-    color: #fff;
-    padding: 10px 10px 5px 10px;
+    font-size: 14pt * @widget_font_size_factor;
+    text-align: left;
+    margin-top: 15px;
   }
 
   .picture-gallery-widget-copyright {
-    font-size: 0.8em;
+    font-size: 10pt * @widget_font_size_factor;
     position: absolute;
     top: 0;
     right: 0;
@@ -31,7 +27,7 @@
     background-repeat: no-repeat;
     background-position: 50% 50%;
 
-    border: 1px solid darken(@widget_background_color, 50%);
+    border-bottom: @border_width*2 solid @border_color_dark;
     border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
 
     margin-right: @widget_body_padding;

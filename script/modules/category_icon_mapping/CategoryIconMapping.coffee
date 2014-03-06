@@ -25,6 +25,6 @@ class HG.CategoryIconMapping
 
   # ============================================================================
   getIcons: (category) ->
-    if category.hasOwnProperty @_config
+    if @_config.hasOwnProperty category
       return @_config[category]
     return @_config.default

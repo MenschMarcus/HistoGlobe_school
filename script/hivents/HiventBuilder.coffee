@@ -80,11 +80,11 @@ class HG.HiventBuilder
             if mmDatabase.hasOwnProperty id
               entry = mmDatabase["#{id}"]
               mm = @_createMultiMedia entry.type, entry.description, entry.link
-              mmHtmlString +=  '\t\t<li><a href=\"' +
-                                mm.link + '\" rel=\"prettyPhoto' +
-                                galleryTag + '\" title=\"' +
-                                mm.description + '\"> <img src=\"' +
-                                mm.thumbnail + '\" width=\"60px\" /></a></li>\n'
+              mmHtmlString +=  '\t\t<li><a href="' +
+                                mm.link + '" rel="prettyPhoto" ' +
+                                galleryTag + ' title="' +
+                                mm.description + '" style="background-image:url(\'' +
+                                mm.thumbnail + '\')"></a></li>\n'
 
               loadedIds.push id
             else

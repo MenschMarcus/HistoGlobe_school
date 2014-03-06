@@ -77,25 +77,29 @@
   },
 
   "CategoryIconMapping" : {
+      "default" : {
+        "default" : "config/exemplum/data/icons/default_default.png",
+        "highlighted" : "config/exemplum/data/icons/default_highlight.png"
+      },
       "Z" : {
-        "default" : "data/hivent_icons/icon_default.png",
-        "highlighted" : "data/hivent_icons/icon_default_highlight.png"
+        "default" : "config/exemplum/data/icons/zweigstelle_default.png",
+        "highlighted" : "config/exemplum/data/icons/zweigstelle_highlight.png"
       },
       "F" : {
-        "default" : "data/hivent_icons/icon_default.png",
-        "highlighted" : "data/hivent_icons/icon_default_highlight.png"
+        "default" : "config/exemplum/data/icons/fabrik_default.png",
+        "highlighted" : "config/exemplum/data/icons/fabrik_highlight.png"
       },
       "P" : {
-        "default" : "data/hivent_icons/icon_default.png",
-        "highlighted" : "data/hivent_icons/icon_default_highlight.png"
+        "default" : "config/exemplum/data/icons/plantage_default.png",
+        "highlighted" : "config/exemplum/data/icons/plantage_highlight.png"
       },
       "S" : {
-        "default" : "data/hivent_icons/icon_default.png",
-        "highlighted" : "data/hivent_icons/icon_default_highlight.png"
+        "default" : "config/exemplum/data/icons/shop_default.png",
+        "highlighted" : "config/exemplum/data/icons/shop_highlight.png"
       },
       "E" : {
-        "default" : "data/hivent_icons/icon_default.png",
-        "highlighted" : "data/hivent_icons/icon_default_highlight.png"
+        "default" : "config/exemplum/data/icons/erlebniszentrum_default.png",
+        "highlighted" : "config/exemplum/data/icons/erlebniszentrum_highlight.png"
       }
     },
 
@@ -131,7 +135,7 @@
           "compOp": "replace"
         },
         "fillOpacity": {
-          "range": [0, 0.3],
+          "range": [0, 0.6],
           "fallback": 0,
           "compOp": "multiply"
         },
@@ -179,13 +183,13 @@
     {
       "type" : "VIPWidget",
       "icon" : "fa-user",
-      "name" : "Vorsitzender",
+      "name" : "Vorstand",
       "persons" :
       [
         {
           "name": "Martin Exelsior",
           "date": "01.06.1964",
-          "displayDate": "1964 - 1976",
+          "displayDate": "Geschäftsführer von 1964 bis 1976",
           "image": "config/exemplum/data/media/exelsior.jpg",
           "copyright": "© Drew Coffman",
           "description": "Martin Exelsior übernimmt als Gründer die Geschäftsführung der Exemplum GmbH."
@@ -193,7 +197,7 @@
         {
           "name": "Peter Paulsen",
           "date": "04.03.1976",
-          "displayDate": "1976 - 1990",
+          "displayDate": "Geschäftsführer von 1976 bis 1990",
           "image": "config/exemplum/data/media/peter_paulsen.jpg",
           "copyright": "© Victor1558",
           "description": "Martin Exelsior tritt aus gesundheitlichen Gründen zurück und wird durch seinen Neffen Peter Paulsen abgelöst. Peter Paulsen war zuvor Zweigstellenleiter in Österreich und der Schweiz."
@@ -201,7 +205,7 @@
         {
           "name": "Frank Schneider",
           "date": "01.02.1990",
-          "displayDate": "1990 - 1997",
+          "displayDate": "Geschäftsführer von 1990 bis 1997",
           "image": "config/exemplum/data/media/frank_schneider.jpg",
           "copyright": "© Victor1558",
           "description": "Peter Paulsen geht in den Ruhestand. Er wird von Frank Schneider abgelöst. Frank Schneider war zuvor Leiter des Produktmarketings. Von nun an ist die Geschäftsführung nicht mehr in den Händen der Familie Exelsior."
@@ -209,7 +213,7 @@
         {
           "name": "Sabrina Fahrenkamp",
           "date": "02.03.1997",
-          "displayDate": "1997 - 2005",
+          "displayDate": "Geschäftsführerin von 1997 bis 2005",
           "image": "config/exemplum/data/media/sabrina_fahrenkamp.jpg",
           "copyright": "© Victor1558",
           "description": "Frank Schneider tritt zurück. Er sah seine persönliche Zukunft nicht mehr in der Exemplum GmbH. Er wird durch Sabrina Fahrenkamp abgelöst. Sabrina Fahrenkamp war zuvor Zweigstellenleiterin in den USA und für die interne Unternehmenskommunikation verantwortlich."
@@ -217,7 +221,7 @@
         {
           "name": "Geoffrey Brooks",
           "date": "25.06.2005",
-          "displayDate": "seit dem 25.06.2005",
+          "displayDate": "Geschäftsführer seit dem 25.06.2005",
           "image": "config/exemplum/data/media/geoffrey_brooks.jpg",
           "copyright": "© Victor1558",
           "description": "Sabrina Fahrenkamp tritt altersbedingt zurück. Sie wird durch Geoffrey Brooks abgelöst. Er war zuvor bei einer großen Unternehmensberatung als Partner tätig. Geoffrey Brooks ist der erste Geschäftsführer, der nicht aus den eigenen Reihen kommt."
@@ -305,9 +309,8 @@
     {
       "type" : "StatisticsWidget",
       "icon" : "fa-bar-chart-o",
-      "name" : "Umsatzentwicklung",
-      "title" : "Umsatzentwicklung",
-      "subtitle" : "von 1964 bis heute",
+      "name" : "Jahresumsatz",
+      "title" : "Jahresumsatz seit 1964",
       "data" : "config/exemplum/data/statistics_revenue.dsv",
       "lineColor" : "lightblue",
       "lineWidth" : "5px",
@@ -322,9 +325,8 @@
     {
       "type" : "StatisticsWidget",
       "icon" : "fa-bar-chart-o",
-      "name" : "Mitarbeiterzahlentwicklung",
-      "title" : "Mitarbeiterzahlentwicklung",
-      "subtitle" : "von 1964 bis heute",
+      "name" : "Mitarbeiterzahl",
+      "title" : "Mitarbeiterzahl seit 1964",
       "data" : "config/exemplum/data/statistics_employees.dsv",
       "lineColor" : "lightgreen",
       "lineWidth" : "5px",

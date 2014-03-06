@@ -11,14 +11,17 @@ class HG.HiventInfoPopover
   ##############################################################################
 
   # ============================================================================
-  constructor: (hiventHandle, hgInstance, anchor, parentDiv, visibleArea) ->
+  constructor: (hiventHandle, anchor, parentDiv) ->
 
     @_hiventHandle = hiventHandle
-    @_hgInstance = hgInstance
     @_parentDiv = parentDiv
     @_anchor = anchor
-    @_visibleArea = visibleArea
     @_contentLoaded = false
+    @_placement = undefined
+
+    # $(@_hgInstance.mapCanvas).mousewheel (e) =>
+    # $(window).mousewheel (e) =>
+    #   console.log "scroll"
 
     @_width = BODY_DEFAULT_WIDTH
     @_height = BODY_DEFAULT_HEIGHT
@@ -141,7 +144,7 @@ class HG.HiventInfoPopover
   # ============================================================================
   setAnchor: (anchor) ->
     @_anchor = anchor.clone()
-    # @_updateArrow()
+    @_updateWindowPos()
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -150,67 +153,65 @@ class HG.HiventInfoPopover
   # ============================================================================
   _updateWindowPos: ->
 
-    placement = new HG.Vector 0, -1
+    canvasOffset = $(@_parentDiv).offset()
 
-    canvasOffset = $(@_hgInstance.mapCanvas).offset()
+    unless @_placement?
+      @_placement = new HG.Vector 0, -1
 
-    anchorOffset =
-      top : @_anchor.at(1)
-      left : @_anchor.at(0) + canvasOffset.left
-      bottom : @_visibleArea.offsetHeight - @_anchor.at(1)
-      right : @_visibleArea.offsetWidth - @_anchor.at(0)
+      anchorOffset =
+        top : @_anchor.at(1)
+        left : @_anchor.at(0) + canvasOffset.left
+        bottom : @_parentDiv.offsetHeight - @_anchor.at(1)
+        right : @_parentDiv.offsetWidth - @_anchor.at(0)
 
-    #console.log canvasOffset
-    #console.log anchorOffset
+      neededWidth = @_width +
+                    HGConfig.hivent_marker_2D_width.val / 2 +
+                    HGConfig.hivent_info_popover_arrow_height.val
 
-    neededWidth = @_width +
-                  HGConfig.hivent_marker_2D_width.val / 2 +
-                  HGConfig.hivent_info_popover_arrow_height.val
+      neededHeight = @_mainDiv.offsetHeight +
+                    HGConfig.hivent_marker_2D_height.val / 2 +
+                    HGConfig.hivent_info_popover_arrow_height.val
 
-    neededHeight = @_mainDiv.offsetHeight +
-                  HGConfig.hivent_marker_2D_height.val / 2 +
-                  HGConfig.hivent_info_popover_arrow_height.val
+      if anchorOffset.top >= neededHeight
+        if anchorOffset.left >= neededWidth / 2 and
+           anchorOffset.right >= neededWidth / 2
+          @_placement = new HG.Vector 0, -1
 
-    if anchorOffset.top >= neededHeight
-      if anchorOffset.left >= neededWidth / 2 and
-         anchorOffset.right >= neededWidth / 2
-        placement = new HG.Vector 0, -1
+        else if anchorOffset.left <= neededWidth
+          @_placement = new HG.Vector 1, 0
 
-      else if anchorOffset.left <= neededWidth
-        placement = new HG.Vector 1, 0
+        else if anchorOffset.right <= neededWidth
+          @_placement = new HG.Vector -1, 0
 
-      else if anchorOffset.right <= neededWidth
-        placement = new HG.Vector -1, 0
+      else
+        if anchorOffset.left >= neededWidth / 2 and
+           anchorOffset.right >= neededWidth / 2
+          @_placement = new HG.Vector 0, 1
 
-    else
-      if anchorOffset.left >= neededWidth / 2 and
-         anchorOffset.right >= neededWidth / 2
-        placement = new HG.Vector 0, 1
+        else if anchorOffset.left <= neededWidth
+          @_placement = new HG.Vector 1, 0
 
-      else if anchorOffset.left <= neededWidth
-        placement = new HG.Vector 1, 0
+        else if anchorOffset.right <= neededWidth
+          @_placement = new HG.Vector -1, 0
 
-      else if anchorOffset.right <= neededWidth
-        placement = new HG.Vector -1, 0
+      $(@_topArrow).css "display", if @_placement.at(1) is 1 then "block" else "none"
+      $(@_bottomArrow).css "display", if @_placement.at(1) is -1 then "block" else "none"
+      $(@_leftArrow).css "display", if @_placement.at(0) is 1 then "block" else "none"
+      $(@_rightArrow).css "display", if @_placement.at(0) is -1 then "block" else "none"
 
-    $(@_topArrow).css "display", if placement.at(1) is 1 then "block" else "none"
-    $(@_bottomArrow).css "display", if placement.at(1) is -1 then "block" else "none"
-    $(@_leftArrow).css "display", if placement.at(0) is 1 then "block" else "none"
-    $(@_rightArrow).css "display", if placement.at(0) is -1 then "block" else "none"
-
-    verticalArrowMargin = @_mainDiv.offsetHeight / 2 - HGConfig.hivent_info_popover_arrow_height.val / 2
-    $(@_leftArrow).css "margin-top", "#{verticalArrowMargin}px"
-    $(@_rightArrow).css "margin-top", "#{verticalArrowMargin}px"
+      verticalArrowMargin = @_mainDiv.offsetHeight / 2 - HGConfig.hivent_info_popover_arrow_height.val / 2
+      $(@_leftArrow).css "margin-top", "#{verticalArrowMargin}px"
+      $(@_rightArrow).css "margin-top", "#{verticalArrowMargin}px"
 
     $(@_mainDiv).offset {
       left: @_anchor.at(0) + canvasOffset.left +
-            placement.at(0) * (HGConfig.hivent_marker_2D_width.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
-            placement.at(0) * ((@_width - @_width * placement.at(0)) / 2) -
-            Math.abs(placement.at(1)) *  @_width / 2
+            @_placement.at(0) * (HGConfig.hivent_marker_2D_width.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
+            @_placement.at(0) * ((@_width - @_width * @_placement.at(0)) / 2) -
+            Math.abs(@_placement.at(1)) *  @_width / 2
       top:  @_anchor.at(1) +
-            placement.at(1) * (HGConfig.hivent_marker_2D_height.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
-            placement.at(1) * ((@_mainDiv.offsetHeight - @_mainDiv.offsetHeight * placement.at(1)) / 2) -
-            Math.abs(placement.at(0)) * @_mainDiv.offsetHeight / 2
+            @_placement.at(1) * (HGConfig.hivent_marker_2D_height.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
+            @_placement.at(1) * ((@_mainDiv.offsetHeight - @_mainDiv.offsetHeight * @_placement.at(1)) / 2) -
+            Math.abs(@_placement.at(0)) * @_mainDiv.offsetHeight / 2
     }
 
 
@@ -297,7 +298,7 @@ class HG.HiventInfoPopover
   # ============================================================================
   _destroy: () =>
     @_mainDiv.parentNode.removeChild @_mainDiv
-    @_raphael.canvas.parentNode.removeChild @_raphael.canvas
+    # @_raphael.canvas.parentNode.removeChild @_raphael.canvas
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #

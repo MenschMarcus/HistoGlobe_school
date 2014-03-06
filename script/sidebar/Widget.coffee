@@ -10,8 +10,9 @@ class HG.Widget
   hgInit: (hgInstance) ->
     @_width = 0
     @_height = 0
-    @_createLayout()
+    @_hgInstance = hgInstance
     @_sidebar = hgInstance.sidebar
+    @_createLayout()
     @_sidebar.onResize @, (width, height) =>
       @setWidth width - 2*HGConfig.widget_margin.val - HGConfig.sidebar_scrollbar_width.val - HGConfig.widget_title_size.val - 2*HGConfig.widget_body_padding.val
       @setHeight height - 2*HGConfig.widget_body_padding.val
@@ -89,8 +90,15 @@ class HG.Widget
 
     @onDivClick @_title_top, @_collapse
     @onDivClick collapse_button_container, @_collapse
-    # $(@_title_top).click @_collapse
-    # $(collapse_button_container).click @_collapse
+    @onDivClick @_icon, () =>
+      if @_hgInstance._collapsed
+        @_hgInstance._collapse()
+        @_sidebar.scrollToWidgetIntoView @
+
+        if $(@_header).hasClass("collapsed")
+          @_collapse()
+      else
+        @_collapse()
 
     # body ---------------------------------------------------------------------
     body_collapsable = document.createElement "div"
@@ -115,6 +123,11 @@ class HG.Widget
     clear = document.createElement "div"
     clear.className = "clear"
     @container.appendChild clear
+
+    @onDivClick title_container, () =>
+      if @_hgInstance._collapsed
+        @_sidebar.scrollToWidgetIntoView @
+      @_hgInstance._collapse()
 
     @setName "New Widget"
     @setIcon "fa-star"
