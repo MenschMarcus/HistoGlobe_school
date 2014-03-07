@@ -43,7 +43,7 @@ class HG.Timeline
       mode:'horizontal'
       freeMode: true
       freeModeFluid: true
-      momentumRatio: 0.2
+      momentumRatio: 0.5
       scrollContainer: true
 
       onSetWrapperTransition: =>
@@ -286,14 +286,14 @@ class HG.Timeline
     if @yearToDate(@_config.minYear).getTime() < date.getTime() && @yearToDate(@_config.maxYear).getTime() > date.getTime()
       dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
       @_timeline_swiper.setWrapperTranslate(dateDiff / @millisPerPixel(),0,0)
-      @_updateNowDate()
+      # @_updateNowDate()
 
   moveToDate: (date, delay) ->
     if @yearToDate(@_config.minYear).getTime() < date.getTime() && @yearToDate(@_config.maxYear).getTime() > date.getTime()
       dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
       @_uiElements.tlDivWrapper.style.transition =  delay + "s"
       @_uiElements.tlDivWrapper.style.webkitTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-      @_updateNowDate()
+      # @_updateNowDate()
 
   #   --------------------------------------------------------------------------
   _animTimeline: =>

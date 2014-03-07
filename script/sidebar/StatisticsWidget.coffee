@@ -192,5 +192,5 @@ class HG.StatisticsWidget extends HG.Widget
 
   # ============================================================================
   _updateTimeline: (x) =>
-    @_timeline.scrollToDate @_xCoordinateToDate(x)
+    @_timeline.moveToDate @_xCoordinateToDate(x), 0.5
 
