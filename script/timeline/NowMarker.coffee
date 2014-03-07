@@ -66,10 +66,8 @@ class HG.NowMarker
 
         # check if mouse went down on speed changer
         @_mainDiv.onmousedown = (e) =>
-            console.log "now marker clicked"
             if((@_distanceToMiddlepoint(e) - 75) >= 0)
                 @_clicked = true
-                console.log "now marker clicked on scale"
                 @_disableTextSelection e
 
         # rotate arrow if mouse moved on speed changer
@@ -85,9 +83,7 @@ class HG.NowMarker
 
         # set new speed of timeline animation
         @_mainDiv.onmouseup = (e) =>
-            console.log "set speed"
             if @_clicked
-                console.log "set speed"
                 @_timeline.setSpeed(e.pageX - @_middlePointX)
                 $(@_pointer).rotate(@_angleOnCircle(e))
                 @_enableTextSelection()
@@ -115,7 +111,6 @@ class HG.NowMarker
                 if i > 2
                     d.setDate(res[i - 3])
 
-                console.log "new now date: " + d.getFullYear()
                 @_timeline.moveToDate(d, 1)
 
     #   --------------------------------------------------------------------------

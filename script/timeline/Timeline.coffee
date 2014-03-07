@@ -97,7 +97,6 @@ class HG.Timeline
           zoomed = true
 
       if zoomed
-        console.log "Zoomlevel: " + @_config.zoom
         @_maxIntervalIndex = @_calcMaxIntervalIndex()
         @_makeLayout()
         @_updateDateMarkers()
@@ -228,8 +227,6 @@ class HG.Timeline
 
   #   --------------------------------------------------------------------------
   _updateDateMarkers: ->
-    console.log "Update DateMarkers"
-
     #   count possible years to show
     count = @_config.maxYear - @_config.minYear
 
