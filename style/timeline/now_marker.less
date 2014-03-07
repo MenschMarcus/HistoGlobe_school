@@ -91,18 +91,24 @@
 // play button in the middle of Now Marker
 #now_marker_play {
 
-    // position & size
-    margin:     10px auto 10px auto;
-
     // change cursor on mouse over
     &:hover {   cursor: pointer;    }
 
     width: 0;
     height: 0;
+
     border-top: 12px solid transparent;
     border-bottom: 12px solid transparent;
 
+}
+.forward {
+    margin:     10px auto 10px auto;
     border-left: 16px solid #333;
+}
+
+.backward {
+    margin:     10px 50% 10px auto;
+    border-right: 16px solid #333;
 }
 
 // litte sign pointing on now marker on timeline

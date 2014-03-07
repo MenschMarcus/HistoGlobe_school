@@ -31,6 +31,7 @@ class HG.NowMarker
 
         @_playButton    = document.createElement "div"
         @_playButton.id = "now_marker_play"
+        @_playButton.className = "forward"
         #@_playButton.innerHTML = "<img src='img/timeline/playIcon.png'>"
 
         nowMarkerIn.appendChild @_playButton
@@ -73,11 +74,10 @@ class HG.NowMarker
         # rotate arrow if mouse moved on speed changer
         @_mainDiv.onmousemove = (e) =>
             if @_clicked
-                if not @_timeline.getPlayStatus()
-                    if @_hiddenSpeed < 0 and e.pageX - @_middlePointX >= 0
-                        @_playButton.innerHTML = "<img src='data/timeline/playIcon.png'>"
-                    else if @_hiddenSpeed >= 0 and e.pageX - @_middlePointX < 0
-                        @_playButton.innerHTML = "<img src='data/timeline/playIconPrev.png'>"
+                if @_hiddenSpeed < 0 and e.pageX - @_middlePointX >= 0
+                    @_playButton.className = "forward"
+                else if @_hiddenSpeed >= 0 and e.pageX - @_middlePointX < 0
+                    @_playButton.className = "backward"
                 @_hiddenSpeed = e.pageX - @_middlePointX
                 $(@_pointer).rotate(@_angleOnCircle(e))
 
