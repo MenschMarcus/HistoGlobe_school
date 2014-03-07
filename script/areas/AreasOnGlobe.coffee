@@ -182,7 +182,7 @@ class HG.AreasOnGlobe
           line_coord = @_globe._latLongToCart(
             x:vertex.x
             y:vertex.y,
-            @_globe.getGlobeRadius()+0.15)
+            @_globe.getGlobeRadius()+0.41)
           lineGeometry.vertices.push line_coord
         #close line:
         lineGeometry.vertices.push lineGeometry.vertices[0]
@@ -227,8 +227,8 @@ class HG.AreasOnGlobe
       max_dist = Math.max(lat_distance,lng_distance)
       
       #iterations = Math.min(Math.max(0,Math.round(max_dist/3.5)),11)
-      #iterations = Math.min(Math.max(0,Math.round(max_dist^2/140)),11)
-      iterations = Math.min(Math.max(0,Math.round(max_dist^3/5500)),11)
+      iterations = Math.min(Math.max(0,Math.round(max_dist^2/140)),11)
+      #iterations = Math.min(Math.max(0,Math.round(max_dist^3/5500)),11)
 
       '''if area.getLabel() is "Russia"
         console.log max_dist,"!!!!!!!!!!!!!!!!!"
@@ -270,7 +270,7 @@ class HG.AreasOnGlobe
         cart_coords = @_globe._latLongToCart(
             x:vertex.x
             y:vertex.y,
-            @_globe.getGlobeRadius()+0.5)
+            @_globe.getGlobeRadius()+0.4)
         vertex.x = cart_coords.x
         vertex.y = cart_coords.y
         vertex.z = cart_coords.z

@@ -15,6 +15,8 @@ class HG.HiventTooltips
   hgInit: (hgInstance) ->
     @_hiventsOnTimeline = hgInstance.hiventsOnTimeline
     @_hiventsOnMap = hgInstance.hiventsOnMap
+    @_hiventsOnGlobe = hgInstance.hiventsOnGlobe
+
 
     if @_hiventsOnTimeline
       @_hiventsOnTimeline.onMarkerAdded (marker) =>
@@ -23,6 +25,11 @@ class HG.HiventTooltips
 
     if @_hiventsOnMap
       @_hiventsOnMap.onMarkerAdded (marker) =>
+        if marker.parentDiv
+          @_addTooltip marker
+
+    if @_hiventsOnGlobe
+      @_hiventsOnGlobe.onMarkerAdded (marker) =>
         if marker.parentDiv
           @_addTooltip marker
 
