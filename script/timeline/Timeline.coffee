@@ -362,7 +362,7 @@ class HG.Timeline
   #   --------------------------------------------------------------------------
   _getTimeFilter: ->
     timefilter = []
-    timefilter.end = @maxVisibleDate()
+    timefilter.end = @_nowDate
     timefilter.start = @minVisibleDate()
     timefilter
 
