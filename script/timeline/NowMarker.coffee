@@ -7,14 +7,13 @@ class HG.NowMarker
     ##############################################################################
 
     # ============================================================================
-    constructor: (timeline, date) ->
-        @_nowDate = date
+    constructor: (timeline) ->
         @_timeline  = timeline
 
         # OLD STUFF
         @_mainDiv   = document.createElement "div"
         @_mainDiv.id = "now_marker"
-        @_tlDiv     = timeline.getCanvas()
+        @_tlDiv     = @_timeline.getUIElements().tlDiv
 
         @_body = document.getElementsByTagName("body")[0]
         @_body.appendChild @_mainDiv
@@ -32,6 +31,7 @@ class HG.NowMarker
 
         @_playButton    = document.createElement "div"
         @_playButton.id = "now_marker_play"
+        @_playButton.innerHTML = "<img src='img/timeline/playIcon.png'>"
 
         nowMarkerIn.appendChild @_playButton
 
@@ -62,16 +62,18 @@ class HG.NowMarker
 
         # catching mouse events
         @_clicked = false
-        @_hiddenSpeed = 0;
+        @_hiddenSpeed = 0
 
         # check if mouse went down on speed changer
         @_mainDiv.onmousedown = (e) =>
+            console.log "now marker clicked"
             if((@_distanceToMiddlepoint(e) - 75) >= 0)
                 @_clicked = true
+                console.log "now marker clicked on scale"
                 @_disableTextSelection e
 
         # rotate arrow if mouse moved on speed changer
-        document.body.onmousemove = (e) =>
+        @_mainDiv.onmousemove = (e) =>
             if @_clicked
                 if not @_timeline.getPlayStatus()
                     if @_hiddenSpeed < 0 and e.pageX - @_middlePointX >= 0
@@ -82,12 +84,14 @@ class HG.NowMarker
                 $(@_pointer).rotate(@_angleOnCircle(e))
 
         # set new speed of timeline animation
-        document.body.onmouseup = (e) =>
+        @_mainDiv.onmouseup = (e) =>
+            console.log "set speed"
             if @_clicked
-                @_clicked = false
-                timeline.setSpeed(e.pageX - @_middlePointX)
+                console.log "set speed"
+                @_timeline.setSpeed(e.pageX - @_middlePointX)
                 $(@_pointer).rotate(@_angleOnCircle(e))
                 @_enableTextSelection()
+                @_clicked = false
 
         # stop or animate timeline (play)
         @_playButton.onclick = (e) =>
@@ -97,9 +101,9 @@ class HG.NowMarker
                  @animationSwitch()
 
         # Catch enter key on the date input field
-        $(@_dateInputField).keyup (e) ->
+        $(@_dateInputField).keyup (e) =>
             if e.keyCode == 13
-                res = (@value + "").split(".")
+                res = (@_dateInputField.value + "").split(".")
                 i = res.length
                 d = new Date()
                 if i > 0
@@ -110,11 +114,22 @@ class HG.NowMarker
                     d.setMonth(res[i - 2] - 1)
                 if i > 2
                     d.setDate(res[i - 3])
-                timeline._scrollToDate(d)
+                console.log "new now date: " + d.getFullYear()
+                @_timeline.moveToDate(d, 1)
 
     #   --------------------------------------------------------------------------
-    getDate: ->
-        @_nowDate
+    nowDateChanged: ->
+        date = @_timeline.getNowDate()
+        day = date.getDate() + ""
+        day = "0" + day if day.length == 1
+        month = (date.getMonth() + 1) + ""
+        month = "0" + month if month.length == 1
+        year = date.getFullYear() + ""
+        @_dateInputField.value = day + "." + month + "." + year
+
+    #   --------------------------------------------------------------------------
+    ###getDate: ->
+        @_nowDate###
 
     #   --------------------------------------------------------------------------
     #setDate: (date) ->
@@ -172,14 +187,14 @@ class HG.NowMarker
         @_arrow.style.left   = window.innerWidth / 2 - 10 + "px"
 
     # ============================================================================
-    setNowDate: (date) ->
+    ###setNowDate: (date) ->
         @_nowDate = date
         day = date.getDate() + ""
         day = "0" + day if day.length == 1
         month = (date.getMonth() + 1) + ""
         month = "0" + month if month.length == 1
         year = date.getFullYear() + ""
-        @_dateInputField.value = day + "." + month + "." + year
+        @_dateInputField.value = day + "." + month + "." + year###
 
     # ============================================================================
     animationSwitch: ->
@@ -200,18 +215,6 @@ class HG.NowMarker
 
 
     # ============================================================================
-    stringToDate: (string) ->
-        res = (string + "").split(".")
-        i = res.length
-        d = new Date()
-        if i > 0
-            d.setFullYear(res[i - 1])
-        else
-            alert "Error: were not able to convert string to date."
-        if i > 1
-            d.setMonth(res[i - 2] - 1)
-        if i > 2
-            d.setDate(res[i - 3])
-        d
+
 
 

@@ -25,7 +25,7 @@ class HG.HiventsOnTimeline
 
     if @_hiventController
       @_hiventController.onHiventAdded (handle) =>
-        hiventMarkerDate = @_timeline.getNowMarker().stringToDate handle.getHivent().displayDate
+        hiventMarkerDate = @_timeline.stringToDate handle.getHivent().displayDate
         marker = new HG.HiventMarkerTimeline @_timeline, handle, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate)
         @_hiventMarkers.push marker
         @_markersLoaded = @_hiventController._hiventsLoaded
@@ -50,7 +50,7 @@ class HG.HiventsOnTimeline
 
   _updateHiventMarkerPositions: ->
     for i in  [0...(@_hiventMarkers.length)]
-      hiventMarkerDate = @_timeline.nowMarkerBox.stringToDate(@_hiventMarkers[i].getHiventHandle()._hivent.displayDate)
+      hiventMarkerDate = @_timeline.stringToDate(@_hiventMarkers[i].getHiventHandle()._hivent.displayDate)
       @_hiventMarkers[i].setPosition(@_timeline.dateToPosition(hiventMarkerDate))
 
   ##############################################################################

@@ -39,14 +39,34 @@ class HG.DateMarker
         @_divs[0].style.display = "none"
         @_divs[0].style.fontSize = @_filterView()[0] + "%"
         @_timeline.getUIElements().yearRow.appendChild @_divs[0]
-        $(@_divs[0]).fadeIn(400)
+        $(@_divs[0]).fadeIn(200)
       else
         @_divs[0].style.left = @_timeline.dateToPosition(@_date) + "px"
         @_divs[0].style.fontSize = @_filterView()[0] + "%"
+      ###if @_timeline.getMaxIntervalIndex() == 0
+        if !@_divs[1]?
+          @_divs[1] = document.createElement("div")
+          @_divs[1].id = "tl_year_" + @_date.getFullYear() + "_months"
+          @_divs[1].className = "tl_marker"
+          @_divs[1].style.width = (@_timeline.yearToMillis(1) / @_timeline.millisPerPixel()) + "px"
+          @_divs[1].style.left = @_timeline.dateToPosition(@_date) + "px"
+
+          for name in MONTH_NAMES
+            tempDiv = document.createElement("div")
+            tempDiv.innerHTML = name
+            tempDiv.style.float = "left"
+            tempDiv.style.display = "inline"
+            @_divs[1].appendChild tempDiv
+
+          @_timeline.getUIElements().monthRow.appendChild @_divs[1]
+        else
+          @_divs[1].style.left = @_timeline.dateToPosition(@_date) + "px"###
     else
       if @_divs[0]?
         $(@_divs[0]).fadeOut(200, `function() { $(this).remove(); }`);
         #$(@_divs[0]).remove()
+      ###if @_divs[1]?
+        $(@_divs[1]).fadeOut(200, `function() { $(this).remove(); }`);###
 
   #   --------------------------------------------------------------------------
   ###_showYear: ->
@@ -89,20 +109,22 @@ class HG.DateMarker
   #   --------------------------------------------------------------------------
   #   get array of interval between datemarkers to show
   _filterView: ->
-    i = @_timeline.getMaxIntervalIndex()
-    max = i + 1
     sizes = [0, 0, 0]
-    while sizes[0] == 0 && i >= 0
-      if @_date.getFullYear() % @_timeline.millisToYear(@_timeline.timeInterval(i)) == 0 && i > max - 3
-        sizes[0] = ((i + 1) / max) * 100
-      else
-        i--
-    if i == 0
-      sizes[1] = 100
-      sizes[2] = 100
-    console.log "size calc " + sizes[0]
-    sizes
+    max = @_timeline.getMaxIntervalIndex()
 
+    #   font size of year in procent
+    i = 1
+    while max >= 0 && sizes[0] == 0
+      if @_date.getFullYear() % @_timeline.millisToYear(@_timeline.timeInterval(max)) == 0
+        sizes[0] = 100 / i
+      else
+        max--
+        i++
+
+    #   size of months in procent
+    sizes[1] = 100 / (max + 1)
+
+    sizes
 
   #   filter months
   ###for i in [1...@_months.length]
