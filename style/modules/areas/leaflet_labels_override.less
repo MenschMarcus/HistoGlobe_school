@@ -1,25 +1,26 @@
 .leaflet-label {
   background-color: transparent;
   border-color: transparent;
-  font-size: 0.9em;
+  font-size: 2.7em;
   pointer-events: none;
-
+  font-weight: lighter;
   line-height: 0.8em;
+
+  font-family: @secondary_font_face;
 
   text-align: center;
 
-  color: #333;
-  text-shadow:
-    -1px -1px 0 #e6d4bb,
-    1px -1px 0 #e6d4bb,
-    -1px 1px 0 #e6d4bb,
-    1px 1px 0 #e6d4bb;
+  color: #444;
+  // text-shadow:
+  //   -1px -1px 0 #fff,
+  //   1px -1px 0 #fff,
+  //   -1px 1px 0 #fff,
+  //   1px 1px 0 #fff;
 
-  opacity: 0.0 !important;
   .transition(opacity 0.5s ease-in-out);
 
-  &.visible {
-    opacity: 1.0 !important;
+  &.invisible {
+    opacity: 0.0 !important;
   }
 }
 

@@ -19,6 +19,7 @@ class HG.HiventHandle
     @_marked = false
     @_linked = false
     @_focussed = false
+    @_age = 0.0
 
     @_visible = false
 
@@ -34,6 +35,7 @@ class HG.HiventHandle
     @addCallback "onFocus"
     @addCallback "onUnFocus"
     @addCallback "onDestruction"
+    @addCallback "onAgeChanged"
 
     @addCallback "onShow"
     @addCallback "onHide"
@@ -186,6 +188,11 @@ class HG.HiventHandle
     @_visible = false
     @notifyAll "onHide", @
 
+  # ============================================================================
+  setAge: (age) ->
+    @_age = age
+    @notifyAll "onAgeChanged", age, @
+
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
@@ -218,3 +225,12 @@ class HG.HiventHandle
       hivent?.inActiveAll {x:0, y:0}
 
     ACTIVE_HIVENTS = []
+
+  @DEACTIVATE_ALL_OTHER_HIVENTS: (handle)->
+
+    for hivent in ACTIVE_HIVENTS
+      unless hivent is handle
+        hivent?.inActiveAll {x:0, y:0}
+
+    ACTIVE_HIVENTS = $.grep ACTIVE_HIVENTS, (value) ->
+      return value == handle

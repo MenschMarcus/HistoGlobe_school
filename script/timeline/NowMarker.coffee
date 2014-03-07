@@ -21,8 +21,8 @@ class HG.NowMarker
         #@_nowDate = new Date()
 
         # elements of now marker box
-        @_pointer    = document.createElement "img"
-        @_pointer.src = "data/timeline/pointer.png"
+        @_pointer    = document.createElement "div"
+        #@_pointer.src = "data/timeline/pointer.png"
         @_pointer.id = "now_marker_pointer"
         @_mainDiv.appendChild @_pointer
 
@@ -31,7 +31,7 @@ class HG.NowMarker
 
         @_playButton    = document.createElement "div"
         @_playButton.id = "now_marker_play"
-        @_playButton.innerHTML = "<img src='img/timeline/playIcon.png'>"
+        #@_playButton.innerHTML = "<img src='img/timeline/playIcon.png'>"
 
         nowMarkerIn.appendChild @_playButton
 
@@ -45,9 +45,9 @@ class HG.NowMarker
 
         @_mainDiv.appendChild nowMarkerIn
 
-        @_arrow  = document.createElement "img"
-        @_arrow.id = "now_marker_sign"
-        @_arrow.src = "data/timeline/nowMarkerSmall.png"
+        @_arrow  = document.createElement "div"
+        @_arrow.id = "now_marker_arrow"
+        #@_arrow.src = "data/timeline/nowMarkerSmall.png"
         @_body.appendChild @_arrow
 
         # Set position of now marker
@@ -77,9 +77,9 @@ class HG.NowMarker
             if @_clicked
                 if not @_timeline.getPlayStatus()
                     if @_hiddenSpeed < 0 and e.pageX - @_middlePointX >= 0
-                        @_playButton.innerHTML = "<img src='img/timeline/playIcon.png'>"
+                        @_playButton.innerHTML = "<img src='data/timeline/playIcon.png'>"
                     else if @_hiddenSpeed >= 0 and e.pageX - @_middlePointX < 0
-                        @_playButton.innerHTML = "<img src='img/timeline/playIconPrev.png'>"
+                        @_playButton.innerHTML = "<img src='data/timeline/playIconPrev.png'>"
                 @_hiddenSpeed = e.pageX - @_middlePointX
                 $(@_pointer).rotate(@_angleOnCircle(e))
 
@@ -114,6 +114,7 @@ class HG.NowMarker
                     d.setMonth(res[i - 2] - 1)
                 if i > 2
                     d.setDate(res[i - 3])
+
                 console.log "new now date: " + d.getFullYear()
                 @_timeline.moveToDate(d, 1)
 
@@ -200,10 +201,10 @@ class HG.NowMarker
     animationSwitch: ->
         if @_timeline.getPlayStatus()
             @_timeline.stopTimeline()
-            @_playButton.innerHTML = "<img src='img/timeline/playIcon.png'>"
+            #@_playButton.innerHTML = "<img src='data/timeline/playIcon.png'>"
         else
             @_timeline.playTimeline()
-            @_playButton.innerHTML = "<img src='img/timeline/pauseIcon.png'>"
+            #@_playButton.innerHTML = "<img src='data/timeline/pauseIcon.png'>"
 
     # ============================================================================
     _disableTextSelection : (e) ->  return false

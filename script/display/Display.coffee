@@ -5,10 +5,13 @@ class HG.Display
   ##############################################################################
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
-  constructor: (container) ->
-    HG.Display.CONTAINER ?= container
 
+  # ============================================================================
+  hgInit: (hgInstance) ->
+    HG.Display.CONTAINER ?= hgInstance.mapCanvas
+    @overlayContainer = null
 
+  # ============================================================================
   focus: (hivent) ->
     @setCenter
       x: hivent.long

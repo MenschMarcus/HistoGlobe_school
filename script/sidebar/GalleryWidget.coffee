@@ -14,6 +14,11 @@ class HG.GalleryWidget extends HG.Widget
 
     @_config = $.extend {}, defaultConfig, config
 
+    HG.mixin @, HG.CallbackContainer
+    HG.CallbackContainer.call @
+
+    @addCallback "onSlideChanged"
+
     @_id = ++LAST_GALLERY_ID
 
     HG.Widget.call @
@@ -22,44 +27,48 @@ class HG.GalleryWidget extends HG.Widget
   hgInit: (hgInstance) ->
     super hgInstance
 
-    content = document.createElement "div"
-    content.className = "gallery-widget"
+    @_galleryContent = document.createElement "div"
+    @_galleryContent.className = "gallery-widget"
 
-    gallery_container = document.createElement "div"
-    gallery_container.id = "gallery-widget-#{@_id}"
-    gallery_container.className = "gallery-widget-slider"
-    gallery_container.style.width = "#{@_config.width}px"
+    galleryContainer = document.createElement "div"
+    galleryContainer.id = "gallery-widget-#{@_id}"
+    galleryContainer.className = "gallery-widget-slider"
+    galleryContainer.style.width = "#{@_config.width}px"
 
     @_gallery = document.createElement "div"
     @_gallery.className = "swiper-wrapper swiper-no-swiping"
 
-    left = document.createElement "div"
-    left.className = "arrow arrow-left"
+    @_leftArrow = document.createElement "i"
+    @_leftArrow.className = "arrow arrow-left  fa fa-chevron-circle-left"
 
-    left_shadow = document.createElement "div"
-    left_shadow.className = "shadow shadow-left"
+    leftShadow = document.createElement "div"
+    leftShadow.className = "shadow shadow-left"
 
-    right = document.createElement "div"
-    right.className = "arrow arrow-right"
+    @_rightArrow = document.createElement "i"
+    @_rightArrow.className = "arrow arrow-right fa fa-chevron-circle-right"
 
-    right_shadow = document.createElement "div"
-    right_shadow.className = "shadow shadow-right"
+    rightShadow = document.createElement "div"
+    rightShadow.className = "shadow shadow-right"
 
-    pagination = document.createElement "div"
+    pagination = document.createElement "span"
     pagination.id = "gallery-widget-pagination-#{@_id}"
-    pagination.className = "pagination"
+    pagination.className = "gallery-pagination"
 
-    content.appendChild left_shadow
-    content.appendChild right_shadow
-    content.appendChild left
-    content.appendChild right
-    content.appendChild pagination
-    content.appendChild gallery_container
-    gallery_container.appendChild @_gallery
+    paginationContainer = document.createElement "span"
+    paginationContainer.className = "pagination-container"
+    paginationContainer.appendChild pagination
+
+    @_galleryContent.appendChild leftShadow
+    @_galleryContent.appendChild rightShadow
+    @_galleryContent.appendChild @_leftArrow
+    @_galleryContent.appendChild @_rightArrow
+    @_galleryContent.appendChild galleryContainer
+    @_galleryContent.appendChild paginationContainer
+    galleryContainer.appendChild @_gallery
 
     @setName @_config.name
     @setIcon @_config.icon
-    @setContent content
+    @setContent @_galleryContent
 
     @_swiper = new Swiper "#gallery-widget-#{@_id}",
       grabCursor: true
@@ -67,38 +76,73 @@ class HG.GalleryWidget extends HG.Widget
       pagination: "#gallery-widget-pagination-#{@_id}"
       longSwipesRatio: 0.2
       calculateHeight: true
+      onSlideChangeEnd: @_onSlideEnd
 
 
-    $(left).click () =>
+    $(@_leftArrow).click () =>
       @_swiper.swipePrev()
 
-    $(right).click () =>
+    $(@_rightArrow).click () =>
       @_swiper.swipeNext()
 
+    # for some reason needed...
+    window.setTimeout () =>
+      @_swiper.reInit()
+      @_updateArrows()
+    , 1000
+
+  # ============================================================================
   addDivSlide: (div) ->
     slide = document.createElement "div"
     slide.className = "swiper-slide"
     slide.appendChild div
 
-    @_gallery.appendChild slide
-    @_swiper.reInit()
+    @_addSlide slide
 
+  # ============================================================================
   addHTMLSlide: (html) ->
     slide = document.createElement "div"
     slide.className = "swiper-slide"
+    slide.innerHTML = html
 
-    content = document.createElement "div"
-    content.innerHTML = html
-    slide.appendChild content
+    @_addSlide slide
 
+  # ============================================================================
+  getSlideCount: () ->
+    @_swiper.slides.length
+
+  # ============================================================================
+  getActiveSlide: () ->
+    @_swiper.activeIndex
+
+  ##############################################################################
+  #                            PRIVATE INTERFACE                               #
+  ##############################################################################
+
+  # ============================================================================
+  _addSlide: (slide) ->
     @_gallery.appendChild slide
     @_swiper.reInit()
+    @setHeight $(@_content).height()
 
-  addImageSlide: (url) ->
-    image = document.createElement "img"
-    image.src = url
+  # ============================================================================
+  _onSlideEnd: () =>
+    @_updateArrows()
+    @notifyAll "onSlideChanged", @getActiveSlide()
 
-    @addDivSlide image
+  # ============================================================================
+  _updateArrows: () =>
+    slide = @getActiveSlide()
+
+    if slide is 0
+      $(@_leftArrow).addClass("hidden")
+      $(@_rightArrow).removeClass("hidden")
+    else if slide is @getSlideCount() - 1
+      $(@_rightArrow).addClass("hidden")
+      $(@_leftArrow).removeClass("hidden")
+    else
+      $(@_leftArrow).removeClass("hidden")
+      $(@_rightArrow).removeClass("hidden")
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #

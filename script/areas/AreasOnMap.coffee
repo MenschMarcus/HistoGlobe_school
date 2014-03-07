@@ -45,12 +45,14 @@ class HG.AreasOnMap
     area.myLeafletLayer = null
 
     options = area.getNormalStyle()
+    options.clickable = false
+    options.pointerEvents = "none"
 
     area.myLeafletLayer = L.multiPolygon(area.getData(), options)
 
-    area.myLeafletLayer.on "mouseover", @_onHover
-    area.myLeafletLayer.on "mouseout", @_onUnHover
-    area.myLeafletLayer.on "click", @_onClick
+    # area.myLeafletLayer.on "mouseover", @_onHover
+    # area.myLeafletLayer.on "mouseout", @_onUnHover
+    # area.myLeafletLayer.on "click", @_onClick
 
     area.onStyleChange @, @_onStyleChange
 
@@ -78,9 +80,9 @@ class HG.AreasOnMap
 
       @_visibleAreas.splice(@_visibleAreas.indexOf(area), 1)
 
-      area.myLeafletLayer.off "mouseover", @_onHover
-      area.myLeafletLayer.off "mouseout", @_onUnHover
-      area.myLeafletLayer.off "click", @_onClick
+      # area.myLeafletLayer.off "mouseover", @_onHover
+      # area.myLeafletLayer.off "mouseout", @_onUnHover
+      # area.myLeafletLayer.off "click", @_onClick
 
       area.removeListener "onStyleChange", @
 
@@ -94,27 +96,36 @@ class HG.AreasOnMap
     max = @_map.project area._maxLatLng
     min = @_map.project area._minLatLng
 
-    width = area.getLabel().length * 1.5
+    width = area.getLabel().length * 10
 
-    visible = (max.x - min.x) > width * 0.75 or @_map.getZoom() is @_map.getMaxZoom()
+    visible = (max.x - min.x) > width or @_map.getZoom() is @_map.getMaxZoom()
 
 
   # ============================================================================
   _showAreaLabel: (area) =>
     area.myLeafletLabelIsVisible = true
-    $(area.myLeafletLabel._container).addClass("visible")
+    $(area.myLeafletLabel._container).removeClass("invisible")
 
 
   # ============================================================================
   _hideAreaLabel: (area) =>
     area.myLeafletLabelIsVisible = false
-    $(area.myLeafletLabel._container).removeClass("visible")
+    $(area.myLeafletLabel._container).addClass("invisible")
 
 
   # ============================================================================
   _onStyleChange: (area) =>
     if area.myLeafletLayer?
-      @_animate area.myLeafletLayer, {"fill": area.getNormalStyle().fillColor}, 350
+      @_animate area.myLeafletLayer,
+        "fill":           area.getNormalStyle().fillColor
+        "fill-opacity":   area.getNormalStyle().fillOpacity
+        "stroke":         area.getNormalStyle().lineColor
+        "stroke-opacity": area.getNormalStyle().lineOpacity
+        "stroke-width":   area.getNormalStyle().lineWidth
+      , 200
+    if area.myLeafletLabel?
+      area.myLeafletLabel._container.style.opacity = area.getNormalStyle().labelOpacity
+
 
   # ============================================================================
   _animate: (area, attributes, durartion) ->
@@ -145,6 +156,7 @@ class HG.AreasOnMap
         @_showAreaLabel area
       else if not shoulBeVisible and area.myLeafletLabelIsVisible
         @_hideAreaLabel area
+
   ##############################################################################
   #                             STATIC MEMBERS                                 #
   ##############################################################################

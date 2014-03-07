@@ -1,3 +1,8 @@
+/*** STYLE OF TIMELINE ***/
+
+@fontSize:        17px;
+@fontColor:       #eee;
+
 /*** MAIN TIMELINE DIV ***/
 #timeline {
   position:   absolute;
@@ -10,26 +15,28 @@
   cursor: -webkit-grab;
   cursor: -moz-grab;
 
-  background-color: #fff;
-  background: -moz-linear-gradient(top, #eee 0%, #ddd 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ddd), color-stop(100%,#eee)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #eee 0%,#ddd 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, #eee 0%,#ddd 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top, #eee 0%,#ddd 100%); /* IE10+ */
-  background: linear-gradient(to bottom, #eee 0%,#ddd 100%); /* W3C */
-  background-repeat: repeat-x;
+  border-top: solid 6px #eee;
+  //box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.07);
+  background-color: rgba(30,30,30,0.75);
 
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eee', endColorstr='#ddd',GradientType=0 ); /* IE6-9 */
-
-  box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.07);
+  //background: -moz-linear-gradient(top, #eee 0%, #ddd 100%); /* FF3.6+ */
+  //background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ddd), color-stop(100%,#eee)); /* Chrome,Safari4+ */
+  //background: -webkit-linear-gradient(top, #eee 0%,#ddd 100%); /* Chrome10+,Safari5.1+ */
+  //background: -o-linear-gradient(top, #eee 0%,#ddd 100%); /* Opera 11.10+ */
+  //background: -ms-linear-gradient(top, #eee 0%,#ddd 100%); /* IE10+ */
+  //background: linear-gradient(to bottom, #eee 0%,#ddd 100%); /* W3C */
+  //filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eee', endColorstr='#ddd',GradientType=0 ); /* IE6-9 */
+  //background-repeat: repeat-x;
 
   // ----------------------------------------------
   // datemarker
   .tl_marker {
+    color:  #eee;
     position: absolute;
     left: 0px;
     top: 0px;
-    border-left: dashed 1px #c0c0c0;
+    padding-left: 5px;
+    border-left: dashed 1px #eee;
     //transition-duration: 0.4s;
     //transition-property: font-size;
   }

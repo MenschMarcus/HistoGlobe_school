@@ -19,20 +19,23 @@
   background-color: @widget_background_color;
 
   border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  box-shadow: 0 0 @shadow_radius rgba(0,0,0,@shadow_intensity);
 
   // header
   .widgetHeader {
     position: relative;
     height: @widget_title_size;
 
-    cursor: pointer;
-    color: @widget_title_text_color;
+    color: @text_color;
+
 
     // icon
     .iconContainer {
       .linear-gradient-left(@widget_title_background_color, lighten(@widget_title_background_color, @widget_title_gradient_effect), 0%, @widget_title_background_color, 100%);
+      border-right: @border_width solid @border_color;
 
+      cursor: pointer;
+      color: @widget_title_text_color;
       position: absolute;
       font-size: @widget_title_size * 0.6;
       left: 0;
@@ -44,11 +47,13 @@
 
     // top title
     .topTitleContainer {
+      font-family: 'Lobster', cursive;
       position: absolute;
       padding: @widget_title_size * 0.2 @widget_title_size * 0.2;
 
       .transition(opacity @widget_aimation_speed ease-in-out);
 
+      cursor: pointer;
       opacity: 0.0;
 
       left: @widget_title_size;
@@ -62,6 +67,7 @@
     // collapse button
     .collapseButtonContainer {
       position: absolute;
+      cursor: pointer;
 
       .transition(all @widget_aimation_speed ease-in-out);
       padding: @widget_title_size * 0.1 @widget_title_size * 0.2;
@@ -87,11 +93,14 @@
 
   // vertical title
   .verticalTitleContainer {
+    font-family: @secondary_font_face;
     position: absolute;
     padding: @widget_title_size * 0.1;
-    cursor: pointer;
     color: @widget_title_text_color;
     width: @widget_title_size;
+    border-right: @border_width solid @border_color;
+
+    cursor: pointer;
 
     height: 100%;
 
@@ -105,15 +114,11 @@
   }
 
   .widgetBody {
-    // position: relative;
-    // margin: 0px 0px 0px -@widget_title_size - 15px;
-    // padding: 0px 0px 0px 2*@widget_title_size + 30px;
     padding: 0px 0px 0px @widget_title_size;
-    // width: @sidebar_width;
     width: @sidebar_width - @widget_title_size + @widget_margin - @sidebar_scrollbar_width;
-    font-size: @widget_font_size;
+    font-size: 14pt * @widget_font_size_factor;
     background-color: @widget_background_color;
-    color: @widget_text_color;
+    color: @text_color;
   }
 }
 
@@ -121,6 +126,7 @@
 // ------------------ VERTICAL TEXT --------------------------------------------
 
 .verticalTextInner {
+  pointer-events:none;
   display: inline-block;
   white-space: nowrap;
   line-height: 1.5;

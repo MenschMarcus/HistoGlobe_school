@@ -22,7 +22,6 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
     X_OFFSETS[time] ?= 0
     @_xOffset = X_OFFSETS[time]
     #@_position = { x: posX + @_xOffset * HIVENT_MARKER_TIMELINE_RADIUS * 1.5 - HIVENT_MARKER_TIMELINE_RADIUS, y: Math.floor $(parent.parentNode).innerHeight() * 0.65 }
-    #@_position = { x: posX, y: Math.floor $(parent).innerHeight() * 0.65 }
     @_position = { x: posX, y: 0 }
     X_OFFSETS[time] += 1
 
@@ -75,7 +74,7 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
       @_div.setAttribute "class", @_classDefault
 
     @getHiventHandle().onDestruction @, @_destroy
-    #@getHiventHandle().onHide @, @_destroy
+    @getHiventHandle().onHide @, @_destroy
 
   # ============================================================================
   nowChanged: ->

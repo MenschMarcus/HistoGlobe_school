@@ -203,7 +203,7 @@ class HG.Timeline
 
     zoom = @_config.zoom * 5
 
-    hp = 0.75 * tlHeight
+    hp = 0.66 * tlHeight
 
     dayRowHeight = (zoom / @_maxZoom) * (1/3)
     monthRowHeight = (zoom / @_maxZoom) * (2/3)
@@ -221,8 +221,8 @@ class HG.Timeline
     @_uiElements.yearRow.style.height = (yearRowHeight * hp) + tlHeightType
     @_uiElements.yearRow.style.fontSize = (yearRowHeight * hp) + tlHeightType
 
-    @_uiElements.symbolRow.style.height = (0.25 * tlHeight) + tlHeightType
-    @_uiElements.symbolRow.style.fontSize = (0.25 * tlHeight) + tlHeightType
+    @_uiElements.symbolRow.style.height = (0.33 * tlHeight) + tlHeightType
+    @_uiElements.symbolRow.style.fontSize = (0.33 * tlHeight) + tlHeightType
 
     @_timeline_swiper.reInit()
 
@@ -285,15 +285,17 @@ class HG.Timeline
   #   --------------------------------------------------------------------------
   #   move timeline to specified date and set date as new nowdate
   moveToDate: (date) ->
-    dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
-    @_timeline_swiper.setWrapperTranslate(dateDiff / @millisPerPixel(),0,0)
-    @_updateNowDate()
+    if @yearToDate(@_config.minYear).getTime() < date.getTime() && @yearToDate(@_config.maxYear).getTime() > date.getTime()
+      dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
+      @_timeline_swiper.setWrapperTranslate(dateDiff / @millisPerPixel(),0,0)
+      @_updateNowDate()
 
   moveToDate: (date, delay) ->
-    dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
-    @_uiElements.tlDivWrapper.style.transition =  delay + "s"
-    @_uiElements.tlDivWrapper.style.webkitTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-    @_updateNowDate()
+    if @yearToDate(@_config.minYear).getTime() < date.getTime() && @yearToDate(@_config.maxYear).getTime() > date.getTime()
+      dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
+      @_uiElements.tlDivWrapper.style.transition =  delay + "s"
+      @_uiElements.tlDivWrapper.style.webkitTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_updateNowDate()
 
   #   --------------------------------------------------------------------------
   _animTimeline: =>

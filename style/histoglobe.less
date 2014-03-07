@@ -1,10 +1,19 @@
 
 //////////////////////// INCLUDES //////////////////////////////////////////////
 
+@font-face {
+  font-family: 'Lobster';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lobster'), url("../config/exemplum/data/fonts/Lobster.woff") format('woff');
+}
+
+
+
 @import "third-party/prefixer.less";
 
+@import "../build/default_config.less";
 @import "../build/config.less";
-@import "common.less";
 
 @import "timeline/timeline.less";
 @import "timeline/now_marker.less";
@@ -13,6 +22,42 @@
 
 
 ///////////////////////// LAYOUT ///////////////////////////////////////////////
+
+// ------------------ COMMON CLASSES -------------------------------------------
+
+@font-face {
+  font-family: roman_caps;
+  src: url('../font/lmromancaps10-regular.otf');
+}
+
+body {
+  font-family: @primary_font_face;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  // background-color: @background_color;
+  background-image: url("../config/exemplum/data/bg.png");
+  background-repeat: repeat;
+}
+
+*, *:before, *:after {
+  .box-sizing(border-box);
+}
+
+.hg {
+  font-family: 'Marcellus SC' !important;
+}
+
+.clear {
+  clear: both;
+}
+
+.hg:after {
+  content: "®";
+  position: relative;
+  top: -0.3em;
+  font-size: 0.7em;
+}
 
 .no-animation {
   .transition-duration(0s) !important;
@@ -37,10 +82,9 @@
   height: 100%;
   overflow: hidden;
 
-  box-shadow: 0 0 20px rgba(0,0,0,0.8);
+  box-shadow: 0 0 @shadow_radius rgba(0,0,0,@shadow_intensity);
 
   .transition-property(right);
-  // .transition-property(width);
   .transition-duration(@sidebar_aimation_speed);
   .transition-timing-function(ease-in-out);
 }
@@ -56,12 +100,6 @@
   .transition-duration(@sidebar_aimation_speed);
 }
 
-// ------------------------ SIDEBAR --------------------------------------------
-#sidebar-area {
-  position: relative;
-  overflow:hidden;
-}
-
 // ------------------------ TIMELINE -------------------------------------------
 #timeline-area {
   position: absolute;
@@ -73,10 +111,10 @@
   bottom: 0;
 
   // pointer-events: none;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 @shadow_radius rgba(0,0,0,@shadow_intensity);
 }
 
-// ------------------------ SIDEBAR BUTTON -------------------------------------
+// ----------------------- COLLAPSE BUTTON -------------------------------------
 #collapse-button {
   position: absolute;
 
@@ -86,20 +124,25 @@
   right: 0px;
   cursor: pointer;
 
+  z-index: 100;
 
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(50, 50, 50, 1);
 
   &:hover {
     color: rgba(0, 0, 0, 1.0);
   }
 }
 
-.swiper-scrollbar {
-  background: none;
+#collapse-area-left {
   position: absolute;
-  right: 3px;
-  top: 0;
+  top:0;
   height: 100%;
-  width: 5px;
+  cursor: -webkit-grab;
+  z-index: 99;
 }
+
+#collapse-area-left {
+  right: 0;
+}
+
 
