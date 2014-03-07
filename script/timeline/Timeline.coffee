@@ -41,8 +41,9 @@ class HG.Timeline
     #   Swiper for timeline
     @_timeline_swiper ?= new Swiper '#timeline',
       mode:'horizontal'
-      #freeModeFluid: true
       freeMode: true
+      freeModeFluid: true
+      momentumRatio: 0.2
       scrollContainer: true
 
       onSetWrapperTransition: =>
