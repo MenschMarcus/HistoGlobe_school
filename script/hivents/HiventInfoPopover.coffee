@@ -11,13 +11,14 @@ class HG.HiventInfoPopover
   ##############################################################################
 
   # ============================================================================
-  constructor: (hiventHandle, anchor, parentDiv) ->
+  constructor: (hiventHandle, anchor, parentDiv, hgInstance) ->
 
     @_hiventHandle = hiventHandle
     @_parentDiv = parentDiv
     @_anchor = anchor
     @_contentLoaded = false
     @_placement = undefined
+    @_hgInstance = hgInstance
 
     # $(@_hgInstance.mapCanvas).mousewheel (e) =>
     # $(window).mousewheel (e) =>
@@ -51,8 +52,8 @@ class HG.HiventInfoPopover
     @_titleDiv.innerHTML = @_hiventHandle.getHivent().name
     # @_titleDiv.addEventListener 'mousedown', @_onMouseDown, false
 
-    @_closeDiv = document.createElement "button"
-    @_closeDiv.className = "close"
+    @_closeDiv = document.createElement "span"
+    # @_closeDiv.className = "close"
     @_closeDiv.innerHTML = "×"
     @_closeDiv.addEventListener 'mouseup', @hide, false
 
@@ -90,6 +91,23 @@ class HG.HiventInfoPopover
   # ============================================================================
   show: =>
     unless @_contentLoaded
+
+      #check whether location is set
+      locationString = ''
+      if @_hiventHandle.getHivent().locationName != ''
+        locationString = @_hiventHandle.getHivent().locationName + ', '
+
+      subheading = document.createElement "h3"
+      subheading.innerHTML = locationString + @_hiventHandle.getHivent().displayDate
+      @_bodyDiv.appendChild subheading
+
+      gotoDate = document.createElement "i"
+      gotoDate.className = "fa fa-clock-o"
+      $(gotoDate).tooltip {title: "Springe zum Ereignisdatum", placement: "right", container:"#histoglobe"}
+      $(gotoDate).click () =>
+        @_hgInstance.timeline.moveToDate @_hiventHandle.getHivent().startDate, 0.5
+      subheading.appendChild gotoDate
+
       content = document.createElement "div"
       content.className = "hiventInfoPopoverContent"
       content.innerHTML = @_hiventHandle.getHivent().content

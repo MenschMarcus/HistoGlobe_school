@@ -272,14 +272,8 @@ class HG.HiventBuilder
 
     if hiventID != "" and hiventName != ""
 
-      #check whether location is set
-      locationString = ''
-      if hiventLocation != ''
-        locationString = hiventLocation + ','
-
       #concatenate content
-      content = '\t<h3>' + locationString + hiventDisplayDate + '</h3>\n' +
-                mmHtmlString +
+      content = mmHtmlString +
                 '\t<p>\n\t\t' +
                 hiventDescription +
                 '\n\t<p>\n'
