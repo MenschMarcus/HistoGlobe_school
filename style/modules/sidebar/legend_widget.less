@@ -30,7 +30,7 @@
   .legend-row {
     width: 100%;
     padding: 3px 5px;
-    line-height: 1.5;
+    line-height: 1.7 * @widget_font_size_factor;
     border-top-width: 0px !important;
 
     &:nth-child(2) {
@@ -51,13 +51,14 @@
 
   .legend-row-heading {
     padding-left: 5px;
-    font-size: 18pt * @widget_font_size_factor;
+    font-size: 24pt * @widget_font_size_factor;
     font-family: @secondary_font_face;
   }
 
   .legend-row-non-filterable {
     border: 1px solid mix(@widget_background_color, @text_color, 80%);
     background-color: #fff;
+    font-weight: bold;
   }
 
   .legend-row-filterable {
@@ -93,8 +94,8 @@
   }
 
   span {
-    width:20px;
-    height:20px;
+    width:30px * @widget_font_size_factor;
+    height:30px * @widget_font_size_factor;
     margin-right: 5px;
     vertical-align: bottom;
   }
@@ -116,6 +117,6 @@
   }
 
   .legend-text {
-    font-size: 12pt * @widget_font_size_factor;
+    font-size: 15pt * @widget_font_size_factor;
   }
 }
