@@ -113,19 +113,28 @@
   font: "Helvetica Neue", Arial, Helvetica, sans-serif;
   padding: @popover_body_padding;
   overflow: scroll;
-}
-
-.hiventInfoPopoverContent {
-  text-align: justify;
-  font-size: 10pt;
-  padding-left: 0px;
 
   h3 {
     color: #A5A5A5;
     text-align: right;
     margin-top: 0px;
     font-size: 10pt;
+
+    i {
+      padding-left: 10px;
+      cursor: pointer;
+
+      &:hover {
+        color: #000;
+      }
+    }
   }
+}
+
+.hiventInfoPopoverContent {
+  text-align: justify;
+  font-size: 10pt;
+  padding-left: 0px;
 
   .gallery {
 

@@ -64,7 +64,7 @@ class HG.HiventInfoPopovers
 
       marker.hiventInfoPopover?= new HG.HiventInfoPopover handle,
                                  new HG.Vector(0, 0),
-                                 container
+                                 container, @_hgInstance
 
       marker.hiventInfoPopover.show()
       marker.hiventInfoPopover.setAnchor new HG.Vector(displayPosition.x, displayPosition.y)
