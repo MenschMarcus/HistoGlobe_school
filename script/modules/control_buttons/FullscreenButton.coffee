@@ -29,8 +29,19 @@ class HG.FullscreenButton
         icon: "fa-arrows-alt"
         tooltip: "Zum Vollbildmodus"
         callback: () =>
-          $('body').requestFullScreen();
+
+          elem = document.getElementById("histoglobe")
+          if (elem.requestFullscreen)
+            elem.requestFullscreen()
+          else if (elem.msRequestFullscreen)
+            elem.msRequestFullscreen()
+          else if (elem.mozRequestFullScreen)
+            elem.mozRequestFullScreen()
+          else if (elem.webkitRequestFullscreen)
+            elem.webkitRequestFullscreen()
+
           @notifyAll "onEnterFullscreen"
+
           return state_b
 
       state_b =

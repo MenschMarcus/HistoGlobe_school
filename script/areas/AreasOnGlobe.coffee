@@ -182,7 +182,7 @@ class HG.AreasOnGlobe
           line_coord = @_globe._latLongToCart(
             x:vertex.x
             y:vertex.y,
-            @_globe.getGlobeRadius()+0.45)
+            @_globe.getGlobeRadius()+0.15)
           lineGeometry.vertices.push line_coord
         #close line:
         lineGeometry.vertices.push lineGeometry.vertices[0]

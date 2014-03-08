@@ -27,7 +27,11 @@
     height: @widget_title_size;
 
     color: @text_color;
+    .transition(background-color 0.5s)
 
+    &:hover {
+      background-color: darken(@widget_background_color, 5%);
+    }
 
     // icon
     .iconContainer {

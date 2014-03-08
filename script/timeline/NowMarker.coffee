@@ -15,7 +15,7 @@ class HG.NowMarker
         @_mainDiv.id = "now_marker"
         @_tlDiv     = @_timeline.getUIElements().tlDiv
 
-        @_body = document.getElementsByTagName("body")[0]
+        @_body = document.getElementById("histoglobe")
         @_body.appendChild @_mainDiv
 
         #@_nowDate = new Date()

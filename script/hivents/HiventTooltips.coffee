@@ -51,7 +51,7 @@ class HG.HiventTooltips
 
     handle = marker.getHiventHandle()
     hivent = handle.getHivent()
-    $(hiventInfo).tooltip {title: "#{hivent.displayDate}<br />#{hivent.name}", html:true, placement: "top", container:"body"}
+    $(hiventInfo).tooltip {title: "#{hivent.displayDate}<br />#{hivent.name}", html:true, placement: "top", container:"#histoglobe"}
 
     showTooltip = (displayPosition) =>
       hiventInfo.style.left = displayPosition.x + "px"
@@ -81,7 +81,7 @@ class HG.HiventTooltips
 
     handle = marker.getHiventHandle()
     hivent = handle.getHivent()
-    $(hiventInfo).tooltip {title: "#{hivent.displayDate}<br />#{hivent.name}", html:true, placement: "top", container:"body"}
+    $(hiventInfo).tooltip {title: "#{hivent.displayDate}<br />#{hivent.name}", html:true, placement: "top", container:"#histoglobe"}
 
     showTooltip = (displayPosition) =>
       hiventInfo.style.left = displayPosition.x - HGConfig.hivent_marker_timeline_width.val/2 + "px"
