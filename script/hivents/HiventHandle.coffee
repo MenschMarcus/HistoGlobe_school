@@ -21,7 +21,10 @@ class HG.HiventHandle
     @_focussed = false
     @_age = 0.0
 
-    @_visible = false
+    @_state = 0
+    # 0 --> invisible
+    # 1 --> visiblePast
+    # 2 --> visibleFuture
 
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
@@ -37,8 +40,9 @@ class HG.HiventHandle
     @addCallback "onDestruction"
     @addCallback "onAgeChanged"
 
-    @addCallback "onShow"
-    @addCallback "onHide"
+    @addCallback "onVisiblePast"
+    @addCallback "onVisibleFuture"
+    @addCallback "onInvisible"
 
   # ============================================================================
   getHivent: ->
@@ -168,30 +172,45 @@ class HG.HiventHandle
     @notify "onDestruction", obj
     @_destroy()
 
-  # ============================================================================
-  show: (obj) ->
-    @_visible = true
-    @notify "onShow", obj, @
+  # # ============================================================================
+  # show: (obj) ->
+  #   @_visible = true
+  #   @notify "onShow", obj, @
+
+  # # ============================================================================
+  # showAll: () ->
+  #   @_visible = true
+  #   @notifyAll "onShow", @
+
+  # # ============================================================================
+  # hide: (obj) ->
+  #   @_visible = false
+  #   @notify "onHide", obj, @
+
+  # # ============================================================================
+  # hideAll: () ->
+  #   @_visible = false
+  #   @notifyAll "onHide", @
 
   # ============================================================================
-  showAll: () ->
-    @_visible = true
-    @notifyAll "onShow", @
+  setState: (state) ->
+    if @_state isnt state
+      @_state = state
 
-  # ============================================================================
-  hide: (obj) ->
-    @_visible = false
-    @notify "onHide", obj, @
-
-  # ============================================================================
-  hideAll: () ->
-    @_visible = false
-    @notifyAll "onHide", @
+      if @_state is 0
+        @notifyAll "onInvisible", @
+      else if @_state is 1
+        @notifyAll "onVisiblePast", @
+      else if @_state is 2
+        @notifyAll "onVisibleFuture", @
+      else
+        console.warn "Failed to set HiventHandle state: invalid state #{state}!"
 
   # ============================================================================
   setAge: (age) ->
-    @_age = age
-    @notifyAll "onAgeChanged", age, @
+    if @_age isnt age
+      @_age = age
+      @notifyAll "onAgeChanged", age, @
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #

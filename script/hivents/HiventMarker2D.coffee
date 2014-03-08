@@ -67,7 +67,8 @@ class HG.HiventMarker2D extends HG.HiventMarker
       @_marker.setOpacity age
 
     @getHiventHandle().onDestruction @, @_destroy
-    @getHiventHandle().onHide @, @_destroy
+    @getHiventHandle().onVisibleFuture @, @_destroy
+    @getHiventHandle().onInvisible @, @_destroy
 
     @addCallback "onMarkerDestruction"
 
@@ -132,7 +133,8 @@ class HG.HiventMarker2D extends HG.HiventMarker
     @_hiventHandle.removeListener "onInActive", @
     @_hiventHandle.removeListener "onLink", @
     @_hiventHandle.removeListener "onUnLink", @
-    @_hiventHandle.removeListener "onHide", @
+    @_hiventHandle.removeListener "onInvisible", @
+    @_hiventHandle.removeListener "onVisibleFuture", @
     @_hiventHandle.removeListener "onDestruction", @
 
     super()

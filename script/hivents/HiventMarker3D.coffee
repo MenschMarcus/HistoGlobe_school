@@ -75,7 +75,7 @@ class HG.HiventMarker3D extends HG.HiventMarker
     @getHiventHandle().onMark @, (mousePos) =>
       #hiventTexture = THREE.ImageUtils.loadTexture(@_getIcon(hiventHandle.getHivent().category+"_highlight"))
       @sprite.material.map = @_hiventTextureHighlight
-    
+
     @getHiventHandle().onUnMark @, (mousePos) =>
       #hiventTexture = THREE.ImageUtils.loadTexture(@_getIcon(hiventHandle.getHivent().category))
       @sprite.material.map = @_hiventTexture
@@ -91,7 +91,8 @@ class HG.HiventMarker3D extends HG.HiventMarker
 
 
     @getHiventHandle().onDestruction @, @destroy
-    @getHiventHandle().onHide @, @destroy
+    @getHiventHandle().onVisibleFuture @, @destroy
+    @getHiventHandle().onInvisible @, @destroy
 
     '''@enableShowName()
     @enableShowInfo()'''
@@ -109,7 +110,7 @@ class HG.HiventMarker3D extends HG.HiventMarker
       pos=
         x: @ScreenCoordinates.x
         y: @ScreenCoordinates.y - HEIGHT/2
-    else 
+    else
       console.log "No ScreenCoordinates!"
 
   # ============================================================================
@@ -120,10 +121,10 @@ class HG.HiventMarker3D extends HG.HiventMarker
 
   # ============================================================================
   _destroy: ->
-    
+
     #@_markergroup.removeLayer @
     @getHiventHandle().inActiveAll()
-    @_scene.remove @sprite 
+    @_scene.remove @sprite
 
     #@_onMarkerDestructionCallbacks = []
     @_hiventHandle.removeListener "onFocus", @
@@ -131,7 +132,8 @@ class HG.HiventMarker3D extends HG.HiventMarker
     @_hiventHandle.removeListener "onInActive", @
     @_hiventHandle.removeListener "onLink", @
     @_hiventHandle.removeListener "onUnLink", @
-    @_hiventHandle.removeListener "onHide", @
+    @_hiventHandle.removeListener "onVisibleFuture", @
+    @_hiventHandle.removeListener "onInvisible", @
     @_hiventHandle.removeListener "onDestruction", @
 
     super()
