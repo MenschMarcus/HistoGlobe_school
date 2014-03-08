@@ -47,6 +47,7 @@ class HG.HiventBuilder
                     id : result[@_config.multimediaConfig.indexMappings[pathIndex].multimediaID]
                     type : result[@_config.multimediaConfig.indexMappings[pathIndex].multimediaType]
                     description : result[@_config.multimediaConfig.indexMappings[pathIndex].multimediaDescription]
+                    source : result[@_config.multimediaConfig.indexMappings[pathIndex].multimediaSource]
                     link : @_config.multimediaConfig.rootDirs[index] + "/" +
                            result[@_config.multimediaConfig.indexMappings[pathIndex].multimediaLink]
 
@@ -79,12 +80,16 @@ class HG.HiventBuilder
           for id in hiventMMIDs
             if mmDatabase.hasOwnProperty id
               entry = mmDatabase["#{id}"]
-              mm = @_createMultiMedia entry.type, entry.description, entry.link
+              mm = @_createMultiMedia entry.type, entry.description, entry.link, entry.source
               mmHtmlString +=  '\t\t<li><a href="' +
                                 mm.link + '" rel="prettyPhoto" ' +
-                                galleryTag + ' title="' +
-                                mm.description + '" style="background-image:url(\'' +
-                                mm.thumbnail + '\')"></a></li>\n'
+                                galleryTag + ' title="'
+
+              if mm.source?
+                mmHtmlString += ' <p class=\'hiventInfoPopoverSource\'> © ' + mm.source + '</p>'
+
+              mmHtmlString += mm.description + '" style="background-image:url(\'' +
+                              mm.thumbnail + '\')"></a></li>\n'
 
               loadedIds.push id
             else
@@ -304,12 +309,13 @@ class HG.HiventBuilder
 
 
   # ============================================================================
-  _createMultiMedia: (type, description, link) ->
+  _createMultiMedia: (type, description, link, source) ->
     mm = {
       "type": type
       "description": description
       "link": link
       "thumbnail": link
+      "source": source
     }
 
     linkData = link.split(".")

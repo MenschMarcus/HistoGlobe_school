@@ -64,12 +64,14 @@
           "multimediaID"          : 0,
           "multimediaType"        : 2,
           "multimediaDescription" : 3,
+          "multimediaSource"      : 4,
           "multimediaLink"        : 1
         },
         {
           "multimediaID"          : 0,
           "multimediaType"        : 2,
           "multimediaDescription" : 3,
+          "multimediaSource"      : 4,
           "multimediaLink"        : 1
         }
       ]

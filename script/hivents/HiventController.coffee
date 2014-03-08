@@ -167,6 +167,7 @@ class HG.HiventController
           multimediaType        : 1
           multimediaDescription : 2
           multimediaLink        : 3
+          multimediaSource      : 4
         ]
 
 
