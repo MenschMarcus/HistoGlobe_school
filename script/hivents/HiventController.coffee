@@ -198,29 +198,15 @@ class HG.HiventController
           @_hiventsLoaded = true
 
 
-
-
   # ============================================================================
   showVisibleHivents: ->
     for handle in @_hiventHandles
-      hivent = handle.getHivent()
-      isVisible = true
 
-      if isVisible and @_currentCategoryFilter?
-        isVisible = (hivent.category is "default") or (hivent.category in @_currentCategoryFilter)
+      state = handle._state
 
-      if isVisible and @_currentTimeFilter?
-        isVisible = not (hivent.startDate.getTime() > @_currentTimeFilter.end.getTime()) and
-                    not (hivent.endDate.getTime() < @_currentTimeFilter.start.getTime())
-
-      '''if isVisible and @_currentSpaceFilter?
-        isVisible = hivent.lat >= @_currentSpaceFilter.min.lat and
-                    hivent.long >= @_currentSpaceFilter.min.long and
-                    hivent.lat <= @_currentSpaceFilter.max.lat and
-                    hivent.long <= @_currentSpaceFilter.max.long'''
-      if isVisible
-        handle.hideAll()
-        handle.showAll()
+      if state isnt 0
+        handle.setState 0
+        handle.setState state
 
 
   ############################# MAIN FUNCTIONS #################################
@@ -230,28 +216,37 @@ class HG.HiventController
 
     for handle in @_hiventHandles
       hivent = handle.getHivent()
-      isVisible = true
 
-      if isVisible and @_currentCategoryFilter?
-        isVisible = (hivent.category is "default") or (hivent.category in @_currentCategoryFilter)
+      state = 1
+      # 0 --> invisible
+      # 1 --> visiblePast
+      # 2 --> visibleFuture
 
-      if isVisible and @_currentTimeFilter?
-        isVisible = not (hivent.startDate.getTime() > @_currentTimeFilter.end.getTime()) and
-                    not (hivent.endDate.getTime() < @_currentTimeFilter.start.getTime())
+      if @_currentCategoryFilter?
+        unless (hivent.category is "default") or (hivent.category in @_currentCategoryFilter)
+          state = 0
 
-      if isVisible and @_currentSpaceFilter?
-        isVisible = hivent.lat >= @_currentSpaceFilter.min.lat and
-                    hivent.long >= @_currentSpaceFilter.min.long and
-                    hivent.lat <= @_currentSpaceFilter.max.lat and
-                    hivent.long <= @_currentSpaceFilter.max.long
 
-      if isVisible
-        unless handle._visible
-          handle.showAll()
+      if state isnt 0 and @_currentTimeFilter?
+        # start date in visible future
+        if hivent.startDate.getTime() > @_currentTimeFilter.now.getTime() and hivent.startDate.getTime() < @_currentTimeFilter.end.getTime()
+          state = 2
+        # completely  outside
+        else if hivent.startDate.getTime() > @_currentTimeFilter.end.getTime() or hivent.endDate.getTime() < @_currentTimeFilter.start.getTime()
+          state = 0
+
+      if state isnt 0 and @_currentSpaceFilter?
+        unless hivent.lat >= @_currentSpaceFilter.min.lat and
+               hivent.long >= @_currentSpaceFilter.min.long and
+               hivent.lat <= @_currentSpaceFilter.max.lat and
+               hivent.long <= @_currentSpaceFilter.max.long
+
+          state = 0
+
+      handle.setState state
+
+      if state isnt 0
         if @_currentTimeFilter?
-          new_age = Math.min(1, (hivent.endDate.getTime() - @_currentTimeFilter.start.getTime()) / (@_currentTimeFilter.end.getTime() - @_currentTimeFilter.start.getTime()))
+          new_age = Math.min(1, (hivent.endDate.getTime() - @_currentTimeFilter.start.getTime()) / (@_currentTimeFilter.now.getTime() - @_currentTimeFilter.start.getTime()))
           if new_age isnt handle._age
             handle.setAge new_age
-
-      else if handle._visible
-        handle.hideAll()

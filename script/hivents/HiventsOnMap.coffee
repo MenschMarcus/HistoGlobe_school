@@ -65,7 +65,7 @@ class HG.HiventsOnMap
 
 
       @_hiventController.onHiventAdded (handle) =>
-        handle.onShow @, (self) =>
+        handle.onVisiblePast @, (self) =>
           marker = new HG.HiventMarker2D self, hgInstance.map, @_map, @_markerGroup
 
           @_hiventMarkers.push marker

@@ -85,7 +85,7 @@ class HG.HiventsOnGlobe
       console.log @_markerGroup'''
 
       @_hiventController.onHiventAdded (handle) =>
-        handle.onShow @, (self) =>
+        handle.onVisiblePast @, (self) =>
           logos =
             default:@_hiventLogos[handle.getHivent().category]
             highlight:@_hiventLogos[handle.getHivent().category+"_highlighted"]
