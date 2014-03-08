@@ -44,12 +44,13 @@ class HG.Timeline
       freeMode: true
       momentumRatio: 0.5
       scrollContainer: true
-      onSlideClick: (s, d) =>
-        target = new Date(@yearToDate(@_config.minYear).getTime() - (@_timeline_swiper.getWrapperTranslate("x") - d.x + window.innerWidth/2) * @millisPerPixel())
-        @moveToDate(target, 0.5)
+      # onSlideClick: (s, d) =>
+      #   target = new Date(@yearToDate(@_config.minYear).getTime() - (@_timeline_swiper.getWrapperTranslate("x") - d.x + window.innerWidth/2) * @millisPerPixel())
+      #   @moveToDate(target, 0.5)
 
       onTouchStart: =>
         @_animationTargetDate = null
+        @_animationSuccessCallback = null
         if @_play
           @_nowMarker.animationSwitch()
 
@@ -198,10 +199,15 @@ class HG.Timeline
     if @_animationTargetDate?
       @_nowDate = @_animationTargetDate
       @_animationTargetDate = null
+
     else
       @_nowDate = new Date(@yearToDate(@_config.minYear).getTime() + (-1) * @_timeline_swiper.getWrapperTranslate("x") * @millisPerPixel())
     @_nowMarker.nowDateChanged()
     @notifyAll "onNowChanged", @_nowDate
+
+    if @_animationSuccessCallback?
+      @_animationSuccessCallback()
+      @_animationSuccessCallback = null
 
   #   --------------------------------------------------------------------------
   #   for i e {0,1,2,3,...} it should return 1,5,10,50,100,...
@@ -307,17 +313,18 @@ class HG.Timeline
   #     dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
   #     @_timeline_swiper.setWrapperTranslate(dateDiff / @millisPerPixel(),0,0)
 
-  moveToDate: (date, delay=0) ->
+  moveToDate: (date, delay=0, successCallback=undefined) ->
     if @yearToDate(@_config.minYear).getTime() > date.getTime()
-      @moveToDate @yearToDate(@_config.minYear), delay
+      @moveToDate @yearToDate(@_config.minYear), delay, successCallback
     else if @yearToDate(@_config.maxYear).getTime() < date.getTime()
-      @moveToDate @yearToDate(@_config.maxYear), delay
+      @moveToDate @yearToDate(@_config.maxYear), delay, successCallback
     else
       dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
       @_uiElements.tlDivWrapper.style.transition =  delay + "s"
       @_uiElements.tlDivWrapper.style.webkitTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
 
       @_animationTargetDate = date
+      @_animationSuccessCallback = successCallback
 
   #   --------------------------------------------------------------------------
   _animTimeline: =>

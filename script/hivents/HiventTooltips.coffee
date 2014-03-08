@@ -84,8 +84,8 @@ class HG.HiventTooltips
     $(hiventInfo).tooltip {title: "#{hivent.displayDate}<br />#{hivent.name}", html:true, placement: "top", container:"#histoglobe"}
 
     showTooltip = (displayPosition) =>
-      hiventInfo.style.left = displayPosition.x - HGConfig.hivent_marker_timeline_width.val/2 + "px"
-      hiventInfo.style.top = displayPosition.y - HGConfig.hivent_marker_timeline_width.val/2 + 5 +"px"
+      hiventInfo.style.left = displayPosition.x + "px"
+      hiventInfo.style.top = displayPosition.y + 5 + "px"
       $(hiventInfo).tooltip "show"
 
     hideTooltip = (displayPosition) =>
