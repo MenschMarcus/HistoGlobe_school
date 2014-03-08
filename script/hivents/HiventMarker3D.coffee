@@ -39,7 +39,8 @@ class HG.HiventMarker3D extends HG.HiventMarker
     #console.log hiventHandle.getHivent().category
     hiventMaterial = new THREE.SpriteMaterial({
         map: @_hiventTexture,
-        transparent:false,
+        transparent:true,
+        opacity: 1.0,
         useScreenCoordinates: false,
         scaleByViewport: true,
         sizeAttenuation: false,
@@ -84,6 +85,10 @@ class HG.HiventMarker3D extends HG.HiventMarker
 
     @getHiventHandle().onUnLink @, (mousePos) =>
       @sprite.material.map = @_hiventTexture
+
+    @getHiventHandle().onAgeChanged @, (age) =>
+      @sprite.material.opacity = age
+
 
     @getHiventHandle().onDestruction @, @destroy
     @getHiventHandle().onHide @, @destroy
