@@ -146,6 +146,8 @@ class HG.HistoGlobe
       minYear: @_config.minYear
       maxYear: @_config.maxYear
 
+    @addModule @timeline
+
   # ============================================================================
   _collapse: =>
     @_collapsed = not @_collapsed

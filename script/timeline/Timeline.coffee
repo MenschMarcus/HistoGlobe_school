@@ -42,9 +42,12 @@ class HG.Timeline
     @_timeline_swiper ?= new Swiper '#timeline',
       mode:'horizontal'
       freeMode: true
-      freeModeFluid: true
       momentumRatio: 0.5
       scrollContainer: true
+      onTouchStart: =>
+        if @_play
+          @_nowMarker.animationSwitch()
+
 
       onSetWrapperTransition: =>
         @_updateNowDate()
@@ -81,7 +84,7 @@ class HG.Timeline
     # set animation for timeline play
     @_play = false
     @_speed = 10
-    setInterval @_animTimeline, 100
+    setInterval @_animTimeline, 16
 
     #   --------------------------------------------------------------------------
     #   ZOOM TIMLINE
@@ -101,6 +104,12 @@ class HG.Timeline
         @_maxIntervalIndex = @_calcMaxIntervalIndex()
         @_makeLayout()
         @_updateDateMarkers()
+
+  # ============================================================================
+  hgInit: (hgInstance) ->
+    hgInstance.onAllModulesLoaded @, () =>
+      @notifyAll "onNowChanged", @_nowDate
+      @notifyAll "onIntervalChanged", @_getTimeFilter()
 
   #   --------------------------------------------------------------------------
   _createUIElements: ->
@@ -286,14 +295,12 @@ class HG.Timeline
     if @yearToDate(@_config.minYear).getTime() < date.getTime() && @yearToDate(@_config.maxYear).getTime() > date.getTime()
       dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
       @_timeline_swiper.setWrapperTranslate(dateDiff / @millisPerPixel(),0,0)
-      # @_updateNowDate()
 
   moveToDate: (date, delay) ->
     if @yearToDate(@_config.minYear).getTime() < date.getTime() && @yearToDate(@_config.maxYear).getTime() > date.getTime()
       dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
       @_uiElements.tlDivWrapper.style.transition =  delay + "s"
       @_uiElements.tlDivWrapper.style.webkitTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-      # @_updateNowDate()
 
   #   --------------------------------------------------------------------------
   _animTimeline: =>
@@ -301,8 +308,9 @@ class HG.Timeline
     # move timeline periodic
     if @_play
       if (@_speed < 0 || @_speed > 0) && @_nowDate.getFullYear() > @_config.minYear && @_nowDate.getFullYear() < @_config.maxYear
-        toDate = new Date(@_nowDate.getTime() + @_speed * 1000 * 60 * 60 * 24 * 7)
+        toDate = new Date(@_nowDate.getTime() + @_speed * 30 * 60 * 60 * 24 * 7)
         @moveToDate(toDate,0)
+        @_updateNowDate()
         @_updateDateMarkers()
       else
         @_nowMarker.animationSwitch()

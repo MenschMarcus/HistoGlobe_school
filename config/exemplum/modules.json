@@ -110,6 +110,24 @@
   "HiventsOnMap" : {},
   "HiventsOnTimeline" : {},
 
+  "PathController" : {
+    "pathCSVPaths" : ["config/exemplum/data/tour.csv"],
+    "ignoredLines" : [1,2,3],
+    "indexMappings" : [
+      {
+        "ID"              : 0,
+        "startHivent"     : 1,
+        "endHivent"       : 2,
+        "coordsInBetween" : 3,
+        "category"        : 4,
+        "type"            : 5,
+        "movingMarker"    : 6,
+        "startMarker"     : 7,
+        "endMarker"       : 8
+      }
+    ]
+  },
+
   "AreaStyler" :
   {
     "stylers" :
@@ -316,7 +334,7 @@
       "name" : "Jahresumsatz",
       "title" : "Jahresumsatz seit 1964",
       "data" : "config/exemplum/data/statistics_revenue.dsv",
-      "lineColor" : "lightblue",
+      "lineColor" : "#338A66",
       "lineWidth" : "5px",
       "smoothLine" : true,
       "xAttributeName" : "date",
@@ -332,7 +350,7 @@
       "name" : "Mitarbeiterzahl",
       "title" : "Mitarbeiterzahl seit 1964",
       "data" : "config/exemplum/data/statistics_employees.dsv",
-      "lineColor" : "lightgreen",
+      "lineColor" : "#338A66",
       "lineWidth" : "5px",
       "smoothLine" : true,
       "xAttributeName" : "date",

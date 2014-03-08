@@ -24,6 +24,11 @@
     box-shadow: 0 0 30px rgba(0,0,0,0.5);
 
     .border-radius(@timeline_roundness * @radius @timeline_roundness * @radius 0 0);
+
+    i {
+        display: block;
+        font-size: 2em;
+    }
 }
 
 // pointer to show current speed of timeline
@@ -72,20 +77,24 @@
     .border-radius(@timeline_roundness * @inRadius @timeline_roundness * @inRadius 0 0);
     background:         #eee;
     //.linear-gradient-top(rgba(255,255,255, 0.0), #fff, 0, rgba(218, 218, 218, 1), 50%);
+    text-align: center;
 }
 
 // input field for now marker year
 #now_date_input {
 
     // position & size
-    width:          78px;
-    margin:         0px 0px 0px 34px;
+    // width:          78px;
+    // margin:         0px 0px 0px 34px;
     //padding-left:   3px;
     border:none;
     background: #eee;
 
     // colors
     color:      #333;
+    font-family: monospace;
+    font-size: 1.2em;
+    font-weight: bold;
 }
 
 // play button in the middle of Now Marker
@@ -94,21 +103,9 @@
     // change cursor on mouse over
     &:hover {   cursor: pointer;    }
 
-    width: 0;
-    height: 0;
+    margin-top: 15px;
+    margin-bottom: 0px;
 
-    border-top: 12px solid transparent;
-    border-bottom: 12px solid transparent;
-
-}
-.forward {
-    margin:     10px auto 10px auto;
-    border-left: 16px solid #333;
-}
-
-.backward {
-    margin:     10px 50% 10px auto;
-    border-right: 16px solid #333;
 }
 
 // litte sign pointing on now marker on timeline

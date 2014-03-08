@@ -117,7 +117,7 @@ class HG.HiventsOnGlobe
 
 
       @_hiventController.showVisibleHivents() # force all hivents to show
-      
+
       setInterval(@_animate, 100)
 
     else

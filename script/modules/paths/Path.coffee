@@ -89,3 +89,4 @@ class HG.Path
   _isMarkerMoving: (date) ->
 
     date > @_startHiventHandle.getHivent().endDate and date < @_endHiventHandle.getHivent().startDate
+

@@ -27,6 +27,7 @@ class HG.HiventsOnTimeline
           HG.createCSSSelector ".hivent_marker_timeline_#{category}_#{element}",
           "width: #{HGConfig.hivent_marker_timeline_width.val}px !important;
            height: #{HGConfig.hivent_marker_timeline_height.val}px !important;
+           cursor:pointer;
            margin-top: 0;
            margin-left: -#{HGConfig.hivent_marker_timeline_width.val/2}px;
            position: absolute !important;

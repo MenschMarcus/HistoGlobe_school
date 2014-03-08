@@ -100,7 +100,7 @@ class HG.AreasOnGlobe
 
 
       '''setInterval(@_animate, 100)'''#no hover
-      
+
     else
       console.error "Unable to show areas on Map: AreaController module not detected in HistoGlobe instance!"
 
@@ -200,12 +200,12 @@ class HG.AreasOnGlobe
           lineWidth = 1
           opacity = 0
         lineMaterial = new THREE.LineBasicMaterial(
-          color: area.getNormalStyle().lineColor, 
+          color: area.getNormalStyle().lineColor,
           linewidth: lineWidth,
           transparent: true,
           opacity: opacity )
         borderline = new THREE.Line( lineGeometry, lineMaterial)
-        
+
         @_sceneCountries.add borderline if @_isAreaActive(area)
         borderLines.push borderline
 
@@ -223,9 +223,9 @@ class HG.AreasOnGlobe
 
       lat_distance = Math.abs(Math.abs(bounds.getSouthWest().lat) - Math.abs(bounds.getNorthEast().lat))
       lng_distance = Math.abs(Math.abs(bounds.getSouthWest().lng) - Math.abs(bounds.getNorthEast().lng))
-      
+
       max_dist = Math.max(lat_distance,lng_distance)
-      
+
       #iterations = Math.min(Math.max(0,Math.round(max_dist/3.5)),11)
       #iterations = Math.min(Math.max(0,Math.round(max_dist^2/140)),11)
       iterations = Math.min(Math.max(0,Math.round(max_dist^3/5500)),11)
@@ -262,7 +262,7 @@ class HG.AreasOnGlobe
       #for later onclick purposes
       shapeGeometry.computeBoundingBox()
       countryMaterial.bb = shapeGeometry.boundingBox
-      
+
       mesh = new THREE.Mesh( shapeGeometry, countryMaterial );
 
       #gps to cart mapping================================
@@ -322,10 +322,10 @@ class HG.AreasOnGlobe
 
       if area.Borderlines3D
         for line in area.Borderlines3D
-          @_sceneCountries.add line  
+          @_sceneCountries.add line
 
       @_showLabel area
-      
+
   # ============================================================================
   _hideAreaLayer: (area) ->
 
@@ -344,7 +344,7 @@ class HG.AreasOnGlobe
 
     if area.Borderlines3D
       for line in area.Borderlines3D
-        @_sceneCountries.remove line  
+        @_sceneCountries.remove line
 
     @_hideLabel area
 
@@ -429,12 +429,12 @@ class HG.AreasOnGlobe
 
       if area.Label3D
         area.Label3D.material.opacity = area.getNormalStyle().labelOpacity
-          
+
 
   # ============================================================================
   #new:(# http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript)
   _rgbify: (colr) ->
-    
+
     colr = colr.replace /#/, ''
     if colr.length is 3
       [
@@ -457,7 +457,7 @@ class HG.AreasOnGlobe
     index = $.inArray(area, @_areaController.getActiveAreas())
     if index >= 0
       return true
-    
+
     return false
 
   # ============================================================================
@@ -652,13 +652,13 @@ class HG.AreasOnGlobe
             targetFOV = 2* Math.atan(height/(2* dist)) * (180/Math.PI)
             #@_targetFOV = targetFOV
             if targetFOV < @_globe.getMaxFov()
-              if targetFOV > @_globe.getMinFov() 
+              if targetFOV > @_globe.getMinFov()
                 @_globe._targetFOV = targetFOV
                 factor = (targetFOV - @_globe.getMinFov() ) / (@_globe.getMaxFov() - @_globe.getMinFov() )
                 targetZoom = ((1-factor) * (@_globe.getMaxZoom() - @_globe.getMinZoom() )) + @_globe.getMinZoom()
                 @_globe._currentZoom = targetZoom
               else
-                @_globe._targetFOV = @_globe.getMinFov() 
+                @_globe._targetFOV = @_globe.getMinFov()
                 @_globe._currentZoom = @_globe.getMaxZoom()
             else
               @_globe._targetFOV = @_globe.getMaxFov()
@@ -706,7 +706,7 @@ class HG.AreasOnGlobe
       index = $.inArray(mat, @_intersectedMaterials)
       @_intersectedMaterials.splice index, 1  if index >= 0
     # unmark previous countries
-    
+
     '''for intersect in @_intersectedMaterials
       if intersect.Area?
         #intersect.material.color.setHex 0x5b309f

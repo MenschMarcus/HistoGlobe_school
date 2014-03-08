@@ -29,9 +29,9 @@ class HG.NowMarker
         nowMarkerIn = document.createElement "div"
         nowMarkerIn.id = "now_marker_in"
 
-        @_playButton    = document.createElement "div"
+        @_playButton    = document.createElement "i"
         @_playButton.id = "now_marker_play"
-        @_playButton.className = "forward"
+        @_playButton.className = "fa fa-play"
         #@_playButton.innerHTML = "<img src='img/timeline/playIcon.png'>"
 
         nowMarkerIn.appendChild @_playButton
@@ -74,10 +74,11 @@ class HG.NowMarker
         # rotate arrow if mouse moved on speed changer
         @_mainDiv.onmousemove = (e) =>
             if @_clicked
-                if @_hiddenSpeed < 0 and e.pageX - @_middlePointX >= 0
-                    @_playButton.className = "forward"
-                else if @_hiddenSpeed >= 0 and e.pageX - @_middlePointX < 0
-                    @_playButton.className = "backward"
+                unless @_timeline.getPlayStatus()
+                    if @_hiddenSpeed < 0 and e.pageX - @_middlePointX >= 0
+                        @_playButton.className = "fa fa-play"
+                    else if @_hiddenSpeed >= 0 and e.pageX - @_middlePointX < 0
+                        @_playButton.className = "fa fa-group"
                 @_hiddenSpeed = e.pageX - @_middlePointX
                 $(@_pointer).rotate(@_angleOnCircle(e))
 
@@ -196,10 +197,13 @@ class HG.NowMarker
     animationSwitch: ->
         if @_timeline.getPlayStatus()
             @_timeline.stopTimeline()
-            #@_playButton.innerHTML = "<img src='data/timeline/playIcon.png'>"
+            if @_timeline._speed > 0
+                @_playButton.className = "fa fa-play"
+            else
+                @_playButton.className = "fa fa-group"
         else
             @_timeline.playTimeline()
-            #@_playButton.innerHTML = "<img src='data/timeline/pauseIcon.png'>"
+            @_playButton.className = "fa fa-pause"
 
     # ============================================================================
     _disableTextSelection : (e) ->  return false
