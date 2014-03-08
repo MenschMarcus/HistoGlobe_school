@@ -40,12 +40,13 @@ class HG.HiventsOnTimeline
     if @_hiventController
       @_hiventController.onHiventAdded (handle) =>
 
-        show = (self) =>
-          hiventMarkerDate = self.getHivent().startDate
-          marker = new HG.HiventMarkerTimeline @_timeline, self, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate)
-          @_hiventMarkers.push marker
-          @_markersLoaded = @_hiventController._hiventsLoaded
-          callback marker for callback in @_onMarkerAddedCallbacks
+        show = (self, oldState) =>
+          if oldState is 0 # invisible
+            hiventMarkerDate = self.getHivent().startDate
+            marker = new HG.HiventMarkerTimeline @_timeline, self, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate)
+            @_hiventMarkers.push marker
+            @_markersLoaded = @_hiventController._hiventsLoaded
+            callback marker for callback in @_onMarkerAddedCallbacks
 
         handle.onVisibleFuture @, show
         handle.onVisiblePast @, show

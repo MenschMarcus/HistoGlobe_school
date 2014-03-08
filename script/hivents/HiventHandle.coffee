@@ -195,16 +195,17 @@ class HG.HiventHandle
   # ============================================================================
   setState: (state) ->
     if @_state isnt state
-      @_state = state
 
-      if @_state is 0
-        @notifyAll "onInvisible", @
-      else if @_state is 1
-        @notifyAll "onVisiblePast", @
-      else if @_state is 2
-        @notifyAll "onVisibleFuture", @
+      if state is 0
+        @notifyAll "onInvisible", @, @_state
+      else if state is 1
+        @notifyAll "onVisiblePast", @, @_state
+      else if state is 2
+        @notifyAll "onVisibleFuture", @, @_state
       else
         console.warn "Failed to set HiventHandle state: invalid state #{state}!"
+
+      @_state = state
 
   # ============================================================================
   setAge: (age) ->

@@ -237,8 +237,8 @@ class HG.Timeline
     @_uiElements.yearRow.style.height = (yearRowHeight * hp) + tlHeightType
     @_uiElements.yearRow.style.fontSize = (yearRowHeight * hp) + tlHeightType
 
-    @_uiElements.symbolRow.style.height = (0.33 * tlHeight) + tlHeightType
-    @_uiElements.symbolRow.style.fontSize = (0.33 * tlHeight) + tlHeightType
+    @_uiElements.symbolRow.style.height = (1 * tlHeight) + tlHeightType
+    @_uiElements.symbolRow.style.fontSize = (1 * tlHeight) + tlHeightType
 
     @_timeline_swiper.reInit()
 

@@ -22,7 +22,8 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
     X_OFFSETS[time] ?= 0
     @_xOffset = X_OFFSETS[time]
     #@_position = { x: posX + @_xOffset * HIVENT_MARKER_TIMELINE_RADIUS * 1.5 - HIVENT_MARKER_TIMELINE_RADIUS, y: Math.floor $(parent.parentNode).innerHeight() * 0.65 }
-    @_position = { x: posX, y: 0 }
+    @_position = { x: posX, y: @_xOffset*10 }
+    # @_position = { x: posX, y: Math.floor(Math.random()*(HGConfig.timeline_height.val - HGConfig.hivent_marker_timeline_width.val)+0) }
     X_OFFSETS[time] += 1
 
     @_classDefault     = "hivent_marker_timeline_#{hiventHandle.getHivent().category}_default"
