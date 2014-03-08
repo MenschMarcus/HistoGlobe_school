@@ -28,7 +28,6 @@ class HG.HiventInfoAtTag
       if @_hiventInfoPopovers? and @_hiventController?
         @_hiventController.onHiventAdded (handle) =>
           if handle.getHivent().id is @_hiventID
-            console.log @_hiventID
             @_timeline.moveToDate handle.getHivent().startDate, 0.5
 
         @_hiventInfoPopovers.onPopoverAdded (marker) =>
@@ -36,7 +35,6 @@ class HG.HiventInfoAtTag
             handle = marker.getHiventHandle()
             hivent = handle.getHivent()
             if hivent.id is @_hiventID
-              console.log @_hiventID
 
               handle.focusAll()
               handle.toggleActive marker, marker.getDisplayPosition()
