@@ -64,12 +64,20 @@ $statistics_widget_axis_width         = 2px
 $timeline_height                      = 80px
 $timeline_roundness                   = 8px
 
-// ------------------ HIVENT OPTIONS -------------------------------------------
-$hivent_marker_2D_width               = 32px;
-$hivent_marker_2D_height              = 32px;
+$now_marker_border_width              = 4px
+$now_marker_border_color              = #ffffff
+$now_marker_background_image          = ""
 
-$hivent_marker_timeline_width         = 16px;
-$hivent_marker_timeline_height        = 16px;
+$now_marker_pointer_width             = 5px
+$now_marker_pointer_color             = #ffffff
+$now_marker_pointer_hover_color       = #ffffff
+
+// ------------------ HIVENT OPTIONS -------------------------------------------
+$hivent_marker_2D_width               = 32px
+$hivent_marker_2D_height              = 32px
+
+$hivent_marker_timeline_width         = 16px
+$hivent_marker_timeline_height        = 16px
 
 // ------------------ HIVENTINFO OPTIONS ---------------------------------------
-$hivent_info_popover_arrow_height     = 15px;
+$hivent_info_popover_arrow_height     = 15px
