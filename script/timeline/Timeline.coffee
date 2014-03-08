@@ -45,6 +45,7 @@ class HG.Timeline
       momentumRatio: 0.5
       scrollContainer: true
       onTouchStart: =>
+        @_animationTargetDate = null
         if @_play
           @_nowMarker.animationSwitch()
 
@@ -190,7 +191,11 @@ class HG.Timeline
     (index - 1)
 
   _updateNowDate: ->
-    @_nowDate = new Date(@yearToDate(@_config.minYear).getTime() + (-1) * @_timeline_swiper.getWrapperTranslate("x") * @millisPerPixel())
+    if @_animationTargetDate?
+      @_nowDate = @_animationTargetDate
+      @_animationTargetDate = null
+    else
+      @_nowDate = new Date(@yearToDate(@_config.minYear).getTime() + (-1) * @_timeline_swiper.getWrapperTranslate("x") * @millisPerPixel())
     @_nowMarker.nowDateChanged()
     @notifyAll "onNowChanged", @_nowDate
 
@@ -293,16 +298,18 @@ class HG.Timeline
 
   #   --------------------------------------------------------------------------
   #   move timeline to specified date and set date as new nowdate
-  moveToDate: (date) ->
-    if @yearToDate(@_config.minYear).getTime() < date.getTime() && @yearToDate(@_config.maxYear).getTime() > date.getTime()
-      dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
-      @_timeline_swiper.setWrapperTranslate(dateDiff / @millisPerPixel(),0,0)
+  # moveToDate: (date) ->
+  #   if @yearToDate(@_config.minYear).getTime() < date.getTime() && @yearToDate(@_config.maxYear).getTime() > date.getTime()
+  #     dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
+  #     @_timeline_swiper.setWrapperTranslate(dateDiff / @millisPerPixel(),0,0)
 
-  moveToDate: (date, delay) ->
+  moveToDate: (date, delay=0) ->
     if @yearToDate(@_config.minYear).getTime() < date.getTime() && @yearToDate(@_config.maxYear).getTime() > date.getTime()
       dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
       @_uiElements.tlDivWrapper.style.transition =  delay + "s"
       @_uiElements.tlDivWrapper.style.webkitTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+
+      @_animationTargetDate = date
 
   #   --------------------------------------------------------------------------
   _animTimeline: =>

@@ -108,7 +108,6 @@
     },
 
   "HiventsOnMap" : {},
-  "HiventsOnTimeline" : {},
 
   "PathController" : {
     "pathCSVPaths" : ["config/exemplum/data/tour.csv"],

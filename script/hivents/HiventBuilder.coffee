@@ -278,7 +278,7 @@ class HG.HiventBuilder
         locationString = hiventLocation + ','
 
       #concatenate content
-      content = '\t<h3>' + locationString + hiventDisplayDate + '</h3>\n' +
+      content = '\t<h3>' + locationString + " " + hiventDisplayDate + '</h3>\n' +
                 mmHtmlString +
                 '\t<p>\n\t\t' +
                 hiventDescription +

@@ -93,6 +93,19 @@
   border-bottom: @border_width solid @border_color;
   margin: 0px;
   .linear-gradient-top(@widget_title_background_color, lighten(@widget_title_background_color, @widget_title_gradient_effect), 0%, @widget_title_background_color, 100%);
+
+  span {
+    float: right;
+    font-size: 35pt;
+    opacity: 0.75;
+    margin-top: -20px;
+
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 }
 
 .hiventInfoPopoverBody {

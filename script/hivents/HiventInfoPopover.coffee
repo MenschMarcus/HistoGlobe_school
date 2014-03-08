@@ -51,8 +51,8 @@ class HG.HiventInfoPopover
     @_titleDiv.innerHTML = @_hiventHandle.getHivent().name
     # @_titleDiv.addEventListener 'mousedown', @_onMouseDown, false
 
-    @_closeDiv = document.createElement "button"
-    @_closeDiv.className = "close"
+    @_closeDiv = document.createElement "span"
+    # @_closeDiv.className = "close"
     @_closeDiv.innerHTML = "×"
     @_closeDiv.addEventListener 'mouseup', @hide, false
 
