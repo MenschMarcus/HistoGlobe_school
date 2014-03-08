@@ -27,6 +27,9 @@ class HG.HiventMarker3D extends HG.HiventMarker
 
     @_scene = scene
 
+
+    @ScreenCoordinates = null
+
     #new
     #hiventTexture = THREE.ImageUtils.loadTexture('data/hivent_icons/icon_join.png')
     #@_hiventTexture = THREE.ImageUtils.loadTexture(@_getIcon(hiventHandle.getHivent().category))
@@ -36,8 +39,7 @@ class HG.HiventMarker3D extends HG.HiventMarker
     #console.log hiventHandle.getHivent().category
     hiventMaterial = new THREE.SpriteMaterial({
         map: @_hiventTexture,
-        transparent:true,
-        opacity: 1.0,
+        transparent:false,
         useScreenCoordinates: false,
         scaleByViewport: true,
         sizeAttenuation: false,
@@ -65,8 +67,8 @@ class HG.HiventMarker3D extends HG.HiventMarker
 
 
     @getHiventHandle().onFocus(@, (mousePos) =>
-      '''if display.isRunning()
-        display.focus @getHiventHandle().getHivent()'''#not neccessary
+      if display.isRunning()
+        display.focus @getHiventHandle().getHivent()
     )
 
     @getHiventHandle().onMark @, (mousePos) =>
@@ -83,9 +85,6 @@ class HG.HiventMarker3D extends HG.HiventMarker
     @getHiventHandle().onUnLink @, (mousePos) =>
       @sprite.material.map = @_hiventTexture
 
-    @getHiventHandle().onAgeChanged @, (age) =>
-      @sprite.material.opacity = age
-
     @getHiventHandle().onDestruction @, @destroy
     @getHiventHandle().onHide @, @destroy
 
@@ -98,10 +97,21 @@ class HG.HiventMarker3D extends HG.HiventMarker
   onclick:(pos) ->
     @getHiventHandle().toggleActive @,pos
 
+
+  # ============================================================================
+  getTooltipPos: ->
+    if @ScreenCoordinates
+      pos=
+        x: @ScreenCoordinates.x
+        y: @ScreenCoordinates.y - HEIGHT/2
+    else 
+      console.log "No ScreenCoordinates!"
+
   # ============================================================================
   destroy: ->
     @notifyAll "onMarkerDestruction"
-    @_destroy()  
+    @_destroy()
+
 
   # ============================================================================
   _destroy: ->

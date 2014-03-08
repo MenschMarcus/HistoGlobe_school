@@ -31,7 +31,7 @@ class HG.HiventTooltips
     if @_hiventsOnGlobe
       @_hiventsOnGlobe.onMarkerAdded (marker) =>
         if marker.parentDiv
-          @_addTooltip marker
+          @_addMapTooltip marker
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #

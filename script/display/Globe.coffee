@@ -130,6 +130,15 @@ class HG.Globe extends HG.Display
     @_targetCameraPos.y = latLong.y
 
   # ============================================================================
+  # also focus on this place
+  setCenter: (latLong) ->
+    @_targetCameraPos.x = latLong.x
+    @_targetCameraPos.y = latLong.y
+
+    @_currentZoom =CAMERA_MAX_ZOOM
+    @_zoom()
+
+  # ============================================================================
   centerCart: (point) ->
     console.log "center cart!!!!!!!!!!!!!",point
     #@center @_cartToLatLong(point.clone())

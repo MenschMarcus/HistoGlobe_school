@@ -220,7 +220,8 @@ class HG.HiventsOnGlobe
           @_globe._mousePos.y > y - (h/2) and @_globe._mousePos.y < y + (h/2)
             handle = hivent.getHiventHandle()
             if handle
-              hivent.getHiventHandle().mark hivent, {x:x, y:y}
+              #hivent.getHiventHandle().mark hivent, {x:x, y:y}
+              hivent.getHiventHandle().mark hivent, hivent.getTooltipPos()
               hivent.getHiventHandle().linkAll {x:x, y:y}
             tmp_intersects.push hivent
             index = $.inArray(hivent, @_lastIntersected)
