@@ -182,7 +182,7 @@ class HG.AreasOnGlobe
           line_coord = @_globe._latLongToCart(
             x:vertex.x
             y:vertex.y,
-            @_globe.getGlobeRadius()+0.41)
+            @_globe.getGlobeRadius()+0.45)
           lineGeometry.vertices.push line_coord
         #close line:
         lineGeometry.vertices.push lineGeometry.vertices[0]
@@ -360,24 +360,6 @@ class HG.AreasOnGlobe
       final_color = @_rgbify area.getNormalStyle().fillColor
 
 
-      #quickhack for cebit (borderbugs)
-      ######################################################
-      final_opacity = area.getNormalStyle().fillOpacity
-      final_border_opacity = area.getNormalStyle().lineOpacity
-      unless final_opacity > 0.01
-        final_border_opacity = 0.0
-      else
-        final_border_opacity = 1.0
-
-      if area._name is "Russia"
-        console.log "final opacity". final_opacity
-        console.log "final border opacity". final_border_opacity
-      #######################################################
-
-      #console.log area.Material3D.color.r
-      #console.log final_color[0]/255
-
-
       $({
         colorR:area.Material3D.color.r,
         colorG:area.Material3D.color.g,
@@ -398,12 +380,27 @@ class HG.AreasOnGlobe
           area.Material3D.opacity = this.opacity
       })
 
+
+
+      lineWidth = area.getNormalStyle().lineWidth
+      lineOpacity = area.getNormalStyle().lineOpacity
+      unless lineWidth > 0.01
+        lineWidth = 1
+        lineOpacity = 0
+
       if area.Borderlines3D
         for line in area.Borderlines3D
 
           final_stroke_color = @_rgbify area.getNormalStyle().lineColor
 
-          $({
+          line.material.color.r = final_stroke_color[0]/255
+          line.material.color.g = final_stroke_color[1]/255
+          line.material.color.b = final_stroke_color[2]/255
+          line.material.opacity = lineOpacity
+          line.material.linewidth = lineWidth
+
+          #animation is buggy
+          '''$({
             strokeColorR:line.material.color.r,
             strokeColorG:line.material.color.g,
             strokeColorB:line.material.color.b,
@@ -425,7 +422,7 @@ class HG.AreasOnGlobe
               line.material.color.b = this.strokeColorB
               line.material.opacity = this.strokeOpacity
               line.material.linewidth = this.strokeWidth
-          })
+          })'''
 
       if area.Label3D
         area.Label3D.material.opacity = area.getNormalStyle().labelOpacity
