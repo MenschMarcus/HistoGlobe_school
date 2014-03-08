@@ -134,6 +134,7 @@ class HG.HiventInfoPopover
     # @_raphael.canvas.style.opacity = 0.0
     window.setTimeout hideArrow, 100
     @_hiventHandle._activated = false
+    @_placement = undefined
 
   # ============================================================================
   positionWindowAtAnchor: ->

@@ -6,6 +6,12 @@ class HG.Widget
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
+  constructor: (config) ->
+    defaultConfig =
+      collapsedAtStart : true
+
+    @_config = $.extend {}, defaultConfig, config
+
   # ============================================================================
   hgInit: (hgInstance) ->
     @_width = 0
@@ -131,6 +137,8 @@ class HG.Widget
 
     @setName "New Widget"
     @setIcon "fa-star"
+
+    @_collapse() if @_config.collapsedAtStart
 
   # ============================================================================
   _collapse: () =>

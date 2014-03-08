@@ -18,8 +18,8 @@ class HG.LegendWidget extends HG.Widget
     @_hiventController = null
 
     @_init()
-    HG.Widget.call @
 
+    HG.Widget.call @, @_config
 
   # ============================================================================
   hgInit: (hgInstance) ->

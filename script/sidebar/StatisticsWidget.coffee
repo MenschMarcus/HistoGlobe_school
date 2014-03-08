@@ -33,7 +33,7 @@ class HG.StatisticsWidget extends HG.Widget
 
     @_timeline = null
 
-    HG.Widget.call @
+    HG.Widget.call @, @_config
 
   # ============================================================================
   hgInit: (hgInstance) ->

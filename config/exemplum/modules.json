@@ -2,8 +2,8 @@
   "HistoGlobe" :
   {
     "container": "histoglobe",
-    "maxYear": 2014,
     "minYear": 1963,
+    "maxYear": 2014,
     "nowYear": 2000,
     "minZoom": 3,
     "maxZoom": 7,
@@ -364,12 +364,13 @@
       "type": "LegendWidget",
       "icon": "fa-list-ul",
       "name": "Legende & Filter",
+      "collapsedAtStart" : false,
       "columns":
       [
         {
           "groups" : [
             {
-              "name": "Wichtiges Ereignis",
+              "name": "Wichtige Ereignisse",
               "elements" : [
                 {
                   "type" : "category",
@@ -386,8 +387,15 @@
               ]
             },
             {
-              "name": "Firmenniederlassung",
+              "name": "Firmenniederlassungen",
               "elements" : [
+                {
+                  "type" : "categoryWithIcon",
+                  "category" : "default",
+                  "icon" : "config/exemplum/data/icons/absatzmarkt.png",
+                  "name" : "Absatzmärkte",
+                  "filterable" : false
+                },
                 {
                   "type" : "category",
                   "category" : "Z",

@@ -15,7 +15,7 @@ class HG.TextWidget extends HG.Widget
 
     @_config = $.extend {}, defaultConfig, config
 
-    HG.Widget.call @
+    HG.Widget.call @, @_config
 
   # ============================================================================
   hgInit: (hgInstance) ->
