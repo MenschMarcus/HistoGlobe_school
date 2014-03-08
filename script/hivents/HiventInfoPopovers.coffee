@@ -37,7 +37,7 @@ class HG.HiventInfoPopovers
     if @_hiventsOnGlobe
       @_hiventsOnGlobe.onMarkerAdded (marker) =>
         if marker.parentDiv
-          @_addPopover marker ,@_globe._globeCanvas
+          @_addPopover marker , @_globe._globeCanvas
 
   # ============================================================================
   onPopoverAdded: (callbackFunc) ->
@@ -50,7 +50,7 @@ class HG.HiventInfoPopovers
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
-  _addPopover: (marker,container) =>
+  _addPopover: (marker, container) =>
     @_hiventMarkers.push(marker)
 
     marker.hiventInfoPopover = null
@@ -74,6 +74,10 @@ class HG.HiventInfoPopovers
       marker.hiventInfoPopover?.hide()
 
     handle.onActive marker, showHiventInfoPopover
+    handle.onFocus marker, () =>
+      setTimeout () =>
+        handle.active marker, marker.getDisplayPosition()
+      , 500
     handle.onInActive marker, hideHiventInfoPopover
     marker.onPositionChanged @, (displayPosition) ->
       marker.hiventInfoPopover?.setAnchor new HG.Vector(displayPosition.x, displayPosition.y)

@@ -35,8 +35,6 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
     @_div.style.left = @_position.x + "px"
     @_div.style.top = @_position.y + "px"
 
-    #@_div.style.zIndex = 5
-
     parent.appendChild @_div
 
     @_div.onmouseover = (e) =>
@@ -48,7 +46,12 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
       @getHiventHandle().unLinkAll @_position
 
     @_div.onclick = (e) =>
-      @getHiventHandle().focusAll @_position
+      e.preventDefault()
+      @_timeline.moveToDate @getHiventHandle().getHivent().startDate, 0.5, () =>
+        setTimeout () =>
+          @getHiventHandle().focusAll @_position
+        ,
+        500
 
     @getHiventHandle().onMark @, (mousePos) =>
       @_div.setAttribute "class", @_classHighlighted
