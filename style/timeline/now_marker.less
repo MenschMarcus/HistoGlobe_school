@@ -1,7 +1,7 @@
 
 // radius of now marker box
-@radius:    100px;
-@inRadius:  80px;
+@radius:    90px;
+@inRadius:  72px;
 
 // main container of Now Marker
 #now_marker {
@@ -14,12 +14,14 @@
     width:          (@radius * 2);
     height:         (@radius);
     visibility:     hidden;
+    overflow:hidden;
 
     // colors
-    background:         rgba(235,235,235,0.71);
-    background-image:   url('../data/timeline/numbersNowMarker.png');
-    background-repeat:  no-repeat;
-    box-shadow:         0 0px 2px rgba(0, 0, 0, 0.2);
+    background:         rgba(30,30,30,0.8);
+    /*background-image:   url('../data/timeline/numbersNowMarker.png');
+    background-repeat:  no-repeat;*/
+    //box-shadow:         0 0px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
 
     .border-radius(@timeline_roundness * @radius @timeline_roundness * @radius 0 0);
 }
@@ -30,10 +32,28 @@
     // position & size
     position:   absolute;
     z-index:    1;
-    left:       94px;
-    bottom:     -100px;
+    left:       89px;
+    bottom:     -90px;
     height:     (@radius * 2);
-    width:      12px;
+    width:      2px;
+    background: #eee;
+    box-shadow:         0 0px 2px rgba(0, 0, 0, 0.2);
+}
+
+#now_marker_arrow {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+
+    border-top: 20px solid #eee;
+
+    // position & colors
+    position:   absolute;
+    z-index:    3;
+    //left:       0px;
+    bottom:     @timeline_height - 18px;
+    margin-left: -9px;
 }
 
 // Inner circle
@@ -47,10 +67,11 @@
     margin:         (@radius - @inRadius) (@radius - @inRadius) 0px (@radius - @inRadius);
 
     // colors
-    box-shadow:         0 0px 2px rgba(0, 0, 0, 0.2);
-    border:             1px solid #C4C4C4;
+    //box-shadow:         0 0px 2px rgba(0, 0, 0, 0.2);
+    //border:             1px solid #C4C4C4;
     .border-radius(@timeline_roundness * @inRadius @timeline_roundness * @inRadius 0 0);
-    .linear-gradient-top(rgba(255,255,255, 0.0), #fff, 0, rgba(218, 218, 218, 1), 50%);
+    background:         #eee;
+    //.linear-gradient-top(rgba(255,255,255, 0.0), #fff, 0, rgba(218, 218, 218, 1), 50%);
 }
 
 // input field for now marker year
@@ -58,26 +79,36 @@
 
     // position & size
     width:          78px;
-    margin:         0px 0px 0px 39px;
-    padding-left:   3px;
+    margin:         0px 0px 0px 34px;
+    //padding-left:   3px;
+    border:none;
+    background: #eee;
 
     // colors
-    color:      #909090;
+    color:      #333;
 }
 
 // play button in the middle of Now Marker
 #now_marker_play {
 
-    // position & size
-    margin:     10px auto 10px auto;
-    height:     20px;
-    width:      28px;
-
-    // play button pic
-    img {       height: 20px;       }
-
     // change cursor on mouse over
     &:hover {   cursor: pointer;    }
+
+    width: 0;
+    height: 0;
+
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+
+}
+.forward {
+    margin:     10px auto 10px auto;
+    border-left: 16px solid #333;
+}
+
+.backward {
+    margin:     10px 50% 10px auto;
+    border-right: 16px solid #333;
 }
 
 // litte sign pointing on now marker on timeline

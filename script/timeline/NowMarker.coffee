@@ -9,18 +9,20 @@ class HG.NowMarker
     # ============================================================================
     constructor: (timeline) ->
         @_timeline  = timeline
+
+        # OLD STUFF
         @_mainDiv   = document.createElement "div"
         @_mainDiv.id = "now_marker"
-        @_tlDiv     = timeline.getCanvas()
+        @_tlDiv     = @_timeline.getUIElements().tlDiv
 
         @_body = document.getElementsByTagName("body")[0]
         @_body.appendChild @_mainDiv
 
-        @_nowDate = new Date()
+        #@_nowDate = new Date()
 
         # elements of now marker box
-        @_pointer    = document.createElement "img"
-        @_pointer.src = "data/timeline/pointer.png"
+        @_pointer    = document.createElement "div"
+        #@_pointer.src = "data/timeline/pointer.png"
         @_pointer.id = "now_marker_pointer"
         @_mainDiv.appendChild @_pointer
 
@@ -29,6 +31,8 @@ class HG.NowMarker
 
         @_playButton    = document.createElement "div"
         @_playButton.id = "now_marker_play"
+        @_playButton.className = "forward"
+        #@_playButton.innerHTML = "<img src='img/timeline/playIcon.png'>"
 
         nowMarkerIn.appendChild @_playButton
 
@@ -42,9 +46,9 @@ class HG.NowMarker
 
         @_mainDiv.appendChild nowMarkerIn
 
-        @_arrow  = document.createElement "img"
-        @_arrow.id = "now_marker_sign"
-        @_arrow.src = "data/timeline/nowMarkerSmall.png"
+        @_arrow  = document.createElement "div"
+        @_arrow.id = "now_marker_arrow"
+        #@_arrow.src = "data/timeline/nowMarkerSmall.png"
         @_body.appendChild @_arrow
 
         # Set position of now marker
@@ -59,7 +63,7 @@ class HG.NowMarker
 
         # catching mouse events
         @_clicked = false
-        @_hiddenSpeed = 0;
+        @_hiddenSpeed = 0
 
         # check if mouse went down on speed changer
         @_mainDiv.onmousedown = (e) =>
@@ -68,23 +72,22 @@ class HG.NowMarker
                 @_disableTextSelection e
 
         # rotate arrow if mouse moved on speed changer
-        document.body.onmousemove = (e) =>
+        @_mainDiv.onmousemove = (e) =>
             if @_clicked
-                if not @_timeline.getPlayStatus()
-                    if @_hiddenSpeed < 0 and e.pageX - @_middlePointX >= 0
-                        @_playButton.innerHTML = "<img src='data/timeline/playIcon.png'>"
-                    else if @_hiddenSpeed >= 0 and e.pageX - @_middlePointX < 0
-                        @_playButton.innerHTML = "<img src='data/timeline/playIconPrev.png'>"
+                if @_hiddenSpeed < 0 and e.pageX - @_middlePointX >= 0
+                    @_playButton.className = "forward"
+                else if @_hiddenSpeed >= 0 and e.pageX - @_middlePointX < 0
+                    @_playButton.className = "backward"
                 @_hiddenSpeed = e.pageX - @_middlePointX
                 $(@_pointer).rotate(@_angleOnCircle(e))
 
         # set new speed of timeline animation
-        document.body.onmouseup = (e) =>
+        @_mainDiv.onmouseup = (e) =>
             if @_clicked
-                @_clicked = false
-                timeline.setSpeed(e.pageX - @_middlePointX)
+                @_timeline.setSpeed(e.pageX - @_middlePointX)
                 $(@_pointer).rotate(@_angleOnCircle(e))
                 @_enableTextSelection()
+                @_clicked = false
 
         # stop or animate timeline (play)
         @_playButton.onclick = (e) =>
@@ -94,9 +97,9 @@ class HG.NowMarker
                  @animationSwitch()
 
         # Catch enter key on the date input field
-        $(@_dateInputField).keyup (e) ->
+        $(@_dateInputField).keyup (e) =>
             if e.keyCode == 13
-                res = (@value + "").split(".")
+                res = (@_dateInputField.value + "").split(".")
                 i = res.length
                 d = new Date()
                 if i > 0
@@ -107,8 +110,28 @@ class HG.NowMarker
                     d.setMonth(res[i - 2] - 1)
                 if i > 2
                     d.setDate(res[i - 3])
-                timeline.scrollToDate(d)
 
+                @_timeline.moveToDate(d, 1)
+
+    #   --------------------------------------------------------------------------
+    nowDateChanged: ->
+        date = @_timeline.getNowDate()
+        day = date.getDate() + ""
+        day = "0" + day if day.length == 1
+        month = (date.getMonth() + 1) + ""
+        month = "0" + month if month.length == 1
+        year = date.getFullYear() + ""
+        @_dateInputField.value = day + "." + month + "." + year
+
+    #   --------------------------------------------------------------------------
+    ###getDate: ->
+        @_nowDate###
+
+    #   --------------------------------------------------------------------------
+    #setDate: (date) ->
+    #    @_nowDate = date
+
+    # OLD STUFF
     # ============================================================================
     _distanceToMiddlepoint : (e) ->
         xs = 0
@@ -160,23 +183,23 @@ class HG.NowMarker
         @_arrow.style.left   = window.innerWidth / 2 - 10 + "px"
 
     # ============================================================================
-    setNowDate: (date) ->
+    ###setNowDate: (date) ->
         @_nowDate = date
         day = date.getDate() + ""
         day = "0" + day if day.length == 1
         month = (date.getMonth() + 1) + ""
         month = "0" + month if month.length == 1
         year = date.getFullYear() + ""
-        @_dateInputField.value = day + "." + month + "." + year
+        @_dateInputField.value = day + "." + month + "." + year###
 
     # ============================================================================
     animationSwitch: ->
         if @_timeline.getPlayStatus()
             @_timeline.stopTimeline()
-            @_playButton.innerHTML = "<img src='data/timeline/playIcon.png'>"
+            #@_playButton.innerHTML = "<img src='data/timeline/playIcon.png'>"
         else
             @_timeline.playTimeline()
-            @_playButton.innerHTML = "<img src='data/timeline/pauseIcon.png'>"
+            #@_playButton.innerHTML = "<img src='data/timeline/pauseIcon.png'>"
 
     # ============================================================================
     _disableTextSelection : (e) ->  return false
@@ -185,22 +208,9 @@ class HG.NowMarker
     _enableTextSelection : () ->    return true
 
     # ============================================================================
-    getNowDate: ->
-        @_nowDate
+
 
     # ============================================================================
-    stringToDate: (string) ->
-        res = (string + "").split(".")
-        i = res.length
-        d = new Date()
-        if i > 0
-            d.setFullYear(res[i - 1])
-        else
-            alert "Error: were not able to convert string to date."
-        if i > 1
-            d.setMonth(res[i - 2] - 1)
-        if i > 2
-            d.setDate(res[i - 3])
-        d
+
 
 

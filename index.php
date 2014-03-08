@@ -92,7 +92,7 @@
     <script type="text/javascript" src="build/Display.js"></script>
     <script type="text/javascript" src="build/Display2D.js"></script>
     <script type="text/javascript" src="build/DoublyLinkedList.js"></script>
-    <script type="text/javascript" src="build/YearMarker.js"></script>
+    <script type="text/javascript" src="build/DateMarker.js"></script>
     <script type="text/javascript" src="build/NowMarker.js"></script>
     <script type="text/javascript" src="build/Timeline.js"></script>
     <script type="text/javascript" src="build/Sidebar.js"></script>
@@ -240,6 +240,158 @@
       // }
 
       $(document).ready(function($) {
+        /*
+        var histoglobe = new HG.HistoGlobe({
+          container: document.getElementById('histoglobe'),
+          zoom: 1,
+          maxYear: 2020,
+          minYear: 1800,
+          nowYear: 1900
+        });
+
+        histoglobe.addModule(
+          new HG.HiventController()
+        );
+
+        // config = {
+        //   hiventServerName: "histoglobe.com",
+        //   hiventDatabaseName: "hivents",
+        //   hiventTableName: "eu_hivents",
+        //   multimediaServerName: "histoglobe.com",
+        //   multimediaDatabaseName: "hivents",
+        //   multimediaTableName: "eu_multimedia"
+        // };
+
+        // histoglobe.hiventController.loadHiventsFromDatabase(config);
+
+        config = {
+          hiventJSONPath: "data/hivent_collection.json",
+          multimediaJSONPath: "data/multimedia_collection.json",
+        };
+
+        histoglobe.hiventController.loadHiventsFromJSON(config);
+
+        histoglobe.addModule(
+          new HG.HiventsOnMap()
+        );
+
+        histoglobe.addModule(
+          new HG.HiventsOnTimeline()
+        );
+
+        histoglobe.addModule(
+          new HG.HiventTooltips()
+        );
+
+        histoglobe.addModule(
+          new HG.HiventInfoPopovers()
+        );
+
+        var areaController = new HG.AreaController()
+
+        areaController.loadAreasFromJSON({
+          path: "data/areas/countries.json"
+        })
+
+        areaController.loadAreasFromJSON({
+          path: "data/areas/countries_old.json"
+        })
+
+        histoglobe.addModule(areaController);
+
+        histoglobe.addModule(
+          new HG.AreasOnMap()
+        );
+
+        legend = new HG.LegendWidget({
+          icon: "fa-tags",
+          name: "Legende"
+        });
+
+        legend.addCategoryWithColor("eu", "#9F8BFF", "EU / EG", false);
+        legend.addCategoryWithColor("euro", "#5B309F", "Eurozone", false);
+
+        legend.addSpacer();
+
+        legend.addCategoryWithIcon("join", "data/hivent_icons/icon_join.png", "Beitritt", true);
+        legend.addCategoryWithIcon("contract", "data/hivent_icons/icon_contract.png", "Vertrag", true);
+        legend.addCategoryWithIcon("default", "data/hivent_icons/icon_default.png", "Sonstige", true);
+
+        histoglobe.addModule(legend);
+
+        var gallery = new HG.GalleryWidget({
+          icon: "fa-tags",
+          name: "Gallerie"
+        });
+
+        histoglobe.addModule(gallery);
+
+        gallery.addHTMLSlide("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis.");
+        gallery.addHTMLSlide("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis.");
+        gallery.addHTMLSlide("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce arcu velit, venenatis at nunc sed, commodo scelerisque ligula. Pellentesque at ipsum at tortor pretium semper. Nulla eros ligula, semper ac consequat nec, rutrum vel urna. Maecenas adipiscing porta velit, vel pretium erat luctus nec. Mauris tincidunt purus ac augue blandit, et condimentum mauris dignissim. Curabitur a tincidunt nunc. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis dictum lacus enim, et adipiscing risus interdum sed. Fusce dolor mauris, cursus a nisl nec, facilisis facilisis purus. Nullam a pulvinar lacus. Cras ullamcorper elementum lacus a sodales. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec ultricies ultricies facilisis.");
+
+
+        var gallery = new HG.GalleryWidget({
+          icon: "fa-tags",
+          name: "Gallerie 2"
+        });
+
+        histoglobe.addModule(gallery);
+
+        gallery.addHTMLSlide("Huhu.");
+        gallery.addHTMLSlide("Huhu.");
+        gallery.addHTMLSlide("Huhu.");
+        gallery.addHTMLSlide("Huhu.");
+
+
+
+        histoglobe.addModule(
+          new HG.TextWidget({
+            icon: "fa-tags",
+            name: "Vorstand",
+            text: "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+          })
+        );
+
+        histoglobe.addModule(
+          new HG.TextWidget({
+            icon: "fa-stop",
+            name: "Toller Stuff",
+            text: "Lorem ipsum"
+          })
+        );
+
+        histoglobe.addModule(
+          new HG.PictureWidget({
+            icon: "fa-gift",
+            name: "Legende",
+            url: "http://extreme.pcgameshardware.de/members/-painkiller--albums-einfach-lustig-3209-picture361371-incoming.jpg"
+          })
+        );
+
+        histoglobe.addModule(
+          new HG.TextWidget({
+            icon: "fa-star",
+            name: "Lorem Ipsum",
+            text: "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+          })
+        );
+
+        histoglobe.addModule(
+          new HG.TextWidget({
+            icon: "fa-star",
+            name: "Lorem Ipsum",
+            text: "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+          })
+        );
+
+        histoglobe.addModule(
+          new HG.TextWidget({
+            icon: "fa-star",
+            name: "Lorem Ipsum",
+            text: "Jimmy Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+          })
+        );*/
         var histoglobe = new HG.HistoGlobe("config/exemplum/modules.json");
         // var histoglobe = new HG.HistoGlobe("config/sdw/modules.json");
         // var histoglobe = new HG.HistoGlobe("config/eu/modules.json");

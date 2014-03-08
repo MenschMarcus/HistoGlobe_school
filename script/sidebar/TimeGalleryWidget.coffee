@@ -28,7 +28,7 @@ class HG.TimeGalleryWidget extends HG.GalleryWidget
     @_changeDates = {}
 
     @onSlideChanged @, (index) =>
-      @_timeline.scrollToDate @_changeDates[index]
+      @_timeline.moveToDate @_changeDates[index], 0.5
 
     for slide in @_config.htmlSlides
       @addHTMLSlide slide
