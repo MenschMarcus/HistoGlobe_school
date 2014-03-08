@@ -14,22 +14,33 @@ class HG.HiventInfoAtTag
     @_timeline = null
     @_hiventInfoPopovers = null
 
+    @_alreadyShown = false
+
   # ============================================================================
   hgInit: (hgInstance) ->
-    hgInstance.hiventInfoAtTag = @
+    hgInstance.onAllModulesLoaded @, () =>
+      hgInstance.hiventInfoAtTag = @
 
-    @_timeline = hgInstance.timeline
-    @_hiventInfoPopovers = hgInstance.hiventInfoPopovers
+      @_timeline = hgInstance.timeline
+      @_hiventController = hgInstance.hiventController
+      @_hiventInfoPopovers = hgInstance.hiventInfoPopovers
 
-    if @_hiventInfoPopovers
-      @_hiventInfoPopovers.onPopoverAdded (marker) =>
-        handle = marker.getHiventHandle()
-        hivent = handle.getHivent()
-        if hivent.id is @_hiventID
+      if @_hiventInfoPopovers? and @_hiventController?
+        @_hiventController.onHiventAdded (handle) =>
+          if handle.getHivent().id is @_hiventID
+            console.log @_hiventID
+            @_timeline.moveToDate handle.getHivent().startDate, 0.5
 
-          handle.focusAll()
-          handle.toggleActive marker, marker.getDisplayPosition()
-          @_timeline.scrollToDate marker.getHiventHandle().getHivent().startDate
+        @_hiventInfoPopovers.onPopoverAdded (marker) =>
+          unless @_alreadyShown
+            handle = marker.getHiventHandle()
+            hivent = handle.getHivent()
+            if hivent.id is @_hiventID
+              console.log @_hiventID
+
+              handle.focusAll()
+              handle.toggleActive marker, marker.getDisplayPosition()
+              @_alreadyShown = true
 
 
   ##############################################################################
