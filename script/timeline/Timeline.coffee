@@ -83,8 +83,10 @@ class HG.Timeline
 
     # set animation for timeline play
     @_play = false
-    @_speed = 10
+    @_speed = 1
     setInterval @_animTimeline, 16
+
+    @_updateNowDate()
 
     #   --------------------------------------------------------------------------
     #   ZOOM TIMLINE
@@ -307,8 +309,8 @@ class HG.Timeline
 
     # move timeline periodic
     if @_play
-      if (@_speed < 0 || @_speed > 0) && @_nowDate.getFullYear() > @_config.minYear && @_nowDate.getFullYear() < @_config.maxYear
-        toDate = new Date(@_nowDate.getTime() + @_speed * 30 * 60 * 60 * 24 * 7)
+      if (@_speed > 0) && @_nowDate.getFullYear() < @_config.maxYear
+        toDate = new Date(@_nowDate.getTime() + @_speed*@_speed * 5000 * 60 * 60 * 24 * 7)
         @moveToDate(toDate,0)
         @_updateNowDate()
         @_updateDateMarkers()
