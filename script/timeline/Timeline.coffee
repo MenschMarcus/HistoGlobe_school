@@ -309,8 +309,14 @@ class HG.Timeline
 
     # move timeline periodic
     if @_play
-      if (@_speed > 0) && @_nowDate.getFullYear() < @_config.maxYear
+      if @_nowDate.getFullYear() <= @_config.maxYear
         toDate = new Date(@_nowDate.getTime() + @_speed*@_speed * 5000 * 60 * 60 * 24 * 7)
+        endDate = new Date @_config.maxYear-1, 11, 31
+
+        if (toDate >= endDate)
+          toDate = endDate
+          @_nowMarker.animationSwitch()
+
         @moveToDate(toDate,0)
         @_updateNowDate()
         @_updateDateMarkers()

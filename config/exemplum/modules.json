@@ -205,7 +205,7 @@
     {
       "type" : "VIPWidget",
       "icon" : "fa-user",
-      "name" : "Vorstand",
+      "name" : "Geschäftsführung",
       "persons" :
       [
         {
