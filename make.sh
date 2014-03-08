@@ -24,10 +24,11 @@ rosetta --jsOut "build/config.js" \
         --cssOut "build/config.less" \
         --cssFormat "less" config/exemplum/style.rose
 
-jFiles=$(find build -name '*.js')
 cFiles=$(find script -name '*.coffee')
 
 coffee -c -o build $cFiles
+
+jFiles=$(find build -name '*.js')
 
 uglifyjs $jFiles -o script/histoglobe.min.js #-mc
 
