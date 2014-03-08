@@ -75,17 +75,14 @@ class HG.NowMarker
         @_mainDiv.onmousemove = (e) =>
             if @_clicked
                 unless @_timeline.getPlayStatus()
-                    if @_hiddenSpeed < 0 and e.pageX - @_middlePointX >= 0
-                        @_playButton.className = "fa fa-play"
-                    else if @_hiddenSpeed >= 0 and e.pageX - @_middlePointX < 0
-                        @_playButton.className = "fa fa-group"
+                    @_playButton.className = "fa fa-play"
                 @_hiddenSpeed = e.pageX - @_middlePointX
                 $(@_pointer).rotate(@_angleOnCircle(e))
 
         # set new speed of timeline animation
         @_mainDiv.onmouseup = (e) =>
             if @_clicked
-                @_timeline.setSpeed(e.pageX - @_middlePointX)
+                @_timeline.setSpeed (@_radius + e.pageX - @_middlePointX)/@_radius
                 $(@_pointer).rotate(@_angleOnCircle(e))
                 @_enableTextSelection()
                 @_clicked = false
@@ -197,10 +194,7 @@ class HG.NowMarker
     animationSwitch: ->
         if @_timeline.getPlayStatus()
             @_timeline.stopTimeline()
-            if @_timeline._speed > 0
-                @_playButton.className = "fa fa-play"
-            else
-                @_playButton.className = "fa fa-group"
+            @_playButton.className = "fa fa-play"
         else
             @_timeline.playTimeline()
             @_playButton.className = "fa fa-pause"
