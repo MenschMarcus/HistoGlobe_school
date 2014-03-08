@@ -40,27 +40,15 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
     parent.appendChild @_div
 
     @_div.onmouseover = (e) =>
-      pos = {
-        x : @_position.x + HIVENT_MARKER_TIMELINE_RADIUS,
-        y : @_position.y + 0.6 * HIVENT_MARKER_TIMELINE_RADIUS
-      }
-      @getHiventHandle().mark @, pos
-      @getHiventHandle().linkAll pos
+      @getHiventHandle().mark @, @_position
+      @getHiventHandle().linkAll @_position
 
     @_div.onmouseout = (e) =>
-      pos = {
-        x : @_position.x + HIVENT_MARKER_TIMELINE_RADIUS,
-        y : @_position.y + 0.6 * HIVENT_MARKER_TIMELINE_RADIUS
-      }
-      @getHiventHandle().unMark @, pos
-      @getHiventHandle().unLinkAll pos
+      @getHiventHandle().unMark @, @_position
+      @getHiventHandle().unLinkAll @_position
 
     @_div.onclick = (e) =>
-      pos = {
-        x : @_position.x + HIVENT_MARKER_TIMELINE_RADIUS,
-        y : @_position.y + 0.6 * HIVENT_MARKER_TIMELINE_RADIUS
-      }
-      @getHiventHandle().focusAll pos
+      @getHiventHandle().focusAll @_position
 
     @getHiventHandle().onMark @, (mousePos) =>
       @_div.setAttribute "class", @_classHighlighted
@@ -131,7 +119,5 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
   ##############################################################################
   #                             STATIC MEMBERS                                 #
   ##############################################################################
-
-  HIVENT_MARKER_TIMELINE_RADIUS = 9
 
   X_OFFSETS = {}
