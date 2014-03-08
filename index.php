@@ -122,6 +122,7 @@
     <script type="text/javascript" src="build/PathController.js"></script>
     <script type="text/javascript" src="build/LinearPath2D.js"></script>
     <script type="text/javascript" src="build/ArcPath2D.js"></script>
+    <script type="text/javascript" src="build/Watermark.js"></script>
 
     <script type="text/javascript" src="build/Globe.js"></script>
 

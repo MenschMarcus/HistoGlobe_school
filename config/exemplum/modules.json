@@ -18,6 +18,14 @@
 
   "Globe": {},
 
+  "Watermark": {
+    "image": "config/common/images/logo_normal.png",
+    "top": "auto",
+    "bottom": "80px",
+    "left": "0px",
+    "right": "auto"
+  },
+
   "HiventController" :
   {
     "hiventConfig": {
