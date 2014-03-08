@@ -44,6 +44,10 @@ class HG.Timeline
       freeMode: true
       momentumRatio: 0.5
       scrollContainer: true
+      onSlideClick: (s, d) =>
+        target = new Date(@yearToDate(@_config.minYear).getTime() - (@_timeline_swiper.getWrapperTranslate("x") - d.x + window.innerWidth/2) * @millisPerPixel())
+        @moveToDate(target, 0.5)
+
       onTouchStart: =>
         @_animationTargetDate = null
         if @_play
@@ -237,8 +241,8 @@ class HG.Timeline
     @_uiElements.yearRow.style.height = (yearRowHeight * hp) + tlHeightType
     @_uiElements.yearRow.style.fontSize = (yearRowHeight * hp) + tlHeightType
 
-    @_uiElements.symbolRow.style.height = (1 * tlHeight) + tlHeightType
-    @_uiElements.symbolRow.style.fontSize = (1 * tlHeight) + tlHeightType
+    @_uiElements.symbolRow.style.height = (1 * tlHeight - HGConfig.border_width.val) + tlHeightType
+    @_uiElements.symbolRow.style.fontSize = (1 * tlHeight - HGConfig.border_width.val) + tlHeightType
 
     @_timeline_swiper.reInit()
 
@@ -304,7 +308,11 @@ class HG.Timeline
   #     @_timeline_swiper.setWrapperTranslate(dateDiff / @millisPerPixel(),0,0)
 
   moveToDate: (date, delay=0) ->
-    if @yearToDate(@_config.minYear).getTime() < date.getTime() && @yearToDate(@_config.maxYear).getTime() > date.getTime()
+    if @yearToDate(@_config.minYear).getTime() > date.getTime()
+      @moveToDate @yearToDate(@_config.minYear), delay
+    else if @yearToDate(@_config.maxYear).getTime() < date.getTime()
+      @moveToDate @yearToDate(@_config.maxYear), delay
+    else
       dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
       @_uiElements.tlDivWrapper.style.transition =  delay + "s"
       @_uiElements.tlDivWrapper.style.webkitTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
@@ -318,7 +326,7 @@ class HG.Timeline
     if @_play
       if @_nowDate.getFullYear() <= @_config.maxYear
         toDate = new Date(@_nowDate.getTime() + @_speed*@_speed * 5000 * 60 * 60 * 24 * 7)
-        endDate = new Date @_config.maxYear-1, 11, 31
+        endDate = @yearToDate(@_config.maxYear)
 
         if (toDate >= endDate)
           toDate = endDate

@@ -19,12 +19,11 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
 
     time = hiventHandle.getHivent().startDate.getTime()
 
-    X_OFFSETS[time] ?= 0
-    @_xOffset = X_OFFSETS[time]
-    #@_position = { x: posX + @_xOffset * HIVENT_MARKER_TIMELINE_RADIUS * 1.5 - HIVENT_MARKER_TIMELINE_RADIUS, y: Math.floor $(parent.parentNode).innerHeight() * 0.65 }
-    @_position = { x: posX, y: @_xOffset*10 }
-    # @_position = { x: posX, y: Math.floor(Math.random()*(HGConfig.timeline_height.val - HGConfig.hivent_marker_timeline_width.val)+0) }
-    X_OFFSETS[time] += 1
+    spacing = 10
+    Y_OFFSETS[time] ?= 0
+    @_xOffset = Y_OFFSETS[time]
+    @_position = { x: posX, y: HGConfig.timeline_height.val - HGConfig.hivent_marker_timeline_height.val - @_xOffset*spacing - HGConfig.border_width.val }
+    Y_OFFSETS[time] += 1
 
     @_classDefault     = "hivent_marker_timeline_#{hiventHandle.getHivent().category}_default"
     @_classHighlighted = "hivent_marker_timeline_#{hiventHandle.getHivent().category}_highlighted"
@@ -111,7 +110,7 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
 
   # ============================================================================
   _destroy: =>
-    X_OFFSETS[@getHiventHandle().getHivent().startDate.getTime()] -= 1
+    Y_OFFSETS[@getHiventHandle().getHivent().startDate.getTime()] -= 1
     @getHiventHandle().unMarkAll()
     @getHiventHandle().unLinkAll()
     @_div.parentNode.removeChild @_div
@@ -134,4 +133,4 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
 
   HIVENT_MARKER_TIMELINE_RADIUS = 9
 
-  X_OFFSETS = {}
+  Y_OFFSETS = {}
