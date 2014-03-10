@@ -15,13 +15,11 @@ class HG.Widget
   # ============================================================================
   hgInit: (hgInstance) ->
     @_width = 0
-    @_height = 0
     @_hgInstance = hgInstance
     @_sidebar = hgInstance.sidebar
     @_createLayout()
-    @_sidebar.onResize @, (width, height) =>
+    @_sidebar.onWidthChanged @, (width) =>
       @setWidth width - 2*HGConfig.widget_margin.val - HGConfig.sidebar_scrollbar_width.val - HGConfig.widget_title_size.val - 2*HGConfig.widget_body_padding.val
-      @setHeight height - 2*HGConfig.widget_body_padding.val
 
     @_sidebar.addWidget @
 
@@ -38,15 +36,11 @@ class HG.Widget
   setContent: (div) ->
     $(@_content).empty()
     @_content.appendChild div
-    @setHeight $(@_content).height()
 
   # ============================================================================
   setWidth: (width) ->
     @_width = width
 
-  # ============================================================================
-  setHeight: (height) ->
-    @_height = height
 
   # ============================================================================
   onDivClick: (div, callback) ->

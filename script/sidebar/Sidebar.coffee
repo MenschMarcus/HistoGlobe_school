@@ -12,7 +12,7 @@ class HG.Sidebar
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
 
-    @addCallback "onResize"
+    @addCallback "onWidthChanged"
 
     @_container = @_createElement hgInstance._sidebar_area, "div", "sidebar"
     @_container.className = "swiper-container"
@@ -72,12 +72,17 @@ class HG.Sidebar
 
   # ============================================================================
   resize: (width, height) ->
+
+    oldWidth = $(@_container).width()
+
     @_container.style.width = "#{width}px"
     @_container.style.height = "#{height}px"
     $(".widgetBody").css("width", width - 2*HGConfig.widget_margin.val - HGConfig.sidebar_scrollbar_width.val)
     $(".widgetContainer").css("width", width - 2*HGConfig.widget_margin.val - HGConfig.sidebar_scrollbar_width.val)
     @_sidebar_swiper?.reInit()
-    @notifyAll "onResize", width, height
+
+    if width != oldWidth
+      @notifyAll "onWidthChanged", width
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
