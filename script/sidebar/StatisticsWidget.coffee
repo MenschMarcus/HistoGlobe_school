@@ -32,6 +32,20 @@ class HG.StatisticsWidget extends HG.Widget
     @_nowMarker = null
 
     @_timeline = null
+    @_data = undefined
+    @_dataLoadedCallback = undefined
+
+    dsv = d3.dsv "|", "text/plain"
+    dsv @_config.data, (error, data) =>
+      @_data = data
+
+      parseDate = d3.time.format("%d.%m.%Y").parse
+      @_data.forEach (d) =>
+        d[@_config.xAttributeName] = parseDate(d[@_config.xAttributeName])
+        d[@_config.yAttributeName] = +d[@_config.yAttributeName]
+
+      if @_dataLoadedCallback?
+        @_dataLoadedCallback()
 
     HG.Widget.call @, @_config
 
@@ -44,7 +58,7 @@ class HG.StatisticsWidget extends HG.Widget
     @setName @_config.name
     @setIcon @_config.icon
 
-    @_sidebar.onResize @, (width, height) =>
+    @_sidebar.onWidthChanged @, (width) =>
       @_drawStatistics()
 
   ##############################################################################
@@ -65,75 +79,73 @@ class HG.StatisticsWidget extends HG.Widget
       @_setNowMarkerPosition @_dateToXCoordinate date
 
   # ============================================================================
+  _onDataLoaded: (callback) =>
+    @_dataLoadedCallback = callback
+
+    if @_data?
+      @_dataLoadedCallback()
+
+  # ============================================================================
   _drawStatistics: () =>
-    if @_canvas?
-      d3.select(@_canvas).remove()
+    @_onDataLoaded () =>
+      if @_canvas?
+        d3.select(@_canvas).remove()
 
-    content = document.createElement "div"
-    content.className = "statistics-widget swiper-no-swiping"
+      content = document.createElement "div"
+      content.className = "statistics-widget swiper-no-swiping"
 
-    if @_config.title?
-      title = document.createElement "div"
-      title.className = "statistics-widget statistics-widget-title"
-      title.innerHTML = @_config.title
-      content.appendChild title
+      if @_config.title?
+        title = document.createElement "div"
+        title.className = "statistics-widget statistics-widget-title"
+        title.innerHTML = @_config.title
+        content.appendChild title
 
-    if @_config.subtitle?
-      subtitle = document.createElement "div"
-      subtitle.className = "statistics-widget statistics-widget-subtitle"
-      subtitle.innerHTML = @_config.subtitle
-      content.appendChild subtitle
+      if @_config.subtitle?
+        subtitle = document.createElement "div"
+        subtitle.className = "statistics-widget statistics-widget-subtitle"
+        subtitle.innerHTML = @_config.subtitle
+        content.appendChild subtitle
 
-    @setContent content
+      @setContent content
+      width = $(content).width()
+      height = Math.max width * 9/16, HGConfig.statistics_widget_min_height.val
 
-    width = $(content).width()
-    height = Math.max width * 9/16, HGConfig.statistics_widget_min_height.val
+      @_canvasWidth = width - HGConfig.statistics_widget_margin_left.val - HGConfig.statistics_widget_margin_right.val
+      @_canvasHeight = height - HGConfig.statistics_widget_margin_top.val - HGConfig.statistics_widget_margin_bottom.val
 
-    @_canvasWidth = width - HGConfig.statistics_widget_margin_left.val - HGConfig.statistics_widget_margin_right.val
-    @_canvasHeight = height - HGConfig.statistics_widget_margin_top.val - HGConfig.statistics_widget_margin_bottom.val
+      x = d3.time.scale()
+          .range([0, @_canvasWidth])
 
-    parseDate = d3.time.format("%d.%m.%Y").parse
+      y = d3.scale.linear()
+          .range([@_canvasHeight, 0])
 
-    x = d3.time.scale()
-        .range([0, @_canvasWidth])
+      xAxis = d3.svg.axis()
+          .scale(x)
+          .orient("bottom")
+          .ticks(@_config.xLableTicks, "")
 
-    y = d3.scale.linear()
-        .range([@_canvasHeight, 0])
+      yAxis = d3.svg.axis()
+          .scale(y)
+          .orient("left")
+          .ticks(@_config.yLableTicks, "")
 
-    xAxis = d3.svg.axis()
-        .scale(x)
-        .orient("bottom")
-        .ticks(@_config.xLableTicks, "")
+      line = d3.svg.line()
+        .x((d) => return x(d[@_config.xAttributeName]) )
+        .y((d) => return y(d[@_config.yAttributeName]) )
 
-    yAxis = d3.svg.axis()
-        .scale(y)
-        .orient("left")
-        .ticks(@_config.yLableTicks, "")
+      line.interpolate("basis") if @_config.smoothLine
 
-    line = d3.svg.line()
-      .x((d) => return x(d[@_config.xAttributeName]) )
-      .y((d) => return y(d[@_config.yAttributeName]) )
+      @_canvas = d3.select(content).append("svg")
+          .attr("width", width)
+          .attr("height", height)
+          .append("g")
+          .attr("transform", "translate(" + HGConfig.statistics_widget_margin_left.val + "," + HGConfig.statistics_widget_margin_top.val + ")")
 
-    line.interpolate("basis") if @_config.smoothLine
-
-    @_canvas = d3.select(content).append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .append("g")
-        .attr("transform", "translate(" + HGConfig.statistics_widget_margin_left.val + "," + HGConfig.statistics_widget_margin_top.val + ")")
-
-    dsv = d3.dsv "|", "text/plain"
-
-    dsv(@_config.data, (error, data) =>
-      data.forEach (d) =>
-        d[@_config.xAttributeName] = parseDate(d[@_config.xAttributeName])
-        d[@_config.yAttributeName] = +d[@_config.yAttributeName]
-
-      x.domain(d3.extent(data, (d) => return d[@_config.xAttributeName] ))
+      x.domain(d3.extent(@_data, (d) => return d[@_config.xAttributeName] ))
       y.domain(@_config.yDomain)
 
-      @_minDate = d3.min(data, (d) => return d[@_config.xAttributeName])
-      @_maxDate = d3.max(data, (d) => return d[@_config.xAttributeName])
+      @_minDate = d3.min(@_data, (d) => return d[@_config.xAttributeName])
+      @_maxDate = d3.max(@_data, (d) => return d[@_config.xAttributeName])
 
       @_canvas.append("g")
           .attr("class", "x axis")
@@ -151,7 +163,7 @@ class HG.StatisticsWidget extends HG.Widget
           .text(@_config.yCaption)
 
       @_canvas.append("path")
-        .datum(data)
+        .datum(@_data)
         .attr("class", "line")
         .attr("d", line)
         .attr("stroke", "#{@_config.lineColor}")
@@ -165,8 +177,6 @@ class HG.StatisticsWidget extends HG.Widget
         @_updateTimeline x
 
       @_initNowMarker()
-
-    )
 
   # ============================================================================
   _dateToXCoordinate: (date) =>

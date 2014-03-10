@@ -123,7 +123,6 @@ class HG.GalleryWidget extends HG.Widget
   _addSlide: (slide) ->
     @_gallery.appendChild slide
     @_swiper.reInit()
-    @setHeight $(@_content).height()
 
   # ============================================================================
   _onSlideEnd: () =>
