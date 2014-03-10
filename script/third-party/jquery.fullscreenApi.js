@@ -18,7 +18,9 @@
         for (var i = 0, il = browserPrefixes.length; i < il; i++ ) {
             fullScreenApi.prefix = browserPrefixes[i];
 
-            if (typeof document[fullScreenApi.prefix + 'CancelFullScreen' ] != 'undefined' ) {
+            console.log(fullScreenApi.prefix)
+            console.log(document[fullScreenApi.prefix + 'ExitFullScreen' ])
+            if (typeof document[fullScreenApi.prefix + 'RequestFullScreen' ] != 'undefined' ) {
                 fullScreenApi.supportsFullScreen = true;
 
                 break;
