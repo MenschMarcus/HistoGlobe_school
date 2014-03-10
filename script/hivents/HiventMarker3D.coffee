@@ -50,10 +50,10 @@ class HG.HiventMarker3D extends HG.HiventMarker
         })
     @sprite = new THREE.Sprite(hiventMaterial)
 
-    @sprite.MaxWidth = WIDTH
-    @sprite.MaxHeight = HEIGHT
+    @sprite.MaxWidth = HGConfig.hivent_marker_2D_width.val
+    @sprite.MaxHeight = HGConfig.hivent_marker_2D_height.val
 
-    @sprite.scale.set(WIDTH,HEIGHT,1.0)
+    @sprite.scale.set(HGConfig.hivent_marker_2D_width.val,HGConfig.hivent_marker_2D_height.val,1.0)
 
     @_scene.add @sprite
 
@@ -107,9 +107,7 @@ class HG.HiventMarker3D extends HG.HiventMarker
   # ============================================================================
   getTooltipPos: ->
     if @ScreenCoordinates
-      pos=
-        x: @ScreenCoordinates.x
-        y: @ScreenCoordinates.y - HEIGHT/2
+      @ScreenCoordinates
     else
       console.log "No ScreenCoordinates!"
 
@@ -144,7 +142,5 @@ class HG.HiventMarker3D extends HG.HiventMarker
   #                             STATIC MEMBERS                                 #
   ##############################################################################
 
-  WIDTH = 32#/1.2
-  HEIGHT = 32#/1.2
 
 

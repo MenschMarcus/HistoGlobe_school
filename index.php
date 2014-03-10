@@ -59,8 +59,9 @@
     <script type="text/javascript" src="build/config.js"></script>
     <script type="text/javascript" src="build/CallbackContainer.js"></script>
     <script type="text/javascript" src="build/CSSCreator.js"></script>
-    <script type="text/javascript" src="build/Vector.js"></script>
     <script type="text/javascript" src="build/Mixin.js"></script>
+    <script type="text/javascript" src="build/Vector.js"></script>
+    <script type="text/javascript" src="build/Popover.js"></script>
     <script type="text/javascript" src="build/Hivent.js"></script>
     <script type="text/javascript" src="build/HiventDatabaseInterface.js"></script>
     <script type="text/javascript" src="build/HiventBuilder.js"></script>
