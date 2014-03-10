@@ -1,5 +1,8 @@
 window.HG ?= {}
 
+# fix swiper / d3 issue
+SVGAnimatedString.prototype.indexOf = (e) -> @baseVal.indexOf(e)
+
 class HG.StatisticsWidget extends HG.Widget
 
   ##############################################################################
@@ -177,6 +180,7 @@ class HG.StatisticsWidget extends HG.Widget
         @_updateTimeline x
 
       @_initNowMarker()
+
 
   # ============================================================================
   _dateToXCoordinate: (date) =>

@@ -38,8 +38,8 @@
     <script type="text/javascript" src="script/third-party/jquery.fullscreenApi.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.parse.min.js"></script>
 
-    <script type="text/javascript" src="script/third-party/idangerous.swiper-2.4.2.min.js"></script>
-    <script type="text/javascript" src="script/third-party/idangerous.swiper.scrollbar-2.4.js"></script>
+    <script type="text/javascript" src="script/third-party/idangerous.swiper.min.js"></script>
+    <script type="text/javascript" src="script/third-party/idangerous.swiper.scrollbar.min.js"></script>
 
     <script type="text/javascript" src="script/third-party/leaflet.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.label.js"></script>
