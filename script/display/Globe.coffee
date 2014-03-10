@@ -26,61 +26,106 @@ class HG.Globe extends HG.Display
   hgInit: (hgInstance) ->
     super hgInstance
 
-    @_initMembers()
-    @_globeCanvas = hgInstance.mapCanvas
+    unless hgInstance.browserDetector?
+      console.error "Failed to initialize Globe: Module browserDetector not detected!"
+      return
 
-    @_initWindowGeometry()
+    if hgInstance.browserDetector.webglSupported?
 
-    @_initRenderer()
+      hgInstance.globe = @
+      @_globeCanvas = hgInstance.mapCanvas
+      @_areaController = hgInstance.areaController
 
-    @center x: 10, y: 50
+      @_initMembers()
+      @_initWindowGeometry()
+      @_initRenderer()
 
-    hgInstance.globe = @
+      @center x: 10, y: 50
 
-    @_areaController = hgInstance.areaController
+      hgInstance.onAllModulesLoaded @, () =>
+        if hgInstance.zoom_buttons?
+          hgInstance.zoom_buttons.onZoomIn @, @_zoomIn
+          hgInstance.zoom_buttons.onZoomOut @, @_zoomOut
 
-    HG.Display.call @, hgInstance.mapCanvas
+        if hgInstance.control_button_area?
+          state_a = {}
+          state_b = {}
 
-    #button
+          state_a =
+            icon: "fa-globe"
+            tooltip: "Zur 3D-Ansicht wechseln"
+            callback: () =>
+              $(hgInstance.map.getCanvas()).animate({opacity: 0.0}, 1000, 'linear')
+              hgInstance.map.stop()
+              $(@getCanvas()).css({opacity: 0.0})
+              @start();
+              $(@getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
+              return state_b
 
-    hgInstance.onAllModulesLoaded @, () =>
-      if hgInstance.zoom_buttons?
-        hgInstance.zoom_buttons.onZoomIn @, @_zoomIn
+          state_b =
+            icon: "fa-calendar"
+            tooltip: "Zur 2D-Ansicht zurückkehren"
+            callback: () =>
+              $(@getCanvas()).animate({opacity: 0.0}, 1000, 'linear')
+              @stop()
+              $(@getCanvas()).css({opacity: 0.0})
+              hgInstance.map.start();
+              $(hgInstance.map.getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
+              return state_a
 
-        hgInstance.zoom_buttons.onZoomOut @, @_zoomOut
+          hgInstance.control_button_area.addButton state_a
+
+        else
+          console.error "Failed to add globe button: ControlButtons module not found!"
+
+    else
+      console.warn "Failed to initialize Globe: Webgl not supported!"
+
+      hgInstance.onAllModulesLoaded @, () =>
+        if hgInstance.control_button_area?
+
+          elem_title = 'Entschuldigung! <a class="close pull-right" style="margin-top: -3px;" onclick="$(&#39;#display-mode-switch&#39;).popover(&#39;hide&#39;);">&times;</a>';
+          elem_content = '';
+          if hgInstance.browserDetector.webglContextSupported
+            if hgInstance.browserDetector.browser isnt "unknown"
+              elem_content = 'Obwohl Ihr Browser (' + hgInstance.browserDetector.browser +
+                             ') <span class="hg">HistoGlobe</span> anzeigen kann, treten ' +
+                             'auf Ihrem Rechner leider Probleme auf. Eventuell ist der ' +
+                             'Treiber Ihrer Graphikkarte nicht aktuell. Weitere Hilfe '+
+                             'zum Thema WebGL und ' + hgInstance.browserDetector.browser +
+                             ' erhalten Sie hier: <br><br> <a target="_blank" ' +
+                             'class="btn btn-block btn-success" href ="' +
+                             hgInstance.browserDetector.helpUrl+ '">' +
+                             hgInstance.browserDetector.browser + ' Support</a>'
 
 
-      if hgInstance.control_button_area?
-        state_a = {}
-        state_b = {}
+          else
+            if hgInstance.browserDetector.browser isnt "unknown" and hgInstance.browserDetector.upgradeUrl
+              elem_content = 'Ihre Version von ' + hgInstance.browserDetector.browser +
+                             ' ist nicht aktuell! Wenn Sie <span class="hg">HistoGlobe</span>' +
+                             ' auf einem Globus genießen wollen, aktualisieren Sie bitte' +
+                             ' Ihren Browser. <br><br><a target="_blank" class="btn btn-block btn-success" ' +
+                              'href ="' + hgInstance.browserDetector.upgradeUrl + '">' +
+                              hgInstance.browserDetector.browser + ' aktualisieren' + '</a>'
+            else
+              elem_content = hgInstance.browserDetector.browser + ' unterstützt leider ' +
+              'noch keine 3D-Graphiken. Wenn Sie <span class="hg">HistoGlobe</span> auf ' +
+              'einem Globus genießen wollen, installieren Sie bitte einen der folgenden Browser:' +
+              ' <br><br> <a target="_blank" class="btn btn-block btn-success"' +
+              ' href ="http://www.mozilla.org/de/firefox/new/"> Firefox herunterladen </a> '+
+              '<a target="_blank" class="btn btn-block btn-success" ' +
+              'href ="https://www.google.com/intl/de/chrome/browser/"> Chrome herunterladen </a>'
 
-        state_a =
-          icon: "fa-globe"
-          tooltip: "Zur 3D-Ansicht wechseln"
-          callback: () =>
-            $(hgInstance.map.getCanvas()).animate({opacity: 0.0}, 1000, 'linear')
-            hgInstance.map.stop()
-            $(@getCanvas()).css({opacity: 0.0})
-            @start();
-            $(@getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
-            return state_b
+          state =
+            icon: "fa-globe"
+            tooltip: "Zur 3D-Ansicht wechseln"
+            callback: () =>
+              $('#display-mode-switch').popover({container: 'body', animation:true, title:elem_title, content:elem_content, html:true, placement:"right"});
 
-        state_b =
-          icon: "fa-calendar"
-          tooltip: "Zur 2D-Ansicht zurückkehren"
-          callback: () =>
-            $(@getCanvas()).animate({opacity: 0.0}, 1000, 'linear')
-            @stop()
-            $(@getCanvas()).css({opacity: 0.0})
-            hgInstance.map.start();
-            $(hgInstance.map.getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
-            return state_a
+          hgInstance.control_button_area.addButton state
 
-        hgInstance.control_button_area.addButton state_a
-
-      else
-        console.error "Failed to add globe button: ControlButtons module not found!"
-
+        else
+          console.error "Failed to add globe button: ControlButtons module not found!"
 
 
   # ============================================================================

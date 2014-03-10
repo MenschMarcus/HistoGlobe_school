@@ -47,8 +47,6 @@
 
     <script type="text/javascript" src="script/third-party/bootstrap.min.js"></script>
 
-    <script type="text/javascript" src="script/third-party/raphael.min.js"></script>
-
     <script type="text/javascript" src="script/third-party/three.min.js"></script>
     <script type="text/javascript" src="script/third-party/TessellateModifier.js"></script>
 
