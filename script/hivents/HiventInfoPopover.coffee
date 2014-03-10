@@ -55,7 +55,9 @@ class HG.HiventInfoPopover
 
   # ============================================================================
   show: (position) =>
-    @_popover.show position
+    @_popover.show
+      x: position.at(0)
+      y: position.at(1)
 
   # ============================================================================
   hide: =>
@@ -64,7 +66,9 @@ class HG.HiventInfoPopover
 
   # ============================================================================
   updatePosition: (position) ->
-    @_popover.updatePosition position
+    @_popover.updatePosition
+      x: position.at(0)
+      y: position.at(1)
 
   # ============================================================================
   destroy: () ->

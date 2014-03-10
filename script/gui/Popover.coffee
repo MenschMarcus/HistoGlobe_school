@@ -11,6 +11,7 @@ class HG.Popover
     defaultConfig =
       placement: "auto"
       content: undefined
+      contentHTML: ""
       title: ""
       container: "body"
 
@@ -52,10 +53,15 @@ class HG.Popover
     bodyDiv = document.createElement "div"
     bodyDiv.className = "guiPopoverBody"
 
-    if @_config.content?
+    if @_config.content? or @_config.contentHTML isnt ""
+
       content = document.createElement "div"
       content.className = "guiPopoverContent"
-      content.appendChild @_config.content
+
+      if @_config.content?
+        content.appendChild @_config.content
+      else
+        content.innerHTML = @_config.contentHTML
 
       bodyDiv.appendChild content
       if content.offsetHeight < @_height
@@ -77,8 +83,18 @@ class HG.Popover
     @_parentDiv = $(@_config.container)[0]
     @_parentDiv.appendChild @_mainDiv
 
-    @_centerPos = new HG.Vector 0, 0
+    @_centerPos =
+      x: 0
+      y: 0
+
     @_updateCenterPos()
+
+  # ============================================================================
+  toggle: (position) =>
+    if @_mainDiv.style.visibility is "visible"
+      @hide position
+    else
+      @show position
 
   # ============================================================================
   show: (position) =>
@@ -98,7 +114,7 @@ class HG.Popover
 
   # ============================================================================
   updatePosition: (position) ->
-    @_position = position.clone()
+    @_position = position
     @_updateCenterPos()
     @_updateWindowPos()
 
@@ -117,23 +133,21 @@ class HG.Popover
 
     unless @_placement?
       if @_config.placement is "left"
-        @_placement = new HG.Vector -1, 0
+        @_placement = {x:-1, y:0}
       else if @_config.placement is "right"
-        @_placement = new HG.Vector 1, 0
+        @_placement = {x:1, y:0}
       else if @_config.placement is "top"
-        @_placement = new HG.Vector 0, -1
+        @_placement = {x:0, y:-1}
       else if @_config.placement is "bottom"
-        @_placement = new HG.Vector 0, 1
+        @_placement = {x:0, y:1}
       else if @_config.placement is "auto"
-        @_placement = new HG.Vector 1, 0
+        @_placement = {x:1, y:0}
 
         margin =
-          top : @_position.at(1)
-          left : @_position.at(0) + canvasOffset.left
-          bottom : @_parentDiv.offsetHeight - @_position.at(1)
-          right : @_parentDiv.offsetWidth - @_position.at(0)
-
-        console.log @_position, margin
+          top : @_position.y
+          left : @_position.x + canvasOffset.left
+          bottom : @_parentDiv.offsetHeight - @_position.y
+          right : @_parentDiv.offsetWidth - @_position.x
 
         neededWidth = @_width +
                       HGConfig.hivent_marker_2D_width.val / 2 +
@@ -148,74 +162,72 @@ class HG.Popover
 
           # if enough space left and right
           if margin.left >= neededWidth*0.5 and margin.right >= neededWidth*0.5
-            @_placement = new HG.Vector 0, -1
+            @_placement = {x:0, y:-1}
 
           # if enough space right
           else if margin.left <= neededWidth
-            @_placement = new HG.Vector 1, 0
+            @_placement = {x:1, y:0}
 
           # if enough space left
           else if margin.right <= neededWidth
-            @_placement = new HG.Vector -1, 0
+            @_placement = {x:-1, y:0}
 
         # if not enough space on top or bottom
         else if margin.bottom < neededHeight
           # if enough space right
           if margin.left <= neededWidth
-            @_placement = new HG.Vector 1, 0
+            @_placement = {x:1, y:0}
 
           # if enough space left
           else if margin.right <= neededWidth
-            @_placement = new HG.Vector -1, 0
+            @_placement = {x:-1, y:0}
 
         # if enough space on bottom
         else
           # if enough space left and right
           if margin.left >= neededWidth*0.5 and margin.right >= neededWidth*0.5
-            @_placement = new HG.Vector 0, 1
+            @_placement = {x:0, y:1}
 
           # if enough space right
           else if margin.left <= neededWidth
-            @_placement = new HG.Vector 1, 0
+            @_placement = {x:1, y:0}
 
           # if enough space left
           else if margin.right <= neededWidth
-            @_placement = new HG.Vector -1, 0
+            @_placement = {x:-1, y:0}
 
       else
-        @_placement = new HG.Vector 0, -1
+        @_placement = {x:0, y:-1}
         console.warn "Invalid popover placement: ", @_config.placement
 
 
-    $(@_topArrow).css "display", if @_placement.at(1) is 1 then "block" else "none"
-    $(@_bottomArrow).css "display", if @_placement.at(1) is -1 then "block" else "none"
-    $(@_leftArrow).css "display", if @_placement.at(0) is 1 then "block" else "none"
-    $(@_rightArrow).css "display", if @_placement.at(0) is -1 then "block" else "none"
+    $(@_topArrow).css "display", if @_placement.y is 1 then "block" else "none"
+    $(@_bottomArrow).css "display", if @_placement.y is -1 then "block" else "none"
+    $(@_leftArrow).css "display", if @_placement.x is 1 then "block" else "none"
+    $(@_rightArrow).css "display", if @_placement.x is -1 then "block" else "none"
 
     verticalArrowMargin = @_mainDiv.offsetHeight / 2 - HGConfig.hivent_info_popover_arrow_height.val / 2
     $(@_leftArrow).css "margin-top", "#{verticalArrowMargin}px"
     $(@_rightArrow).css "margin-top", "#{verticalArrowMargin}px"
 
     $(@_mainDiv).offset {
-      left: @_position.at(0) + canvasOffset.left +
-            @_placement.at(0) * (HGConfig.hivent_marker_2D_width.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
-            @_placement.at(0) * ((@_width - @_width * @_placement.at(0)) / 2) -
-            Math.abs(@_placement.at(1)) *  @_width / 2
-      top:  @_position.at(1) +
-            @_placement.at(1) * (HGConfig.hivent_marker_2D_height.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
-            @_placement.at(1) * ((@_mainDiv.offsetHeight - @_mainDiv.offsetHeight * @_placement.at(1)) / 2) -
-            Math.abs(@_placement.at(0)) * @_mainDiv.offsetHeight / 2
+      left: @_position.x + canvasOffset.left +
+            @_placement.x * (HGConfig.hivent_marker_2D_width.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
+            @_placement.x * ((@_width - @_width * @_placement.x) / 2) -
+            Math.abs(@_placement.y) *  @_width / 2
+      top:  @_position.y +
+            @_placement.y * (HGConfig.hivent_marker_2D_height.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
+            @_placement.y * ((@_mainDiv.offsetHeight - @_mainDiv.offsetHeight * @_placement.y) / 2) -
+            Math.abs(@_placement.x) * @_mainDiv.offsetHeight / 2
     }
 
 
   # ============================================================================
   _updateCenterPos: ->
     parentOffset = $(@_parentDiv).offset()
-    @_centerPos = new HG.Vector(@_mainDiv.offsetLeft + @_mainDiv.offsetWidth/2 -
-                                parentOffset.left + ARROW_ROOT_OFFSET_X,
-                                @_mainDiv.offsetTop  + @_mainDiv.offsetHeight/2 -
-                                parentOffset.top + ARROW_ROOT_OFFSET_Y)
-
+    @_centerPos =
+      x:@_mainDiv.offsetLeft + @_mainDiv.offsetWidth/2 - parentOffset.left + ARROW_ROOT_OFFSET_X
+      y:@_mainDiv.offsetTop  + @_mainDiv.offsetHeight/2 - parentOffset.top + ARROW_ROOT_OFFSET_Y
 
 
   ##############################################################################
