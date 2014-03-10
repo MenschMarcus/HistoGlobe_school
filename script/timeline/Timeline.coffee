@@ -50,13 +50,12 @@ class HG.Timeline
 
       onTouchStart: =>
         @_animationTargetDate = null
-        @_animationSuccessCallback = null
         if @_play
           @_nowMarker.animationSwitch()
 
-
-      onSetWrapperTransition: =>
-        @_updateNowDate()
+      # onSetWrapperTransition: =>
+      #   console.log "huhu"
+      #   @_updateNowDate()
 
     #   --------------------------------------------------------------------------
     @_makeLayout()
@@ -95,18 +94,27 @@ class HG.Timeline
     @_uiElements.tlDiv.onmousedown = (e) =>
       @_clicked = true
 
+    @_moveDelay = 0
     @_uiElements.body.onmousemove = (e) =>
       if @_clicked
-        @_updateNowDate()
+        fireCallbacks = false
+        if ++@_moveDelay == 10
+          @_moveDelay = 0
+          fireCallbacks = true
+
+        @_updateNowDate(fireCallbacks)
         @_updateDateMarkers()
 
     @_uiElements.body.onmouseup = (e) =>
-      @_clicked = false if @_clicked
+      if @_clicked
+        @_updateNowDate()
+        @_updateDateMarkers()
+        @_clicked = false
 
     # set animation for timeline play
     @_play = false
     @_speed = 1
-    setInterval @_animTimeline, 16
+    setInterval @_animTimeline, 30
 
     @_updateNowDate()
 
@@ -202,7 +210,7 @@ class HG.Timeline
       index++
     (index - 1)
 
-  _updateNowDate: ->
+  _updateNowDate: (fireCallbacks = true) ->
     if @_animationTargetDate?
       @_nowDate = @_animationTargetDate
       @_animationTargetDate = null
@@ -210,11 +218,11 @@ class HG.Timeline
     else
       @_nowDate = new Date(@yearToDate(@_config.minYear).getTime() + (-1) * @_timeline_swiper.getWrapperTranslate("x") * @millisPerPixel())
     @_nowMarker.nowDateChanged()
-    @notifyAll "onNowChanged", @_nowDate
 
-    if @_animationSuccessCallback?
-      @_animationSuccessCallback()
-      @_animationSuccessCallback = null
+    if fireCallbacks
+      @notifyAll "onNowChanged", @_nowDate
+      @notifyAll "onIntervalChanged", @_getTimeFilter()
+
 
   #   --------------------------------------------------------------------------
   #   for i e {0,1,2,3,...} it should return 1,5,10,50,100,...
@@ -290,8 +298,6 @@ class HG.Timeline
           @_dateMarkers.get(i).nodeData.updateView(false)
           @_dateMarkers.get(i).nodeData = null
 
-    @notifyAll "onIntervalChanged", @_getTimeFilter()
-
   #   --------------------------------------------------------------------------
   #   left border of timeline has date value @_config.minYear
   #   so position of marker on timeline is calculated by millisPerPixel and difference between
@@ -335,7 +341,11 @@ class HG.Timeline
       @_uiElements.tlDivWrapper.style.oTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
 
       @_animationTargetDate = date
-      @_animationSuccessCallback = successCallback
+      @_nowDate = date
+      @_nowMarker.nowDateChanged()
+
+      @notifyAll "onNowChanged", @_nowDate
+      @notifyAll "onIntervalChanged", @_getTimeFilter()
 
   #   --------------------------------------------------------------------------
   _zoom: (delta) =>

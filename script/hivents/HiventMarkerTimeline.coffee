@@ -46,11 +46,9 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
 
     @_div.onclick = (e) =>
       e.preventDefault()
-      @_timeline.moveToDate @getHiventHandle().getHivent().startDate, 0.5, () =>
-        setTimeout () =>
-          @getHiventHandle().focusAll @_position
-        ,
-        500
+      @_timeline.moveToDate @getHiventHandle().getHivent().startDate, 0.5
+      @getHiventHandle().focusAll @_position
+
 
     @getHiventHandle().onMark @, (mousePos) =>
       @_div.setAttribute "class", @_classHighlighted
