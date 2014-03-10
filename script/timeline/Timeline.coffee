@@ -112,9 +112,9 @@ class HG.Timeline
 
     #   --------------------------------------------------------------------------
     #   ZOOM TIMLINE
-    @_uiElements.tlDiv.onmousewheel = (e) =>
+    @_uiElements.tlDiv.addEventListener "mousewheel", (e) =>
       e.preventDefault()
-      @_zoom(e.wheelDeltaY)
+      @_zoom(e.wheelDelta)
 
     @_uiElements.tlDiv.addEventListener "DOMMouseScroll", (e) =>
       e.preventDefault()
