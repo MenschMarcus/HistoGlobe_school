@@ -44,7 +44,7 @@ class HG.Widget
 
   # ============================================================================
   onDivClick: (div, callback) ->
-    div.onmousedown = (e) =>
+    div.addEventListener "mousedown", (e) =>
       div.my_click_x = e.x
       div.my_click_y = e.y
 

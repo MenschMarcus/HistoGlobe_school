@@ -37,6 +37,8 @@ class HG.Timeline
     #   now marker is always in middle of page and depends on nowDate of timeline
     @_nowMarker = new HG.NowMarker(@)
 
+    @_moveDelay = 0
+
     #   --------------------------------------------------------------------------
     #   Swiper for timeline
     @_timeline_swiper ?= new Swiper '#timeline',
@@ -45,14 +47,22 @@ class HG.Timeline
       momentumRatio: 0.5
       scrollContainer: true
       # onSlideClick: (s, d) =>
-      #   target = new Date(@yearToDate(@_config.minYear).getTime() - (@_timeline_swiper.getWrapperTranslate("x") - d.x + window.innerWidth/2) * @millisPerPixel())
-      #   @moveToDate(target, 0.5)
+        # target = new Date(@yearToDate(@_config.minYear).getTime() - (@_timeline_swiper.getWrapperTranslate("x") - d.x + window.innerWidth/2) * @millisPerPixel())
+        # @moveToDate(target, 0.5)
 
       onTouchStart: =>
         @_animationTargetDate = null
         if @_play
           @_nowMarker.animationSwitch()
 
+      onTouchMove: =>
+        fireCallbacks = false
+        if ++@_moveDelay == 10
+          @_moveDelay = 0
+          fireCallbacks = true
+
+        @_updateNowDate(fireCallbacks)
+        @_updateDateMarkers()
       # onSetWrapperTransition: =>
       #   console.log "huhu"
       #   @_updateNowDate()
@@ -89,27 +99,6 @@ class HG.Timeline
       @_updateNowDate()
       @_updateDateMarkers()
     , false
-
-    @_clicked = false
-    @_uiElements.tlDiv.onmousedown = (e) =>
-      @_clicked = true
-
-    @_moveDelay = 0
-    @_uiElements.body.onmousemove = (e) =>
-      if @_clicked
-        fireCallbacks = false
-        if ++@_moveDelay == 10
-          @_moveDelay = 0
-          fireCallbacks = true
-
-        @_updateNowDate(fireCallbacks)
-        @_updateDateMarkers()
-
-    @_uiElements.body.onmouseup = (e) =>
-      if @_clicked
-        @_updateNowDate()
-        @_updateDateMarkers()
-        @_clicked = false
 
     # set animation for timeline play
     @_play = false
