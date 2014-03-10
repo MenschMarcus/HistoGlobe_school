@@ -77,7 +77,7 @@ class HG.HiventInfoPopovers
     marker.onPositionChanged @, (displayPosition) ->
       marker.hiventInfoPopover?.updatePosition new HG.Vector(displayPosition.x, displayPosition.y)
     marker.onDestruction @, () ->
-      marker.hiventInfoPopover?._destroy()
+      marker.hiventInfoPopover?.destroy()
 
     callbackFunc marker for callbackFunc in @_onPopoverAddedCallbacks
 
