@@ -10,7 +10,7 @@ class HG.FullscreenButton
   hgInit: (hgInstance) ->
 
     unless window.fullScreenApi.supportsFullScreen
-      console.warning "Not adding fullscreen button due to missing fullScreenApi!"
+      console.warn "Not adding fullscreen button due to missing fullScreenApi!"
       return
 
     HG.mixin @, HG.CallbackContainer

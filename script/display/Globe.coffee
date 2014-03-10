@@ -30,8 +30,7 @@ class HG.Globe extends HG.Display
       console.error "Failed to initialize Globe: Module browserDetector not detected!"
       return
 
-    if false
-    # if hgInstance.browserDetector.webglSupported
+    if hgInstance.browserDetector.webglSupported
       hgInstance.globe = @
       @_globeCanvas = hgInstance.mapCanvas
       @_areaController = hgInstance.areaController
