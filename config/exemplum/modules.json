@@ -12,6 +12,8 @@
     "tiles": "config/exemplum/data/tiles/"
   },
 
+  "BrowserDetector": {},
+
   "ControlButtonArea": {},
   "ZoomButtons": {},
   "FullscreenButton": {},

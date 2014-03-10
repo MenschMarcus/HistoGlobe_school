@@ -74,11 +74,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
 
   # ============================================================================
   getDisplayPosition: ->
-    pos =  @_map.layerPointToContainerPoint(new L.Point @_position.x, @_position.y - HIVENT_MARKER_2D_RADIUS )
-    offset = $(@_map.getContainer()).offset()
-    # pos.x += offset.left
-    pos.y +=  HIVENT_MARKER_2D_RADIUS #+ offset.left
-    pos
+    @_map.layerPointToContainerPoint(new L.Point @_position.x, @_position.y )
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -86,22 +82,13 @@ class HG.HiventMarker2D extends HG.HiventMarker
 
   # ============================================================================
   _onMouseOver: (e) =>
-    pos = {
-            x : @_position.x,
-            y : @_position.y - HGConfig.hivent_marker_2D_height.val/2
-          }
-
-    @getHiventHandle().mark @, pos
-    @getHiventHandle().linkAll pos
+    @getHiventHandle().mark @, @_position
+    @getHiventHandle().linkAll @_position
 
   # ============================================================================
   _onMouseOut: (e) =>
-    pos = {
-            x : @_position.x,
-            y : @_position.y - HGConfig.hivent_marker_2D_height.val/2
-          }
-    @getHiventHandle().unMark @, pos
-    @getHiventHandle().unLinkAll pos
+    @getHiventHandle().unMark @, @_position
+    @getHiventHandle().unLinkAll @_position
 
   # ============================================================================
   _onClick: (e) =>
@@ -111,7 +98,6 @@ class HG.HiventMarker2D extends HG.HiventMarker
   _updatePosition: =>
     @_position = @_map.latLngToLayerPoint @_marker.getLatLng()
     @notifyAll "onPositionChanged", @getDisplayPosition()
-
 
   # ============================================================================
   _destroy: =>
@@ -147,4 +133,3 @@ class HG.HiventMarker2D extends HG.HiventMarker
   ##############################################################################
 
   VISIBLE_MARKERS_2D = []
-  HIVENT_MARKER_2D_RADIUS = 10
