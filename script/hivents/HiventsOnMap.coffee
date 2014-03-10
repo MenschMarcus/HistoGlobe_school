@@ -78,10 +78,10 @@ class HG.HiventsOnMap
             @_hiventMarkers.splice index, 1  if index >= 0
 
       @_map.getPanes().overlayPane.addEventListener "mousedown", (event) =>
-        @_dragStart = new HG.Vector event.x, event.y
+        @_dragStart = new HG.Vector event.clientX, event.clientY
 
       @_map.getPanes().overlayPane.addEventListener "mouseup", (event) =>
-        mousepos = new HG.Vector event.x, event.y
+        mousepos = new HG.Vector event.clientX, event.clientY
         distance = mousepos.clone()
         distance.sub @_dragStart
         if distance.length() <= 2

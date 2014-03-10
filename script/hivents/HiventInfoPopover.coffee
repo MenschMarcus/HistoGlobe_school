@@ -33,7 +33,7 @@ class HG.HiventInfoPopover
     @_mainDiv.style.left = "#{anchor.at(0) + WINDOW_TO_ANCHOR_OFFSET_X}px"
     @_mainDiv.style.top = "#{anchor.at(1) + WINDOW_TO_ANCHOR_OFFSET_Y}px"
     @_mainDiv.style.visibility = "hidden"
-    @_mainDiv.addEventListener "mousedown", @_bringToFront(), false
+    @_mainDiv.addEventListener "mousedown", @_bringToFront, false
 
     @_topArrow = document.createElement "div"
     @_topArrow.className = "arrow arrow-up"

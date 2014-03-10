@@ -56,7 +56,7 @@ class HG.Widget
 
     $(div).click (e) =>
       unless Math.abs(div.my_click_x - e.clientX) > 10 or Math.abs(div.my_click_y - e.clientY) > 10
-        callback()
+        callback(e)
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #

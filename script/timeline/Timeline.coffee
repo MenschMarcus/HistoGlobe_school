@@ -75,6 +75,21 @@ class HG.Timeline
       @_updateDateMarkers()
     , false
 
+    @_uiElements.tlDivWrapper.addEventListener "transitionend", (e) =>
+      @_updateNowDate()
+      @_updateDateMarkers()
+    , false
+
+    @_uiElements.tlDivWrapper.addEventListener "MSTransitionEnd", (e) =>
+      @_updateNowDate()
+      @_updateDateMarkers()
+    , false
+
+    @_uiElements.tlDivWrapper.addEventListener "oTransitionEnd", (e) =>
+      @_updateNowDate()
+      @_updateDateMarkers()
+    , false
+
     @_clicked = false
     @_uiElements.tlDiv.onmousedown = (e) =>
       @_clicked = true
@@ -98,20 +113,11 @@ class HG.Timeline
     #   ZOOM TIMLINE
     @_uiElements.tlDiv.onmousewheel = (e) =>
       e.preventDefault()
-      zoomed = false
-      if e.wheelDeltaY > 0
-        if @maxVisibleDate().getFullYear() - @minVisibleDate().getFullYear() > 2
-          @_config.zoom *= 1.2
-          zoomed = true
-      else
-        if @_config.zoom > 1
-          @_config.zoom /= 1.2
-          zoomed = true
+      @_zoom(e.wheelDeltaY)
 
-      if zoomed
-        @_maxIntervalIndex = @_calcMaxIntervalIndex()
-        @_makeLayout()
-        @_updateDateMarkers()
+    @_uiElements.tlDiv.addEventListener "DOMMouseScroll", (e) =>
+      e.preventDefault()
+      @_zoom(-e.detail)
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -322,9 +328,29 @@ class HG.Timeline
       dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
       @_uiElements.tlDivWrapper.style.transition =  delay + "s"
       @_uiElements.tlDivWrapper.style.webkitTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tlDivWrapper.style.MozTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tlDivWrapper.style.MsTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tlDivWrapper.style.oTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
 
       @_animationTargetDate = date
       @_animationSuccessCallback = successCallback
+
+  #   --------------------------------------------------------------------------
+  _zoom: (delta) =>
+    zoomed = false
+    if delta > 0
+      if @maxVisibleDate().getFullYear() - @minVisibleDate().getFullYear() > 2
+        @_config.zoom *= 1.2
+        zoomed = true
+    else
+      if @_config.zoom > 1
+        @_config.zoom /= 1.2
+        zoomed = true
+
+    if zoomed
+      @_maxIntervalIndex = @_calcMaxIntervalIndex()
+      @_makeLayout()
+      @_updateDateMarkers()
 
   #   --------------------------------------------------------------------------
   _animTimeline: =>
