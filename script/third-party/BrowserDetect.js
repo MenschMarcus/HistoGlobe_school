@@ -10,6 +10,7 @@ var BrowserDetect = {
     var browserInfo = this.urls[this.browser];
     if (!browserInfo) {
       browserInfo = this.urls["unknown"];
+    } else if (browserInfo.platforms) {
       var info = browserInfo.platforms[this.platform];
       if (info) {
         browserInfo = info;
