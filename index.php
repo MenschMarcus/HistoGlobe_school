@@ -112,7 +112,6 @@
     <script type="text/javascript" src="build/ArcPath2D.js"></script>
     <script type="text/javascript" src="build/Watermark.js"></script>
     <script type="text/javascript" src="build/BrowserDetector.js"></script>
-
     <script type="text/javascript" src="build/Globe.js"></script>
 
     <!-- init histoglobe -->
@@ -124,60 +123,9 @@
 
     <?php // init histoglobe ?>
     <script type="text/javascript">
-      // var display2D, display3D, timeline, legend, hiventController, areaController, pathController, labelController;
-      // var timelineInitialized = false;
-      // var container;
-      // var windowHeight = window.innerHeight;
-
-      // jQuery(document).ready(function($) {
-      //   BrowserDetect.init();
-
-      //   if (!BrowserDetect.webglRenderingSupported) {
-      //     var elem_title = 'Entschuldigung! <a class="close pull-right" style="margin-top: -3px;" onclick="$(&#39;#display-mode-switch&#39;).popover(&#39;hide&#39;);">&times;</a>';
-      //     var elem_content = '';
-      //     if (BrowserDetect.webglContextSupported) {
-      //       if (BrowserDetect.browser != "unknown") {
-      //         elem_content = 'Obwohl Ihr Browser (' + BrowserDetect.browser + ') <span class="hg">HistoGlobe</span> anzeigen kann, treten auf Ihrem Rechner leider Probleme auf. Eventuell ist der Treiber Ihrer Graphikkarte nicht aktuell. Weitere Hilfe zum Thema WebGL und ' + BrowserDetect.browser + ' erhalten Sie hier: <br><br> <a target="_blank" class="btn btn-block btn-success" href ="' +
-      //                        BrowserDetect.urls.troubleshootingUrl+ '">' + BrowserDetect.browser + ' Support</a>';
-      //       }
-
-      //     } else {
-      //       if (BrowserDetect.browser != "unknown" && BrowserDetect.urls.upgradeUrl) {
-      //         elem_content = 'Ihre Version von ' + BrowserDetect.browser
-      //                         + ' ist nicht aktuell! Wenn Sie <span class="hg">HistoGlobe</span> auf einem Globus genießen wollen, aktualisieren Sie bitte Ihren Browser. <br><br><a target="_blank" class="btn btn-block btn-success" href ="'
-      //                         + BrowserDetect.urls.upgradeUrl + '">'
-      //                         + BrowserDetect.browser + ' aktualisieren' + '</a>';
-      //       } else {
-      //         elem_content = BrowserDetect.browser + ' unterstützt leider noch keine 3D-Graphiken. Wenn Sie <span class="hg">HistoGlobe</span> auf einem Globus genießen wollen, installieren Sie bitte einen der folgenden Browser: <br><br> <a target="_blank" class="btn btn-block btn-success" href ="http://www.mozilla.org/de/firefox/new/"> Firefox herunterladen </a> <a target="_blank" class="btn btn-block btn-success" href ="https://www.google.com/intl/de/chrome/browser/"> Chrome herunterladen </a>'
-      //       }
-      //     }
-
-      //     $('#display-mode-switch').popover({container: 'body', animation:true, title:elem_title, content:elem_content, html:true, placement:"top"});
-      //   }
-
-      //   $('.hg-tooltip').tooltip();
-
-
-      //   loadGLHeader();
-
-      // });
-
-      // function loadGLHeader() {
-
-      //   if (BrowserDetect.canvasSupported) {
-
-
-
-
-
-
       $(document).ready(function($) {
         var histoglobe = new HG.HistoGlobe("config/exemplum/modules.json");
-        // var histoglobe = new HG.HistoGlobe("config/sdw/modules.json");
-        // var histoglobe = new HG.HistoGlobe("config/eu/modules.json");
-        // var histoglobe = new HG.HistoGlobe("config/fertility/modules.json");
       });
-
     </script>
 
   </head>

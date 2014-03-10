@@ -62,15 +62,10 @@ class HG.HiventInfoPopovers
       unless @_config.allowMultiplePopovers
         HG.HiventHandle.DEACTIVATE_ALL_OTHER_HIVENTS(handle)
 
-      marker.hiventInfoPopover?= new HG.HiventInfoPopover handle,
-                                 new HG.Vector(0, 0),
-                                 container, @_hgInstance
+      marker.hiventInfoPopover?= new HG.HiventInfoPopover handle, container, @_hgInstance
+      marker.hiventInfoPopover.show new HG.Vector(displayPosition.x, displayPosition.y)
 
-      marker.hiventInfoPopover.show()
-      marker.hiventInfoPopover.setAnchor new HG.Vector(displayPosition.x, displayPosition.y)
-      marker.hiventInfoPopover.positionWindowAtAnchor()
-
-    hideHiventInfoPopover = (displayPosition) =>
+    hideHiventInfoPopover = () =>
       marker.hiventInfoPopover?.hide()
 
     handle.onActive marker, showHiventInfoPopover
@@ -80,13 +75,10 @@ class HG.HiventInfoPopovers
       , 500
     handle.onInActive marker, hideHiventInfoPopover
     marker.onPositionChanged @, (displayPosition) ->
-      marker.hiventInfoPopover?.setAnchor new HG.Vector(displayPosition.x, displayPosition.y)
+      marker.hiventInfoPopover?.updatePosition new HG.Vector(displayPosition.x, displayPosition.y)
     marker.onDestruction @, () ->
       marker.hiventInfoPopover?._destroy()
 
     callbackFunc marker for callbackFunc in @_onPopoverAddedCallbacks
 
-  ##############################################################################
-  #                             STATIC MEMBERS                                 #
-  ##############################################################################
 
