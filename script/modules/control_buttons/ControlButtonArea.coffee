@@ -63,7 +63,7 @@ class HG.ControlButtonArea
     button.appendChild icon
 
     $(button).click () ->
-      c = config.callback()
+      c = config.callback(@)
       if c? and c.icon? and c.tooltip?
         c = $.extend {}, defaultConfig, c
         config = c

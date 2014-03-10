@@ -26,12 +26,11 @@ class HG.Globe extends HG.Display
   hgInit: (hgInstance) ->
     super hgInstance
 
-    unless hgInstance.browserDetector?
+    unless hgInstance.browserDetector
       console.error "Failed to initialize Globe: Module browserDetector not detected!"
       return
 
     if hgInstance.browserDetector.webglSupported
-
       hgInstance.globe = @
       @_globeCanvas = hgInstance.mapCanvas
       @_areaController = hgInstance.areaController
@@ -84,19 +83,17 @@ class HG.Globe extends HG.Display
       hgInstance.onAllModulesLoaded @, () =>
         if hgInstance.control_button_area?
 
-          elem_title = 'Entschuldigung! <a class="close pull-right" style="margin-top: -3px;" onclick="$(&#39;#display-mode-switch&#39;).popover(&#39;hide&#39;);">&times;</a>';
+          elem_title = 'Entschuldigung!';
           elem_content = '';
           if hgInstance.browserDetector.webglContextSupported
             if hgInstance.browserDetector.browser isnt "unknown"
-              elem_content = 'Obwohl Ihr Browser (' + hgInstance.browserDetector.browser +
-                             ') <span class="hg">HistoGlobe</span> anzeigen kann, treten ' +
+              elem_content = 'Obwohl Ihr Browser 3D-Grafiken anzeigen kann, treten ' +
                              'auf Ihrem Rechner leider Probleme auf. Eventuell ist der ' +
-                             'Treiber Ihrer Graphikkarte nicht aktuell. Weitere Hilfe '+
-                             'zum Thema WebGL und ' + hgInstance.browserDetector.browser +
-                             ' erhalten Sie hier: <br><br> <a target="_blank" ' +
+                             'Treiber Ihrer Grafikkarte nicht aktuell. Weitere Hilfe '+
+                             'erhalten Sie hier: <br><br> <a target="_blank" ' +
                              'class="btn btn-block btn-success" href ="' +
                              hgInstance.browserDetector.helpUrl+ '">' +
-                             hgInstance.browserDetector.browser + ' Support</a>'
+                             hgInstance.browserDetector.browser + ' & WebGL</a>'
 
 
           else
@@ -109,18 +106,26 @@ class HG.Globe extends HG.Display
                               hgInstance.browserDetector.browser + ' aktualisieren' + '</a>'
             else
               elem_content = hgInstance.browserDetector.browser + ' unterstützt leider ' +
-              'noch keine 3D-Graphiken. Wenn Sie <span class="hg">HistoGlobe</span> auf ' +
-              'einem Globus genießen wollen, installieren Sie bitte einen der folgenden Browser:' +
-              ' <br><br> <a target="_blank" class="btn btn-block btn-success"' +
-              ' href ="http://www.mozilla.org/de/firefox/new/"> Firefox herunterladen </a> '+
-              '<a target="_blank" class="btn btn-block btn-success" ' +
+              'noch keine 3D-Grafiken. Wenn Sie <span class="hg">HistoGlobe</span> auf ' +
+              'einem Globus genießen wollen, installieren Sie bitte zum Beispiel Google Chrome:' +
+              ' <br><br><a target="_blank" class="btn btn-block btn-success" ' +
               'href ="https://www.google.com/intl/de/chrome/browser/"> Chrome herunterladen </a>'
+
+          popover = new HG.Popover
+            contentHTML: elem_content
+            title:       elem_title
 
           state =
             icon: "fa-globe"
             tooltip: "Zur 3D-Ansicht wechseln"
-            callback: () =>
-              $('#display-mode-switch').popover({container: 'body', animation:true, title:elem_title, content:elem_content, html:true, placement:"right"});
+            callback: (button) =>
+              offset = $(button).offset()
+              width  = $(button).width()
+              height = $(button).height()
+
+              popover.toggle
+                x: offset.left + width
+                y: offset.top + height*0.5
 
           hgInstance.control_button_area.addButton state
 
