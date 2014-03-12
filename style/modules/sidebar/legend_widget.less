@@ -56,13 +56,13 @@
   }
 
   .legend-row-non-filterable {
-    border: 1px solid mix(@widget_background_color, @text_color, 80%);
+    border: 1px solid mix(@widget_background_color, @text_color, 60%);
     background-color: #fff;
     font-weight: bold;
   }
 
   .legend-row-filterable {
-    border: 1px solid mix(@widget_background_color, @text_color, 80%);
+    border: 1px solid mix(@widget_background_color, @text_color, 60%);
     cursor: pointer;
     color: #aaa;
 
@@ -93,13 +93,6 @@
     }
   }
 
-  span {
-    width:30px * @widget_font_size_factor;
-    height:30px * @widget_font_size_factor;
-    margin-right: 5px;
-    vertical-align: bottom;
-  }
-
   .legend-check {
     float: right;
     margin-top: 5px;
@@ -107,9 +100,18 @@
   }
 
   .legend-icon {
+    width:30px * @widget_font_size_factor;
+    height:30px * @widget_font_size_factor;
+    margin-right: 5px;
+    vertical-align: bottom;
+
     display: inline-block;
     background-repeat: no-repeat;
     background-size: contain;
+  }
+
+  .legend-select {
+    height: 60px;
   }
 
   .legend-color {
@@ -119,4 +121,48 @@
   .legend-text {
     font-size: 15pt * @widget_font_size_factor;
   }
+
+  // select2 overrides
+  .select2-container {
+    width: 100%;
+
+    a {
+      height: 60px;
+      border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
+      border: 1px solid mix(@widget_background_color, @text_color, 60%);
+
+      .select2-arrow {
+        border-bottom-right-radius: @widget_border_radius_bottom_right;
+        border-top-right-radius: @widget_border_radius_top_right;
+        padding-top: 15px;
+      }
+
+    }
+    &.select2-dropdown-open {
+      a {
+        border-bottom-color: transparent;
+      }
+    }
+  }
+}
+
+
+// select2 overrides
+.select2-results {
+  .select2-highlighted {
+    background-color: @widget_title_background_color;
+    color: @widget_title_text_color;
+  }
+}
+
+.select2-drop {
+  border-bottom-right-radius: @widget_border_radius_bottom_right;
+  border-bottom-left-radius: @widget_border_radius_bottom_left;
+  border: 1px solid mix(@widget_background_color, @text_color, 60%);
+}
+
+
+.select2-drop-active {
+  border: 1px solid mix(@widget_background_color, @text_color, 60%);
+  border-top: none;
 }

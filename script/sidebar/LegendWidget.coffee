@@ -44,6 +44,8 @@ class HG.LegendWidget extends HG.Widget
             @addCategory element, group_div
           else if element.type is "categoryWithColor"
             @addCategoryWithColor element, group_div
+          else if element.type is "categorySelect"
+            @addCategorySelect element, group_div
           else if element.type is "categoryWithIcon"
             @addCategoryWithIcon element, group_div
           else
@@ -59,6 +61,38 @@ class HG.LegendWidget extends HG.Widget
     col_div.className = "legend-column legend-column-#{column_count}"
     @_mainDiv.appendChild col_div
     return col_div
+
+  # ============================================================================
+  addCategorySelect: (config, col_div) ->
+    defaultConfig =
+      categories: []
+      names: []
+
+    config = $.extend {}, defaultConfig, config
+
+    row = document.createElement "div"
+    col_div.appendChild row
+
+    select = document.createElement "select"
+    select.className = "legend-select"
+    row.appendChild select
+
+    for name, i in config.names
+      option = document.createElement "option"
+      option.value = config.categories[i]
+      option.innerHTML = name + "<br>"
+      select.appendChild option
+
+    format = (e) ->
+      "<strong>" + e.text + "</strong><br> huhu <pan class='pull-right'>hoho</span>"
+
+    $(select).select2
+      escapeMarkup: (m) ->  m
+      formatResult: format
+      formatSelection: format
+
+    $(select).on "change", (e) =>
+      console.log "change ", e
 
   # ============================================================================
   addCategory: (config, col_div) ->

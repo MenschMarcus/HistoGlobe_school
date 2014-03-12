@@ -1,56 +1,39 @@
-// --------------------- GLOBAL OPTIONS ----------------------------------------
-$hg_font_face                       = sans-serif
+// ------------------- GLOBAL OPTIONS ------------------------------------------
+$primary_font_face                  = sans-serif
+$secondary_font_face                = Lobster
 
-// --------------------- MAP OPTIONS -------------------------------------------
-$map_min_width                      = 300px
-$map_collapsed_width                = 50px
-
-
-// ------------------ SIDE_BAR OPTIONS -----------------------------------------
-$sidebar_collapse_button_size       = 40px
-$sidebar_aimation_speed             = 0.3s
-$sidebar_width                      = 400px
-$sidebar_collapsed_width            = 45px
-$sidebar_scrollbar_width            = 10px
-$sidebar_background_color           = #666666
+$border_width                       = 6px
+$border_color                       = #666666
+$border_color_bright                = #ffffff
+$border_color_dark                  = #333333
 
 // ------------------- WIDGET OPTIONS ------------------------------------------
-$widget_aimation_speed                = 0.3s
-$widget_title_size                    = 30px
-$widget_title_background_color        = #ffcc00
-$widget_title_text_color              = #333333
-$widget_background_color              = #ffffff
-$widget_text_color                    = #666666
+$widget_title_background_color      = #ffcc00
+$widget_title_text_color            = #333333
+$widget_background_color            = #ffffff
+$widget_title_size                  = 50px
 
-$widget_margin                        = 10px
-$widget_body_padding                  = 15px
+$text_color                         = #555555
+$text_highlight_color               = #58A84B
 
+$background_color                   = #43ca92
 
-$widget_title_gradient_effect         = 0%
+$widget_margin                      = 15px
 
-$widget_border_radius_top_left        = 5px
-$widget_border_radius_top_right       = 0px
-$widget_border_radius_bottom_left     = 5px
-$widget_border_radius_bottom_right    = 0px
+$shadow_intensity                   = 0.5;
+$shadow_radius                      = 30px;
 
-$widget_font_size                     = 12px
+$sidebar_collapsed_width            = 65px
+$sidebar_width                      = 500px
 
-// GALLERY WIDGET
-$gallery_widget_pagination_size       = 20px
+$statistics_widget_margin_left      = 40px
 
-// STATISTICS WIDGET
-$statistics_widget_min_height         = 200px
-$statistics_widget_margin_top         = 10px
-$statistics_widget_margin_right       = 15px
-$statistics_widget_margin_bottom      = 20px
-$statistics_widget_margin_left        = 30px
+$widget_border_radius_top_left      = 0px
+$widget_border_radius_top_right     = 0px
+$widget_border_radius_bottom_left   = 0px
+$widget_border_radius_bottom_right  = 0px
 
-$statistics_widget_axis_width         = 2px
-$statistics_widget_axis_color         = grey
-$statistics_widget_axis_font_size     = 1em
-$statistics_widget_title_font_size    = 2em
-$statistics_widget_subtitle_font_size = 1.5em
+$hivent_marker_2D_width               = 48px;
+$hivent_marker_2D_height              = 48px;
 
-// ------------------ TIMELINE OPTIONS -----------------------------------------
-$timeline_height                      = 80px
-$timeline_roundness                   = 8px
+$now_marker_background_image          = "../config/exemplum/data/bg.png"
