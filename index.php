@@ -66,6 +66,7 @@
     <script type="text/javascript" src="build/Mixin.js"></script>
     <script type="text/javascript" src="build/Vector.js"></script>
     <script type="text/javascript" src="build/Popover.js"></script>
+    <script type="text/javascript" src="build/MultimediaController.js"></script>
     <script type="text/javascript" src="build/Hivent.js"></script>
     <script type="text/javascript" src="build/HiventDatabaseInterface.js"></script>
     <script type="text/javascript" src="build/HiventBuilder.js"></script>
