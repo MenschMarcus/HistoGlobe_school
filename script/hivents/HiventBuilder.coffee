@@ -9,78 +9,42 @@ class HG.HiventBuilder
   ##############################################################################
 
   # ============================================================================
-  constructor: (config) ->
+  constructor: (config, multimediaController) ->
     @_config = config
+    @_multimediaController = multimediaController
 
   # ============================================================================
   constructHiventFromArray: (dataArray, pathIndex, successCallback) ->
     if dataArray isnt []
       successCallback?= (hivent) -> console.log hivent
 
-      hiventID          = dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventID]
-      hiventName        = dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventName]
-      hiventDescription = dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventDescription]
-      hiventStartDate   = dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventStartDate]
-      hiventEndDate     = dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventEndDate]
-      hiventDisplayDate = dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventDisplayDate]
-      hiventLocation    = dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventLocation]
-      hiventLat         = dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventLat]
-      hiventLong        = dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventLong]
-      hiventCategory    = if dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventCategory] == '' then 'default' else dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventCategory]
-      hiventMultimedia  = dataArray[@_config.hiventConfig.indexMappings[pathIndex].hiventMultimedia]
+      id          = dataArray[@_config.indexMappings[pathIndex].id]
+      name        = dataArray[@_config.indexMappings[pathIndex].name]
+      description = dataArray[@_config.indexMappings[pathIndex].description]
+      startDate   = dataArray[@_config.indexMappings[pathIndex].startDate]
+      endDate     = dataArray[@_config.indexMappings[pathIndex].endDate]
+      displayDate = dataArray[@_config.indexMappings[pathIndex].displayDate]
+      location    = dataArray[@_config.indexMappings[pathIndex].location]
+      lat         = dataArray[@_config.indexMappings[pathIndex].lat]
+      long        = dataArray[@_config.indexMappings[pathIndex].long]
+      category    = if dataArray[@_config.indexMappings[pathIndex].category] == '' then 'default' else dataArray[@_config.indexMappings[pathIndex].category]
+      multimedia  = dataArray[@_config.indexMappings[pathIndex].multimedia]
 
-      mmDatabase = {}
-      multimediaLoaded = false
-      if @_config.multimediaConfig?.dsvPaths?
-        parse_config =
-          delimiter: @_config.multimediaConfig.delimiter
-          header: false
-
-        index = 0
-        for dsvPath in @_config.multimediaConfig.dsvPaths
-          $.get(dsvPath,
-            (data) =>
-              pars_result = $.parse data, parse_config
-              for result, i in pars_result.results
-                unless i+1 in @_config.multimediaConfig.ignoredLines
-                  mm =
-                    id : result[@_config.multimediaConfig.indexMappings[pathIndex].multimediaID]
-                    type : result[@_config.multimediaConfig.indexMappings[pathIndex].multimediaType]
-                    description : result[@_config.multimediaConfig.indexMappings[pathIndex].multimediaDescription]
-                    source : result[@_config.multimediaConfig.indexMappings[pathIndex].multimediaSource]
-                    link : @_config.multimediaConfig.rootDirs[index] + "/" +
-                           result[@_config.multimediaConfig.indexMappings[pathIndex].multimediaLink]
-
-                  mmDatabase["#{mm.id}"] = mm
-
-              multimediaLoaded = true
-              index++
-          )
-      else
-        multimediaLoaded = true
-
-      mmLoadFinished = () ->
-        multimediaLoaded
-
-      parseMultimedia = () =>
-
-        mmHtmlString = ''
-        #get related multimedia
-        if hiventMultimedia != ""
-          galleryID = hiventID + "_gallery"
+      mmHtmlString = ''
+      #get related multimedia
+      if multimedia != "" and @_multimediaController?
+        @_multimediaController.onMultimediaLoaded () =>
+          galleryID = id + "_gallery"
           mmHtmlString = '\t<ul class=\"gallery clearfix\">\n'
-          hiventMMIDs = hiventMultimedia.split(",")
+          mmids = multimedia.split(",")
           galleryTag = ""
-          if hiventMMIDs.length > 1
+          if mmids.length > 1
             galleryTag = "[" + galleryID + "]"
 
           #get all related entries from multimedia database and concatenate html string
-          somethingWentWrong = false
-          loadedIds = []
-          for id in hiventMMIDs
-            if mmDatabase.hasOwnProperty id
-              entry = mmDatabase["#{id}"]
-              mm = @_createMultiMedia entry.type, entry.description, entry.link, entry.source
+          for id in mmids
+            mm = @_multimediaController.getMultimediaById id
+            if mm?
               mmHtmlString +=  '\t\t<li><a href="' +
                                 mm.link + '" rel="prettyPhoto" ' +
                                 galleryTag + ' title="'
@@ -91,183 +55,172 @@ class HG.HiventBuilder
               mmHtmlString += mm.description + '" style="background-image:url(\'' +
                               mm.thumbnail + '\')"></a></li>\n'
 
-              loadedIds.push id
-            else
-              console.error "A multimedia entry with the id #{id} does not exist!"
-              somethingWentWrong = true
 
-          loadFinished = () ->
-            (loadedIds.length is hiventMMIDs.length) or somethingWentWrong
-
-          loadSuccessFunction = () =>
             mmHtmlString += "\t</ul>\n"
-            successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
-                                    hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
-                                    hiventCategory, hiventMultimedia, mmHtmlString)
-
-          @_waitFor loadFinished, loadSuccessFunction
-
-        else
-          successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
-                                      hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
-                                      hiventCategory, hiventMultimedia, '')
-
-      @_waitFor mmLoadFinished, parseMultimedia
-
-
-  # ============================================================================
-  constructHiventFromDBString: (dataString, successCallback) ->
-    if dataString != ""
-      successCallback?= (hivent) -> console.log hivent
-
-      columns = dataString.split("|")
-
-      hiventID          = columns[0]
-      hiventName        = columns[1]
-      hiventDescription = columns[2]
-      hiventStartDate   = columns[3]
-      hiventEndDate     = columns[4]
-      hiventDisplayDate = columns[5]
-      hiventLocation    = columns[6]
-      hiventLat         = columns[7]
-      hiventLong        = columns[8]
-      hiventCategory    = if columns[9] == '' then 'default' else columns[9]
-      hiventMultimedia  = columns[10]
-
-      mmHtmlString = ''
-
-      #get related multimedia
-      if hiventMultimedia != ""
-        galleryID = hiventID + "_gallery"
-        mmHtmlString = '\t<ul class=\"gallery clearfix\">\n'
-        hiventMMIDs = hiventMultimedia.split(",")
-        galleryTag = ""
-        if hiventMMIDs.length > 1
-          galleryTag = "[" + galleryID + "]"
-
-        #get all related entries from multimedia database and concatenate html string
-        loadedIds = []
-        somethingWentWrong = false
-        for id in hiventMMIDs
-          $.ajax({
-              url: "php/query_database.php?"+
-                    "serverName=#{@_config.multimediaServerName}"+
-                    "&dbName=#{@_config.multimediaDatabaseName}"+
-                    "&tableName=#{@_config.multimediaTableName}"+
-                    "&condition=id=" + "'#{id}'",
-              success: (data) =>
-                cols = data.split "|"
-                mm = @_createMultiMedia cols[1], cols[2], cols[3]
-                mmHtmlString +=  '\t\t<li><a href=\"' +
-                                  mm.link + '\" rel=\"prettyPhoto' +
-                                  galleryTag + '\" title=\"' +
-                                  mm.description + '\"> <img src=\"' +
-                                  mm.thumbnail + '\" width=\"60px\" /></a></li>\n'
-
-                loadedIds.push id
-
-              error: () =>
-                somethingWentWrong = true
-            })
-
-        loadFinished = () ->
-          (loadedIds.length is hiventMMIDs.length) or somethingWentWrong
-
-        loadSuccessFunction = () =>
-          mmHtmlString += "\t</ul>\n"
-          successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
-                                  hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
-                                  hiventCategory, hiventMultimedia, mmHtmlString)
-
-        @_waitFor loadFinished, loadSuccessFunction
+            successCallback @_createHivent(id, name, description, startDate,
+                                    endDate, displayDate, location, long, lat,
+                                    category, multimedia, mmHtmlString)
 
 
       else
-        successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
-                                    hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
-                                    hiventCategory, hiventMultimedia, '')
+        successCallback @_createHivent(id, name, description, startDate,
+                                      endDate, displayDate, location, long, lat,
+                                      category, multimedia, '')
+
 
   # ============================================================================
-  constructHiventFromJSON: (jsonHivent, successCallback) ->
-    if jsonHivent?
-      successCallback?= (hivent) -> console.log hivent
+  # constructHiventFromDBString: (dataString, successCallback) ->
+  #   if dataString != ""
+  #     successCallback?= (hivent) -> console.log hivent
 
-      hiventID          = jsonHivent.id
-      hiventName        = jsonHivent.name
-      hiventDescription = jsonHivent.description
-      hiventStartDate   = jsonHivent.startDate
-      hiventEndDate     = jsonHivent.endDate
-      hiventDisplayDate = jsonHivent.displayDate
-      hiventLocation    = jsonHivent.location
-      hiventLat         = jsonHivent.lat
-      hiventLong        = jsonHivent.long
-      hiventCategory    = if jsonHivent.category == '' then 'default' else jsonHivent.category
-      hiventMultimedia  = jsonHivent.multimedia
+  #     columns = dataString.split("|")
 
-      mmDatabase = {}
-      multimediaLoaded = false
-      if @_config.multimediaJSONPaths?
-        for multimediaJSONPath in @_config.multimediaJSONPaths
-          $.getJSON(multimediaJSONPath, (multimedia) =>
+  #     hiventID          = columns[0]
+  #     hiventName        = columns[1]
+  #     hiventDescription = columns[2]
+  #     hiventStartDate   = columns[3]
+  #     hiventEndDate     = columns[4]
+  #     hiventDisplayDate = columns[5]
+  #     hiventLocation    = columns[6]
+  #     hiventLat         = columns[7]
+  #     hiventLong        = columns[8]
+  #     hiventCategory    = if columns[9] == '' then 'default' else columns[9]
+  #     hiventMultimedia  = columns[10]
 
-            for mm in multimedia
-              mmDatabase["#{mm.id}"] = mm
+  #     mmHtmlString = ''
 
-            multimediaLoaded = true
-          )
-      else
-        multimediaLoaded = true
+  #     #get related multimedia
+  #     if hiventMultimedia != ""
+  #       galleryID = hiventID + "_gallery"
+  #       mmHtmlString = '\t<ul class=\"gallery clearfix\">\n'
+  #       hiventMMIDs = hiventMultimedia.split(",")
+  #       galleryTag = ""
+  #       if hiventMMIDs.length > 1
+  #         galleryTag = "[" + galleryID + "]"
 
-      mmLoadFinished = () ->
-        multimediaLoaded
+  #       #get all related entries from multimedia database and concatenate html string
+  #       loadedIds = []
+  #       somethingWentWrong = false
+  #       for id in hiventMMIDs
+  #         $.ajax({
+  #             url: "php/query_database.php?"+
+  #                   "serverName=#{@_config.multimediaServerName}"+
+  #                   "&dbName=#{@_config.multimediaDatabaseName}"+
+  #                   "&tableName=#{@_config.multimediaTableName}"+
+  #                   "&condition=id=" + "'#{id}'",
+  #             success: (data) =>
+  #               cols = data.split "|"
+  #               mm = @_createMultiMedia cols[1], cols[2], cols[3]
+  #               mmHtmlString +=  '\t\t<li><a href=\"' +
+  #                                 mm.link + '\" rel=\"prettyPhoto' +
+  #                                 galleryTag + '\" title=\"' +
+  #                                 mm.description + '\"> <img src=\"' +
+  #                                 mm.thumbnail + '\" width=\"60px\" /></a></li>\n'
 
-      parseMultimedia = () =>
+  #               loadedIds.push id
 
-        mmHtmlString = ''
-        #get related multimedia
-        if hiventMultimedia != ""
-          galleryID = hiventID + "_gallery"
-          mmHtmlString = '\t<ul class=\"gallery clearfix\">\n'
-          hiventMMIDs = hiventMultimedia.split(",")
-          galleryTag = ""
-          if hiventMMIDs.length > 1
-            galleryTag = "[" + galleryID + "]"
+  #             error: () =>
+  #               somethingWentWrong = true
+  #           })
 
-          #get all related entries from multimedia database and concatenate html string
-          somethingWentWrong = false
-          loadedIds = []
-          for id in hiventMMIDs
-            if mmDatabase.hasOwnProperty id
-              entry = mmDatabase["#{id}"]
-              mm = @_createMultiMedia entry.type, entry.description, entry.link
-              mmHtmlString +=  '\t\t<li><a href=\"' +
-                                mm.link + '\" rel=\"prettyPhoto' +
-                                galleryTag + '\" title=\"' +
-                                mm.description + '\"> <img src=\"' +
-                                mm.thumbnail + '\" width=\"60px\" /></a></li>\n'
+  #       loadFinished = () ->
+  #         (loadedIds.length is hiventMMIDs.length) or somethingWentWrong
 
-              loadedIds.push id
-            else
-              console.error "A multimedia entry with the id #{id} does not exist!"
-              somethingWentWrong = true
+  #       loadSuccessFunction = () =>
+  #         mmHtmlString += "\t</ul>\n"
+  #         successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
+  #                                 hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
+  #                                 hiventCategory, hiventMultimedia, mmHtmlString)
 
-          loadFinished = () ->
-            (loadedIds.length is hiventMMIDs.length) or somethingWentWrong
+  #       @_waitFor loadFinished, loadSuccessFunction
 
-          loadSuccessFunction = () =>
-            mmHtmlString += "\t</ul>\n"
-            successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
-                                    hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
-                                    hiventCategory, hiventMultimedia, mmHtmlString)
 
-          @_waitFor loadFinished, loadSuccessFunction
+  #     else
+  #       successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
+  #                                   hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
+  #                                   hiventCategory, hiventMultimedia, '')
 
-        else
-          successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
-                                      hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
-                                      hiventCategory, hiventMultimedia, '')
+  # # ============================================================================
+  # constructHiventFromJSON: (jsonHivent, successCallback) ->
+  #   if jsonHivent?
+  #     successCallback?= (hivent) -> console.log hivent
 
-      @_waitFor mmLoadFinished, parseMultimedia
+  #     hiventID          = jsonHivent.id
+  #     hiventName        = jsonHivent.name
+  #     hiventDescription = jsonHivent.description
+  #     hiventStartDate   = jsonHivent.startDate
+  #     hiventEndDate     = jsonHivent.endDate
+  #     hiventDisplayDate = jsonHivent.displayDate
+  #     hiventLocation    = jsonHivent.location
+  #     hiventLat         = jsonHivent.lat
+  #     hiventLong        = jsonHivent.long
+  #     hiventCategory    = if jsonHivent.category == '' then 'default' else jsonHivent.category
+  #     hiventMultimedia  = jsonHivent.multimedia
+
+  #     mmDatabase = {}
+  #     multimediaLoaded = false
+  #     if @_config.multimediaJSONPaths?
+  #       for multimediaJSONPath in @_config.multimediaJSONPaths
+  #         $.getJSON(multimediaJSONPath, (multimedia) =>
+
+  #           for mm in multimedia
+  #             mmDatabase["#{mm.id}"] = mm
+
+  #           multimediaLoaded = true
+  #         )
+  #     else
+  #       multimediaLoaded = true
+
+  #     mmLoadFinished = () ->
+  #       multimediaLoaded
+
+  #     parseMultimedia = () =>
+
+  #       mmHtmlString = ''
+  #       #get related multimedia
+  #       if hiventMultimedia != ""
+  #         galleryID = hiventID + "_gallery"
+  #         mmHtmlString = '\t<ul class=\"gallery clearfix\">\n'
+  #         hiventMMIDs = hiventMultimedia.split(",")
+  #         galleryTag = ""
+  #         if hiventMMIDs.length > 1
+  #           galleryTag = "[" + galleryID + "]"
+
+  #         #get all related entries from multimedia database and concatenate html string
+  #         somethingWentWrong = false
+  #         loadedIds = []
+  #         for id in hiventMMIDs
+  #           if mmDatabase.hasOwnProperty id
+  #             entry = mmDatabase["#{id}"]
+  #             mm = @_createMultiMedia entry.type, entry.description, entry.link
+  #             mmHtmlString +=  '\t\t<li><a href=\"' +
+  #                               mm.link + '\" rel=\"prettyPhoto' +
+  #                               galleryTag + '\" title=\"' +
+  #                               mm.description + '\"> <img src=\"' +
+  #                               mm.thumbnail + '\" width=\"60px\" /></a></li>\n'
+
+  #             loadedIds.push id
+  #           else
+  #             console.error "A multimedia entry with the id #{id} does not exist!"
+  #             somethingWentWrong = true
+
+  #         loadFinished = () ->
+  #           (loadedIds.length is hiventMMIDs.length) or somethingWentWrong
+
+  #         loadSuccessFunction = () =>
+  #           mmHtmlString += "\t</ul>\n"
+  #           successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
+  #                                   hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
+  #                                   hiventCategory, hiventMultimedia, mmHtmlString)
+
+  #         @_waitFor loadFinished, loadSuccessFunction
+
+  #       else
+  #         successCallback @_createHivent(hiventID, hiventName, hiventDescription, hiventStartDate,
+  #                                     hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
+  #                                     hiventCategory, hiventMultimedia, '')
+
+  #     @_waitFor mmLoadFinished, parseMultimedia
 
 
   ############################# MAIN FUNCTIONS #################################
@@ -306,32 +259,3 @@ class HG.HiventBuilder
       )
 
       hivent
-
-
-  # ============================================================================
-  _createMultiMedia: (type, description, link, source) ->
-    mm = {
-      "type": type
-      "description": description
-      "link": link
-      "thumbnail": link
-      "source": source
-    }
-
-    linkData = link.split(".")
-    if linkData[linkData.length-1] in IFRAME_CRITERIA
-      mm.link += "?iframe=true"
-      mm.thumbnail = "data/video.png"
-
-    mm
-
-  # ============================================================================
-  _waitFor: (condition, successCallback) =>
-    window.setTimeout (() =>
-      unless condition()
-        @_waitFor condition, successCallback
-
-      else successCallback()), 100
-
-  IFRAME_CRITERIA = ['flv', 'ogv', 'mp4', 'ogg']
-
