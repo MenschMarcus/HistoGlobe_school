@@ -93,6 +93,15 @@
     }
   }
 
+  .legend-select-row {
+    border: 1px solid mix(@widget_background_color, @text_color, 60%);
+    padding: 10px;
+
+    &:hover {
+      background-color: darken(@widget_background_color, 10%);
+    }
+  }
+
   .legend-check {
     float: right;
     margin-top: 5px;
@@ -131,25 +140,37 @@
       background-image: none;
       height: auto;
       border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
-      border: 1px solid mix(@widget_background_color, @text_color, 60%);
+      border: 0px solid mix(@widget_background_color, @text_color, 60%);
+      padding: 0;
 
       white-space: normal;
       line-height: normal;
 
       .select2-arrow {
-        border-bottom-right-radius: @widget_border_radius_bottom_right;
-        border-top-right-radius: @widget_border_radius_top_right;
-        padding-top: 15px;
+        // border-bottom-right-radius: @widget_border_radius_bottom_right;
+        // border-top-right-radius: @widget_border_radius_top_right;
+        // padding-top: 15px;
+        // width: 100%;
+        // height: 18px;
+        // position: relative;
+        display: none;
       }
 
       .select2-chosen {
         white-space: normal;
+        margin-right: 0;
+
+        small {
+          display: block;
+          margin-top: 10px;
+          margin-bottom: 10px;
+        }
       }
 
     }
     &.select2-dropdown-open {
       a {
-        background-image: none;
+        background: none;
         border-bottom-color: transparent;
       }
 
@@ -171,6 +192,8 @@
 
 // select2 overrides
 .select2-results {
+  font-size: 0.8em;
+
   .select2-highlighted {
     background-color: @widget_title_background_color;
     color: @widget_title_text_color;
