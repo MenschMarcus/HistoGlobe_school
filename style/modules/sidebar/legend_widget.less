@@ -111,7 +111,7 @@
   }
 
   .legend-select {
-    height: 60px;
+    //height: 60px;
   }
 
   .legend-color {
@@ -125,11 +125,16 @@
   // select2 overrides
   .select2-container {
     width: 100%;
+    font-size: 1.5em;
 
     a {
-      height: 60px;
+      background-image: none;
+      height: auto;
       border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
       border: 1px solid mix(@widget_background_color, @text_color, 60%);
+
+      white-space: normal;
+      line-height: normal;
 
       .select2-arrow {
         border-bottom-right-radius: @widget_border_radius_bottom_right;
@@ -137,11 +142,28 @@
         padding-top: 15px;
       }
 
+      .select2-chosen {
+        white-space: normal;
+      }
+
     }
     &.select2-dropdown-open {
       a {
+        background-image: none;
         border-bottom-color: transparent;
       }
+
+      &.select2-drop-above {
+        a {
+          border-top-color: transparent;
+        }
+      }
+    }
+  }
+
+  .select2-container-active {
+    a {
+      .box-shadow(none);
     }
   }
 }
@@ -152,6 +174,12 @@
   .select2-highlighted {
     background-color: @widget_title_background_color;
     color: @widget_title_text_color;
+  }
+}
+
+.select2-search {
+  input {
+    background: none;
   }
 }
 

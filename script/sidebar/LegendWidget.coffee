@@ -65,8 +65,12 @@ class HG.LegendWidget extends HG.Widget
   # ============================================================================
   addCategorySelect: (config, col_div) ->
     defaultConfig =
-      categories: []
-      names: []
+      elements: []
+
+    # element:
+    #   category    -> the category to be filtered
+    #   name        -> the name of the entry
+    #   description -> the subtitle
 
     config = $.extend {}, defaultConfig, config
 
@@ -77,22 +81,40 @@ class HG.LegendWidget extends HG.Widget
     select.className = "legend-select"
     row.appendChild select
 
-    for name, i in config.names
+    for element, i in config.elements
       option = document.createElement "option"
-      option.value = config.categories[i]
-      option.innerHTML = name + "<br>"
+      option.value = element.category
+      option.innerHTML = i # + "|" + element.name
       select.appendChild option
 
-    format = (e) ->
-      "<strong>" + e.text + "</strong><br> huhu <pan class='pull-right'>hoho</span>"
+      @_categoryFilter.push element.category
+
+    formatResult = (e) ->
+
+      config.elements[e.text].name
+
+    formatSelection = (e) ->
+      result = config.elements[e.text].name
+
+      if config.elements[e.text].description?
+        result += "<br><small>" + config.elements[e.text].description + "</small>"
+
+      result
 
     $(select).select2
       escapeMarkup: (m) ->  m
-      formatResult: format
-      formatSelection: format
+      formatResult: formatResult
+      formatSelection: formatSelection
 
     $(select).on "change", (e) =>
-      console.log "change ", e
+      for element in config.elements
+        if e.val is element.category
+          @_categoryFilter.push e.val
+        else
+          @_categoryFilter = @_categoryFilter.filter (item) -> item isnt element.category
+
+      console.log e.val, @_categoryFilter
+      @_hiventController?.setCategoryFilter @_categoryFilter
 
   # ============================================================================
   addCategory: (config, col_div) ->

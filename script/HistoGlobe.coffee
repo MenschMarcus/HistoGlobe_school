@@ -47,8 +47,7 @@ class HG.HistoGlobe
 
       $(window).on 'resize', @_onResize
 
-      @_collapsed = !@isInMobileMode()
-      @_collapse()
+      @_collapsed = true
 
       load_module = (moduleName, moduleConfig) =>
         if window["HG"][moduleName]?
@@ -67,6 +66,11 @@ class HG.HistoGlobe
 
       @notifyAll "onAllModulesLoaded"
       @_updateLayout()
+
+      @_updateLayout()
+
+      unless @isInMobileMode()
+        @_collapse()
     )
 
 
@@ -205,6 +209,9 @@ class HG.HistoGlobe
     @map.resize map_width, map_height
 
     @_top_swiper.reInit()
+
+    unless @_collapsed
+      @_top_swiper.swipeNext()
 
   # ============================================================================
   _createElement: (container, type, id) ->

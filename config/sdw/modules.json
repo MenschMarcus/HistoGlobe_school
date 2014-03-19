@@ -18,66 +18,54 @@
   "ZoomButtons": {},
   "FullscreenButton": {},
 
-  "Globe": {},
+  "MultimediaController": {
+    "dsvPaths": ["config/exemplum/data/exemplum_medium.csv"],
+    "rootDirs": ["config/exemplum/data/media"],
+    "ignoredLines" : [1,2,3,4,5,6],
+    "indexMappings": [
+      {
+        "id"          : 0,
+        "type"        : 2,
+        "description" : 3,
+        "source"      : 4,
+        "link"        : 1
+      }
+    ]
+  },
 
   "HiventController" :
   {
-    "hiventConfig": {
-      "dsvPaths": ["config/exemplum/data/exemplum_event.csv", "config/exemplum/data/exemplum_branch.csv"],
-      "ignoredLines" : [1,2,3,4,5,6],
-      "indexMappings" : [
-        {
-          "hiventID"          : 0,
-          "hiventName"        : 1,
-          "hiventDescription" : 7,
-          "hiventStartDate"   : 2,
-          "hiventEndDate"     : 2,
-          "hiventDisplayDate" : 2,
-          "hiventLocation"    : 3,
-          "hiventLat"         : 4,
-          "hiventLong"        : 5,
-          "hiventCategory"    : 8,
-          "hiventMultimedia"  : 6
-        },
+    "dsvPaths": ["config/exemplum/data/exemplum_event.csv", "config/exemplum/data/exemplum_branch.csv"],
+    "ignoredLines" : [1,2,3,4,5,6],
+    "indexMappings" : [
+      {
+        "id"          : 0,
+        "name"        : 1,
+        "description" : 7,
+        "startDate"   : 2,
+        "endDate"     : 2,
+        "displayDate" : 2,
+        "location"    : 3,
+        "lat"         : 4,
+        "long"        : 5,
+        "category"    : 8,
+        "multimedia"  : 6
+      },
 
-        {
-          "hiventID"          : 0,
-          "hiventName"        : 1,
-          "hiventDescription" : 9,
-          "hiventStartDate"   : 2,
-          "hiventEndDate"     : 3,
-          "hiventDisplayDate" : 4,
-          "hiventLocation"    : 5,
-          "hiventLat"         : 6,
-          "hiventLong"        : 7,
-          "hiventCategory"    : 10,
-          "hiventMultimedia"  : 8
-        }
-      ]
-
-    },
-
-    "multimediaConfig": {
-      "dsvPaths": ["config/exemplum/data/exemplum_medium.csv", "config/exemplum/data/exemplum_medium.csv"],
-      "rootDirs": ["config/exemplum/data/media", "config/exemplum/data/media"],
-      "ignoredLines" : [1,2,3,4,5,6],
-      "indexMappings": [
-        {
-          "multimediaID"          : 0,
-          "multimediaType"        : 2,
-          "multimediaDescription" : 3,
-          "multimediaSource"      : 4,
-          "multimediaLink"        : 1
-        },
-        {
-          "multimediaID"          : 0,
-          "multimediaType"        : 2,
-          "multimediaDescription" : 3,
-          "multimediaSource"      : 4,
-          "multimediaLink"        : 1
-        }
-      ]
-    }
+      {
+        "id"          : 0,
+        "name"        : 1,
+        "description" : 9,
+        "startDate"   : 2,
+        "endDate"     : 3,
+        "displayDate" : 4,
+        "location"    : 5,
+        "lat"         : 6,
+        "long"        : 7,
+        "category"    : 10,
+        "multimedia"  : 8
+      }
+    ]
   },
 
   "CategoryIconMapping" : {
@@ -196,16 +184,71 @@
 
   "AreasOnMap" : {},
 
-  "AreasOnGlobe": {},
-
-  "HiventsOnGlobe" : {},
-
   "HiventTooltips" : {},
   "HiventInfoPopovers" : {},
   "HiventInfoAtTag" : {},
 
   "Widgets" :
   [
+    {
+      "type": "LegendWidget",
+      "icon": "fa-list-ul",
+      "name": "Projekte",
+      "collapsedAtStart" : false,
+      "columns":
+      [
+        {
+          "groups" : [
+            {
+              "name": "",
+              "elements" : [
+                {
+                  "type" : "categorySelect",
+                  "elements" : [
+                    {
+                      "type" : "category",
+                      "category" : "Z",
+                      "name" : "Studienförderwerk Klaus Murmann",
+                      "description" : "Das Studienförderwerk vergibt Stipendien an leistungsstarke Studierende und Promovierende mit Gemeinsinn und Unternehmergeist. Hauptförderer: Bundesministerium für Bilung und Forschung (BMBF)."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "F",
+                      "name" : "TRANS-JOB",
+                      "description": "Ziel: durch systematische Kooperationen von Schulen mit Unternehmen die Berufswahlvorbereitung und Berufsorientierung junger Menschen zu fördern. Hauptförderer: Bundesministerium für Bilung und Forschung (BMBF)."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P",
+                      "name" : "Zeichen setzen! Integration macht Schule",
+                      "description" : "Ziel: ausländische Jugendliche vor allem an der Schnittstelle Schule/Ausbildung zu unterstützen, ihr Selbstwertgefühl stärken und sie bei der Berufswahlvorbereitung unterstützen. Hauptpartner: Deutsche Bahn AG, Europäischer Sozialfonds."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type" : "LogoWidget",
+      "icon" : "fa-user",
+      "name" : "Logo",
+      "logos" :
+      [
+        {
+          "text": "Das erste Logo der sdw",
+          "date": "01.01.1994",
+          "logo": "config/exemplum/data/media/exelsior.jpg"
+        },
+        {
+          "text": "Das zweite Logo der sdw",
+          "date": "01.01.2001",
+          "logo": "config/exemplum/data/media/exelsior.jpg"
+        }
+      ]
+    },
     {
       "type" : "VIPWidget",
       "icon" : "fa-user",
@@ -349,40 +392,13 @@
       "yCaption" : "Umsatz in Mio. €"
     },
     {
-      "type" : "StatisticsWidget",
-      "icon" : "fa-bar-chart-o",
-      "name" : "Mitarbeiterzahl",
-      "title" : "Mitarbeiterzahl seit 1964",
-      "data" : "config/exemplum/data/statistics_employees.dsv",
-      "lineColor" : "#338A66",
-      "lineWidth" : "5px",
-      "smoothLine" : true,
-      "xAttributeName" : "date",
-      "yAttributeName" : "amount",
-      "yDomain" : [0, 5500],
-      "xLableTicks" : 5,
-      "yLableTicks" : 5,
-      "yCaption" : "Anzahl"
-    },
-    {
       "type": "LegendWidget",
       "icon": "fa-list-ul",
-      "name": "Legende & Filter",
-      "collapsedAtStart" : false,
+      "name": "Filter",
       "columns":
       [
         {
           "groups" : [
-            {
-              "name": "Angezeigtes Projekt",
-              "elements" : [
-                {
-                  "type" : "categorySelect",
-                  "categories" : ["c1", "c2", "c3"],
-                  "names" : ["Tolles Projekt", "Blödes Projekt", "Spannendes Projekt"]
-                }
-              ]
-            },
             {
               "name": "Wichtige Ereignisse",
               "elements" : [
@@ -396,48 +412,6 @@
                   "type" : "category",
                   "category" : "T",
                   "name" : "Exemplum Tour",
-                  "filterable" : true
-                }
-              ]
-            },
-            {
-              "name": "Firmenniederlassungen",
-              "elements" : [
-                {
-                  "type" : "categoryWithIcon",
-                  "category" : "default",
-                  "icon" : "config/exemplum/data/icons/absatzmarkt.png",
-                  "name" : "Absatzmärkte",
-                  "filterable" : false
-                },
-                {
-                  "type" : "category",
-                  "category" : "Z",
-                  "name" : "Zweigstelle",
-                  "filterable" : true
-                },
-                {
-                  "type" : "category",
-                  "category" : "F",
-                  "name" : "Fabrik",
-                  "filterable" : true
-                },
-                {
-                  "type" : "category",
-                  "category" : "P",
-                  "name" : "Plantage",
-                  "filterable" : true
-                },
-                {
-                  "type" : "category",
-                  "category" : "S",
-                  "name" : "Store",
-                  "filterable" : true
-                },
-                {
-                  "type" : "category",
-                  "category" : "E",
-                  "name" : "Erlebniszentrum",
                   "filterable" : true
                 }
               ]

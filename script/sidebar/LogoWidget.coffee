@@ -9,7 +9,7 @@ class HG.LogoWidget extends HG.TimeGalleryWidget
   # ============================================================================
   constructor: (config) ->
     defaultConfig =
-      persons : []
+      logos : []
 
     @_config = $.extend {}, defaultConfig, config
 
@@ -19,11 +19,11 @@ class HG.LogoWidget extends HG.TimeGalleryWidget
   hgInit: (hgInstance) ->
     super hgInstance
 
-    for person in @_config.persons
-      @addPerson person
+    for person in @_config.logos
+      @addLogo person
 
   # ============================================================================
-  addPerson: (config) ->
+  addLogo: (config) ->
     defaultConfig =
       text: ""
       date: ""
