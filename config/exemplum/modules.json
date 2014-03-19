@@ -327,32 +327,42 @@
       "icon" : "fa-bar-chart-o",
       "name" : "Jahresumsatz",
       "title" : "Jahresumsatz seit 1964",
-      "data" : "config/exemplum/data/statistics_revenue.dsv",
-      "lineColor" : "#338A66",
-      "lineWidth" : "5px",
-      "smoothLine" : true,
-      "xAttributeName" : "date",
-      "yAttributeName" : "amount",
       "yDomain" : [0, 600],
       "xLableTicks" : 5,
       "yLableTicks" : 5,
-      "yCaption" : "Umsatz in Mio. €"
+      "yCaption" : "Umsatz in Mio. €",
+      "lines" :
+      [
+        {
+          "dataPath" : "config/exemplum/data/statistics_revenue.dsv",
+          "color" : "#338A66",
+          "width" : "5px",
+          "smooth" : true,
+          "xAttributeName" : "date",
+          "yAttributeName" : "amount"
+        }
+      ]
     },
     {
       "type" : "StatisticsWidget",
       "icon" : "fa-bar-chart-o",
       "name" : "Mitarbeiterzahl",
       "title" : "Mitarbeiterzahl seit 1964",
-      "data" : "config/exemplum/data/statistics_employees.dsv",
-      "lineColor" : "#338A66",
-      "lineWidth" : "5px",
-      "smoothLine" : true,
-      "xAttributeName" : "date",
-      "yAttributeName" : "amount",
       "yDomain" : [0, 5500],
       "xLableTicks" : 5,
       "yLableTicks" : 5,
-      "yCaption" : "Anzahl"
+      "yCaption" : "Anzahl",
+      "lines" :
+      [
+        {
+          "dataPath" : "config/exemplum/data/statistics_employees.dsv",
+          "color" : "#338A66",
+          "width" : "5px",
+          "smooth" : true,
+          "xAttributeName" : "date",
+          "yAttributeName" : "amount"
+        }
+      ]
     },
     {
       "type": "LegendWidget",

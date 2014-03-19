@@ -28,7 +28,7 @@ $widget_title_size                  = 30px
 $sidebar_collapsed_width            = 40px
 $sidebar_width                      = 350px
 
-$statistics_widget_margin_left      = 40px
+$statistics_widget_margin_left      = 30px
 
 $widget_border_radius_top_left      = 0px
 $widget_border_radius_top_right     = 0px
