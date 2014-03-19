@@ -19,6 +19,8 @@ $border_color_dark                  = #000000
 $map_min_width                      = 300px
 $map_collapsed_width                = 50px
 
+$map_label_size                     = 2.7em
+
 
 // ------------------ SIDE_BAR OPTIONS -----------------------------------------
 $sidebar_collapse_button_size       = 40px
@@ -50,6 +52,12 @@ $widget_font_size_factor              = 0.8
 
 // GALLERY WIDGET
 $gallery_widget_pagination_size       = 20px
+
+// PICTURE_GALLERY WIDGET
+$picture_gallery_widget_image_height  = 250px
+
+// VIP WIDGET
+$vip_widget_image_height  = 200px
 
 // STATISTICS WIDGET
 $statistics_widget_min_height         = 175px

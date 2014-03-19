@@ -19,7 +19,7 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
 
     time = hiventHandle.getHivent().startDate.getTime()
 
-    spacing = 10
+    spacing = 6
     Y_OFFSETS[time] ?= 0
     @_xOffset = Y_OFFSETS[time]
     @_position = { x: posX, y: HGConfig.timeline_height.val - HGConfig.hivent_marker_timeline_height.val - @_xOffset*spacing - HGConfig.border_width.val }
