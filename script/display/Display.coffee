@@ -6,8 +6,14 @@ class HG.Display
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
+  # ============================================================================
+  hgInit: (hgInstance) ->
+    HG.Display.CONTAINER ?= hgInstance.mapCanvas
+    @overlayContainer = null
+
+  # ============================================================================
   focus: (hivent) ->
-    @center
+    @setCenter
       x: hivent.long
       y: hivent.lat
 
@@ -16,3 +22,4 @@ class HG.Display
   ##############################################################################
 
   @Z_INDEX = 0
+  @CONTAINER = null

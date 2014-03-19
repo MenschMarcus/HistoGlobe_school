@@ -19,6 +19,12 @@ class HG.HiventHandle
     @_marked = false
     @_linked = false
     @_focussed = false
+    @_age = 0.0
+
+    @_state = 0
+    # 0 --> invisible
+    # 1 --> visiblePast
+    # 2 --> visibleFuture
 
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
@@ -32,6 +38,11 @@ class HG.HiventHandle
     @addCallback "onFocus"
     @addCallback "onUnFocus"
     @addCallback "onDestruction"
+    @addCallback "onAgeChanged"
+
+    @addCallback "onVisiblePast"
+    @addCallback "onVisibleFuture"
+    @addCallback "onInvisible"
 
   # ============================================================================
   getHivent: ->
@@ -161,6 +172,47 @@ class HG.HiventHandle
     @notify "onDestruction", obj
     @_destroy()
 
+  # # ============================================================================
+  # show: (obj) ->
+  #   @_visible = true
+  #   @notify "onShow", obj, @
+
+  # # ============================================================================
+  # showAll: () ->
+  #   @_visible = true
+  #   @notifyAll "onShow", @
+
+  # # ============================================================================
+  # hide: (obj) ->
+  #   @_visible = false
+  #   @notify "onHide", obj, @
+
+  # # ============================================================================
+  # hideAll: () ->
+  #   @_visible = false
+  #   @notifyAll "onHide", @
+
+  # ============================================================================
+  setState: (state) ->
+    if @_state isnt state
+
+      if state is 0
+        @notifyAll "onInvisible", @, @_state
+      else if state is 1
+        @notifyAll "onVisiblePast", @, @_state
+      else if state is 2
+        @notifyAll "onVisibleFuture", @, @_state
+      else
+        console.warn "Failed to set HiventHandle state: invalid state #{state}!"
+
+      @_state = state
+
+  # ============================================================================
+  setAge: (age) ->
+    if @_age isnt age
+      @_age = age
+      @notifyAll "onAgeChanged", age, @
+
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
@@ -193,3 +245,12 @@ class HG.HiventHandle
       hivent?.inActiveAll {x:0, y:0}
 
     ACTIVE_HIVENTS = []
+
+  @DEACTIVATE_ALL_OTHER_HIVENTS: (handle)->
+
+    for hivent in ACTIVE_HIVENTS
+      unless hivent is handle
+        hivent?.inActiveAll {x:0, y:0}
+
+    ACTIVE_HIVENTS = $.grep ACTIVE_HIVENTS, (value) ->
+      return value == handle

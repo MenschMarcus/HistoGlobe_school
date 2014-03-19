@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE Map>
+<Map background-color="#fff" srs="+init=epsg:3857" >
+
+<Style name="gridstyle">
+  <Rule>
+    <LineSymbolizer stroke-opacity="1.0" stroke="#000" stroke-width="0.1" />
+  </Rule>
+</Style>
+
+<Style name="waterstyle" >
+  <Rule>
+    <RasterSymbolizer opacity="0.6" scaling="bilinear8" />
+  </Rule>
+</Style>
+
+<Style name="mountainstyle" comp-op="dst-over">
+  <Rule>
+    <RasterSymbolizer opacity="1.0" scaling="bilinear8" />
+  </Rule>
+</Style>
+
+<Style name="shadowstyle" image-filters="agg-stack-blur(15,15)">
+  <Rule>
+    <PolygonSymbolizer fill="#000" fill-opacity="0.4" comp-op="darken"/>
+  </Rule>
+</Style>
+
+<Style name="burnstyle" image-filters="agg-stack-blur(15,15)">
+  <Rule>
+    <LineSymbolizer stroke-opacity="0.5" stroke-linejoin="round" stroke="#666" stroke-width="2" />
+  </Rule>
+</Style>
+
+<Style name="riverstyle">
+  <Rule>
+    <LineSymbolizer stroke-opacity="0.1" stroke-linejoin="round" stroke="#33f" stroke-width="1" />
+  </Rule>
+</Style>
+
+<Style name="borderstyle">
+  <Rule>
+    <MinScaleDenominator>50000000</MinScaleDenominator>
+    <LineSymbolizer stroke-opacity="1" stroke-linejoin="round" stroke="#666" stroke-width="0.5" />
+  </Rule>
+  <Rule>
+    <MaxScaleDenominator>50000000</MaxScaleDenominator>
+    <MinScaleDenominator>30000000</MinScaleDenominator>
+    <LineSymbolizer stroke-opacity="1" stroke-linejoin="round" stroke="#666" stroke-width="1.0" />
+  </Rule>
+  <Rule>
+    <MaxScaleDenominator>30000000</MaxScaleDenominator>
+    <LineSymbolizer stroke-opacity="1" stroke-linejoin="round" stroke="#666" stroke-width="1.5" />
+  </Rule>
+</Style>
+
+<Style name="smallborderstyle">
+  <Rule>
+    <MaxScaleDenominator>50000000</MaxScaleDenominator>
+    <MinScaleDenominator>30000000</MinScaleDenominator>
+    <LineSymbolizer stroke-opacity="0.5" stroke-linejoin="round" stroke="#666" stroke-width="0.2" stroke-dasharray="3, 2"/>
+  </Rule>
+  <Rule>
+    <MaxScaleDenominator>30000000</MaxScaleDenominator>
+    <LineSymbolizer stroke-opacity="1" stroke-linejoin="round" stroke="#666" stroke-width="0.5" stroke-dasharray="3, 2"/>
+  </Rule>
+</Style>
+
+<Style name="textstyle">
+  <Rule>
+    <TextSymbolizer face-name="Liberation Sans Regular" size="10" />
+  </Rule>
+</Style>
+
+<Style name="landstyle" comp-op="overlay">
+  <Rule>
+    <PolygonSymbolizer fill="#e6d4bb" fill-opacity="1.0" />
+  </Rule>
+</Style>
+
+
+<Style name="coastlinestyle">
+  <Rule>
+    <LineSymbolizer stroke-opacity="1" stroke-linejoin="round" stroke="#666" stroke-width="1" />
+  </Rule>
+</Style>
+
+<Style name="maskstyle" comp-op="dst-out">
+  <Rule>
+    <PolygonSymbolizer fill="#fff" />
+  </Rule>
+</Style>
+
+
+<!-- ####################################################################### -->
+
+<!-- Water Stuff -->
+
+<Layer name="water" srs="+init=epsg:4326">
+  <StyleName>waterstyle</StyleName>
+  <Datasource>
+    <Parameter name="type">gdal</Parameter>
+    <Parameter name="file">tmp/HYP_LR_SR_OB_DR.tif</Parameter>
+  </Datasource>
+</Layer>
+
+<Layer name="grid" srs="+init=epsg:4326">
+  <StyleName>gridstyle</StyleName>
+  <Datasource>
+    <Parameter name="type">shape</Parameter>
+    <Parameter name="file">tmp/ne_10m_graticules_10</Parameter>
+  </Datasource>
+</Layer>
+
+<Layer name="shadow" srs="+init=epsg:4326">
+  <StyleName>shadowstyle</StyleName>
+  <Datasource>
+    <Parameter name="type">shape</Parameter>
+    <Parameter name="file">tmp/ne_10m_land</Parameter>
+  </Datasource>
+</Layer>
+
+<!-- Mask -->
+
+<Layer name="maks" srs="+init=epsg:4326">
+  <StyleName>maskstyle</StyleName>
+  <Datasource>
+    <Parameter name="type">shape</Parameter>
+    <Parameter name="file">tmp/ne_10m_land</Parameter>
+  </Datasource>
+</Layer>
+
+<!-- Land Stuff -->
+
+<Layer name="mountains" srs="+init=epsg:4326">
+  <StyleName>mountainstyle</StyleName>
+  <Datasource>
+    <Parameter name="type">gdal</Parameter>
+    <Parameter name="file">tmp/GRAY_HR_SR_W.tif</Parameter>
+  </Datasource>
+</Layer>
+
+<Layer name="land" srs="+init=epsg:4326">
+  <StyleName>landstyle</StyleName>
+  <Datasource>
+    <Parameter name="type">shape</Parameter>
+    <Parameter name="file">tmp/ne_10m_land</Parameter>
+  </Datasource>
+</Layer>
+
+<!-- Coast Stuff -->
+
+<Layer name="coastline" srs="+init=epsg:4326">
+  <StyleName>coastlinestyle</StyleName>
+  <Datasource>
+    <Parameter name="type">shape</Parameter>
+    <Parameter name="file">tmp/ne_10m_land</Parameter>
+  </Datasource>
+</Layer>
+
+<Layer name="burn" srs="+init=epsg:4326">
+  <StyleName>burnstyle</StyleName>
+  <Datasource>
+    <Parameter name="type">shape</Parameter>
+    <Parameter name="file">tmp/ne_10m_land</Parameter>
+  </Datasource>
+</Layer>
+
+<!-- Rivers -->
+
+<Layer name="rivers" srs="+init=epsg:4326">
+  <StyleName>riverstyle</StyleName>
+  <Datasource>
+    <Parameter name="type">shape</Parameter>
+    <Parameter name="file">tmp/ne_50m_rivers_lake_centerlines_scale_rank</Parameter>
+  </Datasource>
+</Layer>
+
+<!-- Countries -->
+
+<Layer name="smallborders" srs="+init=epsg:4326">
+  <StyleName>smallborderstyle</StyleName>
+  <Datasource>
+    <Parameter name="type">shape</Parameter>
+    <Parameter name="file">tmp/ne_10m_admin_1_states_provinces</Parameter>
+  </Datasource>
+</Layer>
+
+<Layer name="borders" srs="+init=epsg:4326">
+  <StyleName>borderstyle</StyleName>
+  <Datasource>
+    <Parameter name="type">shape</Parameter>
+    <Parameter name="file">tmp/ne_10m_admin_0_boundary_lines_land</Parameter>
+  </Datasource>
+</Layer>
+
+
+<!-- <Layer name="grid" srs="+init=epsg:4326">
+  <StyleName>textstyle</StyleName>
+  <Datasource>
+    <Parameter name="type">shape</Parameter>
+    <Parameter name="file">tmp/ne_50m_geography_regions_polys</Parameter>
+  </Datasource>
+</Layer> -->
+
+</Map>

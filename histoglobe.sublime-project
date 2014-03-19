@@ -4,7 +4,22 @@
 	  {
 			"follow_symlinks": true,
 			"path": ".",
-			"folder_exclude_patterns": ["font", "img", "old"]
-		}
-	]
+			"folder_exclude_patterns": ["font", "img", "build"]
+	  }
+	],
+  "build_systems":
+  [
+    {
+      "name": "histoglobe-project-linux",
+      "file_regex": "^(..[^:]*):(.*)$",
+      "working_dir": "${project_path}",
+      "cmd":  ["./make.sh"]
+    },
+    {
+      "name": "histoglobe-project-windows",
+      "file_regex": "^(..[^:]*):(.*)$",
+      "working_dir": "${project_path}",
+      "cmd":  ["make.bat"]
+    }
+  ]
 }

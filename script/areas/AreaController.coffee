@@ -7,7 +7,7 @@ class HG.AreaController
   ##############################################################################
 
   # ============================================================================
-  constructor: (timeline) ->
+  constructor: (config) ->
 
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
@@ -15,48 +15,72 @@ class HG.AreaController
     @addCallback "onShowArea"
     @addCallback "onHideArea"
 
-    @_initMembers()
+    @_areas = []
+    @_timeline = null
+    @_now = null
 
-    timeline.addListener this
+    defaultConfig =
+      areaJSONPaths: undefined,
+      areaStylerConfig: undefined
+
+    conf = $.extend {}, defaultConfig, config
+
+    @loadAreasFromJSON conf
 
   # ============================================================================
-  nowChanged: (date) ->
-    @_now = date
-    for area in @_areas
-      area.setDate date
+  hgInit: (hgInstance) ->
+    hgInstance.areaController = @
+
+    @_timeline = hgInstance.timeline
+    @_area_styler = hgInstance.areaStyler
+    @_now = @_timeline.getNowDate()
+
+    @_timeline.onNowChanged @, (date) ->
+      @_now = date
+      for area in @_areas
+        area.setDate date
 
   # ============================================================================
-  periodChanged: (dateA, dateB) ->
+  loadAreasFromJSON: (config) ->
+
+    for path in config.areaJSONPaths
+      $.getJSON path, (countries) =>
+        for country in countries.features
+
+          execute_async = (c) =>
+            setTimeout () =>
+              newArea = new HG.Area c, @_area_styler
+
+              newArea.onShow @, (area) =>
+                @notifyAll "onShowArea", area
+
+              newArea.onHide @, (area) =>
+                @notifyAll "onHideArea", area
+
+              @_areas.push newArea
+
+              newArea.setDate @_now
+            , 0
+
+          execute_async country
 
   # ============================================================================
-  categoryChanged: (c) ->
+  getActiveAreas:()->
+    newArray = []
+    for a in @_areas
+      if a._active
+        newArray.push a
+    return newArray
+
+  
+  # ============================================================================
+  getAllAreas:()->
+    return @_areas
+
 
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
 
-  # ============================================================================
-  _initMembers: ->
-    @_areas = []
-    @_now = new Date(2000, 1, 1)
-
-    @_loadJson "data/areas/countries.json"
-    @_loadJson "data/areas/countries_old.json"
-
-  # ============================================================================
-  _loadJson: (file) ->
-    $.getJSON file, (countries) =>
-      for country in countries.features
-        newArea = new HG.Area country
-
-        newArea.onShow @, (area) =>
-          @notifyAll "onShowArea", area
-
-        newArea.onHide @, (area) =>
-          @notifyAll "onHideArea", area
-
-        @_areas.push newArea
-
-        newArea.setDate @_now
 

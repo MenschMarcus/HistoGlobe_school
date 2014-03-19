@@ -1,0 +1,111 @@
+/*** STYLE OF TIMELINE ***/
+
+@fontSize:        17px;
+@fontColor:       #eee;
+
+/*** MAIN TIMELINE DIV ***/
+#timeline {
+  position:   absolute;
+  left:       0px;
+  bottom:     0px;
+  height:     @timeline_height;
+  min-width:  100%;
+  overflow:   hidden;
+
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+
+  border-top: solid @border_width #eee;
+  //box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.07);
+  //background-color: rgba(30,30,30,0.75);
+
+  //background: -moz-linear-gradient(top, #eee 0%, #ddd 100%); /* FF3.6+ */
+  //background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ddd), color-stop(100%,#eee)); /* Chrome,Safari4+ */
+  //background: -webkit-linear-gradient(top, #eee 0%,#ddd 100%); /* Chrome10+,Safari5.1+ */
+  //background: -o-linear-gradient(top, #eee 0%,#ddd 100%); /* Opera 11.10+ */
+  //background: -ms-linear-gradient(top, #eee 0%,#ddd 100%); /* IE10+ */
+  //background: linear-gradient(to bottom, #eee 0%,#ddd 100%); /* W3C */
+  //filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eee', endColorstr='#ddd',GradientType=0 ); /* IE6-9 */
+  //background-repeat: repeat-x;
+
+  // ----------------------------------------------
+  // datemarker
+  .tl_marker {
+    font-family: @secondary_font_face;
+    color:  #eee;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    padding-left: 5px;
+    border-left: dashed 1px #eee;
+    //transition-duration: 0.4s;
+    //transition-property: font-size;
+  }
+
+  // row for marker
+  .tl_row {
+    position:   absolute;
+    min-width:  100%;
+    overflow:   hidden;
+    line-height: 100%;
+  }
+
+  #timelineSlide {
+    height: @timeline_height - @border_width;
+
+  }
+}
+
+#timelineWrapper {
+  background-image: url("../config/exemplum/data/bg.png");
+  background-repeat: repeat;
+}
+
+/*** ELEMENT IN TIMELINE *
+.yearMarker {
+  position:     absolute;
+  font-size:    @fontSize;
+  color:        @fontColor;
+  height:       50px;
+  padding:      15px 0px 0px 0px;
+  text-align:   center;
+  cursor:       -webkit-grab;
+  cursor:       -moz-grab;
+  display:      none;
+
+  //transition: font-size 0.5s;
+  //-webkit-transition: font-size 0.5s; /* Safari */
+
+  /* disable text-selection
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.yearMarkerH1 {
+  .yearMarker;
+  font-weight: bold;
+  color:  #505050;
+  font-size: 22px;
+}
+
+.yearMarkerH2 {
+  .yearMarker;
+  font-weight: bold;
+  color:  #707070;
+  font-size: 18px;
+}
+
+.yearMarker:hover {
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+}
+
+.yearMarker:active {
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+
+}*/

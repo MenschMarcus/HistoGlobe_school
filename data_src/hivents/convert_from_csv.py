@@ -6,86 +6,117 @@
 #
 #Data within the csv file has to be formatted as follows:
 #
-#ID|name|description|date|locName|long|lat|category
+#ID|name|description|startDate|endDate|locName|long|lat|category|multimedia_ID
 #
 ###############################################################
 
 import sys, os
 import csv
 
+iframe_criteria = ['flv', 'ogv', 'mp4', 'ogg']
+
 def main():
-  csv_file_path = ""
+  csv_hivents_file_path = ""
+  csv_multimedia_file_path = ""
   target_path = ""
 
   if len(sys.argv) < 3:
-    print "A csv file and a target path have to be specified!"
-    print "Usage: convert_from_csv.py PATH_TO_CSV TARGET_PATH"
+    print "A csv hivents file, a csv data file and a target path have to be specified!"
+    print "Usage: convert_from_csv.py PATH_TO_HIVENT_CSV PATH_TO_MULTIMEDIA_CSV TARGET_PATH"
     return -1
 
-  csv_file_path = sys.argv[1]
-  target_path = sys.argv[2]
+  csv_hivents_file_path = sys.argv[1]
+  csv_multimedia_file_path = sys.argv[2]
+  target_path = sys.argv[3]
 
-  assets_path =  target_path + "/hivent_assets/"
-  html_path = assets_path + "html/"
-
-  if not os.path.exists(html_path):
-    os.makedirs(html_path)
-
-  json_target = open(target_path + "/hivent_collection.json", "w")
-  json_target.write("[\n")
+  if not os.path.exists(target_path):
+    os.makedirs(target_path)
 
 
-  with open(csv_file_path, 'rb') as csvfile:
+  #load multimedia sheet
+  multimedia_json_target = open(target_path + "/multimedia_collection.json", "w")
+  multimedia_json_target.write("[\n")
+
+  with open(csv_multimedia_file_path, 'rb') as csvfile:
     rows = list(csv.reader(csvfile, delimiter='|', quotechar='\"'))
     row_count = len(rows)
     for row in rows:
       if row != rows[0]:
-        hivent_id = row[0]
-        hivent_name = row[1]
-        hivent_description = row[2]
-        hivent_date = row[3]
-        hivent_location = row[4]
-        hivent_long = row[6]
-        hivent_lat = row[5]
-        hivent_category = row[7]
-
-        #create html
-        html_name = hivent_id + ".htm"
-        html_target = open(html_path + html_name, "w")
-        html_target.write('<div class = \"hiventInfoPopoverContent\">\n' +
-                           '\t<h3>' + hivent_location + ', ' +
-                           hivent_date + '</h3>\n' +
-                           '\t<p>\n\t\t' +
-                           hivent_description +
-                           '\n\t</p>\n' +
-                          '</div>'
-                         )
-        html_target.close()
+        multimedia_id          = row[0]
+        multimedia_type        = row[1]
+        multimedia_description = row[2]
+        multimedia_link        = row[3]
 
         #create json
 
-        json_target.write('\t{\n')
-        json_target.write('\t\t\"name\": \"' + hivent_name + '\",\n')
+        multimedia_json_target.write('\t{\n')
+        multimedia_json_target.write('\t\t\"id\": \"' + multimedia_id + '\",\n')
+        multimedia_json_target.write('\t\t\"type\": \"' + multimedia_type + '\",\n')
 
-        day, month, year = hivent_date.split(".")
-        json_target.write('\t\t\"day\": ' + str(int(day)) + ',\n')
-        json_target.write('\t\t\"month\": ' + str(int(month)) + ',\n')
-        json_target.write('\t\t\"year\": ' + str(int(year)) + ',\n')
+        clean_description = multimedia_description.replace("\"", "\\\"")
 
-        json_target.write('\t\t\"long\": ' + hivent_long + ',\n')
-        json_target.write('\t\t\"lat\": ' + hivent_lat + ',\n')
+        multimedia_json_target.write('\t\t\"description\": \"' + clean_description + '\",\n')
+        multimedia_json_target.write('\t\t\"link\": \"' + multimedia_link + '\"\n')
 
-        json_target.write('\t\t\"category\": \"' +  hivent_category + '\",\n')
-
-        json_target.write('\t\t\"content\": \"' + html_path + html_name + '\"\n')
-
-        json_target.write('\t}')
+        multimedia_json_target.write('\t}')
         if row != rows[-1]:
-          json_target.write(',')
-        json_target.write('\n')
+          multimedia_json_target.write(',')
+        multimedia_json_target.write('\n')
 
-  json_target.write("]")
-  json_target.close()
+  multimedia_json_target.write("]")
+  multimedia_json_target.close()
+
+  hivent_json_target = open(target_path + "/hivent_collection.json", "w")
+  hivent_json_target.write("[\n")
+
+  #load hivent sheet
+  with open(csv_hivents_file_path, 'rb') as csvfile:
+    rows = list(csv.reader(csvfile, delimiter='|', quotechar='\"'))
+    row_count = len(rows)
+    for row in rows:
+      if row != rows[0]:
+        hivent_id          = row[0]
+        hivent_name        = row[1]
+        hivent_description = row[2]
+        hivent_startDate   = row[3]
+        hivent_endDate     = row[4]
+        hivent_displayDate = row[5]
+        hivent_location    = row[6]
+        hivent_lat         = row[7]
+        hivent_long        = row[8]
+        hivent_category    = row[9]
+        hivent_mm_ids      = row[10]
+
+        #create json
+
+        hivent_json_target.write('\t{\n')
+        hivent_json_target.write('\t\t\"id\": \"' + hivent_id + '\",\n')
+        hivent_json_target.write('\t\t\"name\": \"' + hivent_name + '\",\n')
+
+        clean_description = hivent_description.replace("\"", "\\\"")
+
+        hivent_json_target.write('\t\t\"description\": \"' + clean_description + '\",\n')
+        hivent_json_target.write('\t\t\"multimedia\": \"' + hivent_mm_ids + '\",\n')
+
+        hivent_json_target.write('\t\t\"startDate\": \"' + hivent_startDate + '\",\n')
+
+        hivent_json_target.write('\t\t\"endDate\": \"' + hivent_endDate + '\",\n')
+
+        hivent_json_target.write('\t\t\"displayDate\": \"' + hivent_displayDate + '\",\n')
+        hivent_json_target.write('\t\t\"location\": \"' + hivent_location + '\",\n')
+
+        hivent_json_target.write('\t\t\"long\": ' + hivent_long + ',\n')
+        hivent_json_target.write('\t\t\"lat\": ' + hivent_lat + ',\n')
+
+        hivent_json_target.write('\t\t\"category\": \"' +  hivent_category + '\"\n')
+
+        hivent_json_target.write('\t}')
+        if row != rows[-1]:
+          hivent_json_target.write(',')
+        hivent_json_target.write('\n')
+
+  hivent_json_target.write("]")
+  hivent_json_target.close()
 
   return 0
 

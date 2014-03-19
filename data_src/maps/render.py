@@ -1,6 +1,10 @@
 #!/usr/bin/ipython
 
-import mapnik
+try:
+  import mapnik
+except ImportError:
+  import mapnik2 as mapnik
+
 
 from math import pi,cos,sin,log,exp,atan
 from subprocess import call

@@ -1,0 +1,60 @@
+.guiPopoverBody {
+  h3 {
+    color: #A5A5A5;
+    text-align: right;
+    margin-top: 0px;
+    font-size: 10pt;
+
+    i {
+      padding-left: 10px;
+      cursor: pointer;
+
+      &:hover {
+        color: #000;
+      }
+    }
+  }
+}
+
+.guiPopoverContent {
+  text-align: justify;
+  font-size: 10pt;
+  padding-left: 0px;
+
+  .gallery {
+
+    padding: 0px;
+
+    li {
+      max-height: 150px;
+      width: 100%;
+      overflow: hidden;
+      display: inline-block;
+    }
+
+    a {
+      border-bottom: @border_width solid @border_color_dark;
+      display: block;
+      height: 100px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+    }
+  }
+
+  -webkit-touch-callout: text;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+.hiventInfoPopoverSource {
+  color: #FFF;
+  text-align: left;
+  text-shadow: 1px 1px 2px #000;
+  font-size: 8pt;
+  margin-top: -25px;
+  padding-left: 5px;
+}
