@@ -57,7 +57,10 @@ $gallery_widget_pagination_size       = 20px
 $picture_gallery_widget_image_height  = 250px
 
 // VIP WIDGET
-$vip_widget_image_height  = 200px
+$vip_widget_image_height              = 200px
+
+// LOGO WIDGET
+$logo_widget_image_height             = 100px
 
 // STATISTICS WIDGET
 $statistics_widget_min_height         = 175px

@@ -84,20 +84,21 @@ class HG.LegendWidget extends HG.Widget
     for element, i in config.elements
       option = document.createElement "option"
       option.value = element.category
-      option.innerHTML = i # + "|" + element.name
+      option.innerHTML = i + "|" + element.name
       select.appendChild option
 
       @_categoryFilter.push element.category
 
     formatResult = (e) ->
-
-      config.elements[e.text].name
+      index = e.text.split("|")[0]
+      config.elements[index].name
 
     formatSelection = (e) ->
-      result = config.elements[e.text].name
+      index = e.text.split("|")[0]
+      result = "<strong>" + config.elements[index].name + "</strong>"
 
-      if config.elements[e.text].description?
-        result += "<br><small>" + config.elements[e.text].description + "</small>"
+      if config.elements[index].description?
+        result += "<br><small>" + config.elements[index].description + "</small><div class='legend-select-row'>Ein anderes Projekt wählen...</div>"
 
       result
 

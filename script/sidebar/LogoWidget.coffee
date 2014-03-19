@@ -34,8 +34,9 @@ class HG.LogoWidget extends HG.TimeGalleryWidget
     div = document.createElement "div"
     div.className = "logo-widget"
 
-    logo = document.createElement "img"
-    logo.src = config.logo
+    logo = document.createElement "div"
+    logo.className = "logo-widget-image"
+    logo.style.backgroundImage = "url('#{config.logo}')"
     div.appendChild logo
 
     name = document.createElement "div"
