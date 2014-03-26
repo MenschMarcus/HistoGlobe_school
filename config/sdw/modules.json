@@ -5,11 +5,11 @@
     "minYear": 1963,
     "maxYear": 2014,
     "nowYear": 2000,
-    "minZoom": 3,
-    "maxZoom": 7,
+    "minZoom": 6,
+    "maxZoom": 8,
     "startZoom": 6,
     "startLatLong": [51.505, 10.09],
-    "tiles": "config/exemplum/data/tiles/"
+    "tiles": "config/sdw/data/tiles/"
   },
 
   "BrowserDetector": {},
@@ -101,88 +101,6 @@
 
   "HiventsOnMap" : {},
   "HiventsOnTimeline" : {},
-
-  "PathController" : {
-    "pathCSVPaths" : ["config/exemplum/data/tour.csv"],
-    "ignoredLines" : [1,2,3],
-    "indexMappings" : [
-      {
-        "ID"              : 0,
-        "startHivent"     : 1,
-        "endHivent"       : 2,
-        "coordsInBetween" : 3,
-        "category"        : 4,
-        "type"            : 5,
-        "movingMarker"    : 6,
-        "startMarker"     : 7,
-        "endMarker"       : 8
-      }
-    ]
-  },
-
-  "AreaStyler" :
-  {
-    "stylers" :
-    [
-      {
-        "mapping": "config/common/countries/eu_history.json",
-        "domain": [0, 1],
-        "fillOpacity": {
-          "range": [0, 1],
-          "fallback": 1
-        },
-        "lineOpacity": {
-          "range": [0, 1],
-          "fallback": 1
-        },
-        "labelOpacity": {
-          "range": [0, 1],
-          "fallback": 1
-        }
-      },
-      {
-        "mapping": "config/exemplum/data/products.json",
-        "domain": [0, 1],
-        "fillColor": {
-          "range": ["#deffe4", "#deffe4"],
-          "fallback": "#deffe4",
-          "compOp": "replace"
-        },
-        "fillOpacity": {
-          "range": [0, 0.6],
-          "fallback": 0,
-          "compOp": "multiply"
-        },
-        "lineColor": {
-          "range": ["#deffe4", "#deffe4"],
-          "fallback": "#deffe4",
-          "compOp": "replace"
-        },
-        "lineOpacity": {
-          "range": [0, 1],
-          "fallback": 0,
-          "compOp": "multiply"
-        },
-        "lineWidth": {
-          "range": [0, 5],
-          "fallback": 0,
-          "compOp": "replace"
-        },
-        "labelOpacity": {
-          "range": [0, 1],
-          "fallback": 0,
-          "compOp": "multiply"
-        }
-      }
-    ]
-  },
-
-  "AreaController" :
-  {
-    "areaJSONPaths" : ["config/common/countries/europe_old.json", "config/exemplum/data/areas.json"]
-  },
-
-  "AreasOnMap" : {},
 
   "HiventTooltips" : {},
   "HiventInfoPopovers" : {},
@@ -335,8 +253,6 @@
           ]
         }
       ]
-
     }
   ]
-
 }

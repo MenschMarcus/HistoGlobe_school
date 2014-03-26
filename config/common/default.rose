@@ -83,6 +83,10 @@ $now_marker_pointer_width             = 5px
 $now_marker_pointer_color             = #ffffff
 $now_marker_pointer_hover_color       = #ffffff
 
+$timeline_font_color                  = #eeeeee
+
+$timeline_background                = ""
+
 // ------------------ HIVENT OPTIONS -------------------------------------------
 $hivent_marker_2D_width               = 32px
 $hivent_marker_2D_height              = 32px

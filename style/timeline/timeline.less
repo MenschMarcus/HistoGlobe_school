@@ -32,12 +32,12 @@
   // datemarker
   .tl_marker {
     font-family: @secondary_font_face;
-    color:  #eee;
+    color:  @timeline_font_color;
     position: absolute;
     left: 0px;
     top: 0px;
     padding-left: 5px;
-    border-left: dashed 1px #eee;
+    border-left: dashed 1px @timeline_font_color;
     //transition-duration: 0.4s;
     //transition-property: font-size;
   }
@@ -57,7 +57,7 @@
 }
 
 #timelineWrapper {
-  background-image: url("../config/exemplum/data/bg.png");
+  background-image: url(@timeline_background);
   background-repeat: repeat;
 }
 
