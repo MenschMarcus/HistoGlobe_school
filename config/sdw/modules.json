@@ -281,18 +281,31 @@
     {
       "type" : "StatisticsWidget",
       "icon" : "fa-bar-chart-o",
-      "name" : "Jahresumsatz",
-      "title" : "Jahresumsatz seit 1964",
-      "data" : "config/exemplum/data/statistics_revenue.dsv",
-      "lineColor" : "#338A66",
-      "lineWidth" : "5px",
-      "smoothLine" : true,
-      "xAttributeName" : "date",
-      "yAttributeName" : "amount",
-      "yDomain" : [0, 600],
+      "name" : "Entwicklungen",
+      "title" : "Stipendiaten und Programmteilnehmer seit 1994",
+      "yDomain" : [0, 750],
       "xLableTicks" : 5,
       "yLableTicks" : 5,
-      "yCaption" : "Umsatz in Mio. €"
+      "yCaption" : "Anzahl",
+      "lines" :
+      [
+        {
+          "dataPath" : "config/sdw/data/statistics_scholars.dsv",
+          "xAttributeName" : "date",
+          "yAttributeName" : "amount",
+          "color" : "#338A66",
+          "width" : "3px",
+          "smooth" : true
+        },
+        {
+          "dataPath" : "config/sdw/data/statistics_program_participants.dsv",
+          "xAttributeName" : "date",
+          "yAttributeName" : "amount",
+          "color" : "#666",
+          "width" : "3px",
+          "smooth" : true
+        }
+      ]
     },
     {
       "type": "LegendWidget",

@@ -15,16 +15,18 @@ class HG.StatisticsWidget extends HG.Widget
       icon: ""
       name: ""
       title: ""
-      data: ""
-      lineColor: ""
-      lineWidth: ""
-      smoothLine: false
-      xAttributeName: ""
-      yAttributeName: ""
       yDomain: [0,0]
       xLableTicks: 0
       yLableTicks: 0
       yCaption: ""
+      lines : [
+        dataPath: ""
+        color: ""
+        width: ""
+        smooth: false
+        xAttributeName: ""
+        yAttributeName: ""
+      ]
 
     @_config = $.extend {}, defaultConfig, config
     @_canvas = null
@@ -35,20 +37,29 @@ class HG.StatisticsWidget extends HG.Widget
     @_nowMarker = null
 
     @_timeline = null
-    @_data = undefined
+    @_data = []
     @_dataLoadedCallback = undefined
 
     dsv = d3.dsv "|", "text/plain"
-    dsv @_config.data, (error, data) =>
-      @_data = data
+    parseDate = d3.time.format("%d.%m.%Y").parse
 
-      parseDate = d3.time.format("%d.%m.%Y").parse
-      @_data.forEach (d) =>
-        d[@_config.xAttributeName] = parseDate(d[@_config.xAttributeName])
-        d[@_config.yAttributeName] = +d[@_config.yAttributeName]
+    lineIndex = 0
+    for l in @_config.lines
+      dsv l.dataPath, (error, data) =>
+        config = @_config.lines[lineIndex]
+        data.forEach (d) =>
+          d[config.xAttributeName] = parseDate(d[config.xAttributeName])
+          d[config.yAttributeName] = +d[config.yAttributeName]
 
-      if @_dataLoadedCallback?
-        @_dataLoadedCallback()
+        @_data.push
+          config : config
+          data : data
+
+        if lineIndex == @_config.lines.length - 1
+          if @_dataLoadedCallback?
+            @_dataLoadedCallback()
+
+        lineIndex++
 
     HG.Widget.call @, @_config
 
@@ -85,7 +96,7 @@ class HG.StatisticsWidget extends HG.Widget
   _onDataLoaded: (callback) =>
     @_dataLoadedCallback = callback
 
-    if @_data?
+    if @_data.length > 0
       @_dataLoadedCallback()
 
   # ============================================================================
@@ -132,23 +143,31 @@ class HG.StatisticsWidget extends HG.Widget
           .orient("left")
           .ticks(@_config.yLableTicks, "")
 
-      line = d3.svg.line()
-        .x((d) => return x(d[@_config.xAttributeName]) )
-        .y((d) => return y(d[@_config.yAttributeName]) )
-
-      line.interpolate("basis") if @_config.smoothLine
-
       @_canvas = d3.select(content).append("svg")
           .attr("width", width)
           .attr("height", height)
           .append("g")
           .attr("transform", "translate(" + HGConfig.statistics_widget_margin_left.val + "," + HGConfig.statistics_widget_margin_top.val + ")")
 
-      x.domain(d3.extent(@_data, (d) => return d[@_config.xAttributeName] ))
-      y.domain(@_config.yDomain)
+      for entry in @_data
+        line = d3.svg.line()
+          .x((d) => return x(d[entry.config.xAttributeName]) )
+          .y((d) => return y(d[entry.config.yAttributeName]) )
 
-      @_minDate = d3.min(@_data, (d) => return d[@_config.xAttributeName])
-      @_maxDate = d3.max(@_data, (d) => return d[@_config.xAttributeName])
+        line.interpolate("basis") if entry.config.smooth
+
+        x.domain(d3.extent(entry.data, (d) => return d[entry.config.xAttributeName] ))
+        y.domain(@_config.yDomain)
+
+        @_minDate = d3.min(entry.data, (d) => return d[entry.config.xAttributeName])
+        @_maxDate = d3.max(entry.data, (d) => return d[entry.config.xAttributeName])
+
+        @_canvas.append("path")
+          .datum(entry.data)
+          .attr("class", "line")
+          .attr("d", line)
+          .attr("stroke", "#{entry.config.color}")
+          .attr("stroke-width", "#{entry.config.width}")
 
       @_canvas.append("g")
           .attr("class", "x axis")
@@ -164,13 +183,6 @@ class HG.StatisticsWidget extends HG.Widget
           .attr("dy", "0.71em")
           .style("text-anchor", "end")
           .text(@_config.yCaption)
-
-      @_canvas.append("path")
-        .datum(@_data)
-        .attr("class", "line")
-        .attr("d", line)
-        .attr("stroke", "#{@_config.lineColor}")
-        .attr("stroke-width", "#{@_config.lineWidth}")
 
       @onDivClick content, (e) =>
         x = e.clientX - $(content).offset().left -
