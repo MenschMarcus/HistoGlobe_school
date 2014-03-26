@@ -250,6 +250,35 @@
       ]
     },
     {
+      "type" : "VIPWidget",
+      "icon" : "fa-user",
+      "name" : "Geschäftsführung",
+      "persons" :
+      [
+        {
+          "name": "Hans-Jürgen Brackmann",
+          "date": "01.06.1964",
+          "displayDate": "Geschäftsführer von 1964 bis 1976",
+          "image": "http://upload.wikimedia.org/wikipedia/commons/b/b9/Angela_Merkel_%28August_2012%29_cropped.jpg",
+          "copyright": "© Drew Coffman"
+        },
+        {
+          "names": ["Hans-Jürgen Brackmann", "Jimi Hendrix"],
+          "date": "01.06.1968",
+          "displayDates": ["Geschäftsführer von 1964 bis 1976", "Musiker seit immer"],
+          "images": ["http://upload.wikimedia.org/wikipedia/commons/b/b9/Angela_Merkel_%28August_2012%29_cropped.jpg", "http://okp-cdn.okayplayer.com/wp-content/uploads/2013/02/jimi-hendrix-8150.jpg"],
+          "copyrights": ["© Drew Coffman", "Jimmi"]
+        },
+        {
+          "names": ["Hans-Jürgen Brackmann", "Jimi Hendrix", "Paule"],
+          "date": "01.06.1990",
+          "displayDates": ["Geschäftsführer von 1964 bis 1976", "Musiker seit immer", "Dämlich"],
+          "images": ["http://upload.wikimedia.org/wikipedia/commons/b/b9/Angela_Merkel_%28August_2012%29_cropped.jpg", "http://okp-cdn.okayplayer.com/wp-content/uploads/2013/02/jimi-hendrix-8150.jpg", "http://www.uwe-mantel.de/media/dfb_paule.jpg"],
+          "copyrights": ["© Drew Coffman", "Jimmi"]
+        }
+      ]
+    },
+    {
       "type" : "StatisticsWidget",
       "icon" : "fa-bar-chart-o",
       "name" : "Jahresumsatz",

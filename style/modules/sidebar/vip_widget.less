@@ -5,13 +5,14 @@
     font-size: 28pt * @widget_font_size_factor;
     color: @widget_title_text_color;
 
-    line-height: 1.1em;
     text-align: center;
 
-    margin-bottom: 20px;
 
     small {
       font-size: 18pt * @widget_font_size_factor;
+      line-height: 24pt * @widget_font_size_factor;
+      display: block;
+      margin-top: 10px;
     }
   }
 
@@ -26,10 +27,12 @@
   }
 
   .vip-widget-text {
+    margin-top: 20px;
     text-align: left;
   }
 
   .vip-widget-image {
+    display: block;
     position: relative;
 
     width: 100%;
