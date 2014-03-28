@@ -17,3 +17,4 @@ config/exemplum/map/tmp
 config/exemplum/data/media
 config/sdw/data/tiles
 config/sdw/map/tmp
+config/common/tiles
