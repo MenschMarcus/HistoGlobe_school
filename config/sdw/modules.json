@@ -157,14 +157,20 @@
       "logos" :
       [
         {
-          "text": "Das erste Logo der sdw",
           "date": "01.01.1994",
           "logo": "config/sdw/data/media/logo1.jpg"
         },
         {
-          "text": "Das zweite Logo der sdw",
           "date": "01.01.2001",
           "logo": "config/sdw/data/media/logo2.jpg"
+        },
+        {
+          "date": "01.01.2004",
+          "logo": "config/sdw/data/media/logo3.jpg"
+        },
+        {
+          "date": "01.01.2010",
+          "logo": "config/sdw/data/media/logo4.jpg"
         }
       ]
     },
