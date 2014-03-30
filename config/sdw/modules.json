@@ -402,14 +402,31 @@
                 {
                   "type" : "category",
                   "category" : "A",
-                  "name" : "Aktivität",
+                  "name" : "Projektereignisse",
                   "filterable" : true
                 },
                 {
                   "type" : "category",
                   "category" : "T",
-                  "name" : "Exemplum Tour",
+                  "name" : "globale Ereignisse",
                   "filterable" : true
+                }
+              ]
+            },
+            {
+              "name": "Orte",
+              "elements" : [
+                {
+                  "type" : "category",
+                  "category" : "A",
+                  "name" : "Städte",
+                  "filterable" : false
+                },
+                {
+                  "type" : "category",
+                  "category" : "A",
+                  "name" : "Bundesländer",
+                  "filterable" : false
                 }
               ]
             }
