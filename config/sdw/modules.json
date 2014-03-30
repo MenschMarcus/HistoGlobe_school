@@ -97,6 +97,18 @@
       "T" : {
         "default" : "config/exemplum/data/icons/tour_default.png",
         "highlighted" : "config/exemplum/data/icons/tour_highlight.png"
+      },
+      "P01" : {
+        "default" : "config/exemplum/data/icons/tour_default.png",
+        "highlighted" : "config/exemplum/data/icons/tour_highlight.png"
+      },
+      "P16" : {
+        "default" : "config/exemplum/data/icons/tour_default.png",
+        "highlighted" : "config/exemplum/data/icons/tour_highlight.png"
+      },
+      "P17" : {
+        "default" : "config/exemplum/data/icons/tour_default.png",
+        "highlighted" : "config/exemplum/data/icons/tour_highlight.png"
       }
     },
 
@@ -126,21 +138,165 @@
                   "elements" : [
                     {
                       "type" : "category",
-                      "category" : "Z",
+                      "category" : "P01",
                       "name" : "Studienförderwerk Klaus Murmann",
                       "description" : "<strong>Ziel:</strong> Das Studienförderwerk vergibt Stipendien an leistungsstarke Studierende und Promovierende mit Gemeinsinn und Unternehmergeist. Hauptförderer: Bundesministerium für Bilung und Forschung (BMBF)."
                     },
                     {
                       "type" : "category",
-                      "category" : "F",
+                      "category" : "P02",
                       "name" : "TRANS-JOB",
                       "description": "<strong>Ziel:</strong> Durch systematische Kooperationen von Schulen mit Unternehmen die Berufswahlvorbereitung und Berufsorientierung junger Menschen zu fördern. Hauptförderer: Bundesministerium für Bilung und Forschung (BMBF)."
                     },
                     {
                       "type" : "category",
-                      "category" : "P",
+                      "category" : "P03",
                       "name" : "Zeichen setzen! Integration macht Schule",
                       "description" : "<strong>Ziel:</strong> Ausländische Jugendliche vor allem an der Schnittstelle Schule/Ausbildung zu unterstützen, ihr Selbstwertgefühl stärken und sie bei der Berufswahlvorbereitung unterstützen. Hauptpartner: Deutsche Bahn AG, Europäischer Sozialfonds."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P04",
+                      "name" : "Mit MINT zum Beruf",
+                      "description" : "<strong>Ziel:</strong> Über Unterrichtsgestaltung und frühzeitige Praxiskontakte mehr Jugendliche für eine MINT-Ausbildung oder ein MINT-Studium motivieren."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P05",
+                      "name" : "Fernakademie",
+                      "description" : "<strong>Ziel:</strong> Mittels eines Fernlehrgangs Berufstätigen betriebswirtschaftliche Kompetenzen vermitteln."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P06",
+                      "name" : "Ökonomische Bildung online",
+                      "description" : "<strong>Ziel:</strong> Lehrkräften eine interdisziplinäre und internetbasierte Fortbildung im Bereich Wirtschaftswissen ermöglichen."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P07",
+                      "name" : "SCHULE WIRTSCHAFT Euregios",
+                      "description" : "<strong>Ziel:</strong> Schüler über die Bundesgrenzen hinaus für die Berufsregion Deutschland.Tschechien.Polen sensibilisieren."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P08",
+                      "name" : "Den Qualitätsverbesserungsprozess an Schulen in Bremen und Bremerhaven verbessern (QVP)",
+                      "description" : "<strong>Ziel:</strong> Schulen dabei unterstützen, ihre Arbeit selbstständig zu überprüfen, zu bewerten und zu verbessern."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P09",
+                      "name" : "TRANS - KOMPETENZ",
+                      "description" : "<strong>Ziel:</strong> Lernschwachen Schülern Perspektiven aufzeigen und sie dazu motivieren, die Schule erfolgreich abzuschließen."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P10",
+                      "name" : "Ganztagsschulen gestalten - Kooperation, schafft Zukunft",
+                      "description" : "<strong>Ziel:</strong> Berufsorientierung fest in Schulprogrammen verankern, um Jugendliche frühzeitig in ihrer Berufswahl zu unterstützen."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P11",
+                      "name" : "Herausforderung Unternehmertum",
+                      "description" : "<strong>Ziel:</strong> Gründungslust bei den Stipendiaten des Studienförderwerks Klaus Murmann wecken und ihnen frühzeitig unternehmerische Praxiserfahrung ermöglichen."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P12",
+                      "name" : "MINToring",
+                      "description" : "<strong>Ziel:</strong> Mehr Schüler im norddeutschen Raum für ein Studium im MINT-Bereich begeistern."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P13",
+                      "name" : "PROFIS - Programm Führungskompetenz in Schulen",
+                      "description" : "<strong>Ziel:</strong> Die Fähigkeiten von Berliner Schulleitern in Führungs- und Managementaufgaben gezielt ausbauen."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P14",
+                      "name" : "BOSS - Brandenburger Oberschulen und Schüler stärken",
+                      "description" : "<strong>Ziel:</strong> Verbesserung der Berufsorientierung an Oberschulen in Brandenburg mit Hilfe von stärkenorientierten Future Camps für die Schüler."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P15",
+                      "name" : "Schulen auf Erfolgskurs - Hauptschulen verändern sich",
+                      "description" : "<strong>Ziel:</strong> Schulmanagement und den praxisorientierten Unterricht an Berliner Hauptschulen verbessern."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P16",
+                      "name" : "Studienkolleg - Stipendien für Lehramtsstudierende",
+                      "description" : "<strong>Ziel:</strong> Angehende Lehrkräfte dabei unterstützen, sich mit pädagogischen Führungsaufgaben vertraut zu machen und sich zu engagierten Schulgestaltern von morgen zu entwickeln."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P17",
+                      "name" : "Studienkompass",
+                      "description" : "<strong>Ziel:</strong> Motiviert junge Menschen aus Familien ohne akademische Erfahrung zur Aufnahme eines Studiums."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P18",
+                      "name" : "MINToring - Studierende begleiten Schülerinnen und Schüler",
+                      "description" : "<strong>Ziel:</strong> Jugendliche für MINT-Themen begeistern und bei der Wahl eines passenden MINT-Studiums unterstützen."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P19",
+                      "name" : "Zeig, was Du kannst! Erfolgreich ins Berufsleben starten",
+                      "description" : "<strong>Ziel:</strong> Jugendliche beim Übergang von der Schule in die Berufsausbildung oder die weiterführende Schule begleiten."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P20",
+                      "name" : "Unternehmen:Jugend. Zusammenarbeit mit Zukunft",
+                      "description" : "<strong>Ziel:</strong> Jugendliche und junge Erwachsene mit gefährdetem Schulabschluss und ohne Berusfausbildung zum Schulabschluss motivieren und auf die Arbeitswelt vorbereiten."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P21",
+                      "name" : "Elternkompass",
+                      "description" : "<strong>Ziel:</strong> Beratung von Eltern und anderen Interessierten zu den Angeboten der Begabtenförderwerke und weitere Stipendiengeber."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P22",
+                      "name" : "Netzwerk SCHULEWIRTSCHAFT Ostdeutschland",
+                      "description" : "<strong>Ziel:</strong> Junge Menschen in Ostdeutschland bei der Berufsorientierung unterstützen und Akteure am Übergang Schule-Berufsausbildung miteinander vernetzen."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P23",
+                      "name" : "Zeig was Du kannst!",
+                      "description" : "<strong>Ziel:</strong> Motivierte und leistungsorientierte Schüler des Hauptschulzweiges fit machen für ihren Bildungs- und Berufsweg."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P24",
+                      "name" : "Lehramt MINToring",
+                      "description" : "<strong>Ziel:</strong> Jugendliche zu einem Lehramtsstudium in den MINT-Fächern motivieren."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P25",
+                      "name" : "Universum Wirtschaft. Impulse für Lehrer von morgen",
+                      "description" : "<strong>Ziel:</strong> Lehramtsstudierenden und jungen Lehrern ökonomisches Grundwissen vermitteln."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P26",
+                      "name" : "Studien- und Berufsorientierung im P-Seminar",
+                      "description" : "<strong>Ziel:</strong> Erfolgsbausteine des Studienkompass in die Projektseminare zur Studien- und Berufsorientierung an allen bayerischen Gymnasien integrieren."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P27",
+                      "name" : "Vivo - Bildung von Grund auf!",
+                      "description" : "<strong>Ziel:</strong> Kinder beim Übergang von der Grundschule auf die weiterführende Schule unterstützen."
                     }
                   ]
                 }
