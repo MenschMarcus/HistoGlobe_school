@@ -9,7 +9,6 @@
     "maxZoom": 8,
     "startZoom": 6,
     "startLatLong": [51.505, 10.09],
-    "maxBounds": [[55.37911,-1.054687],[46.619261,19.937439]],
     "tiles": "config/sdw/data/tiles/"
   },
 
@@ -106,6 +105,34 @@
   "HiventTooltips" : {},
   "HiventInfoPopovers" : {},
   "HiventInfoAtTag" : {},
+
+  "AreaStyler" :
+  {
+    "stylers" :
+    [
+      {
+        "mapping": "config/common/countries/bundeslaender.json",
+        "domain": [0, 1],
+        "fillOpacity": {
+          "range": [0, 1],
+          "fallback": 1
+        },
+        "lineOpacity": {
+          "range": [0, 1],
+          "fallback": 1
+        },
+        "labelOpacity": {
+          "range": [0, 1],
+          "fallback": 1
+        }
+      }
+    ]
+  },
+
+  "AreaController" :
+  {
+    "areaJSONPaths" : ["config/common/countries/bundeslaender.json"]
+  },
 
   "Widgets" :
   [
