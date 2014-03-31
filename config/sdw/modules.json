@@ -18,6 +18,12 @@
   "ZoomButtons": {},
   "FullscreenButton": {},
 
+  "AreaController": {
+    "areaJSONPaths":"config/common/countries/world.json"
+  },
+
+  "AreasOnMap": {},
+
   "MultimediaController": {
     "dsvPaths": ["config/exemplum/data/exemplum_medium.csv"],
     "rootDirs": ["config/exemplum/data/media"],
