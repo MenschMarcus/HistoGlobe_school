@@ -77,7 +77,7 @@
 
   "AreaController" :
   {
-    "areaJSONPaths" : ["config/common/countries/europe_old.json", "config/exemplum/data/areas.json"]
+    "areaJSONPaths" : ["config/common/countries/bundeslaender.json"]
   },
 
 
