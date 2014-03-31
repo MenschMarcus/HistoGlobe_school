@@ -173,6 +173,34 @@
   "HiventInfoPopovers" : {},
   "HiventInfoAtTag" : {},
 
+  "AreaStyler" :
+  {
+    "stylers" :
+    [
+      {
+        "mapping": "config/common/countries/bundeslaender.json",
+        "domain": [0, 1],
+        "fillOpacity": {
+          "range": [0, 1],
+          "fallback": 1
+        },
+        "lineOpacity": {
+          "range": [0, 1],
+          "fallback": 1
+        },
+        "labelOpacity": {
+          "range": [0, 1],
+          "fallback": 1
+        }
+      }
+    ]
+  },
+
+  "AreaController" :
+  {
+    "areaJSONPaths" : ["config/common/countries/bundeslaender.json"]
+  },
+
   "Widgets" :
   [
     {
