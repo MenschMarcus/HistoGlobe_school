@@ -120,6 +120,8 @@
     <script type="text/javascript" src="build/BrowserDetector.js"></script>
     <script type="text/javascript" src="build/Globe.js"></script>
 
+    <script type="text/javascript" src="build/CategoryFilter.js"></script>
+
     <!-- init histoglobe -->
     <?php } else { ?>
 

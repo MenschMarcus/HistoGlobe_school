@@ -19,6 +19,8 @@ class HG.AreaController
     @_timeline = null
     @_now = null
 
+    @_currentCategoryFilter = null # [category_a, category_b, ...]
+
     defaultConfig =
       areaJSONPaths: undefined,
       areaStylerConfig: undefined
@@ -39,6 +41,10 @@ class HG.AreaController
       @_now = date
       for area in @_areas
         area.setDate date
+
+    hgInstance.categoryFilter?.onFilterChanged @,(categoryFilter) =>
+      @_currentCategoryFilter = categoryFilter
+      @_filterActiveAreas()
 
   # ============================================================================
   loadAreasFromJSON: (config) ->
@@ -63,6 +69,30 @@ class HG.AreaController
             , 0
 
           execute_async country
+
+  # ============================================================================
+  filterActiveAreas:()->
+
+    activeAreas = @getActiveAreas
+    for area in activeAreas
+      active = false
+      for category in area.getCategories() #TODO
+        if category in @_currentCategoryFilter
+          active = true
+      if active
+        @notifyAll "onShowArea", area #???
+      else
+        @notifyAll "onHideArea", area # ???
+
+  # ============================================================================
+  filterArea:()->
+    for category in area.getCategories() #TODO
+      if category in @_currentCategoryFilter
+        return true
+    return false
+
+
+
 
   # ============================================================================
   getActiveAreas:()->

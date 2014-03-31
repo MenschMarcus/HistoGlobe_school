@@ -33,6 +33,8 @@ class HG.LegendWidget extends HG.Widget
     @_hiventController = hgInstance.hiventController
     @_categoryIconMapping = hgInstance.categoryIconMapping
 
+    @_categoryFilter = hgInstance.categoryFilter
+
     for column in @_config.columns
       col_div = @addColumn @_config.columns.length
 
@@ -87,7 +89,10 @@ class HG.LegendWidget extends HG.Widget
       option.innerHTML = i + "|" + element.name
       select.appendChild option
 
-      @_categoryFilter.push element.category
+      #@_categoryFilter.push element.category
+
+      @_categoryFilter?.filter(element.category)
+
 
     formatResult = (e) ->
       index = e.text.split("|")[0]
@@ -108,14 +113,17 @@ class HG.LegendWidget extends HG.Widget
       formatSelection: formatSelection
 
     $(select).on "change", (e) =>
-      for element in config.elements
+      
+      @_categoryFilter?.exclusiveFilter(e.val,config.elements)
+
+      '''for element in config.elements
         if e.val is element.category
           @_categoryFilter.push e.val
         else
           @_categoryFilter = @_categoryFilter.filter (item) -> item isnt element.category
 
       console.log e.val, @_categoryFilter
-      @_hiventController?.setCategoryFilter @_categoryFilter
+      @_hiventController?.setCategoryFilter @_categoryFilter'''
 
   # ============================================================================
   addCategory: (config, col_div) ->
@@ -135,7 +143,11 @@ class HG.LegendWidget extends HG.Widget
       cellIcon.style.backgroundImage = "url('#{@_categoryIconMapping.getIcons(config.category).default}')"
       row.appendChild cellIcon
 
-    @_make_filterable row, config
+    row.className = "legend-row"
+    @_categoryFilter?.make_filterable(row,config)
+    if config.filterable
+      @onDivClick row, () => @_categoryFilter?.checkFilter(row,config.category)
+    #@_make_filterable row, config
 
     cellName = document.createElement "span"
     cellName.innerHTML = config.name
@@ -164,7 +176,11 @@ class HG.LegendWidget extends HG.Widget
     cellIcon.style.backgroundImage = "url('#{config.icon}')"
     row.appendChild cellIcon
 
-    @_make_filterable row, config
+    row.className = "legend-row"
+    @_categoryFilter?.make_filterable(row,config)
+    if config.filterable
+      @onDivClick row, () => @_categoryFilter?.checkFilter(row,config.category)
+    #@_make_filterable row, config
 
     cellName = document.createElement "span"
     cellName.innerHTML = config.name
@@ -193,7 +209,11 @@ class HG.LegendWidget extends HG.Widget
     cellColor.className = "legend-color"
     row.appendChild cellColor
 
-    @_make_filterable row, config
+    row.className = "legend-row"
+    @_categoryFilter?.make_filterable(row,config)
+    if config.filterable
+      @onDivClick row, () => @_categoryFilter?.checkFilter(row,config.category)
+    #@_make_filterable row, config
 
     cellName = document.createElement "span"
     cellName.innerHTML = config.name
@@ -233,11 +253,11 @@ class HG.LegendWidget extends HG.Widget
     @_mainDiv = document.createElement "div"
     @_mainDiv.className = "legend-widget"
 
-    @_categoryFilter = []
+    #@_categoryFilter = []
 
   ############################# MAIN FUNCTIONS #################################
 
-  # ============================================================================
+  '''# ============================================================================
   _make_filterable : (row, config) ->
 
     if config.filterable
@@ -246,6 +266,7 @@ class HG.LegendWidget extends HG.Widget
       @_categoryFilter.push config.category
 
       @onDivClick row, () =>
+
         $(row).toggleClass "active"
 
         if $(row).hasClass("active")
@@ -255,6 +276,8 @@ class HG.LegendWidget extends HG.Widget
 
         @_hiventController?.setCategoryFilter @_categoryFilter
 
+        console.log "filtered: ", @_categoryFilter
+
     else
-      row.className = "legend-row legend-row-non-filterable"
+      row.className = "legend-row legend-row-non-filterable"'''
 

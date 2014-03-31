@@ -9,7 +9,6 @@
     "maxZoom": 8,
     "startZoom": 6,
     "startLatLong": [51.505, 10.09],
-    "maxBounds": [[55.37911,-1.054687],[46.619261,19.937439]],
     "tiles": "config/sdw/data/tiles/"
   },
 
@@ -33,6 +32,8 @@
       }
     ]
   },
+
+  "CategoryFilter": {},
 
   "HiventController" :
   {
