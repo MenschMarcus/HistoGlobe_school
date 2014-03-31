@@ -36,6 +36,8 @@ class HG.StatisticsWidget extends HG.Widget
     @_maxDate = 0
     @_nowMarker = null
 
+    @_graphInfo = null
+
     @_timeline = null
     @_data = []
     @_dataLoadedCallback = undefined
@@ -75,9 +77,33 @@ class HG.StatisticsWidget extends HG.Widget
     @_sidebar.onWidthChanged @, (width) =>
       @_drawStatistics()
 
+
+
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
+
+  # ============================================================================
+  _initTooltip: ->
+
+    @_graphInfo = document.createElement("div")
+    @_graphInfo.class = "btn btn-default"
+    @_graphInfo.style.position = "absolute"
+    @_graphInfo.style.left = "0px"
+    @_graphInfo.style.top = "0px"
+    @_graphInfo.style.visibility = "hidden"
+    @_graphInfo.style.pointerEvents = "none"
+
+    $(@_graphInfo).tooltip {title: "TEST", html:true, placement: "top", container:"#histoglobe"}
+    $(@_graphInfo).tooltip {content:"TEST"}
+
+    #@_graphInfo.appendChild(document.createTextNode('hello this is javascript work'));
+
+
+    console.log @_canvas
+    document.body.appendChild(@_graphInfo)
+
+
 
   # ============================================================================
   _initNowMarker: ->
@@ -168,6 +194,9 @@ class HG.StatisticsWidget extends HG.Widget
           .attr("d", line)
           .attr("stroke", "#{entry.config.color}")
           .attr("stroke-width", "#{entry.config.width}")
+          .on("mousemove", @_showTooltip)
+          .on("mouseout", @_hideTooltip)
+
 
       @_canvas.append("g")
           .attr("class", "x axis")
@@ -192,6 +221,28 @@ class HG.StatisticsWidget extends HG.Widget
         @_updateTimeline x
 
       @_initNowMarker()
+
+      @_initTooltip()
+
+  # ============================================================================
+  _showTooltip: (e) =>
+    #console.log e
+    #$(@_graphInfo).tooltip.title = e[0].amount + "<br />" + e[0].amount.date
+    string = e[0].amount + "<br />" + e[0].date
+    console.log string
+
+    #$(@_graphInfo).attr('tooltipText', string);
+    $( ".selector" ).tooltip( "option", "content", e[0].amount + "<br />" + e[0].date );
+
+    @_graphInfo.style.left = window.event.clientX + "px"
+    @_graphInfo.style.top = window.event.clientY + "px"
+    $(@_graphInfo).tooltip "show"
+
+  # ============================================================================
+  _hideTooltip: (e) =>
+    $(@_graphInfo).tooltip "hide"
+
+
 
 
   # ============================================================================
