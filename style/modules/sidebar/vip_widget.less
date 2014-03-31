@@ -1,12 +1,25 @@
 .vip-widget {
 
+  min-height: @vip_widget_size + @widget_body_padding;
+
+  .vip-person-display {
+    overflow:hidden;
+    margin-left: @widget_body_padding;
+    margin-bottom: @widget_body_padding;
+    height: 0px;
+    transition: height 0.5s;
+  }
+
   .vip-widget-name {
     font-family: @secondary_font_face;
     font-size: 28pt * @widget_font_size_factor;
     color: @widget_title_text_color;
+    width: @vip_widget_info_width;
+    margin-left: @widget_body_padding;
 
-    text-align: center;
-
+    //text-align: center;
+    display: inline-block;
+    float:right;
 
     small {
       font-size: 18pt * @widget_font_size_factor;
@@ -32,21 +45,22 @@
   }
 
   .vip-widget-image {
-    display: block;
+    display: inline-block;
     position: relative;
+    float: left;
 
-    width: 100%;
-    height: @vip_widget_image_height;
+    width: @vip_widget_size;
+    height: @vip_widget_size;
 
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 50% 0%;
 
-    border-bottom: @border_width*2 solid @border_color_dark;
-    border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
+    //border-bottom: @border_width*2 solid @border_color_dark;
+    //border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
 
-    margin-right: @widget_body_padding;
-    margin-bottom: @widget_body_padding;
+    //margin-left: @widget_body_padding;
+    //margin-top: @widget_body_padding;
 
     overflow: hidden;
   }

@@ -43,4 +43,4 @@ $timeline_background                = "../config/sdw/data/bg_timeline.png"
 $now_marker_border_color            = #666666
 $timeline_font_color                = #333333
 
-$timeline_height                      = 50px
+$timeline_height                    = 50px
