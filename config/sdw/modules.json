@@ -9,7 +9,6 @@
     "maxZoom": 8,
     "startZoom": 6,
     "startLatLong": [51.505, 10.09],
-    "maxBounds": [[55.37911,-1.054687],[46.619261,19.937439]],
     "tiles": "config/sdw/data/tiles/"
   },
 
@@ -360,28 +359,23 @@
       ]
     },
     {
-      "type" : "LegendWidget",
+      "type": "HiventGalleryWidget",
+      "dsvPaths": ["config/sdw/data/sdw_event_wM.csv"],
+      "ignoredLines" : [1,2,3,4,5,6],
+      "indexMappings" : [
+      {
+        "id"          : 0,
+        "name"        : 1,
+        "description" : 2,
+        "startDate"   : 3,
+        "endDate"     : 3,
+        "displayDate" : 3,
+        "category"    : 5,
+        "multimedia"  : 4
+      }
+      ],
       "icon": "fa-list-ul",
-      "name": "Ereignisse der sdw-Geschichte",
-      "columns":
-      [
-        {
-          "groups" : [
-            {
-              "name" : "",
-              "elements" : [
-                {
-                  "type" : "categoryWithIcon",
-                  "category" : "default",
-                  "icon" : "config/exemplum/data/icons/absatzmarkt.png",
-                  "name" : "Städte",
-                  "filterable" : false
-                }
-              ]
-            }
-          ]
-        }
-      ]
+      "name": "Ereignisse der sdw-Geschichte"
     },
     {
       "type" : "StatisticsWidget",

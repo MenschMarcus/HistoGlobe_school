@@ -119,6 +119,7 @@
     <script type="text/javascript" src="build/Watermark.js"></script>
     <script type="text/javascript" src="build/BrowserDetector.js"></script>
     <script type="text/javascript" src="build/Globe.js"></script>
+    <script type="text/javascript" src="build/HiventGalleryWidget.js"></script>
 
     <!-- init histoglobe -->
     <?php } else { ?>
