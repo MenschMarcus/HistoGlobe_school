@@ -91,11 +91,14 @@ class HG.StatisticsWidget extends HG.Widget
     @_graphInfo.style.position = "absolute"
     @_graphInfo.style.left = "0px"
     @_graphInfo.style.top = "0px"
+    #@_graphInfo.style.color = "white"
+    #@_graphInfo.style.background = "black"
     @_graphInfo.style.visibility = "hidden"
     @_graphInfo.style.pointerEvents = "none"
 
     $(@_graphInfo).tooltip {title: "TEST", html:true, placement: "top", container:"#histoglobe"}
-    $(@_graphInfo).tooltip {content:"TEST"}
+    #$(@_graphInfo).tooltip()
+    #$(@_graphInfo).tooltip {content:"TEST"}
 
     #@_graphInfo.appendChild(document.createTextNode('hello this is javascript work'));
 
@@ -231,12 +234,15 @@ class HG.StatisticsWidget extends HG.Widget
     string = e[0].amount + "<br />" + e[0].date
     console.log string
 
-    #$(@_graphInfo).attr('tooltipText', string);
-    $( ".selector" ).tooltip( "option", "content", e[0].amount + "<br />" + e[0].date );
+    $(@_graphInfo.class).tooltip( "option", "title", e[0].amount + "<br />" + e[0].date );
+    #console.log $(@_graphInfo).tooltip#("option","title")
+    #$(@_graphInfo).tooltip.title = "bla"
 
     @_graphInfo.style.left = window.event.clientX + "px"
     @_graphInfo.style.top = window.event.clientY + "px"
     $(@_graphInfo).tooltip "show"
+    #@_graphInfo.style.visibility = "visible"
+
 
   # ============================================================================
   _hideTooltip: (e) =>
