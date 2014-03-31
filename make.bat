@@ -13,7 +13,11 @@ call "data_src\paths\generate.bat"
 IF not exist build ( mkdir build )
 
 @echo off
-for /R script\ %%a IN (*.coffee) do call coffee -c -o build %%a
+set cFiles=
+for /R script\ %%a in (*.coffee) do call set cFiles=%%cFiles%% %%a
+
+@echo off
+call coffee -c -o build %cFiles%
 
 @echo off
 set jFiles=
@@ -28,6 +32,6 @@ rosetta --jsOut "build/config.js" ^
         --jsFormat "flat" ^
         --jsTemplate "(function() {<%%= preamble %%> $.extend(HGConfig, <%%= blob %%>);})();" ^
         --cssOut "build/config.less" ^
-        --cssFormat "less" config/exemplum/style.rose && ^
+        --cssFormat "less" config/sdw/style.rose && ^
 uglifyjs %jFiles% -o script\histoglobe.min.js && ^
 lessc --no-color -x style\histoglobe.less style\histoglobe.min.css
