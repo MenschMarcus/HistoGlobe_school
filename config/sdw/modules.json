@@ -360,6 +360,30 @@
       ]
     },
     {
+      "type" : "LegendWidget",
+      "icon": "fa-list-ul",
+      "name": "Ereignisse der sdw-Geschichte",
+      "columns":
+      [
+        {
+          "groups" : [
+            {
+              "name" : "",
+              "elements" : [
+                {
+                  "type" : "categoryWithIcon",
+                  "category" : "default",
+                  "icon" : "config/exemplum/data/icons/absatzmarkt.png",
+                  "name" : "Städte",
+                  "filterable" : false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "type" : "StatisticsWidget",
       "icon" : "fa-bar-chart-o",
       "name" : "Entwicklungen",
@@ -397,6 +421,25 @@
         {
           "groups" : [
             {
+              "name" : "",
+              "elements" : [
+                {
+                  "type" : "categoryWithIcon",
+                  "category" : "default",
+                  "icon" : "config/exemplum/data/icons/absatzmarkt.png",
+                  "name" : "Städte",
+                  "filterable" : false
+                },
+                {
+                  "type" : "categoryWithIcon",
+                  "category" : "default",
+                  "icon" : "config/exemplum/data/icons/absatzmarkt.png",
+                  "name" : "Bundesländer",
+                  "filterable" : false
+                }
+              ]
+            },
+            {
               "name": "Wichtige Ereignisse",
               "elements" : [
                 {
@@ -408,25 +451,8 @@
                 {
                   "type" : "category",
                   "category" : "T",
-                  "name" : "globale Ereignisse",
+                  "name" : "Ereignisse der sdw-Geschichte",
                   "filterable" : true
-                }
-              ]
-            },
-            {
-              "name": "Orte",
-              "elements" : [
-                {
-                  "type" : "category",
-                  "category" : "A",
-                  "name" : "Städte",
-                  "filterable" : false
-                },
-                {
-                  "type" : "category",
-                  "category" : "A",
-                  "name" : "Bundesländer",
-                  "filterable" : false
                 }
               ]
             }
