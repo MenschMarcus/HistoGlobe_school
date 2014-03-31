@@ -19,15 +19,15 @@
   "FullscreenButton": {},
 
   "MultimediaController": {
-    "dsvPaths": ["config/exemplum/data/exemplum_medium.csv"],
-    "rootDirs": ["config/exemplum/data/media"],
-    "ignoredLines" : [1,2,3,4,5,6],
+    "dsvPaths": ["config/sdw/data/sdw_medium.csv"],
+    "rootDirs": ["config/sdw/data/media"],
+    "ignoredLines" : [1,2,3,4],
     "indexMappings": [
       {
         "id"          : 0,
-        "type"        : 2,
-        "description" : 3,
-        "source"      : 4,
+        "type"        : 5,
+        "description" : 2,
+        "source"      : 3,
         "link"        : 1
       }
     ]
@@ -35,7 +35,7 @@
 
   "HiventController" :
   {
-    "dsvPaths": ["config/exemplum/data/exemplum_event.csv", "config/exemplum/data/exemplum_branch.csv"],
+    "dsvPaths": ["config/exemplum/data/exemplum_event.csv", "config/exemplum/data/exemplum_branch.csv", "config/sdw/data/sdw_projectEvents.csv"],
     "ignoredLines" : [1,2,3,4,5,6],
     "indexMappings" : [
       {
@@ -51,7 +51,6 @@
         "category"    : 8,
         "multimedia"  : 6
       },
-
       {
         "id"          : 0,
         "name"        : 1,
@@ -64,6 +63,19 @@
         "long"        : 7,
         "category"    : 10,
         "multimedia"  : 8
+      },
+      {
+        "id"          : 0,
+        "name"        : 1,
+        "description" : 2,
+        "startDate"   : 3,
+        "endDate"     : 3,
+        "displayDate" : 3,
+        "location"    : 4,
+        "lat"         : 6,
+        "long"        : 5,
+        "category"    : 0,
+        "multimedia"  : 7
       }
     ]
   },
