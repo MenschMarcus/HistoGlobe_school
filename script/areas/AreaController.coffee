@@ -55,6 +55,7 @@ class HG.AreaController
 
           execute_async = (c) =>
             setTimeout () =>
+              console.log "new area: ",c
               newArea = new HG.Area c, @_area_styler
 
               newArea.onShow @, (area) =>
