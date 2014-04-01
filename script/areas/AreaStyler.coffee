@@ -79,9 +79,7 @@ class HG.AreaStyler
 
   # ============================================================================
   _load_mapping: (styler, config) ->
-    console.log "load mapping"
     $.getJSON config.mapping, (result) =>
-      console.log result,"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
       for country, mapping of result
         newMapper = new HG.TimeMapper mapping
         styler.myTimeMappers[country] = newMapper

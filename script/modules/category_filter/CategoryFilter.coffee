@@ -26,6 +26,11 @@ class HG.CategoryFilter
 
 
   # ============================================================================
+  getCurrentFilter:() ->
+    return @_categoryFilter
+
+
+  # ============================================================================
   exclusiveFilter: (element,outOfThese) ->
     for candidate in outOfThese
         if element is candidate.category
