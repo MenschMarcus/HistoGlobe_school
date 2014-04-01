@@ -211,6 +211,7 @@
           "dataPath" : "config/sdw/data/statistics_scholars.dsv",
           "xAttributeName" : "date",
           "yAttributeName" : "amount",
+          "label" : "Stipendiaten",
           "color" : "#338A66",
           "width" : "3px",
           "smooth" : true
@@ -219,6 +220,7 @@
           "dataPath" : "config/sdw/data/statistics_program_participants.dsv",
           "xAttributeName" : "date",
           "yAttributeName" : "amount",
+          "label" : "Programmteilnehmer",
           "color" : "#666",
           "width" : "3px",
           "smooth" : true

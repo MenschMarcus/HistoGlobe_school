@@ -26,6 +26,7 @@ class HG.StatisticsWidget extends HG.Widget
         smooth: false
         xAttributeName: ""
         yAttributeName: ""
+        label: ""
       ]
 
     @_config = $.extend {}, defaultConfig, config
@@ -36,7 +37,8 @@ class HG.StatisticsWidget extends HG.Widget
     @_maxDate = 0
     @_nowMarker = null
 
-    @_graphInfo = null
+    @_tooltips = []
+    @_min_dist = 99999999
 
     @_timeline = null
     @_data = []
@@ -83,39 +85,6 @@ class HG.StatisticsWidget extends HG.Widget
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
 
-  # ============================================================================
-  _initTooltip: ->
-
-    '''@_graphInfo = d3.select("body").append("div")
-      .attr("class","tooltip")
-      .style("opacity",0)
-
-    @_formatTime = d3.time.format("%e %B");'''
-
-    '''console.log "init tooltip"
-
-    @_graphInfo = document.createElement("div")
-    @_graphInfo.class = "btn btn-default"
-    @_graphInfo.style.position = "absolute"
-    @_graphInfo.style.left = "0px"
-    @_graphInfo.style.top = "0px"
-    #@_graphInfo.style.color = "white"
-    #@_graphInfo.style.background = "black"
-    @_graphInfo.style.visibility = "hidden"
-    @_graphInfo.style.pointerEvents = "none"
-
-    @_graphInfo.title = "TEST2"
-
-    #$(@_graphInfo).tooltip {title: "TEST", html:true, placement: "top", container:"#histoglobe"}
-    $(@_graphInfo).tooltip()
-    #$(@_graphInfo).tooltip {@content:"TEST"}
-
-    #@_graphInfo.appendChild(document.createTextNode('hello this is javascript work'));
-
-
-    console.log @_canvas
-    document.body.appendChild(@_graphInfo)'''
-
 
 
   # ============================================================================
@@ -140,8 +109,7 @@ class HG.StatisticsWidget extends HG.Widget
 
   # ============================================================================
   _drawStatistics: () =>
-    
-    #@_initTooltip()
+
 
     @_onDataLoaded () =>
       if @_canvas?
@@ -191,7 +159,9 @@ class HG.StatisticsWidget extends HG.Widget
           .append("g")
           .attr("transform", "translate(" + HGConfig.statistics_widget_margin_left.val + "," + HGConfig.statistics_widget_margin_top.val + ")")
 
+      count = 0
       for entry in @_data
+        ++count
         line = d3.svg.line()
           .x((d) => return x(d[entry.config.xAttributeName]) )
           .y((d) => return y(d[entry.config.yAttributeName]) )
@@ -214,50 +184,70 @@ class HG.StatisticsWidget extends HG.Widget
           #.on("mouseout", @_hideTooltip)
 
         #################
+        #label:
+
+        rect =  @_canvas.append("rect")
+          .attr("width", 10)
+          .attr("height", 10)
+          .style("fill","#{entry.config.color}")
+          .attr("x",15)
+          .attr("y",15*count-15)
+
+        text = @_canvas.append("text")
+            .attr("x", 30)
+            .attr("y",15*count-15)
+            .attr("dy","10px")
+            .style("font-size","8px")
+            .style("fill","black")
+            .text("#{entry.config.label}")
+
+
+
+        #tooltip:
+
         console.log "before"
 
         console.log "canvas width: ",@_canvasWidth
-        @_x = d3.time.scale()
-          .range([0, @_canvasWidth])
-        @_y = d3.scale.linear()
-          .range([@_canvasHeight, 0])
-
-        @_x.domain([entry.data[0].date, entry.data[entry.data.length - 1].date]);
-        @_y.domain(d3.extent(entry.data, (d) -> return d.amount; ));
 
         entry.focus = @_canvas.append("g")
-            .attr("class", "focus")
-            .style("display", "none");
+            .attr("class", "focus"+count)
+            #.style("display", "none");
+
+        @_tooltips.push entry.focus
 
         entry.focus.style("fill","none")
-        entry.focus.style("stroke","steelblue")
+        #entry.focus.style("stroke","steelblue")
+        entry.focus.style("stroke","#{entry.config.color}")
+
         entry.focus.append("circle")
-            .attr("r", 14.5);
+            .attr("r", 5.0);
 
         entry.focus.text = entry.focus.append("text")
-            .attr("x", 19)
-            .attr("dy", ".35em")
-            .style("font-size","28px")
+            .attr("x", 15)
+            .attr("dy",".35em")
+            .style("font-size","24px")
+            .style("fill","#{entry.config.color}")
+            #.style("fill","black")
 
         console.log entry.data
 
-        #@_svg.append("rect")
-        rect = @_canvas.append("rect")
-          .attr("class", "overlay")
-          .attr("width", width)
-          .attr("height", height)
-          .on("mouseover", () => entry.focus.style("display", null); )
-          .on("mouseout", () => entry.focus.style("display", "none"); )
-          .on("mousemove", @_showTooltip)
+      #@_svg.append("rect")
+      rect = @_canvas.append("rect")
+        .attr("class", "overlay")
+        .attr("width", width)
+        .attr("height", height)
+        .on("mouseover", () => focus.style("display", null) for focus in @_tooltips )
+        .on("mouseout", () => focus.style("display", "none") for focus in @_tooltips )
+        .on("mousemove", @_showTooltip)
 
-        rect.style("fill","none")
-        rect.style("pointer-events","all")
+      rect.style("fill","none")
+      rect.style("pointer-events","all")
 
 
 
         ##############################
 
-      '''@_canvas.append("g")
+      @_canvas.append("g")
           .attr("class", "x axis")
           .attr("transform", "translate(0," + @_canvasHeight + ")")
           .call(xAxis)
@@ -270,7 +260,7 @@ class HG.StatisticsWidget extends HG.Widget
           .attr("y", 6)
           .attr("dy", "0.71em")
           .style("text-anchor", "end")
-          .text(@_config.yCaption)'''
+          .text(@_config.yCaption)
 
       @onDivClick @content, (e) =>
         x = e.clientX - $(@content).offset().left -
@@ -288,84 +278,70 @@ class HG.StatisticsWidget extends HG.Widget
   # ============================================================================
   _showTooltip: () =>
 
-    '''console.log e
+    fx = d3.time.scale()
+      .range([0, @_canvasWidth])
+    fy = d3.scale.linear()
+      .range([@_canvasHeight, 0])
 
-    date = e[0].date
-    string = e[0].amount + "<br />" + date.getDate() + "." + date.getMonth() + "." + date.getFullYear()
-
-    unless @_graphInfo
-
-      console.log "init graph info"
-      
-      @_graphInfo = document.createElement("div")
-      @_graphInfo.class = "btn btn-default"
-      @_graphInfo.style.position = "absolute"
-      @_graphInfo.style.left = "0px"
-      @_graphInfo.style.top = "0px"
-      #@_graphInfo.style.color = "white"
-      #@_graphInfo.style.background = "black"
-      @_graphInfo.style.visibility = "hidden"
-      @_graphInfo.style.pointerEvents = "none"
-
-      @_graphInfo.title = string
-
-      #$(@_graphInfo).tooltip {title: "TEST", html:true, placement: "top", container:"#histoglobe"}
-      $(@_graphInfo).tooltip()
-
-      document.body.appendChild(@_graphInfo)
-
-
-    #console.log e
-    #$(@_graphInfo).tooltip.title = e[0].amount + "<br />" + e[0].amount.date
-    #console.log string
-
-    #$(@_graphInfo).attr('data-original-title',"Test3")
-
-    #$(@_graphInfo.class).tooltip( "option", "title", e[0].amount + "<br />" + e[0].date );
-    #console.log $(@_graphInfo).tooltip#("option","title")
-    #$(@_graphInfo).tooltip.title = "bla"
-
-    $(@_graphInfo).tooltip "show"
-    #@_graphInfo.style.visibility = "visible"
-    
-    document.getElementsByClassName("tooltip-inner")[0].innerHTML = string #quickhack!!!
-    @_graphInfo.style.left = window.event.clientX + "px"
-    @_graphInfo.style.top = window.event.clientY + "px"'''
-
+    count = 0
     for entry in @_data
 
-      bisectDate = d3.bisector((d)=> return d.date).left
+      ++count
+      #console.log "onmouseloop nr : ",count
+      #console.log entry.focus.attr("class")
+
+      fx.domain(d3.extent(entry.data, (d) => return d[entry.config.xAttributeName] ))
+      fy.domain(@_config.yDomain)
+
+      bisectDate = d3.bisector((d)=> return d[entry.config.xAttributeName]).left
 
       x = window.event.clientX - $(@content).offset().left -
               HGConfig.statistics_widget_margin_left.val -
               HGConfig.widget_body_padding.val
 
-      x0 = @_x.invert(x)
+      x0 = fx.invert(x)
       i = bisectDate(entry.data, x0, 1)
       d0 = entry.data[i - 1]
       d1 = entry.data[i]
 
       d = d0
       if d1
-        d = d1 if x0 - d0.date > d1.date - x0
+        d = d1 if x0 - d0[entry.config.xAttributeName] > d1[entry.config.xAttributeName] - x0
 
-      entry.focus.attr("transform", "translate(" + @_x(d.date) + "," + @_y(d.amount) + ")");
-      entry.focus.select("text").text(d.amount);
+      entry.focus.attr("transform", "translate(" + fx(d[entry.config.xAttributeName]) + "," + fy(d[entry.config.yAttributeName]) + ")");
+      #console.log "translate(" + fx(d[entry.config.xAttributeName]) + "," + fy(d[entry.config.yAttributeName]) + ")"
+      entry.focus.select("text").text(d[entry.config.yAttributeName]);
 
-      #console.log entry.focus[0]
-      #console.log entry.focus[0][0].children[1]
       if i > entry.data.length/2
-        #entry.focus[0][0].children[1].attr("x", -19)
-        entry.focus.text.attr("x", -69)
+        entry.focus.text.attr("x", -55)
       else
-        entry.focus.text.attr("x", 19)
+        entry.focus.text.attr("x", 15)
 
 
+      '''distx = window.event.clientX - (fx(d[entry.config.xAttributeName]) + $(@content).offset().left +
+              HGConfig.statistics_widget_margin_left.val +
+              HGConfig.widget_body_padding.val)
+      disty = window.event.clientY - (fy(d[entry.config.yAttributeName]) + $(@content).offset().top +
+              HGConfig.statistics_widget_margin_top.val +
+              HGConfig.widget_body_padding.val)
+      distance = Math.sqrt(distx * distx + disty * disty)
 
-  # ============================================================================
-  _hideTooltip: (e) =>
-    #$(@_graphInfo).tooltip "hide"
 
+      if distance < @_min_dist
+        for focus in @_tooltips
+          focus.style("display", "none")
+        entry.focus.style("display", null)
+        @_min_dist = distance'''
+
+      '''console.log "x client",window.event.clientX
+      console.log "x",(fx(d[entry.config.xAttributeName]) + $(@content).offset().left +
+              HGConfig.statistics_widget_margin_left.val +
+              HGConfig.widget_body_padding.val)
+
+      console.log "y client",window.event.clientY
+      console.log "y",(fy(d[entry.config.yAttributeName]) + $(@content).offset().top +
+              HGConfig.statistics_widget_margin_top.val +
+              HGConfig.widget_body_padding.val)'''
 
 
 
