@@ -245,84 +245,6 @@
       ]
     },
     {
-    "type" : "PictureGalleryWidget",
-    "icon" : "fa-glass",
-    "name" : "Produkte",
-    "pictures" :
-    [
-      {
-        "image": "config/exemplum/data/media/kaffee_exelsior.jpg",
-        "copyright": "© Julius Schorzman",
-        "description": "Der Kaffee Exelsior ist ein Kaffee mit mildem Aroma. Es werden ausschließlich Arabica Bohnen zur Herstellung verwendet."
-      },
-      {
-        "image": "config/exemplum/data/media/kaffee_exelsior_exquisit.jpg",
-        "copyright": "© Tim Boyd",
-        "description": "Der Kaffee Exelsior Exquisit ist ein Kaffee mit kräftigem, leicht nussigem Aroma. Die verwendeten Arabica Bohnen sind handverlesen und gehören zu den besten einer jeden Ernte."
-      },
-      {
-        "image": "config/exemplum/data/media/superbrause.jpg",
-        "copyright": "© John Phelan",
-        "description": "Die Superbrause ist ein Erfrischungsgetränk mit Orangengeschmack."
-      },
-      {
-        "image": "config/exemplum/data/media/superbrause_plus.jpg",
-        "copyright": "© pic_p_ter",
-        "description": "Die Superbrause+ ist ein Erfrischungsgetränk mit Colageschmack. Sie enthält Koffein und hat eine anregende und erfrischende Wirkung."
-      },
-      {
-        "image": "config/exemplum/data/media/kaffee_paris.jpg",
-        "copyright": "© V. Kostitsin-Teterin",
-        "description": "Der Kaffe Paris wurde eigens für den franzöischen Markt entwickelt. Er ist cremiger und intensiver im Geschmack als der Kaffe Exelsior."
-      },
-      {
-        "image": "config/exemplum/data/media/limonade_avance.jpg",
-        "copyright": "© Michael Fludkov",
-        "description": "Die Limonade Avance ist ein Erfrischungsgetränk mit Limettengeschack. Sie wurde eigens für den französischen Markt entwickelt und orientiert sich an einem beliebten französischem Zitronentee."
-      },
-      {
-        "image": "config/exemplum/data/media/lucky_lemonade.jpg",
-        "copyright": "© Onderwijsgek",
-        "description": "Die Lucky Lemonade ist ein Erfrischungsgetränk mit einem sehr süßen Beerengeschmack."
-      },
-      {
-        "image": "config/exemplum/data/media/lucky_lemonade_sugarfree.jpg",
-        "copyright": "© miss karen",
-        "description": "Die Lucky Lemonade Sugarfree wird ohne den Zusatz von Zucker hergestellt."
-      },
-      {
-        "image": "config/exemplum/data/media/tropical_explosion.jpg",
-        "copyright": "© Vera Kratochvil",
-        "description": "Das Erfrischungsgetränk Tropical Explosion vereint Aromen aus Mango, Maracuja und Drachenfrucht und bietet einen ausgesprochen tropischen Geschmack."
-      },
-      {
-        "image": "config/exemplum/data/media/limonade_avance.jpg",
-        "copyright": "© Michael Fludkov",
-        "description": "Die Limonade Avance Zero ist die zuckerfreie Variante der Lemonade Avance. Sie wird exklusiv für den französischen Markt produziert."
-      },
-      {
-        "image": "config/exemplum/data/media/ristoro.jpg",
-        "copyright": "© newleaf01",
-        "description": "Ristoro ist ein italienisches Erfrischungsgetränk. Es ist leicht bitter und schmeckt im Abgang nach Grapefruit."
-      },
-      {
-        "image": "config/exemplum/data/media/nippon_booster.jpg",
-        "copyright": "© abdallahh",
-        "description": "Der Nippon Booster ist ein Energydrink. Er wurde von der Nippon Energy Corporation für den japanischen Markt entwickelt. Der Koffeingehalt ist wesenlich höher als in Kaffee oder anderen koffeinhaltigen Erfrischungsgetränken der Exemplum GmbH."
-      },
-      {
-        "image": "config/exemplum/data/media/blue_cow.jpg",
-        "copyright": "© zolon",
-        "description": "Der Blue Cow Energydrink ist der erste Energydrink, der von der Exemplum GmbH selbst entwickelt wurde. Er orientiert sich am europäischen Geschmack und hat ein leichtes Beerenaroma."
-      },
-      {
-        "image": "config/exemplum/data/media/east_tea.jpg",
-        "copyright": "© Ted Van Pelt",
-        "description": "Der East-Tea ist ein Eistee aus dem osteuropäischen Markt. Er hat ein Pfirsicharoma und durch seinen hohen Teeingehalt eine anregende Wirkung."
-      }
-    ]
-    },
-    {
       "type" : "StatisticsWidget",
       "icon" : "fa-bar-chart-o",
       "name" : "Jahresumsatz",
@@ -344,27 +266,6 @@
       ]
     },
     {
-      "type" : "StatisticsWidget",
-      "icon" : "fa-bar-chart-o",
-      "name" : "Mitarbeiterzahl",
-      "title" : "Mitarbeiterzahl seit 1964",
-      "yDomain" : [0, 5500],
-      "xLableTicks" : 5,
-      "yLableTicks" : 5,
-      "yCaption" : "Anzahl",
-      "lines" :
-      [
-        {
-          "dataPath" : "config/exemplum/data/statistics_employees.dsv",
-          "color" : "#338A66",
-          "width" : "5px",
-          "smooth" : true,
-          "xAttributeName" : "date",
-          "yAttributeName" : "amount"
-        }
-      ]
-    },
-    {
       "type": "LegendWidget",
       "icon": "fa-list-ul",
       "name": "Legende & Filter",
@@ -374,25 +275,14 @@
         {
           "groups" : [
             {
-              "name": "Wichtige Ereignisse",
+              "name": "Firmenniederlassungen",
               "elements" : [
                 {
                   "type" : "category",
                   "category" : "A",
-                  "name" : "Aktivität",
+                  "name" : "Firmenereignis",
                   "filterable" : true
                 },
-                {
-                  "type" : "category",
-                  "category" : "T",
-                  "name" : "Exemplum Tour",
-                  "filterable" : true
-                }
-              ]
-            },
-            {
-              "name": "Firmenniederlassungen",
-              "elements" : [
                 {
                   "type" : "categoryWithIcon",
                   "category" : "default",
@@ -416,18 +306,6 @@
                   "type" : "category",
                   "category" : "P",
                   "name" : "Plantage",
-                  "filterable" : true
-                },
-                {
-                  "type" : "category",
-                  "category" : "S",
-                  "name" : "Store",
-                  "filterable" : true
-                },
-                {
-                  "type" : "category",
-                  "category" : "E",
-                  "name" : "Erlebniszentrum",
                   "filterable" : true
                 }
               ]
