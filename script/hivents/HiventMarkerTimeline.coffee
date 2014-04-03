@@ -9,7 +9,6 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
-
   # ============================================================================
   constructor: (timeline, hiventHandle, parent, posX) ->
 
@@ -48,7 +47,6 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
       e.preventDefault()
       @_timeline.moveToDate @getHiventHandle().getHivent().startDate, 0.5
       @getHiventHandle().focusAll @_position
-
 
     @getHiventHandle().onMark @, (mousePos) =>
       @_div.setAttribute "class", @_classHighlighted
