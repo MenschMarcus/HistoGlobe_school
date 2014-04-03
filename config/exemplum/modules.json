@@ -204,43 +204,48 @@
       [
         {
           "name": "Martin Exelsior",
-          "date": "01.06.1964",
-          "displayDate": "Geschäftsführer von 1964 bis 1976",
+          "startDate": "01.06.1964",
+          "endDate": "04.03.1976",
           "image": "config/exemplum/data/media/exelsior.jpg",
           "copyright": "© Drew Coffman",
-          "description": "Martin Exelsior übernimmt als Gründer die Geschäftsführung der Exemplum GmbH."
+          "info": "Gründer und Geschäftsführer",
+          "infoLong": "Martin Exelsior übernimmt als Gründer die Geschäftsführung der Exemplum GmbH."
         },
         {
           "name": "Peter Paulsen",
-          "date": "04.03.1976",
-          "displayDate": "Geschäftsführer von 1976 bis 1990",
+          "startDate": "04.03.1976",
+          "endDate": "01.02.1990",
           "image": "config/exemplum/data/media/peter_paulsen.jpg",
           "copyright": "© Victor1558",
-          "description": "Peter Paulsen tritt die Martin Exelsiors Nachfolge an. Peter Paulsen war zuvor Zweigstellenleiter in Österreich und der Schweiz."
+          "info": "Vom Zweigstellenleiter zum Geschäftsführer",
+          "infoLong": "Peter Paulsen tritt die Martin Exelsiors Nachfolge an. Peter Paulsen war zuvor Zweigstellenleiter in Österreich und der Schweiz."
         },
         {
           "name": "Frank Schneider",
-          "date": "01.02.1990",
-          "displayDate": "Geschäftsführer von 1990 bis 1997",
+          "startDate": "01.02.1990",
+          "endDate": "02.03.1997",
           "image": "config/exemplum/data/media/frank_schneider.jpg",
           "copyright": "© Victor1558",
-          "description": "Frank Schneider löst Peter Paulsen ab. Frank Schneider war zuvor Leiter des Produktmarketings."
+          "info": "Vom Leiter des Produktmarketings zum Geschäftsführer",
+          "infoLong": "Frank Schneider löst Peter Paulsen ab. Frank Schneider war zuvor Leiter des Produktmarketings."
         },
         {
           "name": "Sabrina Fahrenkamp",
-          "date": "02.03.1997",
-          "displayDate": "Geschäftsführerin von 1997 bis 2005",
+          "startDate": "02.03.1997",
+          "endDate": "25.06.2005",
           "image": "config/exemplum/data/media/sabrina_fahrenkamp.jpg",
           "copyright": "© Victor1558",
-          "description": "Sabrina Fahrenkamp wird als Geschäftsführerin eingesetzt. Zuvor war sie Zweigstellenleiterin in den USA und für die interne Unternehmenskommunikation verantwortlich."
+          "info": "Erste Geschäftsführerin",
+          "infoLong": "Sabrina Fahrenkamp wird als Geschäftsführerin eingesetzt. Zuvor war sie Zweigstellenleiterin in den USA und für die interne Unternehmenskommunikation verantwortlich."
         },
         {
           "name": "Geoffrey Brooks",
-          "date": "25.06.2005",
-          "displayDate": "Geschäftsführer seit dem 25.06.2005",
+          "startDate": "25.06.2005",
+          "endDate": "31.12.9999",
           "image": "config/exemplum/data/media/geoffrey_brooks.jpg",
           "copyright": "© Victor1558",
-          "description": "Geoffrey Brooks tritt die Nachfolge Sabrina Fahrenkamps an. Er war zuvor bei einer großen Unternehmensberatung als Partner tätig. Geoffrey Brooks ist der erste Geschäftsführer, der nicht aus den eigenen Reihen kommt."
+          "info": "Erste Geschäftsführer nicht aus den eigenen Reihen",
+          "infoLong": "Geoffrey Brooks tritt die Nachfolge Sabrina Fahrenkamps an. Er war zuvor bei einer großen Unternehmensberatung als Partner tätig. Geoffrey Brooks ist der erste Geschäftsführer, der nicht aus den eigenen Reihen kommt."
         }
       ]
     },
@@ -257,11 +262,12 @@
       [
         {
           "dataPath" : "config/exemplum/data/statistics_revenue.dsv",
+          "xAttributeName" : "date",
+          "yAttributeName" : "amount",
+          "label" : "Jahresumsatz",
           "color" : "#338A66",
           "width" : "5px",
-          "smooth" : true,
-          "xAttributeName" : "date",
-          "yAttributeName" : "amount"
+          "smooth" : true
         }
       ]
     },
@@ -275,7 +281,7 @@
         {
           "groups" : [
             {
-              "name": "Firmenniederlassungen",
+              "name": "Exemplum GmbH",
               "elements" : [
                 {
                   "type" : "category",
@@ -313,8 +319,6 @@
           ]
         }
       ]
-
     }
-  ]
+  ]}
 
-}
