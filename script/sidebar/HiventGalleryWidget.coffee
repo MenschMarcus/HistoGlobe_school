@@ -38,7 +38,7 @@ class HG.HiventGalleryWidget extends HG.TimeGalleryWidget
     # date = config.date.split "."
     # @_changeDates[@getSlideCount()] = new Date date[2], date[1] - 1, date[0]
     # super config.html
-
+    
     div = document.createElement "div"
     div.className = "logo-widget"
 
@@ -52,10 +52,10 @@ class HG.HiventGalleryWidget extends HG.TimeGalleryWidget
     name.innerHTML = config.name
     div.appendChild name
 
-    text = document.createElement "div"
-    text.className = "clear"
-   	text.innerHTML = config.description
-    div.appendChild text
+    media = document.createElement "div"
+    media.className = "clear"
+   	media.innerHTML = config.media
+    div.appendChild media
 
     displayDate = document.createElement "div"
     displayDate.className = "date"
@@ -63,6 +63,9 @@ class HG.HiventGalleryWidget extends HG.TimeGalleryWidget
     div.appendChild displayDate
 
     @addDivSlide {date: config.date, div: div}
+    
+    #html = "<h5>" + config.name + "</h5>" + config.media
+    #@addHTMLSlide {date: config.date, html: html}
 
 
   ############################### INIT FUNCTIONS ###############################
@@ -107,7 +110,7 @@ class HG.HiventGalleryWidget extends HG.TimeGalleryWidget
                   	 	date : hivent.displayDate
                   	 	name : hivent.name
                   	 	description : hivent.description
-                  	 	#media : hivent.multimedia
+                  	 	media : hivent.content
                   	@addSlide slide
                   	#@_hiventHandles.push handle
                   	#callback handle for callback in @_onHiventAddedCallbacks
