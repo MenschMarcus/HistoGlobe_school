@@ -91,7 +91,7 @@ class HG.LegendWidget extends HG.Widget
 
       #@_categoryFilter.push element.category
 
-      @_categoryFilter?.filter(element.category)
+    @_categoryFilter?.filter(config.elements[0].category)
 
 
     formatResult = (e) ->

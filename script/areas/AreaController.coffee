@@ -97,6 +97,7 @@ class HG.AreaController
       if active
         @notifyAll "onShowArea", area if not area.isVisible
         area.isVisible = true
+        area.setDate @_now
       else
         @notifyAll "onHideArea", area
         area.isVisible = false
