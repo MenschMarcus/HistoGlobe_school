@@ -37,6 +37,11 @@ class HG.Area
     @_style
 
   # ============================================================================
+  getCategories: ->
+    @_categories
+  
+
+  # ============================================================================
   setDate: (newDate) ->
 
     oldDate = @_now
@@ -78,6 +83,8 @@ class HG.Area
     @_state     = geoJson.properties.sov_a3
     @_name      = geoJson.properties.name_de
     @_iso_a2    = geoJson.properties.iso_a2
+
+    @_categories = geoJson.properties.categories
 
     @_maxLatLng = [-180, -90]
     @_minLatLng = [ 180,  90]
