@@ -196,6 +196,82 @@
       ]
     },
     {
+      "type" : "EventTicker",
+      "icon" : "",
+      "name" : "EventTicker",
+      "messages" :
+      [
+        {
+          "text": "Verabschiedung der ersten Absolventinnen und Absolventen aus der Förderung.",
+          "date": "31.5.1998"
+        },
+        {
+          "text": "Prof. Dr. Klaus Murmann wird Vorstandsvorsitzender",
+          "date": "1.1.2001"
+        },
+        {
+          "text": "Hans-Jürgen Brackmann wird Generalsekretär",
+          "date": "1.1.2001"
+        },
+        {
+          "text": "1.000 Studierende und Promovierende im Studienförderwerks Klaus Murmann.",
+          "date": "1.6.2003"
+        },
+        {
+          "text": "1.000 Mitglieder im Alumni-Verein.",
+          "date": "1.5.2008"
+        },
+        {
+          "text": "1.500 Studierende und Promovierende im Studienförderwerks Klaus Murmann.",
+          "date": "1.6.2009"
+        },
+        {
+          "text": "3.000 Teilnehmer/innen an sdw-Förderprogrammen.",
+          "date": "1.10.2009"
+        },
+        {
+          "text": "1.000 Teilnehmer im Studienkompass.",
+          "date": "1.9.2010"
+        },
+        {
+          "text": "4.000 Teilnehmer/innen an sdw-Förderprogrammen.",
+          "date": "1.10.2010"
+        },
+        {
+          "text": "1.500 Teilnehmer im Studienkompass.",
+          "date": "15.9.2012"
+        },
+        {
+          "text": "4.500 Teilnehmer/innen an sdw-Förderprogrammen.",
+          "date": "1.11.2012"
+        },
+        {
+          "text": "Ingo Kramer wird Arbeitgeberpräsident",
+          "date": "18.11.2013"
+        },
+        {
+          "text": "Der Alumni-Verein wird 15 Jahre alt.",
+          "date": "1.1.2014"
+        },
+        {
+          "text": "1.700 Studierende und Promovierende im Studienförderwerks Klaus Murmann.",
+          "date": "1.2.2014"
+        },
+        {
+          "text": "Dr. Gerhard F. Braun wird Kuratoriumsvorsitzender.",
+          "date": "15.3.2014"
+        },
+        {
+          "text": "Die sdw feiert ihren 20. Geburtstag.",
+          "date": "17.5.2014"
+        },
+        {
+          "text": "Das Studienförderwerk Klaus Murmann wird 20 Jahre alt.",
+          "date": "5.1.2015"
+        }
+      ]
+    },
+    {
       "type" : "VIPWidget",
       "icon" : "fa-user",
       "name" : "Geschäftsführung",
