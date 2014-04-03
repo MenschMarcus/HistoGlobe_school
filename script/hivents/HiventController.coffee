@@ -84,6 +84,16 @@ class HG.HiventController
     console.log "An Hivent with the id \"#{hiventId}\" does not exist!"
     return null
 
+  getNextHiventHandle: (now) ->
+    hh = null
+    dis = -1
+    for handle in @_hiventHandles
+      diff = handle.getHivent().startDate.getTime() - now.getTime()
+      if (dis is -1 or diff < dis) && diff > 0
+        dis = diff
+        hh = handle
+    return hh
+
   ############################### INIT FUNCTIONS ###############################
 
   # ============================================================================

@@ -104,6 +104,8 @@ class HG.Timeline
     # set animation for timeline play
     @_play = false
     @_speed = 1
+    @_stopDate = @yearToDate(@_config.maxYear)
+    @_nextHiventhandle = null
     setInterval @_animTimeline, 30
 
     @_updateNowDate()
@@ -120,7 +122,9 @@ class HG.Timeline
 
   # ============================================================================
   hgInit: (hgInstance) ->
+    #@_hiventController = hgInstance.hiventController
     hgInstance.onAllModulesLoaded @, () =>
+      @_hiventController = hgInstance.hiventController
       @notifyAll "onNowChanged", @_nowDate
       @notifyAll "onIntervalChanged", @_getTimeFilter()
 
@@ -364,7 +368,7 @@ class HG.Timeline
     if @_play
       if @_nowDate.getFullYear() <= @_config.maxYear
         toDate = new Date(@_nowDate.getTime() + @_speed*@_speed * 5000 * 60 * 60 * 24 * 7)
-        endDate = @yearToDate(@_config.maxYear)
+        endDate = @_stopDate
 
         if (toDate >= endDate)
           toDate = endDate
@@ -381,6 +385,8 @@ class HG.Timeline
 
   playTimeline: ->
     @_play = true
+    @_nextHiventhandle = @_hiventController.getNextHiventHandle(@_nowDate)
+    @_stopDate = @_nextHiventhandle.getHivent().startDate
 
   setSpeed: (speed) ->
     @_speed = speed

@@ -436,88 +436,88 @@
           "startDate": "01.01.1994",
           "endDate": "31.12.2002",
           "info": "Mitgründer",
-          "image": "http://thetangential.com/wp-content/uploads/2011/03/winnie_the_pooh_1.jpg",
-          "copyright": "© Drew Coffman"
+          "image": "config/sdw/data/media/vip_images/DrMurmann2.jpg",
+          "copyright": "©"
         },
         {
           "name": "Prof. Dr. Klaus Murmann",
           "startDate": "01.01.2003",
           "endDate": "31.12.2010",
           "info": "Vorsitzender der sdw",
-          "image": "http://thetangential.com/wp-content/uploads/2011/03/winnie_the_pooh_1.jpg",
-          "copyright": "© Drew Coffman"
+          "image": "config/sdw/data/media/vip_images/PortraitDrKlausMurmann.jpg",
+          "copyright": "©"
         },
         {
           "name": "Prof. Dr. Klaus Murmann",
           "startDate": "01.01.2011",
           "endDate": "31.12.9999",
           "info": "Ehrenvorsitzender",
-          "image": "http://thetangential.com/wp-content/uploads/2011/03/winnie_the_pooh_1.jpg",
-          "copyright": "© Drew Coffman"
+          "image": "config/sdw/data/media/vip_images/PortraitDrKlausMurmann.jpg",
+          "copyright": "©"
         },
         {
           "name": "Hans-Jürgen Brackmann",
           "startDate": "01.01.1994",
           "endDate": "31.12.2000",
           "info": "Geschäftsführender Vorstand",
-          "image": "http://upload.wikimedia.org/wikipedia/commons/b/b9/Angela_Merkel_%28August_2012%29_cropped.jpg",
-          "copyright": "© Drew Coffman"
+          "image": "config/sdw/data/media/vip_images/PortraitBrackmann.jpg",
+          "copyright": "©"
         },
         {
           "name": "Hans-Jürgen Brackmann",
           "startDate": "01.01.2001",
           "endDate": "31.12.2010",
           "info": "Generalsekretär",
-          "image": "http://upload.wikimedia.org/wikipedia/commons/b/b9/Angela_Merkel_%28August_2012%29_cropped.jpg",
-          "copyright": "© Drew Coffman"
+          "image": "config/sdw/data/media/vip_images/HansJürgenBrackmann1.jpg",
+          "copyright": "©"
         },
         {
           "name": "Dr. Arndt Schnöring",
           "startDate": "01.01.2011",
           "endDate": "31.12.9999",
           "info": "Generalsekretär",
-          "image": "http://www.heise.de/tp/artikel/26/26868/26868_2.jpg",
-          "copyright": "© Drew Coffman"
+          "image": "config/sdw/data/media/vip_images/PorträtArndtSchnöring.jpg",
+          "copyright": "©"
         },
         {
           "name": "Dr. Josef Siegers",
           "startDate": "01.01.1994",
           "endDate": "31.12.2000",
           "info": "Vorstandsvorsitzender",
-          "image": "http://www.heise.de/tp/artikel/26/26868/26868_2.jpg",
-          "copyright": "© Drew Coffman"
+          "image": "config/sdw/data/media/vip_images/Siegers.jpg",
+          "copyright": "©"
         },
         {
           "name": "Prof. Dr. Klaus Murmann",
           "startDate": "01.01.2001",
           "endDate": "31.12.2010",
           "info": "Vorstandsvorsitzender",
-          "image": "http://thetangential.com/wp-content/uploads/2011/03/winnie_the_pooh_1.jpg",
-          "copyright": "© Drew Coffman"
+          "image": "config/sdw/data/media/vip_images/PortraitDrKlausMurmann.jpg",
+          "copyright": "©"
         },
         {
           "name": "Ingo Kramer",
           "startDate": "01.01.2011",
           "endDate": "31.12.9999",
           "info": "Vorstandsvorsitzender",
-          "image": "http://www.adiweiss.at/sites/default/files/content-images/maja-kopie-2.jpg",
-          "copyright": "© Drew Coffman"
+          "image": "config/sdw/data/media/vip_images/PorträtIngoKramer2010.jpg",
+          "copyright": "©"
         },
         {
           "name": "Prof. Dr. Dieter Hundt",
           "startDate": "01.01.2003",
           "endDate": "31.12.2013",
           "info": "Vorsitzender des Kuratoriums",
-          "image": "http://screenshots.de.sftcdn.net/de/scrn/87000/87874/biene-maja-bildschirmschoner-4.jpg",
-          "copyright": "© Drew Coffman"
+          "image": "config/sdw/data/media/vip_images/ProfDrDieterHundt.jpg",
+          "copyright": "©"
         },
         {
           "name": "Dr. Gerhard F. Braun",
           "startDate": "01.01.2014",
           "endDate": "31.12.9999",
           "info": "Vorsitzender des Kuratoriums",
-          "image": "http://alumnicuza.org/wp-content/uploads/2013/06/Brad-Pitt_151.jpg",
-          "copyright": "© Drew Coffman"
+          "image": "config/sdw/data/media/vip_images/BraunGerhardF.jpg",
+          "copyright": "©"
         }
       ]
     },
