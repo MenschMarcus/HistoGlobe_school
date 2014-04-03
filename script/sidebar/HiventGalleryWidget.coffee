@@ -69,13 +69,14 @@ class HG.HiventGalleryWidget extends HG.TimeGalleryWidget
         $.get dsvPath,
           (data) =>
             parse_result = $.parse data, parse_config
+            console.log parse_result
             builder = new HG.HiventBuilder @_config, @_hgInstance.multimediaController
             for result, i in parse_result.results
               unless i+1 in @_config.ignoredLines
                 builder.constructHiventFromArray result, pathIndex, (hivent) =>
                   if hivent
-                  	console.log hivent
                     #handle = new HG.HiventHandle hivent
+                    #console.log hivent
                   	@_hivents.push hivent
                   	# slide =
                   	# 	date : hivent.displayDate
