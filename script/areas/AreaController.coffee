@@ -19,6 +19,9 @@ class HG.AreaController
     @_timeline = null
     @_now = null
 
+    @_categoryFilter =null
+    @_currentCategoryFilter = null # [category_a, category_b, ...]
+
     defaultConfig =
       areaJSONPaths: undefined,
       areaStylerConfig: undefined
@@ -40,11 +43,18 @@ class HG.AreaController
       for area in @_areas
         area.setDate date
 
+    hgInstance.categoryFilter?.onFilterChanged @,(categoryFilter) =>
+      @_currentCategoryFilter = categoryFilter
+      @_filterActiveAreas()
+
+    @_categoryFilter = hgInstance.categoryFilter if hgInstance.categoryFilter
+
   # ============================================================================
   loadAreasFromJSON: (config) ->
 
     for path in config.areaJSONPaths
       $.getJSON path, (countries) =>
+        countries_to_load = countries.features.length
         for country in countries.features
 
           execute_async = (c) =>
@@ -53,16 +63,54 @@ class HG.AreaController
 
               newArea.onShow @, (area) =>
                 @notifyAll "onShowArea", area
+                area.isVisible = true
 
               newArea.onHide @, (area) =>
                 @notifyAll "onHideArea", area
+                area.isVisible = false
 
               @_areas.push newArea
 
               newArea.setDate @_now
+
+
+              countries_to_load--
+              if countries_to_load is 0
+                @_currentCategoryFilter = @_categoryFilter.getCurrentFilter()
+                @_filterActiveAreas()
+
             , 0
 
           execute_async country
+
+  # ============================================================================
+  _filterActiveAreas:()->
+
+    console.log "filter areas",@_currentCategoryFilter
+
+    activeAreas = @getActiveAreas()
+    for area in activeAreas
+      active = false
+      for category in area.getCategories()
+        if category in @_currentCategoryFilter
+          active = true
+      if active
+        @notifyAll "onShowArea", area if not area.isVisible
+        area.isVisible = true
+        area.setDate @_now
+      else
+        @notifyAll "onHideArea", area
+        area.isVisible = false
+
+  # ============================================================================
+  filterArea:()->
+    for category in area.getCategories() #TODO
+      if category in @_currentCategoryFilter
+        return true
+    return false
+
+
+
 
   # ============================================================================
   getActiveAreas:()->

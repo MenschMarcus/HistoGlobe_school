@@ -72,6 +72,10 @@ $statistics_widget_margin_left        = 30px
 
 $statistics_widget_axis_width         = 2px
 
+// EVENT TICKER WIDGET ON ABOVE TIMELINE
+$event_ticker_margin_left    = 10px
+$event_ticker_font_size      = 17px
+
 // ------------------ TIMELINE OPTIONS -----------------------------------------
 $timeline_height                      = 80px
 $timeline_roundness                   = 8px
