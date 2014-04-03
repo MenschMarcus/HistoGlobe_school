@@ -9,12 +9,12 @@ class HG.HiventGalleryWidget extends HG.TimeGalleryWidget
   # ============================================================================
   constructor: (config) ->
   	defaultConfig =
-  	  htmlSlides : []
+  	  slides : []
 
   	@_hivents = []
-  	@_hiventHandles = []
-  	@_hiventsLoaded = false
-  	@_onHiventAddedCallbacks = []
+  	# @_hiventHandles = []
+  	# @_hiventsLoaded = false
+  	# @_onHiventAddedCallbacks = []
 
   	@_config = $.extend {}, defaultConfig, config
 
@@ -29,13 +29,40 @@ class HG.HiventGalleryWidget extends HG.TimeGalleryWidget
   # ============================================================================
   addSlide: (config) ->
     defaultConfig =
-      date : undefined
-      html : undefined
+      date : ""
+      name : ""
+      description : ""
+      media : ""
 
     config = $.extend {}, defaultConfig, config
-    date = config.date.split "."
-    @_changeDates[@getSlideCount()] = new Date date[2], date[1] - 1, date[0]
-    super config.html
+    # date = config.date.split "."
+    # @_changeDates[@getSlideCount()] = new Date date[2], date[1] - 1, date[0]
+    # super config.html
+
+    div = document.createElement "div"
+    div.className = "logo-widget"
+
+    logo = document.createElement "div"
+    logo.className = "logo-widget-image"
+    logo.style.backgroundImage = "url('#{config.media}')"
+    div.appendChild logo
+
+    name = document.createElement "div"
+    name.className = "text"
+    name.innerHTML = config.name
+    div.appendChild name
+
+    text = document.createElement "div"
+    text.className = "clear"
+   	text.innerHTML = config.description
+    div.appendChild text
+
+    displayDate = document.createElement "div"
+    displayDate.className = "date"
+    displayDate.innerHTML = config.date
+    div.appendChild displayDate
+
+    @addDivSlide {date: config.date, div: div}
 
 
   ############################### INIT FUNCTIONS ###############################
@@ -69,19 +96,19 @@ class HG.HiventGalleryWidget extends HG.TimeGalleryWidget
         $.get dsvPath,
           (data) =>
             parse_result = $.parse data, parse_config
-            console.log parse_result
             builder = new HG.HiventBuilder @_config, @_hgInstance.multimediaController
             for result, i in parse_result.results
               unless i+1 in @_config.ignoredLines
                 builder.constructHiventFromArray result, pathIndex, (hivent) =>
                   if hivent
                     #handle = new HG.HiventHandle hivent
-                    #console.log hivent
                   	@_hivents.push hivent
-                  	# slide =
-                  	# 	date : hivent.displayDate
-                  	# 	html : hivent.name
-                  	#@addHTMLSlide slide
+                  	slide =
+                  	 	date : hivent.displayDate
+                  	 	name : hivent.name
+                  	 	description : hivent.description
+                  	 	#media : hivent.multimedia
+                  	@addSlide slide
                   	#@_hiventHandles.push handle
                   	#callback handle for callback in @_onHiventAddedCallbacks
                     #@_filterHivents()
