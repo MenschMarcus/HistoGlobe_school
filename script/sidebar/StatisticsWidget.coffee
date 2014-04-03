@@ -166,7 +166,7 @@ class HG.StatisticsWidget extends HG.Widget
           .x((d) => return x(d[entry.config.xAttributeName]) )
           .y((d) => return y(d[entry.config.yAttributeName]) )
 
-        #line.interpolate("basis") if entry.config.smooth
+        line.interpolate("monotone") if entry.config.smooth
 
         x.domain(d3.extent(entry.data, (d) => return d[entry.config.xAttributeName] ))
         y.domain(@_config.yDomain)
@@ -204,11 +204,6 @@ class HG.StatisticsWidget extends HG.Widget
 
 
         #tooltip:
-
-        console.log "before"
-
-        console.log "canvas width: ",@_canvasWidth
-
         entry.focus = @_canvas.append("g")
             .attr("class", "focus"+count)
             #.style("display", "none");
@@ -229,7 +224,6 @@ class HG.StatisticsWidget extends HG.Widget
             .style("fill","#{entry.config.color}")
             #.style("fill","black")
 
-        console.log entry.data
 
       #@_svg.append("rect")
       rect = @_canvas.append("rect")
@@ -278,6 +272,7 @@ class HG.StatisticsWidget extends HG.Widget
   # ============================================================================
   _showTooltip: () =>
 
+
     fx = d3.time.scale()
       .range([0, @_canvasWidth])
     fy = d3.scale.linear()
@@ -285,6 +280,7 @@ class HG.StatisticsWidget extends HG.Widget
 
     count = 0
     for entry in @_data
+
 
       ++count
       #console.log "onmouseloop nr : ",count
@@ -299,7 +295,12 @@ class HG.StatisticsWidget extends HG.Widget
               HGConfig.statistics_widget_margin_left.val -
               HGConfig.widget_body_padding.val
 
+      y = window.event.clientY - $(@content).offset().top -
+              HGConfig.statistics_widget_margin_top.val -
+              HGConfig.widget_body_padding.val
+
       x0 = fx.invert(x)
+
       i = bisectDate(entry.data, x0, 1)
       d0 = entry.data[i - 1]
       d1 = entry.data[i]
@@ -307,6 +308,24 @@ class HG.StatisticsWidget extends HG.Widget
       d = d0
       if d1
         d = d1 if x0 - d0[entry.config.xAttributeName] > d1[entry.config.xAttributeName] - x0
+
+      #y offset:(quickhack)
+      yOffset = 0
+      entry.focus.text.attr("dy","#{yOffset}px")
+      yPosition = fy(d[entry.config.yAttributeName])
+      if @_data[count-2]
+        dist = @_data[count-2].focus.text.yPosition - yPosition
+        if Math.abs(dist) <10
+          if dist > 0
+            yPosition = @_data[count-2].focus.text.yPosition - 15
+            yOffset = @_data[count-2].focus.text.yOffset - 15
+          else
+            yPosition = @_data[count-2].focus.text.yPosition + 15
+            yOffset = @_data[count-2].focus.text.yOffset + 15
+          entry.focus.text.attr("dy","#{yOffset}px")
+      entry.focus.text.yPosition = yPosition
+      entry.focus.text.yOffset = yOffset
+
 
       entry.focus.attr("transform", "translate(" + fx(d[entry.config.xAttributeName]) + "," + fy(d[entry.config.yAttributeName]) + ")");
       #console.log "translate(" + fx(d[entry.config.xAttributeName]) + "," + fy(d[entry.config.yAttributeName]) + ")"
@@ -317,13 +336,23 @@ class HG.StatisticsWidget extends HG.Widget
       else
         entry.focus.text.attr("x", 15)
 
+      entry.focus.text.y = 
+
+      '''console.log(d3.mouse(@content));
+      console.log "x", fx(d[entry.config.xAttributeName])
+      console.log "y", fy(d[entry.config.yAttributeName])'''
+
 
       '''distx = window.event.clientX - (fx(d[entry.config.xAttributeName]) + $(@content).offset().left +
               HGConfig.statistics_widget_margin_left.val +
               HGConfig.widget_body_padding.val)
       disty = window.event.clientY - (fy(d[entry.config.yAttributeName]) + $(@content).offset().top +
               HGConfig.statistics_widget_margin_top.val +
-              HGConfig.widget_body_padding.val)
+              HGConfig.widget_body_padding.val)'''
+  
+      '''distx = d3.mouse(@content)[0] - fx(d[entry.config.xAttributeName])
+      disty = d3.mouse(@content)[1] - fy(d[entry.config.yAttributeName])
+
       distance = Math.sqrt(distx * distx + disty * disty)
 
 
@@ -333,15 +362,6 @@ class HG.StatisticsWidget extends HG.Widget
         entry.focus.style("display", null)
         @_min_dist = distance'''
 
-      '''console.log "x client",window.event.clientX
-      console.log "x",(fx(d[entry.config.xAttributeName]) + $(@content).offset().left +
-              HGConfig.statistics_widget_margin_left.val +
-              HGConfig.widget_body_padding.val)
-
-      console.log "y client",window.event.clientY
-      console.log "y",(fy(d[entry.config.yAttributeName]) + $(@content).offset().top +
-              HGConfig.statistics_widget_margin_top.val +
-              HGConfig.widget_body_padding.val)'''
 
 
 
