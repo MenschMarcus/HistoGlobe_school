@@ -74,12 +74,13 @@ class HG.HiventGalleryWidget extends HG.TimeGalleryWidget
               unless i+1 in @_config.ignoredLines
                 builder.constructHiventFromArray result, pathIndex, (hivent) =>
                   if hivent
+                  	console.log hivent
                     #handle = new HG.HiventHandle hivent
                   	@_hivents.push hivent
-                  	slide =
-                  		date : hivent.displayDate
-                  		html : hivent.name
-                  	@addHTMLSlide slide
+                  	# slide =
+                  	# 	date : hivent.displayDate
+                  	# 	html : hivent.name
+                  	#@addHTMLSlide slide
                   	#@_hiventHandles.push handle
                   	#callback handle for callback in @_onHiventAddedCallbacks
                     #@_filterHivents()
