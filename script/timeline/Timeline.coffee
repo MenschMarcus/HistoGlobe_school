@@ -37,6 +37,7 @@ class HG.Timeline
     #   now marker is always in middle of page and depends on nowDate of timeline
     @_nowMarker = new HG.NowMarker(@)
 
+    #   --------------------------------------------------------------------------
     @_moveDelay = 0
 
     #   --------------------------------------------------------------------------
@@ -307,6 +308,9 @@ class HG.Timeline
 
   getMaxIntervalIndex: ->
     @_maxIntervalIndex
+
+  getParentDiv: ->
+    @_config.parentDiv
 
   #   --------------------------------------------------------------------------
   #   move timeline to specified date and set date as new nowdate
