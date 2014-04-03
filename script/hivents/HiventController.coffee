@@ -20,6 +20,7 @@ class HG.HiventController
     @_currentSpaceFilter = null # { min: {lat: <float>, long: <float>},
                                  #   max: {lat: <float>, long: <float>}}
     @_currentCategoryFilter = null # [category_a, category_b, ...]
+    @_categoryFilter = null
 
     defaultConfig =
       hiventJSONPaths: undefined
@@ -49,6 +50,7 @@ class HG.HiventController
       @_currentCategoryFilter = categoryFilter
       @_filterHivents()
 
+    @_categoryFilter = hgInstance.categoryFilter if hgInstance.categoryFilter
 
     # @loadHiventsFromJSON()
     @loadHiventsFromDSV()
@@ -183,6 +185,7 @@ class HG.HiventController
             pathIndex++
 
             @_hiventsLoaded = true
+      @_currentCategoryFilter = @_categoryFilter.getCurrentFilter()
 
 
   # ============================================================================

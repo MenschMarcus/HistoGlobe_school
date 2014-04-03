@@ -89,6 +89,10 @@
   },
 
   "CategoryIconMapping" : {
+      "sdwEvent" : {
+        "default" : "config/exemplum/data/icons/plantage_default.png",
+        "highlighted" : "config/exemplum/data/icons/plantage_highlight.png"
+      },
       "A" : {
         "default" : "config/exemplum/data/icons/default_default.png",
         "highlighted" : "config/exemplum/data/icons/default_highlight.png"
@@ -574,7 +578,7 @@
     {
       "type": "LegendWidget",
       "icon": "fa-list-ul",
-      "name": "Filter",
+      "name": "Legende",
       "columns":
       [
         {
@@ -603,13 +607,13 @@
               "elements" : [
                 {
                   "type" : "category",
-                  "category" : "A",
+                  "category" : "P01",
                   "name" : "Projektereignisse",
                   "filterable" : true
                 },
                 {
                   "type" : "category",
-                  "category" : "T",
+                  "category" : "sdwEvent",
                   "name" : "Ereignisse der sdw-Geschichte",
                   "filterable" : true
                 }
