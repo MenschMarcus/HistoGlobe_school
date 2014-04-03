@@ -45,6 +45,11 @@ class HG.HiventController
     @_hgInstance.timeline.onIntervalChanged @, (timeFilter) =>
       @setTimeFilter timeFilter
 
+    @_hgInstance.categoryFilter?.onFilterChanged @,(categoryFilter) =>
+      @_currentCategoryFilter = categoryFilter
+      @_filterHivents()
+
+
     # @loadHiventsFromJSON()
     @loadHiventsFromDSV()
     # @loadHiventsFromDatabase()
@@ -67,10 +72,10 @@ class HG.HiventController
     @_currentSpaceFilter = spaceFilter
     @_filterHivents()
 
-  # ============================================================================
+  '''# ============================================================================
   setCategoryFilter: (categoryFilter) ->
     @_currentCategoryFilter = categoryFilter
-    @_filterHivents()
+    @_filterHivents()'''
 
   getHiventHandleById: (hiventId) ->
     for handle in @_hiventHandles

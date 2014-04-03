@@ -57,7 +57,8 @@ $gallery_widget_pagination_size       = 20px
 $picture_gallery_widget_image_height  = 250px
 
 // VIP WIDGET
-$vip_widget_image_height              = 200px
+$vip_widget_size                     = 100px
+$vip_widget_info_width               = 160px
 
 // LOGO WIDGET
 $logo_widget_image_height             = 100px
@@ -70,6 +71,10 @@ $statistics_widget_margin_bottom      = 20px
 $statistics_widget_margin_left        = 30px
 
 $statistics_widget_axis_width         = 2px
+
+// EVENT TICKER WIDGET ON ABOVE TIMELINE
+$event_ticker_margin_left    = 10px
+$event_ticker_font_size      = 17px
 
 // ------------------ TIMELINE OPTIONS -----------------------------------------
 $timeline_height                      = 80px
