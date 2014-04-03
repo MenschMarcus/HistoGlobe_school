@@ -39,7 +39,7 @@ $hivent_marker_2D_width             = 38px
 $hivent_marker_2D_height            = 38px
 
 $now_marker_background_image        = "../config/sdw/data/bg_timeline.png"
-$timeline_background                = "../config/sdw/data/bg_timeline.png"
+$timeline_background_image          = "../config/sdw/data/bg_timeline.png"
 $now_marker_border_color            = #666666
 $timeline_font_color                = #333333
 
