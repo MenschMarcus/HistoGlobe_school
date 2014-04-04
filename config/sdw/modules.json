@@ -25,7 +25,7 @@
     "stylers" :
     [
       {
-        "mapping": "config/common/countries/bundeslaender_mapping.json",
+        "mapping": "config/common/countries/sdw_cities_mapping.json",
         "domain": [0, 1],
         "fillOpacity": {
           "range": [0, 1],
@@ -45,7 +45,7 @@
 
   "AreaController" :
   {
-    "areaJSONPaths" : ["config/common/countries/bundeslaender.json"]
+    "areaJSONPaths" : ["config/common/countries/sdw_cities.json"]
   },
 
 
@@ -159,19 +159,19 @@
                   "elements" : [
                     {
                       "type" : "category",
-                      "category" : "P07",
+                      "category" : "P17",
                       "name" : "Studienförderwerk Klaus Murmann",
                       "description" : "<strong>Ziel:</strong> Das Studienförderwerk vergibt Stipendien an leistungsstarke Studierende und Promovierende mit Gemeinsinn und Unternehmergeist. Hauptförderer: Bundesministerium für Bilung und Forschung (BMBF)."
                     },
                     {
                       "type" : "category",
-                      "category" : "P13",
+                      "category" : "P18",
                       "name" : "TRANS-JOB",
                       "description": "<strong>Ziel:</strong> Durch systematische Kooperationen von Schulen mit Unternehmen die Berufswahlvorbereitung und Berufsorientierung junger Menschen zu fördern. Hauptförderer: Bundesministerium für Bilung und Forschung (BMBF)."
                     },
                     {
                       "type" : "category",
-                      "category" : "P02",
+                      "category" : "P19",
                       "name" : "Zeichen setzen! Integration macht Schule",
                       "description" : "<strong>Ziel:</strong> Ausländische Jugendliche vor allem an der Schnittstelle Schule/Ausbildung zu unterstützen, ihr Selbstwertgefühl stärken und sie bei der Berufswahlvorbereitung unterstützen. Hauptpartner: Deutsche Bahn AG, Europäischer Sozialfonds."
                     }

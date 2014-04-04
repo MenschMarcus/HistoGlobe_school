@@ -86,7 +86,7 @@ class HG.AreaController
   # ============================================================================
   _filterActiveAreas:()->
 
-    console.log "filter areas",@_currentCategoryFilter
+    #console.log "filter areas",@_currentCategoryFilter
 
     activeAreas = @getActiveAreas()
     for area in activeAreas
