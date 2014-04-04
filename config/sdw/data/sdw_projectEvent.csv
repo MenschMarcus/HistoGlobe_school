@@ -1,0 +1,46 @@
+Projektereignisse|||||||
+|||||||
+Projekt-ID|Name|Beschreibung|Datum|location|long|lat|Medien
+P##|Name des Ereignisses, nicht des Projekts||TT.MM.JJJJ|Stadt, kein Bundesland|||Liste mit ID aus Tabelle „Medien“
+P01|Erste Aufnahme|Aufnahme der ersten 21 Stipendiatinnen und Stipendiaten, ausschließlich an Fachhochschulen in den neuen Bundesländern.|1.1.1995|Berlin|52,52|13,4|
+P01|Erste Aufnahme|Aufnahme der ersten 21 Stipendiatinnen und Stipendiaten, ausschließlich an Fachhochschulen in den neuen Bundesländern.|1.1.1995|Stralsund|54,312|13,09|
+P01|Erste Aufnahme|Aufnahme der ersten 21 Stipendiatinnen und Stipendiaten, ausschließlich an Fachhochschulen in den neuen Bundesländern.|1.1.1995|Brandenburg (Havel)|52,413|12,552|
+P01|Erste Aufnahme|Aufnahme der ersten 21 Stipendiatinnen und Stipendiaten, ausschließlich an Fachhochschulen in den neuen Bundesländern.|1.1.1995|Erfurt|50,986|11,022|
+P01|Erste Aufnahme|Aufnahme der ersten 21 Stipendiatinnen und Stipendiaten, ausschließlich an Fachhochschulen in den neuen Bundesländern.|1.1.1995|Dresden|51,05|13,739|
+P01|Namensgebung|"Das Studienförderwerk erhält den Namen ""Studienförderwerk Klaus Murmann""."|1.1.1997|Berlin|52,52|13,4|
+P01|Gründung Alumni-Verein|Der Alumni-Verein des Studienförderwerks wird ins Leben gerufen. Auszug aus der Satzung:1. Multiplikation der Stiftungsidee der Stiftung der Deutschen Wirtschaft und Einbringen dieser in das eigene Lebens- und Arbeitsumfeld.2. Aufrechterhaltung und Ausbau des Netzwerks zwischen den Alumni.3. Weitergabe der während der eigenen Förderzeit erhaltenen Unterstützung an die aktuelle Stipendiatengeneration.|1.1.1999|Berlin|52,52|13,4|
+P01|Dialogforum|"Mit dem ""Dialogforum Stipendiaten-Unternehmen"" etabliert das Studienförderwerk ein erfolgreiches Seminarformat, das bis heute fester Bestandteil im Veranstaltungskalender ist."|1.9.2000|Potsdam|52,401|13,049|M15,M16
+P01|deutschlanders|"Ein Projektwettbewerbsteam des Studienförderwerks Klaus Murmann stellt unter dem Motto ""deutschlanders"" eine zweitägige Diskussionsveranstaltung mit vielen Prominenten auf die Beine. Über ""Welche Vision braucht Deutschland?"" diskutierten im Haus der Deutschen Wirtschaft (nach ihren damaligen Funktionen): Klaus Uwe Benneter, SPD, Martin Kannegiesser vom Arbeitgeberverband Gesamtmetall, Michael Sommer, DGB, Prof. Dr. Andreas Pinkwart, FDP, Krista Sager, Bündnis 90.DIE GRÜNEN, Hermann-Josef Arentz, CDU, Gregor Gysi, PDS, und der Publizist Oswald Metzger."|8.10.2004|Berlin|52,52|13,4|M36,M37,M38,M39,M40,M41,M42,M43,M44,M45,M111
+P01|Erste sdWM|"2006, im Jahr des ""Sommermärchens"", veranstalteten das Studienförderwerk Klaus Murmannund der Alumni-Verein die 1. ""sdWM"". Heute ist sie fester jährlicher Bestandteil des Veranstaltungskalenders."|10.6.2006|Leipzig|51,339|12,377|M48
+P01|FH-Kampagne|Ein neuer Werbefilm des Studienförderwerks Klaus Murmann richtet sich speziell an Fachhochschulstudierende. Der Film soll FH-Studierende dazu ermuntern, sich um ein Stipendium der sdw zu bewerben.|1.12.2012|Berlin|52,52|13,4|M178,M179
+P16|"Kongress ""Initiative Leadership"""|Gemeinsam mit der Robert Bosch Stiftung lädt das Studienkolleg der sdw im Rahmen ihrer Initiative Leadership in der Lehrerbildung im November 2013 zum Kongress. Zu den Rednern und Diskutanten gehörten u. a. Sylvia Löhrmann, Ministerin für Schule und Weiterbildung des Landes Nordrhein-Westfalen, und der Bundesminister der Verteidigung Dr. Thomas de Maizière. |21.11.2013|Berlin|52,52|13,4|M191,M192
+P16|Neuer Film|Ein neuer Film des Studienkollegs zu den Kompetenzen für pädagogische Führung wird veröffentlicht.|26.2.2014|Berlin|52,52|13,4|
+P17|Neuer Standort|Berlin wird neuer Standort des Studienkompasses.|1.7.2008|Berlin|52,52|13,4|M99,M100,M101,M102,M103,M104,M105,M106
+P17|Neuer Standort|Mannheim wird neuer Standort des Studienkompasses.|1.7.2008|Mannheim|49,483|8,467|M99,M100,M101,M102,M103,M104,M105,M106
+P17|Neuer Standort|"Cloppenburg wird neuer Standort des Studienkompasses im Zuge der ""Reviererweiterung""."|1.9.2009|Cloppenburg|52,85|8,05|
+P17|Neuer Standort|"Delmenhorst wird neuer Standort des Studienkompasses im Zuge der ""Reviererweiterung""."|1.9.2009|Delmenhorst|53,05|8,633|
+P17|Neuer Standort|"Paderborn wird neuer Standort des Studienkompasses im Zuge der ""Reviererweiterung""."|1.9.2009|Paderborn|51,717|8,75|
+P17|Neuer Standort|"Papenburg wird neuer Standort des Studienkompasses im Zuge der ""Reviererweiterung""."|1.9.2009|Papenburg|53,083|7,4|
+P17|Neuer Standort|Regensburg wird neuer Standort des Studienkompasses.|1.9.2009|Regensburg|49,017|12,1|
+P17|Neuer Standort|Augsburg wird neuer Standort des Studienkompasses.|1.8.2010|Augsburg|48,367|10,9|
+P17|Neuer Standort|Bamberg wird neuer Standort des Studienkompasses.|1.8.2010|Bamberg|49,9|10,883|
+P17|Neuer Standort|Halle wird neuer Standort des Studienkompasses.|1.8.2010|Halle|51,479|11,978|
+P17|Neuer Standort|München wird neuer Standort des Studienkompasses.|1.8.2010|München|48,133|11,567|
+P17|Neuer Standort|Nürnberg wird neuer Standort des Studienkompasses.|1.8.2010|Nürnberg|49,45|11,083|
+P17|Neuer Standort|Gummersbach wird neuer Standort des Studienkompasses.|1.8.2010|Gummersbach|51,033|7,567|
+P17|Neuer Standort|Passau wird neuer Standort des Studienkompasses.|1.8.2010|Passau|48,567|13,467|
+P17|Neuer Standort|Würzburg wird neuer Standort des Studienkompasses.|1.8.2010|Würzburg|49,8|9,933|
+P17|Neuer Standort|Lübeck wird neuer Standort des Studienkompasses.|1.9.2011|Lübeck|53,867|10,683|
+P17|Neuer Standort|Kiel wird neuer Standort des Studienkompasses.|1.9.2011|Kiel|54,333|10,133|
+P17|Neuer Standort|Greifswald wird neuer Standort des Studienkompasses.|1.9.2011|Greifswald|54,089|13,383|
+P17|Neuer Standort|Stralsund wird neuer Standort des Studienkompasses.|1.9.2011|Stralsund|54,312|13,09|
+P17|Gründung Alumni-Verein|Die Absolventen des Studienkompass gründen den Alumni-Verein Ask e. V.|1.10.2011|Frankfurt (Main)|50,117|8,683|M150,M151,M152,M153,M154,M155,M156,M157,M158
+P17|2.000 mal Zukunft|"Fünf Studienkompass-Alumni stellen eine große und prominent besetzte Veranstaltung auf die Beine: Unter dem Titel ""2.000 mal Zukunft"" diskutieren Experten über bestehende Hürden, Möglichkeiten für mehr Chancengerechtigkeit und Unterstützungsangebote auf dem Weg an die Uni. Diskutanten sind u. a. Prof. Jutta Allmendinger Ph.D. (Präsidentin des Wissenschaftszentrums Berlin), Michael Kretschmer (Stellv. Vorsitzender der CDU.CSU-Bundestagsfraktion), Marlehn Thieme (Vorsitzende des Rates für Nachhaltige Entwicklung) und Prof. Dr. Dieter Timmermann (Präsident des Deutschen Studentenwerks). "|26.6.2013|Berlin|52,52|13,4|
+P17|Neuer Standort|Stuttgart wird neuer Standort des Studienkompasses.|1.9.2013|Stuttgart|48,783|9,183|M180
+P17|Neuer Standort|Tübingen wird neuer Standort des Studienkompasses.|1.9.2013|Tübingen|48,517|9,067|M180
+P17|Neuer Standort|Freiburg wird neuer Standort des Studienkompasses.|1.9.2013|Freiburg|48|7,85|M180
+P17|Neuer Standort|Leipzig wird neuer Standort des Studienkompasses.|1.9.2013|Leipzig|51,339|12,377|M180
+P17|Neuer Standort|Bremen wird neuer Standort des Studienkompasses.|1.9.2013|Bremen|53,083|8,817|M180
+P17|Neuer Standort|Braunschweig wird neuer Standort des Studienkompasses.|27.2.2014|Braunschweig|52,267|10,533|M195,M196,M197
+P17|Neuer Standort|Wolfsburg wird neuer Standort des Studienkompasses.|27.2.2014|Wolfsburg|52,417|10,783|M195,M196,M197
+P17|Neuer Standort|Dresden wird neuer Standort des Studienkompasses.|27.2.2014|Dresden|51,05|13,739|M195,M196,M197

@@ -52,15 +52,15 @@
   "AreasOnMap" : {},
 
   "MultimediaController": {
-    "dsvPaths": ["config/exemplum/data/exemplum_medium.csv"],
-    "rootDirs": ["config/exemplum/data/media"],
-    "ignoredLines" : [1,2,3,4,5,6],
+    "dsvPaths": ["config/sdw/data/sdw_medium.csv"],
+    "rootDirs": ["config/sdw/data/media"],
+    "ignoredLines" : [1,2,3,4],
     "indexMappings": [
       {
         "id"          : 0,
-        "type"        : 2,
-        "description" : 3,
-        "source"      : 4,
+        "type"        : 7,
+        "description" : 2,
+        "source"      : 3,
         "link"        : 1
       }
     ]
@@ -69,35 +69,21 @@
 
   "HiventController" :
   {
-    "dsvPaths": ["config/exemplum/data/exemplum_event.csv", "config/exemplum/data/exemplum_branch.csv"],
-    "ignoredLines" : [1,2,3,4,5,6],
+    "dsvPaths": ["config/sdw/data/sdw_projectEvent.csv"],
+    "ignoredLines" : [1,2,3,4],
     "indexMappings" : [
       {
         "id"          : 0,
         "name"        : 1,
-        "description" : 7,
-        "startDate"   : 2,
-        "endDate"     : 2,
-        "displayDate" : 2,
-        "location"    : 3,
-        "lat"         : 4,
-        "long"        : 5,
-        "category"    : 8,
-        "multimedia"  : 6
-      },
-
-      {
-        "id"          : 0,
-        "name"        : 1,
-        "description" : 9,
-        "startDate"   : 2,
+        "description" : 2,
+        "startDate"   : 3,
         "endDate"     : 3,
-        "displayDate" : 4,
-        "location"    : 5,
+        "displayDate" : 3,
+        "location"    : 4,
         "lat"         : 6,
-        "long"        : 7,
-        "category"    : 10,
-        "multimedia"  : 8
+        "long"        : 5,
+        "category"    : 0,
+        "multimedia"  : 7
       }
     ]
   },
@@ -130,6 +116,18 @@
       "T" : {
         "default" : "config/exemplum/data/icons/tour_default.png",
         "highlighted" : "config/exemplum/data/icons/tour_highlight.png"
+      },
+      "P01" : {
+        "default" : "config/exemplum/data/icons/fabrik_default.png",
+        "highlighted" : "config/exemplum/data/icons/fabrik_highlight.png"
+      },
+      "P16" : {
+        "default" : "config/exemplum/data/icons/shop_default.png",
+        "highlighted" : "config/exemplum/data/icons/shop_highlight.png"
+      },
+      "P17" : {
+        "default" : "config/exemplum/data/icons/zweigstelle_default.png",
+        "highlighted" : "config/exemplum/data/icons/zweigstelle_highlight.png"
       }
     },
 
@@ -159,21 +157,168 @@
                   "elements" : [
                     {
                       "type" : "category",
-                      "category" : "P17",
+
+                      "category" : "P01",
                       "name" : "Studienförderwerk Klaus Murmann",
                       "description" : "<strong>Ziel:</strong> Das Studienförderwerk vergibt Stipendien an leistungsstarke Studierende und Promovierende mit Gemeinsinn und Unternehmergeist. Hauptförderer: Bundesministerium für Bilung und Forschung (BMBF)."
                     },
                     {
                       "type" : "category",
-                      "category" : "P18",
+
+                      "category" : "P02",
                       "name" : "TRANS-JOB",
                       "description": "<strong>Ziel:</strong> Durch systematische Kooperationen von Schulen mit Unternehmen die Berufswahlvorbereitung und Berufsorientierung junger Menschen zu fördern. Hauptförderer: Bundesministerium für Bilung und Forschung (BMBF)."
                     },
                     {
                       "type" : "category",
-                      "category" : "P19",
+
+                      "category" : "P03",
                       "name" : "Zeichen setzen! Integration macht Schule",
                       "description" : "<strong>Ziel:</strong> Ausländische Jugendliche vor allem an der Schnittstelle Schule/Ausbildung zu unterstützen, ihr Selbstwertgefühl stärken und sie bei der Berufswahlvorbereitung unterstützen. Hauptpartner: Deutsche Bahn AG, Europäischer Sozialfonds."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P04",
+                      "name" : "Mit MINT zum Beruf",
+                      "description" : "<strong>Ziel:</strong> Über Unterrichtsgestaltung und frühzeitige Praxiskontakte mehr Jugendliche für eine MINT-Ausbildung oder ein MINT-Studium motivieren."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P05",
+                      "name" : "Fernakademie",
+                      "description" : "<strong>Ziel:</strong> Mittels eines Fernlehrgangs Berufstätigen betriebswirtschaftliche Kompetenzen vermitteln."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P06",
+                      "name" : "Ökonomische Bildung online",
+                      "description" : "<strong>Ziel:</strong> Lehrkräften eine interdisziplinäre und internetbasierte Fortbildung im Bereich Wirtschaftswissen ermöglichen."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P07",
+                      "name" : "SCHULE WIRTSCHAFT Euregios",
+                      "description" : "<strong>Ziel:</strong> Schüler über die Bundesgrenzen hinaus für die Berufsregion Deutschland.Tschechien.Polen sensibilisieren."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P08",
+                      "name" : "Den Qualitätsverbesserungsprozess an Schulen in Bremen und Bremerhaven verbessern (QVP)",
+                      "description" : "<strong>Ziel:</strong> Schulen dabei unterstützen, ihre Arbeit selbstständig zu überprüfen, zu bewerten und zu verbessern."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P09",
+                      "name" : "TRANS - KOMPETENZ",
+                      "description" : "<strong>Ziel:</strong> Lernschwachen Schülern Perspektiven aufzeigen und sie dazu motivieren, die Schule erfolgreich abzuschließen."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P10",
+                      "name" : "Ganztagsschulen gestalten - Kooperation, schafft Zukunft",
+                      "description" : "<strong>Ziel:</strong> Berufsorientierung fest in Schulprogrammen verankern, um Jugendliche frühzeitig in ihrer Berufswahl zu unterstützen."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P11",
+                      "name" : "Herausforderung Unternehmertum",
+                      "description" : "<strong>Ziel:</strong> Gründungslust bei den Stipendiaten des Studienförderwerks Klaus Murmann wecken und ihnen frühzeitig unternehmerische Praxiserfahrung ermöglichen."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P12",
+                      "name" : "MINToring",
+                      "description" : "<strong>Ziel:</strong> Mehr Schüler im norddeutschen Raum für ein Studium im MINT-Bereich begeistern."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P13",
+                      "name" : "PROFIS - Programm Führungskompetenz in Schulen",
+                      "description" : "<strong>Ziel:</strong> Die Fähigkeiten von Berliner Schulleitern in Führungs- und Managementaufgaben gezielt ausbauen."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P14",
+                      "name" : "BOSS - Brandenburger Oberschulen und Schüler stärken",
+                      "description" : "<strong>Ziel:</strong> Verbesserung der Berufsorientierung an Oberschulen in Brandenburg mit Hilfe von stärkenorientierten Future Camps für die Schüler."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P15",
+                      "name" : "Schulen auf Erfolgskurs - Hauptschulen verändern sich",
+                      "description" : "<strong>Ziel:</strong> Schulmanagement und den praxisorientierten Unterricht an Berliner Hauptschulen verbessern."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P16",
+                      "name" : "Studienkolleg - Stipendien für Lehramtsstudierende",
+                      "description" : "<strong>Ziel:</strong> Angehende Lehrkräfte dabei unterstützen, sich mit pädagogischen Führungsaufgaben vertraut zu machen und sich zu engagierten Schulgestaltern von morgen zu entwickeln."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P17",
+                      "name" : "Studienkompass",
+                      "description" : "<strong>Ziel:</strong> Motiviert junge Menschen aus Familien ohne akademische Erfahrung zur Aufnahme eines Studiums."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P18",
+                      "name" : "MINToring - Studierende begleiten Schülerinnen und Schüler",
+                      "description" : "<strong>Ziel:</strong> Jugendliche für MINT-Themen begeistern und bei der Wahl eines passenden MINT-Studiums unterstützen."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P19",
+                      "name" : "Zeig, was Du kannst! Erfolgreich ins Berufsleben starten",
+                      "description" : "<strong>Ziel:</strong> Jugendliche beim Übergang von der Schule in die Berufsausbildung oder die weiterführende Schule begleiten."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P20",
+                      "name" : "Unternehmen:Jugend. Zusammenarbeit mit Zukunft",
+                      "description" : "<strong>Ziel:</strong> Jugendliche und junge Erwachsene mit gefährdetem Schulabschluss und ohne Berusfausbildung zum Schulabschluss motivieren und auf die Arbeitswelt vorbereiten."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P21",
+                      "name" : "Elternkompass",
+                      "description" : "<strong>Ziel:</strong> Beratung von Eltern und anderen Interessierten zu den Angeboten der Begabtenförderwerke und weitere Stipendiengeber."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P22",
+                      "name" : "Netzwerk SCHULEWIRTSCHAFT Ostdeutschland",
+                      "description" : "<strong>Ziel:</strong> Junge Menschen in Ostdeutschland bei der Berufsorientierung unterstützen und Akteure am Übergang Schule-Berufsausbildung miteinander vernetzen."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P23",
+                      "name" : "Zeig was Du kannst!",
+                      "description" : "<strong>Ziel:</strong> Motivierte und leistungsorientierte Schüler des Hauptschulzweiges fit machen für ihren Bildungs- und Berufsweg."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P24",
+                      "name" : "Lehramt MINToring",
+                      "description" : "<strong>Ziel:</strong> Jugendliche zu einem Lehramtsstudium in den MINT-Fächern motivieren."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P25",
+                      "name" : "Universum Wirtschaft. Impulse für Lehrer von morgen",
+                      "description" : "<strong>Ziel:</strong> Lehramtsstudierenden und jungen Lehrern ökonomisches Grundwissen vermitteln."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P26",
+                      "name" : "Studien- und Berufsorientierung im P-Seminar",
+                      "description" : "<strong>Ziel:</strong> Erfolgsbausteine des Studienkompass in die Projektseminare zur Studien- und Berufsorientierung an allen bayerischen Gymnasien integrieren."
+                    },
+                    {
+                      "type" : "category",
+                      "category" : "P27",
+                      "name" : "Vivo - Bildung von Grund auf!",
+                      "description" : "<strong>Ziel:</strong> Kinder beim Übergang von der Grundschule auf die weiterführende Schule unterstützen."
                     }
                   ]
                 }
@@ -190,14 +335,20 @@
       "logos" :
       [
         {
-          "text": "Das erste Logo der sdw",
           "date": "01.01.1994",
           "logo": "config/sdw/data/media/logo1.jpg"
         },
         {
-          "text": "Das zweite Logo der sdw",
           "date": "01.01.2001",
           "logo": "config/sdw/data/media/logo2.jpg"
+        },
+        {
+          "date": "01.01.2004",
+          "logo": "config/sdw/data/media/logo3.jpg"
+        },
+        {
+          "date": "01.01.2010",
+          "logo": "config/sdw/data/media/logo4.jpg"
         }
       ]
     },
@@ -288,97 +439,116 @@
           "startDate": "01.01.1994",
           "endDate": "31.12.2002",
           "info": "Mitgründer",
-          "image": "http://thetangential.com/wp-content/uploads/2011/03/winnie_the_pooh_1.jpg",
-          "copyright": "© Drew Coffman"
+          "image": "config/sdw/data/media/vip_images/DrMurmann2.jpg",
+          "copyright": "©"
         },
         {
           "name": "Prof. Dr. Klaus Murmann",
           "startDate": "01.01.2003",
           "endDate": "31.12.2010",
           "info": "Vorsitzender der sdw",
-          "image": "http://thetangential.com/wp-content/uploads/2011/03/winnie_the_pooh_1.jpg",
-          "copyright": "© Drew Coffman"
+          "image": "config/sdw/data/media/vip_images/PortraitDrKlausMurmann.jpg",
+          "copyright": "©"
         },
         {
           "name": "Prof. Dr. Klaus Murmann",
           "startDate": "01.01.2011",
           "endDate": "31.12.9999",
           "info": "Ehrenvorsitzender",
-          "image": "http://thetangential.com/wp-content/uploads/2011/03/winnie_the_pooh_1.jpg",
-          "copyright": "© Drew Coffman"
+          "image": "config/sdw/data/media/vip_images/PortraitDrKlausMurmann.jpg",
+          "copyright": "©"
         },
         {
           "name": "Hans-Jürgen Brackmann",
           "startDate": "01.01.1994",
           "endDate": "31.12.2000",
           "info": "Geschäftsführender Vorstand",
-          "image": "http://upload.wikimedia.org/wikipedia/commons/b/b9/Angela_Merkel_%28August_2012%29_cropped.jpg",
-          "copyright": "© Drew Coffman"
+          "image": "config/sdw/data/media/vip_images/PortraitBrackmann.jpg",
+          "copyright": "©"
         },
         {
           "name": "Hans-Jürgen Brackmann",
           "startDate": "01.01.2001",
           "endDate": "31.12.2010",
           "info": "Generalsekretär",
-          "image": "http://upload.wikimedia.org/wikipedia/commons/b/b9/Angela_Merkel_%28August_2012%29_cropped.jpg",
-          "copyright": "© Drew Coffman"
+          "image": "config/sdw/data/media/vip_images/HansJürgenBrackmann1.jpg",
+          "copyright": "©"
         },
         {
           "name": "Dr. Arndt Schnöring",
           "startDate": "01.01.2011",
           "endDate": "31.12.9999",
           "info": "Generalsekretär",
-          "image": "http://www.heise.de/tp/artikel/26/26868/26868_2.jpg",
-          "copyright": "© Drew Coffman"
+          "image": "config/sdw/data/media/vip_images/PorträtArndtSchnöring.jpg",
+          "copyright": "©"
         },
         {
           "name": "Dr. Josef Siegers",
           "startDate": "01.01.1994",
           "endDate": "31.12.2000",
           "info": "Vorstandsvorsitzender",
-          "image": "http://www.heise.de/tp/artikel/26/26868/26868_2.jpg",
-          "copyright": "© Drew Coffman"
+          "image": "config/sdw/data/media/vip_images/Siegers.jpg",
+          "copyright": "©"
         },
         {
           "name": "Prof. Dr. Klaus Murmann",
           "startDate": "01.01.2001",
           "endDate": "31.12.2010",
           "info": "Vorstandsvorsitzender",
-          "image": "http://thetangential.com/wp-content/uploads/2011/03/winnie_the_pooh_1.jpg",
-          "copyright": "© Drew Coffman"
+          "image": "config/sdw/data/media/vip_images/PortraitDrKlausMurmann.jpg",
+          "copyright": "©"
         },
         {
           "name": "Ingo Kramer",
           "startDate": "01.01.2011",
           "endDate": "31.12.9999",
           "info": "Vorstandsvorsitzender",
-          "image": "http://www.adiweiss.at/sites/default/files/content-images/maja-kopie-2.jpg",
-          "copyright": "© Drew Coffman"
+          "image": "config/sdw/data/media/vip_images/PorträtIngoKramer2010.jpg",
+          "copyright": "©"
         },
         {
           "name": "Prof. Dr. Dieter Hundt",
           "startDate": "01.01.2003",
           "endDate": "31.12.2013",
           "info": "Vorsitzender des Kuratoriums",
-          "image": "http://screenshots.de.sftcdn.net/de/scrn/87000/87874/biene-maja-bildschirmschoner-4.jpg",
-          "copyright": "© Drew Coffman"
+          "image": "config/sdw/data/media/vip_images/ProfDrDieterHundt.jpg",
+          "copyright": "©"
         },
         {
           "name": "Dr. Gerhard F. Braun",
           "startDate": "01.01.2014",
           "endDate": "31.12.9999",
           "info": "Vorsitzender des Kuratoriums",
-          "image": "http://alumnicuza.org/wp-content/uploads/2013/06/Brad-Pitt_151.jpg",
-          "copyright": "© Drew Coffman"
+          "image": "config/sdw/data/media/vip_images/BraunGerhardF.jpg",
+          "copyright": "©"
         }
       ]
+    },
+    {
+      "type": "HiventGalleryWidget",
+      "dsvPaths": ["config/sdw/data/sdw_event.csv"],
+      "ignoredLines" : [1,2,3,4],
+      "indexMappings" : [
+      {
+        "id"          : 0,
+        "name"        : 1,
+        "description" : 2,
+        "startDate"   : 3,
+        "endDate"     : 3,
+        "displayDate" : 3,
+        "category"    : 5,
+        "multimedia"  : 4
+      }
+      ],
+      "icon": "fa-list-ul",
+      "name": "Ereignisse der sdw-Geschichte"
     },
     {
       "type" : "StatisticsWidget",
       "icon" : "fa-bar-chart-o",
       "name" : "Entwicklungen",
-      "title" : "Stipendiaten und Programmteilnehmer seit 1994",
-      "yDomain" : [0, 750],
+      "title" : "Stipendiaten und Programmteilnehmer",
+      "yDomain" : [0, 5000],
       "xLableTicks" : 5,
       "yLableTicks" : 5,
       "yCaption" : "Anzahl",
@@ -388,6 +558,7 @@
           "dataPath" : "config/sdw/data/statistics_scholars.dsv",
           "xAttributeName" : "date",
           "yAttributeName" : "amount",
+          "label" : "Stipendiaten",
           "color" : "#338A66",
           "width" : "3px",
           "smooth" : true
@@ -396,6 +567,7 @@
           "dataPath" : "config/sdw/data/statistics_program_participants.dsv",
           "xAttributeName" : "date",
           "yAttributeName" : "amount",
+          "label" : "Programmteilnehmer",
           "color" : "#666",
           "width" : "3px",
           "smooth" : true
@@ -411,18 +583,37 @@
         {
           "groups" : [
             {
+              "name" : "",
+              "elements" : [
+                {
+                  "type" : "categoryWithIcon",
+                  "category" : "default",
+                  "icon" : "config/exemplum/data/icons/absatzmarkt.png",
+                  "name" : "Städte",
+                  "filterable" : false
+                },
+                {
+                  "type" : "categoryWithIcon",
+                  "category" : "default",
+                  "icon" : "config/exemplum/data/icons/absatzmarkt.png",
+                  "name" : "Bundesländer",
+                  "filterable" : false
+                }
+              ]
+            },
+            {
               "name": "Wichtige Ereignisse",
               "elements" : [
                 {
                   "type" : "category",
                   "category" : "A",
-                  "name" : "Aktivität",
+                  "name" : "Projektereignisse",
                   "filterable" : true
                 },
                 {
                   "type" : "category",
                   "category" : "T",
-                  "name" : "Exemplum Tour",
+                  "name" : "Ereignisse der sdw-Geschichte",
                   "filterable" : true
                 }
               ]
