@@ -607,13 +607,13 @@
               "elements" : [
                 {
                   "type" : "category",
-                  "category" : "P01",
+                  "category" : "A",
                   "name" : "Projektereignisse",
                   "filterable" : true
                 },
                 {
                   "type" : "category",
-                  "category" : "sdwEvent",
+                  "category" : "T",
                   "name" : "Ereignisse der sdw-Geschichte",
                   "filterable" : true
                 }
