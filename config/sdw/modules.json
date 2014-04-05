@@ -132,8 +132,8 @@
         "endDate"     : 3,
         "displayDate" : 3,
         "location"    : 4,
-        "lat"         : 6,
-        "long"        : 5,
+        "lat"         : 5,
+        "long"        : 6,
         "category"    : 0,
         "multimedia"  : 7
       }
