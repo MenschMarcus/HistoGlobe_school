@@ -121,7 +121,7 @@
 
   "HiventController" :
   {
-    "dsvPaths": ["config/sdw/data/sdw_projectEvent.csv"],
+    "dsvPaths": ["config/sdw/data/sdw_projectEvent2.csv"],
     "ignoredLines" : [1,2,3,4],
     "indexMappings" : [
       {
