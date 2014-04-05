@@ -10,12 +10,12 @@ build
 histoglobe.sublime-workspace
 script/histoglobe.min.js
 style/*.min.css
+config/common/tiles
 config/sdw/map/tiles
 config/sdw/map/tmp
+config/sdw/data/media
+config/sdw/data/tiles
 config/exemplum/data/tiles
 config/exemplum/map/tmp
 config/exemplum/data/media
-config/sdw/data/tiles
-config/sdw/map/tmp
-config/common/tiles
-config/sdw/data/media
+config/sixt/data/tiles
