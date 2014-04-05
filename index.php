@@ -1,4 +1,4 @@
-<?php $debug_mode = true; ?>
+cjr<?php $debug_mode = true; ?>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de-de" lang="de-de" dir="ltr">

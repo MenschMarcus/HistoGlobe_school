@@ -204,123 +204,50 @@
       [
         {
           "name": "Martin Exelsior",
-          "date": "01.06.1964",
-          "displayDate": "Geschäftsführer von 1964 bis 1976",
+          "startDate": "01.06.1964",
+          "endDate": "04.03.1976",
           "image": "config/exemplum/data/media/exelsior.jpg",
           "copyright": "© Drew Coffman",
-          "description": "Martin Exelsior übernimmt als Gründer die Geschäftsführung der Exemplum GmbH."
+          "info": "Gründer und Geschäftsführer",
+          "infoLong": "Martin Exelsior übernimmt als Gründer die Geschäftsführung der Exemplum GmbH."
         },
         {
           "name": "Peter Paulsen",
-          "date": "04.03.1976",
-          "displayDate": "Geschäftsführer von 1976 bis 1990",
+          "startDate": "04.03.1976",
+          "endDate": "01.02.1990",
           "image": "config/exemplum/data/media/peter_paulsen.jpg",
           "copyright": "© Victor1558",
-          "description": "Peter Paulsen tritt die Martin Exelsiors Nachfolge an. Peter Paulsen war zuvor Zweigstellenleiter in Österreich und der Schweiz."
+          "info": "Vom Zweigstellenleiter zum Geschäftsführer",
+          "infoLong": "Peter Paulsen tritt die Martin Exelsiors Nachfolge an. Peter Paulsen war zuvor Zweigstellenleiter in Österreich und der Schweiz."
         },
         {
           "name": "Frank Schneider",
-          "date": "01.02.1990",
-          "displayDate": "Geschäftsführer von 1990 bis 1997",
+          "startDate": "01.02.1990",
+          "endDate": "02.03.1997",
           "image": "config/exemplum/data/media/frank_schneider.jpg",
           "copyright": "© Victor1558",
-          "description": "Frank Schneider löst Peter Paulsen ab. Frank Schneider war zuvor Leiter des Produktmarketings."
+          "info": "Vom Leiter des Produktmarketings zum Geschäftsführer",
+          "infoLong": "Frank Schneider löst Peter Paulsen ab. Frank Schneider war zuvor Leiter des Produktmarketings."
         },
         {
           "name": "Sabrina Fahrenkamp",
-          "date": "02.03.1997",
-          "displayDate": "Geschäftsführerin von 1997 bis 2005",
+          "startDate": "02.03.1997",
+          "endDate": "25.06.2005",
           "image": "config/exemplum/data/media/sabrina_fahrenkamp.jpg",
           "copyright": "© Victor1558",
-          "description": "Sabrina Fahrenkamp wird als Geschäftsführerin eingesetzt. Zuvor war sie Zweigstellenleiterin in den USA und für die interne Unternehmenskommunikation verantwortlich."
+          "info": "Erste Geschäftsführerin",
+          "infoLong": "Sabrina Fahrenkamp wird als Geschäftsführerin eingesetzt. Zuvor war sie Zweigstellenleiterin in den USA und für die interne Unternehmenskommunikation verantwortlich."
         },
         {
           "name": "Geoffrey Brooks",
-          "date": "25.06.2005",
-          "displayDate": "Geschäftsführer seit dem 25.06.2005",
+          "startDate": "25.06.2005",
+          "endDate": "31.12.9999",
           "image": "config/exemplum/data/media/geoffrey_brooks.jpg",
           "copyright": "© Victor1558",
-          "description": "Geoffrey Brooks tritt die Nachfolge Sabrina Fahrenkamps an. Er war zuvor bei einer großen Unternehmensberatung als Partner tätig. Geoffrey Brooks ist der erste Geschäftsführer, der nicht aus den eigenen Reihen kommt."
+          "info": "Erste Geschäftsführer nicht aus den eigenen Reihen",
+          "infoLong": "Geoffrey Brooks tritt die Nachfolge Sabrina Fahrenkamps an. Er war zuvor bei einer großen Unternehmensberatung als Partner tätig. Geoffrey Brooks ist der erste Geschäftsführer, der nicht aus den eigenen Reihen kommt."
         }
       ]
-    },
-    {
-    "type" : "PictureGalleryWidget",
-    "icon" : "fa-glass",
-    "name" : "Produkte",
-    "pictures" :
-    [
-      {
-        "image": "config/exemplum/data/media/kaffee_exelsior.jpg",
-        "copyright": "© Julius Schorzman",
-        "description": "Der Kaffee Exelsior ist ein Kaffee mit mildem Aroma. Es werden ausschließlich Arabica Bohnen zur Herstellung verwendet."
-      },
-      {
-        "image": "config/exemplum/data/media/kaffee_exelsior_exquisit.jpg",
-        "copyright": "© Tim Boyd",
-        "description": "Der Kaffee Exelsior Exquisit ist ein Kaffee mit kräftigem, leicht nussigem Aroma. Die verwendeten Arabica Bohnen sind handverlesen und gehören zu den besten einer jeden Ernte."
-      },
-      {
-        "image": "config/exemplum/data/media/superbrause.jpg",
-        "copyright": "© John Phelan",
-        "description": "Die Superbrause ist ein Erfrischungsgetränk mit Orangengeschmack."
-      },
-      {
-        "image": "config/exemplum/data/media/superbrause_plus.jpg",
-        "copyright": "© pic_p_ter",
-        "description": "Die Superbrause+ ist ein Erfrischungsgetränk mit Colageschmack. Sie enthält Koffein und hat eine anregende und erfrischende Wirkung."
-      },
-      {
-        "image": "config/exemplum/data/media/kaffee_paris.jpg",
-        "copyright": "© V. Kostitsin-Teterin",
-        "description": "Der Kaffe Paris wurde eigens für den franzöischen Markt entwickelt. Er ist cremiger und intensiver im Geschmack als der Kaffe Exelsior."
-      },
-      {
-        "image": "config/exemplum/data/media/limonade_avance.jpg",
-        "copyright": "© Michael Fludkov",
-        "description": "Die Limonade Avance ist ein Erfrischungsgetränk mit Limettengeschack. Sie wurde eigens für den französischen Markt entwickelt und orientiert sich an einem beliebten französischem Zitronentee."
-      },
-      {
-        "image": "config/exemplum/data/media/lucky_lemonade.jpg",
-        "copyright": "© Onderwijsgek",
-        "description": "Die Lucky Lemonade ist ein Erfrischungsgetränk mit einem sehr süßen Beerengeschmack."
-      },
-      {
-        "image": "config/exemplum/data/media/lucky_lemonade_sugarfree.jpg",
-        "copyright": "© miss karen",
-        "description": "Die Lucky Lemonade Sugarfree wird ohne den Zusatz von Zucker hergestellt."
-      },
-      {
-        "image": "config/exemplum/data/media/tropical_explosion.jpg",
-        "copyright": "© Vera Kratochvil",
-        "description": "Das Erfrischungsgetränk Tropical Explosion vereint Aromen aus Mango, Maracuja und Drachenfrucht und bietet einen ausgesprochen tropischen Geschmack."
-      },
-      {
-        "image": "config/exemplum/data/media/limonade_avance.jpg",
-        "copyright": "© Michael Fludkov",
-        "description": "Die Limonade Avance Zero ist die zuckerfreie Variante der Lemonade Avance. Sie wird exklusiv für den französischen Markt produziert."
-      },
-      {
-        "image": "config/exemplum/data/media/ristoro.jpg",
-        "copyright": "© newleaf01",
-        "description": "Ristoro ist ein italienisches Erfrischungsgetränk. Es ist leicht bitter und schmeckt im Abgang nach Grapefruit."
-      },
-      {
-        "image": "config/exemplum/data/media/nippon_booster.jpg",
-        "copyright": "© abdallahh",
-        "description": "Der Nippon Booster ist ein Energydrink. Er wurde von der Nippon Energy Corporation für den japanischen Markt entwickelt. Der Koffeingehalt ist wesenlich höher als in Kaffee oder anderen koffeinhaltigen Erfrischungsgetränken der Exemplum GmbH."
-      },
-      {
-        "image": "config/exemplum/data/media/blue_cow.jpg",
-        "copyright": "© zolon",
-        "description": "Der Blue Cow Energydrink ist der erste Energydrink, der von der Exemplum GmbH selbst entwickelt wurde. Er orientiert sich am europäischen Geschmack und hat ein leichtes Beerenaroma."
-      },
-      {
-        "image": "config/exemplum/data/media/east_tea.jpg",
-        "copyright": "© Ted Van Pelt",
-        "description": "Der East-Tea ist ein Eistee aus dem osteuropäischen Markt. Er hat ein Pfirsicharoma und durch seinen hohen Teeingehalt eine anregende Wirkung."
-      }
-    ]
     },
     {
       "type" : "StatisticsWidget",
@@ -335,32 +262,12 @@
       [
         {
           "dataPath" : "config/exemplum/data/statistics_revenue.dsv",
+          "xAttributeName" : "date",
+          "yAttributeName" : "amount",
+          "label" : "Jahresumsatz",
           "color" : "#338A66",
           "width" : "5px",
-          "smooth" : true,
-          "xAttributeName" : "date",
-          "yAttributeName" : "amount"
-        }
-      ]
-    },
-    {
-      "type" : "StatisticsWidget",
-      "icon" : "fa-bar-chart-o",
-      "name" : "Mitarbeiterzahl",
-      "title" : "Mitarbeiterzahl seit 1964",
-      "yDomain" : [0, 5500],
-      "xLableTicks" : 5,
-      "yLableTicks" : 5,
-      "yCaption" : "Anzahl",
-      "lines" :
-      [
-        {
-          "dataPath" : "config/exemplum/data/statistics_employees.dsv",
-          "color" : "#338A66",
-          "width" : "5px",
-          "smooth" : true,
-          "xAttributeName" : "date",
-          "yAttributeName" : "amount"
+          "smooth" : true
         }
       ]
     },
@@ -374,25 +281,14 @@
         {
           "groups" : [
             {
-              "name": "Wichtige Ereignisse",
+              "name": "Exemplum GmbH",
               "elements" : [
                 {
                   "type" : "category",
                   "category" : "A",
-                  "name" : "Aktivität",
+                  "name" : "Firmenereignis",
                   "filterable" : true
                 },
-                {
-                  "type" : "category",
-                  "category" : "T",
-                  "name" : "Exemplum Tour",
-                  "filterable" : true
-                }
-              ]
-            },
-            {
-              "name": "Firmenniederlassungen",
-              "elements" : [
                 {
                   "type" : "categoryWithIcon",
                   "category" : "default",
@@ -417,26 +313,12 @@
                   "category" : "P",
                   "name" : "Plantage",
                   "filterable" : true
-                },
-                {
-                  "type" : "category",
-                  "category" : "S",
-                  "name" : "Store",
-                  "filterable" : true
-                },
-                {
-                  "type" : "category",
-                  "category" : "E",
-                  "name" : "Erlebniszentrum",
-                  "filterable" : true
                 }
               ]
             }
           ]
         }
       ]
-
     }
-  ]
+  ]}
 
-}
