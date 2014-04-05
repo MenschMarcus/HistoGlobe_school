@@ -12,6 +12,7 @@ class HG.LegendWidget extends HG.Widget
       icon: ""
       name: ""
       elements: []
+      useCategoryAsPrefix: false
 
     @_config = $.extend {}, defaultConfig, config
 
@@ -146,7 +147,10 @@ class HG.LegendWidget extends HG.Widget
     row.className = "legend-row"
     @_categoryFilter?.make_filterable(row,config)
     if config.filterable
-      @onDivClick row, () => @_categoryFilter?.checkFilter(row,config.category)
+      if config.useCategoryAsPrefix
+        @onDivClick row, () => @_categoryFilter?.checkPrefixFilter(row,config.category)
+      else
+        @onDivClick row, () => @_categoryFilter?.checkFilter(row,config.category)
     #@_make_filterable row, config
 
     cellName = document.createElement "span"
@@ -179,7 +183,10 @@ class HG.LegendWidget extends HG.Widget
     row.className = "legend-row"
     @_categoryFilter?.make_filterable(row,config)
     if config.filterable
-      @onDivClick row, () => @_categoryFilter?.checkFilter(row,config.category)
+      if config.useCategoryAsPrefix
+        @onDivClick row, () => @_categoryFilter?.checkPrefixFilter(row,config.category)
+      else
+        @onDivClick row, () => @_categoryFilter?.checkFilter(row,config.category)
     #@_make_filterable row, config
 
     cellName = document.createElement "span"
@@ -212,7 +219,10 @@ class HG.LegendWidget extends HG.Widget
     row.className = "legend-row"
     @_categoryFilter?.make_filterable(row,config)
     if config.filterable
-      @onDivClick row, () => @_categoryFilter?.checkFilter(row,config.category)
+      if config.useCategoryAsPrefix
+        @onDivClick row, () => @_categoryFilter?.checkPrefixFilter(row,config.category)
+      else
+        @onDivClick row, () => @_categoryFilter?.checkFilter(row,config.category)
     #@_make_filterable row, config
 
     cellName = document.createElement "span"

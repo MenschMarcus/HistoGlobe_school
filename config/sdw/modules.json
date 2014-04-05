@@ -121,7 +121,7 @@
 
   "HiventController" :
   {
-    "dsvPaths": ["config/sdw/data/sdw_projectEvent.csv"],
+    "dsvPaths": ["config/sdw/data/sdw_projectEvent2.csv"],
     "ignoredLines" : [1,2,3,4],
     "indexMappings" : [
       {
@@ -132,8 +132,8 @@
         "endDate"     : 3,
         "displayDate" : 3,
         "location"    : 4,
-        "lat"         : 6,
-        "long"        : 5,
+        "lat"         : 5,
+        "long"        : 6,
         "category"    : 0,
         "multimedia"  : 7
       }
@@ -662,14 +662,9 @@
               "elements" : [
                 {
                   "type" : "category",
-                  "category" : "A",
+                  "category" : "P",
+                  "useCategoryAsPrefix" : true,
                   "name" : "Projektereignisse",
-                  "filterable" : true
-                },
-                {
-                  "type" : "category",
-                  "category" : "T",
-                  "name" : "Ereignisse der sdw-Geschichte",
                   "filterable" : true
                 }
               ]

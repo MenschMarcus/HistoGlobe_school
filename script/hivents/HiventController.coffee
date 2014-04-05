@@ -49,6 +49,9 @@ class HG.HiventController
     @_hgInstance.categoryFilter?.onFilterChanged @,(categoryFilter) =>
       @_currentCategoryFilter = categoryFilter
       @_filterHivents()
+    @_hgInstance.categoryFilter?.onPrefixFilterChanged @,(categoryFilter) =>
+      @_currentCategoryFilter = categoryFilter
+      @_filterHivents()
 
     @_categoryFilter = hgInstance.categoryFilter if hgInstance.categoryFilter
 
