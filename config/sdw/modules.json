@@ -658,14 +658,9 @@
               "elements" : [
                 {
                   "type" : "category",
-                  "category" : "A",
+                  "category" : "P",
+                  "useCategoryAsPrefix" : true,
                   "name" : "Projektereignisse",
-                  "filterable" : true
-                },
-                {
-                  "type" : "category",
-                  "category" : "T",
-                  "name" : "Ereignisse der sdw-Geschichte",
                   "filterable" : true
                 }
               ]
