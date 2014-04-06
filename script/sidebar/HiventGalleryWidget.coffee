@@ -42,24 +42,30 @@ class HG.HiventGalleryWidget extends HG.TimeGalleryWidget
     div = document.createElement "div"
     div.className = "logo-widget"
 
-    logo = document.createElement "div"
-    logo.className = "logo-widget-image"
-    logo.style.backgroundImage = "url('#{config.media}')"
-    div.appendChild logo
+    media = document.createElement "div"
+    media.className = "logo-widget-image"
+    indexStart = config.media.indexOf("<a href=") + 9
+    indexEnd = config.media.indexOf(" rel",indexStart) - 1
+    m = config.media.substring(indexStart,indexEnd)
+    media.style.backgroundImage = "url('#{m}')"
+    #media.style.backgroundImage = "url('#{config.media}')"
+    div.appendChild media
 
     name = document.createElement "div"
     name.className = "text"
-    name.innerHTML = config.name
+    n = "<h4>"+config.name+"</h4>"
+    name.innerHTML = n
     div.appendChild name
 
-    media = document.createElement "div"
-    media.className = "clear"
-   	media.innerHTML = config.media
-    div.appendChild media
+    description = document.createElement "div"
+    description.className = "text"
+    description.innerHTML = config.description
+    div.appendChild description
 
     displayDate = document.createElement "div"
     displayDate.className = "date"
-    displayDate.innerHTML = config.date
+    d = "<h6>"+config.date+"</h6>"
+    displayDate.innerHTML = d
     div.appendChild displayDate
 
     @addDivSlide {date: config.date, div: div}
