@@ -64,6 +64,7 @@ class HG.HiventsOnTimeline
 
           hiventMarkerDate = handle.getHivent().startDate
           marker = new HG.HiventMarkerTimeline @_timeline, handle, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate)
+          callback marker for callback in @_onMarkerAddedCallbacks
 
           '''show = (self, oldState) =>
             if oldState is 0 # invisible
