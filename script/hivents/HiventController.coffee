@@ -92,11 +92,15 @@ class HG.HiventController
   getNextHiventHandle: (now) ->
     hh = null
     dis = -1
-    for handle in @_hiventHandles
-      diff = handle.getHivent().startDate.getTime() - now.getTime()
-      if (dis is -1 or diff < dis) && diff > 0
-        dis = diff
-        hh = handle
+    handles = @_hiventHandles
+    handles= handles.concat(@_hgInstance.hiventGalleryWidget.getHiventHandles()) if @_hgInstance.hiventGalleryWidget
+    #for handle in @_hiventHandles
+    for handle in handles
+      if handle._state isnt 0
+        diff = handle.getHivent().startDate.getTime() - now.getTime()
+        if (dis is -1 or diff < dis) && diff > 0
+          dis = diff
+          hh = handle
     return hh
 
   ############################### INIT FUNCTIONS ###############################

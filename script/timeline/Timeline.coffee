@@ -386,7 +386,8 @@ class HG.Timeline
   playTimeline: ->
     @_play = true
     @_nextHiventhandle = @_hiventController.getNextHiventHandle(@_nowDate)
-    @_stopDate = @_nextHiventhandle.getHivent().startDate
+    if @_nextHiventhandle
+      @_stopDate = @_nextHiventhandle.getHivent().startDate
 
   setSpeed: (speed) ->
     @_speed = speed

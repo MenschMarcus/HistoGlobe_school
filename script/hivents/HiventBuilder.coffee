@@ -42,7 +42,9 @@ class HG.HiventBuilder
             galleryTag = "[" + galleryID + "]"
 
           #get all related entries from multimedia database and concatenate html string
-          for id in mmids
+          #for id in mmids # original!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          if mmids[0] # quickhack for sdw
+            id = mmids[0]
             mm = @_multimediaController.getMultimediaById id
             if mm?
               mmHtmlString +=  '\t\t<li><a href="' +

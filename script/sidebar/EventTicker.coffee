@@ -1,6 +1,6 @@
 window.HG ?= {}
 
-class HG.EventTicker extends HG.Widget
+class HG.EventTicker
 
   ##############################################################################
   #                            PUBLIC INTERFACE                                #
@@ -22,7 +22,7 @@ class HG.EventTicker extends HG.Widget
 
   # ============================================================================
   hgInit: (hgInstance) ->
-    super hgInstance
+    #super hgInstance
 
     @_timeline = hgInstance.timeline
     @_timeline.onNowChanged @, @_nowChanged

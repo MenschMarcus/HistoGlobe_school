@@ -661,8 +661,9 @@
               "name": "Wichtige Ereignisse",
               "elements" : [
                 {
-                  "type" : "category",
+                  "type" : "categoryWithIcon",
                   "category" : "P",
+                  "icon" : "config/exemplum/data/icons/fabrik_default.png",
                   "useCategoryAsPrefix" : true,
                   "name" : "Projektereignisse",
                   "filterable" : true
@@ -671,7 +672,7 @@
                   "type" : "category",
                   "category" : "sdwEvent",
                   "name" : "sdw-Ereignisse",
-                  "filterable" : true
+                  "filterable" : false
                 }
               ]
             }
