@@ -104,7 +104,7 @@
   "AreasOnMap" : {},
 
   "MultimediaController": {
-    "dsvPaths": ["config/sdw/data/sdw_medium2.csv"],
+    "dsvPaths": ["config/sdw/data/sdw_medium.csv"],
     "rootDirs": ["config/sdw/data/media"],
     "ignoredLines" : [1,2,3,4],
     "indexMappings": [
@@ -121,7 +121,7 @@
 
   "HiventController" :
   {
-    "dsvPaths": ["config/sdw/data/sdw_projectEvent2.csv"],
+    "dsvPaths": ["config/sdw/data/sdw_projectEvent.csv"],
     "ignoredLines" : [1,2,3,4],
     "indexMappings" : [
       {
@@ -582,7 +582,7 @@
     },
     {
       "type": "HiventGalleryWidget",
-      "dsvPaths": ["config/sdw/data/sdw_event2.csv"],
+      "dsvPaths": ["config/sdw/data/sdw_event.csv"],
       "ignoredLines" : [1,2,3,4],
       "indexMappings" : [
       {
