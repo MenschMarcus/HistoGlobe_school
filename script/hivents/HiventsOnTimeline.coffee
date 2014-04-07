@@ -56,6 +56,30 @@ class HG.HiventsOnTimeline
     else
       console.error "Unable to show hivents on Timeline: HiventController module not detected in HistoGlobe instance!"
 
+    #new:
+    hgInstance.onAllModulesLoaded @, () =>
+      @_hiventGallerWidget = hgInstance.hiventGalleryWidget
+      if @_hiventGallerWidget
+        @_hiventGallerWidget.onHiventAdded @,(handle) =>
+
+          hiventMarkerDate = handle.getHivent().startDate
+          marker = new HG.HiventMarkerTimeline @_timeline, handle, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate)
+
+          '''show = (self, oldState) =>
+            if oldState is 0 # invisible
+              hiventMarkerDate = self.getHivent().startDate
+              marker = new HG.HiventMarkerTimeline @_timeline, self, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate)
+              @_hiventMarkers.push marker
+              @_markersLoaded = @_hiventController._hiventsLoaded
+              callback marker for callback in @_onMarkerAddedCallbacks
+
+          handle.onVisibleFuture @, show
+          handle.onVisiblePast @, show'''
+
+        @_timeline.onNowChanged @, @_updateHiventMarkerPositions
+        @_timeline.onIntervalChanged @, @_updateHiventMarkerPositions
+
+
   # ============================================================================
   onMarkerAdded: (callbackFunc) ->
     if callbackFunc and typeof(callbackFunc) == "function"

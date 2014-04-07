@@ -8,21 +8,28 @@ class HG.HiventGalleryWidget extends HG.TimeGalleryWidget
 
   # ============================================================================
   constructor: (config) ->
-  	defaultConfig =
-  	  slides : []
+    defaultConfig =
+      slides : []
 
-  	@_hivents = []
-  	# @_hiventHandles = []
-  	# @_hiventsLoaded = false
-  	# @_onHiventAddedCallbacks = []
+    @_hivents = []
+    #@_hiventHandles = []
+    # @_hiventsLoaded = false
+    # @_onHiventAddedCallbacks = []
 
-  	@_config = $.extend {}, defaultConfig, config
+    HG.mixin @, HG.CallbackContainer
+    HG.CallbackContainer.call @
 
-  	HG.TimeGalleryWidget.call @, @_config
+    @addCallback "onHiventAdded"
+
+    @_config = $.extend {}, defaultConfig, config
+
+    HG.TimeGalleryWidget.call @, @_config
 
   # ============================================================================
   hgInit: (hgInstance) ->
     super hgInstance
+
+    hgInstance.hiventGalleryWidget = @
 
     @loadHiventsFromDSV()
 
@@ -110,14 +117,17 @@ class HG.HiventGalleryWidget extends HG.TimeGalleryWidget
               unless i+1 in @_config.ignoredLines
                 builder.constructHiventFromArray result, pathIndex, (hivent) =>
                   if hivent
-                    #handle = new HG.HiventHandle hivent
-                  	@_hivents.push hivent
-                  	slide =
-                  	 	date : hivent.displayDate
-                  	 	name : hivent.name
-                  	 	description : hivent.description
-                  	 	media : hivent.content
-                  	@addSlide slide
+                    handle = new HG.HiventHandle hivent
+                    @_hivents.push hivent
+                    slide =
+                      date : hivent.displayDate
+                      name : hivent.name
+                      description : hivent.description
+                      media : hivent.content
+                    @addSlide slide
+
+                    @notifyAll "onHiventAdded", handle
+
                   	#@_hiventHandles.push handle
                   	#callback handle for callback in @_onHiventAddedCallbacks
                     #@_filterHivents()
