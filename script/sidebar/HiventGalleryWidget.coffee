@@ -12,7 +12,7 @@ class HG.HiventGalleryWidget extends HG.TimeGalleryWidget
       slides : []
 
     @_hivents = []
-    #@_hiventHandles = []
+    @_hiventHandles = []
     # @_hiventsLoaded = false
     # @_onHiventAddedCallbacks = []
 
@@ -118,6 +118,10 @@ class HG.HiventGalleryWidget extends HG.TimeGalleryWidget
                 builder.constructHiventFromArray result, pathIndex, (hivent) =>
                   if hivent
                     handle = new HG.HiventHandle hivent
+
+                    #quickhack for getnexthivent in hiventcontroller
+                    handle._state = -1
+
                     @_hivents.push hivent
                     slide =
                       date : hivent.displayDate
@@ -128,9 +132,14 @@ class HG.HiventGalleryWidget extends HG.TimeGalleryWidget
 
                     @notifyAll "onHiventAdded", handle
 
-                  	#@_hiventHandles.push handle
+                  	@_hiventHandles.push handle
                   	#callback handle for callback in @_onHiventAddedCallbacks
                     #@_filterHivents()
             pathIndex++
 
             @_hiventsLoaded = true
+
+
+  # ============================================================================
+  getHiventHandles: () ->
+    return @_hiventHandles
