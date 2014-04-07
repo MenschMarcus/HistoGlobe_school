@@ -45,6 +45,8 @@ class HG.AreasOnMap
     area.myLeafletLayer = null
 
     options = area.getNormalStyle()
+    options.color = area.getNormalStyle().lineColor
+    options.opacity = 0       # bugfix: makes border invisible onLoad
     options.clickable = false
     options.pointerEvents = "none"
 
@@ -62,17 +64,19 @@ class HG.AreasOnMap
     area.myLeafletLabel = new L.Label();
     area.myLeafletLabel.setContent area.getLabel()
     area.myLeafletLabel.setLatLng area.getLabelLatLng()
+    area.myLeafletLabel.options.className = "invisible"   # bugfix: makes label invisible onLoad
+
     @_map.showLabel area.myLeafletLabel
+
     area.myLeafletLabel.options.offset = [
       -area.myLeafletLabel._container.offsetWidth/2,
       -area.myLeafletLabel._container.offsetHeight/2
     ]
-
     area.myLeafletLabel._updatePosition()
-    area.myLeafletLabelIsVisible = false
 
-    if @_isLabelVisible area
-      @_showAreaLabel area
+    area.myLeafletLabelIsVisible = false
+    # if @_isLabelVisible area
+    @_showAreaLabel area
 
   # ============================================================================
   _hideAreaLayer: (area) ->
