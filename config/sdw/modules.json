@@ -3,7 +3,7 @@
   {
     "container": "histoglobe",
     "minYear": 1994,
-    "maxYear": 2014,
+    "maxYear": 2015,
     "nowYear": 2000,
     "minZoom": 6,
     "maxZoom": 8,
@@ -391,7 +391,7 @@
       "logos" :
       [
         {
-          "date": "01.01.1994",
+          "date": "01.01.1900",
           "logo": "config/sdw/data/media/logo1.jpg"
         },
         {
@@ -492,7 +492,7 @@
       [
         {
           "name": "Prof. Dr. Klaus Murmann",
-          "startDate": "01.01.1994",
+          "startDate": "01.01.1900",
           "endDate": "31.12.2002",
           "info": "Mitgründer",
           "image": "config/sdw/data/media/vip_images/DrMurmann2.jpg",
@@ -516,7 +516,7 @@
         },
         {
           "name": "Hans-Jürgen Brackmann",
-          "startDate": "01.01.1994",
+          "startDate": "01.01.1900",
           "endDate": "31.12.2000",
           "info": "Geschäftsführender Vorstand",
           "image": "config/sdw/data/media/vip_images/PortraitBrackmann.jpg",
@@ -540,7 +540,7 @@
         },
         {
           "name": "Dr. Josef Siegers",
-          "startDate": "01.01.1994",
+          "startDate": "01.01.1900",
           "endDate": "31.12.2000",
           "info": "Vorstandsvorsitzender",
           "image": "config/sdw/data/media/vip_images/Siegers.jpg",
