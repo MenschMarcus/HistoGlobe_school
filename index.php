@@ -92,6 +92,7 @@
     <script type="text/javascript" src="build/Sidebar.js"></script>
     <script type="text/javascript" src="build/Widget.js"></script>
     <script type="text/javascript" src="build/EventTicker.js"></script>
+    <script type="text/javascript" src="build/Title.js"></script>
     <script type="text/javascript" src="build/TextWidget.js"></script>
     <script type="text/javascript" src="build/GalleryWidget.js"></script>
     <script type="text/javascript" src="build/TimeGalleryWidget.js"></script>
