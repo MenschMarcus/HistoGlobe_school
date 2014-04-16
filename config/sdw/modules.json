@@ -409,9 +409,32 @@
       ]
     },
     {
+      "type" : "TitleImage",
+      "images" :
+      [
+        {
+          "date": "01.01.1994",
+          "path": "config/sdw/data/media/logo1.jpg"
+        },
+        {
+          "date": "01.01.2001",
+          "path": "config/sdw/data/media/logo2.jpg"
+        },
+        {
+          "date": "01.01.2004",
+          "path": "config/sdw/data/media/logo3.jpg"
+        },
+        {
+          "date": "01.01.2010",
+          "path": "config/sdw/data/media/logo4.jpg"
+        }
+      ]
+    },
+    {
       "type" : "Title",
       "name" : "20 Jahre sdw"
     },
+    
     {
       "type" : "EventTicker",
       "icon" : "",
