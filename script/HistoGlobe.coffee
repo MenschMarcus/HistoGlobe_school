@@ -57,10 +57,11 @@ class HG.HistoGlobe
           console.error "The module #{moduleName} is not part of the HG namespace!"
 
       for moduleName, moduleConfig of config
-        if moduleName is "Widgets"
+        '''if moduleName is "Widgets"
           for widget in moduleConfig
             load_module widget.type, widget
-        else if moduleName isnt "HistoGlobe"
+        else if moduleName isnt "HistoGlobe"'''
+        if moduleName isnt "HistoGlobe"
           load_module moduleName, moduleConfig
 
 
