@@ -8,9 +8,12 @@ class HG.Widget
 
   constructor: (config) ->
     defaultConfig =
-      collapsedAtStart : true
+      collapsedAtStart : true,
+      categories : []
 
     @_config = $.extend {}, defaultConfig, config
+
+    @_headerHeight = null
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -51,6 +54,36 @@ class HG.Widget
     $(div).click (e) =>
       unless Math.abs(div.my_click_x - e.clientX) > 10 or Math.abs(div.my_click_y - e.clientY) > 10
         callback(e)
+
+  # ============================================================================
+  #new:
+  show:() ->
+
+    collapse=() =>
+      if $(@_header).hasClass("collapsed")
+        @_collapse()
+
+
+    if @_headerHeight
+      $(@_header).css
+          "height": @_headerHeight
+      $(@container).show(300,collapse)
+    else
+      collapse()
+
+
+  # ============================================================================
+  #new:
+  hide:() ->
+    if @_headerHeight is null
+      @_headerHeight = $(@_header).css("height")
+
+    $(@_header).css
+        "height": 0
+    $(@container).hide(300)
+
+    if not $(@_header).hasClass("collapsed")
+      @_collapse()
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -133,6 +166,7 @@ class HG.Widget
     @setIcon "fa-star"
 
     @_collapse() if @_config.collapsedAtStart
+
 
   # ============================================================================
   _collapse: () =>

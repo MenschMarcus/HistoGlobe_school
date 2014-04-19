@@ -194,7 +194,7 @@
   "HiventInfoPopovers" : {},
   "HiventInfoAtTag" : {},
 
-  "Widgets" :
+  "WidgetController" :
   [
     {
       "type": "LegendWidget",
@@ -515,6 +515,7 @@
       "type" : "VIPWidget",
       "icon" : "fa-user",
       "name" : "Geschäftsführung",
+      "categories" : ["P02","P03"],
       "persons" :
       [
         {
@@ -631,6 +632,7 @@
       "icon" : "fa-bar-chart-o",
       "name" : "Entwicklungen",
       "title" : "Stipendiaten und Programmteilnehmer",
+      "categories" : ["P01","P02"],
       "yDomain" : [0, 5000],
       "xLableTicks" : 5,
       "yLableTicks" : 5,
