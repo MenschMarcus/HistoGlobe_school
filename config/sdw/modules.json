@@ -610,6 +610,7 @@
     },
     {
       "type": "HiventGalleryWidget",
+      "categories" : ["P02","P04"],
       "dsvPaths": ["config/sdw/data/sdw_event.csv"],
       "ignoredLines" : [1,2,3,4],
       "indexMappings" : [
@@ -632,7 +633,7 @@
       "icon" : "fa-bar-chart-o",
       "name" : "Entwicklungen",
       "title" : "Stipendiaten und Programmteilnehmer",
-      "categories" : ["P01","P02"],
+      "categories" : ["P02","P03"],
       "yDomain" : [0, 5000],
       "xLableTicks" : 5,
       "yLableTicks" : 5,
