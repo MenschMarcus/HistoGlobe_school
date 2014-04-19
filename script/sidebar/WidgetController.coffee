@@ -53,7 +53,7 @@ class HG.WidgetController
 
     if @_categoryFilter
       @_currentCategoryFilter = @_categoryFilter.getCurrentFilter()
-      @_filterWidgets()
+      #@_filterWidgets()
 
 
   # ============================================================================
