@@ -37,7 +37,6 @@ class HG.WidgetController
   # ============================================================================
   _loadWidgetsFromConfig:(config,hgInstance) ->
 
-    console.log "config in widgetcontroller: ",config
 
     load_module = (moduleName, moduleConfig) =>
         if window["HG"][moduleName]?
@@ -52,7 +51,9 @@ class HG.WidgetController
     for widget in config
         load_module widget.type, widget
 
-    #@_filterWidgets()
+    if @_categoryFilter
+      @_currentCategoryFilter = @_categoryFilter.getCurrentFilter()
+      @_filterWidgets()
 
 
   # ============================================================================
