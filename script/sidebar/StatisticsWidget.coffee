@@ -78,6 +78,7 @@ class HG.StatisticsWidget extends HG.Widget
 
     @_sidebar.onWidthChanged @, (width) =>
       @_drawStatistics()
+    @_drawStatistics() # just quickhack!!!!!!!!!
 
 
 
