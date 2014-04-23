@@ -35,7 +35,7 @@ class HG.TitleImage
     for image, index in @_config.images
       @_images.push @_addImage image, index
 
-    $("body").append @_div
+    $("#histoglobe").append @_div
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
