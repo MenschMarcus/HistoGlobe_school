@@ -364,15 +364,15 @@ class HG.Timeline
   #   --------------------------------------------------------------------------
   _animTimeline: =>
 
-    # move timeline periodic
+    # move timeline periodicly
     if @_play
       if @_nowDate.getFullYear() <= @_config.maxYear
         toDate = new Date(@_nowDate.getTime() + @_speed*@_speed * 5000 * 60 * 60 * 24 * 7)
-        endDate = @_stopDate
+        '''endDate = @_stopDate
 
         if (toDate >= endDate)
           toDate = endDate
-          @_nowMarker.animationSwitch()
+          @_nowMarker.animationSwitch()'''
 
         @moveToDate(toDate,0)
         @_updateNowDate()
@@ -385,9 +385,9 @@ class HG.Timeline
 
   playTimeline: ->
     @_play = true
-    @_nextHiventhandle = @_hiventController.getNextHiventHandle(@_nowDate)
+    '''@_nextHiventhandle = @_hiventController.getNextHiventHandle(@_nowDate)
     if @_nextHiventhandle
-      @_stopDate = @_nextHiventhandle.getHivent().startDate
+      @_stopDate = @_nextHiventhandle.getHivent().startDate'''
 
   setSpeed: (speed) ->
     @_speed = speed

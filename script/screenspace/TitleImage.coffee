@@ -76,9 +76,9 @@ class HG.TitleImage
   # ============================================================================
   changeImages: (index) ->
     if @_actualImage == null
-      $(@_images[index].div).fadeIn(500)
+      $(@_images[index].div).fadeIn(100)
     if @_actualImage isnt @_images[index].div
-      $(@_actualImage).fadeOut(500, => $(@_images[index].div).fadeIn(1500))
+      $(@_actualImage).fadeOut(100, => $(@_images[index].div).fadeIn(100))
     @_actualImage = @_images[index].div
 
 
