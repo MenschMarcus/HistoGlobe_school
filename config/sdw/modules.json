@@ -516,7 +516,7 @@
       "type" : "VIPWidget",
       "icon" : "fa-user",
       "name" : "Geschäftsführung",
-      "categories" : ["P02","P03"],
+      "categories" : ["P01","P02","P03"],
       "persons" :
       [
         {
@@ -611,7 +611,7 @@
     },
     {
       "type": "HiventGalleryWidget",
-      "categories" : ["P02","P04"],
+      "categories" : ["P01","P02","P04"],
       "dsvPaths": ["config/sdw/data/sdw_event.csv"],
       "ignoredLines" : [1,2,3,4],
       "indexMappings" : [
@@ -634,7 +634,7 @@
       "icon" : "fa-bar-chart-o",
       "name" : "Entwicklungen",
       "title" : "Stipendiaten und Programmteilnehmer",
-      "categories" : ["P02","P03"],
+      "categories" : ["P01","P02","P03"],
       "yDomain" : [0, 5000],
       "xLableTicks" : 5,
       "yLableTicks" : 5,
