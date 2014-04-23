@@ -93,6 +93,10 @@ class HG.WidgetController
         widgets.shift()
 
         for widget in widgets
+          if widget._config.categories.length is 0
+            widget.hgInit @_hgInstance unless widget.loaded
+            #widget.show() if widget instanceof HG.Widget # not all widgets are inherited from hg.widget now!!!
+          else
             match = false
             for category in widget._config.categories
                 if category in @_currentCategoryFilter
