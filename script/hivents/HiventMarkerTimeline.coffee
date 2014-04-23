@@ -33,6 +33,13 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
     @_div.style.left = @_position.x + "px"
     @_div.style.top = @_position.y + "px"
 
+    # new
+    if hiventHandle.getHivent().startDate.getTime() isnt hiventHandle.getHivent().endDate.getTime()
+      xDiff = @_timeline.dateToPosition(hiventHandle.getHivent().endDate) - @_timeline.dateToPosition(hiventHandle.getHivent().startDate)
+      @_div.style.width = xDiff + "px"
+      @_div.style.background = "rgba(255, 0, 0, 1)"
+      console.log "draw time period"
+
     parent.appendChild @_div
 
     @_div.onmouseover = (e) =>
