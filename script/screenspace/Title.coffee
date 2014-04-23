@@ -30,4 +30,4 @@ class HG.Title
     @_div.className = "title_container"
     @_div.innerHTML = @_config.name
 
-    $("body").append @_div
+    $("#histoglobe").append @_div
