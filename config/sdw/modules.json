@@ -630,6 +630,303 @@
       "name": "Ereignisse der sdw-Geschichte"
     },
     {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P01"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P02"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P03"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P04"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P05"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P06"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P07"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P08"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P09"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P10"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P11"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P12"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P13"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P14"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P15"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P16"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P17"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P18"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P19"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P20"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P21"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P22"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P23"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P24"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P25"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P26"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
+      "type" : "PictureGalleryWidget",
+      "icon" : "fa-glass",
+      "name" : "Mediengallerie",
+      "categories" : ["P27"],
+      "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+      "indexMapping": {
+        "projectId" : 0,
+        "mediaId" : 6
+      }
+    },
+    {
       "type" : "StatisticsWidget",
       "icon" : "fa-bar-chart-o",
       "name" : "Entwicklungen",
