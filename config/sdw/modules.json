@@ -1161,7 +1161,7 @@
                   "type" : "category",
                   "category" : "sdwEvent",
                   "name" : "sdw-Ereignisse",
-                  "filterable" : true
+                  "filterable" : false
                 }
               ]
             }
