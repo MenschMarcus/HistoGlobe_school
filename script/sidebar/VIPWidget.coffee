@@ -64,6 +64,8 @@ class HG.VIPWidget extends HG.Widget
     @setIcon @_config.icon
     @setContent @_VIPContent
 
+    @_nowChanged @_timeline.getNowDate()#quickhack
+
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################

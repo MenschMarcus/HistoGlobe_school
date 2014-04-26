@@ -10,16 +10,35 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
   constructor: (config) ->
     defaultConfig =
       pictures : []
+      mediaIdsFromDsv :  null
+      delimiter: "|"
+      indexMapping : null
 
     @_config = $.extend {}, defaultConfig, config
 
     HG.GalleryWidget.call @, @_config
 
+    @_pictures = []
+
   # ============================================================================
   hgInit: (hgInstance) ->
     super hgInstance
 
-    for picture in @_config.pictures
+
+    if @_config.mediaIdsFromDsv isnt null and @_config.indexMapping isnt null and hgInstance.multimediaController?
+      @_multimediaController = hgInstance.multimediaController
+      @_loadPicturesfromDSV()
+
+
+    @_pictures = @_pictures.concat(@_config.pictures)
+
+
+
+  # ============================================================================
+  _loadPictures: () ->
+
+    #for picture in @_config.pictures
+    for picture in @_pictures
       @addPicture picture
 
   # ============================================================================
@@ -55,4 +74,35 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
+
+  # ============================================================================
+  _loadPicturesfromDSV: () ->
+
+
+    parse_config =
+      delimiter: @_config.delimiter
+      header: false
+
+    $.get @_config.mediaIdsFromDsv,
+      (data) =>
+        parse_result = $.parse data, parse_config
+        for result, i in parse_result.results
+
+          if result[@_config.indexMapping.projectId] in @_config.categories
+
+            media = result[@_config.indexMapping.mediaId]
+            media_arr = media.split(", ")
+ 
+            for m in media_arr
+              mm = @_multimediaController.getMultimediaById m
+              image = 
+                image : mm.link
+                description : mm.description
+                copyright: mm.source
+              @_pictures.push image
+
+        @_loadPictures()
+            
+
+
 
