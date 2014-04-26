@@ -39,7 +39,6 @@ class HG.HiventsOnTimeline
 
     if @_hiventController
       @_hiventController.onHiventAdded (handle) =>
-
         show = (self, oldState) =>
           if oldState is 0 # invisible
             hiventMarkerDate = self.getHivent().startDate

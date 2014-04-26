@@ -12,7 +12,6 @@ class HG.LegendWidget extends HG.Widget
       icon: ""
       name: ""
       elements: []
-      useCategoryAsPrefix: false
 
     @_config = $.extend {}, defaultConfig, config
 
@@ -63,13 +62,13 @@ class HG.LegendWidget extends HG.Widget
     @_mainDiv.appendChild col_div
     return col_div
 
-
   # ============================================================================
   addCategory: (config, col_div) ->
     defaultConfig =
       category: ""
       name: ""
       filterable: false
+      useCategoryAsPrefix: false
 
     config = $.extend {}, defaultConfig, config
 
@@ -107,8 +106,10 @@ class HG.LegendWidget extends HG.Widget
       icon: ""
       name: ""
       filterable: false
+      useCategoryAsPrefix: false
 
     config = $.extend {}, defaultConfig, config
+
 
     row = document.createElement "div"
     col_div.appendChild row
@@ -143,6 +144,7 @@ class HG.LegendWidget extends HG.Widget
       color: ""
       name: ""
       filterable: false
+      useCategoryAsPrefix: false
 
     config = $.extend {}, defaultConfig, config
 

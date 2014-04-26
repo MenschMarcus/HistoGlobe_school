@@ -32,4 +32,3 @@ class HG.Hivent
     @content = content
     @description = description
     @multimedia = multimedia
-

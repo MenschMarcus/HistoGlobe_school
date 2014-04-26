@@ -7,7 +7,7 @@ class HG.HiventInfoPopover
   ##############################################################################
 
   # ============================================================================
-  constructor: (hiventHandle, container, hgInstance) ->
+  constructor: (hiventHandle, container, hgInstance, hiventIndex, showArrow) ->
 
     @_hiventHandle = hiventHandle
     @_hgInstance = hgInstance
@@ -16,8 +16,8 @@ class HG.HiventInfoPopover
     body = document.createElement "div"
 
     locationString = ''
-    if @_hiventHandle.getHivent().locationName != ''
-      locationString = @_hiventHandle.getHivent().locationName + ', '
+    if hiventIndex? and @_hiventHandle.getHivent().locationName?
+      locationString = @_hiventHandle.getHivent().locationName[hiventIndex] + ', '
 
     subheading = document.createElement "h3"
     subheading.innerHTML = locationString + @_hiventHandle.getHivent().displayDate
@@ -50,6 +50,7 @@ class HG.HiventInfoPopover
       content:   body
       title:     @_hiventHandle.getHivent().name
       container: container
+      showArrow: showArrow
 
     @_hiventHandle.onDestruction @, @_popover.destroy
 
