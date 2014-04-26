@@ -42,8 +42,8 @@ class HG.HiventBuilder
             galleryTag = "[" + galleryID + "]"
 
           #get all related entries from multimedia database and concatenate html string
-          #for id in mmids # original!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-          if mmids[0] # quickhack for sdw
+          for id in mmids # original!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          # if mmids[0] # quickhack for sdw
             id = mmids[0]
             mm = @_multimediaController.getMultimediaById id
             if mm?
@@ -59,9 +59,9 @@ class HG.HiventBuilder
 
 
             mmHtmlString += "\t</ul>\n"
-            successCallback @_createHivent(id, name, description, startDate,
-                                    endDate, displayDate, location, long, lat,
-                                    category, multimedia, mmHtmlString)
+          successCallback @_createHivent(id, name, description, startDate,
+                                  endDate, displayDate, location, long, lat,
+                                  category, multimedia, mmHtmlString)
 
 
       else
