@@ -343,6 +343,7 @@ class HG.Timeline
 
       @notifyAll "onNowChanged", @_nowDate
       @notifyAll "onIntervalChanged", @_getTimeFilter()
+      successCallback?()
 
   #   --------------------------------------------------------------------------
   _zoom: (delta) =>

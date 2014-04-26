@@ -207,6 +207,12 @@
   "HiventInfoPopovers" : {},
   "HiventInfoAtTag" : {},
 
+  "HiventStory" :
+  {
+    "hivents" : [],
+    "hiventPrefixes" : ["E"]
+  },
+
   "WidgetController" :
   [
     {

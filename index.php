@@ -113,6 +113,8 @@
     <script type="text/javascript" src="build/HiventInfoPopover.js"></script>
     <script type="text/javascript" src="build/HiventInfoPopovers.js"></script>
     <script type="text/javascript" src="build/HiventInfoAtTag.js"></script>
+    <script type="text/javascript" src="build/HiventGalleryWidget.js"></script>
+    <script type="text/javascript" src="build/HiventStory.js"></script>
     <script type="text/javascript" src="build/HistoGlobe.js"></script>
     <script type="text/javascript" src="build/CategoryIconMapping.js"></script>
     <script type="text/javascript" src="build/Path.js"></script>
@@ -122,7 +124,6 @@
     <script type="text/javascript" src="build/Watermark.js"></script>
     <script type="text/javascript" src="build/BrowserDetector.js"></script>
     <script type="text/javascript" src="build/Globe.js"></script>
-    <script type="text/javascript" src="build/HiventGalleryWidget.js"></script>
 
     <script type="text/javascript" src="build/CategoryFilter.js"></script>
     <script type="text/javascript" src="build/WidgetController.js"></script>

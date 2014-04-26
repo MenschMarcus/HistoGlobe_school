@@ -88,11 +88,12 @@ class HG.NowMarker
                 @_clicked = false
 
         # stop or animate timeline (play)
+        @animationCallback = @animationSwitch
         @_playButton.onclick = (e) =>
-            @animationSwitch()
+            @animationCallback()
         $(document.body).keyup (e) =>
             if e.keyCode == 32  # spacebar
-                 @animationSwitch()
+                 @animationCallback()
 
         # Catch enter key on the date input field
         $(@_dateInputField).keyup (e) =>
