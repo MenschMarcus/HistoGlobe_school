@@ -62,8 +62,8 @@
         "mapping":"config/common/countries/sdw_cities_mapping.json",
         "domain": [0, 1],
         "fillColor": {
-          "range": ["#deffe4", "#deffe4"],
-          "fallback": "#deffe4",
+          "range": ["#ffffff", "#ffffff"],
+          "fallback": "#ffffff",
           "compOp": "replace"
         },
         "fillOpacity": {
@@ -72,8 +72,8 @@
           "compOp": "multiply"
         },
         "lineColor": {
-          "range": ["#deffe4", "#deffe4"],
-          "fallback": "#deffe4",
+          "range": ["#ffffff", "#ffffff"],
+          "fallback": "#ffffff",
           "compOp": "replace"
         },
         "lineOpacity": {
@@ -217,13 +217,13 @@
   },
 
   "Title" : {
-    "height"        : "80",
     "contentClass"  : "SDWTitle",
     "contentConfig" : {
+      "title"    : "Entdecken Sie 20 Jahre sdw!",
       "elements" : [
         {
           "type" : "category",
-          "category" : "P00",
+          "category" : "sdwEvent",
           "name" : "20 Jahre SDW"
         },
         {
@@ -242,7 +242,6 @@
             },
             {
               "type" : "category",
-
               "category" : "P03",
               "name" : "Zeichen setzen! Integration macht Schule"
             }
@@ -459,6 +458,7 @@
     {
       "type" : "LogoWidget",
       "icon" : "fa-user",
+      "categories" : ["sdwEvent"],
       "name" : "Logo",
       "logos" :
       [
@@ -676,7 +676,7 @@
       "type" : "VIPWidget",
       "icon" : "fa-user",
       "name" : "Geschäftsführung",
-      "categories" : ["P00"],
+      "categories" : ["sdwEvent"],
       "persons" :
       [
         {
@@ -771,7 +771,7 @@
     },
     {
       "type": "HiventGalleryWidget",
-      "categories" : ["P00"],
+      "categories" : ["sdwEvent"],
       "dsvPaths": ["config/sdw/data/sdw_event.csv"],
       "ignoredLines" : [1,2,3,4],
       "indexMappings" : [
@@ -1091,7 +1091,7 @@
       "icon" : "fa-bar-chart-o",
       "name" : "Entwicklungen",
       "title" : "Stipendiaten und Programmteilnehmer",
-      "categories" : ["P00"],
+      "categories" : ["sdwEvent"],
       "yDomain" : [0, 5000],
       "xLableTicks" : 5,
       "yLableTicks" : 5,
@@ -1120,7 +1120,7 @@
     },
     {
       "type": "LegendWidget",
-      "categories" : ["P00", "P01","P02","P03","P04","P05","P06","P07","P08","P09","P10","P11","P12","P13","P14","P15","P16","P17","P18","P19","P20","P21","P22","P23","P24","P25","P26","P27"],
+      "categories" : ["sdwEvent", "P01","P02","P03","P04","P05","P06","P07","P08","P09","P10","P11","P12","P13","P14","P15","P16","P17","P18","P19","P20","P21","P22","P23","P24","P25","P26","P27"],
       "icon": "fa-list-ul",
       "name": "Legende",
       "columns":

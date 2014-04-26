@@ -9,6 +9,7 @@ class HG.SDWTitle
   # ============================================================================
   constructor: (config) ->
     defaultConfig =
+      title: "Title"
       elements: []
 
     @_config = $.extend {}, defaultConfig, config
@@ -18,17 +19,21 @@ class HG.SDWTitle
 
     @_categoryFilter = hgInstance.categoryFilter
 
-    @_div               = document.createElement("div")
-    @_div.className     = "title_container"
-    @_div.innerHTML     = "huhu"
+    @_text_div               = document.createElement("div")
+    @_text_div.className     = "title-text"
+    @_text_div.innerHTML     = @_config.title
+    parentDiv.appendChild @_text_div
 
-    @_allCategories = []
+    @_select_div               = document.createElement("div")
+    @_select_div.className     = "title-select"
+    parentDiv.appendChild @_select_div
 
-    parentDiv.appendChild @_div
+    $(@_select_div).tooltip {title: "Wählen Sie ein Projekt der sdw, um mehr darüber zu erfahren!", placement: "left", container:"body"}
 
     select = document.createElement "select"
-    select.className = "legend-select"
-    @_div.appendChild select
+    @_select_div.appendChild select
+
+    @_allCategories = []
 
     for element in @_config.elements
       @_addElement element, select

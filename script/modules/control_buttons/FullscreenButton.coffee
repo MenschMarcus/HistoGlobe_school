@@ -30,7 +30,7 @@ class HG.FullscreenButton
         tooltip: "Zum Vollbildmodus"
         callback: () =>
 
-          elem = document.getElementById("histoglobe")
+          elem = document.body
           if (elem.requestFullscreen)
             elem.requestFullscreen()
           else if (elem.msRequestFullscreen)

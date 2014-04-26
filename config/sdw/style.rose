@@ -22,7 +22,7 @@ $widget_font_size_factor            = 0.5
 $widget_margin                      = 10px
 
 $shadow_intensity                   = 0.5
-$shadow_radius                      = 15px
+$shadow_radius                      = 10px
 
 $widget_title_size                  = 30px
 $sidebar_collapsed_width            = 40px

@@ -9,7 +9,6 @@ class HG.Title
   # ============================================================================
   constructor: (config) ->
     defaultConfig =
-      height: 50
       contentClass: ""
       contentConfig: []
 
@@ -19,12 +18,9 @@ class HG.Title
   hgInit: (hgInstance) ->
 
     @hgInstance = hgInstance
-    hgInstance._top_area.style.top = @_config.height + "px"
-    hgInstance._onResize()
 
     @_div               = document.createElement("div")
-    @_div.id            = "title"
-    @_div.style.height  = @_config.height + "px"
+    @_div.className     = "hg-title"
 
     $("#histoglobe").append @_div
 
@@ -35,6 +31,16 @@ class HG.Title
       console.error "Failed to initialize Title module: The content class " +
                      "#{@_config.contentClass} does not exist!"
 
+    $(window).on 'resize', @_resize
+    @_resize()
+
   # ============================================================================
   setContent: (content) ->
     content.init @hgInstance, @_div
+
+  # ============================================================================
+  _resize: () =>
+    height = $(@_div).outerHeight()
+    @hgInstance._top_area.style.top = height + "px"
+    @hgInstance._onResize()
+
