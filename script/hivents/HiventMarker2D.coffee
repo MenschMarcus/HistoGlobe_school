@@ -84,7 +84,9 @@ class HG.HiventMarker2D extends HG.HiventMarker
 
   # ============================================================================
   getDisplayPosition: ->
-    @_map.layerPointToContainerPoint(new L.Point @_position.x, @_position.y )
+    #console.log  $(@_map._container).offset()
+    #console.log @_map.layerPointToContainerPoint(new L.Point @_position.x, @_position.y )
+    pos = @_map.layerPointToContainerPoint(new L.Point @_position.x, @_position.y )
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #

@@ -193,7 +193,7 @@ class HG.HistoGlobe
   # ============================================================================
   _updateLayout: =>
     width = window.innerWidth
-    height = window.innerHeight
+    height = window.innerHeight - $(@_top_area).offset().top
 
     map_height = height - HGConfig.timeline_height.val
     map_width = width - HGConfig.sidebar_collapsed_width.val
