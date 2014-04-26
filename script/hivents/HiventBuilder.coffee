@@ -44,7 +44,7 @@ class HG.HiventBuilder
           #get all related entries from multimedia database and concatenate html string
           for id in mmids # original!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
           # if mmids[0] # quickhack for sdw
-            id = mmids[0]
+            # id = mmids[0]
             mm = @_multimediaController.getMultimediaById id
             if mm?
               mmHtmlString +=  '\t\t<li><a href="' +
@@ -240,6 +240,9 @@ class HG.HiventBuilder
 
       startDate = hiventStartDate.split '.'
       endDate = hiventEndDate.split '.'
+      hiventLocation = hiventLocation?.replace(/\s*;\s*/g, ';').split(';')
+      hiventLat = "#{hiventLat}".replace(/\s*;\s*/g, ';').split(';') if hiventLat?
+      hiventLong = "#{hiventLong}".replace(/\s*;\s*/g, ';').split(';') if hiventLong?
 
       hivent = new HG.Hivent(
         hiventID,

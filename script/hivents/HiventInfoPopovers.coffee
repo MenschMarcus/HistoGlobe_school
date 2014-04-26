@@ -62,7 +62,7 @@ class HG.HiventInfoPopovers
       unless @_config.allowMultiplePopovers
         HG.HiventHandle.DEACTIVATE_ALL_OTHER_HIVENTS(handle)
 
-      marker.hiventInfoPopover?= new HG.HiventInfoPopover handle, container, @_hgInstance
+      marker.hiventInfoPopover?= new HG.HiventInfoPopover handle, marker, container, @_hgInstance
       marker.hiventInfoPopover.show new HG.Vector(displayPosition.x, displayPosition.y)
 
     hideHiventInfoPopover = () =>

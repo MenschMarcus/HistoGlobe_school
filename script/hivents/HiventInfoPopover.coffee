@@ -7,7 +7,7 @@ class HG.HiventInfoPopover
   ##############################################################################
 
   # ============================================================================
-  constructor: (hiventHandle, container, hgInstance) ->
+  constructor: (hiventHandle, marker, container, hgInstance) ->
 
     @_hiventHandle = hiventHandle
     @_hgInstance = hgInstance
@@ -16,8 +16,10 @@ class HG.HiventInfoPopover
     body = document.createElement "div"
 
     locationString = ''
-    if @_hiventHandle.getHivent().locationName != ''
-      locationString = @_hiventHandle.getHivent().locationName + ', '
+    if @_hiventHandle.getHivent().locationName != []
+      i = hiventHandle.getHivent().lat.indexOf marker.getPosition().lat
+      unless i is -1
+        locationString = @_hiventHandle.getHivent().locationName[i] + ', '
 
     subheading = document.createElement "h3"
     subheading.innerHTML = locationString + @_hiventHandle.getHivent().displayDate
