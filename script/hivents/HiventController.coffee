@@ -230,9 +230,8 @@ class HG.HiventController
       # 2 --> visibleFuture
 
       if @_currentCategoryFilter?
-        unless (hivent.category is "default") or (hivent.category in @_currentCategoryFilter)
+        unless (@_currentCategoryFilter.length is 0) or (hivent.category is "default") or (hivent.category in @_currentCategoryFilter)
           state = 0
-
 
       if state isnt 0 and @_currentTimeFilter?
         # start date in visible future

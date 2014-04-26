@@ -18,7 +18,7 @@ class HG.HiventBuilder
     if dataArray isnt []
       successCallback?= (hivent) -> console.log hivent
 
-      id          = dataArray[@_config.indexMappings[pathIndex].id]
+      ID          = dataArray[@_config.indexMappings[pathIndex].id]
       name        = dataArray[@_config.indexMappings[pathIndex].name]
       description = dataArray[@_config.indexMappings[pathIndex].description]
       startDate   = dataArray[@_config.indexMappings[pathIndex].startDate]
@@ -29,6 +29,7 @@ class HG.HiventBuilder
       long        = dataArray[@_config.indexMappings[pathIndex].long]
       category    = if dataArray[@_config.indexMappings[pathIndex].category] == '' then 'default' else dataArray[@_config.indexMappings[pathIndex].category]
       multimedia  = dataArray[@_config.indexMappings[pathIndex].multimedia]
+
 
       mmHtmlString = ''
       #get related multimedia
@@ -59,13 +60,13 @@ class HG.HiventBuilder
 
 
             mmHtmlString += "\t</ul>\n"
-          successCallback @_createHivent(id, name, description, startDate,
+          successCallback @_createHivent(ID, name, description, startDate,
                                   endDate, displayDate, location, long, lat,
                                   category, multimedia, mmHtmlString)
 
 
       else
-        successCallback @_createHivent(id, name, description, startDate,
+        successCallback @_createHivent(ID, name, description, startDate,
                                       endDate, displayDate, location, long, lat,
                                       category, multimedia, '')
 

@@ -14,6 +14,7 @@ class HG.Popover
       contentHTML: ""
       title: ""
       container: "body"
+      showArrow: true
 
     @_config = $.extend {}, defaultConfig, config
 
@@ -201,14 +202,15 @@ class HG.Popover
         console.warn "Invalid popover placement: ", @_config.placement
 
 
-    $(@_topArrow).css "display", if @_placement.y is 1 then "block" else "none"
-    $(@_bottomArrow).css "display", if @_placement.y is -1 then "block" else "none"
-    $(@_leftArrow).css "display", if @_placement.x is 1 then "block" else "none"
-    $(@_rightArrow).css "display", if @_placement.x is -1 then "block" else "none"
+    if @_config.showArrow
+      $(@_topArrow).css "display", if @_placement.y is 1 then "block" else "none"
+      $(@_bottomArrow).css "display", if @_placement.y is -1 then "block" else "none"
+      $(@_leftArrow).css "display", if @_placement.x is 1 then "block" else "none"
+      $(@_rightArrow).css "display", if @_placement.x is -1 then "block" else "none"
 
-    verticalArrowMargin = @_mainDiv.offsetHeight / 2 - HGConfig.hivent_info_popover_arrow_height.val / 2
-    $(@_leftArrow).css "margin-top", "#{verticalArrowMargin}px"
-    $(@_rightArrow).css "margin-top", "#{verticalArrowMargin}px"
+      verticalArrowMargin = @_mainDiv.offsetHeight / 2 - HGConfig.hivent_info_popover_arrow_height.val / 2
+      $(@_leftArrow).css "margin-top", "#{verticalArrowMargin}px"
+      $(@_rightArrow).css "margin-top", "#{verticalArrowMargin}px"
 
     $(@_mainDiv).offset {
       left: @_position.x + canvasOffset.left +

@@ -68,20 +68,21 @@ class HG.HiventsOnMap
         @_markersLoaded = @_hiventController._hiventsLoaded
 
         handle.onVisiblePast @, (self) =>
-          unless self.getHivent().lat.length is self.getHivent().long.length
-            console.error "Unable to add HiventMarker2D: Numbers of lat and long for Hivent #{self.getHivent()} do not match!"
-            return
+          if self.getHivent().lat? and self.getHivent().long?
+            unless self.getHivent().lat.length is self.getHivent().long.length
+              console.error "Unable to add HiventMarker2D: Numbers of lat and long for Hivent #{self.getHivent()} do not match!"
+              return
 
-          for i in [0...self.getHivent().lat.length]
-            marker = new HG.HiventMarker2D self, self.getHivent().lat[i], self.getHivent().long[i],  hgInstance.map, @_map, @_markerGroup
+            for i in [0...self.getHivent().lat.length]
+              marker = new HG.HiventMarker2D self, self.getHivent().lat[i], self.getHivent().long[i],  hgInstance.map, @_map, @_markerGroup
 
-            @_hiventMarkers.push marker
+              @_hiventMarkers.push marker
 
-            callback marker for callback in @_onMarkerAddedCallbacks
+              callback marker for callback in @_onMarkerAddedCallbacks
 
-            marker.onDestruction @,() =>
-              index = $.inArray(marker, @_hiventMarkers)
-              @_hiventMarkers.splice index, 1  if index >= 0
+              marker.onDestruction @,() =>
+                index = $.inArray(marker, @_hiventMarkers)
+                @_hiventMarkers.splice index, 1  if index >= 0
 
 
       @_map.getPanes().overlayPane.addEventListener "mousedown", (event) =>

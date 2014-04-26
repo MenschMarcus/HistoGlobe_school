@@ -121,7 +121,7 @@
 
   "HiventController" :
   {
-    "dsvPaths": ["config/sdw/data/sdw_projectEvent.csv"],
+    "dsvPaths": ["config/sdw/data/sdw_projectEvent.csv", "config/sdw/data/sdw_event.csv"],
     "ignoredLines" : [1,2,3,4],
     "indexMappings" : [
       {
@@ -136,6 +136,19 @@
         "long"        : 6,
         "category"    : 0,
         "multimedia"  : 7
+      },
+      {
+        "id"          : 0,
+        "name"        : 1,
+        "description" : 2,
+        "startDate"   : 3,
+        "endDate"     : 3,
+        "displayDate" : 3,
+        "location"    : null,
+        "lat"         : null,
+        "long"        : null,
+        "category"    : 5,
+        "multimedia"  : 4
       }
     ]
   },
@@ -610,26 +623,6 @@
       ]
     },
     {
-      "type": "HiventGalleryWidget",
-      "categories" : ["P01","P02","P04"],
-      "dsvPaths": ["config/sdw/data/sdw_event.csv"],
-      "ignoredLines" : [1,2,3,4],
-      "indexMappings" : [
-      {
-        "id"          : 0,
-        "name"        : 1,
-        "description" : 2,
-        "startDate"   : 3,
-        "endDate"     : 3,
-        "displayDate" : 3,
-        "category"    : 5,
-        "multimedia"  : 4
-      }
-      ],
-      "icon": "fa-list-ul",
-      "name": "Ereignisse der sdw-Geschichte"
-    },
-    {
       "type" : "PictureGalleryWidget",
       "icon" : "fa-glass",
       "name" : "Mediengallerie",
@@ -1001,7 +994,7 @@
                   "type" : "category",
                   "category" : "sdwEvent",
                   "name" : "sdw-Ereignisse",
-                  "filterable" : false
+                  "filterable" : true
                 }
               ]
             }
