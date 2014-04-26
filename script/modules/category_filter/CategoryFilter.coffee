@@ -34,19 +34,19 @@ class HG.CategoryFilter
 
 
   # ============================================================================
-  exclusiveFilter: (element,outOfThese) ->
+  exclusiveFilter: (category,outOfThese) ->
 
     for candidate in outOfThese
-        if element is candidate.category
-          @_categoryFilter.push element
-          #console.log "pushed0: ",element
+        if category is candidate
+          @_categoryFilter.push category
+          #console.log "pushed0: ",category
         else
-          @_categoryFilter = @_categoryFilter.filter (item) -> item isnt candidate.category
+          @_categoryFilter = @_categoryFilter.filter (item) -> item isnt candidate
 
           #new:
-          @_categoriesExcluded = @_categoriesExcluded.filter (item) -> item isnt candidate.category
+          @_categoriesExcluded = @_categoriesExcluded.filter (item) -> item isnt candidate
 
-      #console.log element, @_categoryFilter
+      #console.log category, @_categoryFilter
 
       @notifyAll "onFilterChanged", @_categoryFilter
 
@@ -57,7 +57,7 @@ class HG.CategoryFilter
             @_categoryFilter = @_categoryFilter.filter (item) -> item isnt filter
             @_categoriesExcluded.push filter
 
-      #console.log element, @_categoryFilter
+      #console.log category, @_categoryFilter
       @notifyAll "onPrefixFilterChanged", @_categoryFilter
 
 

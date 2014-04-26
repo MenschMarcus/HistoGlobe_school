@@ -215,7 +215,7 @@ class HG.Popover
             @_placement.x * (HGConfig.hivent_marker_2D_width.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
             @_placement.x * ((@_width - @_width * @_placement.x) / 2) -
             Math.abs(@_placement.y) *  @_width / 2
-      top:  @_position.y +
+      top:  @_position.y + canvasOffset.top +
             @_placement.y * (HGConfig.hivent_marker_2D_height.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
             @_placement.y * ((@_mainDiv.offsetHeight - @_mainDiv.offsetHeight * @_placement.y) / 2) -
             Math.abs(@_placement.x) * @_mainDiv.offsetHeight / 2

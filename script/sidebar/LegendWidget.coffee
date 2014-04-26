@@ -47,8 +47,6 @@ class HG.LegendWidget extends HG.Widget
             @addCategory element, group_div
           else if element.type is "categoryWithColor"
             @addCategoryWithColor element, group_div
-          else if element.type is "categorySelect"
-            @addCategorySelect element, group_div
           else if element.type is "categoryWithIcon"
             @addCategoryWithIcon element, group_div
           else
@@ -65,66 +63,6 @@ class HG.LegendWidget extends HG.Widget
     @_mainDiv.appendChild col_div
     return col_div
 
-  # ============================================================================
-  addCategorySelect: (config, col_div) ->
-    defaultConfig =
-      elements: []
-
-    # element:
-    #   category    -> the category to be filtered
-    #   name        -> the name of the entry
-    #   description -> the subtitle
-
-    config = $.extend {}, defaultConfig, config
-
-    row = document.createElement "div"
-    col_div.appendChild row
-
-    select = document.createElement "select"
-    select.className = "legend-select"
-    row.appendChild select
-
-    for element, i in config.elements
-      option = document.createElement "option"
-      option.value = element.category
-      option.innerHTML = i + "|" + element.name
-      select.appendChild option
-
-      #@_categoryFilter.push element.category
-
-    @_categoryFilter?.filter(config.elements[0].category)
-
-
-    formatResult = (e) ->
-      index = e.text.split("|")[0]
-      config.elements[index].name
-
-    formatSelection = (e) ->
-      index = e.text.split("|")[0]
-      result = "<strong>" + config.elements[index].name + "</strong>"
-
-      if config.elements[index].description?
-        result += "<br><small>" + config.elements[index].description + "</small><div class='legend-select-row'>Ein anderes Projekt wählen...</div>"
-
-      result
-
-    $(select).select2
-      escapeMarkup: (m) ->  m
-      formatResult: formatResult
-      formatSelection: formatSelection
-
-    $(select).on "change", (e) =>
-      
-      @_categoryFilter?.exclusiveFilter(e.val,config.elements)
-
-      '''for element in config.elements
-        if e.val is element.category
-          @_categoryFilter.push e.val
-        else
-          @_categoryFilter = @_categoryFilter.filter (item) -> item isnt element.category
-
-      console.log e.val, @_categoryFilter
-      @_hiventController?.setCategoryFilter @_categoryFilter'''
 
   # ============================================================================
   addCategory: (config, col_div) ->

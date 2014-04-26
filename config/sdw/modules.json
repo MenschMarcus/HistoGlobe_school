@@ -194,197 +194,268 @@
   "HiventInfoPopovers" : {},
   "HiventInfoAtTag" : {},
 
-  "WidgetController" :
-  [
-    {
-      "type": "LegendWidget",
-      "categories" : ["P01","P02","P03","P04","P05","P06","P07","P08","P09","P10","P11","P12","P13","P14","P15","P16","P17","P18","P19","P20","P21","P22","P23","P24","P25","P26","P27"],
-      "icon": "fa-list-ul",
-      "name": "Ausgewähltes Projekt",
-      "collapsedAtStart" : false,
-      "columns":
-      [
+  "TitleImage": {
+    "images" :
+    [
+      {
+        "date": "01.01.1994",
+        "path": "config/sdw/data/media/logo1.jpg"
+      },
+      {
+        "date": "01.01.2001",
+        "path": "config/sdw/data/media/logo2.jpg"
+      },
+      {
+        "date": "01.01.2004",
+        "path": "config/sdw/data/media/logo3.jpg"
+      },
+      {
+        "date": "01.01.2010",
+        "path": "config/sdw/data/media/logo4.jpg"
+      }
+    ]
+  },
+
+  "Title" : {
+    "height"        : "80",
+    "contentClass"  : "SDWTitle",
+    "contentConfig" : {
+      "elements" : [
         {
-          "groups" : [
+          "type" : "category",
+          "category" : "P00",
+          "name" : "20 Jahre SDW"
+        },
+        {
+          "type" : "group",
+          "name" : "Tolle Projekte",
+          "elements": [
             {
-              "name": "",
-              "elements" : [
-                {
-                  "type" : "categorySelect",
-                  "elements" : [
-                    {
-                      "type" : "category",
+              "type" : "category",
+              "category" : "P01",
+              "name" : "Studienförderwerk Klaus Murmann"
+            },
+            {
+              "type" : "category",
+              "category" : "P02",
+              "name" : "TRANS-JOB"
+            },
+            {
+              "type" : "category",
 
-                      "category" : "P01",
-                      "name" : "Studienförderwerk Klaus Murmann",
-                      "description" : "<strong>Ziel:</strong> Das Studienförderwerk vergibt Stipendien an leistungsstarke Studierende und Promovierende mit Gemeinsinn und Unternehmergeist. Hauptförderer: Bundesministerium für Bilung und Forschung (BMBF)."
-                    },
-                    {
-                      "type" : "category",
-
-                      "category" : "P02",
-                      "name" : "TRANS-JOB",
-                      "description": "<strong>Ziel:</strong> Durch systematische Kooperationen von Schulen mit Unternehmen die Berufswahlvorbereitung und Berufsorientierung junger Menschen zu fördern. Hauptförderer: Bundesministerium für Bilung und Forschung (BMBF)."
-                    },
-                    {
-                      "type" : "category",
-
-                      "category" : "P03",
-                      "name" : "Zeichen setzen! Integration macht Schule",
-                      "description" : "<strong>Ziel:</strong> Ausländische Jugendliche vor allem an der Schnittstelle Schule/Ausbildung zu unterstützen, ihr Selbstwertgefühl stärken und sie bei der Berufswahlvorbereitung unterstützen. Hauptpartner: Deutsche Bahn AG, Europäischer Sozialfonds."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P04",
-                      "name" : "Mit MINT zum Beruf",
-                      "description" : "<strong>Ziel:</strong> Über Unterrichtsgestaltung und frühzeitige Praxiskontakte mehr Jugendliche für eine MINT-Ausbildung oder ein MINT-Studium motivieren."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P05",
-                      "name" : "Fernakademie",
-                      "description" : "<strong>Ziel:</strong> Mittels eines Fernlehrgangs Berufstätigen betriebswirtschaftliche Kompetenzen vermitteln."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P06",
-                      "name" : "Ökonomische Bildung online",
-                      "description" : "<strong>Ziel:</strong> Lehrkräften eine interdisziplinäre und internetbasierte Fortbildung im Bereich Wirtschaftswissen ermöglichen."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P07",
-                      "name" : "SCHULE WIRTSCHAFT Euregios",
-                      "description" : "<strong>Ziel:</strong> Schüler über die Bundesgrenzen hinaus für die Berufsregion Deutschland.Tschechien.Polen sensibilisieren."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P08",
-                      "name" : "Den Qualitätsverbesserungsprozess an Schulen in Bremen und Bremerhaven verbessern (QVP)",
-                      "description" : "<strong>Ziel:</strong> Schulen dabei unterstützen, ihre Arbeit selbstständig zu überprüfen, zu bewerten und zu verbessern."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P09",
-                      "name" : "TRANS - KOMPETENZ",
-                      "description" : "<strong>Ziel:</strong> Lernschwachen Schülern Perspektiven aufzeigen und sie dazu motivieren, die Schule erfolgreich abzuschließen."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P10",
-                      "name" : "Ganztagsschulen gestalten - Kooperation, schafft Zukunft",
-                      "description" : "<strong>Ziel:</strong> Berufsorientierung fest in Schulprogrammen verankern, um Jugendliche frühzeitig in ihrer Berufswahl zu unterstützen."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P11",
-                      "name" : "Herausforderung Unternehmertum",
-                      "description" : "<strong>Ziel:</strong> Gründungslust bei den Stipendiaten des Studienförderwerks Klaus Murmann wecken und ihnen frühzeitig unternehmerische Praxiserfahrung ermöglichen."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P12",
-                      "name" : "MINToring",
-                      "description" : "<strong>Ziel:</strong> Mehr Schüler im norddeutschen Raum für ein Studium im MINT-Bereich begeistern."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P13",
-                      "name" : "PROFIS - Programm Führungskompetenz in Schulen",
-                      "description" : "<strong>Ziel:</strong> Die Fähigkeiten von Berliner Schulleitern in Führungs- und Managementaufgaben gezielt ausbauen."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P14",
-                      "name" : "BOSS - Brandenburger Oberschulen und Schüler stärken",
-                      "description" : "<strong>Ziel:</strong> Verbesserung der Berufsorientierung an Oberschulen in Brandenburg mit Hilfe von stärkenorientierten Future Camps für die Schüler."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P15",
-                      "name" : "Schulen auf Erfolgskurs - Hauptschulen verändern sich",
-                      "description" : "<strong>Ziel:</strong> Schulmanagement und den praxisorientierten Unterricht an Berliner Hauptschulen verbessern."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P16",
-                      "name" : "Studienkolleg - Stipendien für Lehramtsstudierende",
-                      "description" : "<strong>Ziel:</strong> Angehende Lehrkräfte dabei unterstützen, sich mit pädagogischen Führungsaufgaben vertraut zu machen und sich zu engagierten Schulgestaltern von morgen zu entwickeln."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P17",
-                      "name" : "Studienkompass",
-                      "description" : "<strong>Ziel:</strong> Motiviert junge Menschen aus Familien ohne akademische Erfahrung zur Aufnahme eines Studiums."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P18",
-                      "name" : "MINToring - Studierende begleiten Schülerinnen und Schüler",
-                      "description" : "<strong>Ziel:</strong> Jugendliche für MINT-Themen begeistern und bei der Wahl eines passenden MINT-Studiums unterstützen."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P19",
-                      "name" : "Zeig, was Du kannst! Erfolgreich ins Berufsleben starten",
-                      "description" : "<strong>Ziel:</strong> Jugendliche beim Übergang von der Schule in die Berufsausbildung oder die weiterführende Schule begleiten."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P20",
-                      "name" : "Unternehmen:Jugend. Zusammenarbeit mit Zukunft",
-                      "description" : "<strong>Ziel:</strong> Jugendliche und junge Erwachsene mit gefährdetem Schulabschluss und ohne Berusfausbildung zum Schulabschluss motivieren und auf die Arbeitswelt vorbereiten."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P21",
-                      "name" : "Elternkompass",
-                      "description" : "<strong>Ziel:</strong> Beratung von Eltern und anderen Interessierten zu den Angeboten der Begabtenförderwerke und weitere Stipendiengeber."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P22",
-                      "name" : "Netzwerk SCHULEWIRTSCHAFT Ostdeutschland",
-                      "description" : "<strong>Ziel:</strong> Junge Menschen in Ostdeutschland bei der Berufsorientierung unterstützen und Akteure am Übergang Schule-Berufsausbildung miteinander vernetzen."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P23",
-                      "name" : "Zeig was Du kannst!",
-                      "description" : "<strong>Ziel:</strong> Motivierte und leistungsorientierte Schüler des Hauptschulzweiges fit machen für ihren Bildungs- und Berufsweg."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P24",
-                      "name" : "Lehramt MINToring",
-                      "description" : "<strong>Ziel:</strong> Jugendliche zu einem Lehramtsstudium in den MINT-Fächern motivieren."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P25",
-                      "name" : "Universum Wirtschaft. Impulse für Lehrer von morgen",
-                      "description" : "<strong>Ziel:</strong> Lehramtsstudierenden und jungen Lehrern ökonomisches Grundwissen vermitteln."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P26",
-                      "name" : "Studien- und Berufsorientierung im P-Seminar",
-                      "description" : "<strong>Ziel:</strong> Erfolgsbausteine des Studienkompass in die Projektseminare zur Studien- und Berufsorientierung an allen bayerischen Gymnasien integrieren."
-                    },
-                    {
-                      "type" : "category",
-                      "category" : "P27",
-                      "name" : "Vivo - Bildung von Grund auf!",
-                      "description" : "<strong>Ziel:</strong> Kinder beim Übergang von der Grundschule auf die weiterführende Schule unterstützen."
-                    }
-                  ]
-                }
-              ]
+              "category" : "P03",
+              "name" : "Zeichen setzen! Integration macht Schule"
+            }
+          ]
+        },
+        {
+          "type" : "group",
+          "name" : "Weniger tolle Projekte",
+          "elements": [
+            {
+              "type" : "category",
+              "category" : "P04",
+              "name" : "Mit MINT zum Beruf"
+            },
+            {
+              "type" : "category",
+              "category" : "P05",
+              "name" : "Fernakademie"
+            },
+            {
+              "type" : "category",
+              "category" : "P06",
+              "name" : "Ökonomische Bildung online"
+            },
+            {
+              "type" : "category",
+              "category" : "P07",
+              "name" : "SCHULE WIRTSCHAFT Euregios"
+            },
+            {
+              "type" : "category",
+              "category" : "P08",
+              "name" : "Den Qualitätsverbesserungsprozess an Schulen in Bremen und Bremerhaven verbessern (QVP)"
+            },
+            {
+              "type" : "category",
+              "category" : "P09",
+              "name" : "TRANS - KOMPETENZ"
+            },
+            {
+              "type" : "category",
+              "category" : "P10",
+              "name" : "Ganztagsschulen gestalten - Kooperation, schafft Zukunft"
+            },
+            {
+              "type" : "category",
+              "category" : "P11",
+              "name" : "Herausforderung Unternehmertum"
+            },
+            {
+              "type" : "category",
+              "category" : "P12",
+              "name" : "MINToring"
+            },
+            {
+              "type" : "category",
+              "category" : "P13",
+              "name" : "PROFIS - Programm Führungskompetenz in Schulen"
+            },
+            {
+              "type" : "category",
+              "category" : "P14",
+              "name" : "BOSS - Brandenburger Oberschulen und Schüler stärken"
+            },
+            {
+              "type" : "category",
+              "category" : "P15",
+              "name" : "Schulen auf Erfolgskurs - Hauptschulen verändern sich"
+            },
+            {
+              "type" : "category",
+              "category" : "P16",
+              "name" : "Studienkolleg - Stipendien für Lehramtsstudierende"
+            },
+            {
+              "type" : "category",
+              "category" : "P17",
+              "name" : "Studienkompass"
+            },
+            {
+              "type" : "category",
+              "category" : "P18",
+              "name" : "MINToring - Studierende begleiten Schülerinnen und Schüler"
+            },
+            {
+              "type" : "category",
+              "category" : "P19",
+              "name" : "Zeig, was Du kannst! Erfolgreich ins Berufsleben starten"
+            },
+            {
+              "type" : "category",
+              "category" : "P20",
+              "name" : "Unternehmen:Jugend. Zusammenarbeit mit Zukunft"
+            },
+            {
+              "type" : "category",
+              "category" : "P21",
+              "name" : "Elternkompass"
+            },
+            {
+              "type" : "category",
+              "category" : "P22",
+              "name" : "Netzwerk SCHULEWIRTSCHAFT Ostdeutschland"
+            },
+            {
+              "type" : "category",
+              "category" : "P23",
+              "name" : "Zeig was Du kannst!"
+            },
+            {
+              "type" : "category",
+              "category" : "P24",
+              "name" : "Lehramt MINToring"
+            },
+            {
+              "type" : "category",
+              "category" : "P25",
+              "name" : "Universum Wirtschaft. Impulse für Lehrer von morgen"
+            },
+            {
+              "type" : "category",
+              "category" : "P26",
+              "name" : "Studien- und Berufsorientierung im P-Seminar"
+            },
+            {
+              "type" : "category",
+              "category" : "P27",
+              "name" : "Vivo - Bildung von Grund auf!"
             }
           ]
         }
       ]
-    },
+    }
+  },
+
+  "EventTicker" : {
+    "icon" : "",
+    "name" : "EventTicker",
+    "messages" :
+    [
+      {
+        "text": "Verabschiedung der ersten Absolventinnen und Absolventen aus der Förderung.",
+        "date": "31.5.1998"
+      },
+      {
+        "text": "Prof. Dr. Klaus Murmann wird Vorstandsvorsitzender",
+        "date": "1.1.2001"
+      },
+      {
+        "text": "Hans-Jürgen Brackmann wird Generalsekretär",
+        "date": "1.1.2001"
+      },
+      {
+        "text": "1.000 Studierende und Promovierende im Studienförderwerks Klaus Murmann.",
+        "date": "1.6.2003"
+      },
+      {
+        "text": "1.000 Mitglieder im Alumni-Verein.",
+        "date": "1.5.2008"
+      },
+      {
+        "text": "1.500 Studierende und Promovierende im Studienförderwerks Klaus Murmann.",
+        "date": "1.6.2009"
+      },
+      {
+        "text": "3.000 Teilnehmer/innen an sdw-Förderprogrammen.",
+        "date": "1.10.2009"
+      },
+      {
+        "text": "1.000 Teilnehmer im Studienkompass.",
+        "date": "1.9.2010"
+      },
+      {
+        "text": "4.000 Teilnehmer/innen an sdw-Förderprogrammen.",
+        "date": "1.10.2010"
+      },
+      {
+        "text": "1.500 Teilnehmer im Studienkompass.",
+        "date": "15.9.2012"
+      },
+      {
+        "text": "4.500 Teilnehmer/innen an sdw-Förderprogrammen.",
+        "date": "1.11.2012"
+      },
+      {
+        "text": "Ingo Kramer wird Arbeitgeberpräsident",
+        "date": "18.11.2013"
+      },
+      {
+        "text": "Der Alumni-Verein wird 15 Jahre alt.",
+        "date": "1.1.2014"
+      },
+      {
+        "text": "1.700 Studierende und Promovierende im Studienförderwerks Klaus Murmann.",
+        "date": "1.2.2014"
+      },
+      {
+        "text": "Dr. Gerhard F. Braun wird Kuratoriumsvorsitzender.",
+        "date": "15.3.2014"
+      },
+      {
+        "text": "Die sdw feiert ihren 20. Geburtstag.",
+        "date": "17.5.2014"
+      },
+      {
+        "text": "Das Studienförderwerk Klaus Murmann wird 20 Jahre alt.",
+        "date": "5.1.2015"
+      }
+    ]
+  },
+
+  "WidgetController" :
+  [
     {
       "type" : "LogoWidget",
       "icon" : "fa-user",
@@ -409,114 +480,203 @@
         }
       ]
     },
+
     {
-      "type" : "TitleImage",
-      "images" :
-      [
-        {
-          "date": "01.01.1994",
-          "path": "config/sdw/data/media/logo1.jpg"
-        },
-        {
-          "date": "01.01.2001",
-          "path": "config/sdw/data/media/logo2.jpg"
-        },
-        {
-          "date": "01.01.2004",
-          "path": "config/sdw/data/media/logo3.jpg"
-        },
-        {
-          "date": "01.01.2010",
-          "path": "config/sdw/data/media/logo4.jpg"
-        }
-      ]
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P01"],
+      "text" : "Das Studienförderwerk vergibt Stipendien an leistungsstarke Studierende und Promovierende mit Gemeinsinn und Unternehmergeist. <br><br>Hauptförderer: Bundesministerium für Bilung und Forschung (BMBF)."
     },
     {
-      "type" : "Title",
-      "name" : "20 Jahre sdw"
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P02"],
+      "text" : "Durch systematische Kooperationen von Schulen mit Unternehmen die Berufswahlvorbereitung und Berufsorientierung junger Menschen zu fördern. <br><br>Hauptförderer: Bundesministerium für Bilung und Forschung (BMBF)."
     },
-    
     {
-      "type" : "EventTicker",
-      "icon" : "",
-      "name" : "EventTicker",
-      "messages" :
-      [
-        {
-          "text": "Verabschiedung der ersten Absolventinnen und Absolventen aus der Förderung.",
-          "date": "31.5.1998"
-        },
-        {
-          "text": "Prof. Dr. Klaus Murmann wird Vorstandsvorsitzender",
-          "date": "1.1.2001"
-        },
-        {
-          "text": "Hans-Jürgen Brackmann wird Generalsekretär",
-          "date": "1.1.2001"
-        },
-        {
-          "text": "1.000 Studierende und Promovierende im Studienförderwerks Klaus Murmann.",
-          "date": "1.6.2003"
-        },
-        {
-          "text": "1.000 Mitglieder im Alumni-Verein.",
-          "date": "1.5.2008"
-        },
-        {
-          "text": "1.500 Studierende und Promovierende im Studienförderwerks Klaus Murmann.",
-          "date": "1.6.2009"
-        },
-        {
-          "text": "3.000 Teilnehmer/innen an sdw-Förderprogrammen.",
-          "date": "1.10.2009"
-        },
-        {
-          "text": "1.000 Teilnehmer im Studienkompass.",
-          "date": "1.9.2010"
-        },
-        {
-          "text": "4.000 Teilnehmer/innen an sdw-Förderprogrammen.",
-          "date": "1.10.2010"
-        },
-        {
-          "text": "1.500 Teilnehmer im Studienkompass.",
-          "date": "15.9.2012"
-        },
-        {
-          "text": "4.500 Teilnehmer/innen an sdw-Förderprogrammen.",
-          "date": "1.11.2012"
-        },
-        {
-          "text": "Ingo Kramer wird Arbeitgeberpräsident",
-          "date": "18.11.2013"
-        },
-        {
-          "text": "Der Alumni-Verein wird 15 Jahre alt.",
-          "date": "1.1.2014"
-        },
-        {
-          "text": "1.700 Studierende und Promovierende im Studienförderwerks Klaus Murmann.",
-          "date": "1.2.2014"
-        },
-        {
-          "text": "Dr. Gerhard F. Braun wird Kuratoriumsvorsitzender.",
-          "date": "15.3.2014"
-        },
-        {
-          "text": "Die sdw feiert ihren 20. Geburtstag.",
-          "date": "17.5.2014"
-        },
-        {
-          "text": "Das Studienförderwerk Klaus Murmann wird 20 Jahre alt.",
-          "date": "5.1.2015"
-        }
-      ]
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P03"],
+      "text" : "Ausländische Jugendliche vor allem an der Schnittstelle Schule/Ausbildung zu unterstützen, ihr Selbstwertgefühl stärken und sie bei der Berufswahlvorbereitung unterstützen. Hauptpartner: Deutsche Bahn AG, Europäischer Sozialfonds."
     },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P04"],
+      "text" : "Über Unterrichtsgestaltung und frühzeitige Praxiskontakte mehr Jugendliche für eine MINT-Ausbildung oder ein MINT-Studium motivieren."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P05"],
+      "text" : "Mittels eines Fernlehrgangs Berufstätigen betriebswirtschaftliche Kompetenzen vermitteln."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P06"],
+      "text" : "Lehrkräften eine interdisziplinäre und internetbasierte Fortbildung im Bereich Wirtschaftswissen ermöglichen."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P07"],
+      "text" : "Schüler über die Bundesgrenzen hinaus für die Berufsregion Deutschland.Tschechien.Polen sensibilisieren."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P08"],
+      "text" : "Schulen dabei unterstützen, ihre Arbeit selbstständig zu überprüfen, zu bewerten und zu verbessern."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P09"],
+      "text" : "Lernschwachen Schülern Perspektiven aufzeigen und sie dazu motivieren, die Schule erfolgreich abzuschließen."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P10"],
+      "text" : "Berufsorientierung fest in Schulprogrammen verankern, um Jugendliche frühzeitig in ihrer Berufswahl zu unterstützen."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P11"],
+      "text" : "Gründungslust bei den Stipendiaten des Studienförderwerks Klaus Murmann wecken und ihnen frühzeitig unternehmerische Praxiserfahrung ermöglichen."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P12"],
+      "text" : "Mehr Schüler im norddeutschen Raum für ein Studium im MINT-Bereich begeistern."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P13"],
+      "text" : "Die Fähigkeiten von Berliner Schulleitern in Führungs- und Managementaufgaben gezielt ausbauen."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P14"],
+      "text" : "Verbesserung der Berufsorientierung an Oberschulen in Brandenburg mit Hilfe von stärkenorientierten Future Camps für die Schüler."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P15"],
+      "text" : "Schulmanagement und den praxisorientierten Unterricht an Berliner Hauptschulen verbessern."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P16"],
+      "text" : "Angehende Lehrkräfte dabei unterstützen, sich mit pädagogischen Führungsaufgaben vertraut zu machen und sich zu engagierten Schulgestaltern von morgen zu entwickeln."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P17"],
+      "text" : "Motiviert junge Menschen aus Familien ohne akademische Erfahrung zur Aufnahme eines Studiums."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P18"],
+      "text" : "Jugendliche für MINT-Themen begeistern und bei der Wahl eines passenden MINT-Studiums unterstützen."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P19"],
+      "text" : "Jugendliche beim Übergang von der Schule in die Berufsausbildung oder die weiterführende Schule begleiten."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P20"],
+      "text" : "Jugendliche und junge Erwachsene mit gefährdetem Schulabschluss und ohne Berusfausbildung zum Schulabschluss motivieren und auf die Arbeitswelt vorbereiten."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P21"],
+      "text" : "Beratung von Eltern und anderen Interessierten zu den Angeboten der Begabtenförderwerke und weitere Stipendiengeber."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P22"],
+      "text" : "Junge Menschen in Ostdeutschland bei der Berufsorientierung unterstützen und Akteure am Übergang Schule-Berufsausbildung miteinander vernetzen."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P23"],
+      "text" : "Motivierte und leistungsorientierte Schüler des Hauptschulzweiges fit machen für ihren Bildungs- und Berufsweg."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P24"],
+      "text" : "Jugendliche zu einem Lehramtsstudium in den MINT-Fächern motivieren."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P25"],
+      "text" : "Lehramtsstudierenden und jungen Lehrern ökonomisches Grundwissen vermitteln."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P26"],
+      "text" : "Erfolgsbausteine des Studienkompass in die Projektseminare zur Studien- und Berufsorientierung an allen bayerischen Gymnasien integrieren."
+    },
+    {
+      "type" : "TextWidget",
+      "icon" : "fa-edit",
+      "name" : "Ziel",
+      "categories" : ["P27"],
+      "text" : "Kinder beim Übergang von der Grundschule auf die weiterführende Schule unterstützen."
+    },
+
+
     {
       "type" : "VIPWidget",
       "icon" : "fa-user",
       "name" : "Geschäftsführung",
-      "categories" : ["P01","P02","P03"],
+      "categories" : ["P00"],
       "persons" :
       [
         {
@@ -611,7 +771,7 @@
     },
     {
       "type": "HiventGalleryWidget",
-      "categories" : ["P01","P02","P04"],
+      "categories" : ["P00"],
       "dsvPaths": ["config/sdw/data/sdw_event.csv"],
       "ignoredLines" : [1,2,3,4],
       "indexMappings" : [
@@ -931,7 +1091,7 @@
       "icon" : "fa-bar-chart-o",
       "name" : "Entwicklungen",
       "title" : "Stipendiaten und Programmteilnehmer",
-      "categories" : ["P01","P02","P03"],
+      "categories" : ["P00"],
       "yDomain" : [0, 5000],
       "xLableTicks" : 5,
       "yLableTicks" : 5,
@@ -960,7 +1120,7 @@
     },
     {
       "type": "LegendWidget",
-      "categories" : ["P01","P02","P03","P04","P05","P06","P07","P08","P09","P10","P11","P12","P13","P14","P15","P16","P17","P18","P19","P20","P21","P22","P23","P24","P25","P26","P27"],
+      "categories" : ["P00", "P01","P02","P03","P04","P05","P06","P07","P08","P09","P10","P11","P12","P13","P14","P15","P16","P17","P18","P19","P20","P21","P22","P23","P24","P25","P26","P27"],
       "icon": "fa-list-ul",
       "name": "Legende",
       "columns":
