@@ -1,11 +1,12 @@
 .hg-title {
 
   position: relative;
-  height: 100px;
+  // height: 100px;
+  height: 55px;
 
-  @media(min-width: (@map_min_width + @sidebar_width)) {
-    height: 55px;
-  }
+  // @media(min-width: (@map_min_width + @sidebar_width)) {
+  //   height: 55px;
+  // }
 
   .title-text {
     width: 100%;
@@ -17,8 +18,10 @@
     font-weight: bold;
     vertical-align: middle;
 
+    display: none;
+
     @media(min-width: (@map_min_width + @sidebar_width)) {
-      width: 50%;
+      width: 60%;
       height: 100%;
       display: inline-block;
     }
@@ -27,14 +30,14 @@
   .title-select {
     position: relative;
     width: 100%;
-    height: 50%;
+    height: 100%;
     vertical-align: top;
     display: inline-block;
     padding: 5px;
 
     @media(min-width: (@map_min_width + @sidebar_width)) {
-      width: 50%;
-      height: 100%;
+      width: 40%;
+      // height: 100%;
     }
 
     .select2-container {

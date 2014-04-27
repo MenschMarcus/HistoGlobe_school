@@ -16,6 +16,51 @@
   "BrowserDetector": {},
 
   "ControlButtonArea": {},
+  "Help":
+  {
+    "elements": [
+      {
+        "image" : "config/sdw/data/help/help01.png",
+        "anchorX" : "left",
+        "anchorY" : "top",
+        "offsetX": "18",
+        "offsetY": "156",
+        "width": "40%"
+      },
+      {
+        "image" : "config/sdw/data/help/help02.png",
+        "anchorX" : "right",
+        "anchorY" : "center",
+        "offsetX": "20",
+        "offsetY": "-90",
+        "width": "40%"
+      },
+      {
+        "image" : "config/sdw/data/help/help03.png",
+        "anchorX" : "right",
+        "anchorY" : "top",
+        "offsetX": "100",
+        "offsetY": "30",
+        "width": "55%"
+      },
+      {
+        "image" : "config/sdw/data/help/help04.png",
+        "anchorX" : "center",
+        "anchorY" : "bottom",
+        "offsetX": "0",
+        "offsetY": "131",
+        "width": "70%"
+      },
+      {
+        "image" : "config/sdw/data/help/help05.png",
+        "anchorX" : "center",
+        "anchorY" : "bottom",
+        "offsetX": "0",
+        "offsetY": "10",
+        "width": "80%"
+      }
+    ]
+  },
   "ZoomButtons": {},
   "FullscreenButton": {},
 

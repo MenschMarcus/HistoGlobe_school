@@ -7,6 +7,13 @@ class HG.FullscreenButton
   ##############################################################################
 
   # ============================================================================
+  constructor: (config) ->
+    defaultConfig =
+      help: undefined
+
+    @_config = $.extend {}, defaultConfig, config
+
+  # ============================================================================
   hgInit: (hgInstance) ->
 
     unless window.fullScreenApi.supportsFullScreen
