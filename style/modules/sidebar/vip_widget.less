@@ -5,9 +5,14 @@
   .vip-person-display {
     overflow:hidden;
     margin-left: @widget_body_padding;
-    margin-bottom: @widget_body_padding;
+    margin-bottom: 0px;
     height: 0px;
-    transition: height 0.5s;
+    .transition-duration(0.5s);
+    .transition-property(height margin-bottom);
+
+    &.visible {
+      margin-bottom: @widget_body_padding;
+    }
   }
 
   .vip-widget-name {
@@ -49,6 +54,8 @@
     position: relative;
     float: left;
 
+    // border-bottom: 4px solid #666;
+
     width: @vip_widget_size;
     height: @vip_widget_size;
 
@@ -56,7 +63,7 @@
     background-repeat: no-repeat;
     background-position: 50% 0%;
 
-    //border-bottom: @border_width*2 solid @border_color_dark;
+    border-bottom: @border_width*2 solid @border_color_dark;
     //border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
 
     //margin-left: @widget_body_padding;

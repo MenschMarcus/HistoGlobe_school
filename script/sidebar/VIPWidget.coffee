@@ -78,8 +78,10 @@ class HG.VIPWidget extends HG.Widget
       endDate = @_timeline.stringToDate dude.dude.endDate
       if now.getTime() >= startDate.getTime() && now.getTime() <= endDate.getTime()
         dude.div.style.height = HGConfig.vip_widget_size.val + HGConfig.vip_widget_size.unit
+        $(dude.div).addClass("visible")
       else
         dude.div.style.height = 0 + "px"
+        $(dude.div).removeClass("visible")
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #
