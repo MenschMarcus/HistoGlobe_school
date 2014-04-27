@@ -20,7 +20,7 @@ class HG.HiventStory
     @_hiventController = null
     @_categoryFilter = null
     @_hiventNames = @_config.hivents
-    @_currentHivent = 0
+    @_currentHivent = -1
     @_needsSorting = true
 
   # ============================================================================
