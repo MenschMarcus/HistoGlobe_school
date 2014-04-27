@@ -14,28 +14,26 @@ class HG.TitleImage
     @_actualImage = null
     @_config = $.extend {}, defaultConfig, config
 
-    HG.mixin @, HG.CallbackContainer
-    HG.CallbackContainer.call @
-
-    HG.Widget.call @, @_config
-
   # ============================================================================
   hgInit: (hgInstance) ->
-    #super hgInstance
-
-    @_timeline = hgInstance.timeline
-    @_timeline.onNowChanged @, @_nowChanged
+    @hgInstance = hgInstance
 
     @_div           = document.createElement("div")
-    @_div.id        = "title_image_container"
     @_div.className = "title_image_container"
 
     @_images = []
+
+    '''
+    @_timeline = hgInstance.timeline
+    @_timeline.onNowChanged @, @_nowChanged
 
     for image, index in @_config.images
       @_images.push @_addImage image, index
 
     $("#histoglobe").append @_div
+
+    @_changeImages @_images[0].div
+    '''
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -45,41 +43,42 @@ class HG.TitleImage
   _addImage: (image, index) ->
 
     imageDiv           = document.createElement("img")
-    imageDiv.id        = "title_image_" + index
     imageDiv.className = "title_image"
-    imageDiv.src = image.path
+    imageDiv.src       = image.path
+
+    $(imageDiv).click () =>
+      @hgInstance.timeline.moveToDate new Date(1, 0, @hgInstance._config.minYear), 0.5
 
     @_div.appendChild imageDiv
 
     retMessage =
       div: imageDiv
-      text: image.path
       date: @_timeline.stringToDate image.date
 
   # ============================================================================
   _nowChanged: (now) =>
-    index = 0
-    while index < @_images.length
-      if (index == @_images.length-1 and @_images[index].date < now and now > @_images[index-1].date) or
-          (@_images[index].date < now and now < @_images[index+1].date)
-        @changeImages(index)
+
+    new_image = @_images[0]
+
+    for image in @_images
+      if image.date <= now
+        new_image = image
+      else
         break
-      index++
+
+    if new_image isnt @_actualImage
+      @_changeImages new_image.div
 
   # ============================================================================
-  compareDates: (date1, date2) ->
-    if date1.getFullYear() == date2.getFullYear() && date1.getMonth() == date2.getMonth()
-      return true
-    else
-      return false
+  # compareDates: (date1, date2) ->
+    # date1.getFullYear() == date2.getFullYear() && date1.getMonth() == date2.getMonth()
+
 
   # ============================================================================
-  changeImages: (index) ->
-    if @_actualImage == null
-      $(@_images[index].div).fadeIn(100)
-    if @_actualImage isnt @_images[index].div
-      $(@_actualImage).fadeOut(100, => $(@_images[index].div).fadeIn(100))
-    @_actualImage = @_images[index].div
+  _changeImages: (div) ->
+    $(@_actualImage).toggleClass("visible")
+    @_actualImage = div
+    $(@_actualImage).toggleClass("visible")
 
 
 

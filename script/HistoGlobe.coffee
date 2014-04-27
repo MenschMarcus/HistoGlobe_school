@@ -31,6 +31,7 @@ class HG.HistoGlobe
       startZoom: 4
       maxBounds: undefined
       startLatLong: [51.505, 10.09]
+      sidebarCollapsed: "auto"
       tiles: 'data/tiles/'
 
     $.getJSON(pathToJson, (config) =>
@@ -70,7 +71,9 @@ class HG.HistoGlobe
 
       @_updateLayout()
 
-      unless @isInMobileMode()
+      if @_config.sidebarCollapsed is "false"
+        @_collapse()
+      else if @_config.sidebarCollapsed is "auto" and @isInMobileMode()
         @_collapse()
     )
 

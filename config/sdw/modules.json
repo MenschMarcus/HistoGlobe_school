@@ -9,6 +9,7 @@
     "maxZoom": 8,
     "startZoom": 6,
     "startLatLong": [51.505, 10.09],
+    "sidebarCollapsed":"true",
     "tiles": "config/sdw/data/tiles/"
   },
 
@@ -190,28 +191,6 @@
     "transitionTime" : 0.5
   },
 
-  "TitleImage": {
-    "images" :
-    [
-      {
-        "date": "01.01.1994",
-        "path": "config/sdw/data/media/logo1.jpg"
-      },
-      {
-        "date": "01.01.2001",
-        "path": "config/sdw/data/media/logo2.jpg"
-      },
-      {
-        "date": "01.01.2004",
-        "path": "config/sdw/data/media/logo3.jpg"
-      },
-      {
-        "date": "01.01.2010",
-        "path": "config/sdw/data/media/logo4.jpg"
-      }
-    ]
-  },
-
   "Title" : {
     "contentClass"  : "SDWTitle",
     "contentConfig" : {
@@ -374,6 +353,28 @@
     }
   },
 
+  "TitleImage": {
+    "images" :
+    [
+      {
+        "date": "01.01.1994",
+        "path": "config/sdw/data/media/logo1.jpg"
+      },
+      {
+        "date": "01.01.2001",
+        "path": "config/sdw/data/media/logo2.jpg"
+      },
+      {
+        "date": "01.01.2004",
+        "path": "config/sdw/data/media/logo3.jpg"
+      },
+      {
+        "date": "01.01.2010",
+        "path": "config/sdw/data/media/logo4.jpg"
+      }
+    ]
+  },
+
   "EventTicker" : {
     "icon" : "",
     "name" : "EventTicker",
@@ -463,8 +464,8 @@
     {
       "type" : "LogoWidget",
       "icon" : "fa-user",
-      "categories" : ["sdwEvent"],
       "name" : "Logo",
+      "categories" : ["sdwEvent"],
       "logos" :
       [
         {

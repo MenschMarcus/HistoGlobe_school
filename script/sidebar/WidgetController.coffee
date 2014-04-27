@@ -31,7 +31,7 @@ class HG.WidgetController
     @_categoryFilter = hgInstance.categoryFilter if hgInstance.categoryFilter
 
     @_loadWidgetsFromConfig(@_config,hgInstance)
-  
+
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
@@ -41,6 +41,7 @@ class HG.WidgetController
 
 
     load_module = (moduleName, moduleConfig) =>
+        #console.log moduleName
         if window["HG"][moduleName]?
           newMod = new window["HG"][moduleName] moduleConfig
 
@@ -49,8 +50,8 @@ class HG.WidgetController
             @_filterWidget(widget) unless widget instanceof HG.LegendWidget'''
 
           #newMod.hgInit hgInstance   #later if required after filter
-          newMod.hgInit hgInstance unless newMod instanceof HG.Widget
-          newMod.hgInit hgInstance if newMod instanceof HG.LegendWidget
+          #newMod.hgInit hgInstance unless newMod instanceof HG.Widget
+          #newMod.hgInit hgInstance if newMod instanceof HG.LegendWidget
 
           @_widgets.push newMod
 
@@ -88,9 +89,11 @@ class HG.WidgetController
   _filterWidgets:() ->
 
     if @_categoryFilter
-
+        #console.log widgets
         widgets = @_widgets.slice();
-        widgets.shift()
+        #console.log widgets
+        #widgets.shift()
+        #console.log widgets
 
         for widget in widgets
           if widget._config.categories.length is 0
@@ -100,7 +103,7 @@ class HG.WidgetController
             match = false
             for category in widget._config.categories
                 if category in @_currentCategoryFilter
-                    
+
                     widget.hgInit @_hgInstance unless widget.loaded
                     widget.show() if widget instanceof HG.Widget # not all widgets are inherited from hg.widget now!!!
                     match =true

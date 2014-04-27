@@ -28,7 +28,11 @@ class HG.SDWTitle
     @_select_div.className     = "title-select"
     parentDiv.appendChild @_select_div
 
-    $(@_select_div).tooltip {title: "Wählen Sie ein Projekt der sdw, um mehr darüber zu erfahren!", placement: "left", container:"body"}
+    $(@_select_div).tooltip {title: "Wählen Sie ein Projekt der sdw, um mehr darüber zu erfahren!", placement: "bottom", container:"body"}
+
+    window.setTimeout () =>
+      $(@_select_div).tooltip("show")
+    , 2000
 
     select = document.createElement "select"
     @_select_div.appendChild select
