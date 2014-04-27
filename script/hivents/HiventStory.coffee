@@ -21,6 +21,7 @@ class HG.HiventStory
     @_categoryFilter = null
     @_hiventNames = @_config.hivents
     @_currentHivent = 0
+    @_needsSorting = true
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -44,6 +45,7 @@ class HG.HiventStory
 
           if push
             @_hiventNames.push id
+            @_needsSorting = true
 
       @_nowMarker.animationCallback = @_jumpToNextHivent
 
@@ -54,17 +56,23 @@ class HG.HiventStory
 
   # ============================================================================
   _jumpToNextHivent: =>
-    offset = 0
+    if @_needsSorting
+      @_needsSorting = false
+      @_hiventNames.sort (a, b) =>
+        hiventA = @_hiventController.getHiventHandleById a
+        hiventB = @_hiventController.getHiventHandleById b
+        if hiventA? and hiventB?
+          return hiventA.getHivent().startDate.getTime() - hiventB.getHivent().startDate.getTime()
+        return 0
+
     old = @_currentHivent
     @_currentHivent = (@_currentHivent + 1) % @_hiventNames.length
-    console.log @_currentHivent, @_hiventNames.length
     nextHivent = @_hiventController.getHiventHandleById @_hiventNames[@_currentHivent]
     nextFound = false
 
     while (not nextFound) and (@_currentHivent isnt old)
       unless nextHivent.getHivent().category in @_categoryFilter.getCurrentFilter()
-        offset++
-        @_currentHivent = (@_currentHivent + offset) % @_hiventNames.length
+        @_currentHivent = (@_currentHivent + 1) % @_hiventNames.length
         nextHivent = @_hiventController.getHiventHandleById @_hiventNames[@_currentHivent]
 
       else nextFound = true

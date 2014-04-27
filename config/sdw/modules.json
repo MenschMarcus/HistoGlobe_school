@@ -187,7 +187,7 @@
   "HiventStory" :
   {
     "hivents" : [],
-    "hiventPrefixes" : ["E"],
+    "hiventPrefixes" : ["E", "P"],
     "transitionTime" : 0.5
   },
 
