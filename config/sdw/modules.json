@@ -59,7 +59,7 @@
         }
       },
       {
-        "mapping":"config/common/countries/sdw_cities_mapping.json",
+        "mapping":"config/sdw/data/sdw_cities_mapping.json",
         "domain": [0, 1],
         "fillColor": {
           "range": ["#ffffff", "#ffffff"],
@@ -97,7 +97,7 @@
 
   "AreaController" :
   {
-    "areaJSONPaths" : ["config/common/countries/bundeslaender.json","config/common/countries/sdw_cities.json"]
+    "areaJSONPaths" : ["config/common/countries/bundeslaender.json","config/sdw/data/sdw_cities.json"]
   },
 
 
