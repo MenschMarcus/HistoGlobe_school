@@ -18,6 +18,7 @@ class HG.HiventStory
     @_timeline = null
     @_nowMarker = null
     @_hiventController = null
+    @_categoryFilter = null
     @_hiventNames = @_config.hivents
     @_currentHivent = 0
 
@@ -28,6 +29,7 @@ class HG.HiventStory
       @_timeline = hgInstance.timeline
       @_nowMarker = hgInstance.timeline.getNowMarker()
       @_hiventController = hgInstance.hiventController
+      @_categoryFilter = hgInstance.categoryFilter
 
       if @_hiventNames.length is 0
         @_hiventController.onHiventAdded (handle) =>
@@ -52,11 +54,27 @@ class HG.HiventStory
 
   # ============================================================================
   _jumpToNextHivent: =>
+    offset = 0
+    old = @_currentHivent
+    @_currentHivent = (@_currentHivent + 1) % @_hiventNames.length
+    console.log @_currentHivent, @_hiventNames.length
     nextHivent = @_hiventController.getHiventHandleById @_hiventNames[@_currentHivent]
+    nextFound = false
+
+    while (not nextFound) and (@_currentHivent isnt old)
+      unless nextHivent.getHivent().category in @_categoryFilter.getCurrentFilter()
+        offset++
+        @_currentHivent = (@_currentHivent + offset) % @_hiventNames.length
+        nextHivent = @_hiventController.getHiventHandleById @_hiventNames[@_currentHivent]
+
+      else nextFound = true
+
+    if @_currentHivent is old
+      nextHivent = @_hiventController.getHiventHandleById @_hiventNames[@_currentHivent]
+
     @_timeline.moveToDate nextHivent.getHivent().startDate, @_config.transitionTime,
       () =>
         nextHivent.activeAll()
-    @_currentHivent = (@_currentHivent + 1) % @_hiventNames.length
 
 
   ##############################################################################
