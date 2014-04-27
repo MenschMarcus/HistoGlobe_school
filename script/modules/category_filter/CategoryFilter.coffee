@@ -37,19 +37,23 @@ class HG.CategoryFilter
   exclusiveFilter: (category,outOfThese) ->
 
     for candidate in outOfThese
-        if category is candidate
-          @_categoryFilter.push category
-          #console.log "pushed0: ",category
-        else
-          @_categoryFilter = @_categoryFilter.filter (item) -> item isnt candidate
+      @_categoryFilter = @_categoryFilter.filter (item) -> item isnt candidate
+      @_categoriesExcluded = @_categoriesExcluded.filter (item) -> item isnt candidate
 
-          #new:
-          @_categoriesExcluded = @_categoriesExcluded.filter (item) -> item isnt candidate
+    @filter category
 
-      #console.log category, @_categoryFilter
+      # if (@_isArray category) and candidate in
+      #   @_categoryFilter.push category
+        #console.log "pushed0: ",category
+      # else
+        # @_categoryFilter = @_categoryFilter.filter (item) -> item isnt candidate
 
-      @notifyAll "onFilterChanged", @_categoryFilter
+        #new:
+        # @_categoriesExcluded = @_categoriesExcluded.filter (item) -> item isnt candidate
 
+    @notifyAll "onFilterChanged", @_categoryFilter
+
+    for candidate in outOfThese
       #new:
       for prefix in @_prefixesExcluded
         for filter in @_categoryFilter
@@ -63,8 +67,11 @@ class HG.CategoryFilter
 
   # ============================================================================
   filter: (category) ->
-    @_categoryFilter.push category
-    #console.log "pushed1: ",category
+    if @_isArray category
+      for c in category
+        @_categoryFilter.push c
+    else
+      @_categoryFilter.push category
 
 
   # ============================================================================
@@ -123,4 +130,10 @@ class HG.CategoryFilter
     else
       #domElement.className = "legend-row legend-row-non-filterable"
       domElement.className = domElement.className + " " + domElement.className + "-non-filterable"
+
+  # ============================================================================
+  _isArray:(value) ->
+    (Object.prototype.toString.call value) is '[object Array]'
+
+
 

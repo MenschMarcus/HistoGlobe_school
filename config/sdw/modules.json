@@ -199,7 +199,7 @@
         {
           "type" : "category",
           "main" : true,
-          "category" : "sdwEvent",
+          "categories" : ["sdwEvent", "projectstart"],
           "name" : "20 Jahre SDW"
         },
         {
@@ -208,52 +208,52 @@
           "elements": [
             {
               "type" : "category",
-              "category" : "P01",
+              "categories" : ["P01"],
               "name" : "Studienförderwerk Klaus Murmann"
             },
             {
               "type" : "category",
-              "category" : "P16",
+              "categories" : ["P16"],
               "name" : "Studienkolleg - Stipendien für Lehramtsstudierende"
             },
             {
               "type" : "category",
-              "category" : "P11",
+              "categories" : ["P11"],
               "name" : "Herausforderung Unternehmertum"
             },
             {
               "type" : "category",
-              "category" : "P17",
+              "categories" : ["P17"],
               "name" : "Studienkompass"
             },
             {
               "type" : "category",
-              "category" : "P21",
+              "categories" : ["P21"],
               "name" : "Elternkompass"
             },
             {
               "type" : "category",
-              "category" : "P23",
+              "categories" : ["P23"],
               "name" : "Zeig was Du kannst!"
             },
             {
               "type" : "category",
-              "category" : "P24",
+              "categories" : ["P24"],
               "name" : "Lehramt MINToring"
             },
             {
               "type" : "category",
-              "category" : "P25",
+              "categories" : ["P25"],
               "name" : "Universum Wirtschaft. Impulse für Lehrer von morgen"
             },
             {
               "type" : "category",
-              "category" : "P26",
+              "categories" : ["P26"],
               "name" : "Studien- und Berufsorientierung im P-Seminar"
             },
             {
               "type" : "category",
-              "category" : "P27",
+              "categories" : ["P27"],
               "name" : "Vivo - Bildung von Grund auf!"
             }
           ]
@@ -264,87 +264,87 @@
           "elements": [
             {
               "type" : "category",
-              "category" : "P02",
+              "categories" : ["P02"],
               "name" : "TRANS-JOB"
             },
             {
               "type" : "category",
-              "category" : "P03",
+              "categories" : ["P03"],
               "name" : "Zeichen setzen! Integration macht Schule"
             },
             {
               "type" : "category",
-              "category" : "P04",
+              "categories" : ["P04"],
               "name" : "Mit MINT zum Beruf"
             },
             {
               "type" : "category",
-              "category" : "P05",
+              "categories" : ["P05"],
               "name" : "Fernakademie"
             },
             {
               "type" : "category",
-              "category" : "P06",
+              "categories" : ["P06"],
               "name" : "Ökonomische Bildung online"
             },
             {
               "type" : "category",
-              "category" : "P07",
+              "categories" : ["P07"],
               "name" : "SCHULE WIRTSCHAFT Euregios"
             },
             {
               "type" : "category",
-              "category" : "P08",
+              "categories" : ["P08"],
               "name" : "Den Qualitätsverbesserungsprozess an Schulen in Bremen und Bremerhaven verbessern (QVP)"
             },
             {
               "type" : "category",
-              "category" : "P09",
+              "categories" : ["P09"],
               "name" : "TRANS - KOMPETENZ"
             },
             {
               "type" : "category",
-              "category" : "P10",
+              "categories" : ["P10"],
               "name" : "Ganztagsschulen gestalten - Kooperation, schafft Zukunft"
             },
             {
               "type" : "category",
-              "category" : "P12",
+              "categories" : ["P12"],
               "name" : "MINToring"
             },
             {
               "type" : "category",
-              "category" : "P13",
+              "categories" : ["P13"],
               "name" : "PROFIS - Programm Führungskompetenz in Schulen"
             },
             {
               "type" : "category",
-              "category" : "P14",
+              "categories" : ["P14"],
               "name" : "BOSS - Brandenburger Oberschulen und Schüler stärken"
             },
             {
               "type" : "category",
-              "category" : "P15",
+              "categories" : ["P15"],
               "name" : "Schulen auf Erfolgskurs - Hauptschulen verändern sich"
             },
             {
               "type" : "category",
-              "category" : "P18",
+              "categories" : ["P18"],
               "name" : "MINToring - Studierende begleiten Schülerinnen und Schüler"
             },
             {
               "type" : "category",
-              "category" : "P19",
+              "categories" : ["P19"],
               "name" : "Zeig, was Du kannst! Erfolgreich ins Berufsleben starten"
             },
             {
               "type" : "category",
-              "category" : "P20",
+              "categories" : ["P20"],
               "name" : "Unternehmen:Jugend. Zusammenarbeit mit Zukunft"
             },
             {
               "type" : "category",
-              "category" : "P22",
+              "categories" : ["P22"],
               "name" : "Netzwerk SCHULEWIRTSCHAFT Ostdeutschland"
             }
           ]

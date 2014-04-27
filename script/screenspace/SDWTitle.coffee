@@ -51,18 +51,19 @@ class HG.SDWTitle
 
     $(select).select2()
     $(select).on "change", (e) =>
-      @_categoryFilter?.exclusiveFilter(e.val,@_allCategories)
+      @_categoryFilter?.exclusiveFilter(e.val.split(","),@_allCategories)
 
-    @_categoryFilter?.filter(@_config.elements[0].category)
+    @_categoryFilter?.filter(@_config.elements[0].categories)
 
   # ============================================================================
   _addElement: (element, parent) ->
     if element.type is "category"
       option = document.createElement "option"
-      option.value = element.category
+      option.value = element.categories
       option.innerHTML = element.name
       parent.appendChild option
-      @_allCategories.push element.category
+      for c in element.categories
+        @_allCategories.push c
     else
       group = document.createElement "optgroup"
       group.label = element.name
