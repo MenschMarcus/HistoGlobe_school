@@ -30,9 +30,16 @@ class HG.SDWTitle
 
     $(@_select_div).tooltip {title: "Wählen Sie ein Projekt der sdw, um mehr darüber zu erfahren!", placement: "bottom", container:"body"}
 
+
+
+
     window.setTimeout () =>
       $(@_select_div).tooltip("show")
-    , 2000
+    , 5000
+
+
+
+
 
     select = document.createElement "select"
     @_select_div.appendChild select

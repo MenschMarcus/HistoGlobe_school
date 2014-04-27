@@ -70,16 +70,20 @@ class HG.Widget
   #new:
   show:() ->
 
-    collapse=() =>
-      if $(@_header).hasClass("collapsed")
-        @_collapse()
+    # collapse=() =>
+    #     # if $(@_header).hasClass("collapsed")
+        # @_collapse()
 
 
     #if @_headerHeight
-      '''$(@_header).css
-          "height": @_headerHeight'''
-    $(@container).show(300,collapse)
-    #else
+    #$(@_header).css
+    #"height": @_headerHeight
+
+    $(@container).show(300)
+    # if @_config.collapsedAtStart
+    #   $(@container).show(300, collapse)
+    # else
+    #   $(@container).show(300, collapse)
     #  collapse()
 
 
@@ -95,8 +99,8 @@ class HG.Widget
         "height": 0'''
     $(@container).hide(300)
 
-    if not $(@_header).hasClass("collapsed")
-      @_collapse()
+    #unless $(@_header).hasClass("collapsed")
+    #  @_collapse()
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -178,7 +182,8 @@ class HG.Widget
     @setName "New Widget"
     @setIcon "fa-star"
 
-    @_collapse() if @_config.collapsedAtStart
+    if @_config.collapsedAtStart
+       @_collapse()
 
     #@notifyAll "onLoaded", @
 
