@@ -15,6 +15,7 @@ class HG.Popover
       title: ""
       container: "body"
       showArrow: true
+      fullscreen: false
 
     @_config = $.extend {}, defaultConfig, config
 
@@ -24,9 +25,13 @@ class HG.Popover
     @_mainDiv = document.createElement "div"
     @_mainDiv.className = "guiPopover"
     @_mainDiv.style.position = "absolute"
-    @_mainDiv.style.left = "#{WINDOW_TO_ANCHOR_OFFSET_X}px"
     @_mainDiv.style.top = "#{WINDOW_TO_ANCHOR_OFFSET_Y}px"
     @_mainDiv.style.visibility = "hidden"
+
+    if @_config.fullscreen
+      $(@_mainDiv).addClass("fullscreen")
+    else
+      @_mainDiv.style.left = "#{WINDOW_TO_ANCHOR_OFFSET_X}px"
 
     @_topArrow = document.createElement "div"
     @_topArrow.className = "arrow arrow-up"
@@ -53,6 +58,9 @@ class HG.Popover
 
     bodyDiv = document.createElement "div"
     bodyDiv.className = "guiPopoverBody"
+
+    if @_config.fullscreen
+      $(bodyDiv).addClass("fullscreen")
 
     if @_config.content? or @_config.contentHTML isnt ""
 
@@ -212,16 +220,22 @@ class HG.Popover
       $(@_leftArrow).css "margin-top", "#{verticalArrowMargin}px"
       $(@_rightArrow).css "margin-top", "#{verticalArrowMargin}px"
 
-    $(@_mainDiv).offset {
-      left: @_position.x + canvasOffset.left +
-            @_placement.x * (HGConfig.hivent_marker_2D_width.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
-            @_placement.x * ((@_width - @_width * @_placement.x) / 2) -
-            Math.abs(@_placement.y) *  @_width / 2
-      top:  @_position.y + canvasOffset.top +
-            @_placement.y * (HGConfig.hivent_marker_2D_height.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
-            @_placement.y * ((@_mainDiv.offsetHeight - @_mainDiv.offsetHeight * @_placement.y) / 2) -
-            Math.abs(@_placement.x) * @_mainDiv.offsetHeight / 2
-    }
+    unless @_config.fullscreen
+      $(@_mainDiv).offset
+        left: @_position.x + canvasOffset.left +
+              @_placement.x * (HGConfig.hivent_marker_2D_width.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
+              @_placement.x * ((@_width - @_width * @_placement.x) / 2) -
+              Math.abs(@_placement.y) *  @_width / 2
+
+    unless @_config.fullscreen
+      $(@_mainDiv).offset
+        top:  @_position.y + canvasOffset.top +
+              @_placement.y * (HGConfig.hivent_marker_2D_height.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
+              @_placement.y * ((@_mainDiv.offsetHeight - @_mainDiv.offsetHeight * @_placement.y) / 2) -
+              Math.abs(@_placement.x) * @_mainDiv.offsetHeight / 2
+    else
+      $(@_mainDiv).offset
+        top:  @_position.y + canvasOffset.top - @_mainDiv.offsetHeight / 2
 
 
   # ============================================================================
