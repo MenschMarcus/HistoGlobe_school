@@ -199,7 +199,7 @@
         {
           "type" : "category",
           "main" : true,
-          "categories" : ["sdwEvent", "projectstart"],
+          "categories" : ["sdwEvent", "projektstart"],
           "name" : "20 Jahre SDW"
         },
         {
