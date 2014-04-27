@@ -4,7 +4,7 @@
     "container": "histoglobe",
     "minYear": 1994,
     "maxYear": 2015,
-    "nowYear": 2000,
+    "nowYear": 1994,
     "minZoom": 6,
     "maxZoom": 8,
     "startZoom": 6,
@@ -158,33 +158,9 @@
         "default" : "config/exemplum/data/icons/plantage_default.png",
         "highlighted" : "config/exemplum/data/icons/plantage_highlight.png"
       },
-      "A" : {
+      "projektstart" : {
         "default" : "config/exemplum/data/icons/default_default.png",
         "highlighted" : "config/exemplum/data/icons/default_highlight.png"
-      },
-      "Z" : {
-        "default" : "config/exemplum/data/icons/zweigstelle_default.png",
-        "highlighted" : "config/exemplum/data/icons/zweigstelle_highlight.png"
-      },
-      "F" : {
-        "default" : "config/exemplum/data/icons/fabrik_default.png",
-        "highlighted" : "config/exemplum/data/icons/fabrik_highlight.png"
-      },
-      "P" : {
-        "default" : "config/exemplum/data/icons/plantage_default.png",
-        "highlighted" : "config/exemplum/data/icons/plantage_highlight.png"
-      },
-      "S" : {
-        "default" : "config/exemplum/data/icons/shop_default.png",
-        "highlighted" : "config/exemplum/data/icons/shop_highlight.png"
-      },
-      "E" : {
-        "default" : "config/exemplum/data/icons/erlebniszentrum_default.png",
-        "highlighted" : "config/exemplum/data/icons/erlebniszentrum_highlight.png"
-      },
-      "T" : {
-        "default" : "config/exemplum/data/icons/tour_default.png",
-        "highlighted" : "config/exemplum/data/icons/tour_highlight.png"
       },
       "P01" : {
         "default" : "config/exemplum/data/icons/fabrik_default.png",
@@ -243,18 +219,70 @@
       "elements" : [
         {
           "type" : "category",
+          "main" : true,
           "category" : "sdwEvent",
           "name" : "20 Jahre SDW"
         },
         {
           "type" : "group",
-          "name" : "Tolle Projekte",
+          "name" : "Aktuelle Projekte",
           "elements": [
             {
               "type" : "category",
               "category" : "P01",
               "name" : "Studienförderwerk Klaus Murmann"
             },
+            {
+              "type" : "category",
+              "category" : "P16",
+              "name" : "Studienkolleg - Stipendien für Lehramtsstudierende"
+            },
+            {
+              "type" : "category",
+              "category" : "P11",
+              "name" : "Herausforderung Unternehmertum"
+            },
+            {
+              "type" : "category",
+              "category" : "P17",
+              "name" : "Studienkompass"
+            },
+            {
+              "type" : "category",
+              "category" : "P21",
+              "name" : "Elternkompass"
+            },
+            {
+              "type" : "category",
+              "category" : "P23",
+              "name" : "Zeig was Du kannst!"
+            },
+            {
+              "type" : "category",
+              "category" : "P24",
+              "name" : "Lehramt MINToring"
+            },
+            {
+              "type" : "category",
+              "category" : "P25",
+              "name" : "Universum Wirtschaft. Impulse für Lehrer von morgen"
+            },
+            {
+              "type" : "category",
+              "category" : "P26",
+              "name" : "Studien- und Berufsorientierung im P-Seminar"
+            },
+            {
+              "type" : "category",
+              "category" : "P27",
+              "name" : "Vivo - Bildung von Grund auf!"
+            }
+          ]
+        },
+        {
+          "type" : "group",
+          "name" : "Vergangene Projekte",
+          "elements": [
             {
               "type" : "category",
               "category" : "P02",
@@ -264,13 +292,7 @@
               "type" : "category",
               "category" : "P03",
               "name" : "Zeichen setzen! Integration macht Schule"
-            }
-          ]
-        },
-        {
-          "type" : "group",
-          "name" : "Weniger tolle Projekte",
-          "elements": [
+            },
             {
               "type" : "category",
               "category" : "P04",
@@ -308,11 +330,6 @@
             },
             {
               "type" : "category",
-              "category" : "P11",
-              "name" : "Herausforderung Unternehmertum"
-            },
-            {
-              "type" : "category",
               "category" : "P12",
               "name" : "MINToring"
             },
@@ -333,16 +350,6 @@
             },
             {
               "type" : "category",
-              "category" : "P16",
-              "name" : "Studienkolleg - Stipendien für Lehramtsstudierende"
-            },
-            {
-              "type" : "category",
-              "category" : "P17",
-              "name" : "Studienkompass"
-            },
-            {
-              "type" : "category",
               "category" : "P18",
               "name" : "MINToring - Studierende begleiten Schülerinnen und Schüler"
             },
@@ -358,38 +365,8 @@
             },
             {
               "type" : "category",
-              "category" : "P21",
-              "name" : "Elternkompass"
-            },
-            {
-              "type" : "category",
               "category" : "P22",
               "name" : "Netzwerk SCHULEWIRTSCHAFT Ostdeutschland"
-            },
-            {
-              "type" : "category",
-              "category" : "P23",
-              "name" : "Zeig was Du kannst!"
-            },
-            {
-              "type" : "category",
-              "category" : "P24",
-              "name" : "Lehramt MINToring"
-            },
-            {
-              "type" : "category",
-              "category" : "P25",
-              "name" : "Universum Wirtschaft. Impulse für Lehrer von morgen"
-            },
-            {
-              "type" : "category",
-              "category" : "P26",
-              "name" : "Studien- und Berufsorientierung im P-Seminar"
-            },
-            {
-              "type" : "category",
-              "category" : "P27",
-              "name" : "Vivo - Bildung von Grund auf!"
             }
           ]
         }
@@ -403,72 +380,80 @@
     "messages" :
     [
       {
-        "text": "Verabschiedung der ersten Absolventinnen und Absolventen aus der Förderung.",
-        "date": "31.5.1998"
+        "date": "31.05.1998",
+        "text": "Verabschiedung der ersten Absolventinnen und Absolventen aus der Förderung."
       },
       {
-        "text": "Prof. Dr. Klaus Murmann wird Vorstandsvorsitzender",
-        "date": "1.1.2001"
+        "date": "01.01.2001",
+        "text": "Prof. Dr. Klaus Murmann wird Vorstandsvorsitzender."
       },
       {
-        "text": "Hans-Jürgen Brackmann wird Generalsekretär",
-        "date": "1.1.2001"
+        "date": "01.01.2001",
+        "text": "Hans-Jürgen Brackmann wird Generalsekretär."
       },
       {
-        "text": "1.000 Studierende und Promovierende im Studienförderwerks Klaus Murmann.",
-        "date": "1.6.2003"
+        "date": "01.06.2003",
+        "text": "1.000 Studierende und Promovierende im Studienförderwerks Klaus Murmann."
       },
       {
-        "text": "1.000 Mitglieder im Alumni-Verein.",
-        "date": "1.5.2008"
+        "date": "01.05.2008",
+        "text": "1.000 Mitglieder im Alumni-Verein."
       },
       {
-        "text": "1.500 Studierende und Promovierende im Studienförderwerks Klaus Murmann.",
-        "date": "1.6.2009"
+        "date": "01.06.2009",
+        "text": "1.500 Studierende und Promovierende im Studienförderwerks Klaus Murmann."
       },
       {
-        "text": "3.000 Teilnehmer/innen an sdw-Förderprogrammen.",
-        "date": "1.10.2009"
+        "date": "01.10.2009",
+        "text": "3.000 Teilnehmer/innen an sdw-Förderprogrammen."
       },
       {
-        "text": "1.000 Teilnehmer im Studienkompass.",
-        "date": "1.9.2010"
+        "date": "01.09.2010",
+        "text": "1.000 Teilnehmer im Studienkompass."
       },
       {
-        "text": "4.000 Teilnehmer/innen an sdw-Förderprogrammen.",
-        "date": "1.10.2010"
+        "date": "01.10.2010",
+        "text": "4.000 Teilnehmer/innen an sdw-Förderprogrammen."
       },
       {
-        "text": "1.500 Teilnehmer im Studienkompass.",
-        "date": "15.9.2012"
+        "date": "15.09.2012",
+        "text": "1.500 Teilnehmer im Studienkompass."
       },
       {
-        "text": "4.500 Teilnehmer/innen an sdw-Förderprogrammen.",
-        "date": "1.11.2012"
+        "date": "01.11.2012",
+        "text": "4.500 Teilnehmer/innen an sdw-Förderprogrammen."
       },
       {
-        "text": "Ingo Kramer wird Arbeitgeberpräsident",
-        "date": "18.11.2013"
+        "date": "18.11.2013",
+        "text": "Ingo Kramer wird Arbeitgeberpräsident."
       },
       {
-        "text": "Der Alumni-Verein wird 15 Jahre alt.",
-        "date": "1.1.2014"
+        "date": "01.01.2014",
+        "text": "Der Alumni-Verein wird 15 Jahre alt."
       },
       {
-        "text": "1.700 Studierende und Promovierende im Studienförderwerks Klaus Murmann.",
-        "date": "1.2.2014"
+        "date": "01.02.2014",
+        "text": "1.700 Studierende und Promovierende im Studienförderwerks Klaus Murmann."
       },
       {
-        "text": "Dr. Gerhard F. Braun wird Kuratoriumsvorsitzender.",
-        "date": "15.3.2014"
+        "date": "15.03.2014",
+        "text": "Dr. Gerhard F. Braun wird Kuratoriumsvorsitzender."
       },
       {
-        "text": "Die sdw feiert ihren 20. Geburtstag.",
-        "date": "17.5.2014"
+        "date": "17.05.2014",
+        "text": "Die sdw feiert ihren 20. Geburtstag."
       },
       {
-        "text": "Das Studienförderwerk Klaus Murmann wird 20 Jahre alt.",
-        "date": "5.1.2015"
+        "date": "05.01.2015",
+        "text": "Das Studienförderwerk Klaus Murmann wird 20 Jahre alt."
+      },
+      {
+        "date": "06.01.2003",
+        "text": "Dr. Werner Brinker (Vorstandsvorsitzender der EWE AG) wird Vorsitzender des Fördervereins."
+      },
+      {
+        "date": "01.09.2011",
+        "text": "Prof. Dr. Christian Rödl (Geschäftsführender Partner der Rödl & Partner GbR) wird Vorsitzender des Fördervereins."
       }
     ]
   },
@@ -504,214 +489,213 @@
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P01"],
-      "text" : "Das Studienförderwerk vergibt Stipendien an leistungsstarke Studierende und Promovierende mit Gemeinsinn und Unternehmergeist. <br><br>Hauptförderer: Bundesministerium für Bilung und Forschung (BMBF)."
+      "text" : "Ziel: Das Studienförderwerk vergibt Stipendien an leistungsstarke Studierende und Promovierende mit Gemeinsinn und Unternehmergeist. <br/><br/> Hauptförderer: Bundesministerium für Bildung und Foschung"
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P02"],
-      "text" : "Durch systematische Kooperationen von Schulen mit Unternehmen die Berufswahlvorbereitung und Berufsorientierung junger Menschen zu fördern. <br><br>Hauptförderer: Bundesministerium für Bilung und Forschung (BMBF)."
+      "text" : "Ziel: Durch systematische Kooperationen von Schulen mit Unternehmen die Berufswahlvorbereitung und Berufsorientierung junger Menschen zu fördern. <br/><br/> Hauptförderer: Bundesministerium für Bildung und Forschung"
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P03"],
-      "text" : "Ausländische Jugendliche vor allem an der Schnittstelle Schule/Ausbildung zu unterstützen, ihr Selbstwertgefühl stärken und sie bei der Berufswahlvorbereitung unterstützen. Hauptpartner: Deutsche Bahn AG, Europäischer Sozialfonds."
+      "text" : "Ziel: Ausländische Jugendliche vor allem an der Schnittstelle Schule/Ausbildung zu unterstützen, ihr Selbstwertgefühl stärken und sie bei der Berufswahlvorbereitung unterstützen. <br/><br/> Hauptförderer: Deutsche Bahn AG, Europäischer Sozialfonds"
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P04"],
-      "text" : "Über Unterrichtsgestaltung und frühzeitige Praxiskontakte mehr Jugendliche für eine MINT-Ausbildung oder ein MINT-Studium motivieren."
+      "text" : "Ziel: Über Unterrichtsgestaltung und frühzeitige Praxiskontakte mehr Jugendliche für eine MINT-Ausbildung oder ein MINT-Studium motivieren. <br/><br/> Hauptförderer: Hauptförderer: Bundesministerium für Bildung und Forschung"
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P05"],
-      "text" : "Mittels eines Fernlehrgangs Berufstätigen betriebswirtschaftliche Kompetenzen vermitteln."
+      "text" : "Ziel: Mittels eines Fernlehrgangs Berufstätigen betriebswirtschaftliche Kompetenzen vermitteln."
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P06"],
-      "text" : "Lehrkräften eine interdisziplinäre und internetbasierte Fortbildung im Bereich Wirtschaftswissen ermöglichen."
+      "text" : "Ziel: Lehrkräften eine interdisziplinäre und internetbasierte Fortbildung im Bereich Wirtschaftswissen ermöglichen."
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P07"],
-      "text" : "Schüler über die Bundesgrenzen hinaus für die Berufsregion Deutschland.Tschechien.Polen sensibilisieren."
+      "text" : "Ziel: Schüler über die Bundesgrenzen hinaus für die Berufsregion Deutschland.Tschechien.Polen sensibilisieren. <br/><br/> Hauptförderer: Robert Bosch Stiftung, Europäische Union"
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P08"],
-      "text" : "Schulen dabei unterstützen, ihre Arbeit selbstständig zu überprüfen, zu bewerten und zu verbessern."
+      "text" : "Ziel: Schulen dabei unterstützen, ihre Arbeit selbstständig zu überprüfen, zu bewerten und zu verbessern. <br/><br/> Hauptförderer: Die Unternehmensverbände im Lande Bremen, Der Senator für Bildung und Wissenschaft im Lande Bremen"
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P09"],
-      "text" : "Lernschwachen Schülern Perspektiven aufzeigen und sie dazu motivieren, die Schule erfolgreich abzuschließen."
+      "text" : "Ziel: Lernschwachen Schülern Perspektiven aufzeigen und sie dazu motivieren, die Schule erfolgreich abzuschließen."
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P10"],
-      "text" : "Berufsorientierung fest in Schulprogrammen verankern, um Jugendliche frühzeitig in ihrer Berufswahl zu unterstützen."
+      "text" : "Ziel: Berufsorientierung fest in Schulprogrammen verankern, um Jugendliche frühzeitig in ihrer Berufswahl zu unterstützen. <br/><br/>Hauptförderer: Bundesministerium für Bildung und Forschung, Europäischer Sozialfonds"
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P11"],
-      "text" : "Gründungslust bei den Stipendiaten des Studienförderwerks Klaus Murmann wecken und ihnen frühzeitig unternehmerische Praxiserfahrung ermöglichen."
+      "text" : "Ziel: Gründungslust bei den Stipendiaten des Studienförderwerks Klaus Murmann wecken und ihnen frühzeitig unternehmerische Praxiserfahrung ermöglichen. <br/><br/> Hauptförderer: Heinz Nixdorf Stiftung"
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P12"],
-      "text" : "Mehr Schüler im norddeutschen Raum für ein Studium im MINT-Bereich begeistern."
+      "text" : "Ziel: Mehr Schüler im norddeutschen Raum für ein Studium im MINT-Bereich begeistern. <br/><br/> Hauptförderer: Nordmetall"
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P13"],
-      "text" : "Die Fähigkeiten von Berliner Schulleitern in Führungs- und Managementaufgaben gezielt ausbauen."
+      "text" : "Ziel: Die Fähigkeiten von Berliner Schulleitern in Führungs- und Managementaufgaben gezielt ausbauen. <br/><br/> Hauptförderer: Senatsverwaltung für Bildung und Wissenschaft Berlin, Europäischer Sozialfonds"
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P14"],
-      "text" : "Verbesserung der Berufsorientierung an Oberschulen in Brandenburg mit Hilfe von stärkenorientierten Future Camps für die Schüler."
+      "text" : "Ziel: Verbesserung der Berufsorientierung an Oberschulen in Brandenburg mit Hilfe von stärkenorientierten Future Camps für die Schüler."
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P15"],
-      "text" : "Schulmanagement und den praxisorientierten Unterricht an Berliner Hauptschulen verbessern."
+      "text" : "Ziel: Schulmanagement und den praxisorientierten Unterricht an Berliner Hauptschulen verbessern. <br/><br/> Hauptförderer: Senatsverwaltung für Bildung und Wissenschaft Berlin"
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P16"],
-      "text" : "Angehende Lehrkräfte dabei unterstützen, sich mit pädagogischen Führungsaufgaben vertraut zu machen und sich zu engagierten Schulgestaltern von morgen zu entwickeln."
+      "text" : "Ziel: Angehende Lehrkräfte dabei unterstützen, sich mit pädagogischen Führungsaufgaben vertraut zu machen und sich zu engagierten Schulgestaltern von morgen zu entwickeln. <br/><br/> Hauptförderer: Robert Bosch Stiftung, Bundesministerium für Bildung und Forschung"
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P17"],
-      "text" : "Motiviert junge Menschen aus Familien ohne akademische Erfahrung zur Aufnahme eines Studiums."
+      "text" : "Ziel: Motiviert junge Menschen aus Familien ohne akademische Erfahrung zur Aufnahme eines Studiums. <br/><br/> Hauptförderer: Accenture-Stiftung, Deutsche Bank Stiftung"
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P18"],
-      "text" : "Jugendliche für MINT-Themen begeistern und bei der Wahl eines passenden MINT-Studiums unterstützen."
+      "text" : "Ziel: Jugendliche für MINT-Themen begeistern und bei der Wahl eines passenden MINT-Studiums unterstützen. <br/><br/> Hauptförderer: Bundesministerium für Bildung und Forschung"
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P19"],
-      "text" : "Jugendliche beim Übergang von der Schule in die Berufsausbildung oder die weiterführende Schule begleiten."
+      "text" : "Ziel: Jugendliche beim Übergang von der Schule in die Berufsausbildung oder die weiterführende Schule begleiten. <br/><br/> Hauptförderer: Bundesministerium für Bildung und Forschung"
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P20"],
-      "text" : "Jugendliche und junge Erwachsene mit gefährdetem Schulabschluss und ohne Berusfausbildung zum Schulabschluss motivieren und auf die Arbeitswelt vorbereiten."
+      "text" : "Ziel: Jugendliche und junge Erwachsene mit gefährdetem Schulabschluss und ohne Berusfausbildung zum Schulabschluss motivieren und auf die Arbeitswelt vorbereiten. <br/><br/> Hauptförderer: Bundesministerium für Familie, Senioren, Frauen und Jugend"
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P21"],
-      "text" : "Beratung von Eltern und anderen Interessierten zu den Angeboten der Begabtenförderwerke und weitere Stipendiengeber."
+      "text" : "Ziel: Beratung von Eltern und anderen Interessierten zu den Angeboten der Begabtenförderwerke und weitere Stipendiengeber. <br/><br/> Hauptförderer: Bundesministerium für Bildung und Forschung"
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P22"],
-      "text" : "Junge Menschen in Ostdeutschland bei der Berufsorientierung unterstützen und Akteure am Übergang Schule-Berufsausbildung miteinander vernetzen."
+      "text" : "Ziel: Junge Menschen in Ostdeutschland bei der Berufsorientierung unterstützen und Akteure am Übergang Schule-Berufsausbildung miteinander vernetzen. <br/><br/> Hauptförderer: Bundesministerium des Innern"
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P23"],
-      "text" : "Motivierte und leistungsorientierte Schüler des Hauptschulzweiges fit machen für ihren Bildungs- und Berufsweg."
+      "text" : "Ziel: Motivierte und leistungsorientierte Schüler des Hauptschulzweiges fit machen für ihren Bildungs- und Berufsweg. <br/><br/> Hauptförderer: Walter Blüchert Stiftung"
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P24"],
-      "text" : "Jugendliche zu einem Lehramtsstudium in den MINT-Fächern motivieren."
+      "text" : "Ziel: Jugendliche zu einem Lehramtsstudium in den MINT-Fächern motivieren. <br/><br/> Hauptförderer: TÜV SÜD Stiftung"
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P25"],
-      "text" : "Lehramtsstudierenden und jungen Lehrern ökonomisches Grundwissen vermitteln."
+      "text" : "Ziel: Lehramtsstudierenden und jungen Lehrern ökonomisches Grundwissen vermitteln. <br/><br/> Hauptförderer: Commerzbank-Stiftung"
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P26"],
-      "text" : "Erfolgsbausteine des Studienkompass in die Projektseminare zur Studien- und Berufsorientierung an allen bayerischen Gymnasien integrieren."
+      "text" : "Ziel: Erfolgsbausteine des Studienkompass in die Projektseminare zur Studien- und Berufsorientierung an allen bayerischen Gymnasien integrieren. <br/><br/> Hauptförderer: vbw - Vereinigung der Bayerischen Wirtschaft, Bayerisches Staatsministerium für Unterricht und Kultus"
     },
     {
       "type" : "TextWidget",
       "icon" : "fa-edit",
-      "name" : "Ziel",
+      "name" : "Projekt",
       "categories" : ["P27"],
-      "text" : "Kinder beim Übergang von der Grundschule auf die weiterführende Schule unterstützen."
+      "text" : "Ziel: Kinder beim Übergang von der Grundschule auf die weiterführende Schule unterstützen."
     },
-
 
     {
       "type" : "VIPWidget",
       "icon" : "fa-user",
-      "name" : "Geschäftsführung",
+      "name" : "Gremien",
       "categories" : ["sdwEvent"],
       "persons" :
       [
         {
           "name": "Prof. Dr. Klaus Murmann",
           "startDate": "01.01.1900",
-          "endDate": "31.12.2002",
-          "info": "Mitgründer",
+          "endDate": "31.12.2000",
+          "info": "Gründer",
           "image": "config/sdw/data/media/vip_images/DrMurmann2.jpg",
           "copyright": "©"
         },
         {
           "name": "Prof. Dr. Klaus Murmann",
-          "startDate": "01.01.2003",
+          "startDate": "01.01.2001",
           "endDate": "31.12.2010",
-          "info": "Vorsitzender der sdw",
+          "info": "Vorstandsvorsitzender",
           "image": "config/sdw/data/media/vip_images/PortraitDrKlausMurmann.jpg",
           "copyright": "©"
         },
@@ -721,6 +705,22 @@
           "endDate": "31.12.9999",
           "info": "Ehrenvorsitzender",
           "image": "config/sdw/data/media/vip_images/PortraitDrKlausMurmann.jpg",
+          "copyright": "©"
+        },
+        {
+          "name": "Dr. Josef Siegers",
+          "startDate": "01.01.1900",
+          "endDate": "31.12.2000",
+          "info": "Vorstandsvorsitzender",
+          "image": "config/sdw/data/media/vip_images/Siegers.jpg",
+          "copyright": "©"
+        },
+        {
+          "name": "Ingo Kramer",
+          "startDate": "01.01.2011",
+          "endDate": "31.12.9999",
+          "info": "Vorstandsvorsitzender",
+          "image": "config/sdw/data/media/vip_images/PorträtIngoKramer2010.jpg",
           "copyright": "©"
         },
         {
@@ -745,30 +745,6 @@
           "endDate": "31.12.9999",
           "info": "Generalsekretär",
           "image": "config/sdw/data/media/vip_images/PorträtArndtSchnöring.jpg",
-          "copyright": "©"
-        },
-        {
-          "name": "Dr. Josef Siegers",
-          "startDate": "01.01.1900",
-          "endDate": "31.12.2000",
-          "info": "Vorstandsvorsitzender",
-          "image": "config/sdw/data/media/vip_images/Siegers.jpg",
-          "copyright": "©"
-        },
-        {
-          "name": "Prof. Dr. Klaus Murmann",
-          "startDate": "01.01.2001",
-          "endDate": "31.12.2010",
-          "info": "Vorstandsvorsitzender",
-          "image": "config/sdw/data/media/vip_images/PortraitDrKlausMurmann.jpg",
-          "copyright": "©"
-        },
-        {
-          "name": "Ingo Kramer",
-          "startDate": "01.01.2011",
-          "endDate": "31.12.9999",
-          "info": "Vorstandsvorsitzender",
-          "image": "config/sdw/data/media/vip_images/PorträtIngoKramer2010.jpg",
           "copyright": "©"
         },
         {
@@ -797,7 +773,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -808,7 +784,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -819,7 +795,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -830,7 +806,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -841,7 +817,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -852,7 +828,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -863,7 +839,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -874,7 +850,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -885,7 +861,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -896,7 +872,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -907,7 +883,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -918,7 +894,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -929,7 +905,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -940,7 +916,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -951,7 +927,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -962,7 +938,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -973,7 +949,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -984,7 +960,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -995,7 +971,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -1006,7 +982,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -1017,7 +993,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -1028,7 +1004,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -1039,7 +1015,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -1050,7 +1026,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -1061,7 +1037,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -1072,7 +1048,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -1083,7 +1059,7 @@
       "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
       "indexMapping": {
         "projectId" : 0,
-        "mediaId" : 6
+        "mediaId" : 5
       }
     },
     {
@@ -1128,7 +1104,7 @@
         {
           "groups" : [
             {
-              "name" : "",
+              "name" : "Karte",
               "elements" : [
                 {
                   "type" : "categoryWithIcon",
@@ -1145,23 +1121,27 @@
                   "filterable" : false
                 }
               ]
-            },
+            }
+          ]
+        },
+        {
+          "groups" : [
             {
-              "name": "Wichtige Ereignisse",
+              "name": "Ereignisse",
               "elements" : [
+                {
+                  "type" : "category",
+                  "category" : "sdwEvent",
+                  "name" : "sdw",
+                  "filterable" : false
+                },
                 {
                   "type" : "categoryWithIcon",
                   "category" : "P",
                   "icon" : "config/exemplum/data/icons/fabrik_default.png",
                   "useCategoryAsPrefix" : true,
-                  "name" : "Projektereignisse",
-                  "filterable" : true
-                },
-                {
-                  "type" : "category",
-                  "category" : "sdwEvent",
-                  "name" : "sdw-Ereignisse",
-                  "filterable" : true
+                  "name" : "Projekt",
+                  "filterable" : false
                 }
               ]
             }

@@ -92,17 +92,17 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
 
             media = result[@_config.indexMapping.mediaId]
             media_arr = media.split(", ")
- 
+
             for m in media_arr
               mm = @_multimediaController.getMultimediaById m
-              image = 
+              image =
                 image : mm.link
                 description : mm.description
                 copyright: mm.source
               @_pictures.push image
 
         @_loadPictures()
-            
+
 
 
 
