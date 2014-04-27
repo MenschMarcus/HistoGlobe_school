@@ -172,16 +172,16 @@
     "indexMappings" : [
       {
         "id"          : 0,
-        "name"        : 1,
-        "description" : 2,
-        "startDate"   : 3,
-        "endDate"     : 3,
-        "displayDate" : 3,
-        "location"    : 4,
-        "lat"         : 5,
-        "long"        : 6,
-        "category"    : 0,
-        "multimedia"  : 7
+        "name"        : 2,
+        "description" : 3,
+        "startDate"   : 4,
+        "endDate"     : 4,
+        "displayDate" : 4,
+        "location"    : 5,
+        "lat"         : 6,
+        "long"        : 7,
+        "category"    : 1,
+        "multimedia"  : 8
       },
       {
         "id"          : 0,
@@ -232,7 +232,7 @@
   "HiventStory" :
   {
     "hivents" : [],
-    "hiventPrefixes" : ["E"],
+    "hiventPrefixes" : ["E", "P"],
     "transitionTime" : 0.5
   },
 
@@ -244,7 +244,7 @@
         {
           "type" : "category",
           "main" : true,
-          "categories" : ["sdwEvent", "projectstart"],
+          "categories" : ["sdwEvent", "projektstart"],
           "name" : "20 Jahre SDW"
         },
         {

@@ -68,7 +68,7 @@ class HG.HiventInfoPopovers
     if useMarkerPosition
       i = handle.getHivent().lat.indexOf marker.getPosition().lat
 
-    showHiventInfoPopover = (displayPosition) =>
+    showHiventInfoPopover = () =>
 
       unless @_config.allowMultiplePopovers
         HG.HiventHandle.DEACTIVATE_ALL_OTHER_HIVENTS(handle)
@@ -76,6 +76,7 @@ class HG.HiventInfoPopovers
       marker.hiventInfoPopover?= new HG.HiventInfoPopover handle, container, @_hgInstance, i, useMarkerPosition
 
       if useMarkerPosition
+        displayPosition = marker.getDisplayPosition()
         marker.hiventInfoPopover.show new HG.Vector(displayPosition.x, displayPosition.y)
 
       else
