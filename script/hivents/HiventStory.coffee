@@ -55,15 +55,26 @@ class HG.HiventStory
   # ============================================================================
   _jumpToNextHivent: =>
     offset = 0
-    while not @_hiventNames[@_currentHivent] in @_categoryFilter.getCurrentFilter() and
-          (@_currentHivent + offset) % @_hiventNames.length isnt @_currentHivent - 1
-      offset++
+    old = @_currentHivent
+    @_currentHivent = (@_currentHivent + 1) % @_hiventNames.length
+    console.log @_currentHivent, @_hiventNames.length
+    nextHivent = @_hiventController.getHiventHandleById @_hiventNames[@_currentHivent]
+    nextFound = false
 
-    nextHivent = @_hiventController.getHiventHandleById @_hiventNames[@_currentHivent + offset]
+    while (not nextFound) and (@_currentHivent isnt old)
+      unless nextHivent.getHivent().category in @_categoryFilter.getCurrentFilter()
+        offset++
+        @_currentHivent = (@_currentHivent + offset) % @_hiventNames.length
+        nextHivent = @_hiventController.getHiventHandleById @_hiventNames[@_currentHivent]
+
+      else nextFound = true
+
+    if @_currentHivent is old
+      nextHivent = @_hiventController.getHiventHandleById @_hiventNames[@_currentHivent]
+
     @_timeline.moveToDate nextHivent.getHivent().startDate, @_config.transitionTime,
       () =>
         nextHivent.activeAll()
-    @_currentHivent = (@_currentHivent + offset + 1) % @_hiventNames.length
 
 
   ##############################################################################
