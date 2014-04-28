@@ -91,6 +91,9 @@ $now_marker_pointer_hover_color       = #ffffff
 
 $timeline_font_color                  = #eeeeee
 
+$timebar_on_timeline_color            = rgba(255,255,255,0.3)
+$timebar_on_timeline_border_color     = rgba(255,255,255,0.7)
+
 $timeline_background_image            = ""
 
 // ------------------ HIVENT OPTIONS -------------------------------------------
@@ -99,6 +102,8 @@ $hivent_marker_2D_height              = 32px
 
 $hivent_marker_timeline_width         = 32px
 $hivent_marker_timeline_height        = 32px
+$hivent_marker_timeline_margin_bottom = 3px
+$hivent_marker_timeline_spacing       = 7px
 
 // ------------------ HIVENTINFO OPTIONS ---------------------------------------
 $hivent_info_popover_arrow_height     = 15px

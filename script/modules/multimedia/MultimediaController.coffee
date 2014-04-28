@@ -65,11 +65,11 @@ class HG.MultimediaController
             for result, i in parse_result.results
               unless i+1 in @_config.ignoredLines
                 mm = @_createMultiMedia(
-                  result[@_config.indexMappings[pathIndex].type],
                   result[@_config.indexMappings[pathIndex].description],
                   @_config.rootDirs[pathIndex] + "/" +
                          result[@_config.indexMappings[pathIndex].link],
-                  result[@_config.indexMappings[pathIndex].source]
+                  result[@_config.indexMappings[pathIndex].source],
+                  result[@_config.indexMappings[pathIndex].crop].toUpperCase() is "TRUE"
                 )
 
                 @_multimedia[result[@_config.indexMappings[pathIndex].id]] = mm
@@ -87,14 +87,13 @@ class HG.MultimediaController
 ##############################################################################
 
 # ============================================================================
-  _createMultiMedia: (type, description, link, source) ->
-    mm = {
-      "type": type
+  _createMultiMedia: (description, link, source, crop) ->
+    mm =
       "description": description
       "link": link
       "thumbnail": link
       "source": source
-    }
+      "crop":crop
 
     linkData = link.split(".")
     if linkData[linkData.length-1] in IFRAME_CRITERIA

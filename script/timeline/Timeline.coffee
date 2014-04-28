@@ -23,10 +23,9 @@ class HG.Timeline
 
     @_config = $.extend {}, defaultConfig, config
 
-    @_activeTimespace = [@yearToDate(1995), @yearToDate(2005), "Name", null]
-
     #   --------------------------------------------------------------------------
     @_uiElements = @_createUIElements()
+    @_activeTimeBars = []
 
     #   --------------------------------------------------------------------------
     @_maxZoom = @maxZoomLevel()
@@ -130,10 +129,6 @@ class HG.Timeline
       @notifyAll "onNowChanged", @_nowDate
       @notifyAll "onIntervalChanged", @_getTimeFilter()
 
-    '''hgInstance.categoryFilter?.onFilterChanged @,(categoryFilter) =>
-      @_currentCategoryFilter = categoryFilter
-      console.log "category changed"'''
-
   #   --------------------------------------------------------------------------
   _createUIElements: ->
 
@@ -224,18 +219,25 @@ class HG.Timeline
       @notifyAll "onIntervalChanged", @_getTimeFilter()
 
   #   --------------------------------------------------------------------------
-  updateActiveTimespace: (startDate, endDate, name) ->
-    console.log "update timespace"
+  _drawTimeBar: (timeBarValues) ->
+    startDate = @stringToDate(timeBarValues[0])
+    endDate   = @stringToDate(timeBarValues[1])
+    activeTimeBar = document.createElement("div")
+    activeTimeBar.id = "tl_timebar_" + timeBarValues[2]
+    activeTimeBar.className = "tl_timebar"
+    activeTimeBar.style.left = @dateToPosition(startDate) + "px"
+    activeTimeBar.style.width = (@dateToPosition(endDate) - @dateToPosition(startDate)) + "px"
+    @getUIElements().symbolRow.appendChild activeTimeBar
+    @_activeTimeBars.push activeTimeBar
+    @moveToDate startDate, 0.5
 
-  drawTimespace: ->
-    console.log "drawTimespace"
-    '''if @_activeTimespace.length > 0
-        @_activeTimespace[3] = document.createElement("div")
-        @_activeTimespace[3].id = "tl_timespace_" + @_activeTimespace[2]
-        @_activeTimespace[3].className = "tl_timespace"
-        @_activeTimespace[3].style.left = @dateToPosition(@_activeTimespace[0]) + "px"
-        @_activeTimespace[3].style.width = (@dateToPosition(@_activeTimespace[1]) - @dateToPosition(@_activeTimespace[0])) + "px"
-        @getUIElements().symbolRow.appendChild @_activeTimespace[3]'''
+  updateTimeBars: (activeTimeBars) ->
+    for oldTimeBar in @_activeTimeBars
+      oldTimeBar.style.display = "none"
+      @getUIElements().symbolRow.removeChild oldTimeBar
+    @_activeTimeBars = []
+    for timeBarValues in activeTimeBars
+      @_drawTimeBar timeBarValues
 
   #   --------------------------------------------------------------------------
   #   for i e {0,1,2,3,...} it should return 1,5,10,50,100,...

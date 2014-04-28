@@ -26,7 +26,6 @@
     padding: 0px;
 
     li {
-      max-height: 150px;
       width: 100%;
       overflow: hidden;
       display: inline-block;
@@ -39,6 +38,10 @@
       background-size: cover;
       background-repeat: no-repeat;
       background-position: 50% 50%;
+
+      .fullscreen & {
+        height: 250px;
+      }
     }
   }
 

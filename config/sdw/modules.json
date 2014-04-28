@@ -157,10 +157,10 @@
     "indexMappings": [
       {
         "id"          : 0,
-        "type"        : 7,
         "description" : 2,
         "source"      : 3,
-        "link"        : 1
+        "link"        : 1,
+        "crop"        : 4
       }
     ]
   },
@@ -202,24 +202,24 @@
 
   "CategoryIconMapping" : {
       "sdwEvent" : {
-        "default" : "config/exemplum/data/icons/plantage_default.png",
-        "highlighted" : "config/exemplum/data/icons/plantage_highlight.png"
+        "default" : "config/sdw/data/icons/sdw_default.png",
+        "highlighted" : "config/sdw/data/icons/sdw_highlight.png"
       },
       "projektstart" : {
-        "default" : "config/exemplum/data/icons/default_default.png",
-        "highlighted" : "config/exemplum/data/icons/default_highlight.png"
+        "default" : "config/sdw/data/icons/start_default.png",
+        "highlighted" : "config/sdw/data/icons/start_highlight.png"
       },
       "P01" : {
-        "default" : "config/exemplum/data/icons/fabrik_default.png",
-        "highlighted" : "config/exemplum/data/icons/fabrik_highlight.png"
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
       },
       "P16" : {
-        "default" : "config/exemplum/data/icons/shop_default.png",
-        "highlighted" : "config/exemplum/data/icons/shop_highlight.png"
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
       },
       "P17" : {
-        "default" : "config/exemplum/data/icons/zweigstelle_default.png",
-        "highlighted" : "config/exemplum/data/icons/zweigstelle_highlight.png"
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
       }
     },
 
@@ -235,6 +235,148 @@
     "hivents" : [],
     "hiventPrefixes" : ["E", "P"],
     "transitionTime" : 0.5
+  },
+
+  "TimeBars" : {
+    "contentClass"  : "TimeBars",
+    "title": "bam",
+    "elements": [
+      {
+        "categories" : ["P01"],
+        "startDate": "05.01.1994",
+        "endDate": "31.12.9999"
+      },
+      {
+        "categories" : ["P16"],
+        "startDate": "10.09.2007",
+        "endDate": "31.12.9999"
+      },
+      {
+        "categories" : ["P11"],
+        "startDate": "01.12.2004",
+        "endDate": "31.12.9999"
+      },
+      {
+        "categories" : ["P17"],
+        "startDate": "15.09.2007",
+        "endDate": "31.12.9999"
+      },
+      {
+        "categories" : ["P21"],
+        "startDate": "01.04.2011",
+        "endDate": "31.12.9999"
+      },
+      {
+        "categories" : ["P23"],
+        "startDate": "01.07.2012",
+        "endDate": "31.12.9999"
+      },
+      {
+        "categories" : ["P24"],
+        "startDate": "01.08.2012",
+        "endDate": "31.12.9999"
+      },
+      {
+        "categories" : ["P25"],
+        "startDate": "01.10.2012",
+        "endDate": "31.12.9999"
+      },
+      {
+        "categories" : ["P26"],
+        "startDate": "24.09.2013",
+        "endDate": "31.12.9999"
+      },
+      {
+        "categories" : ["P27"],
+        "startDate": "01.01.2014",
+        "endDate": "31.12.9999"
+      },
+      {
+        "categories" : ["P02"],
+        "startDate": "01.08.1999",
+        "endDate": "31.12.2002"
+      },
+      {
+        "categories" : ["P03"],
+        "startDate": "01.10.2001",
+        "endDate": "31.12.2003"
+      },
+      {
+        "categories" : ["P04"],
+        "startDate": "01.01.2002",
+        "endDate": "31.12.2003"
+      },
+      {
+        "categories" : ["P05"],
+        "startDate": "01.01.2002",
+        "endDate": "31.12.2003"
+      },
+      {
+        "categories" : ["P06"],
+        "startDate": "01.01.2002",
+        "endDate": "31.12.2003"
+      },
+      {
+        "categories" : ["P07"],
+        "startDate": "01.11.2003",
+        "endDate": "31.12.2006"
+      },
+      {
+        "categories" : ["P08"],
+        "startDate": "01.02.2003",
+        "endDate": "31.12.2006"
+      },
+      {
+        "categories" : ["P09"],
+        "startDate": "15.06.2003",
+        "endDate": "31.12.2003"
+      },
+      {
+        "categories" : ["P10"],
+        "startDate": "01.09.2004",
+        "endDate": "31.12.2006"
+      },
+      {
+        "categories" : ["P12"],
+        "startDate": "01.07.2005",
+        "endDate": "31.12.2006"
+      },
+      {
+        "categories" : ["P13"],
+        "startDate": "01.01.2007",
+        "endDate": "31.12.2009"
+      },
+      {
+        "categories" : ["P14"],
+        "startDate": "01.02.2007",
+        "endDate": "31.12.2007"
+      },
+      {
+        "categories" : ["P15"],
+        "startDate": "01.09.2007",
+        "endDate": "31.12.2009"
+      },
+      {
+        "categories" : ["P18"],
+        "startDate": "01.10.2007",
+        "endDate": "31.12.2013"
+      },
+      {
+        "categories" : ["P19"],
+        "startDate": "01.11.2007",
+        "endDate": "31.12.2011"
+      },
+      {
+        "categories" : ["P20"],
+        "startDate": "01.01.2009",
+        "endDate": "31.12.2012"
+      },
+      {
+        "categories" : ["P22"],
+        "startDate": "01.07.2011",
+        "endDate": "31.12.2012"
+      }
+    ]
   },
 
   "Title" : {
@@ -1277,7 +1419,7 @@
                   {
                     "type" : "categoryWithIcon",
                     "category" : "projektstart",
-                    "icon" : "config/exemplum/data/icons/fabrik_default.png",
+                    "icon" : "config/sdw/data/icons/start_default.png",
                     "useCategoryAsPrefix" : true,
                     "name" : "Startschuss eines sdw-Projekts",
                     "filterable" : false
@@ -1304,7 +1446,7 @@
                   {
                     "type" : "categoryWithIcon",
                     "category" : "P",
-                    "icon" : "config/exemplum/data/icons/fabrik_default.png",
+                    "icon" : "config/sdw/data/icons/projekt_default.png",
                     "useCategoryAsPrefix" : true,
                     "name" : "Geschichte des Projekts",
                     "filterable" : false

@@ -43,20 +43,22 @@ class HG.HiventBuilder
             galleryTag = "[" + galleryID + "]"
 
           #get all related entries from multimedia database and concatenate html string
-          for id in mmids # original!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-          # if mmids[0] # quickhack for sdw
-            # id = mmids[0]
+          for id in mmids
             mm = @_multimediaController.getMultimediaById id
             if mm?
               mmHtmlString +=  '\t\t<li><a href="' +
                                 mm.link + '" rel="prettyPhoto" ' +
                                 galleryTag + ' title="'
-
               if mm.source?
                 mmHtmlString += ' <p class=\'hiventInfoPopoverSource\'> © ' + mm.source + '</p>'
 
-              mmHtmlString += mm.description + '" style="background-image:url(\'' +
-                              mm.thumbnail + '\')"></a></li>\n'
+              if mm.crop
+                mmHtmlString += mm.description + '" style="background-image:url(\'' +
+                                mm.thumbnail + '\')"></a></li>\n'
+              else
+                mmHtmlString += mm.description + '" style="background-size:contain;' +
+                                'border-bottom:none;background-image:url(\'' +
+                                mm.thumbnail + '\')"></a></li>\n'
 
 
             mmHtmlString += "\t</ul>\n"
