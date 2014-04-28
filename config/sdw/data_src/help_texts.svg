@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="drawing.svg">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#626262"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.30980392"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="628.927"
+     inkscape:cy="707.09684"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1014"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     showguides="true"
+     inkscape:guide-bbox="true" />
+  <defs
+     id="defs4">
+    <marker
+       style="overflow:visible"
+       id="TriangleInM"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="TriangleInM">
+      <path
+         transform="scale(-0.4)"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt"
+         d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
+         id="path4324" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="Arrow2Mend"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow2Mend">
+      <path
+         transform="scale(0.6) rotate(180) translate(0,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round;"
+         id="path4215" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow1Sstart"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Sstart">
+      <path
+         transform="scale(0.2) translate(6,0)"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path4200" />
+    </marker>
+    <marker
+       inkscape:stockid="DotS"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="DotS"
+       style="overflow:visible">
+      <path
+         id="path4255"
+         d="M -2.5,-1.0 C -2.5,1.7600000 -4.7400000,4.0 -7.5,4.0 C -10.260000,4.0 -12.5,1.7600000 -12.5,-1.0 C -12.5,-3.7600000 -10.260000,-6.0 -7.5,-6.0 C -4.7400000,-6.0 -2.5,-3.7600000 -2.5,-1.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt"
+         transform="scale(0.2) translate(7.4, 1)" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="TriangleOutS"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="TriangleOutS">
+      <path
+         transform="scale(0.2)"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt"
+         d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
+         id="path3915" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="TriangleOutM"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="TriangleOutM">
+      <path
+         transform="scale(0.4)"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt"
+         d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
+         id="path3912" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="Arrow2Send"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow2Send">
+      <path
+         transform="scale(0.3) rotate(180) translate(-2.3,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round;"
+         id="path3800" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="Arrow1Send"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow1Send">
+      <path
+         transform="scale(0.2) rotate(180) translate(6,0)"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path3782" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="TriangleOutSQ"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="TriangleOutSQ">
+      <path
+         transform="scale(0.2)"
+         style="stroke:#ffffff;stroke-width:1.0pt;fill:#ffffff;fill-rule:evenodd"
+         d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
+         id="path5330" />
+    </marker>
+    <marker
+       inkscape:stockid="DotS8"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="DotS8"
+       style="overflow:visible">
+      <path
+         id="path4846"
+         d="M -2.5,-1.0 C -2.5,1.7600000 -4.7400000,4.0 -7.5,4.0 C -10.260000,4.0 -12.5,1.7600000 -12.5,-1.0 C -12.5,-3.7600000 -10.260000,-6.0 -7.5,-6.0 C -4.7400000,-6.0 -2.5,-3.7600000 -2.5,-1.0 z "
+         style="stroke:#ffffff;stroke-width:1.0pt;fill:#ffffff;fill-rule:evenodd"
+         transform="scale(0.2) translate(7.4, 1)" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="TriangleInMu"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="TriangleInMu">
+      <path
+         transform="scale(-0.4)"
+         style="stroke:#ffffff;stroke-width:1.0pt;fill:#ffffff;fill-rule:evenodd"
+         d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
+         id="path6756" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="TriangleOutMG"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="TriangleOutMG">
+      <path
+         transform="scale(0.4)"
+         style="stroke:#ffffff;stroke-width:1.0pt;fill:#ffffff;fill-rule:evenodd"
+         d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
+         id="path6759" />
+    </marker>
+  </defs>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <g
+       id="g6893"
+       inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help03.png"
+       inkscape:export-xdpi="45"
+       inkscape:export-ydpi="45"
+       transform="translate(-567.14286,342.85714)">
+      <flowRoot
+         inkscape:export-ydpi="45.863228"
+         inkscape:export-xdpi="45.863228"
+         inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help03.png"
+         xml:space="preserve"
+         id="flowRoot2985"
+         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:FontAwesome;-inkscape-font-specification:FontAwesome"
+         transform="matrix(1.9018449,0,0,1.9018449,-95.075082,-80.826688)"><flowRegion
+           id="flowRegion2987"><rect
+             id="rect2989"
+             width="885.71429"
+             height="364.28571"
+             x="50"
+             y="119.50504"
+             style="fill:#ffffff" /></flowRegion><flowPara
+           id="flowPara2991"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;font-family:Schoolbell;-inkscape-font-specification:Schoolbell Bold">Projektauswahl</flowPara></flowRoot>      <path
+         inkscape:export-ydpi="45.863228"
+         inkscape:export-xdpi="45.863228"
+         inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help03.png"
+         style="fill:none;stroke:#ffffff;stroke-width:8.71346283;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#DotS8)"
+         d="m 1102.9917,193.11043 c 118.2001,2.59779 119.499,-116.901137 119.499,-116.901137"
+         id="path2993"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cc" />
+    </g>
+    <g
+       id="g6909"
+       transform="translate(-671.42861,-304.28571)"
+       inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help02.png"
+       inkscape:export-xdpi="45"
+       inkscape:export-ydpi="45">
+      <flowRoot
+         inkscape:export-ydpi="45.863228"
+         inkscape:export-xdpi="45.863228"
+         inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help02.png"
+         xml:space="preserve"
+         id="flowRoot5101"
+         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:FontAwesome;-inkscape-font-specification:FontAwesome"
+         transform="matrix(1.7426926,0,0,1.7426926,92.334654,207.7042)"><flowRegion
+           id="flowRegion5103"><rect
+             id="rect5105"
+             width="885.71429"
+             height="364.28571"
+             x="50"
+             y="119.50504"
+             style="fill:#ffffff" /></flowRegion><flowPara
+           id="flowPara5109"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;font-family:Schoolbell;-inkscape-font-specification:Schoolbell Bold">Mehr Infos in </flowPara><flowPara
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;font-family:Schoolbell;-inkscape-font-specification:Schoolbell Bold"
+           id="flowPara5115">der Seitenleiste</flowPara></flowRoot>      <path
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path5121"
+         d="m 1095.8631,590.32816 c 36.6018,81.43345 157.2284,56.78981 157.2284,56.78981"
+         style="fill:none;stroke:#ffffff;stroke-width:8.71346283;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#DotS8)"
+         inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help02.png"
+         inkscape:export-xdpi="45.863228"
+         inkscape:export-ydpi="45.863228" />
+    </g>
+    <g
+       id="g6917"
+       transform="translate(244.28571,-61.428571)"
+       inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help04.png"
+       inkscape:export-xdpi="45"
+       inkscape:export-ydpi="45">
+      <g
+         id="g6925"
+         inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help04.png"
+         inkscape:export-xdpi="45"
+         inkscape:export-ydpi="45">
+        <path
+           sodipodi:nodetypes="cc"
+           inkscape:connector-curvature="0"
+           id="path6900"
+           d="m 140.54169,814.58202 c 6.29722,59.21015 -2.3757,141.64262 -2.3757,141.64262"
+           style="fill:none;stroke:#ffffff;stroke-width:8.71346283;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#DotS8)"
+           inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help02.png"
+           inkscape:export-xdpi="45.863228"
+           inkscape:export-ydpi="45.863228" />
+        <g
+           id="g6869"
+           inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help04.png"
+           inkscape:export-xdpi="45"
+           inkscape:export-ydpi="45">
+          <flowRoot
+             inkscape:export-ydpi="45.863228"
+             inkscape:export-xdpi="45.863228"
+             inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help04.png"
+             xml:space="preserve"
+             id="flowRoot5125"
+             style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:FontAwesome;-inkscape-font-specification:FontAwesome"
+             transform="matrix(2.1491736,0,0,2.1640262,-919.12523,446.456)"><flowRegion
+               id="flowRegion5127"><rect
+                 id="rect5129"
+                 width="885.71429"
+                 height="364.28571"
+                 x="50"
+                 y="119.50504"
+                 style="fill:#ffffff" /></flowRegion><flowPara
+               id="flowPara5133"
+               style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;font-family:Schoolbell;-inkscape-font-specification:Schoolbell Bold">Geschichte abspielen</flowPara></flowRoot>        </g>
+      </g>
+    </g>
+    <g
+       id="g6862"
+       transform="translate(-317.90579,-46.719336)"
+       inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help05.png"
+       inkscape:export-xdpi="45"
+       inkscape:export-ydpi="45">
+      <path
+         inkscape:export-ydpi="45"
+         inkscape:export-xdpi="45"
+         inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help05.png"
+         style="fill:none;stroke:#ffffff;stroke-width:8.71346283;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#TriangleInMu);marker-end:url(#TriangleOutMG)"
+         d="m 203.20586,1113.5577 c 246.56586,10.0324 493.03968,-16.5749 739.59894,-5.7924 87.0584,-1.9424 174.7325,-12.1583 261.3555,1.9095"
+         id="path5141"
+         inkscape:connector-curvature="0" />
+      <flowRoot
+         inkscape:export-ydpi="45.863228"
+         inkscape:export-xdpi="45.863228"
+         inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help05.png"
+         xml:space="preserve"
+         id="flowRoot6840"
+         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:FontAwesome;-inkscape-font-specification:FontAwesome"
+         transform="matrix(1.8888601,0,0,1.9527348,-245.89387,768.69602)"><flowRegion
+           id="flowRegion6842"><rect
+             id="rect6844"
+             width="885.71429"
+             height="364.28571"
+             x="50"
+             y="119.50504"
+             style="fill:#ffffff" /></flowRegion><flowPara
+           id="flowPara6846"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;font-family:Schoolbell;-inkscape-font-specification:Schoolbell Bold">Zeit einstellen</flowPara></flowRoot>    </g>
+    <g
+       id="g3063"
+       transform="translate(208.57143,-485.71428)"
+       inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help01.png"
+       inkscape:export-xdpi="45"
+       inkscape:export-ydpi="45">
+      <g
+         transform="translate(1.4285714,-48.487322)"
+         inkscape:export-ydpi="45"
+         inkscape:export-xdpi="45"
+         inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help01.png"
+         id="g6885">
+        <path
+           inkscape:connector-curvature="0"
+           id="path4879"
+           d="m -107.20146,460.02037 c -17.95393,0.99769 -38.83568,14.03549 -37.98871,33.96126 1.40277,21.19165 22.38331,37.16767 43.10259,35.32079 17.171047,-0.57351 32.502184,-18.11609 29.924292,-35.11951 -4.725984,-16.35122 -23.426867,-19.30344 -37.931192,-20.4179"
+           style="fill:none;stroke:#ffffff;stroke-width:8.71346283;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help01.png"
+           inkscape:export-xdpi="45"
+           inkscape:export-ydpi="45" />
+        <flowRoot
+           inkscape:export-ydpi="45.863228"
+           inkscape:export-xdpi="45.863228"
+           inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help01.png"
+           xml:space="preserve"
+           id="flowRoot4895"
+           style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:FontAwesome;-inkscape-font-specification:FontAwesome"
+           transform="matrix(1.2520033,0,0,1.2520033,-463.70961,322.76384)"><flowRegion
+             id="flowRegion4897"><rect
+               id="rect4899"
+               width="885.71429"
+               height="364.28571"
+               x="50"
+               y="119.50504"
+               style="fill:#ffffff" /></flowRegion><flowPara
+             id="flowPara4903"
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;font-family:Schoolbell;-inkscape-font-specification:Schoolbell Bold">Vollbildmodus</flowPara></flowRoot>        <path
+           inkscape:export-ydpi="45.863228"
+           inkscape:export-xdpi="45.863228"
+           inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help01.png"
+           style="fill:none;stroke:#ffffff;stroke-width:8.71346283;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:none"
+           d="M -6.0895413,497.19569 C -26.632064,496.38986 -51.622763,496.48247 -51.622763,496.48247"
+           id="path4905"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc" />
+        <path
+           sodipodi:nodetypes="cc"
+           inkscape:connector-curvature="0"
+           id="path3061"
+           d="M -7.5181127,577.19569 C -28.060635,576.38986 -53.051334,576.48247 -53.051334,576.48247"
+           style="fill:none;stroke:#ffffff;stroke-width:8.71346283;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:none"
+           inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help01.png"
+           inkscape:export-xdpi="45.863228"
+           inkscape:export-ydpi="45.863228" />
+      </g>
+      <g
+         transform="translate(4.8774479,29.222634)"
+         id="g3047"
+         inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help01.png"
+         inkscape:export-xdpi="45"
+         inkscape:export-ydpi="45">
+        <path
+           inkscape:export-ydpi="45"
+           inkscape:export-xdpi="45"
+           inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help01.png"
+           style="fill:none;stroke:#ffffff;stroke-width:8.71346283;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           d="m -132.04058,467.02554 c -13.08876,12.32978 -20.65999,35.7543 -7.17514,50.44826 14.72547,15.30406 41.064261,14.00623 55.720932,-0.75459 12.763265,-11.50099 13.187102,-34.7949 0.26112,-46.13865 -14.148711,-9.46104 -30.353462,0.32899 -42.164642,8.82096"
+           id="path3049"
+           inkscape:connector-curvature="0" />
+        <flowRoot
+           transform="matrix(1.2520033,0,0,1.2520033,-403.17735,327.1685)"
+           style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:FontAwesome;-inkscape-font-specification:FontAwesome"
+           id="flowRoot3051"
+           xml:space="preserve"
+           inkscape:export-filename="/home/simon/.data/Projekte/HistoGlobe/HistoGlobe/config/sdw/data/help/help01.png"
+           inkscape:export-xdpi="45.863228"
+           inkscape:export-ydpi="45.863228"><flowRegion
+             id="flowRegion3053"><rect
+               style="fill:#ffffff"
+               y="119.50504"
+               x="50"
+               height="364.28571"
+               width="885.71429"
+               id="rect3055" /></flowRegion><flowPara
+             style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;font-family:Schoolbell;-inkscape-font-specification:Schoolbell Bold"
+             id="flowPara3057">Hilfe ein-/ausblenden</flowPara></flowRoot>      </g>
+    </g>
+  </g>
+</svg>
