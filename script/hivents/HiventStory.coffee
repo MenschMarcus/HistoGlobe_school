@@ -83,6 +83,7 @@ class HG.HiventStory
     @_timeline.moveToDate nextHivent.getHivent().startDate, @_config.transitionTime,
       () =>
         nextHivent.activeAll()
+        nextHivent.focusAll()
 
 
   ##############################################################################
