@@ -51,9 +51,15 @@ class HG.HistoGlobe
       @_collapsed = true
 
       load_module = (moduleName, moduleConfig) =>
+        defaultConf =
+          enabled : true
+
+        moduleConfig = $.extend {}, defaultConf, moduleConfig
+
         if window["HG"][moduleName]?
-          newMod = new window["HG"][moduleName] moduleConfig
-          @addModule newMod
+          if moduleConfig.enabled
+            newMod = new window["HG"][moduleName] moduleConfig
+            @addModule newMod
         else
           console.error "The module #{moduleName} is not part of the HG namespace!"
 
