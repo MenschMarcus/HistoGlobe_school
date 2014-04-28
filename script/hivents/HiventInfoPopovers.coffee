@@ -17,6 +17,7 @@ class HG.HiventInfoPopovers
     @_hiventsOnGlobe = null
 
     @_hiventMarkers = []
+    @_addedIds = []
     @_onPopoverAddedCallbacks = []
 
   # ============================================================================
@@ -58,7 +59,8 @@ class HG.HiventInfoPopovers
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
   _addPopover: (marker, container, useMarkerPosition) =>
-    @_hiventMarkers.push(marker)
+
+    @_hiventMarkers.push marker
 
     marker.hiventInfoPopover = null
 

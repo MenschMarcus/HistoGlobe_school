@@ -105,6 +105,8 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
 
   # ============================================================================
   _destroy: =>
+    # @notifyAll "onMarkerDestruction"
+
     Y_OFFSETS[@getHiventHandle().getHivent().startDate.getTime()] -= 1
     @getHiventHandle().unMarkAll()
     @getHiventHandle().unLinkAll()
