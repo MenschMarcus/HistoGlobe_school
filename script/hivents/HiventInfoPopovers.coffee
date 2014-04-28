@@ -101,6 +101,7 @@ class HG.HiventInfoPopovers
 
     marker.onDestruction @, () ->
       marker.hiventInfoPopover?.destroy()
+      handle.removeListener "onActive", marker
 
     callbackFunc marker for callbackFunc in @_onPopoverAddedCallbacks
 

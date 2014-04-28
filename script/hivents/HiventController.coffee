@@ -89,14 +89,14 @@ class HG.HiventController
     console.log "An Hivent with the id \"#{hiventId}\" does not exist!"
     return null
 
-  getNextHiventHandle: (now) ->
+  getNextHiventHandle: (now, ignoredIds=[]) ->
     hh = null
     dis = -1
     handles = @_hiventHandles
     handles= handles.concat(@_hgInstance.hiventGalleryWidget.getHiventHandles()) if @_hgInstance.hiventGalleryWidget
     #for handle in @_hiventHandles
     for handle in handles
-      if handle._state isnt 0
+      if handle._state isnt 0 and not (handle.getHivent().id in ignoredIds)
         diff = handle.getHivent().startDate.getTime() - now.getTime()
         if (dis is -1 or diff < dis) && diff > 0
           dis = diff
