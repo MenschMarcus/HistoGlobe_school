@@ -31,7 +31,7 @@ class HG.NowMarker
 
         @_playButton    = document.createElement "i"
         @_playButton.id = "now_marker_play"
-        @_playButton.className = "fa fa-play"
+        @_playButton.className = "fa fa-step-forward"
         #@_playButton.innerHTML = "<img src='img/timeline/playIcon.png'>"
 
         nowMarkerIn.appendChild @_playButton

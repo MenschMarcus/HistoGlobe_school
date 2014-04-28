@@ -5,7 +5,7 @@
     "minYear": 1994,
     "maxYear": 2015,
     "nowYear": 1994,
-    "minZoom": 6,
+    "minZoom": 5,
     "maxZoom": 8,
     "startZoom": 6,
     "startLatLong": [51.505, 10.09],
@@ -512,7 +512,7 @@
     "widgets" : [
       {
         "type" : "LogoWidget",
-        "icon" : "fa-user",
+        "icon" : "fa-info-circle",
         "name" : "Logo",
         "interactive" : false,
         "showPagination" : false,
@@ -756,7 +756,7 @@
 
       {
         "type" : "VIPWidget",
-        "icon" : "fa-user",
+        "icon" : "fa-group",
         "name" : "Gremien",
         "collapsedAtStart": false,
         "categories" : ["sdwEvent"],
