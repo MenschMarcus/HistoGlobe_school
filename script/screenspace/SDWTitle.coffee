@@ -42,6 +42,7 @@ class HG.SDWTitle
     $(select).select2()
     $(select).on "change", (e) =>
       @_categoryFilter?.exclusiveFilter(e.val.split(","),@_allCategories)
+      console.log e.name
 
     @_categoryFilter?.filter(@_config.elements[0].categories)
 
@@ -50,6 +51,7 @@ class HG.SDWTitle
     if element.type is "category"
       option = document.createElement "option"
       option.value = element.categories
+      option.name = element.startDate + "," + element.endDate
       option.innerHTML = element.name
       parent.appendChild option
       for c in element.categories

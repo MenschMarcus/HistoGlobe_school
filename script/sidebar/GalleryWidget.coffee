@@ -11,6 +11,8 @@ class HG.GalleryWidget extends HG.Widget
     defaultConfig =
       icon: ""
       name: ""
+      interactive : true
+      showPagination : true
 
     @_config = $.extend {}, defaultConfig, config
 
@@ -38,52 +40,63 @@ class HG.GalleryWidget extends HG.Widget
     @_gallery = document.createElement "div"
     @_gallery.className = "swiper-wrapper swiper-no-swiping"
 
-    @_leftArrow = document.createElement "i"
-    @_leftArrow.className = "arrow arrow-left  fa fa-chevron-circle-left"
-
     leftShadow = document.createElement "div"
     leftShadow.className = "shadow shadow-left"
-
-    @_rightArrow = document.createElement "i"
-    @_rightArrow.className = "arrow arrow-right fa fa-chevron-circle-right"
 
     rightShadow = document.createElement "div"
     rightShadow.className = "shadow shadow-right"
 
-    pagination = document.createElement "span"
-    pagination.id = "gallery-widget-pagination-#{@_id}"
-    pagination.className = "gallery-pagination"
-
-    paginationContainer = document.createElement "span"
-    paginationContainer.className = "pagination-container"
-    paginationContainer.appendChild pagination
-
     @_galleryContent.appendChild leftShadow
     @_galleryContent.appendChild rightShadow
-    @_galleryContent.appendChild @_leftArrow
-    @_galleryContent.appendChild @_rightArrow
+
     @_galleryContent.appendChild galleryContainer
-    @_galleryContent.appendChild paginationContainer
     galleryContainer.appendChild @_gallery
+
+    if @_config.showPagination
+      @_leftArrow = document.createElement "i"
+      @_leftArrow.className = "arrow arrow-left  fa fa-chevron-circle-left"
+
+      @_rightArrow = document.createElement "i"
+      @_rightArrow.className = "arrow arrow-right fa fa-chevron-circle-right"
+
+      pagination = document.createElement "span"
+      pagination.id = "gallery-widget-pagination-#{@_id}"
+      pagination.className = "gallery-pagination"
+
+      paginationContainer = document.createElement "span"
+      paginationContainer.className = "pagination-container"
+      paginationContainer.appendChild pagination
+
+      @_galleryContent.appendChild @_leftArrow
+      @_galleryContent.appendChild @_rightArrow
+      @_galleryContent.appendChild paginationContainer
+
 
     @setName @_config.name
     @setIcon @_config.icon
     @setContent @_galleryContent
 
+    pagination_div = undefined
+
+    if @_config.showPagination
+      pagination_div = "#gallery-widget-pagination-#{@_id}"
+
     @_swiper = new Swiper "#gallery-widget-#{@_id}",
       grabCursor: true
-      paginationClickable: true
-      pagination: "#gallery-widget-pagination-#{@_id}"
+      paginationClickable: @_config.showPagination
+      pagination: pagination_div
       longSwipesRatio: 0.2
       calculateHeight: true
       onSlideChangeEnd: @_onSlideEnd
+      onlyExternal: !@_config.interactive
 
 
-    $(@_leftArrow).click () =>
-      @_swiper.swipePrev()
+    if @_config.showPagination
+      $(@_leftArrow).click () =>
+        @_swiper.swipePrev()
 
-    $(@_rightArrow).click () =>
-      @_swiper.swipeNext()
+      $(@_rightArrow).click () =>
+        @_swiper.swipeNext()
 
     # for some reason needed...
     window.setTimeout () =>

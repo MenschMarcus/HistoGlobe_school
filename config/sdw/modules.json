@@ -5,7 +5,7 @@
     "minYear": 1994,
     "maxYear": 2015,
     "nowYear": 1994,
-    "minZoom": 6,
+    "minZoom": 5,
     "maxZoom": 8,
     "startZoom": 6,
     "startLatLong": [51.505, 10.09],
@@ -246,7 +246,7 @@
           "type" : "category",
           "main" : true,
           "categories" : ["sdwEvent", "projektstart"],
-          "name" : "20 Jahre SDW"
+          "name" : "Geschichte der SDW"
         },
         {
           "type" : "group",
@@ -255,52 +255,72 @@
             {
               "type" : "category",
               "categories" : ["P01"],
-              "name" : "Studienförderwerk Klaus Murmann"
+              "name" : "Studienförderwerk Klaus Murmann",
+              "startDate": "05.01.1994",
+              "endDate": "31.12.9999"
             },
             {
               "type" : "category",
               "categories" : ["P16"],
-              "name" : "Studienkolleg - Stipendien für Lehramtsstudierende"
+              "name" : "Studienkolleg - Stipendien für Lehramtsstudierende",
+              "startDate": "10.09.2007",
+              "endDate": "31.12.9999"
             },
             {
               "type" : "category",
               "categories" : ["P11"],
-              "name" : "Herausforderung Unternehmertum"
+              "name" : "Herausforderung Unternehmertum",
+              "startDate": "01.12.2004",
+              "endDate": "31.12.9999"
             },
             {
               "type" : "category",
               "categories" : ["P17"],
-              "name" : "Studienkompass"
+              "name" : "Studienkompass",
+              "startDate": "15.09.2007",
+              "endDate": "31.12.9999"
             },
             {
               "type" : "category",
               "categories" : ["P21"],
-              "name" : "Elternkompass"
+              "name" : "Elternkompass",
+              "startDate": "01.04.2011",
+              "endDate": "31.12.9999"
             },
             {
               "type" : "category",
               "categories" : ["P23"],
-              "name" : "Zeig was Du kannst!"
+              "name" : "Zeig was Du kannst!",
+              "startDate": "01.07.2012",
+              "endDate": "31.12.9999"
             },
             {
               "type" : "category",
               "categories" : ["P24"],
-              "name" : "Lehramt MINToring"
+              "name" : "Lehramt MINToring",
+              "startDate": "01.08.2012",
+              "endDate": "31.12.9999"
             },
             {
               "type" : "category",
               "categories" : ["P25"],
-              "name" : "Universum Wirtschaft. Impulse für Lehrer von morgen"
+              "name" : "Universum Wirtschaft. Impulse für Lehrer von morgen",
+              "startDate": "01.10.2012",
+              "endDate": "31.12.9999"
             },
             {
               "type" : "category",
               "categories" : ["P26"],
-              "name" : "Studien- und Berufsorientierung im P-Seminar"
+              "name" : "Studien- und Berufsorientierung im P-Seminar",
+              "startDate": "24.09.2013",
+              "endDate": "31.12.9999"
             },
             {
               "type" : "category",
               "categories" : ["P27"],
-              "name" : "Vivo - Bildung von Grund auf!"
+              "name" : "Vivo - Bildung von Grund auf!",
+              "startDate": "01.01.2014",
+              "endDate": "31.12.9999"
             }
           ]
         },
@@ -311,87 +331,121 @@
             {
               "type" : "category",
               "categories" : ["P02"],
-              "name" : "TRANS-JOB"
+              "name" : "TRANS-JOB",
+              "startDate": "01.08.1999",
+              "endDate": "31.12.2002"
             },
             {
               "type" : "category",
               "categories" : ["P03"],
-              "name" : "Zeichen setzen! Integration macht Schule"
+              "name" : "Zeichen setzen! Integration macht Schule",
+              "startDate": "01.10.2001",
+              "endDate": "31.12.2003"
             },
             {
               "type" : "category",
               "categories" : ["P04"],
-              "name" : "Mit MINT zum Beruf"
+              "name" : "Mit MINT zum Beruf",
+              "startDate": "01.01.2002",
+              "endDate": "31.12.2003"
             },
             {
               "type" : "category",
               "categories" : ["P05"],
-              "name" : "Fernakademie"
+              "name" : "Fernakademie",
+              "startDate": "01.01.2002",
+              "endDate": "31.12.2003"
             },
             {
               "type" : "category",
               "categories" : ["P06"],
-              "name" : "Ökonomische Bildung online"
+              "name" : "Ökonomische Bildung online",
+              "startDate": "01.01.2002",
+              "endDate": "31.12.2003"
             },
             {
               "type" : "category",
               "categories" : ["P07"],
-              "name" : "SCHULE WIRTSCHAFT Euregios"
+              "name" : "SCHULE WIRTSCHAFT Euregios",
+              "startDate": "01.11.2003",
+              "endDate": "31.12.2006"
             },
             {
               "type" : "category",
               "categories" : ["P08"],
-              "name" : "Den Qualitätsverbesserungsprozess an Schulen in Bremen und Bremerhaven verbessern (QVP)"
+              "name" : "Den Qualitätsverbesserungsprozess an Schulen in Bremen und Bremerhaven verbessern (QVP)",
+              "startDate": "01.02.2003",
+              "endDate": "31.12.2006"
             },
             {
               "type" : "category",
               "categories" : ["P09"],
-              "name" : "TRANS - KOMPETENZ"
+              "name" : "TRANS - KOMPETENZ",
+              "startDate": "15.06.2003",
+              "endDate": "31.12.2003"
             },
             {
               "type" : "category",
               "categories" : ["P10"],
-              "name" : "Ganztagsschulen gestalten - Kooperation, schafft Zukunft"
+              "name" : "Ganztagsschulen gestalten - Kooperation, schafft Zukunft",
+              "startDate": "01.09.2004",
+              "endDate": "31.12.2006"
             },
             {
               "type" : "category",
               "categories" : ["P12"],
-              "name" : "MINToring"
+              "name" : "MINToring",
+              "startDate": "01.07.2005",
+              "endDate": "31.12.2006"
             },
             {
               "type" : "category",
               "categories" : ["P13"],
-              "name" : "PROFIS - Programm Führungskompetenz in Schulen"
+              "name" : "PROFIS - Programm Führungskompetenz in Schulen",
+              "startDate": "01.01.2007",
+              "endDate": "31.12.2009"
             },
             {
               "type" : "category",
               "categories" : ["P14"],
-              "name" : "BOSS - Brandenburger Oberschulen und Schüler stärken"
+              "name" : "BOSS - Brandenburger Oberschulen und Schüler stärken",
+              "startDate": "01.02.2007",
+              "endDate": "31.12.2007"
             },
             {
               "type" : "category",
               "categories" : ["P15"],
-              "name" : "Schulen auf Erfolgskurs - Hauptschulen verändern sich"
+              "name" : "Schulen auf Erfolgskurs - Hauptschulen verändern sich",
+              "startDate": "01.09.2007",
+              "endDate": "31.12.2009"
             },
             {
               "type" : "category",
               "categories" : ["P18"],
-              "name" : "MINToring - Studierende begleiten Schülerinnen und Schüler"
+              "name" : "MINToring - Studierende begleiten Schülerinnen und Schüler",
+              "startDate": "01.10.2007",
+              "endDate": "31.12.2013"
             },
             {
               "type" : "category",
               "categories" : ["P19"],
-              "name" : "Zeig, was Du kannst! Erfolgreich ins Berufsleben starten"
+              "name" : "Zeig, was Du kannst! Erfolgreich ins Berufsleben starten",
+              "startDate": "01.11.2007",
+              "endDate": "31.12.2011"
             },
             {
               "type" : "category",
               "categories" : ["P20"],
-              "name" : "Unternehmen:Jugend. Zusammenarbeit mit Zukunft"
+              "name" : "Unternehmen:Jugend. Zusammenarbeit mit Zukunft",
+              "startDate": "01.01.2009",
+              "endDate": "31.12.2012"
             },
             {
               "type" : "category",
               "categories" : ["P22"],
-              "name" : "Netzwerk SCHULEWIRTSCHAFT Ostdeutschland"
+              "name" : "Netzwerk SCHULEWIRTSCHAFT Ostdeutschland",
+              "startDate": "01.07.2011",
+              "endDate": "31.12.2012"
             }
           ]
         }
@@ -400,6 +454,7 @@
   },
 
   "TitleImage": {
+    "enabled" : false,
     "images" :
     [
       {
@@ -508,12 +563,13 @@
 
   "WidgetController" :
   {
-    "widgets" :
-    [
+    "widgets" : [
       {
         "type" : "LogoWidget",
-        "icon" : "fa-user",
+        "icon" : "fa-info-circle",
         "name" : "Logo",
+        "interactive" : false,
+        "showPagination" : false,
         "categories" : ["sdwEvent"],
         "logos" :
         [
@@ -535,7 +591,6 @@
           }
         ]
       },
-
       {
         "type" : "TextWidget",
         "icon" : "fa-edit",
@@ -755,7 +810,7 @@
 
       {
         "type" : "VIPWidget",
-        "icon" : "fa-user",
+        "icon" : "fa-group",
         "name" : "Gremien",
         "collapsedAtStart": false,
         "categories" : ["sdwEvent"],
@@ -1202,7 +1257,7 @@
       },
       {
         "type": "LegendWidget",
-        "categories" : ["sdwEvent", "P01","P02","P03","P04","P05","P06","P07","P08","P09","P10","P11","P12","P13","P14","P15","P16","P17","P18","P19","P20","P21","P22","P23","P24","P25","P26","P27"],
+        "categories" : ["sdwEvent"],
         "icon": "fa-list-ul",
         "collapsedAtStart": false,
         "name": "Legende",
@@ -1211,43 +1266,47 @@
           {
             "groups" : [
               {
-                "name" : "Karte",
+                "name": "Ereignisse",
                 "elements" : [
                   {
-                    "type" : "categoryWithIcon",
-                    "category" : "default",
-                    "icon" : "config/exemplum/data/icons/absatzmarkt.png",
-                    "name" : "Städte",
+                    "type" : "category",
+                    "category" : "sdwEvent",
+                    "name" : "Geschichte der sdw",
                     "filterable" : false
                   },
                   {
                     "type" : "categoryWithIcon",
-                    "category" : "default",
-                    "icon" : "config/exemplum/data/icons/absatzmarkt.png",
-                    "name" : "Bundesländer",
+                    "category" : "projektstart",
+                    "icon" : "config/exemplum/data/icons/fabrik_default.png",
+                    "useCategoryAsPrefix" : true,
+                    "name" : "Startschuss eines sdw-Projekts",
                     "filterable" : false
                   }
                 ]
               }
             ]
-          },
+          }
+        ]
+      },
+      {
+        "type": "LegendWidget",
+        "categories" : ["P01","P02","P03","P04","P05","P06","P07","P08","P09","P10","P11","P12","P13","P14","P15","P16","P17","P18","P19","P20","P21","P22","P23","P24","P25","P26","P27"],
+        "icon": "fa-list-ul",
+        "collapsedAtStart": false,
+        "name": "Legende",
+        "columns":
+        [
           {
             "groups" : [
               {
                 "name": "Ereignisse",
                 "elements" : [
                   {
-                    "type" : "category",
-                    "category" : "sdwEvent",
-                    "name" : "sdw",
-                    "filterable" : false
-                  },
-                  {
                     "type" : "categoryWithIcon",
                     "category" : "P",
                     "icon" : "config/exemplum/data/icons/fabrik_default.png",
                     "useCategoryAsPrefix" : true,
-                    "name" : "Projekt",
+                    "name" : "Geschichte des Projekts",
                     "filterable" : false
                   }
                 ]

@@ -23,6 +23,8 @@ class HG.Timeline
 
     @_config = $.extend {}, defaultConfig, config
 
+    @_activeTimespace = [@yearToDate(1995), @yearToDate(2005), "Name", null]
+
     #   --------------------------------------------------------------------------
     @_uiElements = @_createUIElements()
 
@@ -128,6 +130,10 @@ class HG.Timeline
       @notifyAll "onNowChanged", @_nowDate
       @notifyAll "onIntervalChanged", @_getTimeFilter()
 
+    '''hgInstance.categoryFilter?.onFilterChanged @,(categoryFilter) =>
+      @_currentCategoryFilter = categoryFilter
+      console.log "category changed"'''
+
   #   --------------------------------------------------------------------------
   _createUIElements: ->
 
@@ -217,6 +223,19 @@ class HG.Timeline
       @notifyAll "onNowChanged", @_nowDate
       @notifyAll "onIntervalChanged", @_getTimeFilter()
 
+  #   --------------------------------------------------------------------------
+  updateActiveTimespace: (startDate, endDate, name) ->
+    console.log "update timespace"
+
+  drawTimespace: ->
+    console.log "drawTimespace"
+    '''if @_activeTimespace.length > 0
+        @_activeTimespace[3] = document.createElement("div")
+        @_activeTimespace[3].id = "tl_timespace_" + @_activeTimespace[2]
+        @_activeTimespace[3].className = "tl_timespace"
+        @_activeTimespace[3].style.left = @dateToPosition(@_activeTimespace[0]) + "px"
+        @_activeTimespace[3].style.width = (@dateToPosition(@_activeTimespace[1]) - @dateToPosition(@_activeTimespace[0])) + "px"
+        @getUIElements().symbolRow.appendChild @_activeTimespace[3]'''
 
   #   --------------------------------------------------------------------------
   #   for i e {0,1,2,3,...} it should return 1,5,10,50,100,...
