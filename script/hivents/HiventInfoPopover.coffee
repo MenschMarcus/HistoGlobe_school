@@ -46,6 +46,7 @@ class HG.HiventInfoPopover
 
     # create popover
     @_popover = new HG.Popover
+      hgInstance: hgInstance
       placement:  "auto"
       content:    body
       title:      @_hiventHandle.getHivent().name
@@ -54,6 +55,7 @@ class HG.HiventInfoPopover
       fullscreen: !showArrow
 
     @_hiventHandle.onDestruction @, @_popover.destroy
+
 
   # ============================================================================
   show: (position) =>

@@ -21,8 +21,8 @@
     margin-right: auto;
     left: 0;
     right: 0;
-    width: 70%;
     max-width: 600px;
+    min-width: 300px;
   }
 
   ::-webkit-scrollbar {
@@ -94,16 +94,18 @@
 .guiPopoverTitle {
   font-family: @secondary_font_face;
   color: @widget_title_text_color;
-  padding: @popover_title_padding @popover_title_padding 0 @popover_title_padding;
+  padding: @popover_title_padding 3*@popover_title_padding @popover_title_padding/2 @popover_title_padding;
   border-bottom: @border_width solid @border_color;
   margin: 0px;
   .linear-gradient-top(@widget_title_background_color, lighten(@widget_title_background_color, @widget_title_gradient_effect), 0%, @widget_title_background_color, 100%);
+  line-height: normal;
 
   span {
-    float: right;
+    position: absolute;
     font-size: 35pt;
     opacity: 0.75;
-    margin-top: -20px;
+    top: -5px;
+    right: @popover_title_padding - 5px;
 
     cursor: pointer;
 

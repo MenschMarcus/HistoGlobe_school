@@ -9,6 +9,7 @@ class HG.Popover
   # ============================================================================
   constructor: (config) ->
     defaultConfig =
+      hgInstance: undefined
       placement: "auto"
       content: undefined
       contentHTML: ""
@@ -56,11 +57,11 @@ class HG.Popover
     clearDiv = document.createElement "div"
     clearDiv.className = "clear"
 
-    bodyDiv = document.createElement "div"
-    bodyDiv.className = "guiPopoverBody"
+    @_bodyDiv = document.createElement "div"
+    @_bodyDiv.className = "guiPopoverBody"
 
     if @_config.fullscreen
-      $(bodyDiv).addClass("fullscreen")
+      $(@_bodyDiv).addClass("fullscreen")
 
     if @_config.content? or @_config.contentHTML isnt ""
 
@@ -72,9 +73,9 @@ class HG.Popover
       else
         content.innerHTML = @_config.contentHTML
 
-      bodyDiv.appendChild content
+      @_bodyDiv.appendChild content
       if content.offsetHeight < @_height
-        bodyDiv.setAttribute "height", "#{@_height}px"
+        @_bodyDiv.setAttribute "height", "#{@_height}px"
 
       if content.offsetWidth > @_width
         @_width = Math.min content.offsetWidth, BODY_MAX_WIDTH
@@ -86,7 +87,7 @@ class HG.Popover
     @_mainDiv.appendChild @_rightArrow
     @_mainDiv.appendChild @_leftArrow
     @_mainDiv.appendChild titleDiv
-    @_mainDiv.appendChild bodyDiv
+    @_mainDiv.appendChild @_bodyDiv
     @_mainDiv.appendChild @_bottomArrow
 
     @_parentDiv = $(@_config.container)[0]
@@ -97,6 +98,18 @@ class HG.Popover
       y: 0
 
     @_updateCenterPos()
+
+    if @_config.fullscreen
+      size = @_config.hgInstance.getMapAreaSize()
+      @_onContainerSizeChange size
+
+      @_config.hgInstance.onMapAreaSizeChanged @, (width) =>
+        @_onContainerWidthChange width
+
+      $(window).on 'resize', () =>
+        size = @_config.hgInstance.getMapAreaSize()
+        @_onContainerSizeChange size
+
 
   # ============================================================================
   toggle: (position) =>
@@ -134,6 +147,15 @@ class HG.Popover
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
+
+  # ============================================================================
+  _onContainerSizeChange:(size) =>
+    @_mainDiv.style.width = size.x-150 + "px"
+    @_bodyDiv.style.maxHeight = size.y-200 + "px"
+
+  # ============================================================================
+  _onContainerWidthChange:(width) =>
+    @_mainDiv.style.width = width-150 + "px"
 
   # ============================================================================
   _updateWindowPos: ->

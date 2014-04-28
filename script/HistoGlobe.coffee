@@ -14,6 +14,7 @@ class HG.HistoGlobe
 
     @addCallback "onTopAreaSlide"
     @addCallback "onAllModulesLoaded"
+    @addCallback "onMapAreaSizeChanged"
 
     @timeline = null
     @map = null
@@ -91,6 +92,17 @@ class HG.HistoGlobe
   # ============================================================================
   isInMobileMode: =>
     window.innerWidth < HGConfig.sidebar_width.val + HGConfig.map_min_width.val
+
+  # ============================================================================
+  getMapAreaSize: () ->
+    if @_collapsed
+      return size =
+        x: window.innerWidth - HGConfig.sidebar_collapsed_width.val
+        y: $(@_top_area).outerHeight()
+    else
+      return size =
+        x: window.innerWidth - HGConfig.sidebar_width.val
+        y: $(@_top_area).outerHeight()
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -193,6 +205,7 @@ class HG.HistoGlobe
       @mapCanvas.style.right = 0
 
     @notifyAll "onTopAreaSlide", transform.x
+    @notifyAll "onMapAreaSizeChanged", window.innerWidth - HGConfig.sidebar_collapsed_width.val + transform.x
 
 
   # ============================================================================
