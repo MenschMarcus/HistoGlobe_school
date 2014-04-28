@@ -45,7 +45,7 @@ class HG.DateMarker
         #@_divs[0].style.fontSize = @_filterView()[0] + "%"
     else
       if @_divs[0]?
-        $(@_divs[0]).fadeOut(200, `function() { $(this).remove(); }`);
+        $(@_divs[0]).fadeOut(200, `function() { $(this).remove(); }`)
 
   #   --------------------------------------------------------------------------
   #   get array of interval between datemarkers to show

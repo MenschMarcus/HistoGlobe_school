@@ -72,16 +72,19 @@ class HG.VIPWidget extends HG.Widget
 
   # ============================================================================
   _nowChanged: (now) =>
-
+    numActive = 0
+    height = HGConfig.vip_widget_size.val
+    padding = HGConfig.widget_body_padding.val
     for dude in @_dudes
       startDate = @_timeline.stringToDate dude.dude.startDate
       endDate = @_timeline.stringToDate dude.dude.endDate
       if now.getTime() >= startDate.getTime() && now.getTime() <= endDate.getTime()
-        dude.div.style.height = HGConfig.vip_widget_size.val + HGConfig.vip_widget_size.unit
-        $(dude.div).addClass("visible")
+        dude.div.style.top  = ((height + padding) * numActive) + "px"
+        dude.div.style.left = (2 * padding) + "px"
+        numActive++
       else
-        dude.div.style.height = 0 + "px"
-        $(dude.div).removeClass("visible")
+        dude.div.style.left   = "-500px"
+    @_VIPContent.style.height = ((height + HGConfig.widget_body_padding.val) * numActive) + "px"
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #

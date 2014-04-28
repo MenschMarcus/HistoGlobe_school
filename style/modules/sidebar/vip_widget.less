@@ -1,18 +1,20 @@
 .vip-widget {
 
-  min-height: @vip_widget_size + @widget_body_padding;
+  //min-height: @vip_widget_size + @widget_body_padding;
+  height: 0px;
+  .transition-duration(0.5s);
+  .transition-property(height);
+  overflow: hidden;
+  position: relative;
 
   .vip-person-display {
     overflow:hidden;
-    margin-left: @widget_body_padding;
-    margin-bottom: 0px;
-    height: 0px;
+    height: @vip_widget_size;
+    top:      -500px;
+    left:     -500px;
+    position: absolute;
     .transition-duration(0.5s);
-    .transition-property(height margin-bottom);
-
-    &.visible {
-      margin-bottom: @widget_body_padding;
-    }
+    .transition-property(left);
   }
 
   .vip-widget-name {
