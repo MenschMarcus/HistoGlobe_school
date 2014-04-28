@@ -66,6 +66,8 @@ class HG.HiventStory
         return 0
 
     old = @_currentHivent
+    if old is -1
+      old = @_hiventNames.length - 1
     @_currentHivent = (@_currentHivent + 1) % @_hiventNames.length
     nextHivent = @_hiventController.getHiventHandleById @_hiventNames[@_currentHivent]
     nextFound = false
@@ -77,13 +79,11 @@ class HG.HiventStory
 
       else nextFound = true
 
-    if @_currentHivent is old
-      nextHivent = @_hiventController.getHiventHandleById @_hiventNames[@_currentHivent]
-
-    @_timeline.moveToDate nextHivent.getHivent().startDate, @_config.transitionTime,
-      () =>
-        nextHivent.activeAll()
-        nextHivent.focusAll()
+    if nextFound
+      @_timeline.moveToDate nextHivent.getHivent().startDate, @_config.transitionTime,
+        () =>
+          nextHivent.activeAll()
+          nextHivent.focusAll()
 
 
   ##############################################################################

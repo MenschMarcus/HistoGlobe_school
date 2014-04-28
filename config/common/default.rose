@@ -71,6 +71,7 @@ $statistics_widget_margin_bottom      = 20px
 $statistics_widget_margin_left        = 30px
 
 $statistics_widget_axis_width         = 2px
+$statistics_widget_tooltip_size       = 1.0em
 
 // EVENT TICKER WIDGET ON ABOVE TIMELINE
 $event_ticker_margin_left    = 10px
