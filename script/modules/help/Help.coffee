@@ -61,7 +61,7 @@ class HG.Help
     @_div.appendChild image
 
     $(image).load () =>
-      console.log $(image).width()
+      # console.log $(image).width()
       $(image).css {"max-width": image.naturalWidth + "px"}
       $(image).css {"width": element.width}
 
