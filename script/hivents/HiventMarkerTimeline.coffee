@@ -18,10 +18,9 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
 
     time = hiventHandle.getHivent().startDate.getTime()
 
-    spacing = 16
     Y_OFFSETS[time] ?= 0
     @_xOffset = Y_OFFSETS[time]
-    @_position = { x: posX, y: HGConfig.timeline_height.val - HGConfig.hivent_marker_timeline_height.val - @_xOffset*spacing - HGConfig.border_width.val }
+    @_position = { x: posX, y: HGConfig.timeline_height.val - HGConfig.hivent_marker_timeline_height.val - @_xOffset*HGConfig.hivent_marker_timeline_spacing.val - HGConfig.border_width.val - HGConfig.hivent_marker_timeline_margin_bottom.val}
     Y_OFFSETS[time] += 1
 
     @_classDefault     = "hivent_marker_timeline_#{hiventHandle.getHivent().category}_default"
@@ -105,6 +104,8 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
 
   # ============================================================================
   _destroy: =>
+    # @notifyAll "onMarkerDestruction"
+
     Y_OFFSETS[@getHiventHandle().getHivent().startDate.getTime()] -= 1
     @getHiventHandle().unMarkAll()
     @getHiventHandle().unLinkAll()

@@ -34,18 +34,19 @@ class HG.HiventStory
 
       if @_hiventNames.length is 0
         @_hiventController.onHiventAdded (handle) =>
-          push = false
           id = handle.getHivent().id
-          if @_config.hiventPrefixes?
-            for prefix in @_config.hiventPrefixes
-              if id.indexOf(prefix) is 0
-                push = true
-                break
-          else push = true
+          unless id in @_hiventNames
+            push = false
+            if @_config.hiventPrefixes?
+              for prefix in @_config.hiventPrefixes
+                if id.indexOf(prefix) is 0
+                  push = true
+                  break
+            else push = true
 
-          if push
-            @_hiventNames.push id
-            @_needsSorting = true
+            if push
+              @_hiventNames.push id
+              @_needsSorting = true
 
       @_nowMarker.animationCallback = @_jumpToNextHivent
 

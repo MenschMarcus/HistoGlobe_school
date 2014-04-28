@@ -32,12 +32,14 @@
   // datemarker
   .tl_marker {
     font-family: @secondary_font_face;
+    font-size: 75%;
     color:  @timeline_font_color;
     position: absolute;
     left: 0px;
     top: 0px;
     padding-left: 5px;
     border-left: dashed 1px @timeline_font_color;
+    z-index: 1;
     //transition-duration: 0.4s;
     //transition-property: font-size;
   }
@@ -60,12 +62,13 @@
   background-image: url(@timeline_background_image);
   background-repeat: repeat;
 }
-.tl_timespace {
-  height:           5px;
-  border-left:      solid 1px @timespace_on_timeline_color;
-  border-right:     solid 1px @timespace_on_timeline_color;
-  border-top:       solid 5px @timespace_on_timeline_color;
+.tl_timebar {
+  height:           @timeline_height;
+  border-left:      solid 4px @timebar_on_timeline_border_color;
+  border-right:     solid 4px @timebar_on_timeline_border_color;
+  background-color: @timebar_on_timeline_color;
   position:         absolute;
+  z-index: 0;
 }
 
 /*** ELEMENT IN TIMELINE *

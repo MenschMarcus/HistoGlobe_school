@@ -37,6 +37,9 @@ $widget_border_radius_bottom_left   = 0px
 $widget_border_radius_bottom_right  = 0px
 
 // -------------------  TIMELINE---- -------------------------------------------
+$hivent_marker_timeline_width       = 20px
+$hivent_marker_timeline_height       = 20px
+
 $hivent_marker_2D_width             = 38px
 $hivent_marker_2D_height            = 38px
 
@@ -47,4 +50,5 @@ $timeline_font_color                = #333333
 
 $timeline_height                    = 80px
 
-$timespace_on_timeline_color        = #ffffff
+$timebar_on_timeline_color        = rgba(255,255,255,0.3)
+$timebar_on_timeline_border_color = rgba(255,255,255,0.7)
