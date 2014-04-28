@@ -49,7 +49,6 @@ class HG.HiventBuilder
               mmHtmlString +=  '\t\t<li><a href="' +
                                 mm.link + '" rel="prettyPhoto" ' +
                                 galleryTag + ' title="'
-
               if mm.source?
                 mmHtmlString += ' <p class=\'hiventInfoPopoverSource\'> © ' + mm.source + '</p>'
 

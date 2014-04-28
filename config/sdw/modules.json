@@ -202,24 +202,24 @@
 
   "CategoryIconMapping" : {
       "sdwEvent" : {
-        "default" : "config/exemplum/data/icons/plantage_default.png",
-        "highlighted" : "config/exemplum/data/icons/plantage_highlight.png"
+        "default" : "config/sdw/data/icons/sdw_default.png",
+        "highlighted" : "config/sdw/data/icons/sdw_highlight.png"
       },
       "projektstart" : {
-        "default" : "config/exemplum/data/icons/default_default.png",
-        "highlighted" : "config/exemplum/data/icons/default_highlight.png"
+        "default" : "config/sdw/data/icons/start_default.png",
+        "highlighted" : "config/sdw/data/icons/start_highlight.png"
       },
       "P01" : {
-        "default" : "config/exemplum/data/icons/fabrik_default.png",
-        "highlighted" : "config/exemplum/data/icons/fabrik_highlight.png"
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
       },
       "P16" : {
-        "default" : "config/exemplum/data/icons/shop_default.png",
-        "highlighted" : "config/exemplum/data/icons/shop_highlight.png"
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
       },
       "P17" : {
-        "default" : "config/exemplum/data/icons/zweigstelle_default.png",
-        "highlighted" : "config/exemplum/data/icons/zweigstelle_highlight.png"
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
       }
     },
 
@@ -1277,7 +1277,7 @@
                   {
                     "type" : "categoryWithIcon",
                     "category" : "projektstart",
-                    "icon" : "config/exemplum/data/icons/fabrik_default.png",
+                    "icon" : "config/sdw/data/icons/start_default.png",
                     "useCategoryAsPrefix" : true,
                     "name" : "Startschuss eines sdw-Projekts",
                     "filterable" : false
@@ -1304,7 +1304,7 @@
                   {
                     "type" : "categoryWithIcon",
                     "category" : "P",
-                    "icon" : "config/exemplum/data/icons/fabrik_default.png",
+                    "icon" : "config/sdw/data/icons/projekt_default.png",
                     "useCategoryAsPrefix" : true,
                     "name" : "Geschichte des Projekts",
                     "filterable" : false
