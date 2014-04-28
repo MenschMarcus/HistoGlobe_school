@@ -47,6 +47,7 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
       image: ""
       description: ""
       copyright: ""
+      crop: false
 
     config = $.extend {}, defaultConfig, config
 
@@ -57,6 +58,10 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
     image.className = "picture-gallery-widget-image"
     image.style.backgroundImage = "url('#{config.image}')"
     div.appendChild image
+
+    unless config.crop
+      image.style.backgroundSize = "contain"
+      image.style.borderBottom = "none"
 
     unless config.copyright is ""
       copyright = document.createElement "div"
@@ -78,7 +83,6 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
   # ============================================================================
   _loadPicturesfromDSV: () ->
 
-
     parse_config =
       delimiter: @_config.delimiter
       header: false
@@ -99,6 +103,7 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
                 image : mm.link
                 description : mm.description
                 copyright: mm.source
+                crop: mm.crop
               @_pictures.push image
 
         @_loadPictures()
