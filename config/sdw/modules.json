@@ -5,7 +5,7 @@
     "minYear": 1994,
     "maxYear": 2015,
     "nowYear": 1994,
-    "minZoom": 6,
+    "minZoom": 5,
     "maxZoom": 8,
     "startZoom": 6,
     "startLatLong": [51.505, 10.09],
@@ -454,6 +454,7 @@
   },
 
   "TitleImage": {
+    "enabled" : false,
     "images" :
     [
       {
@@ -562,12 +563,13 @@
 
   "WidgetController" :
   {
-    "widgets" :
-    [
+    "widgets" : [
       {
         "type" : "LogoWidget",
-        "icon" : "fa-user",
+        "icon" : "fa-info-circle",
         "name" : "Logo",
+        "interactive" : false,
+        "showPagination" : false,
         "categories" : ["sdwEvent"],
         "logos" :
         [
@@ -589,7 +591,6 @@
           }
         ]
       },
-
       {
         "type" : "TextWidget",
         "icon" : "fa-edit",
@@ -809,7 +810,7 @@
 
       {
         "type" : "VIPWidget",
-        "icon" : "fa-user",
+        "icon" : "fa-group",
         "name" : "Gremien",
         "collapsedAtStart": false,
         "categories" : ["sdwEvent"],
@@ -1253,66 +1254,66 @@
           }
         ]
       },
-    {
-      "type": "LegendWidget",
-      "categories" : ["sdwEvent"],
-      "icon": "fa-list-ul",
-      "collapsedAtStart": false,
-      "name": "Legende",
-      "columns":
-      [
-        {
-          "groups" : [
-            {
-              "name": "Ereignisse",
-              "elements" : [
-                {
-                  "type" : "category",
-                  "category" : "sdwEvent",
-                  "name" : "Geschichte der sdw",
-                  "filterable" : false
-                },
-                {
-                  "type" : "categoryWithIcon",
-                  "category" : "projektstart",
-                  "icon" : "config/exemplum/data/icons/fabrik_default.png",
-                  "useCategoryAsPrefix" : true,
-                  "name" : "Startschuss eines sdw-Projekts",
-                  "filterable" : false
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "LegendWidget",
-      "categories" : ["P01","P02","P03","P04","P05","P06","P07","P08","P09","P10","P11","P12","P13","P14","P15","P16","P17","P18","P19","P20","P21","P22","P23","P24","P25","P26","P27"],
-      "icon": "fa-list-ul",
-      "collapsedAtStart": false,
-      "name": "Legende",
-      "columns":
-      [
-        {
-          "groups" : [
-            {
-              "name": "Ereignisse",
-              "elements" : [
-                {
-                  "type" : "categoryWithIcon",
-                  "category" : "P",
-                  "icon" : "config/exemplum/data/icons/fabrik_default.png",
-                  "useCategoryAsPrefix" : true,
-                  "name" : "Geschichte des Projekts",
-                  "filterable" : false
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
+      {
+        "type": "LegendWidget",
+        "categories" : ["sdwEvent"],
+        "icon": "fa-list-ul",
+        "collapsedAtStart": false,
+        "name": "Legende",
+        "columns":
+        [
+          {
+            "groups" : [
+              {
+                "name": "Ereignisse",
+                "elements" : [
+                  {
+                    "type" : "category",
+                    "category" : "sdwEvent",
+                    "name" : "Geschichte der sdw",
+                    "filterable" : false
+                  },
+                  {
+                    "type" : "categoryWithIcon",
+                    "category" : "projektstart",
+                    "icon" : "config/exemplum/data/icons/fabrik_default.png",
+                    "useCategoryAsPrefix" : true,
+                    "name" : "Startschuss eines sdw-Projekts",
+                    "filterable" : false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "LegendWidget",
+        "categories" : ["P01","P02","P03","P04","P05","P06","P07","P08","P09","P10","P11","P12","P13","P14","P15","P16","P17","P18","P19","P20","P21","P22","P23","P24","P25","P26","P27"],
+        "icon": "fa-list-ul",
+        "collapsedAtStart": false,
+        "name": "Legende",
+        "columns":
+        [
+          {
+            "groups" : [
+              {
+                "name": "Ereignisse",
+                "elements" : [
+                  {
+                    "type" : "categoryWithIcon",
+                    "category" : "P",
+                    "icon" : "config/exemplum/data/icons/fabrik_default.png",
+                    "useCategoryAsPrefix" : true,
+                    "name" : "Geschichte des Projekts",
+                    "filterable" : false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     ]
   }
 }

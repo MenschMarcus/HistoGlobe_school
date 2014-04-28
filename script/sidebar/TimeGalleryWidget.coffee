@@ -37,8 +37,9 @@ class HG.TimeGalleryWidget extends HG.GalleryWidget
       @addDivSlide slide
 
     hgInstance.onAllModulesLoaded @, () =>
-      for i in [0...@_swiper.paginationButtons.length]
-        @_setPaginationDate(@_changeDates[i].getFullYear(), i)
+      if @_config.showPagination
+        for i in [0...@_swiper.paginationButtons.length]
+          @_setPaginationDate(@_changeDates[i].getFullYear(), i)
 
   # ============================================================================
   addDivSlide: (config) ->
