@@ -16,16 +16,19 @@
   "BrowserDetector": {},
 
   "ControlButtonArea": {},
+  "ZoomButtons": {},
+  "FullscreenButton": {},
   "Help":
   {
+    "autoShow": true,
     "elements": [
       {
         "image" : "config/sdw/data/help/help01.png",
         "anchorX" : "left",
         "anchorY" : "top",
         "offsetX": "18",
-        "offsetY": "156",
-        "width": "40%"
+        "offsetY": "120",
+        "width": "70%"
       },
       {
         "image" : "config/sdw/data/help/help02.png",
@@ -61,8 +64,6 @@
       }
     ]
   },
-  "ZoomButtons": {},
-  "FullscreenButton": {},
 
   "CategoryFilter": {},
 

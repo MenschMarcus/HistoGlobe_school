@@ -9,6 +9,7 @@ class HG.Help
   # ============================================================================
   constructor: (config) ->
     defaultConfig =
+      autoShow: false
       elements: []
 
     @_config = $.extend {}, defaultConfig, config
@@ -29,6 +30,10 @@ class HG.Help
   hgInit: (hgInstance) ->
     @_hgInstance = hgInstance
     @_hgInstance.help = @
+
+    if @_config.autoShow
+      @_hgInstance.onAllModulesLoaded @, () =>
+        @show()
 
     if hgInstance.control_button_area?
       help =
@@ -61,7 +66,6 @@ class HG.Help
     @_div.appendChild image
 
     $(image).load () =>
-      console.log $(image).width()
       $(image).css {"max-width": image.naturalWidth + "px"}
       $(image).css {"width": element.width}
 
