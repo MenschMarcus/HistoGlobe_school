@@ -89,6 +89,7 @@
     <script type="text/javascript" src="build/DateMarker.js"></script>
     <script type="text/javascript" src="build/NowMarker.js"></script>
     <script type="text/javascript" src="build/Timeline.js"></script>
+    <script type="text/javascript" src="build/TimeBars.js"></script>
     <script type="text/javascript" src="build/Sidebar.js"></script>
     <script type="text/javascript" src="build/Widget.js"></script>
     <script type="text/javascript" src="build/EventTicker.js"></script>
