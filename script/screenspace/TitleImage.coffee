@@ -23,7 +23,7 @@ class HG.TitleImage
 
     @_images = []
 
-    '''
+
     @_timeline = hgInstance.timeline
     @_timeline.onNowChanged @, @_nowChanged
 
@@ -33,7 +33,7 @@ class HG.TitleImage
     $("#histoglobe").append @_div
 
     @_changeImages @_images[0].div
-    '''
+
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #

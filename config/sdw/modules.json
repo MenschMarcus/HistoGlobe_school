@@ -400,6 +400,7 @@
   },
 
   "TitleImage": {
+    "enabled" : false,
     "images" :
     [
       {
@@ -511,6 +512,8 @@
       "type" : "LogoWidget",
       "icon" : "fa-user",
       "name" : "Logo",
+      "interactive" : false,
+      "showPagination" : false,
       "categories" : ["sdwEvent"],
       "logos" :
       [
