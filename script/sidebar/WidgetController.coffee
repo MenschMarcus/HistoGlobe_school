@@ -39,9 +39,8 @@ class HG.WidgetController
   # ============================================================================
   _loadWidgetsFromConfig:(config,hgInstance) ->
 
-
     load_module = (moduleName, moduleConfig) =>
-        #console.log moduleName
+
         if window["HG"][moduleName]?
           newMod = new window["HG"][moduleName] moduleConfig
 
@@ -58,7 +57,7 @@ class HG.WidgetController
         else
           console.error "The module #{moduleName} is not part of the HG namespace!"
 
-    for widget in config
+    for widget in config.widgets
         load_module widget.type, widget
 
     if @_categoryFilter
