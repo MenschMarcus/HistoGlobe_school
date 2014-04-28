@@ -111,7 +111,6 @@ class HG.StatisticsWidget extends HG.Widget
   # ============================================================================
   _drawStatistics: () =>
 
-
     @_onDataLoaded () =>
       if @_canvas?
         d3.select(@_canvas).remove()
@@ -178,31 +177,40 @@ class HG.StatisticsWidget extends HG.Widget
         @_svg = @_canvas.append("path")
           .datum(entry.data)
           .attr("class", "line")
+          .attr("id", "line#{count}")
           .attr("d", line)
           .attr("stroke", "#{entry.config.color}")
           .attr("stroke-width", "#{entry.config.width}")
+
           #.on("mousemove", @_showTooltip)
           #.on("mouseout", @_hideTooltip)
+
+        @_canvas.selectAll(".point")
+          .data(entry.data)
+          .enter().append("svg:circle")
+          .attr("stroke", "none")
+          .attr("fill", (d) => return "#{entry.config.color}" )
+          .attr("cx", (d) => return x(d[entry.config.xAttributeName]) )
+          .attr("cy", (d) => return y(d[entry.config.yAttributeName]) )
+          .attr("r", (d) => return 3)
 
         #################
         #label:
 
-        rect =  @_canvas.append("rect")
-          .attr("width", 10)
-          .attr("height", 10)
-          .style("fill","#{entry.config.color}")
-          .attr("x",15)
-          .attr("y",15*count-15)
+        # rect =  @_canvas.append("rect")
+        #   .attr("width", 10)
+        #   .attr("height", 10)
+        #   .style("fill","#{entry.config.color}")
+        #   .attr("x",15)
+        #   .attr("y",15*count-15)
 
-        text = @_canvas.append("text")
-            .attr("x", 30)
-            .attr("y",15*count-15)
-            .attr("dy","10px")
-            .style("font-size","8px")
-            .style("fill","black")
-            .text("#{entry.config.label}")
-
-
+        # text = @_canvas.append("text")
+        #     .attr("x", 30)
+        #     .attr("y",15*count-15)
+        #     .attr("dy","10px")
+        #     .style("font-size","8px")
+        #     .style("fill","black")
+        #     .text("#{entry.config.label}")
 
         #tooltip:
         entry.focus = @_canvas.append("g")
@@ -221,7 +229,7 @@ class HG.StatisticsWidget extends HG.Widget
         entry.focus.text = entry.focus.append("text")
             .attr("x", 15)
             .attr("dy",".35em")
-            .style("font-size","24px")
+            .style("font-size","#{HGConfig.statistics_widget_tooltip_size.val}#{HGConfig.statistics_widget_tooltip_size.unit}")
             .style("fill","#{entry.config.color}")
             #.style("fill","black")
 
@@ -252,7 +260,7 @@ class HG.StatisticsWidget extends HG.Widget
           .call(yAxis)
           .append("text")
           .attr("transform", "rotate(-90)")
-          .attr("y", 6)
+          .attr("y", 5)
           .attr("dy", "0.71em")
           .style("text-anchor", "end")
           .text(@_config.yCaption)
@@ -337,7 +345,7 @@ class HG.StatisticsWidget extends HG.Widget
       else
         entry.focus.text.attr("x", 15)
 
-      entry.focus.text.y = 
+      entry.focus.text.y =
 
       '''console.log(d3.mouse(@content));
       console.log "x", fx(d[entry.config.xAttributeName])
@@ -350,7 +358,7 @@ class HG.StatisticsWidget extends HG.Widget
       disty = window.event.clientY - (fy(d[entry.config.yAttributeName]) + $(@content).offset().top +
               HGConfig.statistics_widget_margin_top.val +
               HGConfig.widget_body_padding.val)'''
-  
+
       '''distx = d3.mouse(@content)[0] - fx(d[entry.config.xAttributeName])
       disty = d3.mouse(@content)[1] - fy(d[entry.config.yAttributeName])
 

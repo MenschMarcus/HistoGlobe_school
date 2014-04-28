@@ -1171,7 +1171,8 @@
         "type" : "StatisticsWidget",
         "icon" : "fa-bar-chart-o",
         "name" : "Entwicklungen",
-        "title" : "Stipendiaten und Programmteilnehmer",
+        "title" : "<table align='right'><tr><td style='padding-right: 5px;'> Stipendiaten </td><td> <div style='display:inline-block; background:#338A66; width:15px; height:15px'></div> </td></tr><tr><td style='padding-right: 5px;'> Programmteilnehmer </td><td> <div style='display:inline-block; background:#666; width:15px; height:15px'></div> </td></tr></table>"
+        ,
         "categories" : ["sdwEvent"],
         "yDomain" : [0, 5000],
         "xLableTicks" : 5,

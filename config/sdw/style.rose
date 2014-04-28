@@ -29,6 +29,7 @@ $sidebar_collapsed_width            = 40px
 $sidebar_width                      = 350px
 
 $statistics_widget_margin_left      = 30px
+$statistics_widget_tooltip_size     = 2.0em
 
 $widget_border_radius_top_left      = 0px
 $widget_border_radius_top_right     = 0px
