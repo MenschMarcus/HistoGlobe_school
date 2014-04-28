@@ -98,7 +98,7 @@ class HG.HiventController
     for handle in handles
       if handle._state isnt 0 and not (handle.getHivent().id in ignoredIds)
         diff = handle.getHivent().startDate.getTime() - now.getTime()
-        if (dis is -1 or diff < dis) && diff >= 0
+        if (dis is -1 or diff < dis) and diff >= 0
           dis = diff
           hh = handle
     return hh

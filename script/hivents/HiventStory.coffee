@@ -36,6 +36,8 @@ class HG.HiventStory
       @_currentDate = @_timeline.getNowDate()
       @_timeline.onNowChanged @, (date) =>
         @_currentDate = date
+      # @_timeline.onIntervalChanged @, () =>
+      #   @_ignoredNames = []
 
       if @_hiventNames.length is 0
         @_hiventController.onHiventAdded (handle) =>
