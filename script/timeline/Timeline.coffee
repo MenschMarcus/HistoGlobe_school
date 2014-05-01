@@ -424,6 +424,9 @@ class HG.Timeline
     date.setFullYear year
     date.setMonth 0
     date.setDate 1
+    date.setHours 0
+    date.setMinutes 0
+    date.setSeconds 0
     date
 
   yearToMillis: (year) ->

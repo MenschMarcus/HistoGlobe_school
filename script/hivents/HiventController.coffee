@@ -90,18 +90,18 @@ class HG.HiventController
     return null
 
   getNextHiventHandle: (now, ignoredIds=[]) ->
-    hh = null
-    dis = -1
+    result = null
+    distance = -1
     handles = @_hiventHandles
     handles= handles.concat(@_hgInstance.hiventGalleryWidget.getHiventHandles()) if @_hgInstance.hiventGalleryWidget
 
     for handle in handles
       if handle._state isnt 0 and not (handle.getHivent().id in ignoredIds)
         diff = handle.getHivent().startDate.getTime() - now.getTime()
-        if (dis is -1 or diff < dis) and diff >= 0
-          dis = diff
-          hh = handle
-    return hh
+        if (distance is -1 or diff < distance) and diff >= 0
+          distance = diff
+          result = handle
+    return result
 
   ############################### INIT FUNCTIONS ###############################
 
