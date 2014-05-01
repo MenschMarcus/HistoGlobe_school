@@ -22,7 +22,7 @@ class HG.HiventStory
     @_hiventNames = @_config.hivents
     @_ignoredNames = []
     @_currentDate = null
-    @_needsSorting = true
+    @_currentHivent = null
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -64,27 +64,22 @@ class HG.HiventStory
 
   # ============================================================================
   _jumpToNextHivent: =>
-    if @_needsSorting
-      @_needsSorting = false
-      @_hiventNames.sort (a, b) =>
-        hiventA = @_hiventController.getHiventHandleById a
-        hiventB = @_hiventController.getHiventHandleById b
-        if hiventA? and hiventB?
-          return hiventA.getHivent().startDate.getTime() - hiventB.getHivent().startDate.getTime()
-        return 0
-
-    searchDate = @_currentDate
     nextHivent = @_hiventController.getNextHiventHandle @_currentDate, @_ignoredNames
     nextFound = false
 
     while not nextFound and nextHivent?
+      @_currentHivent = nextHivent unless @_currentHivent?
+
       hivent = nextHivent.getHivent()
       unless hivent.id in @_hiventNames and hivent.category in @_categoryFilter.getCurrentFilter()
         nextHivent = @_hiventController.getNextHiventHandle hivent.startDate, @_ignoredNames
 
       else
         nextFound = true
-      @_ignoredNames.push hivent.id
+        if hivent.startDate.getTime() is @_currentHivent.getHivent().startDate.getTime()
+          @_ignoredNames.push hivent.id
+        else
+          @_ignoredNames = []
 
     unless nextFound
       for name in @_hiventNames
@@ -97,10 +92,12 @@ class HG.HiventStory
 
     if nextFound
       @_currentDate = nextHivent.getHivent().startDate
-      @_timeline.moveToDate nextHivent.getHivent().startDate, @_config.transitionTime,
+      @_currentHivent = nextHivent
+      @_ignoredNames.push @_currentHivent.getHivent().id
+      @_timeline.moveToDate @_currentHivent.getHivent().startDate, @_config.transitionTime,
         () =>
-          nextHivent.activeAll()
-          nextHivent.focusAll()
+          @_currentHivent.activeAll()
+          @_currentHivent.focusAll()
 
 
   ##############################################################################

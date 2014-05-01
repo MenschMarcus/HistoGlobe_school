@@ -94,7 +94,7 @@ class HG.HiventController
     dis = -1
     handles = @_hiventHandles
     handles= handles.concat(@_hgInstance.hiventGalleryWidget.getHiventHandles()) if @_hgInstance.hiventGalleryWidget
-    #for handle in @_hiventHandles
+
     for handle in handles
       if handle._state isnt 0 and not (handle.getHivent().id in ignoredIds)
         diff = handle.getHivent().startDate.getTime() - now.getTime()
