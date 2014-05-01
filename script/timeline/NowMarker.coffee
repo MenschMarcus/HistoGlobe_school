@@ -66,26 +66,26 @@ class HG.NowMarker
         @_hiddenSpeed = 0
 
         # check if mouse went down on speed changer
-        @_mainDiv.onmousedown = (e) =>
+        '''@_mainDiv.onmousedown = (e) =>
             if((@_distanceToMiddlepoint(e) - 75) >= 0)
                 @_clicked = true
-                @_disableTextSelection e
+                @_disableTextSelection e'''
 
         # rotate arrow if mouse moved on speed changer
-        @_mainDiv.onmousemove = (e) =>
+        '''@_mainDiv.onmousemove = (e) =>
             if @_clicked
                 unless @_timeline.getPlayStatus()
                     @_playButton.className = "fa fa-play"
                 @_hiddenSpeed = e.pageX - @_middlePointX
-                $(@_pointer).rotate(@_angleOnCircle(e))
+                $(@_pointer).rotate(@_angleOnCircle(e))'''
 
         # set new speed of timeline animation
-        @_mainDiv.onmouseup = (e) =>
+        '''@_mainDiv.onmouseup = (e) =>
             if @_clicked
                 @_timeline.setSpeed (@_radius + e.pageX - @_middlePointX)/@_radius
                 $(@_pointer).rotate(@_angleOnCircle(e))
                 @_enableTextSelection()
-                @_clicked = false
+                @_clicked = false'''
 
         # stop or animate timeline (play)
         @animationCallback = @animationSwitch
