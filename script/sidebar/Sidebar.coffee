@@ -37,6 +37,8 @@ class HG.Sidebar
         hide: false
         container: '#sidebar-scrollbar'
 
+    @_widgets = []
+
     # needed for some reason...
     window.setTimeout () =>
       @updateSize()
@@ -44,8 +46,28 @@ class HG.Sidebar
 
   # ============================================================================
   addWidget: (widget) ->
-    @_slide.appendChild widget.container
+    
+    insertBeforeThis = null
+
+    if widget.sequenceNr
+      for w in @_widgets
+        if w.sequenceNr and w.sequenceNr > widget.sequenceNr
+          if insertBeforeThis is null
+            insertBeforeThis = w
+          else if w.sequenceNr < insertBeforeThis.sequenceNr
+            insertBeforeThis = w
+    else
+      @_slide.appendChild widget.container
+
+    if insertBeforeThis isnt null
+      #console.log "insert ",widget," before ",insertBeforeThis
+      @_slide.insertBefore widget.container,insertBeforeThis.container
+    else
+      @_slide.appendChild widget.container  
+    
     @updateSize()
+
+    @_widgets.push widget
 
   # ============================================================================
   updateSize: () ->

@@ -734,6 +734,39 @@
         ]
       },
       {
+        "type" : "StatisticsWidget",
+        "icon" : "fa-bar-chart-o",
+        "name" : "Entwicklungen",
+        "title" : "<table align='right'><tr><td style='padding-right: 5px;'> Stipendiaten </td><td> <div style='display:inline-block; background:#338A66; width:15px; height:15px'></div> </td></tr><tr><td style='padding-right: 5px;'> Programmteilnehmer </td><td> <div style='display:inline-block; background:#666; width:15px; height:15px'></div> </td></tr></table>"
+        ,
+        "categories" : ["sdwEvent"],
+        "yDomain" : [0, 5000],
+        "xLableTicks" : 5,
+        "yLableTicks" : 5,
+        "yCaption" : "Anzahl",
+        "lines" :
+        [
+          {
+            "dataPath" : "config/sdw/data/statistics_scholars.dsv",
+            "xAttributeName" : "date",
+            "yAttributeName" : "amount",
+            "label" : "Stipendiaten",
+            "color" : "#338A66",
+            "width" : "3px",
+            "smooth" : true
+          },
+          {
+            "dataPath" : "config/sdw/data/statistics_program_participants.dsv",
+            "xAttributeName" : "date",
+            "yAttributeName" : "amount",
+            "label" : "Programmteilnehmer",
+            "color" : "#666",
+            "width" : "3px",
+            "smooth" : true
+          }
+        ]
+      },
+      {
         "type" : "TextWidget",
         "icon" : "fa-edit",
         "collapsedAtStart": false,
@@ -1363,39 +1396,6 @@
           "projectId" : 0,
           "mediaId" : 5
         }
-      },
-      {
-        "type" : "StatisticsWidget",
-        "icon" : "fa-bar-chart-o",
-        "name" : "Entwicklungen",
-        "title" : "<table align='right'><tr><td style='padding-right: 5px;'> Stipendiaten </td><td> <div style='display:inline-block; background:#338A66; width:15px; height:15px'></div> </td></tr><tr><td style='padding-right: 5px;'> Programmteilnehmer </td><td> <div style='display:inline-block; background:#666; width:15px; height:15px'></div> </td></tr></table>"
-        ,
-        "categories" : ["sdwEvent"],
-        "yDomain" : [0, 5000],
-        "xLableTicks" : 5,
-        "yLableTicks" : 5,
-        "yCaption" : "Anzahl",
-        "lines" :
-        [
-          {
-            "dataPath" : "config/sdw/data/statistics_scholars.dsv",
-            "xAttributeName" : "date",
-            "yAttributeName" : "amount",
-            "label" : "Stipendiaten",
-            "color" : "#338A66",
-            "width" : "3px",
-            "smooth" : true
-          },
-          {
-            "dataPath" : "config/sdw/data/statistics_program_participants.dsv",
-            "xAttributeName" : "date",
-            "yAttributeName" : "amount",
-            "label" : "Programmteilnehmer",
-            "color" : "#666",
-            "width" : "3px",
-            "smooth" : true
-          }
-        ]
       },
       {
         "type": "LegendWidget",

@@ -86,6 +86,8 @@ class HG.Widget
     #   $(@container).show(300, collapse)
     #  collapse()
 
+    @_sidebar.updateSize()
+
 
   # ============================================================================
   #new:
@@ -98,6 +100,8 @@ class HG.Widget
     '''$(@_header).css
         "height": 0'''
     $(@container).hide(300)
+
+    @_sidebar.updateSize()
 
     #unless $(@_header).hasClass("collapsed")
     #  @_collapse()

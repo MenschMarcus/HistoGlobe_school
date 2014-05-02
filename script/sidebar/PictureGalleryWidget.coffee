@@ -41,6 +41,8 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
     for picture in @_pictures
       @addPicture picture
 
+    @_sidebar.updateSize()
+
   # ============================================================================
   addPicture: (config) ->
     defaultConfig =
