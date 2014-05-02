@@ -26,15 +26,19 @@ class HG.NowMarker
         @_pointer.id = "now_marker_pointer"
         @_mainDiv.appendChild @_pointer
 
-        nowMarkerIn = document.createElement "div"
-        nowMarkerIn.id = "now_marker_in"
+        @_nowMarkerIn = document.createElement "div"
+        @_nowMarkerIn.id = "now_marker_in"
+
+        @_buttonArea = document.createElement "div"
+        @_nowMarkerIn.appendChild @_buttonArea
 
         @_playButton    = document.createElement "i"
         @_playButton.id = "now_marker_play"
         @_playButton.className = "fa fa-step-forward"
         #@_playButton.innerHTML = "<img src='img/timeline/playIcon.png'>"
+        @addButton @_playButton, @animationSwitch
 
-        nowMarkerIn.appendChild @_playButton
+
 
         @_dateInputField    = document.createElement "input"
         @_dateInputField.name = "now_date"
@@ -42,9 +46,9 @@ class HG.NowMarker
         @_dateInputField.type = "text"
         @_dateInputField.maxlength = 10
         @_dateInputField.size = 10
-        nowMarkerIn.appendChild @_dateInputField
+        @_nowMarkerIn.appendChild @_dateInputField
 
-        @_mainDiv.appendChild nowMarkerIn
+        @_mainDiv.appendChild @_nowMarkerIn
 
         @_arrow  = document.createElement "div"
         @_arrow.id = "now_marker_arrow"
@@ -88,12 +92,11 @@ class HG.NowMarker
                 @_clicked = false'''
 
         # stop or animate timeline (play)
-        @animationCallback = @animationSwitch
-        @_playButton.onclick = (e) =>
-            @animationCallback()
-        $(document.body).keyup (e) =>
-            if e.keyCode == 32  # spacebar
-                 @animationCallback()
+        # @_playButton.onclick = (e) =>
+        #     @animationCallback()
+        # $(document.body).keyup (e) =>
+        #     if e.keyCode == 32  # spacebar
+        #          @animationCallback()
 
         # Catch enter key on the date input field
         $(@_dateInputField).keyup (e) =>
@@ -121,6 +124,15 @@ class HG.NowMarker
         month = "0" + month if month.length == 1
         year = date.getFullYear() + ""
         @_dateInputField.value = day + "." + month + "." + year
+
+    #   --------------------------------------------------------------------------
+    addButton : (buttonDiv, callback) =>
+      @_buttonArea.appendChild buttonDiv
+      buttonDiv.onclick = callback
+
+    #   --------------------------------------------------------------------------
+    clearButtons : () ->
+      $(@_buttonArea).empty()
 
     #   --------------------------------------------------------------------------
     ###getDate: ->
@@ -192,7 +204,7 @@ class HG.NowMarker
         @_dateInputField.value = day + "." + month + "." + year###
 
     # ============================================================================
-    animationSwitch: ->
+    animationSwitch: =>
         if @_timeline.getPlayStatus()
             @_timeline.stopTimeline()
             @_playButton.className = "fa fa-play"

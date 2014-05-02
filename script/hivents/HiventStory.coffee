@@ -23,6 +23,7 @@ class HG.HiventStory
     @_ignoredNames = []
     @_currentDate = null
     @_currentHivent = null
+    @_needsSorting = true
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -55,16 +56,38 @@ class HG.HiventStory
               @_hiventNames.push id
               @_needsSorting = true
 
-      @_nowMarker.animationCallback = @_jumpToNextHivent
+      @_nowMarker.clearButtons()
 
+      @_backwardButton    = document.createElement "span"
+      @_backwardButton.id = "hivent_story_backward_button"
+      @_backwardButton.className = "fa fa-step-backward"
+      @_nowMarker.addButton @_backwardButton, (e) =>
+        @_jumpToNextHivent false
+
+      @_forwardButton    = document.createElement "span"
+      @_forwardButton.id = "hivent_story_forward_button"
+      @_forwardButton.className = "fa fa-step-forward"
+      @_nowMarker.addButton @_forwardButton, (e) =>
+        @_jumpToNextHivent true
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
 
   # ============================================================================
-  _jumpToNextHivent: =>
-    nextHivent = @_hiventController.getNextHiventHandle @_currentDate, @_ignoredNames
+  _jumpToNextHivent: (forward=true)=>
+    if @_needsSorting
+      @_needsSorting = false
+      @_hiventNames.sort (a, b) =>
+        hiventA = @_hiventController.getHiventHandleById a
+        hiventB = @_hiventController.getHiventHandleById b
+        if hiventA? and hiventB?
+          return hiventA.getHivent().startDate.getTime() - hiventB.getHivent().startDate.getTime()
+        return 0
+
+    hiventGetter = if forward then 'getNextHiventHandle' else 'getPreviousHiventHandle'
+
+    nextHivent = @_hiventController[hiventGetter] @_currentDate, @_ignoredNames
     nextFound = false
 
     while not nextFound and nextHivent?
@@ -72,7 +95,7 @@ class HG.HiventStory
 
       hivent = nextHivent.getHivent()
       unless hivent.id in @_hiventNames and hivent.category in @_categoryFilter.getCurrentFilter()
-        nextHivent = @_hiventController.getNextHiventHandle hivent.startDate, @_ignoredNames
+        nextHivent = @_hiventController[hiventGetter] hivent.startDate, @_ignoredNames
 
       else
         nextFound = true
@@ -82,8 +105,9 @@ class HG.HiventStory
           @_ignoredNames = []
 
     unless nextFound
-      for name in @_hiventNames
-        check = @_hiventController.getHiventHandleById name
+      indices = if forward then [0...@_hiventNames.length] else [@_hiventNames.length-1..0]
+      for i in indices
+        check = @_hiventController.getHiventHandleById @_hiventNames[i]
         if check.getHivent().category in @_categoryFilter.getCurrentFilter()
           nextHivent = check
           nextFound = true
