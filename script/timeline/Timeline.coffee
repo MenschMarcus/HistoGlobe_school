@@ -129,6 +129,12 @@ class HG.Timeline
       @notifyAll "onNowChanged", @_nowDate
       @notifyAll "onIntervalChanged", @_getTimeFilter()
 
+      if hgInstance.zoom_buttons_timeline
+        hgInstance.zoom_buttons_timeline.onZoomIn @, () =>
+          @_zoom(1)
+        hgInstance.zoom_buttons_timeline.onZoomOut @, () =>
+          @_zoom(-1)
+
   #   --------------------------------------------------------------------------
   _createUIElements: ->
 
