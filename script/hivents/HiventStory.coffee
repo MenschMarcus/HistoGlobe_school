@@ -120,8 +120,8 @@ class HG.HiventStory
       @_ignoredNames.push @_currentHivent.getHivent().id
       @_timeline.moveToDate @_currentHivent.getHivent().startDate, @_config.transitionTime,
         () =>
-          @_currentHivent.activeAll()
           @_currentHivent.focusAll()
+          @_currentHivent.activeAll()
 
 
   ##############################################################################

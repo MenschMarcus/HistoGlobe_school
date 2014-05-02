@@ -11,6 +11,7 @@ class HG.HiventInfoPopover
 
     @_hiventHandle = hiventHandle
     @_hgInstance = hgInstance
+    @_visible = false
 
     # generate content
     body = document.createElement "div"
@@ -62,11 +63,17 @@ class HG.HiventInfoPopover
     @_popover.show
       x: position.at(0)
       y: position.at(1)
+      @_visible = true
 
   # ============================================================================
   hide: =>
     @_popover.hide()
     @_hiventHandle._activated = false
+    @_visible = false
+
+  # ============================================================================
+  isVisible: =>
+    @_visible
 
   # ============================================================================
   updatePosition: (position) ->
