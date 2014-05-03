@@ -999,7 +999,7 @@
             "endDate": "31.12.2000",
             "info": "Gründer",
             "image": "config/sdw/data/media/vip_images/DrMurmann2.jpg",
-            "copyright": "©"
+            "copyright": "© Sauer-Sundstrand"
           },
           {
             "name": "Prof. Dr. Klaus Murmann",
@@ -1007,7 +1007,7 @@
             "endDate": "31.12.2010",
             "info": "Vorstandsvorsitzender",
             "image": "config/sdw/data/media/vip_images/PortraitDrKlausMurmann.jpg",
-            "copyright": "©"
+            "copyright": "© photothek.net"
           },
           {
             "name": "Prof. Dr. Klaus Murmann",
@@ -1015,7 +1015,7 @@
             "endDate": "31.12.9999",
             "info": "Ehrenvorsitzender",
             "image": "config/sdw/data/media/vip_images/PortraitDrKlausMurmann.jpg",
-            "copyright": "©"
+            "copyright": "© photothek.net"
           },
           {
             "name": "Dr. Josef Siegers",
@@ -1023,15 +1023,23 @@
             "endDate": "31.12.2000",
             "info": "Vorstandsvorsitzender",
             "image": "config/sdw/data/media/vip_images/Siegers.jpg",
-            "copyright": "©"
+            "copyright": "© MINT-EC"
           },
           {
             "name": "Ingo Kramer",
             "startDate": "01.01.2011",
+            "endDate": "31.12.2012",
+            "info": "Vorstandsvorsitzender",
+            "image": "config/sdw/data/media/vip_images/PortraitIngoKramer2010.jpg",
+            "copyright": "© Nordmetall"
+          },
+          {
+            "name": "Ingo Kramer",
+            "startDate": "01.01.2013",
             "endDate": "31.12.9999",
             "info": "Vorstandsvorsitzender",
-            "image": "config/sdw/data/media/vip_images/PorträtIngoKramer2010.jpg",
-            "copyright": "©"
+            "image": "config/sdw/data/media/vip_images/IngoKramer_01.jpg",
+            "copyright": "© BDA"
           },
           {
             "name": "Hans-Jürgen Brackmann",
@@ -1039,23 +1047,23 @@
             "endDate": "31.12.2000",
             "info": "Geschäftsführender Vorstand",
             "image": "config/sdw/data/media/vip_images/PortraitBrackmann.jpg",
-            "copyright": "©"
+            "copyright": "© photothek.net"
           },
           {
             "name": "Hans-Jürgen Brackmann",
             "startDate": "01.01.2001",
             "endDate": "31.12.2010",
             "info": "Generalsekretär",
-            "image": "config/sdw/data/media/vip_images/HansJürgenBrackmann1.jpg",
-            "copyright": "©"
+            "image": "config/sdw/data/media/vip_images/HansJuergenBrackmann1.jpg",
+            "copyright": "© photothek.net"
           },
           {
             "name": "Dr. Arndt Schnöring",
             "startDate": "01.01.2011",
             "endDate": "31.12.9999",
             "info": "Generalsekretär",
-            "image": "config/sdw/data/media/vip_images/PorträtArndtSchnöring.jpg",
-            "copyright": "©"
+            "image": "config/sdw/data/media/vip_images/PortraitArndtSchnoering.jpg",
+            "copyright": "© sdw"
           },
           {
             "name": "Prof. Dr. Dieter Hundt",
@@ -1063,7 +1071,7 @@
             "endDate": "31.12.2013",
             "info": "Vorsitzender des Kuratoriums",
             "image": "config/sdw/data/media/vip_images/ProfDrDieterHundt.jpg",
-            "copyright": "©"
+            "copyright": "© BDA"
           },
           {
             "name": "Dr. Gerhard F. Braun",
@@ -1071,7 +1079,23 @@
             "endDate": "31.12.9999",
             "info": "Vorsitzender des Kuratoriums",
             "image": "config/sdw/data/media/vip_images/BraunGerhardF.jpg",
-            "copyright": "©"
+            "copyright": "© lvu.de"
+          },
+          {
+            "name": "Dr. Werner Brinker",
+            "startDate": "01.01.2003",
+            "endDate": "31.08.2011",
+            "info": "Vorsitzender des Fördervereins",
+            "image": "config/sdw/data/media/vip_images/DrWernerBrinker.jpg",
+            "copyright": "© EWE AG"
+          },
+          {
+            "name": "Prof. Dr. Christian Rödl",
+            "startDate": "01.09.2011",
+            "endDate": "31.12.9999",
+            "info": "Vorsitzender des Fördervereins",
+            "image": "config/sdw/data/media/vip_images/ProfDrChristianRoedl.jpg",
+            "copyright": "© Rödl & Partner GbR"
           }
         ]
       },
