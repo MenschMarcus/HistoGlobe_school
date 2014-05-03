@@ -32,6 +32,16 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
 
     @_pictures = @_pictures.concat(@_config.pictures)
 
+    $("a[rel^='prettyPhoto']", @_gallery).prettyPhoto {
+      animation_speed:'normal'
+      theme:'light_square'
+      slideshow:3000
+      autoplay_slideshow: false
+      hideflash: true
+      allow_resize: true
+      deeplinking: false
+    }
+
 
 
   # ============================================================================
@@ -76,7 +86,7 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
     text.innerHTML = config.description
     div.appendChild text
 
-    @addDivSlide div
+    @addDivSlide div, ()=> $.prettyPhoto.open "#{config.image}",'', config.description
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #

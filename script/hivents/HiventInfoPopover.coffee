@@ -41,7 +41,7 @@ class HG.HiventInfoPopover
       slideshow:3000
       autoplay_slideshow: false
       hideflash: true
-      allow_resize: false
+      allow_resize: true
       deeplinking: false
     }
 
