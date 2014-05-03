@@ -807,6 +807,7 @@
       {
         "type" : "LogoWidget",
         "icon" : "fa-info-circle",
+        "collapsedAtStart": false,
         "name" : "Logo",
         "interactive" : false,
         "showPagination" : false,
