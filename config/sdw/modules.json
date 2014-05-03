@@ -1103,7 +1103,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P01"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1115,7 +1115,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P02"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1127,7 +1127,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P03"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1139,7 +1139,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P04"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1151,7 +1151,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P05"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1163,7 +1163,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P06"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1175,7 +1175,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P07"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1187,7 +1187,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P08"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1199,7 +1199,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P09"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1211,7 +1211,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P10"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1223,7 +1223,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P11"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1235,7 +1235,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P12"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1247,7 +1247,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P13"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1259,7 +1259,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P14"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1271,7 +1271,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P15"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1283,7 +1283,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P16"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1295,7 +1295,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P17"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1307,7 +1307,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P18"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1319,7 +1319,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P19"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1331,7 +1331,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P20"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1343,7 +1343,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P21"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1355,7 +1355,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P22"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1367,7 +1367,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P23"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1379,7 +1379,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P24"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1391,7 +1391,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P25"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1403,7 +1403,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P26"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
@@ -1415,7 +1415,7 @@
         "type" : "PictureGalleryWidget",
         "icon" : "fa-glass",
         "collapsedAtStart": false,
-        "name" : "Mediengallerie",
+        "name" : "Mediengalerie",
         "categories" : ["P27"],
         "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
         "indexMapping": {
