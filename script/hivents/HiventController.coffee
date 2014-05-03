@@ -86,7 +86,7 @@ class HG.HiventController
     for handle in @_hiventHandles
       if handle.getHivent().id is hiventId
         return handle
-    console.log "An Hivent with the id \"#{hiventId}\" does not exist!"
+    console.log "A Hivent with the id \"#{hiventId}\" does not exist!"
     return null
 
   # ============================================================================

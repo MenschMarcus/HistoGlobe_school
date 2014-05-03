@@ -107,7 +107,7 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
           if result[@_config.indexMapping.projectId] in @_config.categories
 
             media = result[@_config.indexMapping.mediaId]
-            media_arr = media.split(", ")
+            media_arr = media.split ","
 
             for m in media_arr
               mm = @_multimediaController.getMultimediaById m

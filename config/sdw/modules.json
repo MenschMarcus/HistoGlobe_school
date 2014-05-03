@@ -215,11 +215,107 @@
         "default" : "config/sdw/data/icons/projekt_default.png",
         "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
       },
+      "P02" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P03" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P04" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P05" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P06" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P07" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P08" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P09" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P10" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P11" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P12" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P13" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P14" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P15" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
       "P16" : {
         "default" : "config/sdw/data/icons/projekt_default.png",
         "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
       },
       "P17" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P18" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P19" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P20" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P21" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P22" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P23" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P24" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P25" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P26" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P27" : {
         "default" : "config/sdw/data/icons/projekt_default.png",
         "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
       }
