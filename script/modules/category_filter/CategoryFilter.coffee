@@ -22,16 +22,11 @@ class HG.CategoryFilter
 
   # ============================================================================
   hgInit: (hgInstance) ->
-    #super hgInstance ????
-
     hgInstance.categoryFilter = @
-
-
 
   # ============================================================================
   getCurrentFilter:() ->
     return @_categoryFilter
-
 
   # ============================================================================
   exclusiveFilter: (category,outOfThese) ->
@@ -42,16 +37,6 @@ class HG.CategoryFilter
 
     @filter category
 
-      # if (@_isArray category) and candidate in
-      #   @_categoryFilter.push category
-        #console.log "pushed0: ",category
-      # else
-        # @_categoryFilter = @_categoryFilter.filter (item) -> item isnt candidate
-
-        #new:
-        # @_categoriesExcluded = @_categoriesExcluded.filter (item) -> item isnt candidate
-
-    @notifyAll "onFilterChanged", @_categoryFilter
 
     for candidate in outOfThese
       #new:
@@ -72,6 +57,37 @@ class HG.CategoryFilter
         @_categoryFilter.push c
     else
       @_categoryFilter.push category
+
+    @notifyAll "onFilterChanged", @_categoryFilter
+
+  # ============================================================================
+  setCategory: (category) ->
+    if @_isArray category
+      @_categoryFilter = category
+    else
+      @_categoryFilter = [category]
+
+    @notifyAll "onFilterChanged", @_categoryFilter
+
+  # ============================================================================
+  addCategory: (category) ->
+    if @_isArray category
+      for c in category
+        @_categoryFilter.push c
+    else
+      @_categoryFilter.push category
+
+    @notifyAll "onFilterChanged", @_categoryFilter
+
+  # ============================================================================
+  removeCategory: (category) ->
+    if @_isArray category
+      for c in category
+        @_categoryFilter = @_categoryFilter.filter (item) -> item isnt c
+    else
+      @_categoryFilter = @_categoryFilter.filter (item) -> item isnt category
+
+    @notifyAll "onFilterChanged", @_categoryFilter
 
 
   # ============================================================================

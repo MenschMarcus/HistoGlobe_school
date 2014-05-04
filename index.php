@@ -109,6 +109,7 @@
     <script type="text/javascript" src="build/Help.js"></script>
     <script type="text/javascript" src="build/ZoomButtons.js"></script>
     <script type="text/javascript" src="build/FullscreenButton.js"></script>
+    <script type="text/javascript" src="build/HiventPresenter.js"></script>
     <script type="text/javascript" src="build/HiventsOnMap.js"></script>
     <script type="text/javascript" src="build/HiventsOnGlobe.js"></script>
     <script type="text/javascript" src="build/HiventsOnTimeline.js"></script>
@@ -141,6 +142,7 @@
     <?php // init histoglobe ?>
     <script type="text/javascript">
       $(document).ready(function($) {
+        // var histoglobe = new HG.HistoGlobe("config/exemplum/modules.json");
         var histoglobe = new HG.HistoGlobe("config/sdw/modules.json");
       });
     </script>

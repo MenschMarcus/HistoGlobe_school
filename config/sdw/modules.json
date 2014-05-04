@@ -226,8 +226,11 @@
   "HiventsOnMap" : {},
   "HiventsOnTimeline" : {},
 
+
   "HiventTooltips" : {},
   "HiventInfoPopovers" : {},
+
+  "HiventPresenter" : {},
   "HiventInfoAtTag" : {},
 
   "HiventStory" :

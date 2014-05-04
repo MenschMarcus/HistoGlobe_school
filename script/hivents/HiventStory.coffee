@@ -33,7 +33,7 @@ class HG.HiventStory
       @_categoryFilter = hgInstance.categoryFilter
 
       if @_hiventNames.length is 0
-        @_hiventController.onHiventAdded (handle) =>
+        @_hiventController.getHivents @, (handle) =>
           id = handle.getHivent().id
           unless id in @_hiventNames
             push = false

@@ -7,45 +7,45 @@ class HG.HiventInfoAtTag
   ##############################################################################
 
   # ============================================================================
-  constructor: (config) ->
+  hgInit: (hgInstance) ->
+    hgInstance.hiventInfoAtTag = @
 
-    @_hiventID = window.location.hash.substring window.location.hash.indexOf("#") + 1
+    HG.mixin @, HG.CallbackContainer
+    HG.CallbackContainer.call @
 
-    @_timeline = null
-    @_hiventInfoPopovers = null
+    @addCallback "onHashChanged"
 
-    @_alreadyShown = false
+    hgInstance.onAllModulesLoaded @, () =>
+      @_presenter       = hgInstance.hiventPresenter
+      @_timeline        = hgInstance.timeline
+      @_categoryFilter  = hgInstance.categoryFilter
+
+      $(window).on 'hashchange', @_gotoHash
+
+      @_gotoHash()
 
   # ============================================================================
-  hgInit: (hgInstance) ->
-    hgInstance.onAllModulesLoaded @, () =>
-      hgInstance.hiventInfoAtTag = @
+  _gotoHash: () =>
 
-      @_timeline = hgInstance.timeline
-      @_hiventController = hgInstance.hiventController
-      @_hiventInfoPopovers = hgInstance.hiventInfoPopovers
+      hash = window.location.hash.substring window.location.hash.indexOf("#") + 1
+      hash = hash.split('&')
 
-      if @_hiventInfoPopovers? and @_hiventController?
-        @_hiventController.onHiventAdded (handle) =>
-          if handle.getHivent().id is @_hiventID
-            @_timeline.moveToDate handle.getHivent().startDate, 0.5
+      for h in hash
+        target = h.split('=')
 
-        @_hiventInfoPopovers.onPopoverAdded (marker) =>
-          unless @_alreadyShown
-            handle = marker.getHiventHandle()
-            hivent = handle.getHivent()
-            if hivent.id is @_hiventID
+        if target.length is 2
+          switch target[0]
+            when "event"
+              if @_presenter?
+                @_presenter.present target[1]
+            when "time"
+              date = @_timeline.stringToDate target[1]
+              @_timeline.moveToDate date, 0.5
+            when "categories"
+              categories = target[1].split '+'
+              @_categoryFilter?.setCategory categories
+            else
+              @notifyAll "onHashChanged", target[0], target[1]
 
-              handle.focusAll()
-              handle.toggleActive marker, marker.getDisplayPosition()
-              @_alreadyShown = true
 
-
-  ##############################################################################
-  #                            PRIVATE INTERFACE                               #
-  ##############################################################################
-
-  ##############################################################################
-  #                             STATIC MEMBERS                                 #
-  ##############################################################################
 

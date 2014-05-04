@@ -12,9 +12,13 @@ class HG.HiventController
 
   # ============================================================================
   constructor: (config) ->
+
+    HG.mixin @, HG.CallbackContainer
+    HG.CallbackContainer.call @
+
+    @addCallback "onHiventAdded"
+
     @_hiventHandles = []
-    @_hiventsLoaded = false
-    @_onHiventAddedCallbacks = []
 
     @_currentTimeFilter = null # {start: <Date>, end: <Date>}
     @_currentSpaceFilter = null # { min: {lat: <float>, long: <float>},
@@ -60,12 +64,14 @@ class HG.HiventController
     # @loadHiventsFromDatabase()
 
   # ============================================================================
-  onHiventAdded: (callbackFunc) ->
-    if callbackFunc and typeof(callbackFunc) == "function"
-      @_onHiventAddedCallbacks.push callbackFunc
+  getHivents: (object, callbackFunc) ->
+    if object? and callbackFunc?
+      @onHiventAdded object, callbackFunc
 
-      if @_hiventsLoaded
-        callbackFunc handle for handle in @_hiventHandles
+      for handle in @_hiventHandles
+        @notify "onHiventAdded", object, handle
+
+    @_hiventHandles
 
   # ============================================================================
   setTimeFilter: (timeFilter) ->
@@ -82,6 +88,7 @@ class HG.HiventController
     @_currentCategoryFilter = categoryFilter
     @_filterHivents()'''
 
+  # ============================================================================
   getHiventHandleById: (hiventId) ->
     for handle in @_hiventHandles
       if handle.getHivent().id is hiventId
@@ -89,6 +96,7 @@ class HG.HiventController
     console.log "An Hivent with the id \"#{hiventId}\" does not exist!"
     return null
 
+  # ============================================================================
   getNextHiventHandle: (now) ->
     hh = null
     dis = -1
@@ -133,7 +141,6 @@ class HG.HiventController
   #               callback handle for callback in @_onHiventAddedCallbacks
   #               @_filterHivents()
 
-  #         @_hiventsLoaded = true
   #   }
 
   # ============================================================================
@@ -155,7 +162,6 @@ class HG.HiventController
   #             callback handle for callback in @_onHiventAddedCallbacks
   #             @_filterHivents()
 
-  #       @_hiventsLoaded = true
   #     )
 
   # ============================================================================
@@ -197,11 +203,10 @@ class HG.HiventController
                   if hivent
                     handle = new HG.HiventHandle hivent
                     @_hiventHandles.push handle
-                    callback handle for callback in @_onHiventAddedCallbacks
+                    @notifyAll "onHiventAdded", handle
                     @_filterHivents()
             pathIndex++
 
-            @_hiventsLoaded = true
       @_currentCategoryFilter = @_categoryFilter.getCurrentFilter()
 
 

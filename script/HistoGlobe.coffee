@@ -82,6 +82,7 @@ class HG.HistoGlobe
         @_collapse()
       else if @_config.sidebarCollapsed is "auto" and @isInMobileMode()
         @_collapse()
+
     )
 
 

@@ -64,7 +64,7 @@ class HG.HiventsOnMap
           new L.DivIcon {className: "hivent_marker_2D_stack", iconAnchor: [HGConfig.hivent_marker_2D_width.val*0.5 + 5*0.5*depth, HGConfig.hivent_marker_2D_height.val*0.5], html: html}
 
 
-      @_hiventController.onHiventAdded (handle) =>
+      @_hiventController.getHivents @, (handle) =>
         @_markersLoaded = @_hiventController._hiventsLoaded
 
         handle.onVisiblePast @, (self) =>

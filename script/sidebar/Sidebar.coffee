@@ -42,6 +42,19 @@ class HG.Sidebar
       @updateSize()
     , 1000
 
+    hgInstance.onAllModulesLoaded @, () =>
+      hgInstance.hiventInfoAtTag?.onHashChanged @, (key, value) =>
+        if key is "sidebar"
+          if value is "open"
+            if hgInstance._collapsed
+              hgInstance._collapse()
+          else if value is "close"
+            unless hgInstance._collapsed
+              hgInstance._collapse()
+
+          else
+            console.log "Failed to parse document hash: Valid values for sidebar are 'open' and 'close'!"
+
   # ============================================================================
   addWidget: (widget) ->
     @_slide.appendChild widget.container

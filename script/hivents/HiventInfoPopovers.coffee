@@ -13,6 +13,11 @@ class HG.HiventInfoPopovers
 
     @_config = $.extend {}, defaultConfig, config
 
+    HG.mixin @, HG.CallbackContainer
+    HG.CallbackContainer.call @
+
+    @addCallback "onPopoverAdded"
+
     @_hiventsOnMap = null
     @_hiventsOnGlobe = null
 
@@ -48,12 +53,15 @@ class HG.HiventInfoPopovers
             @_addPopover marker, @_hgInstance.mapCanvas, false
 
   # ============================================================================
-  onPopoverAdded: (callbackFunc) ->
-    if callbackFunc and typeof(callbackFunc) == "function"
-      @_onPopoverAddedCallbacks.push callbackFunc
+  getPopovers: (object, callbackFunc) ->
+    if object? and callbackFunc?
+      @onPopoverAdded object, callbackFunc
 
-      if @_markersLoaded
-        callbackFunc marker for marker in @_hiventMarkers
+      for marker in @_hiventMarkers
+        @notify "onPopoverAdded", object, marker
+
+    @_hiventMarkers
+
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -70,8 +78,8 @@ class HG.HiventInfoPopovers
     if useMarkerPosition
       i = handle.getHivent().lat.indexOf marker.getPosition().lat
 
-    showHiventInfoPopover = () =>
 
+    showHiventInfoPopover = () =>
       unless @_config.allowMultiplePopovers
         HG.HiventHandle.DEACTIVATE_ALL_OTHER_HIVENTS(handle)
 
@@ -83,6 +91,7 @@ class HG.HiventInfoPopovers
 
       else
         marker.hiventInfoPopover.show new HG.Vector(container.offsetWidth/2, container.offsetHeight/2)
+
 
     hideHiventInfoPopover = () =>
       marker.hiventInfoPopover?.hide()
@@ -102,6 +111,6 @@ class HG.HiventInfoPopovers
     marker.onDestruction @, () ->
       marker.hiventInfoPopover?.destroy()
 
-    callbackFunc marker for callbackFunc in @_onPopoverAddedCallbacks
+    @notifyAll "onPopoverAdded", marker
 
 

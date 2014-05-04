@@ -84,7 +84,7 @@ class HG.HiventsOnGlobe
       '''@_markerGroup = new HG.Marker3DClusterGroup(@,{maxClusterRadius:20})
       console.log @_markerGroup'''
 
-      @_hiventController.onHiventAdded (handle) =>
+      @_hiventController.getHivents @, (handle) =>
         handle.onVisiblePast @, (self) =>
           logos =
             default:@_hiventLogos[handle.getHivent().category]
