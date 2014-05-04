@@ -89,6 +89,8 @@ class HG.GalleryWidget extends HG.Widget
       calculateHeight: true
       onSlideChangeEnd: @_onSlideEnd
       onlyExternal: !@_config.interactive
+      onSlideClick: @_activateClickCallback
+      # onSlideTouch: @_activateClickCallback
 
 
     if @_config.showPagination
@@ -105,20 +107,20 @@ class HG.GalleryWidget extends HG.Widget
     , 1000
 
   # ============================================================================
-  addDivSlide: (div) ->
+  addDivSlide: (div, clickCallback=undefined) ->
     slide = document.createElement "div"
     slide.className = "swiper-slide"
     slide.appendChild div
 
-    @_addSlide slide
+    @_addSlide slide, clickCallback
 
   # ============================================================================
-  addHTMLSlide: (html) ->
+  addHTMLSlide: (html, clickCallback=undefined) ->
     slide = document.createElement "div"
     slide.className = "swiper-slide"
     slide.innerHTML = html
 
-    @_addSlide slide
+    @_addSlide slide, clickCallback
 
   # ============================================================================
   getSlideCount: () ->
@@ -133,7 +135,8 @@ class HG.GalleryWidget extends HG.Widget
   ##############################################################################
 
   # ============================================================================
-  _addSlide: (slide) ->
+  _addSlide: (slide, clickCallback=undefined) ->
+    slide.hgClickCallback = clickCallback
     @_gallery.appendChild slide
     @_swiper.reInit()
 
@@ -155,6 +158,10 @@ class HG.GalleryWidget extends HG.Widget
     else
       $(@_leftArrow).removeClass("hidden")
       $(@_rightArrow).removeClass("hidden")
+
+  # ============================================================================
+  _activateClickCallback: () =>
+    @_swiper.activeSlide().hgClickCallback?()
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #

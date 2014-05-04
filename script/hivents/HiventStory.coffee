@@ -20,7 +20,9 @@ class HG.HiventStory
     @_hiventController = null
     @_categoryFilter = null
     @_hiventNames = @_config.hivents
-    @_currentHivent = -1
+    @_ignoredNames = []
+    @_currentDate = null
+    @_currentHivent = null
     @_needsSorting = true
 
   # ============================================================================
@@ -31,6 +33,12 @@ class HG.HiventStory
       @_nowMarker = hgInstance.timeline.getNowMarker()
       @_hiventController = hgInstance.hiventController
       @_categoryFilter = hgInstance.categoryFilter
+
+      @_currentDate = @_timeline.getNowDate()
+      @_timeline.onNowChanged @, (date) =>
+        @_currentDate = date
+      # @_timeline.onIntervalChanged @, () =>
+      #   @_ignoredNames = []
 
       if @_hiventNames.length is 0
         @_hiventController.getHivents @, (handle) =>
@@ -48,15 +56,26 @@ class HG.HiventStory
               @_hiventNames.push id
               @_needsSorting = true
 
-      @_nowMarker.animationCallback = @_jumpToNextHivent
+      @_nowMarker.clearButtons()
 
+      @_backwardButton    = document.createElement "span"
+      @_backwardButton.id = "hivent_story_backward_button"
+      @_backwardButton.className = "fa fa-step-backward"
+      @_nowMarker.addButton @_backwardButton, (e) =>
+        @_jumpToNextHivent false
+
+      @_forwardButton    = document.createElement "span"
+      @_forwardButton.id = "hivent_story_forward_button"
+      @_forwardButton.className = "fa fa-step-forward"
+      @_nowMarker.addButton @_forwardButton, (e) =>
+        @_jumpToNextHivent true
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
 
   # ============================================================================
-  _jumpToNextHivent: =>
+  _jumpToNextHivent: (forward=true)=>
     if @_needsSorting
       @_needsSorting = false
       @_hiventNames.sort (a, b) =>
@@ -66,25 +85,43 @@ class HG.HiventStory
           return hiventA.getHivent().startDate.getTime() - hiventB.getHivent().startDate.getTime()
         return 0
 
-    old = @_currentHivent
-    if old is -1
-      old = @_hiventNames.length - 1
-    @_currentHivent = (@_currentHivent + 1) % @_hiventNames.length
-    nextHivent = @_hiventController.getHiventHandleById @_hiventNames[@_currentHivent]
+    hiventGetter = if forward then 'getNextHiventHandle' else 'getPreviousHiventHandle'
+
+    nextHivent = @_hiventController[hiventGetter] @_currentDate, @_ignoredNames
     nextFound = false
 
-    while (not nextFound) and (@_currentHivent isnt old)
-      unless nextHivent.getHivent().category in @_categoryFilter.getCurrentFilter()
-        @_currentHivent = (@_currentHivent + 1) % @_hiventNames.length
-        nextHivent = @_hiventController.getHiventHandleById @_hiventNames[@_currentHivent]
+    while not nextFound and nextHivent?
+      @_currentHivent = nextHivent unless @_currentHivent?
 
-      else nextFound = true
+      hivent = nextHivent.getHivent()
+      unless hivent.id in @_hiventNames and hivent.category in @_categoryFilter.getCurrentFilter()
+        nextHivent = @_hiventController[hiventGetter] hivent.startDate, @_ignoredNames
+
+      else
+        nextFound = true
+        if hivent.startDate.getTime() is @_currentHivent.getHivent().startDate.getTime()
+          @_ignoredNames.push hivent.id
+        else
+          @_ignoredNames = []
+
+    unless nextFound
+      indices = if forward then [0...@_hiventNames.length] else [@_hiventNames.length-1..0]
+      for i in indices
+        check = @_hiventController.getHiventHandleById @_hiventNames[i]
+        if check.getHivent().category in @_categoryFilter.getCurrentFilter()
+          nextHivent = check
+          nextFound = true
+          @_ignoredNames = []
+          break
 
     if nextFound
-      @_timeline.moveToDate nextHivent.getHivent().startDate, @_config.transitionTime,
+      @_currentDate = nextHivent.getHivent().startDate
+      @_currentHivent = nextHivent
+      @_ignoredNames.push @_currentHivent.getHivent().id
+      @_timeline.moveToDate @_currentHivent.getHivent().startDate, @_config.transitionTime,
         () =>
-          nextHivent.activeAll()
-          nextHivent.focusAll()
+          @_currentHivent.focusAll()
+          @_currentHivent.activeAll()
 
 
   ##############################################################################

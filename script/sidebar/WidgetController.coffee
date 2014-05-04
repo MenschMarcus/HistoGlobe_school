@@ -39,7 +39,7 @@ class HG.WidgetController
   # ============================================================================
   _loadWidgetsFromConfig:(config,hgInstance) ->
 
-    load_module = (moduleName, moduleConfig) =>
+    load_module = (moduleName, moduleConfig, seqNr) =>
 
         if window["HG"][moduleName]?
           newMod = new window["HG"][moduleName] moduleConfig
@@ -51,14 +51,17 @@ class HG.WidgetController
           #newMod.hgInit hgInstance   #later if required after filter
           #newMod.hgInit hgInstance unless newMod instanceof HG.Widget
           #newMod.hgInit hgInstance if newMod instanceof HG.LegendWidget
+          newMod.sequenceNr = seqNr
 
           @_widgets.push newMod
 
         else
           console.error "The module #{moduleName} is not part of the HG namespace!"
 
+    counter = 0
     for widget in config.widgets
-        load_module widget.type, widget
+        load_module widget.type, widget , counter
+        ++counter
 
     if @_categoryFilter
       @_currentCategoryFilter = @_categoryFilter.getCurrentFilter()

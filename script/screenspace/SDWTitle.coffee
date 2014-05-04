@@ -43,8 +43,6 @@ class HG.SDWTitle
     $(select).on "change", (e) =>
       window.location.hash = "#categories=" + e.val.replace(",", "+")
 
-    @_categoryFilter?.setCategory(@_config.elements[0].categories)
-
     @_categoryFilter?.onFilterChanged @, (categories) =>
       $(select).select2("val", categories[0])
 

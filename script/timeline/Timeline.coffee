@@ -129,6 +129,12 @@ class HG.Timeline
       @notifyAll "onNowChanged", @_nowDate
       @notifyAll "onIntervalChanged", @_getTimeFilter()
 
+      if hgInstance.zoom_buttons_timeline
+        hgInstance.zoom_buttons_timeline.onZoomIn @, () =>
+          @_zoom(1)
+        hgInstance.zoom_buttons_timeline.onZoomOut @, () =>
+          @_zoom(-1)
+
   #   --------------------------------------------------------------------------
   _createUIElements: ->
 
@@ -424,6 +430,9 @@ class HG.Timeline
     date.setFullYear year
     date.setMonth 0
     date.setDate 1
+    date.setHours 0
+    date.setMinutes 0
+    date.setSeconds 0
     date
 
   yearToMillis: (year) ->

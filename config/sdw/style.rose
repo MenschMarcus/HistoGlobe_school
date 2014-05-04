@@ -37,16 +37,16 @@ $widget_border_radius_bottom_left   = 0px
 $widget_border_radius_bottom_right  = 0px
 
 // -------------------  TIMELINE---- -------------------------------------------
-$hivent_marker_timeline_width       = 20px
-$hivent_marker_timeline_height       = 20px
+$hivent_marker_timeline_width       = 30px
+$hivent_marker_timeline_height      = 30px
 
 $hivent_marker_2D_width             = 38px
 $hivent_marker_2D_height            = 38px
 
-$now_marker_background_image        = "../config/sdw/data/bg_timeline.png"
-$timeline_background_image          = "../config/sdw/data/bg_timeline.png"
-$now_marker_border_color            = #666666
-$timeline_font_color                = #333333
+$now_marker_background_image        = "../config/sdw/data/bg.png"
+$timeline_background_image          = "../config/sdw/data/bg.png"
+$now_marker_border_color            = #ffffff
+$timeline_font_color                = #ffffff
 
 $timeline_height                    = 80px
 

@@ -93,23 +93,39 @@ class HG.HiventController
     for handle in @_hiventHandles
       if handle.getHivent().id is hiventId
         return handle
-    console.log "An Hivent with the id \"#{hiventId}\" does not exist!"
+    console.log "A Hivent with the id \"#{hiventId}\" does not exist!"
     return null
 
   # ============================================================================
-  getNextHiventHandle: (now) ->
-    hh = null
-    dis = -1
+
+  getNextHiventHandle: (now, ignoredIds=[]) ->
+    result = null
+    distance = -1
     handles = @_hiventHandles
     handles= handles.concat(@_hgInstance.hiventGalleryWidget.getHiventHandles()) if @_hgInstance.hiventGalleryWidget
-    #for handle in @_hiventHandles
+
     for handle in handles
-      if handle._state isnt 0
+      if handle._state isnt 0 and not (handle.getHivent().id in ignoredIds)
         diff = handle.getHivent().startDate.getTime() - now.getTime()
-        if (dis is -1 or diff < dis) && diff > 0
-          dis = diff
-          hh = handle
-    return hh
+        if (distance is -1 or diff < distance) and diff >= 0
+          distance = diff
+          result = handle
+    return result
+
+  # ============================================================================
+  getPreviousHiventHandle: (now, ignoredIds=[]) ->
+    result = null
+    distance = -1
+    handles = @_hiventHandles
+    handles= handles.concat(@_hgInstance.hiventGalleryWidget.getHiventHandles()) if @_hgInstance.hiventGalleryWidget
+
+    for handle in handles
+      if handle._state isnt 0 and not (handle.getHivent().id in ignoredIds)
+        diff = now.getTime() - handle.getHivent().startDate.getTime()
+        if (distance is -1 or diff < distance) and diff >= 0
+          distance = diff
+          result = handle
+    return result
 
   ############################### INIT FUNCTIONS ###############################
 
@@ -258,6 +274,9 @@ class HG.HiventController
 
       if state isnt 0
         if @_currentTimeFilter?
-          new_age = Math.min(1, (hivent.endDate.getTime() - @_currentTimeFilter.start.getTime()) / (@_currentTimeFilter.now.getTime() - @_currentTimeFilter.start.getTime()))
+          # half of timeline:
+          #new_age = Math.min(1, (hivent.endDate.getTime() - @_currentTimeFilter.start.getTime()) / (@_currentTimeFilter.now.getTime() - @_currentTimeFilter.start.getTime()))
+          # quarter of timeline:
+          new_age = Math.min(1, ((hivent.endDate.getTime() - @_currentTimeFilter.start.getTime()) / (0.5*(@_currentTimeFilter.now.getTime() - @_currentTimeFilter.start.getTime())))-1)
           if new_age isnt handle._age
             handle.setAge new_age

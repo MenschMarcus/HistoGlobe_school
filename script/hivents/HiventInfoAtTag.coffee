@@ -7,6 +7,13 @@ class HG.HiventInfoAtTag
   ##############################################################################
 
   # ============================================================================
+  constructor: (config) ->
+    defaultConfig =
+      defaultHash: ""
+
+    @_config = $.extend {}, defaultConfig, config
+
+  # ============================================================================
   hgInit: (hgInstance) ->
     hgInstance.hiventInfoAtTag = @
 
@@ -28,6 +35,11 @@ class HG.HiventInfoAtTag
   _gotoHash: () =>
 
       hash = window.location.hash.substring window.location.hash.indexOf("#") + 1
+
+      if hash is "" and @_config.defaultHash isnt ""
+        window.location.hash = @_config.defaultHash
+        return
+
       hash = hash.split('&')
 
       for h in hash

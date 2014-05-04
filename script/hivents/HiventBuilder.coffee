@@ -37,7 +37,7 @@ class HG.HiventBuilder
         @_multimediaController.onMultimediaLoaded () =>
           galleryID = id + "_gallery"
           mmHtmlString = '\t<ul class=\"gallery clearfix\">\n'
-          mmids = multimedia.split(",")
+          mmids = multimedia.split ","
           galleryTag = ""
           if mmids.length > 1
             galleryTag = "[" + galleryID + "]"

@@ -39,7 +39,8 @@ class HG.HiventInfoPopovers
     if @_hiventsOnMap
       @_hiventsOnMap.onMarkerAdded (marker) =>
         if marker.parentDiv
-          @_addPopover marker, @_hgInstance.mapCanvas, true
+          useMarkerPosition = if marker.getHiventHandle().getHivent().lat.length > 1 then false else true
+          @_addPopover marker, @_hgInstance.mapCanvas, useMarkerPosition
 
     if @_hiventsOnGlobe
       @_hiventsOnGlobe.onMarkerAdded (marker) =>
@@ -87,14 +88,20 @@ class HG.HiventInfoPopovers
 
       if useMarkerPosition
         displayPosition = marker.getDisplayPosition()
-        marker.hiventInfoPopover.show new HG.Vector(displayPosition.x, displayPosition.y)
+        unless handle.popoverShown?
+          handle.popoverShown = true
+          marker.hiventInfoPopover.show new HG.Vector(displayPosition.x, displayPosition.y)
 
       else
-        marker.hiventInfoPopover.show new HG.Vector(container.offsetWidth/2, container.offsetHeight/2)
+        unless handle.popoverShown?
+          handle.popoverShown = true
+          marker.hiventInfoPopover.show new HG.Vector(container.offsetWidth/2, container.offsetHeight/2)
 
 
     hideHiventInfoPopover = () =>
-      marker.hiventInfoPopover?.hide()
+      if handle.popoverShown? and marker.hiventInfoPopover?.isVisible()
+        marker.hiventInfoPopover.hide()
+        handle.popoverShown = null
 
     handle.onActive marker, showHiventInfoPopover
     handle.onInActive marker, hideHiventInfoPopover
@@ -110,6 +117,7 @@ class HG.HiventInfoPopovers
 
     marker.onDestruction @, () ->
       marker.hiventInfoPopover?.destroy()
+      handle.removeListener "onActive", marker
 
     @notifyAll "onPopoverAdded", marker
 

@@ -131,6 +131,7 @@
 
     <script type="text/javascript" src="build/CategoryFilter.js"></script>
     <script type="text/javascript" src="build/WidgetController.js"></script>
+    <script type="text/javascript" src="build/ZoomButtonsTimeline.js"></script>
 
     <!-- init histoglobe -->
     <?php } else { ?>

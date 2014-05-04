@@ -32,6 +32,16 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
 
     @_pictures = @_pictures.concat(@_config.pictures)
 
+    $("a[rel^='prettyPhoto']", @_gallery).prettyPhoto {
+      animation_speed:'normal'
+      theme:'light_square'
+      slideshow:3000
+      autoplay_slideshow: false
+      hideflash: true
+      allow_resize: true
+      deeplinking: false
+    }
+
 
 
   # ============================================================================
@@ -40,6 +50,8 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
     #for picture in @_config.pictures
     for picture in @_pictures
       @addPicture picture
+
+    @_sidebar.updateSize()
 
   # ============================================================================
   addPicture: (config) ->
@@ -74,7 +86,7 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
     text.innerHTML = config.description
     div.appendChild text
 
-    @addDivSlide div
+    @addDivSlide div, ()=> $.prettyPhoto.open "#{config.image}",'', config.description
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -95,7 +107,7 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
           if result[@_config.indexMapping.projectId] in @_config.categories
 
             media = result[@_config.indexMapping.mediaId]
-            media_arr = media.split(", ")
+            media_arr = media.split ","
 
             for m in media_arr
               mm = @_multimediaController.getMultimediaById m

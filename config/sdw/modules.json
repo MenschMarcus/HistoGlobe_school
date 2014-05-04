@@ -15,6 +15,8 @@
 
   "BrowserDetector": {},
 
+  "ZoomButtonsTimeline": {},
+
   "ControlButtonArea": {},
   "ZoomButtons": {},
   "FullscreenButton": {},
@@ -27,7 +29,7 @@
         "anchorX" : "left",
         "anchorY" : "top",
         "offsetX": "18",
-        "offsetY": "120",
+        "offsetY": "150",
         "width": "70%"
       },
       {
@@ -213,11 +215,107 @@
         "default" : "config/sdw/data/icons/projekt_default.png",
         "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
       },
+      "P02" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P03" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P04" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P05" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P06" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P07" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P08" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P09" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P10" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P11" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P12" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P13" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P14" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P15" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
       "P16" : {
         "default" : "config/sdw/data/icons/projekt_default.png",
         "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
       },
       "P17" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P18" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P19" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P20" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P21" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P22" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P23" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P24" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P25" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P26" : {
+        "default" : "config/sdw/data/icons/projekt_default.png",
+        "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
+      },
+      "P27" : {
         "default" : "config/sdw/data/icons/projekt_default.png",
         "highlighted" : "config/sdw/data/icons/projekt_highlight.png"
       }
@@ -231,7 +329,10 @@
   "HiventInfoPopovers" : {},
 
   "HiventPresenter" : {},
-  "HiventInfoAtTag" : {},
+  "HiventInfoAtTag" :
+  {
+    "defaultHash" : "#categories=sdwEvent+projektstart"
+  },
 
   "HiventStory" :
   {
@@ -712,6 +813,7 @@
       {
         "type" : "LogoWidget",
         "icon" : "fa-info-circle",
+        "collapsedAtStart": false,
         "name" : "Logo",
         "interactive" : false,
         "showPagination" : false,
@@ -735,637 +837,6 @@
             "logo": "config/sdw/data/media/logo4.jpg"
           }
         ]
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P01"],
-        "text" : "Ziel: Das Studienförderwerk vergibt Stipendien an leistungsstarke Studierende und Promovierende mit Gemeinsinn und Unternehmergeist. <br/><br/> Hauptförderer: Bundesministerium für Bildung und Foschung"
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P02"],
-        "text" : "Ziel: Durch systematische Kooperationen von Schulen mit Unternehmen die Berufswahlvorbereitung und Berufsorientierung junger Menschen zu fördern. <br/><br/> Hauptförderer: Bundesministerium für Bildung und Forschung"
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P03"],
-        "text" : "Ziel: Ausländische Jugendliche vor allem an der Schnittstelle Schule/Ausbildung zu unterstützen, ihr Selbstwertgefühl stärken und sie bei der Berufswahlvorbereitung unterstützen. <br/><br/> Hauptförderer: Deutsche Bahn AG, Europäischer Sozialfonds"
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P04"],
-        "text" : "Ziel: Über Unterrichtsgestaltung und frühzeitige Praxiskontakte mehr Jugendliche für eine MINT-Ausbildung oder ein MINT-Studium motivieren. <br/><br/> Hauptförderer: Hauptförderer: Bundesministerium für Bildung und Forschung"
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P05"],
-        "text" : "Ziel: Mittels eines Fernlehrgangs Berufstätigen betriebswirtschaftliche Kompetenzen vermitteln."
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P06"],
-        "text" : "Ziel: Lehrkräften eine interdisziplinäre und internetbasierte Fortbildung im Bereich Wirtschaftswissen ermöglichen."
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P07"],
-        "text" : "Ziel: Schüler über die Bundesgrenzen hinaus für die Berufsregion Deutschland.Tschechien.Polen sensibilisieren. <br/><br/> Hauptförderer: Robert Bosch Stiftung, Europäische Union"
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P08"],
-        "text" : "Ziel: Schulen dabei unterstützen, ihre Arbeit selbstständig zu überprüfen, zu bewerten und zu verbessern. <br/><br/> Hauptförderer: Die Unternehmensverbände im Lande Bremen, Der Senator für Bildung und Wissenschaft im Lande Bremen"
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P09"],
-        "text" : "Ziel: Lernschwachen Schülern Perspektiven aufzeigen und sie dazu motivieren, die Schule erfolgreich abzuschließen."
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P10"],
-        "text" : "Ziel: Berufsorientierung fest in Schulprogrammen verankern, um Jugendliche frühzeitig in ihrer Berufswahl zu unterstützen. <br/><br/>Hauptförderer: Bundesministerium für Bildung und Forschung, Europäischer Sozialfonds"
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P11"],
-        "text" : "Ziel: Gründungslust bei den Stipendiaten des Studienförderwerks Klaus Murmann wecken und ihnen frühzeitig unternehmerische Praxiserfahrung ermöglichen. <br/><br/> Hauptförderer: Heinz Nixdorf Stiftung"
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P12"],
-        "text" : "Ziel: Mehr Schüler im norddeutschen Raum für ein Studium im MINT-Bereich begeistern. <br/><br/> Hauptförderer: Nordmetall"
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P13"],
-        "text" : "Ziel: Die Fähigkeiten von Berliner Schulleitern in Führungs- und Managementaufgaben gezielt ausbauen. <br/><br/> Hauptförderer: Senatsverwaltung für Bildung und Wissenschaft Berlin, Europäischer Sozialfonds"
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P14"],
-        "text" : "Ziel: Verbesserung der Berufsorientierung an Oberschulen in Brandenburg mit Hilfe von stärkenorientierten Future Camps für die Schüler."
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P15"],
-        "text" : "Ziel: Schulmanagement und den praxisorientierten Unterricht an Berliner Hauptschulen verbessern. <br/><br/> Hauptförderer: Senatsverwaltung für Bildung und Wissenschaft Berlin"
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P16"],
-        "text" : "Ziel: Angehende Lehrkräfte dabei unterstützen, sich mit pädagogischen Führungsaufgaben vertraut zu machen und sich zu engagierten Schulgestaltern von morgen zu entwickeln. <br/><br/> Hauptförderer: Robert Bosch Stiftung, Bundesministerium für Bildung und Forschung"
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P17"],
-        "text" : "Ziel: Motiviert junge Menschen aus Familien ohne akademische Erfahrung zur Aufnahme eines Studiums. <br/><br/> Hauptförderer: Accenture-Stiftung, Deutsche Bank Stiftung"
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P18"],
-        "text" : "Ziel: Jugendliche für MINT-Themen begeistern und bei der Wahl eines passenden MINT-Studiums unterstützen. <br/><br/> Hauptförderer: Bundesministerium für Bildung und Forschung"
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P19"],
-        "text" : "Ziel: Jugendliche beim Übergang von der Schule in die Berufsausbildung oder die weiterführende Schule begleiten. <br/><br/> Hauptförderer: Bundesministerium für Bildung und Forschung"
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P20"],
-        "text" : "Ziel: Jugendliche und junge Erwachsene mit gefährdetem Schulabschluss und ohne Berusfausbildung zum Schulabschluss motivieren und auf die Arbeitswelt vorbereiten. <br/><br/> Hauptförderer: Bundesministerium für Familie, Senioren, Frauen und Jugend"
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P21"],
-        "text" : "Ziel: Beratung von Eltern und anderen Interessierten zu den Angeboten der Begabtenförderwerke und weitere Stipendiengeber. <br/><br/> Hauptförderer: Bundesministerium für Bildung und Forschung"
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P22"],
-        "text" : "Ziel: Junge Menschen in Ostdeutschland bei der Berufsorientierung unterstützen und Akteure am Übergang Schule-Berufsausbildung miteinander vernetzen. <br/><br/> Hauptförderer: Bundesministerium des Innern"
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P23"],
-        "text" : "Ziel: Motivierte und leistungsorientierte Schüler des Hauptschulzweiges fit machen für ihren Bildungs- und Berufsweg. <br/><br/> Hauptförderer: Walter Blüchert Stiftung"
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P24"],
-        "text" : "Ziel: Jugendliche zu einem Lehramtsstudium in den MINT-Fächern motivieren. <br/><br/> Hauptförderer: TÜV SÜD Stiftung"
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P25"],
-        "text" : "Ziel: Lehramtsstudierenden und jungen Lehrern ökonomisches Grundwissen vermitteln. <br/><br/> Hauptförderer: Commerzbank-Stiftung"
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P26"],
-        "text" : "Ziel: Erfolgsbausteine des Studienkompass in die Projektseminare zur Studien- und Berufsorientierung an allen bayerischen Gymnasien integrieren. <br/><br/> Hauptförderer: vbw - Vereinigung der Bayerischen Wirtschaft, Bayerisches Staatsministerium für Unterricht und Kultus"
-      },
-      {
-        "type" : "TextWidget",
-        "icon" : "fa-edit",
-        "collapsedAtStart": false,
-        "name" : "Projekt",
-        "categories" : ["P27"],
-        "text" : "Ziel: Kinder beim Übergang von der Grundschule auf die weiterführende Schule unterstützen."
-      },
-
-      {
-        "type" : "VIPWidget",
-        "icon" : "fa-group",
-        "name" : "Gremien",
-        "collapsedAtStart": false,
-        "categories" : ["sdwEvent"],
-        "persons" :
-        [
-          {
-            "name": "Prof. Dr. Klaus Murmann",
-            "startDate": "01.01.1900",
-            "endDate": "31.12.2000",
-            "info": "Gründer",
-            "image": "config/sdw/data/media/vip_images/DrMurmann2.jpg",
-            "copyright": "©"
-          },
-          {
-            "name": "Prof. Dr. Klaus Murmann",
-            "startDate": "01.01.2001",
-            "endDate": "31.12.2010",
-            "info": "Vorstandsvorsitzender",
-            "image": "config/sdw/data/media/vip_images/PortraitDrKlausMurmann.jpg",
-            "copyright": "©"
-          },
-          {
-            "name": "Prof. Dr. Klaus Murmann",
-            "startDate": "01.01.2011",
-            "endDate": "31.12.9999",
-            "info": "Ehrenvorsitzender",
-            "image": "config/sdw/data/media/vip_images/PortraitDrKlausMurmann.jpg",
-            "copyright": "©"
-          },
-          {
-            "name": "Dr. Josef Siegers",
-            "startDate": "01.01.1900",
-            "endDate": "31.12.2000",
-            "info": "Vorstandsvorsitzender",
-            "image": "config/sdw/data/media/vip_images/Siegers.jpg",
-            "copyright": "©"
-          },
-          {
-            "name": "Ingo Kramer",
-            "startDate": "01.01.2011",
-            "endDate": "31.12.9999",
-            "info": "Vorstandsvorsitzender",
-            "image": "config/sdw/data/media/vip_images/PorträtIngoKramer2010.jpg",
-            "copyright": "©"
-          },
-          {
-            "name": "Hans-Jürgen Brackmann",
-            "startDate": "01.01.1900",
-            "endDate": "31.12.2000",
-            "info": "Geschäftsführender Vorstand",
-            "image": "config/sdw/data/media/vip_images/PortraitBrackmann.jpg",
-            "copyright": "©"
-          },
-          {
-            "name": "Hans-Jürgen Brackmann",
-            "startDate": "01.01.2001",
-            "endDate": "31.12.2010",
-            "info": "Generalsekretär",
-            "image": "config/sdw/data/media/vip_images/HansJürgenBrackmann1.jpg",
-            "copyright": "©"
-          },
-          {
-            "name": "Dr. Arndt Schnöring",
-            "startDate": "01.01.2011",
-            "endDate": "31.12.9999",
-            "info": "Generalsekretär",
-            "image": "config/sdw/data/media/vip_images/PorträtArndtSchnöring.jpg",
-            "copyright": "©"
-          },
-          {
-            "name": "Prof. Dr. Dieter Hundt",
-            "startDate": "01.01.2003",
-            "endDate": "31.12.2013",
-            "info": "Vorsitzender des Kuratoriums",
-            "image": "config/sdw/data/media/vip_images/ProfDrDieterHundt.jpg",
-            "copyright": "©"
-          },
-          {
-            "name": "Dr. Gerhard F. Braun",
-            "startDate": "01.01.2014",
-            "endDate": "31.12.9999",
-            "info": "Vorsitzender des Kuratoriums",
-            "image": "config/sdw/data/media/vip_images/BraunGerhardF.jpg",
-            "copyright": "©"
-          }
-        ]
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P01"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P02"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P03"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P04"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P05"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P06"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P07"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P08"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P09"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P10"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P11"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P12"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P13"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P14"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P15"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P16"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P17"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P18"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P19"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P20"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P21"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P22"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P23"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P24"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P25"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P26"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
-      },
-      {
-        "type" : "PictureGalleryWidget",
-        "icon" : "fa-glass",
-        "collapsedAtStart": false,
-        "name" : "Mediengallerie",
-        "categories" : ["P27"],
-        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
-        "indexMapping": {
-          "projectId" : 0,
-          "mediaId" : 5
-        }
       },
       {
         "type" : "StatisticsWidget",
@@ -1399,6 +870,661 @@
             "smooth" : true
           }
         ]
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P01"],
+        "text" : "<b>Ziel</b>: Das Studienförderwerk vergibt Stipendien an leistungsstarke Studierende und Promovierende mit Gemeinsinn und Unternehmergeist. <br/><br/><b>Hauptförderer</b>: Bundesministerium für Bildung und Foschung"
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P02"],
+        "text" : "<b>Ziel</b>: Durch systematische Kooperationen von Schulen mit Unternehmen die Berufswahlvorbereitung und Berufsorientierung junger Menschen zu fördern. <br/><br/><b>Hauptförderer</b>: Bundesministerium für Bildung und Forschung"
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P03"],
+        "text" : "<b>Ziel</b>: Ausländische Jugendliche vor allem an der Schnittstelle Schule/Ausbildung zu unterstützen, ihr Selbstwertgefühl stärken und sie bei der Berufswahlvorbereitung unterstützen. <br/><br/><b>Hauptförderer</b>: Deutsche Bahn AG, Europäischer Sozialfonds"
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P04"],
+        "text" : "<b>Ziel</b>: Über Unterrichtsgestaltung und frühzeitige Praxiskontakte mehr Jugendliche für eine MINT-Ausbildung oder ein MINT-Studium motivieren. <br/><br/><b>Hauptförderer</b>: Bundesministerium für Bildung und Forschung"
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P05"],
+        "text" : "<b>Ziel</b>: Mittels eines Fernlehrgangs Berufstätigen betriebswirtschaftliche Kompetenzen vermitteln."
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P06"],
+        "text" : "<b>Ziel</b>: Lehrkräften eine interdisziplinäre und internetbasierte Fortbildung im Bereich Wirtschaftswissen ermöglichen."
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P07"],
+        "text" : "<b>Ziel</b>: Schüler über die Bundesgrenzen hinaus für die Berufsregion Deutschland.Tschechien.Polen sensibilisieren. <br/><br/><b>Hauptförderer</b>: Robert Bosch Stiftung, Europäische Union"
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P08"],
+        "text" : "<b>Ziel</b>: Schulen dabei unterstützen, ihre Arbeit selbstständig zu überprüfen, zu bewerten und zu verbessern. <br/><br/><b>Hauptförderer</b>: Die Unternehmensverbände im Lande Bremen, Der Senator für Bildung und Wissenschaft im Lande Bremen"
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P09"],
+        "text" : "<b>Ziel</b>: Lernschwachen Schülern Perspektiven aufzeigen und sie dazu motivieren, die Schule erfolgreich abzuschließen."
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P10"],
+        "text" : "<b>Ziel</b>: Berufsorientierung fest in Schulprogrammen verankern, um Jugendliche frühzeitig in ihrer Berufswahl zu unterstützen. <br/><br/<b>Hauptförderer</b>: Bundesministerium für Bildung und Forschung, Europäischer Sozialfonds"
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P11"],
+        "text" : "<b>Ziel</b>: Gründungslust bei den Stipendiaten des Studienförderwerks Klaus Murmann wecken und ihnen frühzeitig unternehmerische Praxiserfahrung ermöglichen. <br/><br/><b>Hauptförderer</b>: Heinz Nixdorf Stiftung"
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P12"],
+        "text" : "<b>Ziel</b>: Mehr Schüler im norddeutschen Raum für ein Studium im MINT-Bereich begeistern. <br/><br/><b>Hauptförderer</b>: Nordmetall"
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P13"],
+        "text" : "<b>Ziel</b>: Die Fähigkeiten von Berliner Schulleitern in Führungs- und Managementaufgaben gezielt ausbauen. <br/><br/><b>Hauptförderer</b>: Senatsverwaltung für Bildung und Wissenschaft Berlin, Europäischer Sozialfonds"
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P14"],
+        "text" : "<b>Ziel</b>: Verbesserung der Berufsorientierung an Oberschulen in Brandenburg mit Hilfe von stärkenorientierten Future Camps für die Schüler."
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P15"],
+        "text" : "<b>Ziel</b>: Schulmanagement und den praxisorientierten Unterricht an Berliner Hauptschulen verbessern. <br/><br/><b>Hauptförderer</b>: Senatsverwaltung für Bildung und Wissenschaft Berlin"
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P16"],
+        "text" : "<b>Ziel</b>: Angehende Lehrkräfte dabei unterstützen, sich mit pädagogischen Führungsaufgaben vertraut zu machen und sich zu engagierten Schulgestaltern von morgen zu entwickeln. <br/><br/><b>Hauptförderer</b>: Robert Bosch Stiftung, Bundesministerium für Bildung und Forschung"
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P17"],
+        "text" : "<b>Ziel</b>: Motiviert junge Menschen aus Familien ohne akademische Erfahrung zur Aufnahme eines Studiums. <br/><br/><b>Hauptförderer</b>: Accenture-Stiftung, Deutsche Bank Stiftung"
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P18"],
+        "text" : "<b>Ziel</b>: Jugendliche für MINT-Themen begeistern und bei der Wahl eines passenden MINT-Studiums unterstützen. <br/><br/><b>Hauptförderer</b>: Bundesministerium für Bildung und Forschung"
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P19"],
+        "text" : "<b>Ziel</b>: Jugendliche beim Übergang von der Schule in die Berufsausbildung oder die weiterführende Schule begleiten. <br/><br/><b>Hauptförderer</b>: Bundesministerium für Bildung und Forschung"
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P20"],
+        "text" : "<b>Ziel</b>: Jugendliche und junge Erwachsene mit gefährdetem Schulabschluss und ohne Berusfausbildung zum Schulabschluss motivieren und auf die Arbeitswelt vorbereiten. <br/><br/><b>Hauptförderer</b>: Bundesministerium für Familie, Senioren, Frauen und Jugend"
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P21"],
+        "text" : "<b>Ziel</b>: Beratung von Eltern und anderen Interessierten zu den Angeboten der Begabtenförderwerke und weitere Stipendiengeber. <br/><br/><b>Hauptförderer</b>: Bundesministerium für Bildung und Forschung"
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P22"],
+        "text" : "<b>Ziel</b>: Junge Menschen in Ostdeutschland bei der Berufsorientierung unterstützen und Akteure am Übergang Schule-Berufsausbildung miteinander vernetzen. <br/><br/><b>Hauptförderer</b>: Bundesministerium des Innern"
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P23"],
+        "text" : "<b>Ziel</b>: Motivierte und leistungsorientierte Schüler des Hauptschulzweiges fit machen für ihren Bildungs- und Berufsweg. <br/><br/><b>Hauptförderer</b>: Walter Blüchert Stiftung"
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P24"],
+        "text" : "<b>Ziel</b>: Jugendliche zu einem Lehramtsstudium in den MINT-Fächern motivieren. <br/><br/><b>Hauptförderer</b>: TÜV SÜD Stiftung"
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P25"],
+        "text" : "<b>Ziel</b>: Lehramtsstudierenden und jungen Lehrern ökonomisches Grundwissen vermitteln. <br/><br/><b>Hauptförderer</b>: Commerzbank-Stiftung"
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P26"],
+        "text" : "<b>Ziel</b>: Erfolgsbausteine des Studienkompass in die Projektseminare zur Studien- und Berufsorientierung an allen bayerischen Gymnasien integrieren. <br/><br/><b>Hauptförderer</b>: vbw - Vereinigung der Bayerischen Wirtschaft, Bayerisches Staatsministerium für Unterricht und Kultus"
+      },
+      {
+        "type" : "TextWidget",
+        "icon" : "fa-edit",
+        "collapsedAtStart": false,
+        "name" : "Projekt",
+        "categories" : ["P27"],
+        "text" : "<b>Ziel</b>: Kinder beim Übergang von der Grundschule auf die weiterführende Schule unterstützen."
+      },
+
+      {
+        "type" : "VIPWidget",
+        "icon" : "fa-group",
+        "name" : "Gremien",
+        "collapsedAtStart": false,
+        "categories" : ["sdwEvent"],
+        "persons" :
+        [
+          {
+            "name": "Prof. Dr. Klaus Murmann",
+            "startDate": "01.01.1900",
+            "endDate": "31.12.2000",
+            "info": "Gründer",
+            "image": "config/sdw/data/media/vip_images/DrMurmann2.jpg",
+            "copyright": "© Sauer-Sundstrand"
+          },
+          {
+            "name": "Prof. Dr. Klaus Murmann",
+            "startDate": "01.01.2001",
+            "endDate": "31.12.2010",
+            "info": "Vorstandsvorsitzender",
+            "image": "config/sdw/data/media/vip_images/PortraitDrKlausMurmann.jpg",
+            "copyright": "© photothek.net"
+          },
+          {
+            "name": "Prof. Dr. Klaus Murmann",
+            "startDate": "01.01.2011",
+            "endDate": "31.12.9999",
+            "info": "Ehrenvorsitzender",
+            "image": "config/sdw/data/media/vip_images/PortraitDrKlausMurmann.jpg",
+            "copyright": "© photothek.net"
+          },
+          {
+            "name": "Dr. Josef Siegers",
+            "startDate": "01.01.1900",
+            "endDate": "31.12.2000",
+            "info": "Vorstandsvorsitzender",
+            "image": "config/sdw/data/media/vip_images/Siegers.jpg",
+            "copyright": "© MINT-EC"
+          },
+          {
+            "name": "Ingo Kramer",
+            "startDate": "01.01.2011",
+            "endDate": "31.12.2012",
+            "info": "Vorstandsvorsitzender",
+            "image": "config/sdw/data/media/vip_images/PortraitIngoKramer2010.jpg",
+            "copyright": "© Nordmetall"
+          },
+          {
+            "name": "Ingo Kramer",
+            "startDate": "01.01.2013",
+            "endDate": "31.12.9999",
+            "info": "Vorstandsvorsitzender",
+            "image": "config/sdw/data/media/vip_images/IngoKramer_01.jpg",
+            "copyright": "© BDA"
+          },
+          {
+            "name": "Hans-Jürgen Brackmann",
+            "startDate": "01.01.1900",
+            "endDate": "31.12.2000",
+            "info": "Geschäftsführender Vorstand",
+            "image": "config/sdw/data/media/vip_images/PortraitBrackmann.jpg",
+            "copyright": "© photothek.net"
+          },
+          {
+            "name": "Hans-Jürgen Brackmann",
+            "startDate": "01.01.2001",
+            "endDate": "31.12.2010",
+            "info": "Generalsekretär",
+            "image": "config/sdw/data/media/vip_images/HansJuergenBrackmann1.jpg",
+            "copyright": "© photothek.net"
+          },
+          {
+            "name": "Dr. Arndt Schnöring",
+            "startDate": "01.01.2011",
+            "endDate": "31.12.9999",
+            "info": "Generalsekretär",
+            "image": "config/sdw/data/media/vip_images/PortraitArndtSchnoering.jpg",
+            "copyright": "© sdw"
+          },
+          {
+            "name": "Prof. Dr. Dieter Hundt",
+            "startDate": "01.01.2003",
+            "endDate": "31.12.2013",
+            "info": "Vorsitzender des Kuratoriums",
+            "image": "config/sdw/data/media/vip_images/ProfDrDieterHundt.jpg",
+            "copyright": "© BDA"
+          },
+          {
+            "name": "Dr. Gerhard F. Braun",
+            "startDate": "01.01.2014",
+            "endDate": "31.12.9999",
+            "info": "Vorsitzender des Kuratoriums",
+            "image": "config/sdw/data/media/vip_images/BraunGerhardF.jpg",
+            "copyright": "© lvu.de"
+          },
+          {
+            "name": "Dr. Werner Brinker",
+            "startDate": "01.01.2003",
+            "endDate": "31.08.2011",
+            "info": "Vorsitzender des Fördervereins",
+            "image": "config/sdw/data/media/vip_images/DrWernerBrinker.jpg",
+            "copyright": "© EWE AG"
+          },
+          {
+            "name": "Prof. Dr. Christian Rödl",
+            "startDate": "01.09.2011",
+            "endDate": "31.12.9999",
+            "info": "Vorsitzender des Fördervereins",
+            "image": "config/sdw/data/media/vip_images/ProfDrChristianRoedl.jpg",
+            "copyright": "© Rödl & Partner GbR"
+          }
+        ]
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P01"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P02"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P03"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P04"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P05"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P06"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P07"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P08"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P09"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P10"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P11"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P12"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P13"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P14"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P15"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P16"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P17"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P18"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P19"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P20"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P21"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P22"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P23"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P24"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P25"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P26"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
+      },
+      {
+        "type" : "PictureGalleryWidget",
+        "icon" : "fa-glass",
+        "collapsedAtStart": false,
+        "name" : "Mediengalerie",
+        "categories" : ["P27"],
+        "mediaIdsFromDsv": "config/sdw/data/sdw_projects.csv",
+        "indexMapping": {
+          "projectId" : 0,
+          "mediaId" : 5
+        }
       },
       {
         "type": "LegendWidget",
