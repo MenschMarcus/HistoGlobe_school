@@ -22,6 +22,8 @@ class HG.LogoWidget extends HG.TimeGalleryWidget
     for person in @_config.logos
       @addLogo person
 
+    @updatePagination()
+
   # ============================================================================
   addLogo: (config) ->
     defaultConfig =

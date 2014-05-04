@@ -21,150 +21,43 @@ class HG.GalleryWidget extends HG.Widget
 
     @addCallback "onSlideChanged"
 
-    @_id = ++LAST_GALLERY_ID
-
     HG.Widget.call @, @_config
 
   # ============================================================================
   hgInit: (hgInstance) ->
     super hgInstance
 
-    @_galleryContent = document.createElement "div"
-    @_galleryContent.className = "gallery-widget"
+    @_gallery = new HG.Gallery @_config
 
-    galleryContainer = document.createElement "div"
-    galleryContainer.id = "gallery-widget-#{@_id}"
-    galleryContainer.className = "gallery-widget-slider"
-    galleryContainer.style.width = "#{@_config.width}px"
+    @_gallery.onSlideChanged @, (slide) =>
+      @notifyAll "onSlideChanged", slide
 
-    @_gallery = document.createElement "div"
-    @_gallery.className = "swiper-wrapper swiper-no-swiping"
+    @mainDiv = document.createElement "div"
+    @mainDiv.className = "gallery-widget"
+    @mainDiv.appendChild @_gallery.mainDiv
 
-    leftShadow = document.createElement "div"
-    leftShadow.className = "shadow shadow-left"
+    @setName    @_config.name
+    @setIcon    @_config.icon
+    @setContent @mainDiv
 
-    rightShadow = document.createElement "div"
-    rightShadow.className = "shadow shadow-right"
-
-    @_galleryContent.appendChild leftShadow
-    @_galleryContent.appendChild rightShadow
-
-    @_galleryContent.appendChild galleryContainer
-    galleryContainer.appendChild @_gallery
-
-    if @_config.showPagination
-      @_leftArrow = document.createElement "i"
-      @_leftArrow.className = "arrow arrow-left  fa fa-chevron-circle-left"
-
-      @_rightArrow = document.createElement "i"
-      @_rightArrow.className = "arrow arrow-right fa fa-chevron-circle-right"
-
-      pagination = document.createElement "span"
-      pagination.id = "gallery-widget-pagination-#{@_id}"
-      pagination.className = "gallery-pagination"
-
-      paginationContainer = document.createElement "span"
-      paginationContainer.className = "pagination-container"
-      paginationContainer.appendChild pagination
-
-      @_galleryContent.appendChild @_leftArrow
-      @_galleryContent.appendChild @_rightArrow
-      @_galleryContent.appendChild paginationContainer
-
-
-    @setName @_config.name
-    @setIcon @_config.icon
-    @setContent @_galleryContent
-
-    pagination_div = undefined
-
-    if @_config.showPagination
-      pagination_div = "#gallery-widget-pagination-#{@_id}"
-
-    @_swiper = new Swiper "#gallery-widget-#{@_id}",
-      grabCursor: true
-      paginationClickable: @_config.showPagination
-      pagination: pagination_div
-      longSwipesRatio: 0.2
-      calculateHeight: true
-      onSlideChangeEnd: @_onSlideEnd
-      onlyExternal: !@_config.interactive
-      onSlideClick: @_activateClickCallback
-      # onSlideTouch: @_activateClickCallback
-
-
-    if @_config.showPagination
-      $(@_leftArrow).click () =>
-        @_swiper.swipePrev()
-
-      $(@_rightArrow).click () =>
-        @_swiper.swipeNext()
-
-    # for some reason needed...
-    window.setTimeout () =>
-      @_swiper.reInit()
-      @_updateArrows()
-    , 1000
+    @_gallery.init()
 
   # ============================================================================
   addDivSlide: (div, clickCallback=undefined) ->
-    slide = document.createElement "div"
-    slide.className = "swiper-slide"
-    slide.appendChild div
-
-    @_addSlide slide, clickCallback
+    @_gallery.addDivSlide div, clickCallback
 
   # ============================================================================
   addHTMLSlide: (html, clickCallback=undefined) ->
-    slide = document.createElement "div"
-    slide.className = "swiper-slide"
-    slide.innerHTML = html
-
-    @_addSlide slide, clickCallback
+    @_gallery.addHTMLSlide html, clickCallback
 
   # ============================================================================
   getSlideCount: () ->
-    @_swiper.slides.length
+    @_gallery.getSlideCount()
 
   # ============================================================================
   getActiveSlide: () ->
-    @_swiper.activeIndex
+    @_gallery.getActiveSlide()
 
-  ##############################################################################
-  #                            PRIVATE INTERFACE                               #
-  ##############################################################################
 
-  # ============================================================================
-  _addSlide: (slide, clickCallback=undefined) ->
-    slide.hgClickCallback = clickCallback
-    @_gallery.appendChild slide
-    @_swiper.reInit()
 
-  # ============================================================================
-  _onSlideEnd: () =>
-    @_updateArrows()
-    @notifyAll "onSlideChanged", @getActiveSlide()
 
-  # ============================================================================
-  _updateArrows: () =>
-    slide = @getActiveSlide()
-
-    if slide is 0
-      $(@_leftArrow).addClass("hidden")
-      $(@_rightArrow).removeClass("hidden")
-    else if slide is @getSlideCount() - 1
-      $(@_rightArrow).addClass("hidden")
-      $(@_leftArrow).removeClass("hidden")
-    else
-      $(@_leftArrow).removeClass("hidden")
-      $(@_rightArrow).removeClass("hidden")
-
-  # ============================================================================
-  _activateClickCallback: () =>
-    @_swiper.activeSlide().hgClickCallback?()
-
-  ##############################################################################
-  #                             STATIC MEMBERS                                 #
-  ##############################################################################
-
-  LAST_GALLERY_ID = 0

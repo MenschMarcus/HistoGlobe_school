@@ -31,46 +31,46 @@ class HG.HiventBuilder
       multimedia  = dataArray[@_config.indexMappings[pathIndex].multimedia]
 
 
-      mmHtmlString = ''
+      # mmHtmlString = ''
       #get related multimedia
-      if multimedia != "" and @_multimediaController?
-        @_multimediaController.onMultimediaLoaded () =>
-          galleryID = id + "_gallery"
-          mmHtmlString = '\t<ul class=\"gallery clearfix\">\n'
-          mmids = multimedia.split ","
-          galleryTag = ""
-          if mmids.length > 1
-            galleryTag = "[" + galleryID + "]"
+      # if multimedia != "" and @_multimediaController?
+      #   @_multimediaController.onMultimediaLoaded () =>
+      #     galleryID = id + "_gallery"
+      #     mmHtmlString = '\t<ul class=\"gallery clearfix\">\n'
+      #     mmids = multimedia.split ","
+      #     galleryTag = ""
+      #     if mmids.length > 1
+      #       galleryTag = "[" + galleryID + "]"
 
-          #get all related entries from multimedia database and concatenate html string
-          for id in mmids
-            mm = @_multimediaController.getMultimediaById id
-            if mm?
-              mmHtmlString +=  '\t\t<li><a href="' +
-                                mm.link + '" rel="prettyPhoto" ' +
-                                galleryTag + ' title="'
-              if mm.source?
-                mmHtmlString += ' <p class=\'hiventInfoPopoverSource\'> © ' + mm.source + '</p>'
+      #     #get all related entries from multimedia database and concatenate html string
+      #     for id in mmids
+      #       mm = @_multimediaController.getMultimediaById id
+      #       if mm?
+      #         mmHtmlString +=  '\t\t<li><a href="' +
+      #                           mm.link + '" rel="prettyPhoto" ' +
+      #                           galleryTag + ' title="'
+      #         if mm.source?
+      #           mmHtmlString += ' <p class=\'hiventInfoPopoverSource\'> © ' + mm.source + '</p>'
 
-              if mm.crop
-                mmHtmlString += mm.description + '" style="background-image:url(\'' +
-                                mm.thumbnail + '\')"></a></li>\n'
-              else
-                mmHtmlString += mm.description + '" style="background-size:contain;' +
-                                'border-bottom:none;background-image:url(\'' +
-                                mm.thumbnail + '\')"></a></li>\n'
-
-
-            mmHtmlString += "\t</ul>\n"
-          successCallback @_createHivent(ID, name, description, startDate,
-                                  endDate, displayDate, location, long, lat,
-                                  category, multimedia, mmHtmlString)
+      #         if mm.crop
+      #           mmHtmlString += mm.description + '" style="background-image:url(\'' +
+      #                           mm.thumbnail + '\')"></a></li>\n'
+      #         else
+      #           mmHtmlString += mm.description + '" style="background-size:contain;' +
+      #                           'border-bottom:none;background-image:url(\'' +
+      #                           mm.thumbnail + '\')"></a></li>\n'
 
 
-      else
-        successCallback @_createHivent(ID, name, description, startDate,
-                                      endDate, displayDate, location, long, lat,
-                                      category, multimedia, '')
+      #       mmHtmlString += "\t</ul>\n"
+      #     successCallback @_createHivent(ID, name, description, startDate,
+      #                             endDate, displayDate, location, long, lat,
+      #                             category, multimedia)
+
+
+      # else
+      successCallback @_createHivent(ID, name, description, startDate,
+                                    endDate, displayDate, location, long, lat,
+                                    category, multimedia)
 
 
   # ============================================================================
@@ -231,15 +231,12 @@ class HG.HiventBuilder
   ############################# MAIN FUNCTIONS #################################
   _createHivent: (hiventID, hiventName, hiventDescription, hiventStartDate,
                   hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
-                  hiventCategory, hiventMMIDs, mmHtmlString) ->
+                  hiventCategory, hiventMMIDs) ->
 
     if hiventID != "" and hiventName != ""
 
       #concatenate content
-      content = mmHtmlString +
-                '\t<p>\n\t\t' +
-                hiventDescription +
-                '\n\t<p>\n'
+      content = '<p>' + hiventDescription + '<p>'
 
       startDate = hiventStartDate.split '.'
       endDate = hiventEndDate.split '.'

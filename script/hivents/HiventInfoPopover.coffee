@@ -32,6 +32,11 @@ class HG.HiventInfoPopover
     subheading.appendChild gotoDate
 
     content = document.createElement "div"
+
+
+
+
+
     content.innerHTML = @_hiventHandle.getHivent().content
     body.appendChild content
 

@@ -877,7 +877,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P01"],
-        "text" : "<b>Ziel</b>: Das Studienförderwerk vergibt Stipendien an leistungsstarke Studierende und Promovierende mit Gemeinsinn und Unternehmergeist. <br/><br/><b>Hauptförderer</b>: Bundesministerium für Bildung und Foschung"
+        "text" : "<b>Ziel</b>: Das Studienförderwerk vergibt Stipendien an leistungsstarke Studierende und Promovierende mit Gemeinsinn und Unternehmergeist. <br/><br/><b>Hauptförderer</b>: Bundesministerium für Bildung und Foschung<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -885,7 +885,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P02"],
-        "text" : "<b>Ziel</b>: Durch systematische Kooperationen von Schulen mit Unternehmen die Berufswahlvorbereitung und Berufsorientierung junger Menschen zu fördern. <br/><br/><b>Hauptförderer</b>: Bundesministerium für Bildung und Forschung"
+        "text" : "<b>Ziel</b>: Durch systematische Kooperationen von Schulen mit Unternehmen die Berufswahlvorbereitung und Berufsorientierung junger Menschen zu fördern. <br/><br/><b>Hauptförderer</b>: Bundesministerium für Bildung und Forschung<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -893,7 +893,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P03"],
-        "text" : "<b>Ziel</b>: Ausländische Jugendliche vor allem an der Schnittstelle Schule/Ausbildung zu unterstützen, ihr Selbstwertgefühl stärken und sie bei der Berufswahlvorbereitung unterstützen. <br/><br/><b>Hauptförderer</b>: Deutsche Bahn AG, Europäischer Sozialfonds"
+        "text" : "<b>Ziel</b>: Ausländische Jugendliche vor allem an der Schnittstelle Schule/Ausbildung zu unterstützen, ihr Selbstwertgefühl stärken und sie bei der Berufswahlvorbereitung unterstützen. <br/><br/><b>Hauptförderer</b>: Deutsche Bahn AG, Europäischer Sozialfonds<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -901,7 +901,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P04"],
-        "text" : "<b>Ziel</b>: Über Unterrichtsgestaltung und frühzeitige Praxiskontakte mehr Jugendliche für eine MINT-Ausbildung oder ein MINT-Studium motivieren. <br/><br/><b>Hauptförderer</b>: Bundesministerium für Bildung und Forschung"
+        "text" : "<b>Ziel</b>: Über Unterrichtsgestaltung und frühzeitige Praxiskontakte mehr Jugendliche für eine MINT-Ausbildung oder ein MINT-Studium motivieren. <br/><br/><b>Hauptförderer</b>: Bundesministerium für Bildung und Forschung<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -909,7 +909,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P05"],
-        "text" : "<b>Ziel</b>: Mittels eines Fernlehrgangs Berufstätigen betriebswirtschaftliche Kompetenzen vermitteln."
+        "text" : "<b>Ziel</b>: Mittels eines Fernlehrgangs Berufstätigen betriebswirtschaftliche Kompetenzen vermitteln.<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -917,7 +917,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P06"],
-        "text" : "<b>Ziel</b>: Lehrkräften eine interdisziplinäre und internetbasierte Fortbildung im Bereich Wirtschaftswissen ermöglichen."
+        "text" : "<b>Ziel</b>: Lehrkräften eine interdisziplinäre und internetbasierte Fortbildung im Bereich Wirtschaftswissen ermöglichen.<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -925,7 +925,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P07"],
-        "text" : "<b>Ziel</b>: Schüler über die Bundesgrenzen hinaus für die Berufsregion Deutschland.Tschechien.Polen sensibilisieren. <br/><br/><b>Hauptförderer</b>: Robert Bosch Stiftung, Europäische Union"
+        "text" : "<b>Ziel</b>: Schüler über die Bundesgrenzen hinaus für die Berufsregion Deutschland.Tschechien.Polen sensibilisieren. <br/><br/><b>Hauptförderer</b>: Robert Bosch Stiftung, Europäische Union<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -933,7 +933,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P08"],
-        "text" : "<b>Ziel</b>: Schulen dabei unterstützen, ihre Arbeit selbstständig zu überprüfen, zu bewerten und zu verbessern. <br/><br/><b>Hauptförderer</b>: Die Unternehmensverbände im Lande Bremen, Der Senator für Bildung und Wissenschaft im Lande Bremen"
+        "text" : "<b>Ziel</b>: Schulen dabei unterstützen, ihre Arbeit selbstständig zu überprüfen, zu bewerten und zu verbessern. <br/><br/><b>Hauptförderer</b>: Die Unternehmensverbände im Lande Bremen, Der Senator für Bildung und Wissenschaft im Lande Bremen<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -941,7 +941,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P09"],
-        "text" : "<b>Ziel</b>: Lernschwachen Schülern Perspektiven aufzeigen und sie dazu motivieren, die Schule erfolgreich abzuschließen."
+        "text" : "<b>Ziel</b>: Lernschwachen Schülern Perspektiven aufzeigen und sie dazu motivieren, die Schule erfolgreich abzuschließen.<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -949,7 +949,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P10"],
-        "text" : "<b>Ziel</b>: Berufsorientierung fest in Schulprogrammen verankern, um Jugendliche frühzeitig in ihrer Berufswahl zu unterstützen. <br/><br/<b>Hauptförderer</b>: Bundesministerium für Bildung und Forschung, Europäischer Sozialfonds"
+        "text" : "<b>Ziel</b>: Berufsorientierung fest in Schulprogrammen verankern, um Jugendliche frühzeitig in ihrer Berufswahl zu unterstützen. <br/><br/<b>Hauptförderer</b>: Bundesministerium für Bildung und Forschung, Europäischer Sozialfonds<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -957,7 +957,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P11"],
-        "text" : "<b>Ziel</b>: Gründungslust bei den Stipendiaten des Studienförderwerks Klaus Murmann wecken und ihnen frühzeitig unternehmerische Praxiserfahrung ermöglichen. <br/><br/><b>Hauptförderer</b>: Heinz Nixdorf Stiftung"
+        "text" : "<b>Ziel</b>: Gründungslust bei den Stipendiaten des Studienförderwerks Klaus Murmann wecken und ihnen frühzeitig unternehmerische Praxiserfahrung ermöglichen. <br/><br/><b>Hauptförderer</b>: Heinz Nixdorf Stiftung<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -965,7 +965,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P12"],
-        "text" : "<b>Ziel</b>: Mehr Schüler im norddeutschen Raum für ein Studium im MINT-Bereich begeistern. <br/><br/><b>Hauptförderer</b>: Nordmetall"
+        "text" : "<b>Ziel</b>: Mehr Schüler im norddeutschen Raum für ein Studium im MINT-Bereich begeistern. <br/><br/><b>Hauptförderer</b>: Nordmetall<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -973,7 +973,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P13"],
-        "text" : "<b>Ziel</b>: Die Fähigkeiten von Berliner Schulleitern in Führungs- und Managementaufgaben gezielt ausbauen. <br/><br/><b>Hauptförderer</b>: Senatsverwaltung für Bildung und Wissenschaft Berlin, Europäischer Sozialfonds"
+        "text" : "<b>Ziel</b>: Die Fähigkeiten von Berliner Schulleitern in Führungs- und Managementaufgaben gezielt ausbauen. <br/><br/><b>Hauptförderer</b>: Senatsverwaltung für Bildung und Wissenschaft Berlin, Europäischer Sozialfonds<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -981,7 +981,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P14"],
-        "text" : "<b>Ziel</b>: Verbesserung der Berufsorientierung an Oberschulen in Brandenburg mit Hilfe von stärkenorientierten Future Camps für die Schüler."
+        "text" : "<b>Ziel</b>: Verbesserung der Berufsorientierung an Oberschulen in Brandenburg mit Hilfe von stärkenorientierten Future Camps für die Schüler.<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -989,7 +989,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P15"],
-        "text" : "<b>Ziel</b>: Schulmanagement und den praxisorientierten Unterricht an Berliner Hauptschulen verbessern. <br/><br/><b>Hauptförderer</b>: Senatsverwaltung für Bildung und Wissenschaft Berlin"
+        "text" : "<b>Ziel</b>: Schulmanagement und den praxisorientierten Unterricht an Berliner Hauptschulen verbessern. <br/><br/><b>Hauptförderer</b>: Senatsverwaltung für Bildung und Wissenschaft Berlin<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -997,7 +997,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P16"],
-        "text" : "<b>Ziel</b>: Angehende Lehrkräfte dabei unterstützen, sich mit pädagogischen Führungsaufgaben vertraut zu machen und sich zu engagierten Schulgestaltern von morgen zu entwickeln. <br/><br/><b>Hauptförderer</b>: Robert Bosch Stiftung, Bundesministerium für Bildung und Forschung"
+        "text" : "<b>Ziel</b>: Angehende Lehrkräfte dabei unterstützen, sich mit pädagogischen Führungsaufgaben vertraut zu machen und sich zu engagierten Schulgestaltern von morgen zu entwickeln. <br/><br/><b>Hauptförderer</b>: Robert Bosch Stiftung, Bundesministerium für Bildung und Forschung<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -1005,7 +1005,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P17"],
-        "text" : "<b>Ziel</b>: Motiviert junge Menschen aus Familien ohne akademische Erfahrung zur Aufnahme eines Studiums. <br/><br/><b>Hauptförderer</b>: Accenture-Stiftung, Deutsche Bank Stiftung"
+        "text" : "<b>Ziel</b>: Motiviert junge Menschen aus Familien ohne akademische Erfahrung zur Aufnahme eines Studiums. <br/><br/><b>Hauptförderer</b>: Accenture-Stiftung, Deutsche Bank Stiftung<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -1013,7 +1013,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P18"],
-        "text" : "<b>Ziel</b>: Jugendliche für MINT-Themen begeistern und bei der Wahl eines passenden MINT-Studiums unterstützen. <br/><br/><b>Hauptförderer</b>: Bundesministerium für Bildung und Forschung"
+        "text" : "<b>Ziel</b>: Jugendliche für MINT-Themen begeistern und bei der Wahl eines passenden MINT-Studiums unterstützen. <br/><br/><b>Hauptförderer</b>: Bundesministerium für Bildung und Forschung<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -1021,7 +1021,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P19"],
-        "text" : "<b>Ziel</b>: Jugendliche beim Übergang von der Schule in die Berufsausbildung oder die weiterführende Schule begleiten. <br/><br/><b>Hauptförderer</b>: Bundesministerium für Bildung und Forschung"
+        "text" : "<b>Ziel</b>: Jugendliche beim Übergang von der Schule in die Berufsausbildung oder die weiterführende Schule begleiten. <br/><br/><b>Hauptförderer</b>: Bundesministerium für Bildung und Forschung<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -1029,7 +1029,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P20"],
-        "text" : "<b>Ziel</b>: Jugendliche und junge Erwachsene mit gefährdetem Schulabschluss und ohne Berusfausbildung zum Schulabschluss motivieren und auf die Arbeitswelt vorbereiten. <br/><br/><b>Hauptförderer</b>: Bundesministerium für Familie, Senioren, Frauen und Jugend"
+        "text" : "<b>Ziel</b>: Jugendliche und junge Erwachsene mit gefährdetem Schulabschluss und ohne Berusfausbildung zum Schulabschluss motivieren und auf die Arbeitswelt vorbereiten. <br/><br/><b>Hauptförderer</b>: Bundesministerium für Familie, Senioren, Frauen und Jugend<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -1037,7 +1037,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P21"],
-        "text" : "<b>Ziel</b>: Beratung von Eltern und anderen Interessierten zu den Angeboten der Begabtenförderwerke und weitere Stipendiengeber. <br/><br/><b>Hauptförderer</b>: Bundesministerium für Bildung und Forschung"
+        "text" : "<b>Ziel</b>: Beratung von Eltern und anderen Interessierten zu den Angeboten der Begabtenförderwerke und weitere Stipendiengeber. <br/><br/><b>Hauptförderer</b>: Bundesministerium für Bildung und Forschung<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -1045,7 +1045,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P22"],
-        "text" : "<b>Ziel</b>: Junge Menschen in Ostdeutschland bei der Berufsorientierung unterstützen und Akteure am Übergang Schule-Berufsausbildung miteinander vernetzen. <br/><br/><b>Hauptförderer</b>: Bundesministerium des Innern"
+        "text" : "<b>Ziel</b>: Junge Menschen in Ostdeutschland bei der Berufsorientierung unterstützen und Akteure am Übergang Schule-Berufsausbildung miteinander vernetzen. <br/><br/><b>Hauptförderer</b>: Bundesministerium des Innern<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -1053,7 +1053,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P23"],
-        "text" : "<b>Ziel</b>: Motivierte und leistungsorientierte Schüler des Hauptschulzweiges fit machen für ihren Bildungs- und Berufsweg. <br/><br/><b>Hauptförderer</b>: Walter Blüchert Stiftung"
+        "text" : "<b>Ziel</b>: Motivierte und leistungsorientierte Schüler des Hauptschulzweiges fit machen für ihren Bildungs- und Berufsweg. <br/><br/><b>Hauptförderer</b>: Walter Blüchert Stiftung<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -1061,7 +1061,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P24"],
-        "text" : "<b>Ziel</b>: Jugendliche zu einem Lehramtsstudium in den MINT-Fächern motivieren. <br/><br/><b>Hauptförderer</b>: TÜV SÜD Stiftung"
+        "text" : "<b>Ziel</b>: Jugendliche zu einem Lehramtsstudium in den MINT-Fächern motivieren. <br/><br/><b>Hauptförderer</b>: TÜV SÜD Stiftung<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -1069,7 +1069,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P25"],
-        "text" : "<b>Ziel</b>: Lehramtsstudierenden und jungen Lehrern ökonomisches Grundwissen vermitteln. <br/><br/><b>Hauptförderer</b>: Commerzbank-Stiftung"
+        "text" : "<b>Ziel</b>: Lehramtsstudierenden und jungen Lehrern ökonomisches Grundwissen vermitteln. <br/><br/><b>Hauptförderer</b>: Commerzbank-Stiftung<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -1077,7 +1077,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P26"],
-        "text" : "<b>Ziel</b>: Erfolgsbausteine des Studienkompass in die Projektseminare zur Studien- und Berufsorientierung an allen bayerischen Gymnasien integrieren. <br/><br/><b>Hauptförderer</b>: vbw - Vereinigung der Bayerischen Wirtschaft, Bayerisches Staatsministerium für Unterricht und Kultus"
+        "text" : "<b>Ziel</b>: Erfolgsbausteine des Studienkompass in die Projektseminare zur Studien- und Berufsorientierung an allen bayerischen Gymnasien integrieren. <br/><br/><b>Hauptförderer</b>: vbw - Vereinigung der Bayerischen Wirtschaft, Bayerisches Staatsministerium für Unterricht und Kultus<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
       {
         "type" : "TextWidget",
@@ -1085,7 +1085,7 @@
         "collapsedAtStart": false,
         "name" : "Projekt",
         "categories" : ["P27"],
-        "text" : "<b>Ziel</b>: Kinder beim Übergang von der Grundschule auf die weiterführende Schule unterstützen."
+        "text" : "<b>Ziel</b>: Kinder beim Übergang von der Grundschule auf die weiterführende Schule unterstützen.<a href='#categories=projektstart+sdwEvent' class='link-button'><i class='fa fa-reply'></i> Zurück zur sdw-Geschichte!</a>"
       },
 
       {

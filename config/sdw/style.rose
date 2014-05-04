@@ -26,7 +26,7 @@ $shadow_radius                      = 10px
 
 $widget_title_size                  = 30px
 $sidebar_collapsed_width            = 40px
-$sidebar_width                      = 350px
+$sidebar_width                      = 400px
 
 $statistics_widget_margin_left      = 30px
 $statistics_widget_tooltip_size     = 2.0em

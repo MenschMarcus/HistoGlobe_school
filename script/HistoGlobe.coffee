@@ -74,7 +74,6 @@ class HG.HistoGlobe
 
 
       @notifyAll "onAllModulesLoaded"
-      @_updateLayout()
 
       @_updateLayout()
 

@@ -93,6 +93,7 @@
     <script type="text/javascript" src="build/Sidebar.js"></script>
     <script type="text/javascript" src="build/Widget.js"></script>
     <script type="text/javascript" src="build/EventTicker.js"></script>
+    <script type="text/javascript" src="build/Gallery.js"></script>
     <script type="text/javascript" src="build/SDWTitle.js"></script>
     <script type="text/javascript" src="build/Title.js"></script>
     <script type="text/javascript" src="build/TitleImage.js"></script>
