@@ -9,15 +9,15 @@
     <title>HistoGlobe</title>
 
     <?php // third party css ?>
-    <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="style/third-party/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="style/third-party/idangerous.swiper.css">
-    <link rel="stylesheet" type="text/css" href="style/third-party/idangerous.swiper.scrollbar.css">
-    <link rel="stylesheet" href="style/third-party/prettyPhoto/css/prettyPhoto.css" type="text/css" media="screen" title="prettyPhoto main stylesheet" charset="utf-8" />
-    <link rel="stylesheet" href="style/third-party/MarkerCluster.css" />
-    <link rel="stylesheet" href="style/third-party/MarkerCluster.Default.css" />
-    <link rel="stylesheet" href="style/third-party/leaflet.css" />
-    <link rel="stylesheet" href="style/third-party/leaflet.label.css" />
+    <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="style/third-party/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="style/third-party/idangerous.swiper.css" />
+    <link rel="stylesheet" type="text/css" href="style/third-party/idangerous.swiper.scrollbar.css" />
+    <link rel="stylesheet" type="text/css" href="style/third-party/colorbox.css" />
+    <link rel="stylesheet" type="text/css" href="style/third-party/MarkerCluster.css" />
+    <link rel="stylesheet" type="text/css" href="style/third-party/MarkerCluster.Default.css" />
+    <link rel="stylesheet" type="text/css" href="style/third-party/leaflet.css" />
+    <link rel="stylesheet" type="text/css" href="style/third-party/leaflet.label.css" />
     <!--[if lte IE 8]>hivent
       <link rel="stylesheet" href="style/third-party/leaflet.ie.css" />
       <link rel="stylesheet" href="style/third-party/MarkerCluster.Default.ie.css" />
@@ -36,7 +36,7 @@
     <script type="text/javascript" src="script/third-party/jquery.disable.text.select.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.mousewheel.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.rotate.js"></script>
-    <script type="text/javascript" src="script/third-party/jquery.prettyPhoto.js"></script>
+    <script type="text/javascript" src="script/third-party/jquery.colorbox-min.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.fullscreenApi.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.parse.min.js"></script>
 

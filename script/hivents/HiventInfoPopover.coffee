@@ -12,6 +12,7 @@ class HG.HiventInfoPopover
     @_hiventHandle = hiventHandle
     @_hgInstance = hgInstance
     @_visible = false
+    @_multimediaController = hgInstance.multimediaController
 
     # generate content
     body = document.createElement "div"
@@ -31,24 +32,11 @@ class HG.HiventInfoPopover
       @_hgInstance.timeline.moveToDate @_hiventHandle.getHivent().startDate, 0.5
     subheading.appendChild gotoDate
 
-    content = document.createElement "div"
 
+    text = document.createElement "div"
+    text.innerHTML = @_hiventHandle.getHivent().content
+    body.appendChild text
 
-
-
-
-    content.innerHTML = @_hiventHandle.getHivent().content
-    body.appendChild content
-
-    $("a[rel^='prettyPhoto']", content).prettyPhoto {
-      animation_speed:'normal'
-      theme:'light_square'
-      slideshow:3000
-      autoplay_slideshow: false
-      hideflash: true
-      allow_resize: true
-      deeplinking: false
-    }
 
     # create popover
     @_popover = new HG.Popover
@@ -59,6 +47,48 @@ class HG.HiventInfoPopover
       container:  container
       showArrow:  showArrow
       fullscreen: !showArrow
+
+
+
+    @_multimedia = @_hiventHandle.getHivent().multimedia
+    if @_multimedia != "" and @_multimediaController?
+      mmids = @_multimedia.split ","
+
+      gallery = new HG.Gallery
+        interactive : true
+        showPagination : (mmids.length >= 2)
+
+      gallery.mainDiv.style.marginLeft = -HGConfig.widget_body_padding.val + "px"
+      gallery.mainDiv.style.marginRight = -HGConfig.widget_body_padding.val + "px"
+
+      body.insertBefore gallery.mainDiv, text
+      gallery.init()
+
+      @_popover.onResize @, () =>
+        gallery.reInit()
+
+      @_multimediaController.onMultimediaLoaded () =>
+
+        for id in mmids
+          mm = @_multimediaController.getMultimediaById id
+          if mm?
+            img = document.createElement "a"
+            img.href = mm.thumbnail
+            img.title = mm.description
+            img.alt = mm.description
+            img.style.backgroundImage = "url('" + mm.thumbnail + "')"
+            img.className = "gallery-image"
+
+            $(img).colorbox
+              rel: gallery.id
+              current: "Bild {current} von {total}"
+              loop: false
+              title: "<p class='gallery-copyright'>" + mm.source + "</p>" + mm.description
+
+            if mm.crop
+              $(img).addClass("cropped")
+
+            gallery.addDivSlide img
 
     @_hiventHandle.onDestruction @, @_popover.destroy
 

@@ -8,6 +8,11 @@ class HG.Popover
 
   # ============================================================================
   constructor: (config) ->
+    HG.mixin @, HG.CallbackContainer
+    HG.CallbackContainer.call @
+
+    @addCallback "onResize"
+
     defaultConfig =
       hgInstance: undefined
       placement: "auto"
@@ -103,7 +108,7 @@ class HG.Popover
       size = @_config.hgInstance.getMapAreaSize()
       @_onContainerSizeChange size
 
-      @_config.hgInstance.onMapAreaSizeChanged @, (width) =>
+      @_config.hgInstance.onMapAreaSizeChangeEnd @, (width) =>
         @_onContainerWidthChange width
 
       $(window).on 'resize', () =>
@@ -153,9 +158,13 @@ class HG.Popover
     @_mainDiv.style.width = size.x-150 + "px"
     @_bodyDiv.style.maxHeight = size.y-200 + "px"
 
+    @notifyAll "onResize"
+
   # ============================================================================
   _onContainerWidthChange:(width) =>
     @_mainDiv.style.width = width-150 + "px"
+
+    @notifyAll "onResize"
 
   # ============================================================================
   _updateWindowPos: ->

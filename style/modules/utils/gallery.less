@@ -67,12 +67,12 @@
     }
   }
 
-  // pagination arrows ---------------------------------------------------------
-  .arrow {
+  // pagination navis ---------------------------------------------------------
+  .navi {
     z-index: 2;
     position: absolute;
     bottom: @widget_body_padding * 0.5;
-    opacity: 0;
+    opacity: 0.5;
     font-size: @gallery_widget_pagination_size;
     width: @gallery_widget_pagination_size;
     height: @gallery_widget_pagination_size;
@@ -90,15 +90,47 @@
     }
   }
 
-  &:hover .arrow {
-    opacity: 0.5;
-  }
-
-  .arrow-left {
+  .navi-left {
     left: @widget_body_padding;
   }
 
-  .arrow-right {
+  .navi-right {
     right: @widget_body_padding;
   }
+
+  .gallery-image {
+    position: relative;
+    display: block;
+
+    width: 100%;
+    height: @picture_gallery_widget_image_height;
+
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+
+    border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
+
+    margin-right: @widget_body_padding;
+
+    overflow: hidden;
+
+    &.cropped {
+      background-size: cover;
+      border-bottom: @border_width*2 solid @border_color_dark;
+    }
+  }
+}
+
+// content classes
+.gallery-copyright {
+  font-size: 9pt;
+  position: absolute;
+  top: -30px;
+  right: 5px;
+  color: #FFF;
+  padding-right: 5px;
+  padding-top: 2px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px;
 }

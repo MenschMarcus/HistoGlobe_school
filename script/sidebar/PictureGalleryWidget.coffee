@@ -32,15 +32,15 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
 
     @_pictures = @_pictures.concat(@_config.pictures)
 
-    $("a[rel^='prettyPhoto']", @_gallery).prettyPhoto {
-      animation_speed:'normal'
-      theme:'light_square'
-      slideshow:3000
-      autoplay_slideshow: false
-      hideflash: true
-      allow_resize: true
-      deeplinking: false
-    }
+    # $("a[rel^='prettyPhoto']", @_gallery).prettyPhoto {
+    #   animation_speed:'normal'
+    #   theme:'light_square'
+    #   slideshow:3000
+    #   autoplay_slideshow: false
+    #   hideflash: true
+    #   allow_resize: true
+    #   deeplinking: false
+    # }
 
 
 
@@ -66,27 +66,31 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
     div = document.createElement "div"
     div.className = "picture-gallery-widget"
 
-    image = document.createElement "div"
-    image.className = "picture-gallery-widget-image"
+    image = document.createElement "a"
+    image.className = "gallery-image"
+    image.href = config.image
+    image.alt = config.description
+    image.title = config.description
     image.style.backgroundImage = "url('#{config.image}')"
     div.appendChild image
 
-    unless config.crop
-      image.style.backgroundSize = "contain"
-      image.style.borderBottom = "none"
+    console.log config.crop
 
-    unless config.copyright is ""
-      copyright = document.createElement "div"
-      copyright.className = "picture-gallery-widget-copyright"
-      copyright.innerHTML = config.copyright
-      image.appendChild copyright
+    if config.crop
+      $(image).addClass("cropped")
+
+    $(image).colorbox
+      rel: @_gallery.id
+      current: "Bild {current} von {total}"
+      loop: false
+      title: "<p class='gallery-copyright'>" + config.copyright + "</p>" + config.description
 
     text = document.createElement "div"
     text.className = "clear picture-gallery-widget-text"
     text.innerHTML = config.description
     div.appendChild text
 
-    @addDivSlide div, ()=> $.prettyPhoto.open "#{config.image}",'', config.description
+    @addDivSlide div
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -119,7 +123,5 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
               @_pictures.push image
 
         @_loadPictures()
-
-
 
 

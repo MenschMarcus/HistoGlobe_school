@@ -14,7 +14,8 @@ class HG.HistoGlobe
 
     @addCallback "onTopAreaSlide"
     @addCallback "onAllModulesLoaded"
-    @addCallback "onMapAreaSizeChanged"
+    @addCallback "onMapAreaSizeChange"
+    @addCallback "onMapAreaSizeChangeEnd"
 
     @timeline = null
     @map = null
@@ -197,6 +198,8 @@ class HG.HistoGlobe
       if @isInMobileMode()
         @_collapse_area_left.style.width = "#{HGConfig.map_collapsed_width.val}px"
 
+    @notifyAll "onMapAreaSizeChangeEnd", window.innerWidth - HGConfig.sidebar_collapsed_width.val + slide
+
   # ============================================================================
   _onSlide: (transform) =>
     if (transform.x < 0)
@@ -205,7 +208,7 @@ class HG.HistoGlobe
       @mapCanvas.style.right = 0
 
     @notifyAll "onTopAreaSlide", transform.x
-    @notifyAll "onMapAreaSizeChanged", window.innerWidth - HGConfig.sidebar_collapsed_width.val + transform.x
+    @notifyAll "onMapAreaSizeChange", window.innerWidth - HGConfig.sidebar_collapsed_width.val + transform.x
 
 
   # ============================================================================

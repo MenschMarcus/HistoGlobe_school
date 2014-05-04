@@ -19,13 +19,13 @@ class HG.Gallery
 
     @addCallback "onSlideChanged"
 
-    @_id = ++LAST_GALLERY_ID
+    @id = ++LAST_GALLERY_ID
 
     @mainDiv = document.createElement "div"
     @mainDiv.className = "hg-gallery"
 
     galleryContainer = document.createElement "div"
-    galleryContainer.id = "hg-gallery-#{@_id}"
+    galleryContainer.id = "hg-gallery-#{@id}"
     galleryContainer.className = "hg-gallery-slider"
 
     @_gallery = document.createElement "div"
@@ -44,22 +44,22 @@ class HG.Gallery
     galleryContainer.appendChild @_gallery
 
     if @_config.showPagination
-      @_leftArrow = document.createElement "i"
-      @_leftArrow.className = "arrow arrow-left  fa fa-chevron-circle-left"
+      @_leftnavi = document.createElement "i"
+      @_leftnavi.className = "navi navi-left  fa fa-chevron-circle-left"
 
-      @_rightArrow = document.createElement "i"
-      @_rightArrow.className = "arrow arrow-right fa fa-chevron-circle-right"
+      @_rightnavi = document.createElement "i"
+      @_rightnavi.className = "navi navi-right fa fa-chevron-circle-right"
 
       pagination = document.createElement "span"
-      pagination.id = "hg-gallery-pagination-#{@_id}"
+      pagination.id = "hg-gallery-pagination-#{@id}"
       pagination.className = "gallery-pagination"
 
       paginationContainer = document.createElement "span"
       paginationContainer.className = "pagination-container"
       paginationContainer.appendChild pagination
 
-      @mainDiv.appendChild @_leftArrow
-      @mainDiv.appendChild @_rightArrow
+      @mainDiv.appendChild @_leftnavi
+      @mainDiv.appendChild @_rightnavi
       @mainDiv.appendChild paginationContainer
 
 
@@ -68,31 +68,38 @@ class HG.Gallery
     pagination_div = undefined
 
     if @_config.showPagination
-      pagination_div = "#hg-gallery-pagination-#{@_id}"
+      pagination_div = "#hg-gallery-pagination-#{@id}"
 
-    @swiper = new Swiper "#hg-gallery-#{@_id}",
+    @swiper = new Swiper "#hg-gallery-#{@id}",
       grabCursor: true
       paginationClickable: @_config.showPagination
       pagination: pagination_div
       longSwipesRatio: 0.2
       calculateHeight: true
+      preventLinksPropagation: true
+      preventLinks: true
       onSlideChangeEnd: @_onSlideEnd
       onlyExternal: !@_config.interactive
-      onSlideClick: @_activateClickCallback
+      # onSlideClick: @_activateClickCallback
       # onSlideTouch: @_activateClickCallback
 
     if @_config.showPagination
-      $(@_leftArrow).click () =>
+      $(@_leftnavi).click () =>
         @swiper.swipePrev()
 
-      $(@_rightArrow).click () =>
+      $(@_rightnavi).click () =>
         @swiper.swipeNext()
 
     # for some reason needed...
-    window.setTimeout () =>
-      @swiper.reInit()
-      @_updateArrows()
-    , 1000
+    # window.setTimeout () =>
+    #   @swiper.reInit()
+    #   @_updatenavis()
+    # , 1000
+
+  # ============================================================================
+  reInit: ()->
+    @swiper.reInit()
+    @swiper.swipeTo(@swiper.activeIndex, 0, false)
 
   # ============================================================================
   addDivSlide: (div, clickCallback=undefined) ->
@@ -130,22 +137,22 @@ class HG.Gallery
 
   # ============================================================================
   _onSlideEnd: () =>
-    @_updateArrows()
+    @_updatenavis()
     @notifyAll "onSlideChanged", @getActiveSlide()
 
   # ============================================================================
-  _updateArrows: () =>
+  _updatenavis: () =>
     slide = @getActiveSlide()
 
     if slide is 0
-      $(@_leftArrow).addClass("hidden")
-      $(@_rightArrow).removeClass("hidden")
+      $(@_leftnavi).addClass("hidden")
+      $(@_rightnavi).removeClass("hidden")
     else if slide is @getSlideCount() - 1
-      $(@_rightArrow).addClass("hidden")
-      $(@_leftArrow).removeClass("hidden")
+      $(@_rightnavi).addClass("hidden")
+      $(@_leftnavi).removeClass("hidden")
     else
-      $(@_leftArrow).removeClass("hidden")
-      $(@_rightArrow).removeClass("hidden")
+      $(@_leftnavi).removeClass("hidden")
+      $(@_rightnavi).removeClass("hidden")
 
   # ============================================================================
   _activateClickCallback: () =>
