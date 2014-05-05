@@ -129,7 +129,7 @@ class HG.Timeline
       @_uiElements.tlDivSlide.style.width = (@timelineLength() + window.innerWidth) + "px"
       @_updateNowDate()
       @_updateDateMarkers()
-      @moveToDate(@_nowDate, 0)      
+      @moveToDate(@_nowDate, 0)
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -237,32 +237,36 @@ class HG.Timeline
   #   --------------------------------------------------------------------------
   #   TIMEBARS ON TIMELINE
   _drawTimeBar: (timeBarValues) ->
+
     startDate = @stringToDate(timeBarValues[0])
     endDate   = @stringToDate(timeBarValues[1])
+
     activeTimeBar = document.createElement("div")
     activeTimeBar.id = "tl_timebar_" + timeBarValues[2]
     activeTimeBar.className = "tl_timebar"
     activeTimeBar.style.left = @dateToPosition(startDate) + "px"
     activeTimeBar.style.width = (@dateToPosition(endDate) - @dateToPosition(startDate)) + "px"
     @getUIElements().symbolRow.appendChild activeTimeBar
-    timeBar = 
+
+    timeBar =
       div: activeTimeBar
       startDate: startDate
       endDate: endDate
     @_activeTimeBars.push timeBar
+
     @moveToDate startDate, 0.5
+    #if timeBar.endDate.getFullYear() < @_config.maxYear and timeBar.startDate.getFullYear() > @_config.minYear
     if timeBar.endDate > @maxVisibleDate()
-      if timeBar.endDate.getFullYear() < @_config.maxYear
-        while timeBar.endDate > @maxVisibleDate()
-          @_zoom -1
-    else 
-      if timeBar.startDate.getFullYear() > @_config.minYear
-        diffTime = (@maxVisibleDate().getTime() - timeBar.startDate.getTime()) * 0.2
-        maxDate = new Date(@maxVisibleDate().getTime() - diffTime)
-        while timeBar.endDate < maxDate
-          @_zoom 1
-          diffTime = (@maxVisibleDate().getTime() - timeBar.startDate.getTime()) * 0.2
-          maxDate = new Date(@maxVisibleDate().getTime() - diffTime)              
+      while timeBar.endDate > @maxVisibleDate()
+        if !@_zoom -1
+            break
+    else
+      maxDate = new Date(@maxVisibleDate().getTime() - ((@maxVisibleDate().getTime() - timeBar.startDate.getTime()) * 0.2))
+      while timeBar.endDate < maxDate
+        if !@_zoom 1
+          break
+        else
+          maxDate = new Date(@maxVisibleDate().getTime() - ((@maxVisibleDate().getTime() - timeBar.startDate.getTime()) * 0.2))
 
   _updateTimeBarPositions: ->
     for timeBar in @_activeTimeBars
@@ -275,7 +279,7 @@ class HG.Timeline
       @getUIElements().symbolRow.removeChild oldTimeBar.div
     @_activeTimeBars = []
     for timeBarValues in activeTimeBars
-      @_drawTimeBar timeBarValues  
+      @_drawTimeBar timeBarValues
 
   #   --------------------------------------------------------------------------
   #   for i e {0,1,2,3,...} it should return 1,5,10,50,100,...
@@ -422,6 +426,7 @@ class HG.Timeline
       @_maxIntervalIndex = @_calcMaxIntervalIndex()
       @_makeLayout()
       @_updateDateMarkers()
+    zoomed
 
   #   --------------------------------------------------------------------------
   _animTimeline: =>
