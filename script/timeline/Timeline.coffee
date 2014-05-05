@@ -252,15 +252,17 @@ class HG.Timeline
     @_activeTimeBars.push timeBar
     @moveToDate startDate, 0.5
     if timeBar.endDate > @maxVisibleDate()
-      while timeBar.endDate > @maxVisibleDate()
+      if timeBar.endDate.getFullYear() < @_config.maxYear
+        while timeBar.endDate > @maxVisibleDate()
           @_zoom -1
-    else
-      diffTime = (@maxVisibleDate().getTime() - timeBar.startDate.getTime()) * 0.2
-      maxDate = new Date(@maxVisibleDate().getTime() - diffTime)
-      while timeBar.endDate < maxDate
-        @_zoom 1
+    else 
+      if timeBar.startDate.getFullYear() > @_config.minYear
         diffTime = (@maxVisibleDate().getTime() - timeBar.startDate.getTime()) * 0.2
-        maxDate = new Date(@maxVisibleDate().getTime() - diffTime)              
+        maxDate = new Date(@maxVisibleDate().getTime() - diffTime)
+        while timeBar.endDate < maxDate
+          @_zoom 1
+          diffTime = (@maxVisibleDate().getTime() - timeBar.startDate.getTime()) * 0.2
+          maxDate = new Date(@maxVisibleDate().getTime() - diffTime)              
 
   _updateTimeBarPositions: ->
     for timeBar in @_activeTimeBars
