@@ -76,7 +76,6 @@ class HG.HiventInfoPopover
 
             # if mm.type is 0
             elem = document.createElement "a"
-            gallery.addDivSlide elem
 
             elem.href = mm.thumbnail
             elem.title = mm.description
@@ -84,14 +83,16 @@ class HG.HiventInfoPopover
             elem.style.backgroundImage = "url('" + mm.thumbnail + "')"
             elem.className = "gallery-image"
             $(elem).colorbox
+              title: "<p class='gallery-copyright'>" + mm.source + "</p>" + mm.description
+              html : if mm.type is 0 then '' else "<video width='320' height='240' controls> <source src='#{mm.link}' type='video/mp4'> </video>"
               # rel: gallery.id
               # current: "Bild {current} von {total}"
               # loop: false
-              title: "<p class='gallery-copyright'>" + mm.source + "</p>" + mm.description
-              html : if mm.type is 0 then '' else "<video width='320' height='240' controls> <source src='#{mm.link}' type='video/mp4'> </video>"
 
             if mm.crop
               $(elem).addClass("cropped")
+
+            gallery.addDivSlide elem
 
             # else
             #   elem = document.createElement "div"

@@ -100,20 +100,20 @@ class HG.Gallery
     @swiper.swipeTo(@swiper.activeIndex, 0, false)
 
   # ============================================================================
-  addDivSlide: (div, clickCallback=undefined) ->
+  addDivSlide: (div) ->
     slide = document.createElement "div"
     slide.className = "swiper-slide"
     slide.appendChild div
 
-    @_addSlide slide, clickCallback
+    @_addSlide slide
 
   # ============================================================================
-  addHTMLSlide: (html, clickCallback=undefined) ->
+  addHTMLSlide: (html) ->
     slide = document.createElement "div"
     slide.className = "swiper-slide"
     slide.innerHTML = html
 
-    @_addSlide slide, clickCallback
+    @_addSlide slide
 
   # ============================================================================
   getSlideCount: () ->
@@ -128,8 +128,7 @@ class HG.Gallery
   ##############################################################################
 
   # ============================================================================
-  _addSlide: (slide, clickCallback=undefined) ->
-    slide.hgClickCallback = clickCallback
+  _addSlide: (slide) ->
     @_gallery.appendChild slide
     @swiper.reInit()
 
