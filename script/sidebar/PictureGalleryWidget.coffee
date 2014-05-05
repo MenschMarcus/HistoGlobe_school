@@ -60,6 +60,7 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
       description: ""
       copyright: ""
       crop: false
+      type: 0
 
     config = $.extend {}, defaultConfig, config
 
@@ -71,7 +72,7 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
     image.href = config.image
     image.alt = config.description
     image.title = config.description
-    image.style.backgroundImage = "url('#{config.image}')"
+    image.style.backgroundImage = "url('#{if config.type is 0 then config.image else 'data/video.png'}')"
     div.appendChild image
 
     if config.crop
@@ -80,6 +81,7 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
     $(image).colorbox
       loop: false
       title: "<p class='gallery-copyright'>" + config.copyright + "</p>" + config.description
+      html: if config.type is 0 then '' else "<video width='320' height='240' controls> <source src='#{config.image}' type='video/mp4'> </video>"
 
     text = document.createElement "div"
     text.className = "clear picture-gallery-widget-text"
@@ -116,6 +118,7 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
                 description : mm.description
                 copyright: mm.source
                 crop: mm.crop
+                type: mm.type
               @_pictures.push image
 
         @_loadPictures()

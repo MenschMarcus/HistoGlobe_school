@@ -80,7 +80,7 @@ class HG.HiventInfoPopover
             elem.href = mm.thumbnail
             elem.title = mm.description
             elem.alt = mm.description
-            elem.style.backgroundImage = "url('" + mm.thumbnail + "')"
+            elem.style.backgroundImage = "url( #{if mm.type is 0 then mm.thumbnail else 'data/video.png'})"
             elem.className = "gallery-image"
             $(elem).colorbox
               title: "<p class='gallery-copyright'>" + mm.source + "</p>" + mm.description
