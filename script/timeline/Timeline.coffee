@@ -235,6 +235,7 @@ class HG.Timeline
       @notifyAll "onIntervalChanged", @_getTimeFilter()
 
   #   --------------------------------------------------------------------------
+  #   TIMEBARS ON TIMELINE
   _drawTimeBar: (timeBarValues) ->
     startDate = @stringToDate(timeBarValues[0])
     endDate   = @stringToDate(timeBarValues[1])
@@ -244,16 +245,25 @@ class HG.Timeline
     activeTimeBar.style.left = @dateToPosition(startDate) + "px"
     activeTimeBar.style.width = (@dateToPosition(endDate) - @dateToPosition(startDate)) + "px"
     @getUIElements().symbolRow.appendChild activeTimeBar
-    @_activeTimeBars.push activeTimeBar
+    timeBar = 
+      div: activeTimeBar
+      startDate: startDate
+      endDate: endDate
+    @_activeTimeBars.push timeBar
     @moveToDate startDate, 0.5
+
+  _updateTimeBarPositions: ->
+    for timeBar in @_activeTimeBars
+      timeBar.div.style.left = @dateToPosition(timeBar.startDate) + "px"
+      timeBar.div.style.width = (@dateToPosition(timeBar.endDate) - @dateToPosition(timeBar.startDate)) + "px"
 
   updateTimeBars: (activeTimeBars) ->
     for oldTimeBar in @_activeTimeBars
-      oldTimeBar.style.display = "none"
-      @getUIElements().symbolRow.removeChild oldTimeBar
+      oldTimeBar.div.style.display = "none"
+      @getUIElements().symbolRow.removeChild oldTimeBar.div
     @_activeTimeBars = []
     for timeBarValues in activeTimeBars
-      @_drawTimeBar timeBarValues
+      @_drawTimeBar timeBarValues  
 
   #   --------------------------------------------------------------------------
   #   for i e {0,1,2,3,...} it should return 1,5,10,50,100,...
@@ -328,6 +338,8 @@ class HG.Timeline
         if @_dateMarkers.get(i).nodeData?
           @_dateMarkers.get(i).nodeData.updateView(false)
           @_dateMarkers.get(i).nodeData = null
+
+    @_updateTimeBarPositions()
 
   #   --------------------------------------------------------------------------
   #   left border of timeline has date value @_config.minYear
