@@ -80,8 +80,6 @@ class HG.Gallery
       preventLinks: true
       onSlideChangeEnd: @_onSlideEnd
       onlyExternal: !@_config.interactive
-      # onSlideClick: @_activateClickCallback
-      # onSlideTouch: @_activateClickCallback
 
     if @_config.showPagination
       $(@_leftnavi).click () =>
@@ -153,10 +151,6 @@ class HG.Gallery
     else
       $(@_leftnavi).removeClass("hidden")
       $(@_rightnavi).removeClass("hidden")
-
-  # ============================================================================
-  _activateClickCallback: () =>
-    @swiper.activeSlide().hgClickCallback?()
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #

@@ -28,8 +28,8 @@
         "image" : "config/sdw/data/help/help01.png",
         "anchorX" : "left",
         "anchorY" : "top",
-        "offsetX": "18",
-        "offsetY": "150",
+        "offsetX": "0",
+        "offsetY": "130",
         "width": "70%"
       },
       {

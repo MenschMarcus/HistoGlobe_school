@@ -1,12 +1,10 @@
 
 .timeline-control-buttons-group {
-  box-shadow: 0 0 @shadow_radius rgba(0,0,0,@shadow_intensity);
-  margin: 5px;
-  font-size: 20pt * @widget_font_size_factor;
+  box-shadow: 0 2px @shadow_radius rgba(0,0,0,@shadow_intensity);
+  font-size: 30pt * @widget_font_size_factor;
   border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
-  padding: @border_width;
-  margin-left: 20px;
-  background-color: @border_color_bright;
+  // padding: @border_width;
+  background-color: @widget_title_background_color;
 
   z-index: 1;
   position: absolute;
@@ -14,7 +12,7 @@
   .timeline-control-buttons-button {
     color: @widget_title_text_color;
     cursor: pointer;
-    padding: 0px 6px;
+    padding: 0 8px;
     background-color: @widget_title_background_color;
 
     float: left;

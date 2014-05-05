@@ -62,6 +62,7 @@ class HG.HiventInfoPopover
       gallery.mainDiv.style.marginRight = -HGConfig.widget_body_padding.val + "px"
 
       body.insertBefore gallery.mainDiv, text
+
       gallery.init()
 
       @_popover.onResize @, () =>
@@ -83,15 +84,14 @@ class HG.HiventInfoPopover
             elem.style.backgroundImage = "url('" + mm.thumbnail + "')"
             elem.className = "gallery-image"
             $(elem).colorbox
-              rel: gallery.id
-              current: "Bild {current} von {total}"
-              loop: false
+              # rel: gallery.id
+              # current: "Bild {current} von {total}"
+              # loop: false
               title: "<p class='gallery-copyright'>" + mm.source + "</p>" + mm.description
               html : if mm.type is 0 then '' else "<video width='320' height='240' controls> <source src='#{mm.link}' type='video/mp4'> </video>"
 
-
-              if mm.crop
-                $(elem).addClass("cropped")
+            if mm.crop
+              $(elem).addClass("cropped")
 
             # else
             #   elem = document.createElement "div"
