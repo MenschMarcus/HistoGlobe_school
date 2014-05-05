@@ -34,6 +34,8 @@ class HG.VIPWidget extends HG.Widget
     @_VIPContent = document.createElement "div"
     @_VIPContent.className = "vip-widget"
 
+    @_sidebar = hgInstance.sidebar
+
     @_dudes = []
 
     for person, i in @_config.persons
@@ -78,13 +80,20 @@ class HG.VIPWidget extends HG.Widget
     for dude in @_dudes
       startDate = @_timeline.stringToDate dude.dude.startDate
       endDate = @_timeline.stringToDate dude.dude.endDate
-      if now.getTime() >= startDate.getTime() && now.getTime() <= endDate.getTime()
+      if now.getTime() > endDate.getTime()
+        dude.div.style.left   = "-500px"
+      else if now.getTime() < startDate.getTime()
+        dude.div.style.left   = "500px"
+      else
         dude.div.style.top  = ((height + padding) * numActive) + "px"
         dude.div.style.left = (2 * padding) + "px"
         numActive++
-      else
-        dude.div.style.left   = "-500px"
+
     @_VIPContent.style.height = ((height + HGConfig.widget_body_padding.val) * numActive) + "px"
+
+    window.setTimeout () =>
+      @_sidebar.updateSize()
+    , 500
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #
