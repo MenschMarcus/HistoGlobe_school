@@ -121,6 +121,16 @@ class HG.Timeline
       e.preventDefault()
       @_zoom(-e.detail)
 
+    #   --------------------------------------------------------------------------
+    $(window).resize  =>
+      @_maxZoom = @maxZoomLevel()
+      @_maxIntervalIndex = @_calcMaxIntervalIndex()
+      @_uiElements.tlDiv.style.width = window.innerWidth + "px"
+      @_uiElements.tlDivSlide.style.width = (@timelineLength() + window.innerWidth) + "px"
+      @_updateNowDate()
+      @_updateDateMarkers()
+      @moveToDate(@_nowDate, 0)      
+
   # ============================================================================
   hgInit: (hgInstance) ->
     #@_hiventController = hgInstance.hiventController
@@ -225,6 +235,7 @@ class HG.Timeline
       @notifyAll "onIntervalChanged", @_getTimeFilter()
 
   #   --------------------------------------------------------------------------
+  #   TIMEBARS ON TIMELINE
   _drawTimeBar: (timeBarValues) ->
     startDate = @stringToDate(timeBarValues[0])
     endDate   = @stringToDate(timeBarValues[1])
@@ -234,16 +245,37 @@ class HG.Timeline
     activeTimeBar.style.left = @dateToPosition(startDate) + "px"
     activeTimeBar.style.width = (@dateToPosition(endDate) - @dateToPosition(startDate)) + "px"
     @getUIElements().symbolRow.appendChild activeTimeBar
-    @_activeTimeBars.push activeTimeBar
+    timeBar = 
+      div: activeTimeBar
+      startDate: startDate
+      endDate: endDate
+    @_activeTimeBars.push timeBar
     @moveToDate startDate, 0.5
+    if timeBar.endDate > @maxVisibleDate()
+      if timeBar.endDate.getFullYear() < @_config.maxYear
+        while timeBar.endDate > @maxVisibleDate()
+          @_zoom -1
+    else 
+      if timeBar.startDate.getFullYear() > @_config.minYear
+        diffTime = (@maxVisibleDate().getTime() - timeBar.startDate.getTime()) * 0.2
+        maxDate = new Date(@maxVisibleDate().getTime() - diffTime)
+        while timeBar.endDate < maxDate
+          @_zoom 1
+          diffTime = (@maxVisibleDate().getTime() - timeBar.startDate.getTime()) * 0.2
+          maxDate = new Date(@maxVisibleDate().getTime() - diffTime)              
+
+  _updateTimeBarPositions: ->
+    for timeBar in @_activeTimeBars
+      timeBar.div.style.left = @dateToPosition(timeBar.startDate) + "px"
+      timeBar.div.style.width = (@dateToPosition(timeBar.endDate) - @dateToPosition(timeBar.startDate)) + "px"
 
   updateTimeBars: (activeTimeBars) ->
     for oldTimeBar in @_activeTimeBars
-      oldTimeBar.style.display = "none"
-      @getUIElements().symbolRow.removeChild oldTimeBar
+      oldTimeBar.div.style.display = "none"
+      @getUIElements().symbolRow.removeChild oldTimeBar.div
     @_activeTimeBars = []
     for timeBarValues in activeTimeBars
-      @_drawTimeBar timeBarValues
+      @_drawTimeBar timeBarValues  
 
   #   --------------------------------------------------------------------------
   #   for i e {0,1,2,3,...} it should return 1,5,10,50,100,...
@@ -318,6 +350,8 @@ class HG.Timeline
         if @_dateMarkers.get(i).nodeData?
           @_dateMarkers.get(i).nodeData.updateView(false)
           @_dateMarkers.get(i).nodeData = null
+
+    @_updateTimeBarPositions()
 
   #   --------------------------------------------------------------------------
   #   left border of timeline has date value @_config.minYear

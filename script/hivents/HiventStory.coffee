@@ -120,7 +120,7 @@ class HG.HiventStory
       @_currentDate = nextHivent.getHivent().startDate
       @_currentHivent = nextHivent
       @_ignoredNames.push @_currentHivent.getHivent().id
-      @_hashSetter.setOption("event", "#{@_currentHivent.getHivent().id}")
+      @_hashSetter.setOption "event", "#{@_currentHivent.getHivent().id}"
 
 
   ##############################################################################
