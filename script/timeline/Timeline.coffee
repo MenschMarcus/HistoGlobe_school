@@ -121,6 +121,16 @@ class HG.Timeline
       e.preventDefault()
       @_zoom(-e.detail)
 
+    #   --------------------------------------------------------------------------
+    $(window).resize  =>
+      @_maxZoom = @maxZoomLevel()
+      @_maxIntervalIndex = @_calcMaxIntervalIndex()
+      @_uiElements.tlDiv.style.width = window.innerWidth + "px"
+      @_uiElements.tlDivSlide.style.width = (@timelineLength() + window.innerWidth) + "px"
+      @_updateNowDate()
+      @_updateDateMarkers()
+      @moveToDate(@_nowDate, 0)      
+
   # ============================================================================
   hgInit: (hgInstance) ->
     #@_hiventController = hgInstance.hiventController
