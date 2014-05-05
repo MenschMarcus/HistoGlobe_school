@@ -18,6 +18,7 @@
     <link rel="stylesheet" type="text/css" href="style/third-party/MarkerCluster.Default.css" />
     <link rel="stylesheet" type="text/css" href="style/third-party/leaflet.css" />
     <link rel="stylesheet" type="text/css" href="style/third-party/leaflet.label.css" />
+    <link rel="stylesheet" type="text/css" href="style/third-party/jplayer/blue.monday/jplayer.blue.monday.css" />
     <!--[if lte IE 8]>hivent
       <link rel="stylesheet" href="style/third-party/leaflet.ie.css" />
       <link rel="stylesheet" href="style/third-party/MarkerCluster.Default.ie.css" />
@@ -39,6 +40,7 @@
     <script type="text/javascript" src="script/third-party/jquery.colorbox-min.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.fullscreenApi.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.parse.min.js"></script>
+    <script type="text/javascript" src="script/third-party/jquery.jplayer.min.js"></script>
 
     <script type="text/javascript" src="script/third-party/idangerous.swiper.min.js"></script>
     <script type="text/javascript" src="script/third-party/idangerous.swiper.scrollbar.min.js"></script>

@@ -93,13 +93,16 @@ class HG.MultimediaController
       "link": link
       "thumbnail": link
       "source": source
-      "crop":crop
+      "crop": crop
+      "type": 0 # 0 : image, 1 : video, 2 : audio
 
     linkData = link.split(".")
-    if linkData[linkData.length-1] in IFRAME_CRITERIA
-      mm.link += "?iframe=true"
-      mm.thumbnail = "data/video.png"
+    if linkData[linkData.length-1] in VIDEO_CRITERIA
+      mm.type = 1
+      # mm.link += "?iframe=true"
+      # mm.thumbnail = "data/video.png"
+
 
     mm
 
-  IFRAME_CRITERIA = ['flv', 'ogv', 'mp4', 'ogg']
+  VIDEO_CRITERIA = ['flv', 'ogv', 'mp4', 'ogg']

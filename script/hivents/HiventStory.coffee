@@ -118,9 +118,11 @@ class HG.HiventStory
       @_currentDate = nextHivent.getHivent().startDate
       @_currentHivent = nextHivent
       @_ignoredNames.push @_currentHivent.getHivent().id
-      @_timeline.moveToDate @_currentHivent.getHivent().startDate, @_config.transitionTime,
-        () =>
-          window.location.hash = "#event=#{@_currentHivent.getHivent().id}"
+      window.location.hash = "#event=#{@_currentHivent.getHivent().id}"
+      # @_timeline.moveToDate @_currentHivent.getHivent().startDate, @_config.transitionTime,
+        # () =>
+          # @_currentHivent.focusAll()
+          # @_currentHivent.activeAll()
 
 
   ##############################################################################
