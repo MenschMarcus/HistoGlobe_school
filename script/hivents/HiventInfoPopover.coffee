@@ -85,6 +85,7 @@ class HG.HiventInfoPopover
             $(elem).colorbox
               title: "<p class='gallery-copyright'>" + mm.source + "</p>" + mm.description
               html : if mm.type is 0 then '' else "<video width='320' height='240' controls> <source src='#{mm.link}' type='video/mp4'> </video>"
+              maxHeight: "80%"
               # rel: gallery.id
               # current: "Bild {current} von {total}"
               # loop: false
