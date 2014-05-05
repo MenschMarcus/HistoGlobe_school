@@ -16,13 +16,12 @@
   visibility:     hidden;
   overflow:hidden;
 
-  border-width: @now_marker_border_width;
-  border-color: @now_marker_border_color;
+  border-width: @border_width;
+  border-color: @border_color;
   border-style: solid solid none solid;
 
   // colors
-  //background:         #555;
-  background:         #eee;
+  background:         @widget_title_background_color;
 
   // optional image
   // background-image:   url(@now_marker_background_image);
@@ -49,7 +48,7 @@
   bottom:     -90px;
   height:     (@radius * 2);
   width:      @now_marker_pointer_width;
-  background: @now_marker_pointer_color;
+  background: @widget_background_color;
   box-shadow:         0 0px 2px rgba(0, 0, 0, 0.2);
   display: none;
 }
@@ -60,7 +59,7 @@
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
 
-  border-top: 20px solid #eee;
+  border-top: 20px solid @widget_background_color;
 
   // position & colors
   position:   absolute;
@@ -85,7 +84,7 @@
   //box-shadow:         0 0px 2px rgba(0, 0, 0, 0.2);
   //border:             1px solid #C4C4C4;
   .border-radius(@timeline_roundness * @inRadius @timeline_roundness * @inRadius 0 0);
-  background:         #eee;
+  background:         @widget_background_color;
   //.linear-gradient-top(rgba(255,255,255, 0.0), #fff, 0, rgba(218, 218, 218, 1), 50%);
   text-align: center;
 }
@@ -98,11 +97,11 @@
   // margin:         0px 0px 0px 34px;
   //padding-left:   3px;
   border:none;
-  background: #eee;
+  background: @widget_background_color;
 
   // colors
   text-align: center;
-  color:      #333;
+  color:      @widget_title_text_color;
   font-size: 1.2em;
   font-weight: bold;
 }

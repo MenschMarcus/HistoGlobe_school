@@ -62,6 +62,7 @@ class HG.HiventInfoPopover
       gallery.mainDiv.style.marginRight = -HGConfig.widget_body_padding.val + "px"
 
       body.insertBefore gallery.mainDiv, text
+
       gallery.init()
 
       @_popover.onResize @, () =>
@@ -80,10 +81,10 @@ class HG.HiventInfoPopover
             img.className = "gallery-image"
 
             $(img).colorbox
-              rel: gallery.id
-              current: "Bild {current} von {total}"
-              loop: false
               title: "<p class='gallery-copyright'>" + mm.source + "</p>" + mm.description
+              # rel: gallery.id
+              # current: "Bild {current} von {total}"
+              # loop: false
 
             if mm.crop
               $(img).addClass("cropped")

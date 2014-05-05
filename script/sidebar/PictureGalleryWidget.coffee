@@ -78,8 +78,6 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
       $(image).addClass("cropped")
 
     $(image).colorbox
-      rel: @_gallery.id
-      current: "Bild {current} von {total}"
       loop: false
       title: "<p class='gallery-copyright'>" + config.copyright + "</p>" + config.description
 

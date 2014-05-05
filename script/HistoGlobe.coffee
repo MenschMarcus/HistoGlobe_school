@@ -121,7 +121,7 @@ class HG.HistoGlobe
       noSwiping: true
       longSwipesRatio: 0.1
       moveStartThreshold: 10
-      onSlideReset: @_onSlideEnd
+      # onSlideReset: @_onSlideEnd
       onSetWrapperTransform: (s, t) => @_onSlide(t)
       onSetWrapperTransition: (s, d) =>
         if d is 0
@@ -186,19 +186,20 @@ class HG.HistoGlobe
 
   # ============================================================================
   _onSlideEnd: () =>
-    slide = @_top_swiper.slides[0].getOffset().left
+    if @_last_slide_pos != @_top_swiper.slides[0].getOffset().left
+      @_last_slide_pos = @_top_swiper.slides[0].getOffset().left
 
-    @_collapsed = slide >= 0
+      @_collapsed = @_last_slide_pos >= 0
 
-    if @_collapsed
-      @_collapse_button.className = "fa fa-arrow-circle-o-left fa-2x"
-      @_collapse_area_left.style.width = "0px"
-    else
-      @_collapse_button.className = "fa fa-arrow-circle-o-right fa-2x"
-      if @isInMobileMode()
-        @_collapse_area_left.style.width = "#{HGConfig.map_collapsed_width.val}px"
+      if @_collapsed
+        @_collapse_button.className = "fa fa-arrow-circle-o-left fa-2x"
+        @_collapse_area_left.style.width = "0px"
+      else
+        @_collapse_button.className = "fa fa-arrow-circle-o-right fa-2x"
+        if @isInMobileMode()
+          @_collapse_area_left.style.width = "#{HGConfig.map_collapsed_width.val}px"
 
-    @notifyAll "onMapAreaSizeChangeEnd", window.innerWidth - HGConfig.sidebar_collapsed_width.val + slide
+      @notifyAll "onMapAreaSizeChangeEnd", window.innerWidth - HGConfig.sidebar_collapsed_width.val + @_last_slide_pos
 
   # ============================================================================
   _onSlide: (transform) =>

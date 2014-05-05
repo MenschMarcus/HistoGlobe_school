@@ -2,7 +2,7 @@
   position: absolute;
   top: 0px;
   padding-top: 20px;
-  padding-left: 20px;
+  padding-left: 0px;
 
   .transition-property(left);
   .transition-duration(@sidebar_aimation_speed);
@@ -10,17 +10,18 @@
 
   .control-buttons-group {
     box-shadow: 0 0 @shadow_radius rgba(0,0,0,@shadow_intensity);
-    margin: 5px;
+    margin: 5px 5px 5px 0;
     font-size: 30pt * @widget_font_size_factor;
     border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
-    padding: @border_width;
-    background-color: @border_color_bright;
+    //padding: @border_width;
+    // background-color: @border_color;
 
     .control-buttons-button {
       color: @widget_title_text_color;
       cursor: pointer;
-      padding: 0px 6px;
+      padding: 0px 8px 0 8px;
       background-color: @widget_title_background_color;
+      text-align: center;
 
       &:first-child {
         border-top-left-radius: @widget_border_radius_top_left;

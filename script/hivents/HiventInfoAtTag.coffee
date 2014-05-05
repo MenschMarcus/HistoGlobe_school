@@ -47,9 +47,6 @@ class HG.HiventInfoAtTag
   # ============================================================================
   setOption: (key, value) ->
     @_hashEntries[key] = value
-
-    console.log @_hashEntries
-
     @_writeHash()
 
   # ============================================================================
