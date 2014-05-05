@@ -74,8 +74,6 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
     image.style.backgroundImage = "url('#{config.image}')"
     div.appendChild image
 
-    console.log config.crop
-
     if config.crop
       $(image).addClass("cropped")
 
