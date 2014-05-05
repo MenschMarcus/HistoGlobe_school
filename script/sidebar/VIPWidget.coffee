@@ -85,8 +85,14 @@ class HG.VIPWidget extends HG.Widget
       else if now.getTime() < startDate.getTime()
         dude.div.style.left   = "500px"
       else
-        dude.div.style.top  = ((height + padding) * numActive) + "px"
-        dude.div.style.left = (2 * padding) + "px"
+        if $(dude.div).hasClass "init_top_pos"
+          $(dude.div).removeClass "init_top_pos"
+        if dude.div.style.top is ""
+          $(dude.div).addClass "init_top_pos"
+          dude.div.style.top  = ((height + padding) * numActive) + "px"
+        else
+          dude.div.style.top  = ((height + padding) * numActive) + "px"
+        dude.div.style.left = padding + "px"
         numActive++
 
     @_VIPContent.style.height = ((height + HGConfig.widget_body_padding.val) * numActive) + "px"
