@@ -29,6 +29,6 @@ class HG.HiventPresenter
         hivent = handle.getHivent()
         if hivent.id is id
           handle.focusAll()
+          handle.activeAll()
           @_hiventInfoPopovers.removeListener "onPopoverAdded", @
-          handle.toggleActive marker
 

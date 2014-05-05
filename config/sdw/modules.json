@@ -331,7 +331,7 @@
   "HiventPresenter" : {},
   "HiventInfoAtTag" :
   {
-    "defaultHash" : "#categories=sdwEvent+projektstart"
+    "defaultHash" : "#categories=sdwEvent+projektstart&help=true"
   },
 
   "HiventStory" :

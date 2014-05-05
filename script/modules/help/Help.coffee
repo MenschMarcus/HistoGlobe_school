@@ -33,7 +33,10 @@ class HG.Help
 
     if @_config.autoShow
       @_hgInstance.onAllModulesLoaded @, () =>
-        @show()
+        hgInstance.hiventInfoAtTag?.onHashChanged @, (key, value) =>
+          if key is "help" and value is "true"
+            @show()
+            hgInstance.hiventInfoAtTag?.unsetOption("help")
 
     if hgInstance.control_button_area?
       help =
