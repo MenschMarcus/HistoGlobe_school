@@ -33,6 +33,7 @@ class HG.HiventStory
       @_nowMarker = hgInstance.timeline.getNowMarker()
       @_hiventController = hgInstance.hiventController
       @_categoryFilter = hgInstance.categoryFilter
+      @_hashSetter = hgInstance.hiventInfoAtTag
 
       @_currentDate = @_timeline.getNowDate()
       @_timeline.onNowChanged @, (date) =>
@@ -90,11 +91,12 @@ class HG.HiventStory
     nextHivent = @_hiventController[hiventGetter] @_currentDate, @_ignoredNames
     nextFound = false
 
+
     while not nextFound and nextHivent?
       @_currentHivent = nextHivent unless @_currentHivent?
 
       hivent = nextHivent.getHivent()
-      unless hivent.id in @_hiventNames and hivent.category in @_categoryFilter.getCurrentFilter()
+      unless hivent.id in @_hiventNames and (@_categoryFilter.getCurrentFilter().length is 0 or hivent.category in @_categoryFilter.getCurrentFilter())
         nextHivent = @_hiventController[hiventGetter] hivent.startDate, @_ignoredNames
 
       else
@@ -118,9 +120,7 @@ class HG.HiventStory
       @_currentDate = nextHivent.getHivent().startDate
       @_currentHivent = nextHivent
       @_ignoredNames.push @_currentHivent.getHivent().id
-      @_timeline.moveToDate @_currentHivent.getHivent().startDate, @_config.transitionTime,
-        () =>
-          window.location.hash = "#event=#{@_currentHivent.getHivent().id}"
+      @_hashSetter.setOption("event", "#{@_currentHivent.getHivent().id}")
 
 
   ##############################################################################
