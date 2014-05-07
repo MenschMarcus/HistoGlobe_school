@@ -147,6 +147,7 @@ class HG.HistoGlobe
     @_collapse_button = @_createElement @_map_area, "i", "collapse-button"
     @_collapse_button.className = "fa fa-arrow-circle-o-left fa-2x"
 
+    $(@_collapse_button).tooltip {title: "Seitenleiste öffene/schließen", placement: "left", container:"body"}
 
     $(@_collapse_button).click @_collapse
     $(@_collapse_area_left).click @_collapse
