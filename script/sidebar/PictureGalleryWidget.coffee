@@ -60,26 +60,33 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
       description: ""
       copyright: ""
       crop: false
+      type: 0
 
     config = $.extend {}, defaultConfig, config
 
     div = document.createElement "div"
     div.className = "picture-gallery-widget"
 
-    image = document.createElement "a"
-    image.className = "gallery-image"
-    image.href = config.image
-    image.alt = config.description
-    image.title = config.description
-    image.style.backgroundImage = "url('#{config.image}')"
-    div.appendChild image
+    if config.type is 0
+      image = document.createElement "a"
+      image.className = "gallery-image"
+      image.href = config.image
+      image.alt = config.description
+      image.title = config.description
+      image.style.backgroundImage = "url('#{config.image}')"
+      div.appendChild image
 
-    if config.crop
-      $(image).addClass("cropped")
+      if config.crop
+        $(image).addClass("cropped")
 
-    $(image).colorbox
-      loop: false
-      title: "<p class='gallery-copyright'>" + config.copyright + "</p>" + config.description
+      $(image).colorbox
+        loop: false
+        title: "<p class='gallery-copyright'>" + config.copyright + "</p>" + config.description
+
+    else
+      elem = document.createElement "div"
+      elem.innerHTML = "<iframe width='100%' height='240px' src='#{config.image}' frameborder='0' allowfullscreen> </iframe>"
+      div.appendChild elem
 
     text = document.createElement "div"
     text.className = "clear picture-gallery-widget-text"
@@ -116,6 +123,7 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
                 description : mm.description
                 copyright: mm.source
                 crop: mm.crop
+                type: mm.type
               @_pictures.push image
 
         @_loadPictures()

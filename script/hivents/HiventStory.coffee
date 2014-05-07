@@ -91,7 +91,6 @@ class HG.HiventStory
     nextHivent = @_hiventController[hiventGetter] @_currentDate, @_ignoredNames
     nextFound = false
 
-
     while not nextFound and nextHivent?
       @_currentHivent = nextHivent unless @_currentHivent?
 

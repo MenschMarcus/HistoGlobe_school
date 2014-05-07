@@ -103,11 +103,16 @@
     display: block;
 
     width: 100%;
-    height: @picture_gallery_widget_image_height;
+    height: @picture_gallery_widget_image_height*0.5;
+
+    #sidebar &,
+    .fullscreen & {
+      height: @picture_gallery_widget_image_height;
+    }
 
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: 50% 50%;
+    background-position: 50% 20%;
 
     border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
 

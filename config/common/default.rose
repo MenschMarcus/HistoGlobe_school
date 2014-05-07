@@ -58,7 +58,6 @@ $picture_gallery_widget_image_height  = 250px
 
 // VIP WIDGET
 $vip_widget_size                     = 100px
-$vip_widget_info_width               = 140px
 
 // LOGO WIDGET
 $logo_widget_image_height             = 100px

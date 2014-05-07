@@ -14,14 +14,18 @@
     left:     -500px;
     position: absolute;
     .transition-duration(0.5s);
-    .transition-property(left);
+    .transition-property(all);
+
+    &.init_top_pos {
+      .transition-property(left);
+    }
   }
 
   .vip-widget-name {
     font-family: @secondary_font_face;
     font-size: 25pt * @widget_font_size_factor;
     color: @widget_title_text_color;
-    width: @vip_widget_info_width;
+    // width: 3*@widget_body_padding - @vip_widget_size*0.75;
     margin-left: @widget_body_padding;
 
     //text-align: center;
@@ -58,7 +62,7 @@
 
     // border-bottom: 4px solid #666;
 
-    width: @vip_widget_size;
+    width: @vip_widget_size*0.75;
     height: @vip_widget_size;
 
     background-size: cover;
