@@ -39,6 +39,8 @@ class HG.SDWTitle
 
     $(@_select_div).tooltip {title: "Wählen Sie ein Projekt der sdw, um mehr darüber zu erfahren!", placement: "bottom", container:"body"}
 
+    $(@_back_div_inner).tooltip {title: "Kehren Sie zur Geschichte der sdw zurück!", placement: "bottom", container:"body"}
+    $(@_back_div_inner).tooltip "disable"
 
     select = document.createElement "select"
     @_select_div.appendChild select
@@ -57,10 +59,11 @@ class HG.SDWTitle
 
       if "sdwEvent" in categories
         $(@_back_div).removeClass "visible"
-        $(@_back_div_inner).tooltip "destroy"
+        $(@_back_div_inner).tooltip "hide"
+        $(@_back_div_inner).tooltip "disable"
       else
         $(@_back_div).addClass "visible"
-        $(@_back_div_inner).tooltip {title: "Kehren Sie zur Geschichte der sdw zurück!", placement: "bottom", container:"body"}
+        $(@_back_div_inner).tooltip "enable"
 
 
   # ============================================================================
