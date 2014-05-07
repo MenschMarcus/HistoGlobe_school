@@ -19,6 +19,7 @@ class HG.HiventController
     @addCallback "onHiventAdded"
 
     @_hiventHandles = []
+    @_handlesNeedSorting = false
 
     @_currentTimeFilter = null # {start: <Date>, end: <Date>}
     @_currentSpaceFilter = null # { min: {lat: <float>, long: <float>},
@@ -220,6 +221,7 @@ class HG.HiventController
                     handle = new HG.HiventHandle hivent
                     @_hiventHandles.push handle
                     @notifyAll "onHiventAdded", handle
+                    @_handlesNeedSorting = true
                     @_filterHivents()
             pathIndex++
 
@@ -241,6 +243,18 @@ class HG.HiventController
 
   # ============================================================================
   _filterHivents: ->
+    if @_handlesNeedSorting
+      @_handlesNeedSorting = false
+      @_hiventHandles.sort (a, b) =>
+        if a? and b?
+          unless a.getHivent().startDate.getTime() is b.getHivent().startDate.getTime()
+            return a.getHivent().startDate.getTime() - b.getHivent().startDate.getTime()
+          else
+            if a.getHivent().id > b.getHivent().id
+              return 1
+            else if a.getHivent().id < b.getHivent().id
+              return -1
+        return 0
 
     for handle in @_hiventHandles
       hivent = handle.getHivent()
