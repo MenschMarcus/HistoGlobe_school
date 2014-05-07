@@ -58,7 +58,6 @@ class HG.HiventsOnTimeline
               if obj.category == self.getHivent().category
                 rowPosition = obj.row_position
                 break
-            console.log "yPlusPos: " + rowPosition
             marker = new HG.HiventMarkerTimeline @_timeline, self, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate), parseInt(rowPosition)
             @_hiventMarkers.push marker
             @_markersLoaded = @_hiventController._hiventsLoaded
