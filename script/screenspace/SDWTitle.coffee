@@ -37,7 +37,6 @@ class HG.SDWTitle
     @_select_div.className     = "title-select"
     parentDiv.appendChild @_select_div
 
-    $(@_back_div_inner).tooltip {title: "Kehren Sie zur Geschichte der sdw zurück!", placement: "bottom", container:"body"}
     $(@_select_div).tooltip {title: "Wählen Sie ein Projekt der sdw, um mehr darüber zu erfahren!", placement: "bottom", container:"body"}
 
 
@@ -58,8 +57,10 @@ class HG.SDWTitle
 
       if "sdwEvent" in categories
         $(@_back_div).removeClass "visible"
+        $(@_back_div_inner).tooltip "destroy"
       else
         $(@_back_div).addClass "visible"
+        $(@_back_div_inner).tooltip {title: "Kehren Sie zur Geschichte der sdw zurück!", placement: "bottom", container:"body"}
 
 
   # ============================================================================

@@ -37,8 +37,10 @@
     opacity: 0;
 
     .transition(opacity 0.5s);
+    pointer-events: none;
 
     &.visible {
+      pointer-events: auto;
       opacity: 1;
     }
 
