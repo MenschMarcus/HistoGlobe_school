@@ -45,8 +45,8 @@ $hivent_marker_2D_height            = 38px
 $timeline_background_image          = "../config/sdw/data/bg.png"
 $timeline_background_color          = #878787
 $timeline_background_row_height     = 30px
-$timeline_background_row_color_1    = rgba(70,70,70,0.2)
-$timeline_background_row_color_2    = rgba(50,50,50,0.2)
+$timeline_background_row_color_1    = rgba(100,100,100,0.2)
+$timeline_background_row_color_2    = rgba(100,100,100,0.25)
 $timeline_background_row_position_1 = 30px
 $timeline_background_row_position_2 = 63px
 
