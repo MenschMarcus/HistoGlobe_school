@@ -74,28 +74,30 @@ class HG.HiventInfoPopover
           mm = @_multimediaController.getMultimediaById id
           if mm?
 
-            # if mm.type is 0
-            elem = document.createElement "a"
+            if mm.type is 0
+              elem = document.createElement "a"
 
-            elem.href = mm.thumbnail
-            elem.title = mm.description
-            elem.alt = mm.description
-            elem.style.backgroundImage = "url( #{if mm.type is 0 then mm.thumbnail else 'data/video.png'})"
-            elem.className = "gallery-image"
-            $(elem).colorbox
-              title: "<p class='gallery-copyright'>" + mm.source + "</p>" + mm.description
-              html : if mm.type is 0 then '' else "<video width='320' height='240' controls> <source src='#{mm.link}' type='video/mp4'> </video>"
-              maxHeight: "80%"
-              # rel: gallery.id
-              # current: "Bild {current} von {total}"
-              # loop: false
+              elem.href = mm.thumbnail
+              elem.title = mm.description
+              elem.alt = mm.description
+              elem.style.backgroundImage = "url( #{mm.thumbnail})"
+              elem.className = "gallery-image"
+              $(elem).colorbox
+                title: "<p class='gallery-copyright'>" + mm.source + "</p>" + mm.description
+                maxHeight: "80%"
+                # rel: gallery.id
+                # current: "Bild {current} von {total}"
+                # loop: false
 
-            if mm.crop
-              $(elem).addClass("cropped")
+              if mm.crop
+                $(elem).addClass("cropped")
 
-            gallery.addDivSlide elem
+              gallery.addDivSlide elem
 
-            # else
+            else
+              elem = document.createElement "div"
+              elem.innerHTML = "<iframe width='100%' height='320px' src='#{mm.link}' frameborder='0' allowfullscreen> </iframe>"
+              gallery.addDivSlide elem
             #   elem = document.createElement "div"
             #   gallery.addDivSlide elem
 
