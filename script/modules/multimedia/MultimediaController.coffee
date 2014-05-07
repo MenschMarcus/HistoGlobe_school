@@ -66,10 +66,10 @@ class HG.MultimediaController
               unless i+1 in @_config.ignoredLines
                 mm = @_createMultiMedia(
                   result[@_config.indexMappings[pathIndex].description],
-                  @_config.rootDirs[pathIndex] + "/" +
-                         result[@_config.indexMappings[pathIndex].link],
+                  result[@_config.indexMappings[pathIndex].link],
                   result[@_config.indexMappings[pathIndex].source],
-                  result[@_config.indexMappings[pathIndex].crop].toUpperCase() is "TRUE"
+                  result[@_config.indexMappings[pathIndex].crop].toUpperCase() is "TRUE",
+                  pathIndex
                 )
 
                 @_multimedia[result[@_config.indexMappings[pathIndex].id]] = mm
@@ -87,11 +87,11 @@ class HG.MultimediaController
 ##############################################################################
 
 # ============================================================================
-  _createMultiMedia: (description, link, source, crop) ->
+  _createMultiMedia: (description, link, source, crop, pathIndex) ->
     mm =
       "description": description
-      "link": link
-      "thumbnail": link
+      "link": @_config.rootDirs[pathIndex] + "/" + link
+      "thumbnail": @_config.rootDirs[pathIndex] + "/" + link
       "source": source
       "crop": crop
       "type": 0 # 0 : image, 1 : video, 2 : audio
@@ -102,6 +102,10 @@ class HG.MultimediaController
       # mm.link += "?iframe=true"
       # mm.thumbnail = "data/video.png"
 
+    if link.indexOf('youtube') > -1
+      mm.type = 1
+      mm.link = link
+      # mm.thumbnail = "data/video.png"
 
     mm
 

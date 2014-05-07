@@ -67,21 +67,26 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
     div = document.createElement "div"
     div.className = "picture-gallery-widget"
 
-    image = document.createElement "a"
-    image.className = "gallery-image"
-    image.href = config.image
-    image.alt = config.description
-    image.title = config.description
-    image.style.backgroundImage = "url('#{if config.type is 0 then config.image else 'data/video.png'}')"
-    div.appendChild image
+    if config.type is 0
+      image = document.createElement "a"
+      image.className = "gallery-image"
+      image.href = config.image
+      image.alt = config.description
+      image.title = config.description
+      image.style.backgroundImage = "url('#{config.image}')"
+      div.appendChild image
 
-    if config.crop
-      $(image).addClass("cropped")
+      if config.crop
+        $(image).addClass("cropped")
 
-    $(image).colorbox
-      loop: false
-      title: "<p class='gallery-copyright'>" + config.copyright + "</p>" + config.description
-      html: if config.type is 0 then '' else "<video width='320' height='240' controls> <source src='#{config.image}' type='video/mp4'> </video>"
+      $(image).colorbox
+        loop: false
+        title: "<p class='gallery-copyright'>" + config.copyright + "</p>" + config.description
+
+    else
+      elem = document.createElement "div"
+      elem.innerHTML = "<iframe width='100%' height='240px' src='#{config.image}' frameborder='0' allowfullscreen> </iframe>"
+      div.appendChild elem
 
     text = document.createElement "div"
     text.className = "clear picture-gallery-widget-text"
