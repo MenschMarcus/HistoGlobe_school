@@ -80,16 +80,6 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
     @getHiventHandle().onInvisible @, @_destroy
 
   # ============================================================================
-  nowChanged: ->
-    posX = @_timeline.dateToPosition @_hiventHandle.getHivent().startDate
-    @setPosition posX
-
-  # ============================================================================
-  periodChanged: (dateA, dateB) ->
-    posX = @_timeline.dateToPosition @_hiventHandle.getHivent().startDate
-    @setPosition posX
-
-  # ============================================================================
   categoryChanged: (c) ->
 
   # ============================================================================

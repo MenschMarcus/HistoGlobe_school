@@ -20,6 +20,7 @@ class HG.HiventsOnTimeline
     @_hiventMarkers = []
 
     @_onMarkerAddedCallbacks = []
+    @_markersNeedSorting = false
     @_markersLoaded = false
 
   # ============================================================================
@@ -55,12 +56,17 @@ class HG.HiventsOnTimeline
             hiventMarkerDate = self.getHivent().startDate
             rowPosition = @_config.default_row_position
             for obj in @_config.marker_row_positions
-              if obj.category == self.getHivent().category
+              if obj.category is self.getHivent().category
                 rowPosition = obj.row_position
                 break
             marker = new HG.HiventMarkerTimeline @_timeline, self, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate), parseInt(rowPosition)
             @_hiventMarkers.push marker
+            marker.onDestruction @, ()=>
+              index = $.inArray(marker, @_hiventMarkers)
+              @_hiventMarkers.splice index, 1  if index >= 0
+
             @_markersLoaded = @_hiventController._hiventsLoaded
+            @_sortMarkers()
             callback marker for callback in @_onMarkerAddedCallbacks
 
         handle.onVisibleFuture @, show
@@ -72,28 +78,28 @@ class HG.HiventsOnTimeline
       console.error "Unable to show hivents on Timeline: HiventController module not detected in HistoGlobe instance!"
 
     #new:
-    hgInstance.onAllModulesLoaded @, () =>
-      @_hiventGallerWidget = hgInstance.hiventGalleryWidget
-      if @_hiventGallerWidget
-        @_hiventGallerWidget.onHiventAdded @,(handle) =>
+    # hgInstance.onAllModulesLoaded @, () =>
+    #   @_hiventGallerWidget = hgInstance.hiventGalleryWidget
+    #   if @_hiventGallerWidget
+    #     @_hiventGallerWidget.onHiventAdded @,(handle) =>
 
-          hiventMarkerDate = handle.getHivent().startDate
-          marker = new HG.HiventMarkerTimeline @_timeline, handle, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate)
-          callback marker for callback in @_onMarkerAddedCallbacks
+    #       hiventMarkerDate = handle.getHivent().startDate
+    #       marker = new HG.HiventMarkerTimeline @_timeline, handle, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate)
+    #       callback marker for callback in @_onMarkerAddedCallbacks
 
-          '''show = (self, oldState) =>
-            if oldState is 0 # invisible
-              hiventMarkerDate = self.getHivent().startDate
-              marker = new HG.HiventMarkerTimeline @_timeline, self, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate)
-              @_hiventMarkers.push marker
-              @_markersLoaded = @_hiventController._hiventsLoaded
-              callback marker for callback in @_onMarkerAddedCallbacks
+    #       '''show = (self, oldState) =>
+    #         if oldState is 0 # invisible
+    #           hiventMarkerDate = self.getHivent().startDate
+    #           marker = new HG.HiventMarkerTimeline @_timeline, self, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate)
+    #           @_hiventMarkers.push marker
+    #           @_markersLoaded = @_hiventController._hiventsLoaded
+    #           callback marker for callback in @_onMarkerAddedCallbacks
 
-          handle.onVisibleFuture @, show
-          handle.onVisiblePast @, show'''
+    #       handle.onVisibleFuture @, show
+    #       handle.onVisiblePast @, show'''
 
-        @_timeline.onNowChanged @, @_updateHiventMarkerPositions
-        @_timeline.onIntervalChanged @, @_updateHiventMarkerPositions
+    #     @_timeline.onNowChanged @, @_updateHiventMarkerPositions
+    #     @_timeline.onIntervalChanged @, @_updateHiventMarkerPositions
 
 
   # ============================================================================
@@ -108,10 +114,31 @@ class HG.HiventsOnTimeline
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
 
+  # ============================================================================
   _updateHiventMarkerPositions: ->
-    for i in  [0...(@_hiventMarkers.length)]
-      hiventMarkerDate = @_hiventMarkers[i].getHiventHandle().getHivent().startDate
-      @_hiventMarkers[i].setPosition(@_timeline.dateToPosition(hiventMarkerDate))
+    minDistance = HGConfig.hivent_marker_timeline_width.val * 0.5
+
+    for marker, i in @_hiventMarkers
+      hiventMarkerDate = marker.getHiventHandle().getHivent().startDate
+      newPos = @_timeline.dateToPosition(hiventMarkerDate)
+      previousMarker = @_hiventMarkers[i-1]
+
+      if previousMarker?
+        unless hiventMarkerDate.getTime() is previousMarker.getHiventHandle().getHivent().startDate.getTime()
+          if (newPos - minDistance) <= previousMarker.getPosition().x
+            newPos = previousMarker.getPosition().x + minDistance
+
+      marker.setPosition(newPos)
+
+  # ============================================================================
+  _sortMarkers: ->
+    @_hiventMarkers.sort (a, b) =>
+      hiventA = a.getHiventHandle()
+      hiventB = b.getHiventHandle()
+      if hiventA? and hiventB?
+        return hiventA.getHivent().startDate.getTime() - hiventB.getHivent().startDate.getTime()
+      return 0
+
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #
