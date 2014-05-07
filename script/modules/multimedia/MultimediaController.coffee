@@ -102,7 +102,7 @@ class HG.MultimediaController
       # mm.link += "?iframe=true"
       # mm.thumbnail = "data/video.png"
 
-    if link.indexOf 'youtube' isnt -1
+    if link.indexOf('youtube') > -1
       mm.type = 1
       mm.link = link
       # mm.thumbnail = "data/video.png"

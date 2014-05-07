@@ -96,7 +96,7 @@ class HG.HiventInfoPopover
 
             else
               elem = document.createElement "div"
-              elem.innerHTML = "<iframe width='100%' height='320px' src='#{mm.link}' frameborder='0' allowfullscreen> </iframe>"
+              elem.innerHTML = "<iframe width='100%' height='240px' src='#{mm.link}' frameborder='0' allowfullscreen> </iframe>"
               gallery.addDivSlide elem
             #   elem = document.createElement "div"
             #   gallery.addDivSlide elem
