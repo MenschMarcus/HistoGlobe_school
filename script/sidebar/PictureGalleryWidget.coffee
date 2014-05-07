@@ -32,17 +32,6 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
 
     @_pictures = @_pictures.concat(@_config.pictures)
 
-    # $("a[rel^='prettyPhoto']", @_gallery).prettyPhoto {
-    #   animation_speed:'normal'
-    #   theme:'light_square'
-    #   slideshow:3000
-    #   autoplay_slideshow: false
-    #   hideflash: true
-    #   allow_resize: true
-    #   deeplinking: false
-    # }
-
-
 
   # ============================================================================
   _loadPictures: () ->
@@ -82,6 +71,8 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
       $(image).colorbox
         loop: false
         title: "<p class='gallery-copyright'>" + config.copyright + "</p>" + config.description
+        maxWidth: "90%"
+        maxHeight: "80%"
 
     else
       elem = document.createElement "div"

@@ -24,10 +24,20 @@ class HG.SDWTitle
     @_text_div.innerHTML     = @_config.title
     parentDiv.appendChild @_text_div
 
+    @_back_div               = document.createElement("div")
+    @_back_div.className     = "title-back"
+    parentDiv.appendChild @_back_div
+
+    @_back_div_inner               = document.createElement("a")
+    @_back_div_inner.href          = "#categories=sdwEvent+projektstart"
+    @_back_div_inner.innerHTML     = "<i class='fa fa-caret-left'></i> Zurück"
+    @_back_div.appendChild @_back_div_inner
+
     @_select_div               = document.createElement("div")
     @_select_div.className     = "title-select"
     parentDiv.appendChild @_select_div
 
+    $(@_back_div_inner).tooltip {title: "Kehren Sie zur Geschichte der sdw zurück!", placement: "bottom", container:"body"}
     $(@_select_div).tooltip {title: "Wählen Sie ein Projekt der sdw, um mehr darüber zu erfahren!", placement: "bottom", container:"body"}
 
 
@@ -45,6 +55,12 @@ class HG.SDWTitle
 
     @_categoryFilter?.onFilterChanged @, (categories) =>
       $(select).select2("val", categories[0])
+
+      if "sdwEvent" in categories
+        $(@_back_div).removeClass "visible"
+      else
+        $(@_back_div).addClass "visible"
+
 
   # ============================================================================
   _addElement: (element, parent) ->

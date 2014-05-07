@@ -54,7 +54,7 @@ $widget_font_size_factor              = 0.8
 $gallery_widget_pagination_size       = 20px
 
 // PICTURE_GALLERY WIDGET
-$picture_gallery_widget_image_height  = 250px
+$picture_gallery_widget_image_height  = 200px
 
 // VIP WIDGET
 $vip_widget_size                     = 100px

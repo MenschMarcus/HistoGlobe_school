@@ -84,6 +84,7 @@ class HG.HiventInfoPopover
               elem.className = "gallery-image"
               $(elem).colorbox
                 title: "<p class='gallery-copyright'>" + mm.source + "</p>" + mm.description
+                maxWidth: "90%"
                 maxHeight: "80%"
                 # rel: gallery.id
                 # current: "Bild {current} von {total}"

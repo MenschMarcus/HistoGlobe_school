@@ -492,7 +492,7 @@
           "type" : "category",
           "main" : true,
           "categories" : ["sdwEvent", "projektstart"],
-          "name" : "Geschichte der SDW"
+          "name" : "Geschichte der sdw"
         },
         {
           "type" : "group",
