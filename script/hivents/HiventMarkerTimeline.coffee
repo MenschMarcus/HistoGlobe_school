@@ -11,7 +11,7 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
   ##############################################################################
 
   # ============================================================================
-  constructor: (timeline, hiventHandle, parent, posX) ->
+  constructor: (timeline, hiventHandle, parent, posX, rowPosition=0) ->
 
     HG.HiventMarker.call @, hiventHandle, parent
 
@@ -21,7 +21,7 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
 
     Y_OFFSETS[time] ?= 0
     @_xOffset = Y_OFFSETS[time]
-    @_position = { x: posX, y: HGConfig.timeline_height.val - HGConfig.hivent_marker_timeline_height.val - @_xOffset*HGConfig.hivent_marker_timeline_spacing.val - HGConfig.border_width.val - HGConfig.hivent_marker_timeline_margin_bottom.val}
+    @_position = { x: posX, y: HGConfig.timeline_height.val - HGConfig.hivent_marker_timeline_height.val - @_xOffset*HGConfig.hivent_marker_timeline_spacing.val - HGConfig.border_width.val - HGConfig.hivent_marker_timeline_margin_bottom.val - rowPosition}
     Y_OFFSETS[time] += 1
 
     @_classDefault     = "hivent_marker_timeline_#{hiventHandle.getHivent().category}_default"
