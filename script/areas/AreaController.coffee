@@ -24,7 +24,6 @@ class HG.AreaController
 
     defaultConfig =
       areaJSONPaths: undefined,
-      areaStylerConfig: undefined
 
     conf = $.extend {}, defaultConfig, config
 
@@ -120,7 +119,7 @@ class HG.AreaController
         newArray.push a
     return newArray
 
-  
+
   # ============================================================================
   getAllAreas:()->
     return @_areas

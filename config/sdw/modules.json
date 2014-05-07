@@ -87,40 +87,6 @@
           "compOp": "multiply"
         },
         "lineColor": {
-          "range": ["#ffcc00", "#ffcc00"],
-          "fallback": "#ffcc00",
-          "compOp": "replace"
-        },
-        "lineOpacity": {
-          "range": [0, 1],
-          "fallback": 1,
-          "compOp": "multiply"
-        },
-        "lineWidth": {
-          "range": [0, 15],
-          "fallback": 15,
-          "compOp": "replace"
-        },
-        "labelOpacity": {
-          "range": [0, 1],
-          "fallback": 1,
-          "compOp": "multiply"
-        }
-      },
-      {
-        "mapping":"config/sdw/data/sdw_cities_mapping.json",
-        "domain": [0, 1],
-        "fillColor": {
-          "range": ["#ffcc00", "#ffcc00"],
-          "fallback": "#ffcc00",
-          "compOp": "replace"
-        },
-        "fillOpacity": {
-          "range": [0, 1],
-          "fallback": 1,
-          "compOp": "multiply"
-        },
-        "lineColor": {
           "range": ["#666666", "#666666"],
           "fallback": "#666666",
           "compOp": "replace"
@@ -131,8 +97,8 @@
           "compOp": "multiply"
         },
         "lineWidth": {
-          "range": [0, 4],
-          "fallback": 4,
+          "range": [0, 2],
+          "fallback": 2,
           "compOp": "replace"
         },
         "labelOpacity": {
@@ -144,9 +110,14 @@
     ]
   },
 
+  "ShapeController" :
+  {
+    "shapeJSONPaths" : ["config/sdw/data/sdw_cities.json"]
+  },
+
   "AreaController" :
   {
-    "areaJSONPaths" : ["config/common/countries/bundeslaender.json","config/sdw/data/sdw_cities.json"]
+    "areaJSONPaths" : ["config/common/countries/bundeslaender.json"]
   },
 
 
