@@ -25,7 +25,7 @@ class HG.Timeline
 
     #   --------------------------------------------------------------------------
     @_uiElements = @_initLayout()
-    @_activeTimeBars = []
+    @_timeBars = []
 
     #   --------------------------------------------------------------------------
     @_maxZoom = @maxZoomLevel()
@@ -241,18 +241,18 @@ class HG.Timeline
     startDate = @stringToDate(timeBarValues[0])
     endDate   = @stringToDate(timeBarValues[1])
 
-    activeTimeBar = document.createElement("div")
-    activeTimeBar.id = "tl_timebar_" + timeBarValues[2]
-    activeTimeBar.className = "tl_timebar"
-    activeTimeBar.style.left = @dateToPosition(startDate) + "px"
-    activeTimeBar.style.width = (@dateToPosition(endDate) - @dateToPosition(startDate)) + "px"
-    @getCanvas().appendChild activeTimeBar
+    tb_div = document.createElement("div")
+    tb_div.id = "tl_timebar_" + timeBarValues[2]
+    tb_div.className = "tl_timebar"
+    tb_div.style.left = @dateToPosition(startDate) + "px"
+    tb_div.style.width = (@dateToPosition(endDate) - @dateToPosition(startDate)) + "px"
+    @getCanvas().appendChild tb_div
 
     timeBar =
-      div: activeTimeBar
+      div: tb_div
       startDate: startDate
       endDate: endDate
-    @_activeTimeBars.push timeBar
+    @_timeBars.push timeBar
 
     @moveToDate startDate, 0.5
     if timeBar.endDate > @maxVisibleDate()
@@ -267,15 +267,15 @@ class HG.Timeline
           maxDate = new Date(@maxVisibleDate().getTime() - ((@maxVisibleDate().getTime() - timeBar.startDate.getTime()) * 0.2))
 
   _updateTimeBarPositions: ->
-    for timeBar in @_activeTimeBars
+    for timeBar in @_timeBars
       timeBar.div.style.left = @dateToPosition(timeBar.startDate) + "px"
       timeBar.div.style.width = (@dateToPosition(timeBar.endDate) - @dateToPosition(timeBar.startDate)) + "px"
 
   updateTimeBars: (activeTimeBars) ->
-    for oldTimeBar in @_activeTimeBars
+    for oldTimeBar in @_timeBars
       oldTimeBar.div.style.display = "none"
       @getCanvas().removeChild oldTimeBar.div
-    @_activeTimeBars = []
+    @_timeBars = []
     for timeBarValues in activeTimeBars
       @_drawTimeBar timeBarValues
 

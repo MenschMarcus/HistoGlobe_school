@@ -38,6 +38,7 @@ class HG.HiventsOnTimeline
           "width: #{HGConfig.hivent_marker_timeline_width.val}px !important;
            height: #{HGConfig.hivent_marker_timeline_height.val}px !important;
            cursor:pointer;
+           z-index: 2;
            margin-top: #{position};
            margin-left: -#{HGConfig.hivent_marker_timeline_width.val/2}px;
            position: absolute !important;

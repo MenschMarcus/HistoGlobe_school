@@ -43,7 +43,7 @@ $hivent_marker_2D_width             = 38px
 $hivent_marker_2D_height            = 38px
 
 $timeline_background_image          = "../config/sdw/data/bg.png"
-$timeline_font_color                = rgba(255,255,255,0.2)
+$timeline_font_color                = #9f9f9f
 $timeline_height                    = 100px
 $timeline_date_marker_font_size     = 35px
 $timeline_borders_width             = 2px
