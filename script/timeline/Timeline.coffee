@@ -78,7 +78,7 @@ class HG.Timeline
 
     #   --------------------------------------------------------------------------
     #   MOVE TIMELINE
-    @moveToDate(@_nowDate)
+    #@moveToDate(@_nowDate)
 
     #   catch end of transition
     @_uiElements.tl_wrapper.addEventListener "webkitTransitionEnd", (e) =>

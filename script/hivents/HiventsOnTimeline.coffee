@@ -10,8 +10,8 @@ class HG.HiventsOnTimeline
   constructor: (config) ->
 
     defaultConfig =
-      default_position: "0px"
-      marker_positions: []
+      default_row_position: "0px"
+      marker_row_positions: []
 
     @_config = $.extend {}, defaultConfig, config
 
@@ -28,10 +28,10 @@ class HG.HiventsOnTimeline
 
     if hgInstance.categoryIconMapping
       for category in hgInstance.categoryIconMapping.getCategories()
-        position = @_config.default_position
-        for obj in @_config.marker_positions
-          if obj.category == category
-            position = obj.position
+        # position = @_config.default_position
+        # for obj in @_config.marker_positions
+        #   if obj.category == category
+        #     position = obj.position
         icons = hgInstance.categoryIconMapping.getIcons(category)
         for element of icons
           HG.createCSSSelector ".hivent_marker_timeline_#{category}_#{element}",
@@ -39,7 +39,7 @@ class HG.HiventsOnTimeline
            height: #{HGConfig.hivent_marker_timeline_height.val}px !important;
            cursor:pointer;
            z-index: 2;
-           margin-top: #{position};
+           margin-top: 0px;
            margin-left: -#{HGConfig.hivent_marker_timeline_width.val/2}px;
            position: absolute !important;
            background-image: url(#{icons[element]}) !important;
@@ -53,7 +53,13 @@ class HG.HiventsOnTimeline
         show = (self, oldState) =>
           if oldState is 0 # invisible
             hiventMarkerDate = self.getHivent().startDate
-            marker = new HG.HiventMarkerTimeline @_timeline, self, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate)
+            rowPosition = @_config.default_row_position
+            for obj in @_config.marker_row_positions
+              if obj.category == self.getHivent().category
+                rowPosition = obj.row_position
+                break
+            console.log "yPlusPos: " + rowPosition
+            marker = new HG.HiventMarkerTimeline @_timeline, self, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate), parseInt(rowPosition)
             @_hiventMarkers.push marker
             @_markersLoaded = @_hiventController._hiventsLoaded
             callback marker for callback in @_onMarkerAddedCallbacks

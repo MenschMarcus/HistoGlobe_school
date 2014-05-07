@@ -323,11 +323,11 @@
 
   "HiventsOnMap" : {},
   "HiventsOnTimeline" : {
-    "default_position" : "0px",
-    "marker_positions": [
+    "default_row_position" : "0",
+    "marker_row_positions": [
       {
         "category" : "projektstart",
-        "position" : "-33px"
+        "row_position" : "33"
       }
     ]
   },
