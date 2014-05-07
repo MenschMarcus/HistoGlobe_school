@@ -24,7 +24,7 @@ class HG.Timeline
     @_config = $.extend {}, defaultConfig, config
 
     #   --------------------------------------------------------------------------
-    @_uiElements = @_createUIElements()
+    @_uiElements = @_initLayout()
     @_activeTimeBars = []
 
     #   --------------------------------------------------------------------------
@@ -43,7 +43,7 @@ class HG.Timeline
 
     #   --------------------------------------------------------------------------
     #   Swiper for timeline
-    @_timeline_swiper ?= new Swiper '#timeline',
+    @_timeline_swiper ?= new Swiper '#tl',
       mode:'horizontal'
       freeMode: true
       momentumRatio: 0.5
@@ -70,7 +70,7 @@ class HG.Timeline
       #   @_updateNowDate()
 
     #   --------------------------------------------------------------------------
-    @_makeLayout()
+    @_updateLayout()
 
     #   --------------------------------------------------------------------------
     @_dateMarkers   = new HG.DoublyLinkedList()
@@ -81,23 +81,23 @@ class HG.Timeline
     @moveToDate(@_nowDate)
 
     #   catch end of transition
-    @_uiElements.tlDivWrapper.addEventListener "webkitTransitionEnd", (e) =>
+    @_uiElements.tl_wrapper.addEventListener "webkitTransitionEnd", (e) =>
       @_updateNowDate()
       @_updateDateMarkers()
     , false
 
-    @_uiElements.tlDivWrapper.addEventListener "transitionend", (e) =>
+    @_uiElements.tl_wrapper.addEventListener "transitionend", (e) =>
       @_updateNowDate()
       @_updateDateMarkers()
     , false
 
-    # @_uiElements.tlDivWrapper.addEventListener "MSTransitionEnd", (e) =>
+    # @_uiElements.tl_wrapper.addEventListener "MSTransitionEnd", (e) =>
     #   console.log "huhu"
     #   @_updateNowDate()
     #   @_updateDateMarkers()
     # , false
 
-    @_uiElements.tlDivWrapper.addEventListener "oTransitionEnd", (e) =>
+    @_uiElements.tl_wrapper.addEventListener "oTransitionEnd", (e) =>
       @_updateNowDate()
       @_updateDateMarkers()
     , false
@@ -113,11 +113,11 @@ class HG.Timeline
 
     #   --------------------------------------------------------------------------
     #   ZOOM TIMLINE
-    @_uiElements.tlDiv.addEventListener "mousewheel", (e) =>
+    @_uiElements.tl.addEventListener "mousewheel", (e) =>
       e.preventDefault()
       @_zoom(e.wheelDelta)
 
-    @_uiElements.tlDiv.addEventListener "DOMMouseScroll", (e) =>
+    @_uiElements.tl.addEventListener "DOMMouseScroll", (e) =>
       e.preventDefault()
       @_zoom(-e.detail)
 
@@ -125,8 +125,8 @@ class HG.Timeline
     $(window).resize  =>
       @_maxZoom = @maxZoomLevel()
       @_maxIntervalIndex = @_calcMaxIntervalIndex()
-      @_uiElements.tlDiv.style.width = window.innerWidth + "px"
-      @_uiElements.tlDivSlide.style.width = (@timelineLength() + window.innerWidth) + "px"
+      @_uiElements.tl.style.width = window.innerWidth + "px"
+      @_uiElements.tl_slide.style.width = (@timelineLength() + window.innerWidth) + "px"
       @_updateNowDate()
       @_updateDateMarkers()
       @moveToDate(@_nowDate, 0)
@@ -146,47 +146,47 @@ class HG.Timeline
           @_zoom(-1)
 
   #   --------------------------------------------------------------------------
-  _createUIElements: ->
+  _initLayout: ->
 
     uiElements =
       body:         document.getElementsByTagName("body")[0]
-      tlDiv:        document.createElement("div")
-      tlDivWrapper: document.createElement("div")
-      tlDivSlide:   document.createElement("div")
-      dayRow:       document.createElement("div")
-      monthRow:     document.createElement("div")
-      yearRow:      document.createElement("div")
-      symbolRow:    document.createElement("div")
+      tl:        document.createElement("div")
+      tl_wrapper: document.createElement("div")
+      tl_slide:   document.createElement("div")
+      #dayRow:       document.createElement("div")
+      #monthRow:     document.createElement("div")
+      #yearRow:      document.createElement("div")
+      #symbolRow:    document.createElement("div")
       nowMarker:    document.createElement("div")
 
-    uiElements.tlDiv.id         = "timeline"
-    uiElements.tlDivWrapper.id  = "timelineWrapper"
-    uiElements.tlDivSlide.id    = "timelineSlide"
-    uiElements.dayRow.id        = "dayRow"
-    uiElements.monthRow.id      = "monthRow"
-    uiElements.yearRow.id       = "yearRow"
-    uiElements.symbolRow.id     = "symbolRow"
+    uiElements.tl.id          = "tl"
+    uiElements.tl_wrapper.id  = "tl_wrapper"
+    uiElements.tl_slide.id     = "tl_slide"
+    #uiElements.dayRow.id        = "dayRow"
+    #uiElements.monthRow.id      = "monthRow"
+    #uiElements.yearRow.id       = "yearRow"
+    #uiElements.symbolRow.id     = "symbolRow"
 
-    uiElements.tlDiv.className        = "swiper-container"
-    uiElements.tlDivWrapper.className = "swiper-wrapper"
-    uiElements.tlDivSlide.className = "swiper-slide"
+    uiElements.tl.className        = "swiper-container"
+    uiElements.tl_wrapper.className = "swiper-wrapper"
+    uiElements.tl_slide.className   = "swiper-slide"
 
-    uiElements.dayRow.className    = "tl_row"
-    uiElements.monthRow.className  = "tl_row"
-    uiElements.yearRow.className   = "tl_row"
-    uiElements.symbolRow.className = "tl_row"
+    # uiElements.dayRow.className    = "tl_row"
+    # uiElements.monthRow.className  = "tl_row"
+    # uiElements.yearRow.className   = "tl_row"
+    # uiElements.symbolRow.className = "tl_row"
 
-    uiElements.tlDiv.style.width = window.innerWidth + "px"
-    uiElements.tlDivSlide.style.width = (@timelineLength() + window.innerWidth) + "px"
+    uiElements.tl.style.width = window.innerWidth + "px"
+    uiElements.tl_slide.style.width = (@timelineLength() + window.innerWidth) + "px"
 
-    @_config.parentDiv.appendChild uiElements.tlDiv
-    uiElements.tlDiv.appendChild uiElements.tlDivWrapper
-    uiElements.tlDivWrapper.appendChild uiElements.tlDivSlide
-    uiElements.tlDivSlide.appendChild uiElements.dayRow
-    uiElements.tlDivSlide.appendChild uiElements.monthRow
-    uiElements.tlDivSlide.appendChild uiElements.yearRow
-    uiElements.tlDivSlide.appendChild uiElements.symbolRow
-    uiElements.tlDiv.appendChild uiElements.nowMarker
+    @_config.parentDiv.appendChild uiElements.tl
+    uiElements.tl.appendChild uiElements.tl_wrapper
+    uiElements.tl_wrapper.appendChild uiElements.tl_slide
+    # uiElements.tl_slide.appendChild uiElements.dayRow
+    # uiElements.tl_slide.appendChild uiElements.monthRow
+    # uiElements.tl_slide.appendChild uiElements.yearRow
+    # uiElements.tl_slide.appendChild uiElements.symbolRow
+    uiElements.tl.appendChild uiElements.nowMarker
 
     uiElements
 
@@ -246,7 +246,7 @@ class HG.Timeline
     activeTimeBar.className = "tl_timebar"
     activeTimeBar.style.left = @dateToPosition(startDate) + "px"
     activeTimeBar.style.width = (@dateToPosition(endDate) - @dateToPosition(startDate)) + "px"
-    @getUIElements().symbolRow.appendChild activeTimeBar
+    @getCanvas().appendChild activeTimeBar
 
     timeBar =
       div: activeTimeBar
@@ -255,14 +255,12 @@ class HG.Timeline
     @_activeTimeBars.push timeBar
 
     @moveToDate startDate, 0.5
-    #if timeBar.endDate.getFullYear() < @_config.maxYear and timeBar.startDate.getFullYear() > @_config.minYear
     if timeBar.endDate > @maxVisibleDate()
       while timeBar.endDate > @maxVisibleDate()
         if !@_zoom -1
             break
     else
-      maxDate = new Date(@maxVisibleDate().getTime() - ((@maxVisibleDate().getTime() - timeBar.startDate.getTime()) * 0.2))
-      while timeBar.endDate < maxDate
+      while timeBar.endDate < maxDate or !maxDate?
         if !@_zoom 1
           break
         else
@@ -276,7 +274,7 @@ class HG.Timeline
   updateTimeBars: (activeTimeBars) ->
     for oldTimeBar in @_activeTimeBars
       oldTimeBar.div.style.display = "none"
-      @getUIElements().symbolRow.removeChild oldTimeBar.div
+      @getCanvas().removeChild oldTimeBar.div
     @_activeTimeBars = []
     for timeBarValues in activeTimeBars
       @_drawTimeBar timeBarValues
@@ -295,32 +293,32 @@ class HG.Timeline
   #   needed on start and on timeline zoomed
   #   depends @_config.zoom
   #
-  _makeLayout: ->
+  _updateLayout: ->
     tlHeight = HGConfig.timeline_height.val
     tlHeightType = HGConfig.timeline_height.unit
 
     zoom = @_config.zoom * 5
 
-    hp = 0.66 * tlHeight
+    hp = 0.5 * tlHeight
 
-    dayRowHeight = (zoom / @_maxZoom) * (1/3)
-    monthRowHeight = (zoom / @_maxZoom) * (2/3)
-    yearRowHeight = ((@_maxZoom - zoom) / @_maxZoom)
+    # dayRowHeight = (zoom / @_maxZoom) * (1/3)
+    # monthRowHeight = (zoom / @_maxZoom) * (2/3)
+    # yearRowHeight = ((@_maxZoom - zoom) / @_maxZoom)
 
-    @_uiElements.tlDivSlide.style.width = (@timelineLength() + window.innerWidth) + "px"
+    @_uiElements.tl_slide.style.width = (@timelineLength() + window.innerWidth) + "px"
     @moveToDate(@_nowDate, 0)
 
-    @_uiElements.dayRow.style.height = (dayRowHeight * hp) + tlHeightType
-    @_uiElements.dayRow.style.fontSize = (dayRowHeight * hp) + tlHeightType
+    # @_uiElements.dayRow.style.height = (dayRowHeight * hp) + tlHeightType
+    # @_uiElements.dayRow.style.fontSize = (dayRowHeight * hp) + tlHeightType
 
-    @_uiElements.monthRow.style.height = (monthRowHeight * hp) + tlHeightType
-    @_uiElements.monthRow.style.fontSize = (monthRowHeight * hp) + tlHeightType
+    # @_uiElements.monthRow.style.height = (monthRowHeight * hp) + tlHeightType
+    # @_uiElements.monthRow.style.fontSize = (monthRowHeight * hp) + tlHeightType
 
-    @_uiElements.yearRow.style.height = (yearRowHeight * hp) + tlHeightType
-    @_uiElements.yearRow.style.fontSize = (yearRowHeight * hp) + tlHeightType
+    # @_uiElements.yearRow.style.height = (yearRowHeight * hp) + tlHeightType
+    # @_uiElements.yearRow.style.fontSize = (yearRowHeight * hp) + tlHeightType
 
-    @_uiElements.symbolRow.style.height = (1 * tlHeight - HGConfig.border_width.val) + tlHeightType
-    @_uiElements.symbolRow.style.fontSize = (1 * tlHeight - HGConfig.border_width.val) + tlHeightType
+    # @_uiElements.symbolRow.style.height = (1 * tlHeight - HGConfig.border_width.val) + tlHeightType
+    # @_uiElements.symbolRow.style.fontSize = (1 * tlHeight - HGConfig.border_width.val) + tlHeightType
 
     @_timeline_swiper.reInit()
 
@@ -366,20 +364,18 @@ class HG.Timeline
     pos = (dateDiff / @millisPerPixel()) + window.innerWidth/2
 
   #   --------------------------------------------------------------------------
-  getUIElements: ->
+  getLayout: ->
     @_uiElements
-
   getNowDate: ->
     @_nowDate
-
   getNowMarker: ->
     @_nowMarker
-
   getMaxIntervalIndex: ->
     @_maxIntervalIndex
-
   getParentDiv: ->
     @_config.parentDiv
+  getCanvas: ->
+    @_uiElements.tl_slide
 
   #   --------------------------------------------------------------------------
   #   move timeline to specified date and set date as new nowdate
@@ -395,12 +391,12 @@ class HG.Timeline
       @moveToDate @yearToDate(@_config.maxYear), delay, successCallback
     else
       dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
-      @_uiElements.tlDivWrapper.style.transition =  delay + "s"
-      @_uiElements.tlDivWrapper.style.transform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-      @_uiElements.tlDivWrapper.style.webkitTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-      @_uiElements.tlDivWrapper.style.MozTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-      @_uiElements.tlDivWrapper.style.MsTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-      @_uiElements.tlDivWrapper.style.oTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tl_wrapper.style.transition =  delay + "s"
+      @_uiElements.tl_wrapper.style.transform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tl_wrapper.style.webkitTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tl_wrapper.style.MozTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tl_wrapper.style.MsTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tl_wrapper.style.oTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
 
       @_animationTargetDate = date
       @_nowDate = date
@@ -424,7 +420,7 @@ class HG.Timeline
 
     if zoomed
       @_maxIntervalIndex = @_calcMaxIntervalIndex()
-      @_makeLayout()
+      @_updateLayout()
       @_updateDateMarkers()
     zoomed
 
@@ -499,12 +495,6 @@ class HG.Timeline
     if i > 2
         d.setDate(res[i - 3])
     d
-
-  #   --------------------------------------------------------------------------
-  #   Canvas for symbols and Infos on timeline
-  #   will be shown below the date numbers
-  getCanvas: ->
-    @_uiElements.symbolRow
 
   #   --------------------------------------------------------------------------
   _getTimeFilter: ->

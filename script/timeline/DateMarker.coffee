@@ -33,12 +33,12 @@ class HG.DateMarker
       if !@_divs[0]?
         @_divs[0] = document.createElement("div")
         @_divs[0].id = "tl_year_" + @_date.getFullYear()
-        @_divs[0].className = "tl_marker"
+        @_divs[0].className = "tl_datemarker"
         @_divs[0].innerHTML = @_date.getFullYear()
         @_divs[0].style.left = @_timeline.dateToPosition(@_date) + "px"
         @_divs[0].style.display = "none"
         #@_divs[0].style.fontSize = @_filterView()[0] + "%"
-        @_timeline.getUIElements().yearRow.appendChild @_divs[0]
+        @_timeline.getCanvas().appendChild @_divs[0]
         $(@_divs[0]).fadeIn(200)
       else
         @_divs[0].style.left = @_timeline.dateToPosition(@_date) + "px"

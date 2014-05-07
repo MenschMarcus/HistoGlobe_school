@@ -322,7 +322,15 @@
     },
 
   "HiventsOnMap" : {},
-  "HiventsOnTimeline" : {},
+  "HiventsOnTimeline" : {
+    "default_position" : "0px",
+    "marker_positions": [
+      {
+        "category" : "projektstart",
+        "position" : "-33px"
+      }
+    ]
+  },
 
 
   "HiventTooltips" : {},

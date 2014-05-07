@@ -7,7 +7,13 @@ class HG.HiventsOnTimeline
   ##############################################################################
 
   # ============================================================================
-  constructor: () ->
+  constructor: (config) ->
+
+    defaultConfig =
+      default_position: "0px"
+      marker_positions: []
+
+    @_config = $.extend {}, defaultConfig, config
 
     @_timeline = null
     @_hiventController = null
@@ -22,13 +28,17 @@ class HG.HiventsOnTimeline
 
     if hgInstance.categoryIconMapping
       for category in hgInstance.categoryIconMapping.getCategories()
+        position = @_config.default_position
+        for obj in @_config.marker_positions
+          if obj.category == category
+            position = obj.position
         icons = hgInstance.categoryIconMapping.getIcons(category)
         for element of icons
           HG.createCSSSelector ".hivent_marker_timeline_#{category}_#{element}",
           "width: #{HGConfig.hivent_marker_timeline_width.val}px !important;
            height: #{HGConfig.hivent_marker_timeline_height.val}px !important;
            cursor:pointer;
-           margin-top: 0;
+           margin-top: #{position};
            margin-left: -#{HGConfig.hivent_marker_timeline_width.val/2}px;
            position: absolute !important;
            background-image: url(#{icons[element]}) !important;

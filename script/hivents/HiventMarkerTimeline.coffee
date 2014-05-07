@@ -1,3 +1,4 @@
+
 #include Extendable.coffee
 #include HiventMarker.coffee
 
@@ -33,11 +34,10 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
     @_div.style.top = @_position.y + "px"
 
     # new
-    if hiventHandle.getHivent().startDate.getTime() isnt hiventHandle.getHivent().endDate.getTime()
+    '''if hiventHandle.getHivent().startDate.getTime() isnt hiventHandle.getHivent().endDate.getTime()
       xDiff = @_timeline.dateToPosition(hiventHandle.getHivent().endDate) - @_timeline.dateToPosition(hiventHandle.getHivent().startDate)
       @_div.style.width = xDiff + "px"
-      @_div.style.background = "rgba(255, 0, 0, 1)"
-      console.log "draw time period"
+      @_div.style.background = "rgba(255, 0, 0, 1)"'''
 
     parent.appendChild @_div
 
