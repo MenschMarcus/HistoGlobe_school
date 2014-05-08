@@ -15,15 +15,16 @@
 
   #tl_wrapper {
     background-color: @timeline_background_color;
-    background-image: -webkit-linear-gradient(top,
-      @timeline_background_color @timeline_background_row_position_1,
-      @timeline_background_row_color_1 @timeline_background_row_position_1,
-      @timeline_background_row_color_1 (@timeline_background_row_position_1 + @timeline_background_row_height),
-      @timeline_background_color (@timeline_background_row_position_1 + @timeline_background_row_height),
-      @timeline_background_color @timeline_background_row_position_2,
-      @timeline_background_row_color_2 @timeline_background_row_position_2,
-      @timeline_background_row_color_2 (@timeline_background_row_position_2 + @timeline_background_row_height),
-      @timeline_background_color (@timeline_background_row_position_2 + @timeline_background_row_height));
+    .linear-gradient-top(#878787, #878787, 0%, #636363, 100%);
+    // background-image: -webkit-linear-gradient(top,
+    //   @timeline_background_color @timeline_background_row_position_1,
+    //   @timeline_background_row_color_1 @timeline_background_row_position_1,
+    //   @timeline_background_row_color_1 (@timeline_background_row_position_1 + @timeline_background_row_height),
+    //   @timeline_background_color (@timeline_background_row_position_1 + @timeline_background_row_height),
+    //   @timeline_background_color @timeline_background_row_position_2,
+    //   @timeline_background_row_color_2 @timeline_background_row_position_2,
+    //   @timeline_background_row_color_2 (@timeline_background_row_position_2 + @timeline_background_row_height),
+    //   @timeline_background_color (@timeline_background_row_position_2 + @timeline_background_row_height));
     background-repeat: repeat;
 
     #tl_slide {

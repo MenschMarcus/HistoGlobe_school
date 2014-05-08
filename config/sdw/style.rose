@@ -52,9 +52,9 @@ $timeline_background_row_height     = 33px
 $timeline_background_row_color_1    = rgba(100,100,100,0.15)
 $timeline_background_row_color_2    = rgba(100,100,100,0.3)
 $timeline_background_row_position_1 = 30px
-$timeline_background_row_position_2 = 63px
+$timeline_background_row_position_2 = 93px
 
-$timeline_font_color                = rgba(255,255,255,0.2)
+$timeline_font_color                = rgba(255,255,255,0.17)
 $timeline_height                    = 100px
 $timeline_date_marker_font_size     = 35px
 $timeline_borders_width             = 2px

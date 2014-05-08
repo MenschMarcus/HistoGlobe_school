@@ -27,7 +27,7 @@
 {"type":"circle", "start":"01.09.2009", "end":"01.01.9999", "label":"Papenburg","categories":["P17"],"size":10, "center":[7.4,53.082999999999996]},
 {"type":"circle", "start":"27.02.2014", "end":"01.01.9999", "label":"Braunschweig","categories":["P17"],"size":10, "center":[10.533,52.267]},
 {"type":"circle", "start":"01.01.2009", "end":"01.01.2013", "label":"Braunschweig","categories":["P20"],"size":10, "center":[10.533,52.267]},
-{"type":"circle", "start":"27.02.2014", "end":"01.01.9999", "label":"Wolfsburg","categories":["P17"],"size":10, "center":[10.783,52.467]},
+{"type":"circle", "start":"27.02.2014", "end":"01.01.9999", "label":"Wolfsburg","categories":["P17"],"size":10, "center":[10.783,52.417]},
 {"type":"circle", "start":"01.01.2007", "end":"01.01.9999", "label":"Frankfurt (Oder)","categories":["P17"],"size":10, "center":[14.545,52.341999999999996]},
 {"type":"circle", "start":"01.01.2009", "end":"01.01.2013", "label":"Frankfurt (Oder)","categories":["P20"],"size":10, "center":[14.545,52.341999999999996]},
 {"type":"circle", "start":"01.09.2011", "end":"01.01.9999", "label":"Greifswald","categories":["P17"],"size":10, "center":[13.383,54.088999999999996]},
