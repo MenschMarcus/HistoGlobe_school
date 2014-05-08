@@ -6,7 +6,7 @@ class HG.Timeline
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
-  #   ---------------------------------------------------------------------
+  #   --------------------------------------------------------------------------
   constructor: (config) ->
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
@@ -20,123 +20,87 @@ class HG.Timeline
       nowYear: 1900
       minYear: 1800
       maxYear: 2020
+      speedometer: true
 
     @_config = $.extend {}, defaultConfig, config
 
-    #   --------------------------------------------------------------------------
-    @_uiElements = @_initLayout()
-    @_timeBars = []
+    #   ------------------------------------------------------------------------
+    @_uiElements =
+      tl:           @addUIElement "tl", "swiper-container", @_config.parentDiv
+      tl_wrapper:   @addUIElement "tl_wrapper", "swiper-wrapper", tl
+      tl_slide:     @addUIElement "tl_slide", "swiper-slide", tl_wrapper
+      nowMarker:    @addUIElement "now_marker", "now_marker", document.getElementById("histoglobe")
+      timeBars:     []
+      dateMarkers:  new HG.DoublyLinkedList()
 
-    #   --------------------------------------------------------------------------
-    @_maxZoom = @maxZoomLevel()
-    @_maxIntervalIndex = @_calcMaxIntervalIndex()
+    #   ------------------------------------------------------------------------
+    @_now =
+      date: @yearToDate(@_config.nowYear)
+      marker: new HG.NowMarker(@, @_uiElements.nowMarker, @_config.speedometer)
 
-    #   --------------------------------------------------------------------------
-    @_nowDate = @yearToDate(@_config.nowYear)
-
-    #   --------------------------------------------------------------------------
-    #   now marker is always in middle of page and depends on nowDate of timeline
-    @_nowMarker = new HG.NowMarker(@)
-
-    #   --------------------------------------------------------------------------
+    #   TRANSITION / SWIPER ----------------------------------------------------
     @_moveDelay = 0
-
-    #   --------------------------------------------------------------------------
-    #   Swiper for timeline
     @_timeline_swiper ?= new Swiper '#tl',
       mode:'horizontal'
       freeMode: true
       momentumRatio: 0.5
       scrollContainer: true
-      # onSlideClick: (s, d) =>
-        # target = new Date(@yearToDate(@_config.minYear).getTime() - (@_timeline_swiper.getWrapperTranslate("x") - d.x + window.innerWidth/2) * @millisPerPixel())
-        # @moveToDate(target, 0.5)
-
       onTouchStart: =>
         @_animationTargetDate = null
         if @_play
-          @_nowMarker.animationSwitch()
-
+          @_now.marker.animationSwitch()
       onTouchMove: =>
         fireCallbacks = false
         if ++@_moveDelay == 10
           @_moveDelay = 0
           fireCallbacks = true
-
         @_updateNowDate(fireCallbacks)
         @_updateDateMarkers()
-      # onSetWrapperTransition: =>
-      #   console.log "huhu"
-      #   @_updateNowDate()
-
-    #   --------------------------------------------------------------------------
-    @_updateLayout()
-
-    #   --------------------------------------------------------------------------
-    @_dateMarkers   = new HG.DoublyLinkedList()
-    @_updateDateMarkers()
-
-    #   --------------------------------------------------------------------------
-    #   MOVE TIMELINE
-    #@moveToDate(@_nowDate)
-
-    #   catch end of transition
     @_uiElements.tl_wrapper.addEventListener "webkitTransitionEnd", (e) =>
       @_updateNowDate()
       @_updateDateMarkers()
     , false
-
     @_uiElements.tl_wrapper.addEventListener "transitionend", (e) =>
       @_updateNowDate()
       @_updateDateMarkers()
     , false
-
-    # @_uiElements.tl_wrapper.addEventListener "MSTransitionEnd", (e) =>
-    #   console.log "huhu"
-    #   @_updateNowDate()
-    #   @_updateDateMarkers()
-    # , false
-
     @_uiElements.tl_wrapper.addEventListener "oTransitionEnd", (e) =>
       @_updateNowDate()
       @_updateDateMarkers()
     , false
 
-    # set animation for timeline play
+    #   TIMELINE ANIMATION  ----------------------------------------------------
     @_play = false
     @_speed = 1
     @_stopDate = @yearToDate(@_config.maxYear)
     @_nextHiventhandle = null
     setInterval @_animTimeline, 30
 
-    @_updateNowDate()
-
-    #   --------------------------------------------------------------------------
-    #   ZOOM TIMLINE
+    #   ZOOM  ------------------------------------------------------------------
     @_uiElements.tl.addEventListener "mousewheel", (e) =>
       e.preventDefault()
-      @_zoom(e.wheelDelta)
-
+      @_zoom(e.wheelDelta, e)
     @_uiElements.tl.addEventListener "DOMMouseScroll", (e) =>
       e.preventDefault()
-      @_zoom(-e.detail)
+      @_zoom(-e.detail, e)
 
-    #   --------------------------------------------------------------------------
+    #   ------------------------------------------------------------------------
     $(window).resize  =>
-      @_maxZoom = @maxZoomLevel()
-      @_maxIntervalIndex = @_calcMaxIntervalIndex()
-      @_uiElements.tl.style.width = window.innerWidth + "px"
-      @_uiElements.tl_slide.style.width = (@timelineLength() + window.innerWidth) + "px"
-      @_updateNowDate()
+      @_updateLayout()
       @_updateDateMarkers()
-      @moveToDate(@_nowDate, 0)
+      @_updateNowDate()
+
+    #   ------------------------------------------------------------------------
+    @_updateLayout()
+    @_updateDateMarkers()
+    @_updateNowDate()
 
   # ============================================================================
   hgInit: (hgInstance) ->
     #@_hiventController = hgInstance.hiventController
     hgInstance.onAllModulesLoaded @, () =>
       @_hiventController = hgInstance.hiventController
-      @notifyAll "onNowChanged", @_nowDate
+      @notifyAll "onNowChanged", @_now.date
       @notifyAll "onIntervalChanged", @_getTimeFilter()
 
       if hgInstance.zoom_buttons_timeline
@@ -146,320 +110,32 @@ class HG.Timeline
           @_zoom(-1)
 
   #   --------------------------------------------------------------------------
-  _initLayout: ->
-
-    uiElements =
-      body:         document.getElementsByTagName("body")[0]
-      tl:        document.createElement("div")
-      tl_wrapper: document.createElement("div")
-      tl_slide:   document.createElement("div")
-      #dayRow:       document.createElement("div")
-      #monthRow:     document.createElement("div")
-      #yearRow:      document.createElement("div")
-      #symbolRow:    document.createElement("div")
-      nowMarker:    document.createElement("div")
-
-    uiElements.tl.id          = "tl"
-    uiElements.tl_wrapper.id  = "tl_wrapper"
-    uiElements.tl_slide.id     = "tl_slide"
-    #uiElements.dayRow.id        = "dayRow"
-    #uiElements.monthRow.id      = "monthRow"
-    #uiElements.yearRow.id       = "yearRow"
-    #uiElements.symbolRow.id     = "symbolRow"
-
-    uiElements.tl.className        = "swiper-container"
-    uiElements.tl_wrapper.className = "swiper-wrapper"
-    uiElements.tl_slide.className   = "swiper-slide"
-
-    # uiElements.dayRow.className    = "tl_row"
-    # uiElements.monthRow.className  = "tl_row"
-    # uiElements.yearRow.className   = "tl_row"
-    # uiElements.symbolRow.className = "tl_row"
-
-    uiElements.tl.style.width = window.innerWidth + "px"
-    uiElements.tl_slide.style.width = (@timelineLength() + window.innerWidth) + "px"
-
-    @_config.parentDiv.appendChild uiElements.tl
-    uiElements.tl.appendChild uiElements.tl_wrapper
-    uiElements.tl_wrapper.appendChild uiElements.tl_slide
-    # uiElements.tl_slide.appendChild uiElements.dayRow
-    # uiElements.tl_slide.appendChild uiElements.monthRow
-    # uiElements.tl_slide.appendChild uiElements.yearRow
-    # uiElements.tl_slide.appendChild uiElements.symbolRow
-    uiElements.tl.appendChild uiElements.nowMarker
-
-    uiElements
+  addUIElement: (id, className, parentDiv, type="div") ->
+    container = document.createElement(type)
+    container.id = id
+    container.className = className if className?
+    parentDiv.appendChild container if parentDiv?
+    container
 
   #   --------------------------------------------------------------------------
-  #   various functions to calculate time intervals and degrees for the timeline
   millisPerPixel: ->
     mpp = (@yearToMillis(@_config.maxYear - @_config.minYear) / window.innerWidth) / @_config.zoom
-
   minVisibleDate: ->
-    d = new Date(@_nowDate.getTime() - (@millisPerPixel() * window.innerWidth / 2))
-
+    d = new Date(@_now.date.getTime() - (@millisPerPixel() * window.innerWidth / 2))
   maxVisibleDate: ->
-    d = new Date(@_nowDate.getTime() + (@millisPerPixel() * window.innerWidth / 2))
-
+    d = new Date(@_now.date.getTime() + (@millisPerPixel() * window.innerWidth / 2))
   timelineLength: ->
     @yearToMillis(@_config.maxYear - @_config.minYear) / @millisPerPixel()
-
-  maxZoomLevel: ->
-    f = false
-    zoom = 1
-    while !f
-      mpp = (@yearToMillis(@_config.maxYear - @_config.minYear) / window.innerWidth) / zoom
-      if @millisToDays(window.innerWidth * mpp) > 31
-        zoom++
-      else
-        f = true
-        return zoom
-
-  _calcMaxIntervalIndex: ->
-    index = 0
-    while @timeInterval(index) <= window.innerWidth * @millisPerPixel()
-      index++
-    (index - 1)
-
-  _updateNowDate: (fireCallbacks = true) ->
-    if @_animationTargetDate?
-      @_nowDate = @_animationTargetDate
-      @_animationTargetDate = null
-
-    else
-      @_nowDate = new Date(@yearToDate(@_config.minYear).getTime() + (-1) * @_timeline_swiper.getWrapperTranslate("x") * @millisPerPixel())
-    @_nowMarker.nowDateChanged()
-
-    if fireCallbacks
-      @notifyAll "onNowChanged", @_nowDate
-      @notifyAll "onIntervalChanged", @_getTimeFilter()
-
-  #   --------------------------------------------------------------------------
-  #   TIMEBARS ON TIMELINE
-  _drawTimeBar: (timeBarValues) ->
-
-    startDate = @stringToDate(timeBarValues[0])
-    endDate   = @stringToDate(timeBarValues[1])
-
-    tb_div = document.createElement("div")
-    tb_div.id = "tl_timebar_" + timeBarValues[2]
-    tb_div.className = "tl_timebar"
-    tb_div.style.left = @dateToPosition(startDate) + "px"
-    tb_div.style.width = (@dateToPosition(endDate) - @dateToPosition(startDate)) + "px"
-    @getCanvas().appendChild tb_div
-
-    timeBar =
-      div: tb_div
-      startDate: startDate
-      endDate: endDate
-    @_timeBars.push timeBar
-
-    @moveToDate startDate, 0.5
-    if timeBar.endDate > @maxVisibleDate()
-      while timeBar.endDate > @maxVisibleDate()
-        if !@_zoom -1
-            break
-    else
-      while timeBar.endDate < maxDate or !maxDate?
-        if !@_zoom 1
-          break
-        else
-          maxDate = new Date(@maxVisibleDate().getTime() - ((@maxVisibleDate().getTime() - timeBar.startDate.getTime()) * 0.2))
-
-  _updateTimeBarPositions: ->
-    for timeBar in @_timeBars
-      timeBar.div.style.left = @dateToPosition(timeBar.startDate) + "px"
-      timeBar.div.style.width = (@dateToPosition(timeBar.endDate) - @dateToPosition(timeBar.startDate)) + "px"
-
-  updateTimeBars: (activeTimeBars) ->
-    for oldTimeBar in @_timeBars
-      oldTimeBar.div.style.display = "none"
-      @getCanvas().removeChild oldTimeBar.div
-    @_timeBars = []
-    for timeBarValues in activeTimeBars
-      @_drawTimeBar timeBarValues
-
-  #   --------------------------------------------------------------------------
-  #   for i e {0,1,2,3,...} it should return 1,5,10,50,100,...
-  #   needed for highlightinh timescale dates
   timeInterval: (i) ->
     if i % 2 != 0
       return @yearToMillis(5 * Math.pow(10, Math.floor(i / 2)))
     else
       return @yearToMillis(Math.pow(10, Math.floor(i / 2)))
-
-  #   --------------------------------------------------------------------------
-  #   calcluate and set height and width of timeline
-  #   needed on start and on timeline zoomed
-  #   depends @_config.zoom
-  #
-  _updateLayout: ->
-    tlHeight = HGConfig.timeline_height.val
-    tlHeightType = HGConfig.timeline_height.unit
-
-    zoom = @_config.zoom * 5
-
-    hp = 0.5 * tlHeight
-
-    # dayRowHeight = (zoom / @_maxZoom) * (1/3)
-    # monthRowHeight = (zoom / @_maxZoom) * (2/3)
-    # yearRowHeight = ((@_maxZoom - zoom) / @_maxZoom)
-
-    @_uiElements.tl_slide.style.width = (@timelineLength() + window.innerWidth) + "px"
-    @moveToDate(@_nowDate, 0)
-
-    # @_uiElements.dayRow.style.height = (dayRowHeight * hp) + tlHeightType
-    # @_uiElements.dayRow.style.fontSize = (dayRowHeight * hp) + tlHeightType
-
-    # @_uiElements.monthRow.style.height = (monthRowHeight * hp) + tlHeightType
-    # @_uiElements.monthRow.style.fontSize = (monthRowHeight * hp) + tlHeightType
-
-    # @_uiElements.yearRow.style.height = (yearRowHeight * hp) + tlHeightType
-    # @_uiElements.yearRow.style.fontSize = (yearRowHeight * hp) + tlHeightType
-
-    # @_uiElements.symbolRow.style.height = (1 * tlHeight - HGConfig.border_width.val) + tlHeightType
-    # @_uiElements.symbolRow.style.fontSize = (1 * tlHeight - HGConfig.border_width.val) + tlHeightType
-
-    @_timeline_swiper.reInit()
-
-  #   --------------------------------------------------------------------------
-  _updateDateMarkers: ->
-    #   count possible years to show
-    count = @_config.maxYear - @_config.minYear
-
-    #   if list of datemarkers is not available
-    #   fill it with nulls
-    if @_dateMarkers.getLength() == 0
-      for i in [0..count]
-        @_dateMarkers.addLast(null)
-
-    #   calculate interval between years to show
-    intervalIndex = @_maxIntervalIndex - 1
-    intervalIndex = 0 if intervalIndex < 0
-
-    maxDate = @maxVisibleDate()
-    minDate = @minVisibleDate()
-
-    #   walk through list an create, or hide datemarkers
-    for i in [0..count]
-      if (@_config.minYear + i) % @millisToYear(@timeInterval(intervalIndex)) == 0 && (@_config.minYear + i) >= minDate.getFullYear() && (@_config.minYear + i) <= maxDate.getFullYear()
-        if @_dateMarkers.get(i).nodeData?
-          @_dateMarkers.get(i).nodeData.updateView(true)
-        else
-          date = new Date(@_config.minYear + i, 0, 1, 0, 0, 0)
-          @_dateMarkers.get(i).nodeData = new HG.DateMarker(date, @)
-      else
-        if @_dateMarkers.get(i).nodeData?
-          @_dateMarkers.get(i).nodeData.updateView(false)
-          @_dateMarkers.get(i).nodeData = null
-
-    @_updateTimeBarPositions()
-
-  #   --------------------------------------------------------------------------
-  #   left border of timeline has date value @_config.minYear
-  #   so position of marker on timeline is calculated by millisPerPixel and difference between
-  #   the date of the marker and the minYear
   dateToPosition: (date) ->
     dateDiff = date.getTime() - @yearToDate(@_config.minYear).getTime()
     pos = (dateDiff / @millisPerPixel()) + window.innerWidth/2
 
   #   --------------------------------------------------------------------------
-  getLayout: ->
-    @_uiElements
-  getNowDate: ->
-    @_nowDate
-  getNowMarker: ->
-    @_nowMarker
-  getMaxIntervalIndex: ->
-    @_maxIntervalIndex
-  getParentDiv: ->
-    @_config.parentDiv
-  getCanvas: ->
-    @_uiElements.tl_slide
-
-  #   --------------------------------------------------------------------------
-  #   move timeline to specified date and set date as new nowdate
-  # moveToDate: (date) ->
-  #   if @yearToDate(@_config.minYear).getTime() < date.getTime() && @yearToDate(@_config.maxYear).getTime() > date.getTime()
-  #     dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
-  #     @_timeline_swiper.setWrapperTranslate(dateDiff / @millisPerPixel(),0,0)
-
-  moveToDate: (date, delay=0, successCallback=undefined) ->
-    if @yearToDate(@_config.minYear).getTime() > date.getTime()
-      @moveToDate @yearToDate(@_config.minYear), delay, successCallback
-    else if @yearToDate(@_config.maxYear).getTime() < date.getTime()
-      @moveToDate @yearToDate(@_config.maxYear), delay, successCallback
-    else
-      dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
-      @_uiElements.tl_wrapper.style.transition =  delay + "s"
-      @_uiElements.tl_wrapper.style.transform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-      @_uiElements.tl_wrapper.style.webkitTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-      @_uiElements.tl_wrapper.style.MozTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-      @_uiElements.tl_wrapper.style.MsTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-      @_uiElements.tl_wrapper.style.oTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-
-      @_animationTargetDate = date
-      @_nowDate = date
-      @_nowMarker.nowDateChanged()
-
-      @notifyAll "onNowChanged", @_nowDate
-      @notifyAll "onIntervalChanged", @_getTimeFilter()
-      successCallback?()
-
-  #   --------------------------------------------------------------------------
-  _zoom: (delta) =>
-    zoomed = false
-    if delta > 0
-      if @maxVisibleDate().getFullYear() - @minVisibleDate().getFullYear() > 2
-        @_config.zoom *= 1.2
-        zoomed = true
-    else
-      if @_config.zoom > 1
-        @_config.zoom /= 1.2
-        zoomed = true
-
-    if zoomed
-      @_maxIntervalIndex = @_calcMaxIntervalIndex()
-      @_updateLayout()
-      @_updateDateMarkers()
-    zoomed
-
-  #   --------------------------------------------------------------------------
-  _animTimeline: =>
-
-    # move timeline periodicly
-    if @_play
-      if @_nowDate.getFullYear() <= @_config.maxYear
-        toDate = new Date(@_nowDate.getTime() + @_speed*@_speed * 5000 * 60 * 60 * 24 * 7)
-        '''endDate = @_stopDate
-
-        if (toDate >= endDate)
-          toDate = endDate
-          @_nowMarker.animationSwitch()'''
-
-        @moveToDate(toDate,0)
-        @_updateNowDate()
-        @_updateDateMarkers()
-      else
-        @_nowMarker.animationSwitch()
-
-  stopTimeline: ->
-    @_play = false
-
-  playTimeline: ->
-    @_play = true
-    '''@_nextHiventhandle = @_hiventController.getNextHiventHandle(@_nowDate)
-    if @_nextHiventhandle
-      @_stopDate = @_nextHiventhandle.getHivent().startDate'''
-
-  setSpeed: (speed) ->
-    @_speed = speed
-
-  getPlayStatus: ->
-    @_play
-
-  #   --------------------------------------------------------------------------
-  #   functions to convert data to various types (f.e. year to milliseconds)
   yearToDate: (year) ->
     date = new Date(0)
     date.setFullYear year
@@ -469,19 +145,14 @@ class HG.Timeline
     date.setMinutes 0
     date.setSeconds 0
     date
-
   yearToMillis: (year) ->
     millis = year * 365.25 * 24 * 60 * 60 * 1000
-
   millisToYear: (millis) ->
     year = millis / 1000 / 60 / 60 / 24 / 365.25
-
   daysToMillis: (days) ->
     millis = days * 24 * 60 * 60 * 1000
-
   millisToDays: (millis) ->
     days = millis / 1000 / 60 / 60 / 24
-
   stringToDate: (string) ->
     res = (string + "").split(".")
     i = res.length
@@ -497,13 +168,200 @@ class HG.Timeline
     d
 
   #   --------------------------------------------------------------------------
+  updateTimeBars: (activeTimeBars) ->
+    for oldTimeBar in @_uiElements.timeBars
+      oldTimeBar.div.style.display = "none"
+      @getCanvas().removeChild oldTimeBar.div
+    @_uiElements.timeBars = []
+    for timeBarValues in activeTimeBars
+      @_drawTimeBar timeBarValues
+
+  #   --------------------------------------------------------------------------
+  moveToDate: (date, delay=0, successCallback=undefined) ->
+    if @yearToDate(@_config.minYear).getTime() > date.getTime()
+      @moveToDate @yearToDate(@_config.minYear), delay, successCallback
+    else if @yearToDate(@_config.maxYear).getTime() < date.getTime()
+      @moveToDate @yearToDate(@_config.maxYear), delay, successCallback
+    else
+      dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
+      @_uiElements.tl_wrapper.style.transition =  delay + "s"
+      @_uiElements.tl_wrapper.style.transform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tl_wrapper.style.webkitTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tl_wrapper.style.MozTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tl_wrapper.style.MsTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tl_wrapper.style.oTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+
+      @_animationTargetDate = date
+      @_now.date = date
+      @_now.marker.nowDateChanged()
+
+      @notifyAll "onNowChanged", @_now.date
+      @notifyAll "onIntervalChanged", @_getTimeFilter()
+      successCallback?()
+
+  #   --------------------------------------------------------------------------
+  getLayout: ->
+    @_uiElements
+  getNowDate: ->
+    @_now.date
+  getNowMarker: ->
+    @_now.marker
+  getParentDiv: ->
+    @_config.parentDiv
+  getCanvas: ->
+    @_uiElements.tl_slide
+  stopTimeline: ->
+    @_play = false
+  playTimeline: ->
+    @_play = true
+  setSpeed: (speed) ->
+    @_speed = speed
+  getPlayStatus: ->
+    @_play
+
+  ##############################################################################
+  #                            PRIVATE INTERFACE                               #
+  ##############################################################################
+
+  #   --------------------------------------------------------------------------
+  _updateLayout: ->
+    @_uiElements.tl.style.width       = window.innerWidth + "px"
+    @_uiElements.tl_slide.style.width = (@timelineLength() + window.innerWidth) + "px"
+    @moveToDate(@_now.date, 0)
+    @_timeline_swiper.reInit()
+
+  #   --------------------------------------------------------------------------
+  _updateNowDate: (fireCallbacks = true) ->
+    if @_animationTargetDate?
+      @_now.date = @_animationTargetDate
+      @_animationTargetDate = null
+
+    else
+      @_now.date = new Date(@yearToDate(@_config.minYear).getTime() + (-1) * @_timeline_swiper.getWrapperTranslate("x") * @millisPerPixel())
+    @_now.marker.nowDateChanged()
+
+    if fireCallbacks
+      @notifyAll "onNowChanged", @_now.date
+      @notifyAll "onIntervalChanged", @_getTimeFilter()
+
+  #   --------------------------------------------------------------------------
+  _drawTimeBar: (timeBarValues) ->
+
+    startDate = @stringToDate(timeBarValues[0])
+    endDate   = @stringToDate(timeBarValues[1])
+
+    tb_div = @addUIElement "tl_timebar_" + timeBarValues[2], "tl_timebar", @getCanvas()
+    tb_div.style.left = @dateToPosition(startDate) + "px"
+    tb_div.style.width = (@dateToPosition(endDate) - @dateToPosition(startDate)) + "px"
+
+    timeBar =
+      div: tb_div
+      startDate: startDate
+      endDate: endDate
+    @_uiElements.timeBars.push timeBar
+
+    @moveToDate startDate, 0.5
+    if timeBar.endDate > @maxVisibleDate()
+      while timeBar.endDate > @maxVisibleDate()
+        if !@_zoom -1
+            break
+    else
+      while timeBar.endDate < maxDate or !maxDate?
+        if !@_zoom 1
+          break
+        else
+          maxDate = new Date(@maxVisibleDate().getTime() - ((@maxVisibleDate().getTime() - timeBar.startDate.getTime()) * 0.2))
+
+  _updateTimeBarPositions: ->
+    for timeBar in @_uiElements.timeBars
+      timeBar.div.style.left = @dateToPosition(timeBar.startDate) + "px"
+      timeBar.div.style.width = (@dateToPosition(timeBar.endDate) - @dateToPosition(timeBar.startDate)) + "px"
+
+  #   --------------------------------------------------------------------------
+  _updateDateMarkers: ->
+    #   count possible years to show
+    count = @_config.maxYear - @_config.minYear
+
+    #   if list of datemarkers is not available
+    #   fill it with nulls
+    if @_uiElements.dateMarkers.getLength() == 0
+      for i in [0..count]
+        @_uiElements.dateMarkers.addLast(null)
+
+    #   calculate interval between years to show
+    index = 0
+    while @timeInterval(index) <= window.innerWidth * @millisPerPixel()
+      index++
+    intervalIndex = (index - 2)
+    intervalIndex = 0 if intervalIndex < 0
+
+    maxDate = @maxVisibleDate()
+    minDate = @minVisibleDate()
+
+    #   walk through list an create, or hide datemarkers
+    for i in [0..count]
+      if (@_config.minYear + i) % @millisToYear(@timeInterval(intervalIndex)) == 0 && (@_config.minYear + i) >= minDate.getFullYear() && (@_config.minYear + i) <= maxDate.getFullYear() && !@dateMarkerAtIndexOverlappsAnOtherDateMarker(i)
+        if @_uiElements.dateMarkers.get(i).nodeData?
+          @_uiElements.dateMarkers.get(i).nodeData.updateView(true)
+        else
+          date = new Date(@_config.minYear + i, 0, 1, 0, 0, 0)
+          @_uiElements.dateMarkers.get(i).nodeData = new HG.DateMarker(date, @)
+      else
+        if @_uiElements.dateMarkers.get(i).nodeData?
+          @_uiElements.dateMarkers.get(i).nodeData.updateView(false)
+          @_uiElements.dateMarkers.get(i).nodeData = null
+
+    @_updateTimeBarPositions()
+
+  dateMarkerAtIndexOverlappsAnOtherDateMarker: (i) ->
+    date = new Date(@_config.minYear + i, 0, 1, 0, 0, 0)
+    j = i - 1
+    while !@_uiElements.dateMarkers.get(j).nodeData? and j > 0
+      j--
+    if @_uiElements.dateMarkers.get(j).nodeData?
+      if @dateToPosition(date) < @_uiElements.dateMarkers.get(j).nodeData.getDiv().offsetLeft + @_uiElements.dateMarkers.get(j).nodeData.getDiv().offsetWidth && @dateToPosition(date) > @_uiElements.dateMarkers.get(j).nodeData.getDiv().offsetLeft
+        return true
+      else
+        return false
+    else
+      return false
+
+  #   --------------------------------------------------------------------------
+  _zoom: (delta, e=null) =>
+    zoomed = false
+    if delta > 0
+      if @maxVisibleDate().getFullYear() - @minVisibleDate().getFullYear() > 2
+        @_config.zoom *= 1.2
+        zoomed = true
+    else
+      if @_config.zoom > 1
+        @_config.zoom /= 1.2
+        zoomed = true
+
+    if zoomed
+      @_updateLayout()
+      @_updateDateMarkers()
+    zoomed
+
+  #   --------------------------------------------------------------------------
+  _animTimeline: =>
+    if @_play
+      if @_now.date.getFullYear() <= @_config.maxYear
+        toDate = new Date(@_now.date.getTime() + @_speed*@_speed * 5000 * 60 * 60 * 24 * 7)
+        @moveToDate(toDate,0)
+        @_updateNowDate()
+        @_updateDateMarkers()
+      else
+        @_now.marker.animationSwitch()
+
+  #   --------------------------------------------------------------------------
   _getTimeFilter: ->
     timefilter = []
     timefilter.end = @maxVisibleDate()
-    timefilter.now = @_nowDate
+    timefilter.now = @_now.date
     timefilter.start = @minVisibleDate()
     timefilter
 
+  #   --------------------------------------------------------------------------
   _disableTextSelection : (e) ->  return false
-
   _enableTextSelection : () ->    return true

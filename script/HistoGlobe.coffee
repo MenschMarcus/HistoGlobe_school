@@ -168,10 +168,11 @@ class HG.HistoGlobe
     @_timeline_area = @_createElement @_config.container, "div", "timeline-area"
 
     @timeline = new HG.Timeline
-      parentDiv: @_timeline_area
-      nowYear: @_config.nowYear
-      minYear: @_config.minYear
-      maxYear: @_config.maxYear
+      parentDiv:    @_timeline_area
+      nowYear:      @_config.nowYear
+      minYear:      @_config.minYear
+      maxYear:      @_config.maxYear
+      speedometer:  @_config.nowMarker.speedometer
 
     @addModule @timeline
 
