@@ -20,22 +20,23 @@ class HG.Timeline
       nowYear: 1900
       minYear: 1800
       maxYear: 2020
+      speedometer: true
 
     @_config = $.extend {}, defaultConfig, config
 
     #   ------------------------------------------------------------------------
     @_uiElements =
-      tl:           @addDiv "tl", "swiper-container", @_config.parentDiv
-      tl_wrapper:   @addDiv "tl_wrapper", "swiper-wrapper", tl
-      tl_slide:     @addDiv "tl_slide", "swiper-slide", tl_wrapper
-      nowMarker:    @addDiv "now_marker", "now_marker", document.getElementById("histoglobe")
+      tl:           @addUIElement "tl", "swiper-container", @_config.parentDiv
+      tl_wrapper:   @addUIElement "tl_wrapper", "swiper-wrapper", tl
+      tl_slide:     @addUIElement "tl_slide", "swiper-slide", tl_wrapper
+      nowMarker:    @addUIElement "now_marker", "now_marker", document.getElementById("histoglobe")
       timeBars:     []
       dateMarkers:  new HG.DoublyLinkedList()
 
     #   ------------------------------------------------------------------------
     @_now =
       date: @yearToDate(@_config.nowYear)
-      marker: new HG.NowMarker(@, @_uiElements.nowMarker)
+      marker: new HG.NowMarker(@, @_uiElements.nowMarker, @_config.speedometer)
 
     #   TRANSITION / SWIPER ----------------------------------------------------
     @_moveDelay = 0
@@ -109,11 +110,11 @@ class HG.Timeline
           @_zoom(-1)
 
   #   --------------------------------------------------------------------------
-  addDiv: (id, className, parentDiv) ->
-    container = document.createElement("div")
+  addUIElement: (id, className, parentDiv, type="div") ->
+    container = document.createElement(type)
     container.id = id
-    container.className         = className
-    parentDiv.appendChild container
+    container.className = className if className?
+    parentDiv.appendChild container if parentDiv?
     container
 
   #   --------------------------------------------------------------------------
@@ -249,7 +250,7 @@ class HG.Timeline
     startDate = @stringToDate(timeBarValues[0])
     endDate   = @stringToDate(timeBarValues[1])
 
-    tb_div = @addDiv "tl_timebar_" + timeBarValues[2], "tl_timebar", @getCanvas()
+    tb_div = @addUIElement "tl_timebar_" + timeBarValues[2], "tl_timebar", @getCanvas()
     tb_div.style.left = @dateToPosition(startDate) + "px"
     tb_div.style.width = (@dateToPosition(endDate) - @dateToPosition(startDate)) + "px"
 
