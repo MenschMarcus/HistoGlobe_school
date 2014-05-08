@@ -26,7 +26,6 @@ class HG.Help
         , 2000
       , 500
 
-    $("#histoglobe").append @_div
 
     $(@_div).fadeOut 0
 
@@ -37,6 +36,8 @@ class HG.Help
   hgInit: (hgInstance) ->
     @_hgInstance = hgInstance
     @_hgInstance.help = @
+
+    @_hgInstance.getContainer().appendChild @_div
 
     if @_config.autoShow
       @_hgInstance.onAllModulesLoaded @, () =>
