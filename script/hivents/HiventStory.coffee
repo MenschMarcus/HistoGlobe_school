@@ -77,6 +77,8 @@ class HG.HiventStory
 
   # ============================================================================
   _jumpToNextHivent: (forward=true)=>
+    @_currentHivent?.unLinkAll()
+
     if @_needsSorting
       @_needsSorting = false
       @_hiventNames.sort (a, b) =>
@@ -120,6 +122,7 @@ class HG.HiventStory
       @_currentHivent = nextHivent
       @_ignoredNames.push @_currentHivent.getHivent().id
       @_hashSetter.setOption "event", "#{@_currentHivent.getHivent().id}"
+      @_currentHivent.linkAll()
 
 
   ##############################################################################

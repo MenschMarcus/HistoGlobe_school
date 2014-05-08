@@ -32,4 +32,5 @@ class HG.HiventMarker
   # ============================================================================
   _destroy: =>
     @notifyAll "onDestruction"
+    @_hiventHandle.inActiveAll()
 
