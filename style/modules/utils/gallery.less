@@ -103,11 +103,14 @@
     display: block;
 
     width: 100%;
-    height: @picture_gallery_widget_image_height*0.5;
+    height: @picture_gallery_widget_image_height*0.75;
 
-    #sidebar &,
-    .fullscreen & {
+    #sidebar & {
       height: @picture_gallery_widget_image_height;
+    }
+
+    .fullscreen & {
+      height: @picture_gallery_widget_image_height*1.5;
     }
 
     background-size: contain;

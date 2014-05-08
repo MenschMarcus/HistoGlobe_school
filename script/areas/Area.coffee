@@ -33,13 +33,17 @@ class HG.Area
     @_labelLatLng
 
   # ============================================================================
+  getLabelDir: ->
+    @_labelDir
+
+  # ============================================================================
   getNormalStyle: ->
     @_style
 
   # ============================================================================
   getCategories: ->
     @_categories
-  
+
 
   # ============================================================================
   setDate: (newDate) ->
@@ -79,10 +83,12 @@ class HG.Area
 
   # ============================================================================
   _initData: (geoJson) ->
-    @_data      = []
-    @_state     = geoJson.properties.sov_a3
-    @_name      = geoJson.properties.name_de
-    @_iso_a2    = geoJson.properties.iso_a2
+    @_data        = []
+    @_state       = geoJson.properties.sov_a3
+    @_name        = geoJson.properties.name_de
+    @_iso_a2      = geoJson.properties.iso_a2
+    @_labelLatLng = geoJson.properties.label_lat_long
+    @_labelDir    = geoJson.properties.label_dir
 
     @_categories = geoJson.properties.categories
 
@@ -105,20 +111,22 @@ class HG.Area
 
     if  @_data[maxIndex].length > 0
 
-      @_labelLatLng = [0,0]
+      labelLatLng = [0,0]
 
       for coords in @_data[maxIndex]
-        @_labelLatLng[0] += coords.lat
-        @_labelLatLng[1] += coords.lng
+        labelLatLng[0] += coords.lat
+        labelLatLng[1] += coords.lng
 
         if coords.lat > @_maxLatLng[0] then @_maxLatLng[0] = coords.lat
         if coords.lat < @_minLatLng[0] then @_minLatLng[0] = coords.lat
         if coords.lng > @_maxLatLng[1] then @_maxLatLng[1] = coords.lng
         if coords.lng < @_minLatLng[1] then @_minLatLng[1] = coords.lng
 
-      @_labelLatLng[0] /= @_data[maxIndex].length
-      @_labelLatLng[1] /= @_data[maxIndex].length
+      labelLatLng[0] /= @_data[maxIndex].length
+      labelLatLng[1] /= @_data[maxIndex].length
 
+      unless @_labelLatLng?
+        @_labelLatLng = labelLatLng
 
   # ============================================================================
   _initMembers: ->

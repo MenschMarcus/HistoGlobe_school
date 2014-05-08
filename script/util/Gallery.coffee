@@ -78,6 +78,7 @@ class HG.Gallery
       calculateHeight: true
       preventLinksPropagation: true
       preventLinks: true
+      #loop: true
       onSlideChangeEnd: @_onSlideEnd
       onlyExternal: !@_config.interactive
 

@@ -47,19 +47,21 @@ class HG.AreasOnMap
     options = area.getNormalStyle()
     options.color = area.getNormalStyle().lineColor
     options.opacity = 0       # bugfix: makes border invisible onLoad
-    options.clickable = false
-    options.pointerEvents = "none"
+    # options.clickable = false
+    # options.pointerEvents = "none"
 
     area.myLeafletLayer = L.multiPolygon(area.getData(), options)
 
-    # area.myLeafletLayer.on "mouseover", @_onHover
-    # area.myLeafletLayer.on "mouseout", @_onUnHover
-    # area.myLeafletLayer.on "click", @_onClick
+    area.myLeafletLayer.on "mouseover", @_onHover
+    area.myLeafletLayer.on "mouseout", @_onUnHover
+    area.myLeafletLayer.on "click", @_onClick
 
     area.onStyleChange @, @_onStyleChange
 
-    area.myLeafletLayer.addTo @_map
+    # area.myLeafletLayer.addTo @_map
+    area.myLeafletLayer.bindLabel(area.getLabel()).addTo @_map
 
+    ###
     # add label
     area.myLeafletLabel = new L.Label();
     area.myLeafletLabel.setContent area.getLabel()
@@ -68,15 +70,23 @@ class HG.AreasOnMap
 
     @_map.showLabel area.myLeafletLabel
 
-    area.myLeafletLabel.options.offset = [
-      -area.myLeafletLabel._container.offsetWidth/2,
-      -area.myLeafletLabel._container.offsetHeight/2
-    ]
-    area.myLeafletLabel._updatePosition()
+    if area.getLabelDir() is "center"
+      area.myLeafletLabel.options.offset = [
+        -area.myLeafletLabel._container.offsetWidth/2,
+        -area.myLeafletLabel._container.offsetHeight/2
+      ]
+      area.myLeafletLabel._updatePosition()
+    else if area.getLabelDir() is "right"
+      area.myLeafletLabel.options.offset = [
+        -area.myLeafletLabel._container.offsetWidth,
+        -area.myLeafletLabel._container.offsetHeight
+      ]
+      area.myLeafletLabel._updatePosition()
 
     area.myLeafletLabelIsVisible = false
     # if @_isLabelVisible area
     @_showAreaLabel area
+    ###
 
   # ============================================================================
   _hideAreaLayer: (area) ->
@@ -84,37 +94,36 @@ class HG.AreasOnMap
 
       @_visibleAreas.splice(@_visibleAreas.indexOf(area), 1)
 
-      # area.myLeafletLayer.off "mouseover", @_onHover
-      # area.myLeafletLayer.off "mouseout", @_onUnHover
-      # area.myLeafletLayer.off "click", @_onClick
+      area.myLeafletLayer.off "mouseover", @_onHover
+      area.myLeafletLayer.off "mouseout", @_onUnHover
+      area.myLeafletLayer.off "click", @_onClick
 
       area.removeListener "onStyleChange", @
 
       @_hideAreaLabel area
 
-      @_map.removeLayer area.myLeafletLabel
-      @_map.removeLayer area.myLeafletLayer
+      @_map.removeLayer area.myLeafletLabel if area.myLeafletLabel?
+      @_map.removeLayer area.myLeafletLayer if area.myLeafletLayer?
 
   # ============================================================================
   _isLabelVisible: (area) ->
     max = @_map.project area._maxLatLng
     min = @_map.project area._minLatLng
 
-    width = area.getLabel().length * 10
+    width = area.getLabel().length * 5
 
     visible = (max.x - min.x) > width or @_map.getZoom() is @_map.getMaxZoom()
 
-
   # ============================================================================
   _showAreaLabel: (area) =>
-    area.myLeafletLabelIsVisible = true
-    $(area.myLeafletLabel._container).removeClass("invisible")
+    # area.myLeafletLabelIsVisible = true
+    # $(area.myLeafletLabel._container).removeClass("invisible")
 
 
   # ============================================================================
   _hideAreaLabel: (area) =>
-    area.myLeafletLabelIsVisible = false
-    $(area.myLeafletLabel._container).addClass("invisible")
+    # area.myLeafletLabelIsVisible = false
+    # $(area.myLeafletLabel._container).addClass("invisible")
 
 
   # ============================================================================
@@ -141,11 +150,13 @@ class HG.AreasOnMap
 
   # ============================================================================
   _onHover: (event) =>
-    @_animate event.target, {"fill-opacity": 0.6}, 150
+    # hard code!
+    @_animate event.target, {"fill": "#fff"}, 150
 
   # ============================================================================
   _onUnHover: (event) =>
-    @_animate event.target, {"fill-opacity": 0.4}, 150
+    # hard code!
+    @_animate event.target, {"fill": "#fc0"}, 150
 
   # ============================================================================
   _onClick: (event) =>

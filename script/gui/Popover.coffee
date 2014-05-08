@@ -266,7 +266,7 @@ class HG.Popover
               Math.abs(@_placement.x) * @_mainDiv.offsetHeight / 2
     else
       $(@_mainDiv).offset
-        top:  30 + canvasOffset.top
+        top:  25 + canvasOffset.top
 
 
   # ============================================================================

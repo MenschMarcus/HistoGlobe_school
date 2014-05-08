@@ -7,6 +7,9 @@ $border_color                       = #666666
 $border_color_bright                = #ffffff
 $border_color_dark                  = #333333
 
+// ------------------- MAP OPTIONS ------------------------------------------
+$map_label_size                     = 14px;
+
 // ------------------- WIDGET OPTIONS ------------------------------------------
 $widget_title_background_color      = #ffcc00
 $widget_title_text_color            = #333333

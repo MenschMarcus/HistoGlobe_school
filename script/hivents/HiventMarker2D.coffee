@@ -10,11 +10,13 @@ class HG.HiventMarker2D extends HG.HiventMarker
   ##############################################################################
 
   # ============================================================================
-  constructor: (hiventHandle, lat, long, display, map, markerGroup) ->
+  constructor: (hiventHandle, lat, long, display, map, markerGroup, locationName) ->
 
     HG.HiventMarker.call @, hiventHandle, map.getPanes()["popupPane"]
 
     VISIBLE_MARKERS_2D.push @
+
+    @locationName = locationName
 
     @_display = display
     @_map = map
