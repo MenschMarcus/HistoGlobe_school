@@ -7,111 +7,73 @@ class HG.NowMarker
     ##############################################################################
 
     # ============================================================================
-    constructor: (timeline) ->
+    constructor: (timeline, container, speedometer) ->
         @_timeline  = timeline
+        @_container   = container
+        @_speedometer = (speedometer is "true")
 
-        # OLD STUFF
-        @_mainDiv   = document.createElement "div"
-        @_mainDiv.id = "now_marker"
-        @_tlDiv     = @_timeline.getUIElements().tlDiv
+        @_uiElements =
+            pointer:        {}
+            nowMarkerIn:    {}
+            buttonArea:     {}
+            playButton:     {}
+            dateInput:      {}
+            arrow:          {}
+            init: (tl, container) ->
+                this.pointer        = tl.addUIElement "now_marker_pointer", null, container
+                this.nowMarkerIn    = tl.addUIElement "now_marker_in", null, container
+                this.buttonArea     = tl.addUIElement "now_marker_button_area", null, this.nowMarkerIn
+                this.playButton     = tl.addUIElement "now_marker_play", "fa fa-step-forward", null, "i"
+                this.dateInput      = tl.addUIElement "now_date_input", null, this.nowMarkerIn, "input"
+                this.arrow          = tl.addUIElement "now_marker_arrow", null, document.getElementById("histoglobe")
+        @_uiElements.init(@_timeline, @_container)
 
-        @_body = document.getElementById("histoglobe")
-        @_body.appendChild @_mainDiv
+        @addButton @_uiElements.playButton, @animationSwitch
 
-        #@_nowDate = new Date()
+        @_uiElements.dateInput.name         = "now_date"
+        @_uiElements.dateInput.type         = "text"
+        @_uiElements.dateInput.maxlength    = 10
+        @_uiElements.dateInput.size         = 10
 
-        # elements of now marker box
-        @_pointer    = document.createElement "div"
-        #@_pointer.src = "data/timeline/pointer.png"
-        @_pointer.id = "now_marker_pointer"
-        @_mainDiv.appendChild @_pointer
+        $(@_uiElements.pointer).rotate(0)
+        $(@_uiElements.pointer).css
+            "display" : "none" if !@_speedometer
 
-        @_nowMarkerIn = document.createElement "div"
-        @_nowMarkerIn.id = "now_marker_in"
-
-        @_buttonArea = document.createElement "div"
-        @_nowMarkerIn.appendChild @_buttonArea
-
-        @_playButton    = document.createElement "i"
-        @_playButton.id = "now_marker_play"
-        @_playButton.className = "fa fa-step-forward"
-        #@_playButton.innerHTML = "<img src='img/timeline/playIcon.png'>"
-        @addButton @_playButton, @animationSwitch
-
-
-
-        @_dateInputField    = document.createElement "input"
-        @_dateInputField.name = "now_date"
-        @_dateInputField.id = "now_date_input"
-        @_dateInputField.type = "text"
-        @_dateInputField.maxlength = 10
-        @_dateInputField.size = 10
-        @_nowMarkerIn.appendChild @_dateInputField
-
-        @_mainDiv.appendChild @_nowMarkerIn
-
-        @_arrow  = document.createElement "div"
-        @_arrow.id = "now_marker_arrow"
-        #@_arrow.src = "data/timeline/nowMarkerSmall.png"
-        @_body.appendChild @_arrow
-
-        # Set position of now marker
-        @_setNowMarkerPosition()
-
-        # set position/rotation of pointer
-        $(@_pointer).rotate(0)
-
-        # refresh position of now marker box if window is resized
         $(window).resize  =>
-            @_setNowMarkerPosition()
+            @_updatePositions()
 
-        # catching mouse events
-        @_clicked = false
-        @_hiddenSpeed = 0
+        @_updatePositions()
 
-        # check if mouse went down on speed changer
-        '''@_mainDiv.onmousedown = (e) =>
-            if((@_distanceToMiddlepoint(e) - 75) >= 0)
-                @_clicked = true
-                @_disableTextSelection e'''
-
-        # rotate arrow if mouse moved on speed changer
-        '''@_mainDiv.onmousemove = (e) =>
-            if @_clicked
-                unless @_timeline.getPlayStatus()
-                    @_playButton.className = "fa fa-play"
-                @_hiddenSpeed = e.pageX - @_middlePointX
-                $(@_pointer).rotate(@_angleOnCircle(e))'''
-
-        # set new speed of timeline animation
-        '''@_mainDiv.onmouseup = (e) =>
-            if @_clicked
-                @_timeline.setSpeed (@_radius + e.pageX - @_middlePointX)/@_radius
-                $(@_pointer).rotate(@_angleOnCircle(e))
-                @_enableTextSelection()
-                @_clicked = false'''
-
-        # stop or animate timeline (play)
-        # @_playButton.onclick = (e) =>
-        #     @animationCallback()
-        # $(document.body).keyup (e) =>
-        #     if e.keyCode == 32  # spacebar
-        #          @animationCallback()
-
-        # Catch enter key on the date input field
-        $(@_dateInputField).keyup (e) =>
+        # =========================================================================
+        if @_speedometer
+            @_clicked = false
+            @_hiddenSpeed = 0
+            @_container.onmousedown = (e) =>
+                if((@_distanceToMiddlepoint(e) - 75) >= 0)
+                    @_clicked = true
+                    @_disableTextSelection e
+            @_container.onmousemove = (e) =>
+                if @_clicked
+                    unless @_timeline.getPlayStatus()
+                        @_playButton.className = "fa fa-play"
+                    @_hiddenSpeed = e.pageX - @_middlePointX
+                    $(@_uiElements.pointer).rotate(@_angleOnCircle(e))
+            @_container.onmouseup = (e) =>
+                if @_clicked
+                    @_timeline.setSpeed (@_radius + e.pageX - @_middlePointX)/@_radius
+                    $(@_uiElements.pointer).rotate(@_angleOnCircle(e))
+                    @_enableTextSelection()
+                    @_clicked = false
+        $(@_uiElements.dateInput).keyup (e) =>
             if e.keyCode == 13
-                res = (@_dateInputField.value + "").split(".")
-                i = res.length
+                res = (@_uiElements.dateInput.value + "").split(".")
                 d = new Date()
-                if i > 0
-                    d.setFullYear(res[i - 1])
+                if res.length > 0
+                    d.setFullYear(res[res.length - 1])
                 else
                     alert "Couldn't read the given date. Please try another."
-                if i > 1
-                    d.setMonth(res[i - 2] - 1)
-                if i > 2
-                    d.setDate(res[i - 3])
+                d.setMonth(res[res.length - 2] - 1) if res.lengt > 1
+                d.setDate(res[res.length - 3]) if res.length > 2
 
                 @_timeline.moveToDate(d, 1)
 
@@ -123,27 +85,31 @@ class HG.NowMarker
         month = (date.getMonth() + 1) + ""
         month = "0" + month if month.length == 1
         year = date.getFullYear() + ""
-        @_dateInputField.value = day + "." + month + "." + year
+        @_uiElements.dateInput.value = day + "." + month + "." + year
 
     #   --------------------------------------------------------------------------
     addButton : (buttonDiv, callback) =>
-      @_buttonArea.appendChild buttonDiv
+      @_uiElements.buttonArea.appendChild buttonDiv
       buttonDiv.onclick = callback
 
     #   --------------------------------------------------------------------------
     clearButtons : () ->
-      $(@_buttonArea).empty()
+      $(@_uiElements.buttonArea).empty()
 
     #   --------------------------------------------------------------------------
-    ###getDate: ->
-        @_nowDate###
+    animationSwitch: =>
+        if @_timeline.getPlayStatus()
+            @_timeline.stopTimeline()
+            @_playButton.className = "fa fa-play"
+        else
+            @_timeline.playTimeline()
+            @_playButton.className = "fa fa-pause"
+
+    ##############################################################################
+    #                            PRIVATE INTERFACE                               #
+    ##############################################################################
 
     #   --------------------------------------------------------------------------
-    #setDate: (date) ->
-    #    @_nowDate = date
-
-    # OLD STUFF
-    # ============================================================================
     _distanceToMiddlepoint : (e) ->
         xs = 0
         ys = 0
@@ -156,7 +122,7 @@ class HG.NowMarker
 
         return Math.sqrt xs + ys
 
-    # ============================================================================
+    #   --------------------------------------------------------------------------
     _angleOnCircle : (e) ->
         mY = window.innerHeight - @_middlePointY
 
@@ -179,49 +145,20 @@ class HG.NowMarker
             angle *= -1
         angle
 
-    # ============================================================================
-    _setNowMarkerPosition: ->
-        @_mainDiv.style.left    = window.innerWidth / 2 - @_mainDiv.offsetWidth / 2 + "px"
-        @_mainDiv.style.bottom  = @_tlDiv.offsetHeight + "px"
-        @_mainDiv.style.visibility = "visible"
+    #   --------------------------------------------------------------------------
+    _updatePositions: ->
+        @_container.style.left    = window.innerWidth / 2 - @_container.offsetWidth / 2 + "px"
+        @_container.style.bottom  = @_timeline.getLayout().tl.offsetHeight + "px"
+        @_container.style.visibility = "visible"
 
         # middle point of circle
         @_middlePointX      = window.innerWidth / 2
-        @_middlePointY      = window.innerHeight - @_tlDiv.offsetHeight
-        @_radius            = @_mainDiv.offsetHeight
+        @_middlePointY      = window.innerHeight - @_timeline.getLayout().tl.offsetHeight
+        @_radius            = @_container.offsetHeight
 
         # Position of arrow pointing on timeline
-        @_arrow.style.left   = window.innerWidth / 2 - 10 + "px"
+        @_uiElements.arrow.style.left   = window.innerWidth / 2 - 10 + "px"
 
-    # ============================================================================
-    ###setNowDate: (date) ->
-        @_nowDate = date
-        day = date.getDate() + ""
-        day = "0" + day if day.length == 1
-        month = (date.getMonth() + 1) + ""
-        month = "0" + month if month.length == 1
-        year = date.getFullYear() + ""
-        @_dateInputField.value = day + "." + month + "." + year###
-
-    # ============================================================================
-    animationSwitch: =>
-        if @_timeline.getPlayStatus()
-            @_timeline.stopTimeline()
-            @_playButton.className = "fa fa-play"
-        else
-            @_timeline.playTimeline()
-            @_playButton.className = "fa fa-pause"
-
-    # ============================================================================
+    #   --------------------------------------------------------------------------
     _disableTextSelection : (e) ->  return false
-
-    # ============================================================================
     _enableTextSelection : () ->    return true
-
-    # ============================================================================
-
-
-    # ============================================================================
-
-
-

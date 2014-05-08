@@ -1,122 +1,59 @@
-/*** STYLE OF TIMELINE ***/
-
-@fontSize:        17px;
-@fontColor:       #eee;
-
-/*** MAIN TIMELINE DIV ***/
-#timeline {
+//  -------------------------------------------------------------------
+#tl {
   position:   absolute;
   left:       0px;
   bottom:     0px;
+
   height:     @timeline_height;
   min-width:  100%;
   overflow:   hidden;
 
-  cursor: -webkit-grab;
-  cursor: -moz-grab;
+  cursor:     -webkit-grab;
+  cursor:     -moz-grab;
 
   border-top: solid @border_width @widget_title_background_color;
-  //box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.07);
-  //background-color: rgba(30,30,30,0.75);
 
-  //background: -moz-linear-gradient(top, #eee 0%, #ddd 100%); /* FF3.6+ */
-  //background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ddd), color-stop(100%,#eee)); /* Chrome,Safari4+ */
-  //background: -webkit-linear-gradient(top, #eee 0%,#ddd 100%); /* Chrome10+,Safari5.1+ */
-  //background: -o-linear-gradient(top, #eee 0%,#ddd 100%); /* Opera 11.10+ */
-  //background: -ms-linear-gradient(top, #eee 0%,#ddd 100%); /* IE10+ */
-  //background: linear-gradient(to bottom, #eee 0%,#ddd 100%); /* W3C */
-  //filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eee', endColorstr='#ddd',GradientType=0 ); /* IE6-9 */
-  //background-repeat: repeat-x;
+  #tl_wrapper {
+    background-color: @timeline_background_color;
+    background-image: -webkit-linear-gradient(top,
+      @timeline_background_color @timeline_background_row_position_1,
+      @timeline_background_row_color_1 @timeline_background_row_position_1,
+      @timeline_background_row_color_1 (@timeline_background_row_position_1 + @timeline_background_row_height),
+      @timeline_background_color (@timeline_background_row_position_1 + @timeline_background_row_height),
+      @timeline_background_color @timeline_background_row_position_2,
+      @timeline_background_row_color_2 @timeline_background_row_position_2,
+      @timeline_background_row_color_2 (@timeline_background_row_position_2 + @timeline_background_row_height),
+      @timeline_background_color (@timeline_background_row_position_2 + @timeline_background_row_height));
+    background-repeat: repeat;
 
-  // ----------------------------------------------
-  // datemarker
-  .tl_marker {
-    font-family: @secondary_font_face;
-    font-size: 75%;
-    color:  @timeline_font_color;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    padding-left: 5px;
-    border-left: dashed 1px @timeline_font_color;
-    z-index: 1;
-    //transition-duration: 0.4s;
-    //transition-property: font-size;
+    #tl_slide {
+      height: @timeline_height - @border_width;
+
+      .tl_datemarker {
+        font-family: @secondary_font_face;
+        font-size: 100px;
+        line-height: 100px;
+        color: @timeline_font_color;
+
+        position: absolute;
+        left: 0;
+        top: 0px;
+        padding: 0px 0px 0px 5px;
+        z-index: 1;
+
+        border-left: dashed @timeline_borders_width @timeline_font_color;
+      }
+
+      .tl_timebar {
+        position:         absolute;
+        z-index: -99;
+        height:           @timeline_height;
+
+        border-left:      solid @timeline_borders_width @timebar_on_timeline_border_color;
+        border-right:     solid @timeline_borders_width @timebar_on_timeline_border_color;
+        background-color: @timebar_on_timeline_color;
+      }
+    }
   }
-
-  // row for marker
-  .tl_row {
-    position:   absolute;
-    min-width:  100%;
-    overflow:   hidden;
-    line-height: 100%;
-  }
-
-  #timelineSlide {
-    height: @timeline_height - @border_width;
-
-  }
 }
 
-#timelineWrapper {
-  // background-image: url(@timeline_background_image);
-  .linear-gradient-top(#878787, #878787, 0%, #636363, 100%);
-  background-repeat: repeat;
-}
-.tl_timebar {
-  height:           @timeline_height;
-  border-left:      solid 4px @timebar_on_timeline_border_color;
-  border-right:     solid 4px @timebar_on_timeline_border_color;
-  background-color: @timebar_on_timeline_color;
-  position:         absolute;
-  z-index: -99;
-}
-
-/*** ELEMENT IN TIMELINE *
-.yearMarker {
-  position:     absolute;
-  font-size:    @fontSize;
-  color:        @fontColor;
-  height:       50px;
-  padding:      15px 0px 0px 0px;
-  text-align:   center;
-  cursor:       -webkit-grab;
-  cursor:       -moz-grab;
-  display:      none;
-
-  //transition: font-size 0.5s;
-  //-webkit-transition: font-size 0.5s; /* Safari */
-
-  /* disable text-selection
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.yearMarkerH1 {
-  .yearMarker;
-  font-weight: bold;
-  color:  #505050;
-  font-size: 22px;
-}
-
-.yearMarkerH2 {
-  .yearMarker;
-  font-weight: bold;
-  color:  #707070;
-  font-size: 18px;
-}
-
-.yearMarker:hover {
-  cursor: -webkit-grab;
-  cursor: -moz-grab;
-}
-
-.yearMarker:active {
-  cursor: -webkit-grab;
-  cursor: -moz-grab;
-
-}*/

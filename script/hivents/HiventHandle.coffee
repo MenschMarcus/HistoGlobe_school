@@ -26,6 +26,8 @@ class HG.HiventHandle
     # 1 --> visiblePast
     # 2 --> visibleFuture
 
+    @sortingIndex = -1
+
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
 

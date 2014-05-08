@@ -1,3 +1,4 @@
+
 #include Extendable.coffee
 #include HiventMarker.coffee
 
@@ -10,7 +11,7 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
   ##############################################################################
 
   # ============================================================================
-  constructor: (timeline, hiventHandle, parent, posX) ->
+  constructor: (timeline, hiventHandle, parent, posX, rowPosition=0) ->
 
     HG.HiventMarker.call @, hiventHandle, parent
 
@@ -19,8 +20,18 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
     time = hiventHandle.getHivent().startDate.getTime()
 
     Y_OFFSETS[time] ?= 0
-    @_xOffset = Y_OFFSETS[time]
-    @_position = { x: posX, y: HGConfig.timeline_height.val - HGConfig.hivent_marker_timeline_height.val - @_xOffset*HGConfig.hivent_marker_timeline_spacing.val - HGConfig.border_width.val - HGConfig.hivent_marker_timeline_margin_bottom.val}
+    @_yOffset = Y_OFFSETS[time]
+    @_position =
+      x: posX,
+      y: HGConfig.timeline_height.val -
+         HGConfig.hivent_marker_timeline_height.val -
+         @_yOffset*HGConfig.hivent_marker_timeline_spacing.val -
+         HGConfig.border_width.val -
+         HGConfig.hivent_marker_timeline_margin_bottom.val -
+         rowPosition
+
+    @rowPosition = rowPosition
+
     Y_OFFSETS[time] += 1
 
     @_classDefault     = "hivent_marker_timeline_#{hiventHandle.getHivent().category}_default"
@@ -33,11 +44,10 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
     @_div.style.top = @_position.y + "px"
 
     # new
-    if hiventHandle.getHivent().startDate.getTime() isnt hiventHandle.getHivent().endDate.getTime()
+    '''if hiventHandle.getHivent().startDate.getTime() isnt hiventHandle.getHivent().endDate.getTime()
       xDiff = @_timeline.dateToPosition(hiventHandle.getHivent().endDate) - @_timeline.dateToPosition(hiventHandle.getHivent().startDate)
       @_div.style.width = xDiff + "px"
-      @_div.style.background = "rgba(255, 0, 0, 1)"
-      console.log "draw time period"
+      @_div.style.background = "rgba(255, 0, 0, 1)"'''
 
     parent.appendChild @_div
 
@@ -72,16 +82,6 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
     @getHiventHandle().onInvisible @, @_destroy
 
   # ============================================================================
-  nowChanged: ->
-    posX = @_timeline.dateToPosition @_hiventHandle.getHivent().startDate
-    @setPosition posX
-
-  # ============================================================================
-  periodChanged: (dateA, dateB) ->
-    posX = @_timeline.dateToPosition @_hiventHandle.getHivent().startDate
-    @setPosition posX
-
-  # ============================================================================
   categoryChanged: (c) ->
 
   # ============================================================================
@@ -90,8 +90,12 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
 
   # ============================================================================
   setPosition: (posX) =>
-    @_position.x = posX# + @_xOffset * HIVENT_MARKER_TIMELINE_RADIUS * 1.5
+    @_position.x = posX
     @_div.style.left = @_position.x + "px"
+
+  # ============================================================================
+  getDiv: ->
+    return @_div
 
 
   ##############################################################################

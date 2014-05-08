@@ -19,6 +19,7 @@ class HG.HiventController
     @addCallback "onHiventAdded"
 
     @_hiventHandles = []
+    @_handlesNeedSorting = false
 
     @_currentTimeFilter = null # {start: <Date>, end: <Date>}
     @_currentSpaceFilter = null # { min: {lat: <float>, long: <float>},
@@ -95,6 +96,10 @@ class HG.HiventController
         return handle
     console.log "A Hivent with the id \"#{hiventId}\" does not exist!"
     return null
+
+  # ============================================================================
+  getHiventHandleByIndex: (handleIndex) ->
+    return @_hiventHandles[handleIndex]
 
   # ============================================================================
 
@@ -220,6 +225,7 @@ class HG.HiventController
                     handle = new HG.HiventHandle hivent
                     @_hiventHandles.push handle
                     @notifyAll "onHiventAdded", handle
+                    @_handlesNeedSorting = true
                     @_filterHivents()
             pathIndex++
 
@@ -241,8 +247,21 @@ class HG.HiventController
 
   # ============================================================================
   _filterHivents: ->
+    if @_handlesNeedSorting
+      @_hiventHandles.sort (a, b) =>
+        if a? and b?
+          unless a.getHivent().startDate.getTime() is b.getHivent().startDate.getTime()
+            return a.getHivent().startDate.getTime() - b.getHivent().startDate.getTime()
+          else
+            if a.getHivent().id > b.getHivent().id
+              return 1
+            else if a.getHivent().id < b.getHivent().id
+              return -1
+        return 0
 
-    for handle in @_hiventHandles
+    for handle, i in @_hiventHandles
+      if @_handlesNeedSorting
+        handle.sortingIndex = i
       hivent = handle.getHivent()
 
       state = 1
@@ -280,3 +299,5 @@ class HG.HiventController
           new_age = Math.min(1, ((hivent.endDate.getTime() - @_currentTimeFilter.start.getTime()) / (0.5*(@_currentTimeFilter.now.getTime() - @_currentTimeFilter.start.getTime())))-1)
           if new_age isnt handle._age
             handle.setAge new_age
+
+    @_handlesNeedSorting = false

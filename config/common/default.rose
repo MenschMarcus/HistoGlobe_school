@@ -77,23 +77,26 @@ $event_ticker_margin_left    = 10px
 $event_ticker_font_size      = 17px
 
 // ------------------ TIMELINE OPTIONS -----------------------------------------
-$timeline_height                      = 80px
-$timeline_roundness                   = 8px
+$timeline_height                        = 80px
+$timeline_roundness                     = 8px
+$timeline_font_color                    = #eeeeee
+$timeline_date_marker_font_size         = 35px
+$timeline_borders_width                 = 2px
+$timeline_background_image              = ""
+$timeline_background_color              = #878787
+$timeline_background_row_height         = 33px
+$timeline_background_row_color_1        = rgba(100,100,100,0.15)
+$timeline_background_row_color_2        = rgba(100,100,100,0.3)
+$timeline_background_row_position_1     = 30px
+$timeline_background_row_position_2     = 63px
 
-$now_marker_border_width              = 4px
-$now_marker_border_color              = #ffffff
-$now_marker_background_image          = ""
+$now_marker_border_width                = 4px
+$now_marker_pointer_width               = 5px
+$now_marker_radius                      = 90px
+$now_marker_in_radius                   = 72px
 
-$now_marker_pointer_width             = 5px
-$now_marker_pointer_color             = #ffffff
-$now_marker_pointer_hover_color       = #ffffff
-
-$timeline_font_color                  = #eeeeee
-
-$timebar_on_timeline_color            = rgba(255,255,255,0.3)
-$timebar_on_timeline_border_color     = rgba(255,255,255,0.7)
-
-$timeline_background_image            = ""
+$timebar_on_timeline_color              = rgba(255,255,255,0.3)
+$timebar_on_timeline_border_color       = rgba(255,255,255,0.7)
 
 // ------------------ HIVENT OPTIONS -------------------------------------------
 $hivent_marker_2D_width               = 32px
@@ -103,6 +106,7 @@ $hivent_marker_timeline_width         = 32px
 $hivent_marker_timeline_height        = 32px
 $hivent_marker_timeline_margin_bottom = 3px
 $hivent_marker_timeline_spacing       = 7px
+$hivent_marker_timeline_min_distance  = 16px
 
 // ------------------ HIVENTINFO OPTIONS ---------------------------------------
 $hivent_info_popover_arrow_height     = 15px
