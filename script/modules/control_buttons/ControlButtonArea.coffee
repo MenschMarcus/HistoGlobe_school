@@ -72,5 +72,7 @@ class HG.ControlButtonArea
 
     group.appendChild button
 
+    return button
+
 
 
