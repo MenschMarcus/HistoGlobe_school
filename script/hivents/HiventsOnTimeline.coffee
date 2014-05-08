@@ -124,7 +124,7 @@ class HG.HiventsOnTimeline
       minDistance = HGConfig.hivent_marker_timeline_min_distance.val
       previousMarkers = []
 
-      currentZ = 0
+      currentZ = 2
       for marker, i in @_hiventMarkers
         marker.getDiv().style.zIndex = currentZ
         currentZ += 1
