@@ -30,6 +30,8 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
          HGConfig.hivent_marker_timeline_margin_bottom.val -
          rowPosition
 
+    @rowPosition = rowPosition
+
     Y_OFFSETS[time] += 1
 
     @_classDefault     = "hivent_marker_timeline_#{hiventHandle.getHivent().category}_default"
@@ -90,6 +92,10 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
   setPosition: (posX) =>
     @_position.x = posX
     @_div.style.left = @_position.x + "px"
+
+  # ============================================================================
+  getDiv: ->
+    return @_div
 
 
   ##############################################################################

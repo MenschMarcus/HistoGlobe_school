@@ -10,7 +10,7 @@ class HG.HiventsOnTimeline
   constructor: (config) ->
 
     defaultConfig =
-      default_row_position: "0px"
+      default_row_position: "0"
       marker_row_positions: []
 
     @_config = $.extend {}, defaultConfig, config
@@ -21,6 +21,7 @@ class HG.HiventsOnTimeline
 
     @_onMarkerAddedCallbacks = []
     @_markersNeedSorting = false
+    @_positionsNeedUpdate = false
     @_markersLoaded = false
 
   # ============================================================================
@@ -67,6 +68,7 @@ class HG.HiventsOnTimeline
 
             @_markersLoaded = @_hiventController._hiventsLoaded
             @_sortMarkers()
+            @_positionsNeedUpdate = true
             callback marker for callback in @_onMarkerAddedCallbacks
 
         handle.onVisibleFuture @, show
@@ -116,19 +118,28 @@ class HG.HiventsOnTimeline
 
   # ============================================================================
   _updateHiventMarkerPositions: ->
-    minDistance = HGConfig.hivent_marker_timeline_width.val * 0.5
+    if @_positionsNeedUpdate
+      @_positionsNeedUpdate = false
+      minDistance = HGConfig.hivent_marker_timeline_min_distance.val
+      previousMarkers = []
 
-    for marker, i in @_hiventMarkers
-      hiventMarkerDate = marker.getHiventHandle().getHivent().startDate
-      newPos = @_timeline.dateToPosition(hiventMarkerDate)
-      previousMarker = @_hiventMarkers[i-1]
+      currentZ = 0
+      for marker, i in @_hiventMarkers
+        marker.getDiv().style.zIndex = currentZ
+        currentZ += 1
+        hiventMarkerDate = marker.getHiventHandle().getHivent().startDate
+        newPos = @_timeline.dateToPosition(hiventMarkerDate)
+        previousMarker = @_hiventMarkers[i-1]
 
-      if previousMarker?
-        unless hiventMarkerDate.getTime() is previousMarker.getHiventHandle().getHivent().startDate.getTime()
-          if (newPos - minDistance) <= previousMarker.getPosition().x
-            newPos = previousMarker.getPosition().x + minDistance
+        if previousMarker?
+          previousMarkers[previousMarker.rowPosition] = previousMarker
+          if previousMarkers[marker.rowPosition]?
+            unless hiventMarkerDate.getTime() is previousMarkers[marker.rowPosition].getHiventHandle().getHivent().startDate.getTime()
+              if (newPos - minDistance) <= previousMarkers[marker.rowPosition].getPosition().x
+                newPos = previousMarkers[marker.rowPosition].getPosition().x + minDistance
 
-      marker.setPosition(newPos)
+        marker.setPosition(newPos)
+
 
   # ============================================================================
   _sortMarkers: ->
@@ -136,7 +147,13 @@ class HG.HiventsOnTimeline
       hiventA = a.getHiventHandle()
       hiventB = b.getHiventHandle()
       if hiventA? and hiventB?
-        return hiventA.getHivent().startDate.getTime() - hiventB.getHivent().startDate.getTime()
+        unless hiventA.getHivent().startDate.getTime() is hiventB.getHivent().startDate.getTime()
+            return hiventA.getHivent().startDate.getTime() - hiventB.getHivent().startDate.getTime()
+          else
+            if hiventA.getHivent().id > hiventB.getHivent().id
+              return 1
+            else if hiventA.getHivent().id < hiventB.getHivent().id
+              return -1
       return 0
 
 
