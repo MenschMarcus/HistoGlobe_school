@@ -59,6 +59,3 @@ $timeline_borders_width             = 2px
 $timebar_on_timeline_color          = rgba(255,255,255,0.2)
 $timebar_on_timeline_border_color   = rgba(255,255,255,0.4)
 
-// ------------------- NOW MARKER ---------------------------------------
-$now_marker_border_color            = #ffffff
-$now_marker_background_image        = "../config/sdw/data/bg.png"
