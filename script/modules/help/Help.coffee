@@ -20,7 +20,6 @@ class HG.Help
     $(@_div).click () =>
       @hide()
 
-    $("#histoglobe").append @_div
 
     for e in @_config.elements
       @_addHelp e
@@ -30,6 +29,8 @@ class HG.Help
   hgInit: (hgInstance) ->
     @_hgInstance = hgInstance
     @_hgInstance.help = @
+
+    @_hgInstance.getContainer().appendChild @_div
 
     if @_config.autoShow
       @_hgInstance.onAllModulesLoaded @, () =>

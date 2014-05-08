@@ -190,7 +190,7 @@ class HG.Globe extends HG.Display
 
   # ============================================================================
   centerCart: (point) ->
-    console.log "center cart!!!!!!!!!!!!!",point
+    # console.log "center cart!!!!!!!!!!!!!",point
     #@center @_cartToLatLong(point.clone())
     target = @_cartToLatLong(new THREE.Vector3(point.x,point.y,point.z).clone().normalize())
     @_targetCameraPos = new THREE.Vector2(-1*target.y,target.x)

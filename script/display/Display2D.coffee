@@ -46,6 +46,13 @@ class HG.Display2D extends HG.Display
     @_map.panTo [longLat.y, longLat.x]
 
   # ============================================================================
+  zoomToBounds: (minLong, minLat, maxLong, maxLat) ->
+    @_map.fitBounds [
+      [minLat, minLong],
+      [maxLat, maxLong]
+    ]
+
+  # ============================================================================
   getCenter: () ->
     [@_map.getCenter().long, @_map.getCenter().lat]
 
