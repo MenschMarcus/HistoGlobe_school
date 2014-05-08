@@ -2,8 +2,8 @@ Medien|||||
 |||||
 ID|Dateiname|Beschreibung|Quellenangabe|Crop|Dokumentenlink
 selbtgewählt|wie im Ordner|optional|||
-M01|DrMurmann2.jpg|Einer der Gründungsväter der sdw: der damalige Arbeitgeberpräsident Dr. Klaus Murmann|Quelle: Sauer-Sundstrand|TRUE|http://mail3.sdw.org/dokumente.nsf/0/587605F8A383EA91C1257C97005247B9
-M02|Siegers.jpg|Der erste Vorstandsvorsitzende der Stiftung der Deutschen Wirtschaft: Dr. Joseph Siegers|Quelle: MINT-EC|TRUE|
+M01|DrMurmann2.jpg|Einer der Gründungsväter der sdw: der damalige Arbeitgeberpräsident Dr. Klaus Murmann|Quelle: Sauer-Sundstrand|FALSE|http://mail3.sdw.org/dokumente.nsf/0/587605F8A383EA91C1257C97005247B9
+M02|Siegers.jpg|Der erste Vorstandsvorsitzende der Stiftung der Deutschen Wirtschaft: Dr. Joseph Siegers|Quelle: MINT-EC|FALSE|
 M03|PortraitBrackmann.jpg|Übernahm als Geschäftsführender Vorstand die Leitung der sdw: Hans-Jürgen Brackmann|Quelle: photothek.net|TRUE|
 M04|erstessdwLogo.jpg|Das erste Logo der sdw|Quelle: sdw|TRUE|
 M05|UhlandstrasseBerlinWikipedia.jpg|Die Uhlandstraße in Berlin-Charlottenburg|Quelle: Wikipedia|TRUE|http://mail3.sdw.org/dokumente.nsf/0/D474A15708251B5CC1257C9700531E17
@@ -21,9 +21,9 @@ M16|LogoESFEuropa.jpg||Quelle: Europäische Union|FALSE|
 M17|zweitessdwlogo.jpg||Quelle: sdw|TRUE|
 M19|ProfDrDieterHundt.jpg|Prof. Dr. Dieter Hundt, Vorsitzender des Kuratoriums (2003-2013)|Quelle: BDA|FALSE|http://mail3.sdw.org/dokumente.nsf/0/738184258CCA27A6C1257C9E00463F83
 M20|DrWernerBrinker.jpg|Dr. Werner Brinker, Vorsitzender des Fördervereins (2003-2011)|Quelle: EWE AG|TRUE|
-M21|MINToringImagefoto.jpg||Quelle: Kooperationspartner der sdw|TRUE|
+M21|MINToringImagefoto.jpg|Teilnehmer am Projekt Mit MINT zum Beruf|Quelle: Kooperationspartner der sdw|TRUE|
 M22|MINToringSiemens.jpg||Quelle: Kooperationspartner der sdw|TRUE|http://mail3.sdw.org/dokumente.nsf/0/829B63B1198D6E9DC1257C9E0047A196
-M23|MINToringTeilnehmerin.jpg||Quelle: Kooperationspartner der sdw|TRUE|
+M23|MINToringTeilnehmerin.jpg|Teilnehmerin am Projekt Mit MINT zum Beruf|Quelle: Kooperationspartner der sdw|TRUE|
 M25|QCMYKzweizeillig300ppi.jpg|Projektlogo QVP|Quelle: sdw|FALSE|
 M26|QVPLehrerimweissenShirt.jpg|Lehrerinnen und Lehrer in einem QVP-Workshop|Quelle: Frank Pusch|TRUE|http://mail3.sdw.org/dokumente.nsf/0/2DFE067934691861C1257C9E0046A41C
 M27|EUREGIOSTeilnehmerinnen.jpg|Deutsche, polnische und tschechische Teilnehmer des Projekts SCHULE WIRTSCHAFT Euregios|Quelle: photothek.net|TRUE|
@@ -49,7 +49,7 @@ M46|MINToringModell.jpg|Flugzeugmodellbau im Projekt MINToring mit Nordmetall|Qu
 M47|sdWM2006.jpg|Spielszene bei der 1. „sdWM“ im Jahr 2006 in Leipzig|Quelle: privat|TRUE|http://mail3.sdw.org/dokumente.nsf/0/6A3F7221E60C074FC1257C9E005841AA
 M48|PROFIS.jpg|PROFIS: Schulleiter und Wirtschaftspartner im Dialog|Quelle: photothek.net|TRUE|http://mail3.sdw.org/dokumente.nsf/0/EB473AD25E513ABCC1257C9E0058BB50
 M49|BOSSVogelperspektive.jpg|Arbeitssituationen im BOSS-Projekt|Quelle: CHL Photodesign|TRUE|http://mail3.sdw.org/dokumente.nsf/0/96296DB116F343E2C1257C9E0059A36F
-M50|BOSSRollsRoyce.jpg||Quelle: CHL Photodesign|TRUE|
+M50|BOSSRollsRoyce.jpg|BOSS-Teilnehmer in einem Workshop bei Rolls-Royce|Quelle: CHL Photodesign|TRUE|
 M51|SchulenaufErfolgskurs.jpg|Im Rahmen von „Schulen auf Erfolgskurs“ führte die sdw unter anderem Schulberatungen durch|Quelle: Jo Neander|TRUE|
 M52|GaTaAbschlussKramerLemke.jpg|Bremens ehemaliger Bildungssenator Willi Lemke (re.) mit dem damaligen Präsidenten der Unternehmensverbände im Lande Bremen und heutigen Arbeitgeberpräsidenten und sdw-Vorstandsvorsitzenden Ingo Kramer (li.)|Quelle: Frank Pusch|TRUE|
 M53|3KollegiatenStormBmGerstberger.jpg|Begrüßung der ersten Stipendiaten im Studienkolleg durch den damaligen sdw-Generalsekretär Hans-Jürgen Brackmann (li.), Andreas Storm (2. v. r.), damaliger Parlamentarischer Staatssekretär im BMBF, und Günter Gerstberger (re.), damaliger Leiter des Programmbereichs Bildung und Gesellschaft der Robert Bosch Stiftung|Quelle: David Außerhofer|TRUE|http:..mail3.sdw.org.dokumente.nsf.0.2C8DA65F25936E32C1257C9E004DEC8A
@@ -195,8 +195,8 @@ M192|DrUlrikeMurmannKnuth.jpg|Dr. Ulrike Murmann-Knuth, stellvertretende Vorsitz
 M193|//www.youtube.com/embed/K8bjMoNIvOM|Video des Studienkollegs zum Thema „Leadership in der Lehrerbildung“|Quelle: sdw|TRUE|
 M194|BraunGerhardF.jpg|Dr. Gerhard Braun, seit 2014 Kuratoriumsvorsitzender der sdw|Quelle: lvu.de|TRUE|https://www.hidrive.strato.com/lnk/jGFxgnnu
 M195|logovivorgb.jpg|Logo zum Projekt Vivo|Quelle: sdw|FALSE|http://mail3.sdw.org/dokumente.nsf/0/C3AE2994476FADAEC1257CA1005ADF66
-M196|vivoImage1.jpg||Quelle: shutterstock|TRUE|
-M197|vivoImage2.jpg||Quelle: shutterstock|TRUE|
+M196|vivoImage1.jpg|Imagebild Vivo|Quelle: shutterstock|TRUE|
+M197|vivoImage2.jpg|Imagebild Vivo|Quelle: shutterstock|TRUE|
 M198|DeutschlandersBenneterKannegiesser.jpg|deutschlanders-Podiumsdiskussion 2004: Klaus-Uwe Benneter (SPD) und Martin Kannegießer (Gesamtmetall)|Quelle: photothek.net|TRUE|
 M199|DeutschlandersGysi.jpg|deutschlanders-Podiumsdiskussion 2004: Gregor Gysi (PDS)|Quelle: photothek.net|TRUE|http://mail3.sdw.org/dokumente.nsf/0/2C8DA65F25936E32C1257C9E004DEC8A
 M200|Gruendungssatzung.jpg|Auszug aus der Satzung zur Gründung der sdw|Quelle: sdw.org|TRUE|
