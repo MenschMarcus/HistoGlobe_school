@@ -42,8 +42,9 @@ class HG.ShapeController
 
     @_timeline.onNowChanged @, (date) ->
       @_now = date
-      # for shape in @_shapes
+      for shape in @_shapes
         # shape.setDate date
+        @_filterShapeTimeQuicky shape
 
     hgInstance.categoryFilter?.onFilterChanged @,(categoryFilter) =>
       @_currentCategoryFilter = categoryFilter
@@ -72,6 +73,8 @@ class HG.ShapeController
 
               circle.bindLabel(c.label)
               circle.myData = c
+              circle.myData.startDate = @_timeline.stringToDate c.start
+              circle.myData.endDate = @_timeline.stringToDate c.end
 
               @_shapes.push circle
 
@@ -114,12 +117,12 @@ class HG.ShapeController
           active = true
       if active
         # @notifyAll "onShowShape", shape if not shape.isVisible
-        # shape.isVisible = true
         # shape.setDate @_now
-        @_map.addLayer shape
+        shape.isVisible = true
+        @_filterShapeTimeQuicky shape
       else
         # @notifyAll "onHideshape", shape
-        # shape.isVisible = false
+        shape.isVisible = false
         @_map.removeLayer shape
 
   # ============================================================================
@@ -143,10 +146,10 @@ class HG.ShapeController
   getAllShapes:()->
     return @_shapes
 
-
-
-  ##############################################################################
-  #                            PRIVATE INTERFACE                               #
-  ##############################################################################
-
-
+  # ============================================================================
+  _filterShapeTimeQuicky:(shape) ->
+    if shape.isVisible
+      if shape.myData.startDate <= @_now and shape.myData.endDate > @_now
+        @_map.addLayer shape
+      else
+        @_map.removeLayer shape
