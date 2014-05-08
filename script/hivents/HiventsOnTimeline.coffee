@@ -65,6 +65,7 @@ class HG.HiventsOnTimeline
             marker.onDestruction @, ()=>
               index = $.inArray(marker, @_hiventMarkers)
               @_hiventMarkers.splice index, 1  if index >= 0
+              @_positionsNeedUpdate = true
 
             @_markersLoaded = @_hiventController._hiventsLoaded
             @_sortMarkers()
