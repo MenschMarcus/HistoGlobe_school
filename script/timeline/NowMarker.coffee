@@ -11,29 +11,20 @@ class HG.NowMarker
         @_timeline  = timeline
         @_container   = container
 
-        # @_body = document.getElementById("histoglobe")
-
-        # elements of now marker box
         @_uiElements =
-            pointer:        @_timeline.addDiv "now_marker_uiElements.pointer", "now_marker_uiElements.pointer", @_container
-            nowMarkerIn:    @_timeline.addDiv "now_marker_in", "now_marker_in", @_container
-            buttonArea:     null #@_timeline.addDiv "now_marker_button_area", "now_marker_button_area", @_uiElements.nowMarkerIn
-        # @_uiElements.pointer.id = "now_marker_uiElements.pointer"
-        # @_container.appendChild @_uiElements.pointer
-
-        # @_uiElements.nowMarkerIn = document.createElement "div"
-        # @_uiElements.nowMarkerIn.id = "now_marker_in"
-        # @_container.appendChild @_uiElements.nowMarkerIn
-
-        @_uiElements.buttonArea = document.createElement "div"
-        @_uiElements.nowMarkerIn.appendChild @_uiElements.buttonArea
+            pointer:        {}
+            nowMarkerIn:    {}
+            buttonArea:     {}
+            init: (tl, container) ->
+                this.pointer        = tl.addDiv "now_marker_uiElements.pointer", "now_marker_uiElements.pointer", container
+                this.nowMarkerIn    = tl.addDiv "now_marker_in", "now_marker_in", container
+                this.buttonArea     = tl.addDiv "now_marker_button_area", "now_marker_button_area", this.nowMarkerIn
+        @_uiElements.init(@_timeline, @_container)
 
         @_playButton    = document.createElement "i"
         @_playButton.id = "now_marker_play"
         @_playButton.className = "fa fa-step-forward"
         @addButton @_playButton, @animationSwitch
-
-
 
         @_dateInputField    = document.createElement "input"
         @_dateInputField.name = "now_date"
@@ -42,8 +33,6 @@ class HG.NowMarker
         @_dateInputField.maxlength = 10
         @_dateInputField.size = 10
         @_uiElements.nowMarkerIn.appendChild @_dateInputField
-
-        # @_container.appendChild @_uiElements.nowMarkerIn
 
         @_arrow  = document.createElement "div"
         @_arrow.id = "now_marker_arrow"
@@ -127,14 +116,6 @@ class HG.NowMarker
     #   --------------------------------------------------------------------------
     clearButtons : () ->
       $(@_uiElements.buttonArea).empty()
-
-    #   --------------------------------------------------------------------------
-    ###getDate: ->
-        @_nowDate###
-
-    #   --------------------------------------------------------------------------
-    #setDate: (date) ->
-    #    @_nowDate = date
 
     # OLD STUFF
     # ============================================================================
