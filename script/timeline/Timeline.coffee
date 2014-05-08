@@ -24,13 +24,18 @@ class HG.Timeline
     @_config = $.extend {}, defaultConfig, config
 
     #   ------------------------------------------------------------------------
-    @_uiElements        = {}
-    @_initLayout()
+    @_uiElements =
+      tl:           @addDiv "tl", "swiper-container", @_config.parentDiv
+      tl_wrapper:   @addDiv "tl_wrapper", "swiper-wrapper", tl
+      tl_slide:     @addDiv "tl_slide", "swiper-slide", tl_wrapper
+      nowMarker:    @addDiv "now_marker", "now_marker", document.getElementById("histoglobe")
+      timeBars:     []
+      dateMarkers:  new HG.DoublyLinkedList()
 
     #   ------------------------------------------------------------------------
     @_now =
       date: @yearToDate(@_config.nowYear)
-      marker: new HG.NowMarker(@)
+      marker: new HG.NowMarker(@, @_uiElements.nowMarker)
 
     #   TRANSITION / SWIPER ----------------------------------------------------
     @_moveDelay = 0
@@ -102,6 +107,14 @@ class HG.Timeline
           @_zoom(1)
         hgInstance.zoom_buttons_timeline.onZoomOut @, () =>
           @_zoom(-1)
+
+  #   --------------------------------------------------------------------------
+  addDiv: (id, className, parentDiv) ->
+    container = document.createElement("div")
+    container.id = id
+    container.className         = className
+    parentDiv.appendChild container
+    container
 
   #   --------------------------------------------------------------------------
   millisPerPixel: ->
@@ -210,34 +223,6 @@ class HG.Timeline
   ##############################################################################
 
   #   --------------------------------------------------------------------------
-  _initLayout: ->
-
-    @_uiElements =
-      body:         document.getElementsByTagName("body")[0]
-      tl:           document.createElement("div")
-      tl_wrapper:   document.createElement("div")
-      tl_slide:     document.createElement("div")
-      nowMarker:    document.createElement("div")
-      timeBars:     []
-      dateMarkers:  new HG.DoublyLinkedList()
-
-    @_uiElements.tl.id            = "tl"
-    @_uiElements.tl_wrapper.id    = "tl_wrapper"
-    @_uiElements.tl_slide.id      = "tl_slide"
-
-    @_uiElements.tl.className         = "swiper-container"
-    @_uiElements.tl_wrapper.className = "swiper-wrapper"
-    @_uiElements.tl_slide.className   = "swiper-slide"
-
-    @_uiElements.tl.style.width = window.innerWidth + "px"
-    @_uiElements.tl_slide.style.width = (@timelineLength() + window.innerWidth) + "px"
-
-    @_config.parentDiv.appendChild @_uiElements.tl
-    @_uiElements.tl.appendChild @_uiElements.tl_wrapper
-    @_uiElements.tl_wrapper.appendChild @_uiElements.tl_slide
-    @_uiElements.tl.appendChild @_uiElements.nowMarker
-
-  #   --------------------------------------------------------------------------
   _updateLayout: ->
     @_uiElements.tl.style.width       = window.innerWidth + "px"
     @_uiElements.tl_slide.style.width = (@timelineLength() + window.innerWidth) + "px"
@@ -264,12 +249,9 @@ class HG.Timeline
     startDate = @stringToDate(timeBarValues[0])
     endDate   = @stringToDate(timeBarValues[1])
 
-    tb_div = document.createElement("div")
-    tb_div.id = "tl_timebar_" + timeBarValues[2]
-    tb_div.className = "tl_timebar"
+    tb_div = @addDiv "tl_timebar_" + timeBarValues[2], "tl_timebar", @getCanvas()
     tb_div.style.left = @dateToPosition(startDate) + "px"
     tb_div.style.width = (@dateToPosition(endDate) - @dateToPosition(startDate)) + "px"
-    @getCanvas().appendChild tb_div
 
     timeBar =
       div: tb_div
@@ -313,10 +295,10 @@ class HG.Timeline
     intervalIndex = 0 if intervalIndex < 0
 
     maxDate = @maxVisibleDate()
-    minDate = @minVisibleDate()    
+    minDate = @minVisibleDate()
 
     #   walk through list an create, or hide datemarkers
-    for i in [0..count]      
+    for i in [0..count]
       if (@_config.minYear + i) % @millisToYear(@timeInterval(intervalIndex)) == 0 && (@_config.minYear + i) >= minDate.getFullYear() && (@_config.minYear + i) <= maxDate.getFullYear() && !@dateMarkerAtIndexOverlappsAnOtherDateMarker(i)
         if @_uiElements.dateMarkers.get(i).nodeData?
           @_uiElements.dateMarkers.get(i).nodeData.updateView(true)

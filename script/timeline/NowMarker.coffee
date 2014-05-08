@@ -7,35 +7,30 @@ class HG.NowMarker
     ##############################################################################
 
     # ============================================================================
-    constructor: (timeline) ->
+    constructor: (timeline, container) ->
         @_timeline  = timeline
+        @_container   = container
 
-        # OLD STUFF
-        @_mainDiv   = document.createElement "div"
-        @_mainDiv.id = "now_marker"
-        @_tlDiv     = @_timeline.getLayout().tl
-
-        @_body = document.getElementById("histoglobe")
-        @_body.appendChild @_mainDiv
-
-        #@_nowDate = new Date()
+        # @_body = document.getElementById("histoglobe")
 
         # elements of now marker box
-        @_pointer    = document.createElement "div"
-        #@_pointer.src = "data/timeline/pointer.png"
-        @_pointer.id = "now_marker_pointer"
-        @_mainDiv.appendChild @_pointer
+        @_uiElements =
+            pointer:        @_timeline.addDiv "now_marker_uiElements.pointer", "now_marker_uiElements.pointer", @_container
+            nowMarkerIn:    @_timeline.addDiv "now_marker_in", "now_marker_in", @_container
+            buttonArea:     null #@_timeline.addDiv "now_marker_button_area", "now_marker_button_area", @_uiElements.nowMarkerIn
+        # @_uiElements.pointer.id = "now_marker_uiElements.pointer"
+        # @_container.appendChild @_uiElements.pointer
 
-        @_nowMarkerIn = document.createElement "div"
-        @_nowMarkerIn.id = "now_marker_in"
+        # @_uiElements.nowMarkerIn = document.createElement "div"
+        # @_uiElements.nowMarkerIn.id = "now_marker_in"
+        # @_container.appendChild @_uiElements.nowMarkerIn
 
-        @_buttonArea = document.createElement "div"
-        @_nowMarkerIn.appendChild @_buttonArea
+        @_uiElements.buttonArea = document.createElement "div"
+        @_uiElements.nowMarkerIn.appendChild @_uiElements.buttonArea
 
         @_playButton    = document.createElement "i"
         @_playButton.id = "now_marker_play"
         @_playButton.className = "fa fa-step-forward"
-        #@_playButton.innerHTML = "<img src='img/timeline/playIcon.png'>"
         @addButton @_playButton, @animationSwitch
 
 
@@ -46,20 +41,19 @@ class HG.NowMarker
         @_dateInputField.type = "text"
         @_dateInputField.maxlength = 10
         @_dateInputField.size = 10
-        @_nowMarkerIn.appendChild @_dateInputField
+        @_uiElements.nowMarkerIn.appendChild @_dateInputField
 
-        @_mainDiv.appendChild @_nowMarkerIn
+        # @_container.appendChild @_uiElements.nowMarkerIn
 
         @_arrow  = document.createElement "div"
         @_arrow.id = "now_marker_arrow"
-        #@_arrow.src = "data/timeline/nowMarkerSmall.png"
-        @_body.appendChild @_arrow
+        document.getElementById("histoglobe").appendChild @_arrow
 
         # Set position of now marker
         @_setNowMarkerPosition()
 
         # set position/rotation of pointer
-        $(@_pointer).rotate(0)
+        $(@_uiElements.pointer).rotate(0)
 
         # refresh position of now marker box if window is resized
         $(window).resize  =>
@@ -70,24 +64,24 @@ class HG.NowMarker
         @_hiddenSpeed = 0
 
         # check if mouse went down on speed changer
-        '''@_mainDiv.onmousedown = (e) =>
+        '''@_container.onmousedown = (e) =>
             if((@_distanceToMiddlepoint(e) - 75) >= 0)
                 @_clicked = true
                 @_disableTextSelection e'''
 
         # rotate arrow if mouse moved on speed changer
-        '''@_mainDiv.onmousemove = (e) =>
+        '''@_container.onmousemove = (e) =>
             if @_clicked
                 unless @_timeline.getPlayStatus()
                     @_playButton.className = "fa fa-play"
                 @_hiddenSpeed = e.pageX - @_middlePointX
-                $(@_pointer).rotate(@_angleOnCircle(e))'''
+                $(@_uiElements.pointer).rotate(@_angleOnCircle(e))'''
 
         # set new speed of timeline animation
-        '''@_mainDiv.onmouseup = (e) =>
+        '''@_container.onmouseup = (e) =>
             if @_clicked
                 @_timeline.setSpeed (@_radius + e.pageX - @_middlePointX)/@_radius
-                $(@_pointer).rotate(@_angleOnCircle(e))
+                $(@_uiElements.pointer).rotate(@_angleOnCircle(e))
                 @_enableTextSelection()
                 @_clicked = false'''
 
@@ -127,12 +121,12 @@ class HG.NowMarker
 
     #   --------------------------------------------------------------------------
     addButton : (buttonDiv, callback) =>
-      @_buttonArea.appendChild buttonDiv
+      @_uiElements.buttonArea.appendChild buttonDiv
       buttonDiv.onclick = callback
 
     #   --------------------------------------------------------------------------
     clearButtons : () ->
-      $(@_buttonArea).empty()
+      $(@_uiElements.buttonArea).empty()
 
     #   --------------------------------------------------------------------------
     ###getDate: ->
@@ -181,14 +175,14 @@ class HG.NowMarker
 
     # ============================================================================
     _setNowMarkerPosition: ->
-        @_mainDiv.style.left    = window.innerWidth / 2 - @_mainDiv.offsetWidth / 2 + "px"
-        @_mainDiv.style.bottom  = @_tlDiv.offsetHeight + "px"
-        @_mainDiv.style.visibility = "visible"
+        @_container.style.left    = window.innerWidth / 2 - @_container.offsetWidth / 2 + "px"
+        @_container.style.bottom  = @_timeline.getLayout().tl.offsetHeight + "px"
+        @_container.style.visibility = "visible"
 
         # middle point of circle
         @_middlePointX      = window.innerWidth / 2
-        @_middlePointY      = window.innerHeight - @_tlDiv.offsetHeight
-        @_radius            = @_mainDiv.offsetHeight
+        @_middlePointY      = window.innerHeight - @_timeline.getLayout().tl.offsetHeight
+        @_radius            = @_container.offsetHeight
 
         # Position of arrow pointing on timeline
         @_arrow.style.left   = window.innerWidth / 2 - 10 + "px"
@@ -217,11 +211,3 @@ class HG.NowMarker
 
     # ============================================================================
     _enableTextSelection : () ->    return true
-
-    # ============================================================================
-
-
-    # ============================================================================
-
-
-
