@@ -18,18 +18,16 @@
   "ZoomButtonsTimeline": {},
 
   "ControlButtonArea": {},
-  "ZoomButtons": {},
-  "FullscreenButton": {},
   "Help":
   {
     "autoShow": true,
     "elements": [
       {
-        "image" : "config/sdw/data/help/help01.png",
+        "image" : "config/sdw/data/help/help06.png",
         "anchorX" : "left",
         "anchorY" : "top",
-        "offsetX": "0",
-        "offsetY": "130",
+        "offsetX": "30",
+        "offsetY": "80",
         "width": "70%"
       },
       {
@@ -53,7 +51,7 @@
         "anchorX" : "center",
         "anchorY" : "bottom",
         "offsetX": "0",
-        "offsetY": "131",
+        "offsetY": "120",
         "width": "70%"
       },
       {
@@ -66,6 +64,8 @@
       }
     ]
   },
+  "ZoomButtons": {},
+  "FullscreenButton": {},
 
   "CategoryFilter": {},
 

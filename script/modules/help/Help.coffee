@@ -19,12 +19,19 @@ class HG.Help
 
     $(@_div).click () =>
       @hide()
+      window.setTimeout () =>
+        $(@_button).attr('title', "Hilfe wieder einblenden").tooltip('fixTitle').tooltip('show');
+        window.setTimeout () =>
+          $(@_button).attr('title', "Hilfe einblenden").tooltip('fixTitle').tooltip('hide');
+        , 2000
+      , 500
 
     $("#histoglobe").append @_div
 
-    for e in @_config.elements
-      @_addHelp e
+    $(@_div).fadeOut 0
 
+    for e in @_config.elements
+      @addHelp e
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -47,22 +54,18 @@ class HG.Help
             @_hgInstance._collapse()
           @show()
 
-      hgInstance.control_button_area.addButton help
+      @_button = hgInstance.control_button_area.addButton help
 
   # ============================================================================
   show:() ->
-    $(@_div).addClass "visible"
+    $(@_div).fadeIn()
 
   # ============================================================================
   hide:() ->
-    $(@_div).removeClass "visible"
+    $(@_div).fadeOut()
 
   # ============================================================================
-  toggle:() ->
-    $(@_div).toggleClass "visible"
-
-  # ============================================================================
-  _addHelp:(element) ->
+  addHelp:(element) ->
     image = document.createElement "img"
     image.className = "help-image"
     image.src = element.image
@@ -85,18 +88,6 @@ class HG.Help
       $(image).css {"bottom":element.offsetY + "px"}
     else if element.anchorY is "center"
       $(image).css {"top": element.offsetY + "px", "bottom": 0, "margin-bottom": "auto", "margin-top": "auto"}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
