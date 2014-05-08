@@ -29,7 +29,7 @@ class HG.SDWTitle
     parentDiv.appendChild @_back_div
 
     @_back_div_inner               = document.createElement("a")
-    @_back_div_inner.href          = "#categories=sdwEvent+projektstart"
+    @_back_div_inner.href          = "#categories=sdwEvent+projektstart&bounds=9.09,49.505;12.09,53.505"
     @_back_div_inner.innerHTML     = "<i class='fa fa-caret-left'></i> Zurück"
     @_back_div.appendChild @_back_div_inner
 
