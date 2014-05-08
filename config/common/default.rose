@@ -106,6 +106,7 @@ $hivent_marker_timeline_width         = 32px
 $hivent_marker_timeline_height        = 32px
 $hivent_marker_timeline_margin_bottom = 3px
 $hivent_marker_timeline_spacing       = 7px
+$hivent_marker_timeline_min_distance  = 16px
 
 // ------------------ HIVENTINFO OPTIONS ---------------------------------------
 $hivent_info_popover_arrow_height     = 15px
