@@ -128,9 +128,13 @@ class HG.Timeline
     @yearToMillis(@_config.maxYear - @_config.minYear) / @millisPerPixel()
   timeInterval: (i) ->
     if i % 2 != 0
-      return @yearToMillis(5 * Math.pow(10, Math.floor(i / 2)))
+      # HACK!
+      return @yearToMillis(5 * Math.pow(5, Math.floor(i / 2)))
+      # return @yearToMillis(5 * Math.pow(10, Math.floor(i / 2)))
     else
-      return @yearToMillis(Math.pow(10, Math.floor(i / 2)))
+      # HACK!
+      return @yearToMillis(Math.pow(5, Math.floor(i / 2)))
+      # return @yearToMillis(Math.pow(10, Math.floor(i / 2)))
   dateToPosition: (date) ->
     dateDiff = date.getTime() - @yearToDate(@_config.minYear).getTime()
     pos = (dateDiff / @millisPerPixel()) + window.innerWidth/2
@@ -314,17 +318,22 @@ class HG.Timeline
     @_updateTimeBarPositions()
 
   dateMarkerAtIndexOverlappsAnOtherDateMarker: (i) ->
-    date = new Date(@_config.minYear + i, 0, 1, 0, 0, 0)
-    j = i - 1
-    while !@_uiElements.dateMarkers.get(j).nodeData? and j > 0
-      j--
-    if @_uiElements.dateMarkers.get(j).nodeData?
-      if @dateToPosition(date) < @_uiElements.dateMarkers.get(j).nodeData.getDiv().offsetLeft + @_uiElements.dateMarkers.get(j).nodeData.getDiv().offsetWidth && @dateToPosition(date) > @_uiElements.dateMarkers.get(j).nodeData.getDiv().offsetLeft
-        return true
-      else
-        return false
-    else
-      return false
+
+    # HACK!
+
+    # date = new Date(@_config.minYear + i, 0, 1, 0, 0, 0)
+    # j = i - 1
+    # while !@_uiElements.dateMarkers.get(j).nodeData? and j > 0
+    #   j--
+    # if @_uiElements.dateMarkers.get(j).nodeData?
+    #   if @dateToPosition(date) < @_uiElements.dateMarkers.get(j).nodeData.getDiv().offsetLeft + @_uiElements.dateMarkers.get(j).nodeData.getDiv().offsetWidth && @dateToPosition(date) > @_uiElements.dateMarkers.get(j).nodeData.getDiv().offsetLeft
+    #     return true
+    #   else
+    #     return false
+    # else
+    #   return false
+
+    return false
 
   #   --------------------------------------------------------------------------
   _zoom: (delta, e=null) =>
