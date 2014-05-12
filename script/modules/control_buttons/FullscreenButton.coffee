@@ -16,7 +16,7 @@ class HG.FullscreenButton
   # ============================================================================
   hgInit: (hgInstance) ->
 
-    unless window.fullScreenApi.supportsFullScreen
+    unless hgInstance.browserDetector.fullscreenSupported
       console.warn "Not adding fullscreen button due to missing fullScreenApi!"
       return
 
@@ -64,7 +64,15 @@ class HG.FullscreenButton
         icon: "fa-compress"
         tooltip: "Vollbildmodus verlassen"
         callback: () =>
-          window.fullScreenApi.cancelFullScreen();
+          elem = document.body
+          if (elem.requestFullscreen)
+            document.cancelFullScreen()
+          else if (elem.msRequestFullscreen)
+            document.msExitFullscreen()
+          else if (elem.mozRequestFullScreen)
+            document.mozCancelFullScreen()
+          else if (elem.webkitRequestFullscreen)
+            document.webkitCancelFullScreen()
           @notifyAll "onLeaveFullscreen"
           return state_a
 

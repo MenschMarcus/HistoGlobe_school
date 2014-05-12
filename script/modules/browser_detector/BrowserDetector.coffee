@@ -19,6 +19,11 @@ class HG.BrowserDetector
     @canvasSupported = !!window.CanvasRenderingContext2D;
     @webglContextSupported = !!window.WebGLRenderingContext;
 
+    @fullscreenSupported = document.body.requestFullscreen? or
+                           document.body.msRequestFullscreen? or
+                           document.body.mozRequestFullScreen? or
+                           document.body.webkitRequestFullscreen?
+
     getWebgl = () ->
       try
         return !!window.WebGLRenderingContext and !!document.createElement( 'canvas' ).getContext 'experimental-webgl'
