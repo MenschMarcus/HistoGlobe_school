@@ -136,7 +136,8 @@
         "description" : 2,
         "source"      : 3,
         "link"        : 1,
-        "crop"        : 4
+        "crop"        : 4,
+        "type"        : 5
       }
     ]
   },
@@ -313,7 +314,7 @@
   "HiventPresenter" : {},
   "HiventInfoAtTag" :
   {
-    "defaultHash" : "#categories=sdwEvent+projektstart&help=true"
+    "defaultHash" : "#categories=sdwEvent+projektstart&help=true&bounds=9.09,47;12.09,55"
   },
 
   "HiventStory" :

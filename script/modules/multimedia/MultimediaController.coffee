@@ -23,6 +23,8 @@ class HG.MultimediaController
         description : 2
         link        : 3
         source      : 4
+        crop        : 5
+        type        : 6
       ]
 
     @_config = $.extend {}, defaultConfig, config
@@ -69,6 +71,7 @@ class HG.MultimediaController
                   result[@_config.indexMappings[pathIndex].link],
                   result[@_config.indexMappings[pathIndex].source],
                   result[@_config.indexMappings[pathIndex].crop].toUpperCase() is "TRUE",
+                  result[@_config.indexMappings[pathIndex].type].toUpperCase(),
                   pathIndex
                 )
 
@@ -87,26 +90,31 @@ class HG.MultimediaController
 ##############################################################################
 
 # ============================================================================
-  _createMultiMedia: (description, link, source, crop, pathIndex) ->
+  _createMultiMedia: (description, link, source, crop, type, pathIndex) ->
     mm =
       "description": description
       "link": @_config.rootDirs[pathIndex] + "/" + link
       "thumbnail": @_config.rootDirs[pathIndex] + "/" + link
       "source": source
       "crop": crop
-      "type": 0 # 0 : image, 1 : video, 2 : audio
+      "type": type
 
-    linkData = link.split(".")
-    if linkData[linkData.length-1] in VIDEO_CRITERIA
-      mm.type = 1
-      # mm.link += "?iframe=true"
-      # mm.thumbnail = "data/video.png"
-
-    if link.indexOf('youtube') > -1
-      mm.type = 1
+    if type is "YOUTUBE"
       mm.link = link
-      # mm.thumbnail = "data/video.png"
 
     mm
 
-  VIDEO_CRITERIA = ['flv', 'ogv', 'mp4', 'ogg']
+  #   linkData = link.split(".")
+  #   if linkData[linkData.length-1] in VIDEO_CRITERIA
+  #     mm.type = 1
+  #     # mm.link += "?iframe=true"
+  #     # mm.thumbnail = "data/video.png"
+
+  #   if link.indexOf('youtube') > -1
+  #     mm.type = 1
+  #     mm.link = link
+  #     # mm.thumbnail = "data/video.png"
+
+  #   mm
+
+  # VIDEO_CRITERIA = ['flv', 'ogv', 'mp4', 'ogg']
