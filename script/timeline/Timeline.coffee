@@ -160,7 +160,7 @@ class HG.Timeline
   stringToDate: (string) ->
     res = (string + "").split(".")
     i = res.length
-    d = new Date(1, 0, 1900)
+    d = new Date(1900, 0, 1)
     if i > 0
         d.setFullYear(res[i - 1])
     else

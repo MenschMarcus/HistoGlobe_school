@@ -66,14 +66,15 @@ class HG.NowMarker
                     @_clicked = false
         $(@_uiElements.dateInput).keyup (e) =>
             if e.keyCode == 13
-                res = (@_uiElements.dateInput.value + "").split(".")
-                d = new Date()
-                if res.length > 0
-                    d.setFullYear(res[res.length - 1])
-                else
-                    alert "Couldn't read the given date. Please try another."
-                d.setMonth(res[res.length - 2] - 1) if res.lengt > 1
-                d.setDate(res[res.length - 3]) if res.length > 2
+                # res = (@_uiElements.dateInput.value + "").split(".")
+                # d = new Date()
+                # if res.length > 0
+                #     d.setFullYear(res[res.length - 1])
+                # else
+                #     alert "Couldn't read the given date. Please try another."
+                # d.setMonth(res[res.length - 2] - 1) if res.lengt > 1
+                # d.setDate(res[res.length - 3]) if res.length > 2
+                d = @_timeline.stringToDate @_uiElements.dateInput.value
 
                 @_timeline.moveToDate(d, 1)
 

@@ -37,6 +37,8 @@ class HG.HiventInfoPopover
     text.innerHTML = @_hiventHandle.getHivent().content
     body.appendChild text
 
+    # if !showArrow
+    #   container = window.body
 
     # create popover
     @_popover = new HG.Popover
@@ -48,7 +50,8 @@ class HG.HiventInfoPopover
       showArrow:  showArrow
       fullscreen: !showArrow
 
-
+    @_popover.onClose @, () =>
+      @_hiventHandle.inActiveAll()
 
     @_multimedia = @_hiventHandle.getHivent().multimedia
     if @_multimedia != "" and @_multimediaController?
@@ -74,7 +77,7 @@ class HG.HiventInfoPopover
           mm = @_multimediaController.getMultimediaById id
           if mm?
 
-            if mm.type is 0
+            if mm.type is "IMAGE"
               elem = document.createElement "a"
 
               elem.href = mm.thumbnail
@@ -95,10 +98,52 @@ class HG.HiventInfoPopover
 
               gallery.addDivSlide elem
 
-            else
+            else if mm.type is "YOUTUBE"
               elem = document.createElement "div"
               elem.innerHTML = "<iframe width='100%' height='240px' src='#{mm.link}' frameborder='0' allowfullscreen> </iframe>"
               gallery.addDivSlide elem
+
+            else if mm.type is "AUDIO"
+              elem = document.createElement "div"
+              elem.style.marginTop = "150px"
+              audio = document.createElement "audio"
+              audio.className = "swiper-no-swiping"
+              audio.controls = true
+
+              linkData = mm.link.split(",")
+
+              mp3 = ""
+
+              for link in linkData
+                source = document.createElement "source"
+                source.src = link
+                audio.appendChild source
+
+                type = link.split(".")
+                type = type[type.length-1]
+
+                if type is "mp3"
+                  source.type = "audio/mpeg"
+                  mp3 = link
+                else if type is "ogg"
+                  source.type = "audio/ogg"
+
+              if mp3 isnt ""
+                source = document.createElement "embed"
+                source.src = link
+                source.height = "50px"
+                source.width = "150px"
+                audio.appendChild source
+
+              elem.appendChild audio
+
+              text = document.createElement "div"
+              text.innerHTML = mm.description
+              elem.appendChild text
+
+              gallery.addDivSlide elem
+
+
             #   elem = document.createElement "div"
             #   gallery.addDivSlide elem
 
