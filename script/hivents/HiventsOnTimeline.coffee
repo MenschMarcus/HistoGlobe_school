@@ -70,6 +70,7 @@ class HG.HiventsOnTimeline
             @_markersLoaded = @_hiventController._hiventsLoaded
             @_sortMarkers()
             @_positionsNeedUpdate = true
+            @_updateHiventMarkerPositions()
             callback marker for callback in @_onMarkerAddedCallbacks
 
         handle.onVisibleFuture @, show

@@ -615,7 +615,7 @@
             {
               "type" : "category",
               "categories" : ["P10"],
-              "name" : "Ganztagsschulen gestalten &ndash; Kooperation, schafft Zukunft",
+              "name" : "Ganztagsschulen gestalten &ndash; Kooperation schafft Zukunft",
               "startDate": "01.09.2004",
               "endDate": "31.12.2006"
             },
@@ -657,7 +657,7 @@
             {
               "type" : "category",
               "categories" : ["P19"],
-              "name" : "Zeig, was Du kannst! Erfolgreich ins Berufsleben starten",
+              "name" : "Modellprojekt Zeig, was Du kannst! Erfolgreich ins Berufsleben starten",
               "startDate": "01.11.2007",
               "endDate": "31.12.2011"
             },
@@ -671,7 +671,7 @@
             {
               "type" : "category",
               "categories" : ["P22"],
-              "name" : "Netzwerk SCHULEWIRTSCHAFT Ostdeutschland",
+              "name" : "Netzwerk <i>SCHULE</i>WIRTSCHAFT Ostdeutschland",
               "startDate": "01.07.2011",
               "endDate": "31.12.2012"
             }
