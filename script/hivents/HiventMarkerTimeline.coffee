@@ -12,7 +12,6 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
 
   # ============================================================================
   constructor: (timeline, hiventHandle, parent, posX, rowPosition=0) ->
-
     HG.HiventMarker.call @, hiventHandle, parent
 
     @_timeline = timeline
