@@ -56,7 +56,7 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
     div = document.createElement "div"
     div.className = "picture-gallery-widget"
 
-    if config.type is 0
+    if config.type is "IMAGE"
       image = document.createElement "a"
       image.className = "gallery-image"
       image.href = config.image
@@ -74,7 +74,7 @@ class HG.PictureGalleryWidget extends HG.GalleryWidget
         maxWidth: "90%"
         maxHeight: "80%"
 
-    else
+    else if config.type is "YOUTUBE"
       elem = document.createElement "div"
       elem.innerHTML = "<iframe width='100%' height='240px' src='#{config.image}' frameborder='0' allowfullscreen> </iframe>"
       div.appendChild elem

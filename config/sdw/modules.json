@@ -136,7 +136,8 @@
         "description" : 2,
         "source"      : 3,
         "link"        : 1,
-        "crop"        : 4
+        "crop"        : 4,
+        "type"        : 5
       }
     ]
   },
