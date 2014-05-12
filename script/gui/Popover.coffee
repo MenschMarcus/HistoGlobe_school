@@ -12,6 +12,7 @@ class HG.Popover
     HG.CallbackContainer.call @
 
     @addCallback "onResize"
+    @addCallback "onClose"
 
     defaultConfig =
       hgInstance: undefined
@@ -57,7 +58,10 @@ class HG.Popover
 
     closeDiv = document.createElement "span"
     closeDiv.innerHTML = "×"
-    closeDiv.addEventListener 'mouseup', @hide, false
+    closeDiv.addEventListener 'mouseup', () =>
+      @notifyAll "onClose"
+      @hide()
+    , false
 
     clearDiv = document.createElement "div"
     clearDiv.className = "clear"
@@ -109,11 +113,12 @@ class HG.Popover
       @_onContainerSizeChange size
 
       @_config.hgInstance.onMapAreaSizeChangeEnd @, (width) =>
-        @_onContainerWidthChange width
+        if @_mainDiv.style.visibility is "visible"
+          @_onContainerWidthChange width
 
       $(window).on 'resize', () =>
-        size = @_config.hgInstance.getMapAreaSize()
-        @_onContainerSizeChange size
+        if @_mainDiv.style.visibility is "visible"
+          @updateSize()
 
 
   # ============================================================================
@@ -125,6 +130,8 @@ class HG.Popover
 
   # ============================================================================
   show: (position) =>
+    if @_config.fullscreen
+      @updateSize()
     @_mainDiv.style.visibility = "visible"
     @_mainDiv.style.opacity = 1.0
 
@@ -144,6 +151,11 @@ class HG.Popover
     @_position = position
     @_updateCenterPos()
     @_updateWindowPos()
+
+  # ============================================================================
+  updateSize:() ->
+    size = @_config.hgInstance.getMapAreaSize()
+    @_onContainerSizeChange size
 
   # ============================================================================
   destroy: () ->

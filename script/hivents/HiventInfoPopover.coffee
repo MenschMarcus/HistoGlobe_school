@@ -37,6 +37,8 @@ class HG.HiventInfoPopover
     text.innerHTML = @_hiventHandle.getHivent().content
     body.appendChild text
 
+    # if !showArrow
+    #   container = window.body
 
     # create popover
     @_popover = new HG.Popover
@@ -48,7 +50,8 @@ class HG.HiventInfoPopover
       showArrow:  showArrow
       fullscreen: !showArrow
 
-
+    @_popover.onClose @, () =>
+      @_hiventHandle.inActiveAll()
 
     @_multimedia = @_hiventHandle.getHivent().multimedia
     if @_multimedia != "" and @_multimediaController?
