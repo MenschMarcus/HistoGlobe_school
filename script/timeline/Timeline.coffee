@@ -129,12 +129,12 @@ class HG.Timeline
   timeInterval: (i) ->
     if i % 2 != 0
       # HACK!
-      return @yearToMillis(5 * Math.pow(5, Math.floor(i / 2)))
-      # return @yearToMillis(5 * Math.pow(10, Math.floor(i / 2)))
+      # return @yearToMillis(5 * Math.pow(5, Math.floor(i / 2)))
+      return @yearToMillis(5 * Math.pow(10, Math.floor(i / 2)))
     else
       # HACK!
-      return @yearToMillis(Math.pow(5, Math.floor(i / 2)))
-      # return @yearToMillis(Math.pow(10, Math.floor(i / 2)))
+      # return @yearToMillis(Math.pow(5, Math.floor(i / 2)))
+      return @yearToMillis(Math.pow(10, Math.floor(i / 2)))
   dateToPosition: (date) ->
     dateDiff = date.getTime() - @yearToDate(@_config.minYear).getTime()
     pos = (dateDiff / @millisPerPixel()) + window.innerWidth/2
@@ -309,11 +309,21 @@ class HG.Timeline
       if (@_config.minYear + i) % @millisToYear(@timeInterval(intervalIndex)) == 0 && (@_config.minYear + i) >= minDate.getFullYear() && (@_config.minYear + i) <= maxDate.getFullYear()
         if @_uiElements.dateMarkers.get(i).nodeData?
           @_uiElements.dateMarkers.get(i).nodeData.updateView(true)
-          @_uiElements.dateMarkers.get(i).nodeData.getDiv().style.maxWidth = dateMarkerMaxWidth + "px"          
+          element = @_uiElements.dateMarkers.get(i).nodeData.getDiv()
+          element.style.maxWidth = dateMarkerMaxWidth + "px"
+          if Math.round(dateMarkerMaxWidth / 2.6) <= 100
+            $(element).css({'font-size':(Math.round(dateMarkerMaxWidth / 2.6)) + 'px'}) 
+          else
+            $(element).css({'font-size':'100px'}) 
         else
           date = new Date(@_config.minYear + i, 0, 1, 0, 0, 0)
           @_uiElements.dateMarkers.get(i).nodeData = new HG.DateMarker(date, @)
-          @_uiElements.dateMarkers.get(i).nodeData.getDiv().style.maxWidth = dateMarkerMaxWidth + "px"
+          element = @_uiElements.dateMarkers.get(i).nodeData.getDiv()
+          element.style.maxWidth = dateMarkerMaxWidth + "px"
+          if Math.round(dateMarkerMaxWidth / 2.6) <= 100
+            $(element).css({'font-size':(Math.round(dateMarkerMaxWidth / 2.6)) + 'px'}) 
+          else
+            $(element).css({'font-size':'100px'}) 
       else
         if @_uiElements.dateMarkers.get(i).nodeData?
           @_uiElements.dateMarkers.get(i).nodeData.updateView(false)
