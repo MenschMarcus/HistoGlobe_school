@@ -55,18 +55,18 @@ class HG.Timeline
           @_moveDelay = 0
           fireCallbacks = true
         @_updateNowDate(fireCallbacks)
-        @_updateDateMarkers()
+        @_updateDateMarkers(false)
     @_uiElements.tl_wrapper.addEventListener "webkitTransitionEnd", (e) =>
       @_updateNowDate()
-      @_updateDateMarkers()
+      @_updateDateMarkers(false)
     , false
     @_uiElements.tl_wrapper.addEventListener "transitionend", (e) =>
       @_updateNowDate()
-      @_updateDateMarkers()
+      @_updateDateMarkers(false)
     , false
     @_uiElements.tl_wrapper.addEventListener "oTransitionEnd", (e) =>
       @_updateNowDate()
-      @_updateDateMarkers()
+      @_updateDateMarkers(false)
     , false
 
     #   TIMELINE ANIMATION  ----------------------------------------------------
@@ -129,12 +129,12 @@ class HG.Timeline
   timeInterval: (i) ->
     if i % 2 != 0
       # HACK!
-      return @yearToMillis(5 * Math.pow(5, Math.floor(i / 2)))
-      # return @yearToMillis(5 * Math.pow(10, Math.floor(i / 2)))
+      # return @yearToMillis(5 * Math.pow(5, Math.floor(i / 2)))
+      return @yearToMillis(5 * Math.pow(10, Math.floor(i / 2)))
     else
       # HACK!
-      return @yearToMillis(Math.pow(5, Math.floor(i / 2)))
-      # return @yearToMillis(Math.pow(10, Math.floor(i / 2)))
+      # return @yearToMillis(Math.pow(5, Math.floor(i / 2)))
+      return @yearToMillis(Math.pow(10, Math.floor(i / 2)))
   dateToPosition: (date) ->
     dateDiff = date.getTime() - @yearToDate(@_config.minYear).getTime()
     pos = (dateDiff / @millisPerPixel()) + window.innerWidth/2
@@ -282,7 +282,7 @@ class HG.Timeline
       timeBar.div.style.width = (@dateToPosition(timeBar.endDate) - @dateToPosition(timeBar.startDate)) + "px"
 
   #   --------------------------------------------------------------------------
-  _updateDateMarkers: ->
+  _updateDateMarkers: (zoomed=true) ->
     #   count possible years to show
     count = @_config.maxYear - @_config.minYear
 
@@ -299,17 +299,31 @@ class HG.Timeline
     intervalIndex = (index - 2)
     intervalIndex = 0 if intervalIndex < 0
 
+    dateMarkerMaxWidth = window.innerWidth / (@millisToYear(window.innerWidth * @millisPerPixel()) / @millisToYear(@timeInterval(intervalIndex)))
+
     maxDate = @maxVisibleDate()
     minDate = @minVisibleDate()
 
     #   walk through list an create, or hide datemarkers
     for i in [0..count]
-      if (@_config.minYear + i) % @millisToYear(@timeInterval(intervalIndex)) == 0 && (@_config.minYear + i) >= minDate.getFullYear() && (@_config.minYear + i) <= maxDate.getFullYear() && !@dateMarkerAtIndexOverlappsAnOtherDateMarker(i)
+      if (@_config.minYear + i) % @millisToYear(@timeInterval(intervalIndex)) == 0 && (@_config.minYear + i) >= minDate.getFullYear() && (@_config.minYear + i) <= maxDate.getFullYear()
         if @_uiElements.dateMarkers.get(i).nodeData?
           @_uiElements.dateMarkers.get(i).nodeData.updateView(true)
+          element = @_uiElements.dateMarkers.get(i).nodeData.getDiv()
+          element.style.maxWidth = dateMarkerMaxWidth + "px"
+          if Math.round(dateMarkerMaxWidth / 2.6) <= 100
+            $(element).css({'font-size':(Math.round(dateMarkerMaxWidth / 2.6)) + 'px'}) 
+          else
+            $(element).css({'font-size':'100px'}) 
         else
           date = new Date(@_config.minYear + i, 0, 1, 0, 0, 0)
           @_uiElements.dateMarkers.get(i).nodeData = new HG.DateMarker(date, @)
+          element = @_uiElements.dateMarkers.get(i).nodeData.getDiv()
+          element.style.maxWidth = dateMarkerMaxWidth + "px"
+          if Math.round(dateMarkerMaxWidth / 2.6) <= 100
+            $(element).css({'font-size':(Math.round(dateMarkerMaxWidth / 2.6)) + 'px'}) 
+          else
+            $(element).css({'font-size':'100px'}) 
       else
         if @_uiElements.dateMarkers.get(i).nodeData?
           @_uiElements.dateMarkers.get(i).nodeData.updateView(false)
@@ -317,34 +331,16 @@ class HG.Timeline
 
     @_updateTimeBarPositions()
 
-  dateMarkerAtIndexOverlappsAnOtherDateMarker: (i) ->
-
-    # HACK!
-
-    # date = new Date(@_config.minYear + i, 0, 1, 0, 0, 0)
-    # j = i - 1
-    # while !@_uiElements.dateMarkers.get(j).nodeData? and j > 0
-    #   j--
-    # if @_uiElements.dateMarkers.get(j).nodeData?
-    #   if @dateToPosition(date) < @_uiElements.dateMarkers.get(j).nodeData.getDiv().offsetLeft + @_uiElements.dateMarkers.get(j).nodeData.getDiv().offsetWidth && @dateToPosition(date) > @_uiElements.dateMarkers.get(j).nodeData.getDiv().offsetLeft
-    #     return true
-    #   else
-    #     return false
-    # else
-    #   return false
-
-    return false
-
   #   --------------------------------------------------------------------------
   _zoom: (delta, e=null) =>
     zoomed = false
     if delta > 0
       if @maxVisibleDate().getFullYear() - @minVisibleDate().getFullYear() > 2
-        @_config.zoom *= 1.2
+        @_config.zoom *= 1.1
         zoomed = true
     else
       if @_config.zoom > 1
-        @_config.zoom /= 1.2
+        @_config.zoom /= 1.1
         zoomed = true
 
     if zoomed
@@ -359,7 +355,7 @@ class HG.Timeline
         toDate = new Date(@_now.date.getTime() + @_speed*@_speed * 5000 * 60 * 60 * 24 * 7)
         @moveToDate(toDate,0)
         @_updateNowDate()
-        @_updateDateMarkers()
+        @_updateDateMarkers(zoomed=false)
       else
         @_now.marker.animationSwitch()
 

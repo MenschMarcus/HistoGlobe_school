@@ -28,16 +28,7 @@ class HG.HiventController
     @_categoryFilter = null
 
     defaultConfig =
-      hiventJSONPaths: undefined
-      multimediaJSONPaths: undefined
-      hiventDSVPaths: undefined
-      multimediaDSVPaths: undefined
-      hiventServerName: undefined
-      hiventDatabaseName: undefined
-      hiventTableName: undefined
-      multimediaServerName: undefined
-      multimediaDatabaseName: undefined
-      multimediaTableName: undefined
+      dsvConfigs: undefined
 
     @_config = $.extend {}, defaultConfig, config
 
@@ -187,49 +178,49 @@ class HG.HiventController
 
   # ============================================================================
   loadHiventsFromDSV: () ->
-    if @_config.dsvPaths?
-      defaultConfig =
-        dsvPaths: []
-        delimiter: "|"
-        ignoredLines: [] # line indices starting at 1
-        indexMappings: [
-          id          : 0
-          name        : 1
-          description : 2
-          startDate   : 3
-          endDate     : 4
-          displayDate : 5
-          location    : 6
-          lat         : 7
-          long        : 8
-          category    : 9
-          multimedia  : 10
-        ]
+    if @_config.dsvConfigs?
+      for dsvConfig in @_config.dsvConfigs
+        defaultConfig =
+          path: ""
+          delimiter: "|"
+          ignoredLines: [] # line indices starting at 1
+          indexMapping:
+            id          : 0
+            name        : 1
+            description : 2
+            startDate   : 3
+            endDate     : 4
+            displayDate : 5
+            location    : 6
+            lat         : 7
+            long        : 8
+            category    : 9
+            multimedia  : 10
 
-      @_config = $.extend {}, defaultConfig, @_config
+        dsvConfig = $.extend {}, defaultConfig, dsvConfig
 
-      parse_config =
-        delimiter: @_config.delimiter
-        header: false
+        parse_config =
+          delimiter: dsvConfig.delimiter
+          header: false
 
-      pathIndex = 0
-      for dsvPath in @_config.dsvPaths
-        $.get dsvPath,
-          (data) =>
-            parse_result = $.parse data, parse_config
-            builder = new HG.HiventBuilder @_config, @_hgInstance.multimediaController
-            for result, i in parse_result.results
-              unless i+1 in @_config.ignoredLines
-                builder.constructHiventFromArray result, pathIndex, (hivent) =>
-                  if hivent
-                    handle = new HG.HiventHandle hivent
-                    @_hiventHandles.push handle
-                    @notifyAll "onHiventAdded", handle
-                    @_handlesNeedSorting = true
-                    @_filterHivents()
-            pathIndex++
+        buildHivent = (config) =>
+          $.get config.path,
+            (data) =>
+              parse_result = $.parse data, parse_config
+              builder = new HG.HiventBuilder config, @_hgInstance.multimediaController
+              for result, i in parse_result.results
+                unless i+1 in config.ignoredLines
+                  builder.constructHiventFromArray result, (hivent) =>
+                    if hivent
+                      handle = new HG.HiventHandle hivent
+                      @_hiventHandles.push handle
+                      @notifyAll "onHiventAdded", handle
+                      @_handlesNeedSorting = true
+                      @_filterHivents()
 
-      @_currentCategoryFilter = @_categoryFilter.getCurrentFilter()
+        buildHivent dsvConfig
+
+        @_currentCategoryFilter = @_categoryFilter.getCurrentFilter()
 
 
   # ============================================================================

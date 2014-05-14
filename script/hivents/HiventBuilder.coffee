@@ -14,21 +14,21 @@ class HG.HiventBuilder
     @_multimediaController = multimediaController
 
   # ============================================================================
-  constructHiventFromArray: (dataArray, pathIndex, successCallback) ->
+  constructHiventFromArray: (dataArray, successCallback) ->
     if dataArray isnt []
       successCallback?= (hivent) -> console.log hivent
 
-      ID          = dataArray[@_config.indexMappings[pathIndex].id]
-      name        = dataArray[@_config.indexMappings[pathIndex].name]
-      description = dataArray[@_config.indexMappings[pathIndex].description]
-      startDate   = dataArray[@_config.indexMappings[pathIndex].startDate]
-      endDate     = dataArray[@_config.indexMappings[pathIndex].endDate]
-      displayDate = dataArray[@_config.indexMappings[pathIndex].displayDate]
-      location    = dataArray[@_config.indexMappings[pathIndex].location]
-      lat         = dataArray[@_config.indexMappings[pathIndex].lat]
-      long        = dataArray[@_config.indexMappings[pathIndex].long]
-      category    = if dataArray[@_config.indexMappings[pathIndex].category] == '' then 'default' else dataArray[@_config.indexMappings[pathIndex].category]
-      multimedia  = dataArray[@_config.indexMappings[pathIndex].multimedia]
+      ID          = dataArray[@_config.indexMapping.id]
+      name        = dataArray[@_config.indexMapping.name]
+      description = dataArray[@_config.indexMapping.description]
+      startDate   = dataArray[@_config.indexMapping.startDate]
+      endDate     = dataArray[@_config.indexMapping.endDate]
+      displayDate = dataArray[@_config.indexMapping.displayDate]
+      location    = dataArray[@_config.indexMapping.location]
+      lat         = dataArray[@_config.indexMapping.lat]
+      long        = dataArray[@_config.indexMapping.long]
+      category    = if dataArray[@_config.indexMapping.category] is '' then 'default' else dataArray[@_config.indexMapping.category]
+      multimedia  = dataArray[@_config.indexMapping.multimedia]
 
       successCallback @_createHivent(ID, name, description, startDate,
                                     endDate, displayDate, location, long, lat,

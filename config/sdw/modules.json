@@ -145,34 +145,43 @@
 
   "HiventController" :
   {
-    "dsvPaths": ["config/sdw/data/sdw_projectEvent.csv", "config/sdw/data/sdw_event.csv"],
-    "ignoredLines" : [1,2,3,4],
-    "indexMappings" : [
+    "dsvConfigs":
+    [
       {
-        "id"          : 0,
-        "name"        : 2,
-        "description" : 3,
-        "startDate"   : 4,
-        "endDate"     : 4,
-        "displayDate" : 4,
-        "location"    : 5,
-        "lat"         : 6,
-        "long"        : 7,
-        "category"    : 1,
-        "multimedia"  : 8
+        "path" : "config/sdw/data/sdw_projectEvent.csv",
+        "ignoredLines" : [1,2,3,4],
+        "indexMapping" :
+        {
+          "id"          : 0,
+          "name"        : 2,
+          "description" : 3,
+          "startDate"   : 4,
+          "endDate"     : 4,
+          "displayDate" : 4,
+          "location"    : 5,
+          "lat"         : 6,
+          "long"        : 7,
+          "category"    : 1,
+          "multimedia"  : 8
+        }
       },
+
       {
-        "id"          : 0,
-        "name"        : 1,
-        "description" : 2,
-        "startDate"   : 3,
-        "endDate"     : 3,
-        "displayDate" : 3,
-        "location"    : null,
-        "lat"         : null,
-        "long"        : null,
-        "category"    : 5,
-        "multimedia"  : 4
+        "path"        : "config/sdw/data/sdw_event.csv",
+        "ignoredLines" : [1,2,3,4],
+        "indexMapping" : {
+          "id"          : 0,
+          "name"        : 1,
+          "description" : 2,
+          "startDate"   : 3,
+          "endDate"     : 3,
+          "displayDate" : 3,
+          "location"    : null,
+          "lat"         : null,
+          "long"        : null,
+          "category"    : 5,
+          "multimedia"  : 4
+        }
       }
     ]
   },
