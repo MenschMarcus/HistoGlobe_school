@@ -13,6 +13,7 @@ class HG.Timeline
 
     @addCallback "onNowChanged"
     @addCallback "onIntervalChanged"
+    @addCallback "onZoom"
 
     defaultConfig =
       parentDiv: undefined
@@ -312,18 +313,18 @@ class HG.Timeline
           element = @_uiElements.dateMarkers.get(i).nodeData.getDiv()
           element.style.maxWidth = dateMarkerMaxWidth + "px"
           if Math.round(dateMarkerMaxWidth / 2.6) <= 100
-            $(element).css({'font-size':(Math.round(dateMarkerMaxWidth / 2.6)) + 'px'}) 
+            $(element).css({'font-size':(Math.round(dateMarkerMaxWidth / 2.6)) + 'px'})
           else
-            $(element).css({'font-size':'100px'}) 
+            $(element).css({'font-size':'100px'})
         else
           date = new Date(@_config.minYear + i, 0, 1, 0, 0, 0)
           @_uiElements.dateMarkers.get(i).nodeData = new HG.DateMarker(date, @)
           element = @_uiElements.dateMarkers.get(i).nodeData.getDiv()
           element.style.maxWidth = dateMarkerMaxWidth + "px"
           if Math.round(dateMarkerMaxWidth / 2.6) <= 100
-            $(element).css({'font-size':(Math.round(dateMarkerMaxWidth / 2.6)) + 'px'}) 
+            $(element).css({'font-size':(Math.round(dateMarkerMaxWidth / 2.6)) + 'px'})
           else
-            $(element).css({'font-size':'100px'}) 
+            $(element).css({'font-size':'100px'})
       else
         if @_uiElements.dateMarkers.get(i).nodeData?
           @_uiElements.dateMarkers.get(i).nodeData.updateView(false)
@@ -346,6 +347,7 @@ class HG.Timeline
     if zoomed
       @_updateLayout()
       @_updateDateMarkers()
+      @notifyAll "onZoom"
     zoomed
 
   #   --------------------------------------------------------------------------

@@ -78,6 +78,9 @@ class HG.HiventsOnTimeline
 
       @_timeline.onNowChanged @, @_updateHiventMarkerPositions
       @_timeline.onIntervalChanged @, @_updateHiventMarkerPositions
+      @_timeline.onZoom @, () =>
+        @_positionsNeedUpdate = true
+
     else
       console.error "Unable to show hivents on Timeline: HiventController module not detected in HistoGlobe instance!"
 
