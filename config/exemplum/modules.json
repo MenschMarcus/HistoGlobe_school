@@ -9,14 +9,75 @@
     "maxZoom": 7,
     "startZoom": 6,
     "startLatLong": [51.505, 10.09],
-    "tiles": "config/exemplum/data/tiles/"
+    "tiles": "config/exemplum/data/tiles/",
+    "nowMarker" : {
+      "speedometer" : "false"
+    }
   },
 
   "BrowserDetector": {},
 
+  "ZoomButtonsTimeline": {},
+
+  "Watermark": {
+    "bottom": "100px",
+    "left": "0px",
+    "text": "Visualisierung von <a href='http://www.histoglobe.com'>HistoGlobe</a>"
+  },
+
   "ControlButtonArea": {},
+
+  "Help":
+  {
+    "autoShow": true,
+    "elements": [
+      {
+        "image" : "config/sdw/data/help/help06.png",
+        "anchorX" : "left",
+        "anchorY" : "top",
+        "offsetX": "30",
+        "offsetY": "80",
+        "width": "70%"
+      },
+      {
+        "image" : "config/sdw/data/help/help02.png",
+        "anchorX" : "right",
+        "anchorY" : "center",
+        "offsetX": "20",
+        "offsetY": "-90",
+        "width": "40%"
+      },
+      {
+        "image" : "config/sdw/data/help/help03.png",
+        "anchorX" : "right",
+        "anchorY" : "top",
+        "offsetX": "100",
+        "offsetY": "30",
+        "width": "55%"
+      },
+      {
+        "image" : "config/sdw/data/help/help04.png",
+        "anchorX" : "center",
+        "anchorY" : "bottom",
+        "offsetX": "0",
+        "offsetY": "120",
+        "width": "70%"
+      },
+      {
+        "image" : "config/sdw/data/help/help05.png",
+        "anchorX" : "center",
+        "anchorY" : "bottom",
+        "offsetX": "0",
+        "offsetY": "10",
+        "width": "80%"
+      }
+    ]
+  },
+
   "ZoomButtons": {},
   "FullscreenButton": {},
+
+  "CategoryFilter": {},
 
   "Globe": {},
 
@@ -37,35 +98,43 @@
 
   "HiventController" :
   {
-    "dsvPaths": ["config/exemplum/data/exemplum_event.csv", "config/exemplum/data/exemplum_branch.csv"],
-    "ignoredLines" : [1,2,3,4,5,6],
-    "indexMappings" : [
+    "dsvConfigs":
+    [
       {
-        "id"          : 0,
-        "name"        : 1,
-        "description" : 7,
-        "startDate"   : 2,
-        "endDate"     : 2,
-        "displayDate" : 2,
-        "location"    : 3,
-        "lat"         : 4,
-        "long"        : 5,
-        "category"    : 8,
-        "multimedia"  : 6
+        "path": "config/exemplum/data/exemplum_event.csv",
+        "ignoredLines" : [1,2,3,4,5,6],
+        "indexMapping" :
+        {
+          "id"          : 0,
+          "name"        : 1,
+          "description" : 7,
+          "startDate"   : 2,
+          "endDate"     : 2,
+          "displayDate" : 2,
+          "location"    : 3,
+          "lat"         : 4,
+          "long"        : 5,
+          "category"    : 8,
+          "multimedia"  : 6
+        }
       },
-
       {
-        "id"          : 0,
-        "name"        : 1,
-        "description" : 9,
-        "startDate"   : 2,
-        "endDate"     : 3,
-        "displayDate" : 4,
-        "location"    : 5,
-        "lat"         : 6,
-        "long"        : 7,
-        "category"    : 10,
-        "multimedia"  : 8
+        "path": "config/exemplum/data/exemplum_branch.csv",
+        "ignoredLines" : [1,2,3,4,5,6],
+        "indexMapping" :
+        {
+          "id"          : 0,
+          "name"        : 1,
+          "description" : 9,
+          "startDate"   : 2,
+          "endDate"     : 3,
+          "displayDate" : 4,
+          "location"    : 5,
+          "lat"         : 6,
+          "long"        : 7,
+          "category"    : 10,
+          "multimedia"  : 8
+        }
       }
     ]
   },
@@ -194,131 +263,135 @@
   "HiventInfoPopovers" : {},
   "HiventInfoAtTag" : {},
 
-  "Widgets" :
-  [
-    {
-      "type" : "VIPWidget",
-      "icon" : "fa-user",
-      "name" : "Geschäftsführung",
-      "persons" :
-      [
-        {
-          "name": "Martin Exelsior",
-          "startDate": "01.06.1964",
-          "endDate": "04.03.1976",
-          "image": "config/exemplum/data/media/exelsior.jpg",
-          "copyright": "© Drew Coffman",
-          "info": "Gründer und Geschäftsführer",
-          "infoLong": "Martin Exelsior übernimmt als Gründer die Geschäftsführung der Exemplum GmbH."
-        },
-        {
-          "name": "Peter Paulsen",
-          "startDate": "04.03.1976",
-          "endDate": "01.02.1990",
-          "image": "config/exemplum/data/media/peter_paulsen.jpg",
-          "copyright": "© Victor1558",
-          "info": "Vom Zweigstellenleiter zum Geschäftsführer",
-          "infoLong": "Peter Paulsen tritt die Martin Exelsiors Nachfolge an. Peter Paulsen war zuvor Zweigstellenleiter in Österreich und der Schweiz."
-        },
-        {
-          "name": "Frank Schneider",
-          "startDate": "01.02.1990",
-          "endDate": "02.03.1997",
-          "image": "config/exemplum/data/media/frank_schneider.jpg",
-          "copyright": "© Victor1558",
-          "info": "Vom Leiter des Produktmarketings zum Geschäftsführer",
-          "infoLong": "Frank Schneider löst Peter Paulsen ab. Frank Schneider war zuvor Leiter des Produktmarketings."
-        },
-        {
-          "name": "Sabrina Fahrenkamp",
-          "startDate": "02.03.1997",
-          "endDate": "25.06.2005",
-          "image": "config/exemplum/data/media/sabrina_fahrenkamp.jpg",
-          "copyright": "© Victor1558",
-          "info": "Erste Geschäftsführerin",
-          "infoLong": "Sabrina Fahrenkamp wird als Geschäftsführerin eingesetzt. Zuvor war sie Zweigstellenleiterin in den USA und für die interne Unternehmenskommunikation verantwortlich."
-        },
-        {
-          "name": "Geoffrey Brooks",
-          "startDate": "25.06.2005",
-          "endDate": "31.12.9999",
-          "image": "config/exemplum/data/media/geoffrey_brooks.jpg",
-          "copyright": "© Victor1558",
-          "info": "Erste Geschäftsführer nicht aus den eigenen Reihen",
-          "infoLong": "Geoffrey Brooks tritt die Nachfolge Sabrina Fahrenkamps an. Er war zuvor bei einer großen Unternehmensberatung als Partner tätig. Geoffrey Brooks ist der erste Geschäftsführer, der nicht aus den eigenen Reihen kommt."
-        }
-      ]
-    },
-    {
-      "type" : "StatisticsWidget",
-      "icon" : "fa-bar-chart-o",
-      "name" : "Jahresumsatz",
-      "title" : "Jahresumsatz seit 1964",
-      "yDomain" : [0, 600],
-      "xLableTicks" : 5,
-      "yLableTicks" : 5,
-      "yCaption" : "Umsatz in Mio. €",
-      "lines" :
-      [
-        {
-          "dataPath" : "config/exemplum/data/statistics_revenue.dsv",
-          "xAttributeName" : "date",
-          "yAttributeName" : "amount",
-          "label" : "Jahresumsatz",
-          "color" : "#338A66",
-          "width" : "5px",
-          "smooth" : true
-        }
-      ]
-    },
-    {
-      "type": "LegendWidget",
-      "icon": "fa-list-ul",
-      "name": "Legende & Filter",
-      "collapsedAtStart" : false,
-      "columns":
-      [
-        {
-          "groups" : [
-            {
-              "name": "Exemplum GmbH",
-              "elements" : [
-                {
-                  "type" : "category",
-                  "category" : "A",
-                  "name" : "Firmenereignis",
-                  "filterable" : true
-                },
-                {
-                  "type" : "categoryWithIcon",
-                  "category" : "default",
-                  "icon" : "config/exemplum/data/icons/absatzmarkt.png",
-                  "name" : "Absatzmärkte",
-                  "filterable" : false
-                },
-                {
-                  "type" : "category",
-                  "category" : "Z",
-                  "name" : "Zweigstelle",
-                  "filterable" : true
-                },
-                {
-                  "type" : "category",
-                  "category" : "F",
-                  "name" : "Fabrik",
-                  "filterable" : true
-                },
-                {
-                  "type" : "category",
-                  "category" : "P",
-                  "name" : "Plantage",
-                  "filterable" : true
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ]}
+  "WidgetController" :
+  {
+    "widgets" :
+    [
+      {
+        "type" : "VIPWidget",
+        "icon" : "fa-user",
+        "name" : "Geschäftsführung",
+        "persons" :
+        [
+          {
+            "name": "Martin Exelsior",
+            "startDate": "01.06.1964",
+            "endDate": "04.03.1976",
+            "image": "config/exemplum/data/media/exelsior.jpg",
+            "copyright": "© Drew Coffman",
+            "info": "Gründer und Geschäftsführer",
+            "infoLong": "Martin Exelsior übernimmt als Gründer die Geschäftsführung der Exemplum GmbH."
+          },
+          {
+            "name": "Peter Paulsen",
+            "startDate": "04.03.1976",
+            "endDate": "01.02.1990",
+            "image": "config/exemplum/data/media/peter_paulsen.jpg",
+            "copyright": "© Victor1558",
+            "info": "Vom Zweigstellenleiter zum Geschäftsführer",
+            "infoLong": "Peter Paulsen tritt die Martin Exelsiors Nachfolge an. Peter Paulsen war zuvor Zweigstellenleiter in Österreich und der Schweiz."
+          },
+          {
+            "name": "Frank Schneider",
+            "startDate": "01.02.1990",
+            "endDate": "02.03.1997",
+            "image": "config/exemplum/data/media/frank_schneider.jpg",
+            "copyright": "© Victor1558",
+            "info": "Vom Leiter des Produktmarketings zum Geschäftsführer",
+            "infoLong": "Frank Schneider löst Peter Paulsen ab. Frank Schneider war zuvor Leiter des Produktmarketings."
+          },
+          {
+            "name": "Sabrina Fahrenkamp",
+            "startDate": "02.03.1997",
+            "endDate": "25.06.2005",
+            "image": "config/exemplum/data/media/sabrina_fahrenkamp.jpg",
+            "copyright": "© Victor1558",
+            "info": "Erste Geschäftsführerin",
+            "infoLong": "Sabrina Fahrenkamp wird als Geschäftsführerin eingesetzt. Zuvor war sie Zweigstellenleiterin in den USA und für die interne Unternehmenskommunikation verantwortlich."
+          },
+          {
+            "name": "Geoffrey Brooks",
+            "startDate": "25.06.2005",
+            "endDate": "31.12.9999",
+            "image": "config/exemplum/data/media/geoffrey_brooks.jpg",
+            "copyright": "© Victor1558",
+            "info": "Erste Geschäftsführer nicht aus den eigenen Reihen",
+            "infoLong": "Geoffrey Brooks tritt die Nachfolge Sabrina Fahrenkamps an. Er war zuvor bei einer großen Unternehmensberatung als Partner tätig. Geoffrey Brooks ist der erste Geschäftsführer, der nicht aus den eigenen Reihen kommt."
+          }
+        ]
+      },
+      {
+        "type" : "StatisticsWidget",
+        "icon" : "fa-bar-chart-o",
+        "name" : "Jahresumsatz",
+        "title" : "Jahresumsatz seit 1964",
+        "yDomain" : [0, 600],
+        "xLableTicks" : 5,
+        "yLableTicks" : 5,
+        "yCaption" : "Umsatz in Mio. €",
+        "lines" :
+        [
+          {
+            "dataPath" : "config/exemplum/data/statistics_revenue.dsv",
+            "xAttributeName" : "date",
+            "yAttributeName" : "amount",
+            "label" : "Jahresumsatz",
+            "color" : "#338A66",
+            "width" : "5px",
+            "smooth" : true
+          }
+        ]
+      },
+      {
+        "type": "LegendWidget",
+        "icon": "fa-list-ul",
+        "name": "Legende & Filter",
+        "collapsedAtStart" : false,
+        "columns":
+        [
+          {
+            "groups" : [
+              {
+                "name": "Exemplum GmbH",
+                "elements" : [
+                  {
+                    "type" : "category",
+                    "category" : "A",
+                    "name" : "Firmenereignis",
+                    "filterable" : true
+                  },
+                  {
+                    "type" : "categoryWithIcon",
+                    "category" : "default",
+                    "icon" : "config/exemplum/data/icons/absatzmarkt.png",
+                    "name" : "Absatzmärkte",
+                    "filterable" : false
+                  },
+                  {
+                    "type" : "category",
+                    "category" : "Z",
+                    "name" : "Zweigstelle",
+                    "filterable" : true
+                  },
+                  {
+                    "type" : "category",
+                    "category" : "F",
+                    "name" : "Fabrik",
+                    "filterable" : true
+                  },
+                  {
+                    "type" : "category",
+                    "category" : "P",
+                    "name" : "Plantage",
+                    "filterable" : true
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
 

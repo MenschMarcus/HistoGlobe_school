@@ -49,6 +49,6 @@ $hivent_marker_timeline_width         = 20px
 $hivent_marker_timeline_height        = 20px
 
 // ------------------ TIMELINE OPTIONS -----------------------------------------
-$timeline_height                      = 60px
+$timeline_height                      = 100px
 $timeline_background_image            = "../config/exemplum/data/bg.png"
 $now_marker_background_image          = "../config/exemplum/data/bg.png"

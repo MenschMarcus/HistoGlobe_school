@@ -89,10 +89,14 @@ class HG.AreaController
 
     activeAreas = @getActiveAreas()
     for area in activeAreas
-      active = false
-      for category in area.getCategories()
-        if category in @_currentCategoryFilter
-          active = true
+      active = true
+      if area.getCategories()?
+        for category in area.getCategories()
+          unless category in @_currentCategoryFilter
+            active = false
+          else
+            active = true
+            break
       if active
         @notifyAll "onShowArea", area if not area.isVisible
         area.isVisible = true

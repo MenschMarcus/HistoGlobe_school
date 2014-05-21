@@ -70,7 +70,7 @@ class HG.MultimediaController
                   result[@_config.indexMappings[pathIndex].description],
                   result[@_config.indexMappings[pathIndex].link],
                   result[@_config.indexMappings[pathIndex].source],
-                  result[@_config.indexMappings[pathIndex].crop].toUpperCase() is "TRUE",
+                  result[@_config.indexMappings[pathIndex].crop]?.toUpperCase() is "TRUE",
                   result[@_config.indexMappings[pathIndex].type].toUpperCase(),
                   pathIndex
                 )
