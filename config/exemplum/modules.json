@@ -10,8 +10,9 @@
     "startZoom": 6,
     "startLatLong": [51.505, 10.09],
     "tiles": "config/exemplum/data/tiles/",
+    "sidebarEnabled": false,
     "nowMarker" : {
-      "speedometer" : "false"
+      "speedometer" : false
     }
   },
 

@@ -34,6 +34,7 @@ class HG.HistoGlobe
       maxBounds: undefined
       startLatLong: [51.505, 10.09]
       sidebarCollapsed: "auto"
+      sidebarEnabled: "true"
       tiles: 'data/tiles/'
 
     $.getJSON(pathToJson, (config) =>
@@ -44,9 +45,10 @@ class HG.HistoGlobe
       @_createTopArea()
 
       @_createMap()
-      @_createSidebar()
+      if @_config.sidebarEnabled
+        @_createSidebar()
+        @_createCollapseButton()
       @_createTimeline()
-      @_createCollapseButton()
 
       $(window).on 'resize', @_onResize
 
@@ -133,7 +135,8 @@ class HG.HistoGlobe
         else
           $(@mapCanvas).removeClass("no-animation")
 
-    @_top_swiper.wrapperTransitionEnd(@_onSlideEnd, true)
+    if @_config.sidebarEnabled
+      @_top_swiper.wrapperTransitionEnd(@_onSlideEnd, true)
 
   # ============================================================================
   _createSidebar: ->
@@ -228,7 +231,7 @@ class HG.HistoGlobe
     height = window.innerHeight - $(@_top_area).offset().top
 
     map_height = height - HGConfig.timeline_height.val
-    map_width = width - HGConfig.sidebar_collapsed_width.val
+    map_width = width - if @_config.sidebarEnabled then HGConfig.sidebar_collapsed_width.val else 0
     sidebar_width = HGConfig.sidebar_width.val
 
     if @isInMobileMode()
@@ -237,8 +240,8 @@ class HG.HistoGlobe
     @_map_area.style.width = "#{map_width}px"
     @_map_area.style.height = "#{map_height}px"
 
-
-    @sidebar.resize sidebar_width, map_height
+    if @_config.sidebarEnabled
+      @sidebar.resize sidebar_width, map_height
     @map.resize map_width, map_height
 
     @_top_swiper.reInit()

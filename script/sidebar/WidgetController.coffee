@@ -30,7 +30,8 @@ class HG.WidgetController
 
     @_categoryFilter = hgInstance.categoryFilter if hgInstance.categoryFilter
 
-    @_loadWidgetsFromConfig(@_config,hgInstance)
+    if @_hgInstance.sidebar?
+      @_loadWidgetsFromConfig(@_config,hgInstance)
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
