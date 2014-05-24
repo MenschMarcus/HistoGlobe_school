@@ -19,6 +19,8 @@ class HG.SDWTitle
 
     @_categoryFilter = hgInstance.categoryFilter
 
+    hgInstance.sdwTitle = @
+
     @_text_div               = document.createElement("div")
     @_text_div.className     = "title-text"
     @_text_div.innerHTML     = @_config.title

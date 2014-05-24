@@ -148,7 +148,7 @@
     <script type="text/javascript">
       $(document).ready(function($) {
         // var histoglobe = new HG.HistoGlobe("config/exemplum/modules.json");
-        var histoglobe = new HG.HistoGlobe("config/exemplum/modules.json");
+        var histoglobe = new HG.HistoGlobe("config/teaser1_countries/modules.json");
       });
     </script>
 

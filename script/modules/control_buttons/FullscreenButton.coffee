@@ -28,14 +28,20 @@ class HG.FullscreenButton
 
     hgInstance.fullscreen_button = @
 
+    helpYOffset = 130
+    if hgInstance.sdwTitle?
+      helpYOffset = 170
+
     if hgInstance.help?
       hgInstance.help.addHelp
-        image : "config/sdw/data/help/help01.png"
+        image : "config/common/help/help01.png"
         anchorX : "left"
         anchorY : "top"
-        offsetX: "30"
-        offsetY: "170"
+        offsetX: 30
+        offsetY: helpYOffset
         width: "70%"
+
+
 
     if hgInstance.control_button_area?
       state_a = {}

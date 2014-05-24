@@ -22,7 +22,7 @@ rosetta --jsOut "build/config.js" \
         --jsFormat "flat" \
         --jsTemplate $'(function() {\n<%= preamble %>\n $.extend(HGConfig, <%= blob %>);\n})();' \
         --cssOut "build/config.less" \
-        --cssFormat "less" config/exemplum/style.rose
+        --cssFormat "less" config/teaser1_countries/style.rose
 
 cFiles=$(find script -name '*.coffee')
 
