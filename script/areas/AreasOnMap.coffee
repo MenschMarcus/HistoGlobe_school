@@ -7,11 +7,16 @@ class HG.AreasOnMap
   ##############################################################################
 
   # ============================================================================
-  constructor: () ->
+  constructor: (config) ->
     @_map = null
     @_areaController = null
 
     @_visibleAreas = []
+
+    defaultConfig =
+      areaHighlightColor: "#fff"
+
+    @_config = $.extend {}, defaultConfig, config
 
 
   # ============================================================================
@@ -61,6 +66,7 @@ class HG.AreasOnMap
     # area.myLeafletLayer.addTo @_map
     area.myLeafletLayer.bindLabel(area.getLabel()).addTo @_map
 
+    area.myLeafletLayer.hgArea = area
     ###
     # add label
     area.myLeafletLabel = new L.Label();
@@ -150,13 +156,11 @@ class HG.AreasOnMap
 
   # ============================================================================
   _onHover: (event) =>
-    # hard code!
-    @_animate event.target, {"fill": "#fff"}, 150
+    @_animate event.target, {"fill": "#{@_config.areaHighlightColor}"}, 150
 
   # ============================================================================
   _onUnHover: (event) =>
-    # hard code!
-    @_animate event.target, {"fill": "#fc0"}, 150
+    @_animate event.target, {"fill": "#{event.target.hgArea.getNormalStyle().fillColor}"}, 150
 
   # ============================================================================
   _onClick: (event) =>
