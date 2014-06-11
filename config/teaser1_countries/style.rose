@@ -1,6 +1,6 @@
 // ------------------- GLOBAL OPTIONS ------------------------------------------
 $primary_font_face                  = sans-serif
-$secondary_font_face                = Lobster
+$secondary_font_face                = Montserrat
 
 $border_width                       = 6px
 $border_color                       = #338A66

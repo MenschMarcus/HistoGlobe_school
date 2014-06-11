@@ -1,5 +1,7 @@
 #!/bin/bash
 
+PROJECT=teaser1_countries
+
 (cd data_src/hivents/; ./generate.sh)
 
 (cd data_src/labels/; ./generate.sh)
@@ -22,7 +24,7 @@ rosetta --jsOut "build/config.js" \
         --jsFormat "flat" \
         --jsTemplate $'(function() {\n<%= preamble %>\n $.extend(HGConfig, <%= blob %>);\n})();' \
         --cssOut "build/config.less" \
-        --cssFormat "less" config/teaser1_countries/style.rose
+        --cssFormat "less" config/$PROJECT/style.rose
 
 cFiles=$(find script -name '*.coffee')
 
@@ -32,4 +34,12 @@ jFiles=$(find build -name '*.js')
 
 uglifyjs $jFiles -o script/histoglobe.min.js #-mc
 
-lessc --no-color -x style/histoglobe.less style/histoglobe.min.css
+LESS_MAIN=style/histoglobe.less
+
+if [ -e "config/$PROJECT/custom.less" ]; then
+    LESS_MAIN=config/$PROJECT/custom.less
+fi
+
+lessc --no-color -x $LESS_MAIN style/histoglobe.min.css
+
+sed -i "2s/.*/<?php \$config_path = '$PROJECT'; ?>/" index.php

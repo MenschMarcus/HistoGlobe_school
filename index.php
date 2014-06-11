@@ -1,3 +1,5 @@
+<?php //config_path is set by make.sh. ATTENTION!!!! DO NOT DELETE THE FIRST TWO LINES OF index.php! ?>
+<?php $config_path = 'teaser1_countries'; ?>
 <?php $debug_mode = true; ?>
 
 <!DOCTYPE html>
@@ -147,8 +149,8 @@
     <?php // init histoglobe ?>
     <script type="text/javascript">
       $(document).ready(function($) {
-        // var histoglobe = new HG.HistoGlobe("config/exemplum/modules.json");
-        var histoglobe = new HG.HistoGlobe("config/teaser1_countries/modules.json");
+        // $CURRENT_PROJECT_PATH$ is set by make.sh
+        var histoglobe = new HG.HistoGlobe("config/<?php echo $config_path?>/modules.json");
       });
     </script>
 
