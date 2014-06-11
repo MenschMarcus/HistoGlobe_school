@@ -111,6 +111,14 @@ class HG.Timeline
           @_zoom(-1)
 
   #   --------------------------------------------------------------------------
+  getMinYear: =>
+    @_config.minYear
+
+  #   --------------------------------------------------------------------------
+  getMaxYear: =>
+    @_config.maxYear
+
+  #   --------------------------------------------------------------------------
   addUIElement: (id, className, parentDiv, type="div") ->
     container = document.createElement(type)
     container.id = id

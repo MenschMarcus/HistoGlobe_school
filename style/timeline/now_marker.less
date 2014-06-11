@@ -55,17 +55,33 @@
       font-size:    1.2em;
       font-weight:  bold;
     }
+
     #now_marker_button_area {
 
-      #now_marker_play {
-        &:hover {   cursor: pointer;    }
+      margin-top: 15px;
 
-        margin-top:     15px;
-        margin-bottom:  0px;
-        margin-left:    25px;
-        margin-right:   25px;
+      #now_marker_play {
+        font-size: 2em;
+      }
+
+      #now_marker_jump_to_front {
+        font-size: 1.5em;
+      }
+
+      #now_marker_jump_to_back {
+        font-size: 1.5em;
       }
     }
+
+    .now_marker_button {
+        &:hover {   cursor: pointer;    }
+
+        display: inline;
+        margin-top:     15px;
+        margin-bottom:  0px;
+        margin-left:    5px;
+        margin-right:   5px;
+      }
   }
 }
 

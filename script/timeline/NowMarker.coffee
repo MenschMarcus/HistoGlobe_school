@@ -23,12 +23,16 @@ class HG.NowMarker
                 this.pointer        = tl.addUIElement "now_marker_pointer", null, container
                 this.nowMarkerIn    = tl.addUIElement "now_marker_in", null, container
                 this.buttonArea     = tl.addUIElement "now_marker_button_area", null, this.nowMarkerIn
-                this.playButton     = tl.addUIElement "now_marker_play", "fa fa-step-forward", null, "i"
+                this.toFrontButton  = tl.addUIElement "now_marker_jump_to_front", "fa fa-fast-backward now_marker_button", null, "i"
+                this.playButton     = tl.addUIElement "now_marker_play", "fa fa-play now_marker_button", null, "i"
+                this.toBackButton   = tl.addUIElement "now_marker_jump_to_back", "fa fa-fast-forward now_marker_button", null, "i"
                 this.dateInput      = tl.addUIElement "now_date_input", null, this.nowMarkerIn, "input"
                 this.arrow          = tl.addUIElement "now_marker_arrow", null, document.getElementById("histoglobe")
         @_uiElements.init(@_timeline, @_container)
 
+        @addButton @_uiElements.toFrontButton, @jumpToFront
         @addButton @_uiElements.playButton, @animationSwitch
+        @addButton @_uiElements.toBackButton, @jumpToBack
 
         @_uiElements.dateInput.name         = "now_date"
         @_uiElements.dateInput.type         = "text"
@@ -101,10 +105,23 @@ class HG.NowMarker
     animationSwitch: =>
         if @_timeline.getPlayStatus()
             @_timeline.stopTimeline()
-            @_playButton.className = "fa fa-play"
+            @_uiElements.playButton.className = "fa fa-play now_marker_button"
         else
             @_timeline.playTimeline()
-            @_playButton.className = "fa fa-pause"
+            @_uiElements.playButton.className = "fa fa-pause now_marker_button"
+
+    #   --------------------------------------------------------------------------
+    jumpToFront: =>
+      if @_timeline.getPlayStatus()
+        @_timeline.stopTimeline()
+      @_timeline.moveToDate @_timeline.yearToDate(@_timeline.getMinYear()), 0.5
+
+    #   --------------------------------------------------------------------------
+    jumpToBack: =>
+      if @_timeline.getPlayStatus()
+        @_timeline.stopTimeline()
+      @_timeline.moveToDate @_timeline.yearToDate(@_timeline.getMaxYear()), 0.5
+
 
     ##############################################################################
     #                            PRIVATE INTERFACE                               #

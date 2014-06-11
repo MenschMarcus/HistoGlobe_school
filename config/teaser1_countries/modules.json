@@ -90,8 +90,8 @@
         "mapping": "config/teaser1_countries/data/spread.json",
         "domain": [0, 1],
         "fillColor": {
-          "range": ["#EEEEED", "#EEEEED"],
-          "fallback": "#EEEEED",
+          "range": ["#E1D84D", "#E1D84D"],
+          "fallback": "#E1D84D",
           "compOp": "replace"
         },
         "fillOpacity": {
