@@ -20,4 +20,4 @@ config/exemplum/map/tmp
 config/exemplum/data/media
 config/sixt/data/tiles
 
-config/teaser1_countries/data/tiles
+config/teaser_common/data/tiles
