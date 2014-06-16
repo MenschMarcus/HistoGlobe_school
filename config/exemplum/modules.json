@@ -33,39 +33,23 @@
     "autoShow": true,
     "elements": [
       {
-        "image" : "config/sdw/data/help/help06.png",
+        "image" : "config/common/help/help05.png",
         "anchorX" : "left",
         "anchorY" : "top",
         "offsetX": "30",
-        "offsetY": "80",
+        "offsetY": "20",
         "width": "70%"
       },
       {
-        "image" : "config/sdw/data/help/help02.png",
-        "anchorX" : "right",
-        "anchorY" : "center",
-        "offsetX": "20",
-        "offsetY": "-90",
-        "width": "40%"
-      },
-      {
-        "image" : "config/sdw/data/help/help03.png",
-        "anchorX" : "right",
-        "anchorY" : "top",
-        "offsetX": "100",
-        "offsetY": "30",
-        "width": "55%"
-      },
-      {
-        "image" : "config/sdw/data/help/help04.png",
+        "image" : "config/common/help/help03.png",
         "anchorX" : "center",
         "anchorY" : "bottom",
         "offsetX": "0",
-        "offsetY": "120",
+        "offsetY": "150",
         "width": "70%"
       },
       {
-        "image" : "config/sdw/data/help/help05.png",
+        "image" : "config/common/help/help04.png",
         "anchorX" : "center",
         "anchorY" : "bottom",
         "offsetX": "0",

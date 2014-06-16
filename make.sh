@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PROJECT=teaser1_countries
+PROJECT=exemplum
 
 (cd data_src/hivents/; ./generate.sh)
 
