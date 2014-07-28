@@ -1,5 +1,5 @@
 <?php //config_path is set by make.sh. ATTENTION!!!! DO NOT DELETE THE FIRST TWO LINES OF index.php! ?>
-<?php $config_path = 'exemplum'; ?>
+<?php $config_path = 'teaser2_hivents_multimedia'; ?>
 <?php $debug_mode = true; ?>
 
 <!DOCTYPE html>

@@ -66,6 +66,98 @@
 
   "Globe": {},
 
+  "MultimediaController": {
+    "dsvPaths": ["config/teaser_common/data/medium.csv"],
+    "rootDirs": ["config/teaser_common/data/media"],
+    "ignoredLines" : [1,2,3,4,5,6],
+    "indexMappings": [
+      {
+        "id"          : 0,
+        "type"        : 2,
+        "description" : 3,
+        "source"      : 4,
+        "link"        : 1
+      }
+    ]
+  },
+
+  "HiventController" :
+  {
+    "dsvConfigs":
+    [
+      {
+        "path": "config/teaser_common/data/event.csv",
+        "ignoredLines" : [1,2,3,4,5,6],
+        "indexMapping" :
+        {
+          "id"          : 0,
+          "name"        : 1,
+          "description" : 7,
+          "startDate"   : 2,
+          "endDate"     : 2,
+          "displayDate" : 2,
+          "location"    : 3,
+          "lat"         : 4,
+          "long"        : 5,
+          "category"    : 8,
+          "multimedia"  : 6
+        }
+      },
+      {
+        "path": "config/teaser_common/data/branch.csv",
+        "ignoredLines" : [1,2,3,4,5,6],
+        "indexMapping" :
+        {
+          "id"          : 0,
+          "name"        : 1,
+          "description" : 9,
+          "startDate"   : 2,
+          "endDate"     : 3,
+          "displayDate" : 4,
+          "location"    : 5,
+          "lat"         : 6,
+          "long"        : 7,
+          "category"    : 10,
+          "multimedia"  : 8
+        }
+      }
+    ]
+  },
+
+  "CategoryIconMapping" : {
+      "A" : {
+        "default" : "config/teaser_common/data/icons/default_default.png",
+        "highlighted" : "config/teaser_common/data/icons/default_highlight.png"
+      },
+      "Z" : {
+        "default" : "config/teaser_common/data/icons/zweigstelle_default.png",
+        "highlighted" : "config/teaser_common/data/icons/zweigstelle_highlight.png"
+      },
+      "F" : {
+        "default" : "config/teaser_common/data/icons/fabrik_default.png",
+        "highlighted" : "config/teaser_common/data/icons/fabrik_highlight.png"
+      },
+      "P" : {
+        "default" : "config/teaser_common/data/icons/plantage_default.png",
+        "highlighted" : "config/teaser_common/data/icons/plantage_highlight.png"
+      },
+      "S" : {
+        "default" : "config/teaser_common/data/icons/shop_default.png",
+        "highlighted" : "config/teaser_common/data/icons/shop_highlight.png"
+      },
+      "E" : {
+        "default" : "config/teaser_common/data/icons/erlebniszentrum_default.png",
+        "highlighted" : "config/teaser_common/data/icons/erlebniszentrum_highlight.png"
+      },
+      "T" : {
+        "default" : "config/teaser_common/data/icons/tour_default.png",
+        "highlighted" : "config/teaser_common/data/icons/tour_highlight.png"
+      }
+    },
+
+  "HiventsOnMap" : {},
+  "HiventsOnTimeline" : {},
+
   "AreaStyler" :
   {
     "stylers" :
@@ -134,6 +226,8 @@
 
   "AreasOnGlobe": {},
 
+  "HiventTooltips" : {},
+  "HiventInfoPopovers" : {},
   "HiventInfoAtTag" : {}
 
 }
