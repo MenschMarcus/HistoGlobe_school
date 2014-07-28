@@ -9,7 +9,7 @@
     "maxZoom": 5,
     "startZoom": 5,
     "startLatLong": [51.505, 10.09],
-    "tiles": "config/teaser1_countries/data/tiles/",
+    "tiles": "config/teaser_common/data/tiles/",
     "sidebarEnabled": false,
     "nowMarker" : {
       "speedometer" : false
@@ -64,8 +64,6 @@
 
   "CategoryFilter": {},
 
-  "Globe": {},
-
   "AreaStyler" :
   {
     "stylers" :
@@ -87,7 +85,7 @@
         }
       },
       {
-        "mapping": "config/teaser1_countries/data/spread.json",
+        "mapping": "config/teaser_common/data/spread.json",
         "domain": [0, 1],
         "fillColor": {
           "range": ["#E1D84D", "#E1D84D"],
@@ -125,16 +123,12 @@
 
   "AreaController" :
   {
-    "areaJSONPaths" : ["config/common/countries/europe_old.json", "config/teaser1_countries/data/areas.json"]
+    "areaJSONPaths" : ["config/common/countries/europe_old.json", "config/teaser_common/data/areas.json"]
   },
 
   "AreasOnMap" : {
     "areaHighlightColor" : "#d5c900"
-  },
-
-  "AreasOnGlobe": {},
-
-  "HiventInfoAtTag" : {}
+  }
 
 }
 
