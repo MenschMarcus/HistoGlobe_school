@@ -84,7 +84,7 @@ class HG.Area
   # ============================================================================
   _initData: (geoJson) ->
     @_data        = []
-    @_state       = geoJson.properties.sov_a3
+    @_state       = geoJson.properties.iso_a3
     @_name        = geoJson.properties.name_de
     @_iso_a2      = geoJson.properties.iso_a2
     @_labelLatLng = geoJson.properties.label_lat_long

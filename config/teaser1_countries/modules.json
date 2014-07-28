@@ -2,10 +2,10 @@
   "HistoGlobe" :
   {
     "container": "histoglobe",
-    "minYear": 1963,
+    "minYear": 1990,
     "maxYear": 2014,
-    "nowYear": 2000,
-    "minZoom": 3,
+    "nowYear": 1991,
+    "minZoom": 0,
     "maxZoom": 5,
     "startZoom": 5,
     "startLatLong": [51.505, 10.09],
@@ -69,22 +69,6 @@
     "stylers" :
     [
       {
-        "mapping": "config/common/countries/eu_history.json",
-        "domain": [0, 1],
-        "fillOpacity": {
-          "range": [0, 1],
-          "fallback": 1
-        },
-        "lineOpacity": {
-          "range": [0, 1],
-          "fallback": 1
-        },
-        "labelOpacity": {
-          "range": [0, 1],
-          "fallback": 1
-        }
-      },
-      {
         "mapping": "config/teaser_common/data/spread.json",
         "domain": [0, 1],
         "fillColor": {
@@ -123,7 +107,7 @@
 
   "AreaController" :
   {
-    "areaJSONPaths" : ["config/common/countries/europe_old.json", "config/teaser_common/data/areas.json"]
+    "areaJSONPaths" : ["config/teaser_common/data/areas.json"]
   },
 
   "AreasOnMap" : {
