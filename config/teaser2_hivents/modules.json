@@ -2,14 +2,14 @@
   "HistoGlobe" :
   {
     "container": "histoglobe",
-    "minYear": 1963,
+    "minYear": 1990,
     "maxYear": 2014,
-    "nowYear": 2000,
-    "minZoom": 3,
+    "nowYear": 1991,
+    "minZoom": 0,
     "maxZoom": 5,
     "startZoom": 5,
     "startLatLong": [51.505, 10.09],
-    "tiles": "config/teaser1_countries/data/tiles/",
+    "tiles": "config/teaser_common/data/tiles/",
     "sidebarEnabled": false,
     "nowMarker" : {
       "speedometer" : false
@@ -64,8 +64,6 @@
 
   "CategoryFilter": {},
 
-  "Globe": {},
-
   "MultimediaController": {
     "dsvPaths": ["config/teaser_common/data/medium.csv"],
     "rootDirs": ["config/teaser_common/data/media"],
@@ -102,24 +100,6 @@
           "category"    : 8,
           "multimedia"  : 6
         }
-      },
-      {
-        "path": "config/teaser_common/data/branch.csv",
-        "ignoredLines" : [1,2,3,4,5,6],
-        "indexMapping" :
-        {
-          "id"          : 0,
-          "name"        : 1,
-          "description" : 9,
-          "startDate"   : 2,
-          "endDate"     : 3,
-          "displayDate" : 4,
-          "location"    : 5,
-          "lat"         : 6,
-          "long"        : 7,
-          "category"    : 10,
-          "multimedia"  : 8
-        }
       }
     ]
   },
@@ -128,30 +108,6 @@
       "A" : {
         "default" : "config/teaser_common/data/icons/default_default.png",
         "highlighted" : "config/teaser_common/data/icons/default_highlight.png"
-      },
-      "Z" : {
-        "default" : "config/teaser_common/data/icons/zweigstelle_default.png",
-        "highlighted" : "config/teaser_common/data/icons/zweigstelle_highlight.png"
-      },
-      "F" : {
-        "default" : "config/teaser_common/data/icons/fabrik_default.png",
-        "highlighted" : "config/teaser_common/data/icons/fabrik_highlight.png"
-      },
-      "P" : {
-        "default" : "config/teaser_common/data/icons/plantage_default.png",
-        "highlighted" : "config/teaser_common/data/icons/plantage_highlight.png"
-      },
-      "S" : {
-        "default" : "config/teaser_common/data/icons/shop_default.png",
-        "highlighted" : "config/teaser_common/data/icons/shop_highlight.png"
-      },
-      "E" : {
-        "default" : "config/teaser_common/data/icons/erlebniszentrum_default.png",
-        "highlighted" : "config/teaser_common/data/icons/erlebniszentrum_highlight.png"
-      },
-      "T" : {
-        "default" : "config/teaser_common/data/icons/tour_default.png",
-        "highlighted" : "config/teaser_common/data/icons/tour_highlight.png"
       }
     },
 
@@ -163,23 +119,7 @@
     "stylers" :
     [
       {
-        "mapping": "config/common/countries/eu_history.json",
-        "domain": [0, 1],
-        "fillOpacity": {
-          "range": [0, 1],
-          "fallback": 1
-        },
-        "lineOpacity": {
-          "range": [0, 1],
-          "fallback": 1
-        },
-        "labelOpacity": {
-          "range": [0, 1],
-          "fallback": 1
-        }
-      },
-      {
-        "mapping": "config/teaser1_countries/data/spread.json",
+        "mapping": "config/teaser_common/data/spread.json",
         "domain": [0, 1],
         "fillColor": {
           "range": ["#E1D84D", "#E1D84D"],
@@ -217,14 +157,12 @@
 
   "AreaController" :
   {
-    "areaJSONPaths" : ["config/common/countries/europe_old.json", "config/teaser1_countries/data/areas.json"]
+    "areaJSONPaths" : ["config/teaser_common/data/areas.json"]
   },
 
   "AreasOnMap" : {
     "areaHighlightColor" : "#d5c900"
   },
-
-  "AreasOnGlobe": {},
 
   "HiventTooltips" : {},
   "HiventInfoPopovers" : {},

@@ -56,7 +56,6 @@ class HG.HiventInfoPopover
     @_multimedia = @_hiventHandle.getHivent().multimedia
     if @_multimedia != "" and @_multimediaController?
       mmids = @_multimedia.split ","
-
       gallery = new HG.Gallery
         interactive : true
         showPagination : (mmids.length >= 2)

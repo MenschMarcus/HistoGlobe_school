@@ -5,8 +5,8 @@
 # PROJECT=fertility
 # PROJECT=scandinavia
 # PROJECT=sdw
-PROJECT=teaser1_countries
-# PROJECT=teaser2_hivents_multimedia
+# PROJECT=teaser1_countries
+PROJECT=teaser2_hivents
 
 (cd data_src/hivents/; ./generate.sh)
 
