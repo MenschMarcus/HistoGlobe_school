@@ -13,3 +13,45 @@
 }
 
 @import "../../style/histoglobe.less";
+
+.guiPopoverBody {
+  font-family: Libre Baskerville;
+  color: #fff;
+  background-color: #333;
+
+  h3 {
+    display: none;
+    // color: #fff;
+  }
+}
+
+.guiPopoverContent {
+  font-size: 12pt;
+}
+
+.guiPopoverTitle {
+  color: #333;
+  background-color: #fff;
+  border-bottom: @border_width solid #bcb100;
+  background-image: none;
+}
+
+.guiPopover {
+  .arrow {
+    &.arrow-up {
+      border-bottom: @hivent_info_popover_arrow_height solid #fff;
+    }
+
+    &.arrow-down {
+      border-top: @hivent_info_popover_arrow_height solid #333;
+    }
+
+    &.arrow-right {
+      border-left: @hivent_info_popover_arrow_height solid #333;
+    }
+
+    &.arrow-left {
+      border-right: @hivent_info_popover_arrow_height solid #333;
+    }
+  }
+}
