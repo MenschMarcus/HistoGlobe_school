@@ -22,11 +22,12 @@
   color: #333;
   background-color: #fff;
   border-bottom: @border_width solid #bcb100;
-  // border: none;
   background-image: none;
 }
 
 .guiPopover {
+  box-shadow: 1px 1px 2px 2px rgba(0,0,0,@shadow_intensity);
+
   .arrow {
     &.arrow-up {
       border-bottom: @hivent_info_popover_arrow_height solid #fff;
@@ -58,7 +59,7 @@
     border: none !important;
     border-radius: 0px !important;
 
-    box-shadow: 1px 1px 2px 2px rgba(0,0,0,0.5);
+    box-shadow: 1px 1px 2px 2px rgba(0,0,0,@shadow_intensity);
 
     max-width: 350px;
 }
@@ -108,5 +109,46 @@
   &.invisible {
     opacity: 0.0 !important;
   }
+}
+
+.control-buttons {
+
+  .control-buttons-group {
+    box-shadow: 1px 1px 2px 2px rgba(0,0,0,@shadow_intensity);
+
+    .control-buttons-button {
+      &:hover {
+        background-color: #bcb100;
+      }
+    }
+  }
+}
+
+#now_marker {
+  box-shadow:   1px 1px 2px 2px rgba(0,0,0,@shadow_intensity);
+}
+
+#timeline-area {
+  box-shadow:   1px 1px 2px 2px rgba(0,0,0,@shadow_intensity);
+}
+
+#tl {
+
+  #tl_wrapper {
+    background-color: #fff;
+    .linear-gradient-top(#fff, #fff, 0%, #fff, 100%);
+
+    #tl_slide {
+      .tl_datemarker {
+        color: #333;
+        box-shadow: none;
+        border-left: solid 3px #333;
+      }
+    }
+  }
+}
+
+.timeline-control-buttons-group {
+  box-shadow: 1px 1px 2px 2px rgba(0,0,0,@shadow_intensity);
 }
 

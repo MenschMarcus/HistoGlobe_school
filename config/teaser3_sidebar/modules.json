@@ -20,12 +20,6 @@
 
   "ZoomButtonsTimeline": {},
 
-  "Watermark": {
-    "bottom": "100px",
-    "left": "0px",
-    "text": "Visualisierung von <a href='http://www.histoglobe.com'>HistoGlobe</a>"
-  },
-
   "ControlButtonArea": {},
 
   "Help":
