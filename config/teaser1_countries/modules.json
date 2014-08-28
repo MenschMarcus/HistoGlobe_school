@@ -9,7 +9,7 @@
     "maxZoom": 5,
     "startZoom": 5,
     "startLatLong": [51.505, 10.09],
-    "tiles": "config/teaser_common/data/tiles/",
+    "tiles": "http://teasers.histoglobe.com/tiles/",
     "sidebarEnabled": false,
     "nowMarker" : {
       "speedometer" : false

@@ -3,7 +3,7 @@ $primary_font_face                  = Montserrat
 $secondary_font_face                = "Libre Baskerville"
 
 $border_width                       = 6px
-$border_color                       = #338A66
+$border_color                       = #ffffff
 $border_color_bright                = #ffffff
 $border_color_dark                  = #333333
 
@@ -11,7 +11,7 @@ $border_color_dark                  = #333333
 $map_label_size                     = 2.0em
 
 // ------------------- WIDGET OPTIONS ------------------------------------------
-$widget_title_background_color      = #ffc836
+$widget_title_background_color      = #ffffff
 $widget_title_text_color            = #333333
 $widget_background_color            = #ffffff
 $widget_title_size                  = 35px

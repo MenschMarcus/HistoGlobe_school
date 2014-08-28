@@ -8,6 +8,8 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <link rel="shortcut icon" href="data/icons/favicon.ico" type="image/x-icon" />
+
     <title>HistoGlobe</title>
 
     <?php // third party css ?>
@@ -25,6 +27,9 @@
       <link rel="stylesheet" href="style/third-party/leaflet.ie.css" />
       <link rel="stylesheet" href="style/third-party/MarkerCluster.Default.ie.css" />
     <![endif]-->
+
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic' rel='stylesheet' type='text/css'>
 
     <link href="style/third-party/select2.css" rel="stylesheet"/>
 

@@ -9,7 +9,7 @@
     "maxZoom": 5,
     "startZoom": 5,
     "startLatLong": [51.505, 10.09],
-    "tiles": "config/teaser_common/data/tiles/",
+    "tiles": "http://teasers.histoglobe.com/tiles/",
     "sidebarEnabled": true,
     "nowMarker" : {
       "speedometer" : false
@@ -122,8 +122,8 @@
         "mapping": "config/teaser_common/data/spread.json",
         "domain": [0, 1],
         "fillColor": {
-          "range": ["#E1D84D", "#E1D84D"],
-          "fallback": "#E1D84D",
+          "range": ["#bcb100", "#bcb100"],
+          "fallback": "#bcb100",
           "compOp": "replace"
         },
         "fillOpacity": {
@@ -132,8 +132,8 @@
           "compOp": "multiply"
         },
         "lineColor": {
-          "range": ["#575756", "#575756"],
-          "fallback": "#575756",
+          "range": ["#333", "#333"],
+          "fallback": "#333",
           "compOp": "replace"
         },
         "lineOpacity": {
@@ -142,7 +142,7 @@
           "compOp": "multiply"
         },
         "lineWidth": {
-          "range": [0, 5],
+          "range": [0, 2],
           "fallback": 0,
           "compOp": "replace"
         },
@@ -161,7 +161,7 @@
   },
 
   "AreasOnMap" : {
-    "areaHighlightColor" : "#d5c900"
+    "areaHighlightColor" : "#D6CA00"
   },
 
   "HiventTooltips" : {},
