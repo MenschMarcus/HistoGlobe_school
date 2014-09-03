@@ -183,7 +183,6 @@ class HG.GalleryWidget extends HG.Widget
   _addSlide: (slide) ->
     @_gallery.appendChild slide
     @_swiper.reInit()
-    console.log @_swiper
 
   # ============================================================================
   _onSlideEnd: () =>

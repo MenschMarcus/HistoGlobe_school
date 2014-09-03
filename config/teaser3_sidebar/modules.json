@@ -216,7 +216,7 @@
             "xAttributeName" : "date",
             "yAttributeName" : "amount",
             "label" : "Jahresumsatz",
-            "color" : "#338A66",
+            "color" : "#bcb100",
             "width" : "5px",
             "smooth" : true
           }

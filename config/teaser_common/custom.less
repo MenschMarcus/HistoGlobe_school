@@ -124,8 +124,27 @@
   }
 }
 
+.timeline-control-buttons-group {
+  margin-top: -11px;
+}
+
 #now_marker {
   box-shadow:   1px 1px 2px 2px rgba(0,0,0,@shadow_intensity);
+  z-index: 2;
+}
+
+#now_marker_arrow {
+  width: 8px;
+  height: 60px;
+  margin-left: 8px;
+  background-color: #fff;
+  box-shadow: 1px 3px 2px 2px rgba(0,0,0,0.2);
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  position: absolute;
+  z-index: 3;
+  bottom: 0;
 }
 
 #timeline-area {
@@ -134,6 +153,7 @@
 
 #tl {
 
+  overflow: visible !important;
   #tl_wrapper {
     background-color: @timeline_background_color;
     .linear-gradient-top(@timeline_background_color, @timeline_background_color, 0%, @timeline_background_color, 100%);
@@ -143,9 +163,15 @@
         color: #fff;
         box-shadow: none;
         border-left: solid 3px #fff;
+        font-size: 40px !important;
+        line-height: 40px !important;
       }
     }
   }
+}
+
+#timeline-area {
+  overflow: visible !important;
 }
 
 .timeline-control-buttons-group {

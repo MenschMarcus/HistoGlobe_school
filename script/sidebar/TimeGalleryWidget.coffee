@@ -138,7 +138,6 @@ class HG.TimeGalleryWidget extends HG.GalleryWidget
 
     date = config.date.split "."
     @_changeDates[@getSlideCount()] = new Date date[2], date[1] - 1, date[0]
-    console.log @_changeDates
     super config.div
 
   # ============================================================================
