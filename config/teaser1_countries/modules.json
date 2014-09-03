@@ -76,8 +76,8 @@
           "compOp": "multiply"
         },
         "lineColor": {
-          "range": ["#575756", "#575756"],
-          "fallback": "#575756",
+          "range": ["#555", "#555"],
+          "fallback": "#555",
           "compOp": "replace"
         },
         "lineOpacity": {
@@ -86,7 +86,7 @@
           "compOp": "multiply"
         },
         "lineWidth": {
-          "range": [0, 3],
+          "range": [0, 2],
           "fallback": 0,
           "compOp": "replace"
         },
@@ -105,7 +105,7 @@
   },
 
   "AreasOnMap" : {
-    "areaHighlightColor" : "#d5c900"
+    "areaHighlightColor" : "#e1d406"
   }
 
 }

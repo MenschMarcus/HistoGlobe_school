@@ -85,8 +85,6 @@ class HG.Display2D extends HG.Display
       maxZoom:      @_hgInstance._config.maxZoom
       minZoom:      @_hgInstance._config.minZoom
       zoomControl:  false
-      tap:          false
-      closePopupOnClick:  false
       maxBounds:    @_hgInstance._config.maxBounds
       worldCopyJump: true
 
