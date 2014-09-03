@@ -1,6 +1,6 @@
 // ------------------- GLOBAL OPTIONS ------------------------------------------
 $primary_font_face                  = Montserrat
-$secondary_font_face                = "Libre Baskerville"
+$secondary_font_face                = Montserrat
 
 $border_width                       = 6px
 $border_color                       = #ffffff
@@ -23,8 +23,8 @@ $background_color                   = #43ca92
 
 $widget_margin                      = 15px
 
-$shadow_intensity                   = 0.5;
-$shadow_radius                      = 30px;
+$shadow_intensity                   = 0.2;
+$shadow_radius                      = 10px;
 
 $sidebar_collapsed_width            = 50px
 $sidebar_width                      = 350px
@@ -52,3 +52,4 @@ $hivent_marker_timeline_height        = 20px
 $timeline_height                      = 100px
 $timeline_background_image            = "../config/exemplum/data/bg.png"
 $now_marker_background_image          = "../config/exemplum/data/bg.png"
+$timeline_background_color            = #cccccc

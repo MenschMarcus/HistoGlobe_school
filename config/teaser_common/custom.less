@@ -16,7 +16,7 @@
 }
 
 .guiPopoverTitle {
-  font-family: 'Libre Baskerville', serif;
+  // font-family: 'Libre Baskerville', serif;
   font-style: italic;
   font-size: 20pt;
   color: #333;
@@ -135,14 +135,14 @@
 #tl {
 
   #tl_wrapper {
-    background-color: #fff;
-    .linear-gradient-top(#fff, #fff, 0%, #fff, 100%);
+    background-color: @timeline_background_color;
+    .linear-gradient-top(@timeline_background_color, @timeline_background_color, 0%, @timeline_background_color, 100%);
 
     #tl_slide {
       .tl_datemarker {
-        color: #333;
+        color: #fff;
         box-shadow: none;
-        border-left: solid 3px #333;
+        border-left: solid 3px #fff;
       }
     }
   }
