@@ -116,12 +116,12 @@
         "mapping": "config/teaser_common/data/spread.json",
         "domain": [0, 1],
         "fillColor": {
-          "range": ["#E1D84D", "#E1D84D"],
-          "fallback": "#E1D84D",
+          "range": ["#d5c900", "#d5c900"],
+          "fallback": "#d5c900",
           "compOp": "replace"
         },
         "fillOpacity": {
-          "range": [0, 0.6],
+          "range": [0, 1],
           "fallback": 0,
           "compOp": "multiply"
         },
@@ -136,7 +136,7 @@
           "compOp": "multiply"
         },
         "lineWidth": {
-          "range": [0, 5],
+          "range": [0, 3],
           "fallback": 0,
           "compOp": "replace"
         },
