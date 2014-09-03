@@ -167,7 +167,7 @@
     "widgets" :
     [
       {
-        "type" : "VIPWidget",
+        "type" : "SingleVIPWidget",
         "icon" : "fa-user",
         "name" : "Geschäftsführung",
         "collapsedAtStart" : false,
@@ -175,8 +175,7 @@
         [
           {
             "name": "Martin Exelsior",
-            "startDate": "01.01.1991",
-            "endDate": "01.01.2000",
+            "date": "01.01.1991",
             "image": "config/teaser_common/data/media/exelsior.jpg",
             "copyright": "© Drew Coffman",
             "info": "Gründer und Geschäftsführer",
@@ -184,8 +183,7 @@
           },
           {
             "name": "Sabrina Fahrenkamp",
-            "startDate": "01.01.2000",
-            "endDate": "01.01.2009",
+            "date": "01.01.2000",
             "image": "config/teaser_common/data/media/sabrina_fahrenkamp.jpg",
             "copyright": "© Victor1558",
             "info": "Geschäftsführerin",
@@ -193,8 +191,7 @@
           },
           {
             "name": "Geoffrey Brooks",
-            "startDate": "01.01.2009",
-            "endDate": "01.01.3000",
+            "date": "01.01.2009",
             "image": "config/teaser_common/data/media/geoffrey_brooks.jpg",
             "copyright": "© Victor1558",
             "info": "Geschäftsführer",
