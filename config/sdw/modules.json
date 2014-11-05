@@ -10,7 +10,7 @@
     "startZoom": 6,
     "startLatLong": [51.505, 10.09],
     "sidebarCollapsed":"true",
-    "tiles": "config/sdw/data/tiles/",
+    "tiles": "http://teasers.histoglobe.com/tiles/",
     "nowMarker" : {
       "speedometer" : "false"
     }
