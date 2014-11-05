@@ -1,2 +1,2 @@
-<?php $config_path = 'teaser2_hivents'; ?> 
-<?php //config_path is set by make.sh.?>      
+<?php $config_path = 'sdw'; ?> 
+<?php //config_path is set by make.sh.?>        

@@ -1,6 +1,6 @@
-rem set PROJECT=sdw
+set PROJECT=sdw
 rem set PROJECT=teaser1_countries
-set PROJECT=teaser2_hivents
+rem set PROJECT=teaser2_hivents
 rem set PROJECT=teaser3_sidebar
 
 call "C:\Program Files\nodejs\nodevars.bat"

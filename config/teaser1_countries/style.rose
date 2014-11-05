@@ -1,9 +1,9 @@
 // ------------------- GLOBAL OPTIONS ------------------------------------------
 $primary_font_face                  = Montserrat
-$secondary_font_face                = "Libre Baskerville"
+$secondary_font_face                = Montserrat
 
 $border_width                       = 6px
-$border_color                       = #338A66
+$border_color                       = #ffffff
 $border_color_bright                = #ffffff
 $border_color_dark                  = #333333
 
@@ -11,7 +11,7 @@ $border_color_dark                  = #333333
 $map_label_size                     = 2.0em
 
 // ------------------- WIDGET OPTIONS ------------------------------------------
-$widget_title_background_color      = #ffc836
+$widget_title_background_color      = #ffffff
 $widget_title_text_color            = #333333
 $widget_background_color            = #ffffff
 $widget_title_size                  = 35px
@@ -23,8 +23,8 @@ $background_color                   = #43ca92
 
 $widget_margin                      = 15px
 
-$shadow_intensity                   = 0.5;
-$shadow_radius                      = 30px;
+$shadow_intensity                   = 0.2;
+$shadow_radius                      = 10px;
 
 $sidebar_collapsed_width            = 50px
 $sidebar_width                      = 350px
@@ -42,13 +42,14 @@ $vip_widget_image_height  = 150px
 
 // ------------------ HIVENT OPTIONS -------------------------------------------
 
-$hivent_marker_2D_width               = 36px;
-$hivent_marker_2D_height              = 36px;
+$hivent_marker_2D_width               = 45px;
+$hivent_marker_2D_height              = 64px;
 
-$hivent_marker_timeline_width         = 20px
-$hivent_marker_timeline_height        = 20px
+$hivent_marker_timeline_width         = 45px
+$hivent_marker_timeline_height        = 64px
 
 // ------------------ TIMELINE OPTIONS -----------------------------------------
-$timeline_height                      = 100px
+$timeline_height                      = 60px
 $timeline_background_image            = "../config/exemplum/data/bg.png"
 $now_marker_background_image          = "../config/exemplum/data/bg.png"
+$timeline_background_color            = #cccccc
