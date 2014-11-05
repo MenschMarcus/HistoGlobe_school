@@ -9,7 +9,7 @@
     "maxZoom": 5,
     "startZoom": 5,
     "startLatLong": [51.505, 10.09],
-    "tiles": "config/teaser_common/data/tiles/",
+    "tiles": "http://teasers.histoglobe.com/tiles/",
     "sidebarEnabled": false,
     "nowMarker" : {
       "speedometer" : false
@@ -19,12 +19,6 @@
   "BrowserDetector": {},
 
   "ZoomButtonsTimeline": {},
-
-  "Watermark": {
-    "bottom": "100px",
-    "left": "0px",
-    "text": "Visualisierung von <a href='http://www.histoglobe.com'>HistoGlobe</a>"
-  },
 
   "ControlButtonArea": {},
 
@@ -69,21 +63,21 @@
     "stylers" :
     [
       {
-        "mapping": "config/teaser_common/data/spread.json",
+        "mapping": "config/teaser1_countries/data/spread.json",
         "domain": [0, 1],
         "fillColor": {
-          "range": ["#E1D84D", "#E1D84D"],
-          "fallback": "#E1D84D",
+          "range": ["#d5c900", "#d5c900"],
+          "fallback": "#d5c900",
           "compOp": "replace"
         },
         "fillOpacity": {
-          "range": [0, 0.6],
+          "range": [0, 1],
           "fallback": 0,
           "compOp": "multiply"
         },
         "lineColor": {
-          "range": ["#575756", "#575756"],
-          "fallback": "#575756",
+          "range": ["#555", "#555"],
+          "fallback": "#555",
           "compOp": "replace"
         },
         "lineOpacity": {
@@ -92,7 +86,7 @@
           "compOp": "multiply"
         },
         "lineWidth": {
-          "range": [0, 5],
+          "range": [0, 2],
           "fallback": 0,
           "compOp": "replace"
         },
@@ -107,11 +101,11 @@
 
   "AreaController" :
   {
-    "areaJSONPaths" : ["config/teaser_common/data/areas.json"]
+    "areaJSONPaths" : ["config/teaser1_countries/data/areas.json"]
   },
 
   "AreasOnMap" : {
-    "areaHighlightColor" : "#d5c900"
+    "areaHighlightColor" : "#e1d406"
   }
 
 }

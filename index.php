@@ -1,5 +1,4 @@
-<?php //config_path is set by make.sh. ATTENTION!!!! DO NOT DELETE THE FIRST TWO LINES OF index.php! ?>
-<?php $config_path = 'teaser2_hivents'; ?>
+<?php require('config.php'); ?>
 <?php $debug_mode = true; ?>
 
 <!DOCTYPE html>
@@ -7,6 +6,8 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="data/icons/favicon.ico" type="image/x-icon" />
 
     <title>HistoGlobe</title>
 
@@ -25,6 +26,9 @@
       <link rel="stylesheet" href="style/third-party/leaflet.ie.css" />
       <link rel="stylesheet" href="style/third-party/MarkerCluster.Default.ie.css" />
     <![endif]-->
+
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic' rel='stylesheet' type='text/css'>
 
     <link href="style/third-party/select2.css" rel="stylesheet"/>
 
@@ -107,6 +111,7 @@
     <script type="text/javascript" src="build/TimeGalleryWidget.js"></script>
     <script type="text/javascript" src="build/PictureGalleryWidget.js"></script>
     <script type="text/javascript" src="build/VIPWidget.js"></script>
+    <script type="text/javascript" src="build/SingleVIPWidget.js"></script>
     <script type="text/javascript" src="build/LogoWidget.js"></script>
     <script type="text/javascript" src="build/PictureWidget.js"></script>
     <script type="text/javascript" src="build/LegendWidget.js"></script>

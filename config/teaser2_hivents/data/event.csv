@@ -1,0 +1,13 @@
+wichtige Firmenereignisse||||||||
+prefix:|Ev|||||||
+||||||||
+id|name|date|location|lat|long|(media)|(description)|(category)
+text|text|date|text|num|num|[text]|text|text
+|||name of location, e.g. 'Berlin'|first GPS-coordinate|second GPS-coordinate|key: Medium.id||
+Ev-1|Die Gründung|01.01.1991|Hamburg|53.33|10.0||Der Startschuss Ihres Unternehmens. Zeigen Sie Ihre Wurzeln!|A
+Ev-2|Neue Produktionstätten, Fillialen oder Standorte|01.01.1993|Paris|48.87|2.32||Sie sind vor Ort. Kommunizieren Sie Ihre Internationalität!|A
+Ev-3|Unternehmensübernahmen|01.01.1995|Manchester|53.48|-2.24||Sie stehen gut im Wettbewerb da? Zeigen Sie es auf eine anschauliche Weise!|A
+Ev-4|Auszeichungen|01.01.1997|München|48.13|11.57||Sie tragen Verantwortung und sehen sich nicht nur als Arbeitgeber sondern auch als verlässlicher Partner? Belohnen Sie sich selbst, indem Sie Ihre Auszeichnungen nach außen tragen!|A
+Ev-5|Wohltätigkeitsprojekte|01.01.1999|Addis Abeba|9.01|38.44|M-31|Mit dem Erfolg kommt die Verantwortung, nicht nur im eigenen Unternehmen. Machen Sie auf Ihre Arbeit im sozialen Bereich aufmerksam!|A
+Ev-6|Werbekampagnen|09.06.2006|Berlin|52.51|13.39|M-32|Werbung macht jeder. Hatten Sie Kampagnen, auf die Sie besonders stolz sind? Beleben Sie sie mit HistoGlobe wieder!|A
+Ev-7|Jubiläumsfeiern|01.01.2011|Hamburg|53.33|10.0||Wer seine Vergangenheit kennt, kann erfolgreich in die Zukunft gehen!|A

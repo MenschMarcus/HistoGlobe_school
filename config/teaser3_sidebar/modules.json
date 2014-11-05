@@ -9,7 +9,7 @@
     "maxZoom": 5,
     "startZoom": 5,
     "startLatLong": [51.505, 10.09],
-    "tiles": "config/teaser_common/data/tiles/",
+    "tiles": "http://teasers.histoglobe.com/tiles/",
     "sidebarEnabled": true,
     "nowMarker" : {
       "speedometer" : false
@@ -19,12 +19,6 @@
   "BrowserDetector": {},
 
   "ZoomButtonsTimeline": {},
-
-  "Watermark": {
-    "bottom": "100px",
-    "left": "0px",
-    "text": "Visualisierung von <a href='http://www.histoglobe.com'>HistoGlobe</a>"
-  },
 
   "ControlButtonArea": {},
 
@@ -65,8 +59,8 @@
   "CategoryFilter": {},
 
   "MultimediaController": {
-    "dsvPaths": ["config/teaser_common/data/medium.csv"],
-    "rootDirs": ["config/teaser_common/data/media"],
+    "dsvPaths": ["config/teaser3_sidebar/data/medium.csv"],
+    "rootDirs": ["config/teaser3_sidebar/data/media"],
     "ignoredLines" : [1,2,3,4,5,6],
     "indexMappings": [
       {
@@ -84,7 +78,7 @@
     "dsvConfigs":
     [
       {
-        "path": "config/teaser_common/data/event.csv",
+        "path": "config/teaser3_sidebar/data/event.csv",
         "ignoredLines" : [1,2,3,4,5,6],
         "indexMapping" :
         {
@@ -106,8 +100,8 @@
 
   "CategoryIconMapping" : {
       "A" : {
-        "default" : "config/teaser_common/data/icons/default_default.png",
-        "highlighted" : "config/teaser_common/data/icons/default_highlight.png"
+        "default" : "config/teaser3_sidebar/data/icons/default_default.png",
+        "highlighted" : "config/teaser3_sidebar/data/icons/default_highlight.png"
       }
     },
 
@@ -119,21 +113,21 @@
     "stylers" :
     [
       {
-        "mapping": "config/teaser_common/data/spread.json",
+        "mapping": "config/teaser3_sidebar/data/spread.json",
         "domain": [0, 1],
         "fillColor": {
-          "range": ["#E1D84D", "#E1D84D"],
-          "fallback": "#E1D84D",
+          "range": ["#d5c900", "#d5c900"],
+          "fallback": "#d5c900",
           "compOp": "replace"
         },
         "fillOpacity": {
-          "range": [0, 0.6],
+          "range": [0, 1],
           "fallback": 0,
           "compOp": "multiply"
         },
         "lineColor": {
-          "range": ["#575756", "#575756"],
-          "fallback": "#575756",
+          "range": ["#555", "#555"],
+          "fallback": "#555",
           "compOp": "replace"
         },
         "lineOpacity": {
@@ -142,7 +136,7 @@
           "compOp": "multiply"
         },
         "lineWidth": {
-          "range": [0, 5],
+          "range": [0, 2],
           "fallback": 0,
           "compOp": "replace"
         },
@@ -157,11 +151,11 @@
 
   "AreaController" :
   {
-    "areaJSONPaths" : ["config/teaser_common/data/areas.json"]
+    "areaJSONPaths" : ["config/teaser3_sidebar/data/areas.json"]
   },
 
   "AreasOnMap" : {
-    "areaHighlightColor" : "#d5c900"
+    "areaHighlightColor" : "#D6CA00"
   },
 
   "HiventTooltips" : {},
@@ -173,7 +167,7 @@
     "widgets" :
     [
       {
-        "type" : "VIPWidget",
+        "type" : "SingleVIPWidget",
         "icon" : "fa-user",
         "name" : "Geschäftsführung",
         "collapsedAtStart" : false,
@@ -181,27 +175,24 @@
         [
           {
             "name": "Martin Exelsior",
-            "startDate": "01.01.1991",
-            "endDate": "01.01.2000",
-            "image": "config/teaser_common/data/media/exelsior.jpg",
+            "date": "01.01.1991",
+            "image": "config/teaser3_sidebar/data/media/exelsior.jpg",
             "copyright": "© Drew Coffman",
             "info": "Gründer und Geschäftsführer",
             "infoLong": "Martin Exelsior übernimmt als Gründer die Geschäftsführung der Exmplum GmbH."
           },
           {
             "name": "Sabrina Fahrenkamp",
-            "startDate": "01.01.2000",
-            "endDate": "01.01.2009",
-            "image": "config/teaser_common/data/media/sabrina_fahrenkamp.jpg",
+            "date": "01.01.2000",
+            "image": "config/teaser3_sidebar/data/media/sabrina_fahrenkamp.jpg",
             "copyright": "© Victor1558",
             "info": "Geschäftsführerin",
             "infoLong": "Sabrina Fahrenkamp wird als Geschäftsführerin eingesetzt. Zuvor war sie Zweigstellenleiterin in den USA und für die interne Unternehmenskommunikation verantwortlich."
           },
           {
             "name": "Geoffrey Brooks",
-            "startDate": "01.01.2009",
-            "endDate": "01.01.3000",
-            "image": "config/teaser_common/data/media/geoffrey_brooks.jpg",
+            "date": "01.01.2009",
+            "image": "config/teaser3_sidebar/data/media/geoffrey_brooks.jpg",
             "copyright": "© Victor1558",
             "info": "Geschäftsführer",
             "infoLong": "Geoffrey Brooks tritt die Nachfolge Sabrina Fahrenkamps an. Er war zuvor bei einer großen Unternehmensberatung als Partner tätig. Geoffrey Brooks ist der erste Geschäftsführer, der nicht aus den eigenen Reihen kommt."
@@ -221,11 +212,11 @@
         "lines" :
         [
           {
-            "dataPath" : "config/teaser_common/data/statistics_revenue.dsv",
+            "dataPath" : "config/teaser3_sidebar/data/statistics_revenue.dsv",
             "xAttributeName" : "date",
             "yAttributeName" : "amount",
             "label" : "Jahresumsatz",
-            "color" : "#338A66",
+            "color" : "#bcb100",
             "width" : "5px",
             "smooth" : true
           }
