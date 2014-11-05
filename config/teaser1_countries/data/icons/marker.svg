@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="44.866001"
+   height="64.000023"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="marker.svg"
+   inkscape:export-filename="/home/laui/Dokumente/Code/HistoGlobe/config/teaser_common/data/icons/default_highlight.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.6"
+     inkscape:cx="-40.28869"
+     inkscape:cy="-1.5700197"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1014"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-359.7003,-454.77632)">
+    <path
+       style="fill:#555555;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 378.18595,514.25163 c -4.29162,-4.85137 -8.10948,-11.03142 -10.43367,-15.36793 -4.83467,-9.04619 -8.05198,-15.94338 -8.05198,-22.65958 0,-11.83834 9.59684,-21.43519 22.433,-21.44779 12.83626,-0.01 22.433,9.58415 22.433,21.42249 0,6.7162 -3.21721,13.61339 -8.05188,22.65948 -2.32419,4.33662 -6.14205,10.51667 -10.43367,15.36803 -0.30497,0.20898 -3.61708,4.5374 -3.94745,4.55 -0.32997,0.01 -3.64208,-4.31582 -3.94735,-4.5247 z"
+       id="path2985"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccscscccc" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       id="path3024"
+       sodipodi:cx="389.28571"
+       sodipodi:cy="427.36218"
+       sodipodi:rx="96.428574"
+       sodipodi:ry="96.428574"
+       d="m 485.71428,427.36218 c 0,53.25603 -43.17254,96.42858 -96.42857,96.42858 -53.25604,0 -96.42858,-43.17255 -96.42858,-96.42858 0,-53.25603 43.17254,-96.42857 96.42858,-96.42857 53.25603,0 96.42857,43.17254 96.42857,96.42857 z"
+       transform="matrix(0.12715746,0,0,0.12715746,332.45233,424.8791)"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       inkscape:export-filename="/home/laui/Dokumente/Code/HistoGlobe/config/teaser_common/data/icons/default_highlight.png" />
+  </g>
+</svg>
