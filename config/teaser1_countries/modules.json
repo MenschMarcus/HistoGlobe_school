@@ -9,7 +9,7 @@
     "maxZoom": 5,
     "startZoom": 5,
     "startLatLong": [51.505, 10.09],
-    "tiles": "config/teaser_common/data/tiles/",
+    "tiles": "config/teaser1_countries/data/tiles/",
     "sidebarEnabled": false,
     "nowMarker" : {
       "speedometer" : false
@@ -69,7 +69,7 @@
     "stylers" :
     [
       {
-        "mapping": "config/teaser_common/data/spread.json",
+        "mapping": "config/teaser1_countries/data/spread.json",
         "domain": [0, 1],
         "fillColor": {
           "range": ["#E1D84D", "#E1D84D"],
@@ -107,7 +107,7 @@
 
   "AreaController" :
   {
-    "areaJSONPaths" : ["config/teaser_common/data/areas.json"]
+    "areaJSONPaths" : ["config/teaser1_countries/data/areas.json"]
   },
 
   "AreasOnMap" : {

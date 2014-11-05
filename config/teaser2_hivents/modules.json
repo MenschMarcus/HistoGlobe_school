@@ -9,7 +9,7 @@
     "maxZoom": 5,
     "startZoom": 5,
     "startLatLong": [51.505, 10.09],
-    "tiles": "config/teaser_common/data/tiles/",
+    "tiles": "config/teaser2_hivents/data/tiles/",
     "sidebarEnabled": false,
     "nowMarker" : {
       "speedometer" : false
@@ -65,8 +65,8 @@
   "CategoryFilter": {},
 
   "MultimediaController": {
-    "dsvPaths": ["config/teaser_common/data/medium.csv"],
-    "rootDirs": ["config/teaser_common/data/media"],
+    "dsvPaths": ["config/teaser2_hivents/data/medium.csv"],
+    "rootDirs": ["config/teaser2_hivents/data/media"],
     "ignoredLines" : [1,2,3,4,5,6],
     "indexMappings": [
       {
@@ -84,7 +84,7 @@
     "dsvConfigs":
     [
       {
-        "path": "config/teaser_common/data/event.csv",
+        "path": "config/teaser2_hivents/data/event.csv",
         "ignoredLines" : [1,2,3,4,5,6],
         "indexMapping" :
         {
@@ -106,8 +106,8 @@
 
   "CategoryIconMapping" : {
       "A" : {
-        "default" : "config/teaser_common/data/icons/default_default.png",
-        "highlighted" : "config/teaser_common/data/icons/default_highlight.png"
+        "default" : "config/teaser2_hivents/data/icons/default_default.png",
+        "highlighted" : "config/teaser2_hivents/data/icons/default_highlight.png"
       }
     },
 
@@ -119,7 +119,7 @@
     "stylers" :
     [
       {
-        "mapping": "config/teaser_common/data/spread.json",
+        "mapping": "config/teaser2_hivents/data/spread.json",
         "domain": [0, 1],
         "fillColor": {
           "range": ["#E1D84D", "#E1D84D"],
@@ -157,7 +157,7 @@
 
   "AreaController" :
   {
-    "areaJSONPaths" : ["config/teaser_common/data/areas.json"]
+    "areaJSONPaths" : ["config/teaser2_hivents/data/areas.json"]
   },
 
   "AreasOnMap" : {
