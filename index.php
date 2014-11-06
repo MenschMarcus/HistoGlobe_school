@@ -121,6 +121,7 @@
     <script type="text/javascript" src="build/Help.js"></script>
     <script type="text/javascript" src="build/ZoomButtons.js"></script>
     <script type="text/javascript" src="build/FullscreenButton.js"></script>
+    <script type="text/javascript" src="build/PornoButton.js"></script>
     <script type="text/javascript" src="build/HiventPresenter.js"></script>
     <script type="text/javascript" src="build/HiventsOnMap.js"></script>
     <script type="text/javascript" src="build/HiventsOnGlobe.js"></script>
