@@ -18,6 +18,19 @@ class HG.InterestingButton
 
     hgInstance.interesting_buton = @
 
+    helpYOffset = 170
+    if hgInstance.sdwTitle?
+      helpYOffset = 270
+
+    if hgInstance.help?
+      hgInstance.help.addHelp
+        image : "config/common/help/help06.png"
+        anchorX : "left"
+        anchorY : "top"
+        offsetX: 30
+        offsetY: helpYOffset
+        width: "70%"
+
     if hgInstance.control_button_area?
       interesting_buton =
         tooltip:    @_config.tooltip
