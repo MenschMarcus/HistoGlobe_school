@@ -13,26 +13,28 @@ class HG.NowMarker
         @_speedometer = (speedometer is "true")
 
         @_uiElements =
-            pointer:        {}
-            nowMarkerIn:    {}
-            buttonArea:     {}
-            playButton:     {}
-            dateInput:      {}
+            #pointer:        {}
+            #nowMarkerIn:    {}
+            #buttonArea:     {}
+            #playButton:     {}
+            #dateInput:      {}
             arrow:          {}
+            arrow_2:        {}
             init: (tl, container) ->
-                this.pointer        = tl.addUIElement "now_marker_pointer", null, container
-                this.nowMarkerIn    = tl.addUIElement "now_marker_in", null, container
-                this.buttonArea     = tl.addUIElement "now_marker_button_area", null, this.nowMarkerIn
-                this.toFrontButton  = tl.addUIElement "now_marker_jump_to_front", "fa fa-fast-backward now_marker_button", null, "i"
-                this.playButton     = tl.addUIElement "now_marker_play", "fa fa-play now_marker_button", null, "i"
-                this.toBackButton   = tl.addUIElement "now_marker_jump_to_back", "fa fa-fast-forward now_marker_button", null, "i"
-                this.dateInput      = tl.addUIElement "now_date_input", null, this.nowMarkerIn, "input"
+                #this.pointer        = tl.addUIElement "now_marker_pointer", null, container
+                #this.nowMarkerIn    = tl.addUIElement "now_marker_in", null, container
+                #this.buttonArea     = tl.addUIElement "now_marker_button_area", null, this.nowMarkerIn
+                #this.toFrontButton  = tl.addUIElement "now_marker_jump_to_front", "fa fa-fast-backward now_marker_button", null, "i"
+                #this.playButton     = tl.addUIElement "now_marker_play", "fa fa-play now_marker_button", null, "i"
+                #this.toBackButton   = tl.addUIElement "now_marker_jump_to_back", "fa fa-fast-forward now_marker_button", null, "i"
+                #this.dateInput      = tl.addUIElement "now_date_input", null, this.nowMarkerIn, "input"
                 this.arrow          = tl.addUIElement "now_marker_arrow", null, document.getElementById("histoglobe")
+                this.arrow_2          = tl.addUIElement "now_marker_arrow_bottom", null, document.getElementById("histoglobe")
         @_uiElements.init(@_timeline, @_container)
 
-        @addButton @_uiElements.toFrontButton, @jumpToFront
-        @addButton @_uiElements.playButton, @animationSwitch
-        @addButton @_uiElements.toBackButton, @jumpToBack
+        #@addButton @_uiElements.toFrontButton, @jumpToFront
+        #@addButton @_uiElements.playButton, @animationSwitch
+        ###@addButton @_uiElements.toBackButton, @jumpToBack
 
         @_uiElements.dateInput.name         = "now_date"
         @_uiElements.dateInput.type         = "text"
@@ -41,7 +43,7 @@ class HG.NowMarker
 
         $(@_uiElements.pointer).rotate(0)
         $(@_uiElements.pointer).css
-            "display" : "none" if !@_speedometer
+            "display" : "none" if !@_speedometer###
 
         $(window).resize  =>
             @_updatePositions()
@@ -90,7 +92,8 @@ class HG.NowMarker
         month = (date.getMonth() + 1) + ""
         month = "0" + month if month.length == 1
         year = date.getFullYear() + ""
-        @_uiElements.dateInput.value = day + "." + month + "." + year
+        #@_uiElements.dateInput.value = day + "." + month + "." + year
+        console.log "Now Date Changed "+ day + "." + month + "." + year
 
     #   --------------------------------------------------------------------------
     addButton : (buttonDiv, callback) =>
@@ -165,18 +168,18 @@ class HG.NowMarker
 
     #   --------------------------------------------------------------------------
     _updatePositions: ->
-        @_container.style.left    = window.innerWidth / 2 - @_container.offsetWidth / 2 + "px"
+        ###@_container.style.left    = window.innerWidth / 2 - @_container.offsetWidth / 2 + "px"
         @_container.style.bottom  = @_timeline.getLayout().tl.offsetHeight + "px"
-        @_container.style.visibility = "visible"
+        @_container.style.visibility = "visible"###
 
         # middle point of circle
-        @_middlePointX      = window.innerWidth / 2
+        ###@_middlePointX      = window.innerWidth / 2
         @_middlePointY      = window.innerHeight - @_timeline.getLayout().tl.offsetHeight
-        @_radius            = @_container.offsetHeight
+        @_radius            = @_container.offsetHeight###
 
         # Position of arrow pointing on timeline
         @_uiElements.arrow.style.left   = window.innerWidth / 2 - 10 + "px"
-
+        @_uiElements.arrow_2.style.left   = window.innerWidth / 2 - 10 + "px"
     #   --------------------------------------------------------------------------
     _disableTextSelection : (e) ->  return false
     _enableTextSelection : () ->    return true

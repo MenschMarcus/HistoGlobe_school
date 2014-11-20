@@ -180,7 +180,7 @@ class HG.HistoGlobe
       nowYear:      @_config.nowYear
       minYear:      @_config.minYear
       maxYear:      @_config.maxYear
-      speedometer:  @_config.nowMarker.speedometer
+      #speedometer:  @_config.nowMarker.speedometer
 
     @addModule @timeline
 

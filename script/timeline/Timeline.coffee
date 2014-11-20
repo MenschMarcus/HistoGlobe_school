@@ -15,6 +15,15 @@ class HG.Timeline
     @addCallback "onIntervalChanged"
     @addCallback "onZoom"
 
+    epoch1=
+      startDate:@yearToDate 1995
+      endDate: @yearToDate 2000
+      name: "Wende!"
+    epoch2=
+      startDate:@yearToDate 2003
+      endDate: @yearToDate 2006
+      name: "Wende! 3"
+
     defaultConfig =
       parentDiv: undefined
       zoom: 1
@@ -22,6 +31,7 @@ class HG.Timeline
       minYear: 1800
       maxYear: 2020
       speedometer: true
+      epochs: [epoch1, epoch2]
 
     @_config = $.extend {}, defaultConfig, config
 
@@ -30,9 +40,10 @@ class HG.Timeline
       tl:           @addUIElement "tl", "swiper-container", @_config.parentDiv
       tl_wrapper:   @addUIElement "tl_wrapper", "swiper-wrapper", tl
       tl_slide:     @addUIElement "tl_slide", "swiper-slide", tl_wrapper
-      nowMarker:    @addUIElement "now_marker", "now_marker", document.getElementById("histoglobe")
+      #nowMarker:    @addUIElement "now_marker", "now_marker", document.getElementById("histoglobe")
       timeBars:     []
       dateMarkers:  new HG.DoublyLinkedList()
+      epochs:  new HG.DoublyLinkedList()
 
     #   ------------------------------------------------------------------------
     @_now =
@@ -91,7 +102,7 @@ class HG.Timeline
       @_updateDateMarkers()
       @_updateNowDate()
 
-    #   ------------------------------------------------------------------------
+    #   Start !!! ---------------------------------------------------------------
     @_updateLayout()
     @_updateDateMarkers()
     @_updateNowDate()
@@ -291,7 +302,23 @@ class HG.Timeline
       timeBar.div.style.width = (@dateToPosition(timeBar.endDate) - @dateToPosition(timeBar.startDate)) + "px"
 
   #   --------------------------------------------------------------------------
+  _updateEpochs:()->
+    # Sind Epochen dargestellt?
+    if @_uiElements.epochs.getLength() == 0
+      for epoch in @_config.epochs
+        @_div = document.createElement("div")
+        @_div.id = "epoch" + epoch.name
+        @_div.className = "tl_epoch"
+        @_div.innerHTML = epoch.name
+        @_div.style.left = @dateToPosition(epoch.startDate) + "px"
+        @_div.style.display = "none"
+        @_div.style.width = (@dateToPosition(epoch.endDate) - @dateToPosition(epoch.startDate)) + "px"
+        @getCanvas().appendChild @_div
+        $(@_div).fadeIn(200)
+        @_uiElements.epochs.addLast(@_div)
+
   _updateDateMarkers: (zoomed=true) ->
+    @_updateEpochs()
     #   count possible years to show
     count = @_config.maxYear - @_config.minYear
 
