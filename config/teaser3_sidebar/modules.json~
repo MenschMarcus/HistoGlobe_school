@@ -55,15 +55,6 @@
 
   "ZoomButtons": {},
   "FullscreenButton": {},
-  "InterestingButton": {
-    "url": "http://www.trendhure.com/",
-    "tooltip":  "Pause gefällig?",
-    "icon": "fa-globe"
-  },
-
-  "SearchBoxArea": {},
-  "SearchBoxButton": {},
-  "SearchBoxForm": {},
 
   "CategoryFilter": {},
 

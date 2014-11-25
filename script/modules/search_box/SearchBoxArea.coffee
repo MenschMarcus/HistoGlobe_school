@@ -26,6 +26,9 @@ class HG.SearchBoxArea
   addButton: (config) ->
     @_addButton config
 
+  addSearchBox: (config) ->
+    @_addSearchBox config
+
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
@@ -50,3 +53,27 @@ class HG.SearchBoxArea
     @_container.appendChild button
 
     return button
+
+  # ============================================================================
+  _addSearchBox: (config) ->
+    defaultConfig =
+      callback: ()-> console.log "Not implmented"
+
+    config = $.extend {}, defaultConfig, config
+
+    box = document.createElement "div"
+    box.className = "search-box"
+    $(box).tooltip {title: config.tooltip, placement: "right", container:"body"}
+
+    form = document.createElement "form"
+    form.className = "search-form"
+    box.appendChild form
+
+    input = document.createElement "input"
+    input.className = "search-input"
+    form.appendChild input
+
+
+    @_container.appendChild box
+
+    return box

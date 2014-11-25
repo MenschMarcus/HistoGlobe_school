@@ -1,7 +1,8 @@
 .search-box-area {
   position: absolute;
-  top: 0px;
-  padding-top: 20px;
+  top: 20px;
+  //top: 0px;
+  //padding-top: 20px;
   padding-left: 0px;
 
   box-shadow: 0 0 @shadow_radius rgba(0,0,0,@shadow_intensity);
@@ -33,6 +34,32 @@
 
     &:hover {
       background-color: lighten(@widget_title_background_color, 20%);
+    }
+  }
+
+  .search-box {
+    position: absolute;
+    top: 0px;
+    left: 45px;
+    float:left;
+
+    .search-input {
+      margin: 0;
+      //height: 40px;
+      //padding: 5px 5px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size:20px;
+      font-weight:bold;
+      outline: none;
+      //cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      color: #000000;
+      border: solid 1px #0076a3; 
+      //border-right:0px;
+      
+      border-top-right-radius: 5px 5px;
+      border-bottom-right-radius: 5px 5px;
     }
   }
 }

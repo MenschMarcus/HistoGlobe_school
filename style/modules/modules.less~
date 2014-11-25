@@ -9,4 +9,3 @@
 @import "help/help.less";
 @import "utils/bootstrap_overides.less";
 @import "utils/gallery.less";
-@import "search_box/search_box.less";

@@ -18,9 +18,9 @@ class HG.InterestingButton
 
     hgInstance.interesting_buton = @
 
-    helpYOffset = 170
+    helpYOffset = 210 #170
     if hgInstance.sdwTitle?
-      helpYOffset = 270
+      helpYOffset = 310 #270
 
     if hgInstance.help?
       hgInstance.help.addHelp
