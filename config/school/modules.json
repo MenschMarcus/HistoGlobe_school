@@ -105,9 +105,13 @@
   },
 
   "CategoryIconMapping" : {
-      "A" : {
-        "default" : "config/school/data/icons/default_default.png",
-        "highlighted" : "config/school/data/icons/default_highlight.png"
+      "norm" : {
+        "default" : "config/school/data/default_default.png",
+        "highlighted" : "config/school/data/default_highlight.png"
+      },
+      "imp" : {
+        "default" : "config/school/data/default_default.png",
+        "highlighted" : "config/school/data/default_highlight.png"
       }
     },
 
@@ -158,10 +162,6 @@
   "AreaController" :
   {
     "areaJSONPaths" : ["config/school/data/areas.json"]
-  },
-
-  "AreasOnMap" : {
-    "areaHighlightColor" : "#d5c900"
   },
 
   "HiventTooltips" : {},
