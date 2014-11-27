@@ -91,6 +91,7 @@ class HG.MultimediaController
 
 # ============================================================================
   _createMultiMedia: (description, link, source, crop, type, pathIndex) ->
+
     mm =
       "description": description
       "link": @_config.rootDirs[pathIndex] + "/" + link
@@ -98,6 +99,11 @@ class HG.MultimediaController
       "source": source
       "crop": crop
       "type": type
+
+    # hack: if link is an image or video on the web
+    # use the absolute path do not set local root directory prefix
+    if type is "WEBIMAGE"
+      mm.link = link
 
     if type is "YOUTUBE"
       mm.link = link

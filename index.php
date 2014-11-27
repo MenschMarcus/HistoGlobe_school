@@ -1,5 +1,5 @@
 <?php //config_path is set by make.sh. ATTENTION!!!! DO NOT DELETE THE FIRST TWO LINES OF index.php! ?>
-<?php $config_path = 'teaser3_sidebar'; ?>
+<?php $config_path = 'school'; ?>
 <?php $debug_mode = true; ?>
 
 <!DOCTYPE html>
@@ -121,7 +121,6 @@
     <script type="text/javascript" src="build/Help.js"></script>
     <script type="text/javascript" src="build/ZoomButtons.js"></script>
     <script type="text/javascript" src="build/FullscreenButton.js"></script>
-    <script type="text/javascript" src="build/PornoButton.js"></script>
     <script type="text/javascript" src="build/HiventPresenter.js"></script>
     <script type="text/javascript" src="build/HiventsOnMap.js"></script>
     <script type="text/javascript" src="build/HiventsOnGlobe.js"></script>

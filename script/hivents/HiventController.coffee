@@ -196,6 +196,7 @@ class HG.HiventController
             long        : 8
             category    : 9
             multimedia  : 10
+            # TODO: add link and region
 
         dsvConfig = $.extend {}, defaultConfig, dsvConfig
 

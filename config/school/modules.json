@@ -1,0 +1,172 @@
+{
+  "HistoGlobe" :
+  {
+    "container": "histoglobe",
+    "minYear": 1871,
+    "maxYear": 1993,
+    "nowYear": 1871,
+    "minZoom": 1,
+    "maxZoom": 5,
+    "startZoom": 5,
+    "startLatLong": [50.9869531, 11.3205004],
+    "tiles": "http://teasers.histoglobe.com/tiles/",
+    "sidebarEnabled": false,
+    "nowMarker" : {
+      "speedometer" : false
+    }
+  },
+
+  "BrowserDetector": {},
+
+  "ZoomButtonsTimeline": {},
+
+  "ControlButtonArea": {},
+
+  "Help":
+  {
+    "autoShow": true,
+    "elements": [
+      {
+        "image" : "config/common/help/help05.png",
+        "anchorX" : "left",
+        "anchorY" : "top",
+        "offsetX": "30",
+        "offsetY": "20",
+        "width": "70%"
+      },
+      {
+        "image" : "config/common/help/help03.png",
+        "anchorX" : "center",
+        "anchorY" : "bottom",
+        "offsetX": "0",
+        "offsetY": "150",
+        "width": "70%"
+      },
+      {
+        "image" : "config/common/help/help04.png",
+        "anchorX" : "center",
+        "anchorY" : "bottom",
+        "offsetX": "0",
+        "offsetY": "10",
+        "width": "80%"
+      }
+    ]
+  },
+
+  "ZoomButtons": {},
+  "FullscreenButton": {},
+
+  "CategoryFilter": {},
+
+  "MultimediaController": {
+    "dsvPaths": ["config/school/data/media.csv"],
+    "rootDirs": ["config/school/data/media"],
+    "ignoredLines" : [1,2,3],
+    "indexMappings": [
+      {
+        "id"          : 0,
+        "type"        : 2,
+        "description" : 3,
+        "source"      : 4,
+        "link"        : 1
+      }
+    ]
+  },
+
+  "HiventController" :
+  {
+    "dsvConfigs":
+    [
+      {
+        "path": "config/school/data/hivents.csv",
+        "ignoredLines" : [1,2,3],
+        "indexMapping" :
+        {
+          "id"          : 0,
+          "name"        : 1,
+          "startYear"   : 6,
+          "startMonth"  : 7,
+          "startDay"    : 8,
+          "endYear"     : 9,
+          "endMonth"    : 10,
+          "endDay"      : 11,
+          "displayDate" : 12,
+          "location"    : 2,
+          "lat"         : 3,
+          "long"        : 4,
+          "region"      : 5,
+          "category"    : 13,
+          "description" : 14,
+          "multimedia"  : 15,
+          "link"        : 16
+        }
+      }
+    ]
+  },
+
+  "CategoryIconMapping" : {
+      "A" : {
+        "default" : "config/school/data/icons/default_default.png",
+        "highlighted" : "config/school/data/icons/default_highlight.png"
+      }
+    },
+
+  "HiventsOnMap" : {},
+  "HiventsOnTimeline" : {},
+
+  "AreaStyler" :
+  {
+    "stylers" :
+    [
+      {
+        "mapping": "config/school/data/spread.json",
+        "domain": [0, 1],
+        "fillColor": {
+          "range": ["#d5c900", "#d5c900"],
+          "fallback": "#d5c900",
+          "compOp": "replace"
+        },
+        "fillOpacity": {
+          "range": [0, 1],
+          "fallback": 0,
+          "compOp": "multiply"
+        },
+        "lineColor": {
+          "range": ["#555", "#555"],
+          "fallback": "#555",
+          "compOp": "replace"
+        },
+        "lineOpacity": {
+          "range": [0, 1],
+          "fallback": 0,
+          "compOp": "multiply"
+        },
+        "lineWidth": {
+          "range": [0, 2],
+          "fallback": 0,
+          "compOp": "replace"
+        },
+        "labelOpacity": {
+          "range": [0, 1],
+          "fallback": 0,
+          "compOp": "multiply"
+        }
+      }
+    ]
+  },
+
+  "AreaController" :
+  {
+    "areaJSONPaths" : ["config/school/data/areas.json"]
+  },
+
+  "AreasOnMap" : {
+    "areaHighlightColor" : "#d5c900"
+  },
+
+  "HiventTooltips" : {},
+  "HiventInfoPopovers" : {},
+  "HiventInfoAtTag" : {}
+
+}
+

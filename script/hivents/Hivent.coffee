@@ -11,8 +11,9 @@ class HG.Hivent
                 endYear, endMonth, endDay,
                 displayDate,
                 locationName,
-                long, lat, category, content,
-                description, multimedia)  ->
+                long, lat, region
+                category, content,
+                description, multimedia, link)  ->
 
     @id = id
     @name = name
@@ -25,10 +26,12 @@ class HG.Hivent
     @endDay = endDay
     @endDate = new Date(endYear, endMonth - 1, endDay)
     @locationName = locationName
-    @displayDate = displayDate
+    @displayDate = displayDate ?= new String (@startDate + " bis " + @endDate)
     @long = long
     @lat = lat
+    @region = region
     @category = category
     @content = content
     @description = description
     @multimedia = multimedia
+    @link = link
