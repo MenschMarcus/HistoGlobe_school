@@ -23,8 +23,11 @@ class HG.SearchBoxArea
         @_container.style.left = "0px"
 
   # ============================================================================
-  addButton: (config) ->
-    @_addButton config
+  addSearchSymbol: (config) ->
+    @_addSearchSymbol config
+
+  addSearchButton: (config) ->
+    @_addSearchButton config
 
   addSearchBox: (config) ->
     @_addSearchBox config
@@ -34,21 +37,40 @@ class HG.SearchBoxArea
   ##############################################################################
 
   # ============================================================================
-  _addButton: (config) ->
+  _addSearchSymbol: (config) ->
     defaultConfig =
       icon: "fa-search"
-      tooltip:  "Demnächst verfügbar"
+      #tooltip:  "Demnächst verfügbar"
       callback: ()-> console.log "Not implmented"
 
     config = $.extend {}, defaultConfig, config
 
-    button = document.createElement "div"
-    button.className = "search-box-button"
-    $(button).tooltip {title: config.tooltip, placement: "right", container:"body"}
+    symbol = document.createElement "div"
+    symbol.className = "search-symbol"
+    #$(symbol).tooltip {title: config.tooltip, placement: "right", container:"body"}
 
     icon = document.createElement "i"
     icon.className = "fa " + config.icon
-    button.appendChild icon
+    symbol.appendChild icon
+
+    @_container.appendChild symbol
+
+    return symbol
+
+  # ============================================================================
+  _addSearchButton: (config) ->
+    defaultConfig =
+      #tooltip:  "Demnächst verfügbar"
+      callback: ()-> console.log "Not implmented"
+
+    config = $.extend {}, defaultConfig, config
+
+    #button = document.createElement "div"
+    button = document.createElement "button"
+    button.className = "search-button"
+    button.type = "submit" 
+    button.value = "Suche"
+    #$(button).tooltip {title: config.tooltip, placement: "right", container:"body"}
 
     @_container.appendChild button
 
@@ -71,8 +93,9 @@ class HG.SearchBoxArea
 
     input = document.createElement "input"
     input.className = "search-input"
+    input.method = "get"
+    input.action = "http://www.google.com"
     form.appendChild input
-
 
     @_container.appendChild box
 

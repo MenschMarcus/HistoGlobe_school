@@ -62,7 +62,8 @@
   },
 
   "SearchBoxArea": {},
-  "SearchBoxButton": {},
+  "SearchSymbol": {},
+  "SearchButton": {},
   "SearchBoxForm": {},
 
   "CategoryFilter": {},

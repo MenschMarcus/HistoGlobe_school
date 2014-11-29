@@ -1,6 +1,6 @@
 window.HG ?= {}
 
-class HG.SearchBoxForm
+class HG.SearchButton
 
   ##############################################################################
   #                            PUBLIC INTERFACE                                #
@@ -9,21 +9,23 @@ class HG.SearchBoxForm
   #   --------------------------------------------------------------------------
   constructor: () ->
     defaultConfig =
-      #method: "get" 
-      #action: "http://www.google.com"
-      tooltip:  "Suchfeld - Demnächst verfügbar"
+      #icon:     "fa-search"
+      #tooltip:  "Suchleiste - Demnächst verfügbar"
+      callback: ()-> console.log "Not implmented"
 
     @_config = $.extend {}, defaultConfig
 
   hgInit: (hgInstance) ->
 
-    hgInstance.search_form = @
+    hgInstance.search_button = @
 
     if hgInstance.search_box_area?
-      search_form =
+      search_button =
+        #tooltip:    @_config.tooltip
+        #icon:       @_config.icon
         callback: ()-> console.log "Not implmented"
 
-      hgInstance.search_box_area.addSearchBox search_form
+      hgInstance.search_box_area.addSearchButton search_button
 
     else
-      console.error "Failed to add search form: SearchBoxArea module not found!"
+      console.error "Failed to add search button: SearchBoxArea module not found!"
