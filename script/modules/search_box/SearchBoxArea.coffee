@@ -65,12 +65,17 @@ class HG.SearchBoxArea
 
     config = $.extend {}, defaultConfig, config
 
-    #button = document.createElement "div"
-    button = document.createElement "button"
-    button.className = "search-button"
+    button = document.createElement "input"
     button.type = "submit" 
     button.value = "Suche"
+    button.className = "search-button"
+    
     #$(button).tooltip {title: config.tooltip, placement: "right", container:"body"}
+
+    $(button).click () ->
+      search_results = document.createElement "div"
+      search_results.className = "search-results"
+      button.appendChild search_results
 
     @_container.appendChild button
 
@@ -92,9 +97,9 @@ class HG.SearchBoxArea
     box.appendChild form
 
     input = document.createElement "input"
-    input.className = "search-input"
     input.method = "get"
     input.action = "http://www.google.com"
+    input.className = "search-input"
     form.appendChild input
 
     @_container.appendChild box
