@@ -1,54 +1,36 @@
-#include Mixin.coffee
-#include HiventMarker.coffee
-
 window.HG ?= {}
 
-class HG.HiventMarker2D extends HG.HiventMarker
 
-  ##############################################################################
-  #                            PUBLIC INTERFACE                                #
-  ##############################################################################
+class HG.HiventRegion extends HG.HiventMarker
+	constructor: (hiventHandle, display, map) ->
+		VISIBLE_REGIONS.push @
 
-  # ============================================================================
-  constructor: (hiventHandle, lat, long, display, map, markerGroup, locationName) ->
+		#Call HiventMarker Constructor
+		HG.HiventMarker.call @, hiventHandle, map.getPanes()["popupPane"]
 
-    #Call Hivent Marker Constructor
-    HG.HiventMarker.call @, hiventHandle, map.getPanes()["popupPane"]
+		VISIBLE_REGIONS.push @
+		@hivent=hiventHandle.getHivent()
 
-    #List of Markers
-    VISIBLE_MARKERS_2D.push @
+		@_locationName = hivent.locactionName
 
-    @locationName = locationName
+		@_map = map
 
-    @_display = display
-    @_map = map
+		@_region=region
 
-    @_lat = lat
-    @_long = long
+		@_region= new  L.polygon @hivent.region
 
-    icon_default    = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_default", iconSize: null}
-    icon_higlighted = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_highlighted", iconSize: null}
-    @_marker = new L.Marker [@_lat, @_long], {icon: icon_default}
-    @_marker.myHiventMarker2D = @
+		@_region.myHiventMarkerRegion = @
 
-    @_markerGroup = markerGroup
+		@_position = new L.Point 0,0
+    	@_updatePosition()
 
-    @_markerGroup.addLayer @_marker
-    @_markerGroup.on "clusterclick", (cluster) =>
-      window.setTimeout (() =>
-        for marker in cluster.layer.getAllChildMarkers()
-          marker.myHiventMarker2D._updatePosition()), 100
-
-    @_position = new L.Point 0,0
-    @_updatePosition()
-
-    #Event Listeners
-    @_marker.on "mouseover", @_onMouseOver
-    @_marker.on "mouseout", @_onMouseOut
-    @_marker.on "click", @_onClick
-    @_map.on "zoomend", @_updatePosition
-    @_map.on "dragend", @_updatePosition
-    @_map.on "viewreset", @_updatePosition
+  		  #Event Listeners
+  		@_marker.on "mouseover", @_onMouseOver
+ 		@_marker.on "mouseout", @_onMouseOut
+ 		@_marker.on "click", @_onClick
+ 		@_map.on "zoomend", @_updatePosition
+ 		@_map.on "dragend", @_updatePosition
+ 		@_map.on "viewreset", @_updatePosition
 
     @getHiventHandle().onFocus(@, (mousePos) =>
       if @_display.isRunning()
@@ -83,8 +65,8 @@ class HG.HiventMarker2D extends HG.HiventMarker
   # ============================================================================
   getPosition: ->
     {
-      lat: @_lat
-      long: @_long
+      lat: @hivent.lat[0]
+      long: @_long.long[0]
     }
 
   # ============================================================================
@@ -145,8 +127,5 @@ class HG.HiventMarker2D extends HG.HiventMarker
 
     return
 
-  ##############################################################################
-  #                             STATIC MEMBERS                                 #
-  ##############################################################################
 
-  VISIBLE_MARKERS_2D = []
+	VISIBLE_REGIONS=[]
