@@ -49,7 +49,8 @@ $hivent_marker_timeline_width         = 45px
 $hivent_marker_timeline_height        = 64px
 
 // ------------------ TIMELINE OPTIONS -----------------------------------------
-$timeline_height                      = 60px
+$timeline_height                      = 80px
 $timeline_background_image            = "../config/exemplum/data/bg.png"
 $now_marker_background_image          = "../config/exemplum/data/bg.png"
-$timeline_background_color            = #cccccc
+$timeline_background_color            = #d5c900
+$timeline_epoch_color        		  = #286b7a

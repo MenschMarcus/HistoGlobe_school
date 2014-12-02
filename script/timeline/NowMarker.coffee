@@ -17,7 +17,7 @@ class HG.NowMarker
             #nowMarkerIn:    {}
             #buttonArea:     {}
             #playButton:     {}
-            #dateInput:      {}
+            dateInput:      {}
             arrow:          {}
             arrow_2:        {}
             init: (tl, container) ->
@@ -27,23 +27,23 @@ class HG.NowMarker
                 #this.toFrontButton  = tl.addUIElement "now_marker_jump_to_front", "fa fa-fast-backward now_marker_button", null, "i"
                 #this.playButton     = tl.addUIElement "now_marker_play", "fa fa-play now_marker_button", null, "i"
                 #this.toBackButton   = tl.addUIElement "now_marker_jump_to_back", "fa fa-fast-forward now_marker_button", null, "i"
-                #this.dateInput      = tl.addUIElement "now_date_input", null, this.nowMarkerIn, "input"
+                this.dateInput      = tl.addUIElement "now_date_input", null, this.nowMarkerIn, "input"
                 this.arrow          = tl.addUIElement "now_marker_arrow", null, document.getElementById("histoglobe")
-                this.arrow_2          = tl.addUIElement "now_marker_arrow_bottom", null, document.getElementById("histoglobe")
+                this.arrow_2        = tl.addUIElement "now_marker_arrow_bottom", null, document.getElementById("histoglobe")
         @_uiElements.init(@_timeline, @_container)
 
         #@addButton @_uiElements.toFrontButton, @jumpToFront
         #@addButton @_uiElements.playButton, @animationSwitch
-        ###@addButton @_uiElements.toBackButton, @jumpToBack
+        #@addButton @_uiElements.toBackButton, @jumpToBack
 
         @_uiElements.dateInput.name         = "now_date"
         @_uiElements.dateInput.type         = "text"
-        @_uiElements.dateInput.maxlength    = 10
-        @_uiElements.dateInput.size         = 10
+        #@_uiElements.dateInput.maxlength    = 10
+        #@_uiElements.dateInput.size         = 10
 
-        $(@_uiElements.pointer).rotate(0)
-        $(@_uiElements.pointer).css
-            "display" : "none" if !@_speedometer###
+        #$(@_uiElements.pointer).rotate(0)
+        #$(@_uiElements.pointer).css
+        #    "display" : "none" if !@_speedometer
 
         $(window).resize  =>
             @_updatePositions()
@@ -92,7 +92,7 @@ class HG.NowMarker
         month = (date.getMonth() + 1) + ""
         month = "0" + month if month.length == 1
         year = date.getFullYear() + ""
-        #@_uiElements.dateInput.value = day + "." + month + "." + year
+        @_uiElements.dateInput.value = day + "." + month + "." + year
         console.log "Now Date Changed "+ day + "." + month + "." + year
 
     #   --------------------------------------------------------------------------

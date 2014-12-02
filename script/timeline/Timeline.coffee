@@ -15,23 +15,37 @@ class HG.Timeline
     @addCallback "onIntervalChanged"
     @addCallback "onZoom"
 
+# aus Datei laden!
+    # Hauptphasen
     epoch1=
-      startDate:@yearToDate 1995
-      endDate: @yearToDate 2000
-      name: "Wende!"
+      startDate:@yearToDate 1871 # new Date()
+      endDate: @yearToDate 1914
+      name: "Imperialismus"
     epoch2=
-      startDate:@yearToDate 2003
-      endDate: @yearToDate 2006
-      name: "Wende! 3"
+      startDate:@yearToDate 1914
+      endDate: @yearToDate 1918
+      name: "Erster Weltkrieg"
+    epoch3=
+      startDate:@yearToDate 1919
+      endDate: @yearToDate 1939
+      name: "Zwischenkriegsjahre"
+    epoch4=
+      startDate:@yearToDate 1939
+      endDate: @yearToDate 1945
+      name: "Zweiter Weltkrieg"
+    epoch5=
+      startDate:@yearToDate 1945
+      endDate: @yearToDate 1991
+      name: "Bipolare Welt"
 
     defaultConfig =
       parentDiv: undefined
       zoom: 1
-      nowYear: 1900
-      minYear: 1800
-      maxYear: 2020
+      minYear: 1850
+      maxYear: 2000
+      nowYear: 1925
       speedometer: true
-      epochs: [epoch1, epoch2]
+      epochs: [epoch1, epoch2, epoch3, epoch4, epoch5]
 
     @_config = $.extend {}, defaultConfig, config
 
@@ -306,16 +320,20 @@ class HG.Timeline
     # Sind Epochen dargestellt?
     if @_uiElements.epochs.getLength() == 0
       for epoch in @_config.epochs
-        @_div = document.createElement("div")
-        @_div.id = "epoch" + epoch.name
-        @_div.className = "tl_epoch"
-        @_div.innerHTML = epoch.name
-        @_div.style.left = @dateToPosition(epoch.startDate) + "px"
-        @_div.style.display = "none"
-        @_div.style.width = (@dateToPosition(epoch.endDate) - @dateToPosition(epoch.startDate)) + "px"
-        @getCanvas().appendChild @_div
-        $(@_div).fadeIn(200)
-        @_uiElements.epochs.addLast(@_div)
+        div = document.createElement("div")
+        div.id = "epoch" + epoch.name
+        div.className = "tl_epoch"
+        div.innerHTML = epoch.name
+        div.style.left = @dateToPosition(epoch.startDate) + "px"
+        div.style.width = (@dateToPosition(epoch.endDate) - @dateToPosition(epoch.startDate)) + "px"
+        div.style.display = "none"
+        @getCanvas().appendChild div
+        $(div).fadeIn(200)
+        @_uiElements.epochs.addLast(div)
+    else
+      for epoch in @_uiElements.epochs
+        epoch.style.left = @dateToPosition(epoch.startDate) + "px"
+        epoch.style.width = (@dateToPosition(epoch.endDate) - @dateToPosition(epoch.startDate)) + "px"
 
   _updateDateMarkers: (zoomed=true) ->
     @_updateEpochs()
