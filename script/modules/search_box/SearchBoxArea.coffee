@@ -16,6 +16,7 @@ class HG.SearchBoxArea
     @_container = document.createElement "div"
     @_container.className = "search-box-area"
     @_hgInstance._top_area.appendChild @_container
+    @_search_results = null
 
     @_hgInstance.onTopAreaSlide @, (t) =>
       if @_hgInstance.isInMobileMode()
@@ -58,7 +59,7 @@ class HG.SearchBoxArea
     return symbol
 
   # ============================================================================
-  
+
   _addSearchBox: (config) ->
     defaultConfig =
       callback: ()-> console.log "Not implmented"
@@ -93,7 +94,15 @@ class HG.SearchBoxArea
       search_results.textContent = "Ich bin ein Suchergebnis."
       form.appendChild search_results
 
+      if @_search_results?
+        @_search_results.textContent = "Ich bin ein anderes Suchergebnis."
+        form.appendChild @_search_results
+      else
+        @_search_results = document.createElement "div"
+        @_search_results.className = "search-results"
+        @_search_results.textContent = "Ich bin ein Suchergebnis."
+        form.appendChild @_search_results
+
     @_container.appendChild box
 
-	#return button
     return box
