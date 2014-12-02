@@ -7,6 +7,7 @@ class HG.SearchBoxArea
   ##############################################################################
 
   # ============================================================================
+
   hgInit: (hgInstance) ->
 
     @_hgInstance = hgInstance
@@ -23,11 +24,9 @@ class HG.SearchBoxArea
         @_container.style.left = "0px"
 
   # ============================================================================
+
   addSearchSymbol: (config) ->
     @_addSearchSymbol config
-
-  #addSearchButton: (config) ->
-    #@_addSearchButton config
 
   addSearchBox: (config) ->
     @_addSearchBox config
@@ -37,6 +36,7 @@ class HG.SearchBoxArea
   ##############################################################################
 
   # ============================================================================
+
   _addSearchSymbol: (config) ->
     defaultConfig =
       icon: "fa-search"
@@ -57,32 +57,8 @@ class HG.SearchBoxArea
 
     return symbol
 
-  # # ============================================================================
-  # _addSearchButton: (config) ->
-  #   defaultConfig =
-  #     #tooltip:  "Demnächst verfügbar"
-  #     callback: ()-> console.log "Not implmented"
-
-  #   config = $.extend {}, defaultConfig, config
-
-  #   button = document.createElement "input"
-  #   button.type = "submit" 
-  #   button.value = "Suche"
-  #   button.className = "search-button"
-    
-  #   #$(button).tooltip {title: config.tooltip, placement: "right", container:"body"}
-  #   @_container.appendChild button
-
-  #   $(button).click () ->
-  #     search_results = document.createElement "div"
-  #     search_results.className = "search-results"
-  #     search_results.textContent = "Ich bin ein Suchergebnis."
-  #     #search_results.innerHTML = "<span>Ich bin ein Suchergebnis.</span>"
-  #     button.appendChild search_results
-
-  #   return button
-
   # ============================================================================
+  
   _addSearchBox: (config) ->
     defaultConfig =
       callback: ()-> console.log "Not implmented"
@@ -109,7 +85,6 @@ class HG.SearchBoxArea
     button.value = "Suche"
     button.className = "search-button"
     
-    #$(button).tooltip {title: config.tooltip, placement: "right", container:"body"}
     @_container.appendChild button
 
     $(button).click () ->
@@ -121,5 +96,5 @@ class HG.SearchBoxArea
 
     @_container.appendChild box
 
+	#return button
     return box
-    #return button
