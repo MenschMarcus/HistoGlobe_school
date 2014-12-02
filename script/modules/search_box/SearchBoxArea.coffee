@@ -75,6 +75,7 @@ class HG.SearchBoxArea
     $(button).click () ->
       search_results = document.createElement "div"
       search_results.className = "search-results"
+      search_results.innerHTML = "<span>Ich bin ein Suchergebnis.</span>"
       button.appendChild search_results
 
     @_container.appendChild button
