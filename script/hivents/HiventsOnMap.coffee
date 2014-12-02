@@ -88,13 +88,13 @@ class HG.HiventsOnMap
                 @_hiventMarkers.splice index, 1  if index >= 0
 
           #HiventRegion NEW
-          if self.getHivent().region isnt []
-            region = new HG.HiventRegion self, hgInstance.map, @_map
-            @_hiventMarkers.push region
-            callback marker for callback in @_onMarkerAddedCallbacks
-            marker.onDestruction @,() =>
-                index = $.inArray(marker, @_hiventMarkers)
-                @_hiventMarkers.splice index, 1  if index >= 0
+          #if self.getHivent().region isnt []
+          #  region = new HG.HiventRegion self, hgInstance.map, @_map
+           # @_hiventMarkers.push region
+            #callback marker for callback in @_onMarkerAddedCallbacks
+            #marker.onDestruction @,() =>
+             #   index = $.inArray(marker, @_hiventMarkers)
+              #  @_hiventMarkers.splice index, 1  if index >= 0
 
                 
       @_map.getPanes().overlayPane.addEventListener "mousedown", (event) =>
