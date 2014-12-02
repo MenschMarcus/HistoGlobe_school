@@ -55,27 +55,12 @@
 
   "ZoomButtons": {},
   "FullscreenButton": {},
-  "InterestingButton": {
-    "url": "http://www.trendhure.com/",
-    "tooltip":  "Pause gefällig?",
-    "icon": "fa-globe"
-  },
-
-  "SearchBoxArea": {},
-  "SearchSymbol": {},
-  "SearchBoxForm": {},
-
-  "PornoButton":
-  {
-    "icon":     "fa-globe",
-    "url":      "http://www.pornoleeuw.com/"
-  },
 
   "CategoryFilter": {},
 
   "MultimediaController": {
-    "dsvPaths": ["config/teaser3_sidebar/data/medium.csv"],
-    "rootDirs": ["config/teaser3_sidebar/data/media"],
+    "dsvPaths": ["config/teaser_common/data/medium.csv"],
+    "rootDirs": ["config/teaser_common/data/media"],
     "ignoredLines" : [1,2,3,4,5,6],
     "indexMappings": [
       {
@@ -93,7 +78,7 @@
     "dsvConfigs":
     [
       {
-        "path": "config/teaser3_sidebar/data/event.csv",
+        "path": "config/teaser_common/data/event.csv",
         "ignoredLines" : [1,2,3,4,5,6],
         "indexMapping" :
         {
@@ -115,8 +100,8 @@
 
   "CategoryIconMapping" : {
       "A" : {
-        "default" : "config/teaser3_sidebar/data/icons/default_default.png",
-        "highlighted" : "config/teaser3_sidebar/data/icons/default_highlight.png"
+        "default" : "config/teaser_common/data/icons/default_default.png",
+        "highlighted" : "config/teaser_common/data/icons/default_highlight.png"
       }
     },
 
@@ -128,7 +113,7 @@
     "stylers" :
     [
       {
-        "mapping": "config/teaser3_sidebar/data/spread.json",
+        "mapping": "config/teaser_common/data/spread.json",
         "domain": [0, 1],
         "fillColor": {
           "range": ["#d5c900", "#d5c900"],
@@ -166,7 +151,7 @@
 
   "AreaController" :
   {
-    "areaJSONPaths" : ["config/teaser3_sidebar/data/areas.json"]
+    "areaJSONPaths" : ["config/teaser_common/data/areas.json"]
   },
 
   "AreasOnMap" : {
@@ -191,7 +176,7 @@
           {
             "name": "Martin Exelsior",
             "date": "01.01.1991",
-            "image": "config/teaser3_sidebar/data/media/exelsior.jpg",
+            "image": "config/teaser_common/data/media/exelsior.jpg",
             "copyright": "© Drew Coffman",
             "info": "Gründer und Geschäftsführer",
             "infoLong": "Martin Exelsior übernimmt als Gründer die Geschäftsführung der Exmplum GmbH."
@@ -199,7 +184,7 @@
           {
             "name": "Sabrina Fahrenkamp",
             "date": "01.01.2000",
-            "image": "config/teaser3_sidebar/data/media/sabrina_fahrenkamp.jpg",
+            "image": "config/teaser_common/data/media/sabrina_fahrenkamp.jpg",
             "copyright": "© Victor1558",
             "info": "Geschäftsführerin",
             "infoLong": "Sabrina Fahrenkamp wird als Geschäftsführerin eingesetzt. Zuvor war sie Zweigstellenleiterin in den USA und für die interne Unternehmenskommunikation verantwortlich."
@@ -207,7 +192,7 @@
           {
             "name": "Geoffrey Brooks",
             "date": "01.01.2009",
-            "image": "config/teaser3_sidebar/data/media/geoffrey_brooks.jpg",
+            "image": "config/teaser_common/data/media/geoffrey_brooks.jpg",
             "copyright": "© Victor1558",
             "info": "Geschäftsführer",
             "infoLong": "Geoffrey Brooks tritt die Nachfolge Sabrina Fahrenkamps an. Er war zuvor bei einer großen Unternehmensberatung als Partner tätig. Geoffrey Brooks ist der erste Geschäftsführer, der nicht aus den eigenen Reihen kommt."
@@ -227,7 +212,7 @@
         "lines" :
         [
           {
-            "dataPath" : "config/teaser3_sidebar/data/statistics_revenue.dsv",
+            "dataPath" : "config/teaser_common/data/statistics_revenue.dsv",
             "xAttributeName" : "date",
             "yAttributeName" : "amount",
             "label" : "Jahresumsatz",

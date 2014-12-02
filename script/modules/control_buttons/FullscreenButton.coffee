@@ -28,9 +28,9 @@ class HG.FullscreenButton
 
     hgInstance.fullscreen_button = @
 
-    helpYOffset = 130
+    helpYOffset = 170 #130
     if hgInstance.sdwTitle?
-      helpYOffset = 170
+      helpYOffset = 210 #170
 
     if hgInstance.help?
       hgInstance.help.addHelp
