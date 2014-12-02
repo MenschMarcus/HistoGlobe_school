@@ -75,9 +75,11 @@ class HG.SearchBoxArea
     box.appendChild form
 
     input = document.createElement "input"
-    input.method = "get"
-    input.action = "http://www.google.com"
-    input.className = "search-input"
+    #input.method = "get"
+    input.type = "text"
+    input.placeholder = "Suchbegriff eingeben"
+    #input.action = "http://www.google.com"
+    input.id = "search-input"
     form.appendChild input
 
     # Button ======================================================================
@@ -89,18 +91,21 @@ class HG.SearchBoxArea
     @_container.appendChild button
 
     $(button).click () ->
+      input_text = document.getElementById("search-input").value
       search_results = document.createElement "div"
       search_results.className = "search-results"
-      search_results.textContent = "Ich bin ein Suchergebnis."
-      form.appendChild search_results
+      # search_results.textContent = "Ich bin ein Suchergebnis."
+      # form.appendChild search_results
 
       if @_search_results?
-        @_search_results.textContent = "Ich bin ein anderes Suchergebnis."
+        #@_search_results.textContent = "Ich bin ein anderes Suchergebnis."
+        @_search_results.textContent = "Suchergebnis für: " + input_text
         form.appendChild @_search_results
       else
         @_search_results = document.createElement "div"
         @_search_results.className = "search-results"
-        @_search_results.textContent = "Ich bin ein Suchergebnis."
+        #@_search_results.textContent = "Ich bin ein Suchergebnis."
+        @_search_results.textContent = "Suchergebnis für: " + input_text
         form.appendChild @_search_results
 
     @_container.appendChild box
