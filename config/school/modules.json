@@ -9,7 +9,7 @@
     "maxZoom": 5,
     "startZoom": 5,
     "startLatLong": [50.9869531, 11.3205004],
-    "tiles": "http://teasers.histoglobe.com/tiles/",
+    "tiles": "config/school/tiles/",
     "sidebarEnabled": false,
     "nowMarker" : {
       "speedometer" : false
