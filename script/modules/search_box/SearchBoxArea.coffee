@@ -16,6 +16,7 @@ class HG.SearchBoxArea
     @_container = document.createElement "div"
     @_container.className = "search-box-area"
     @_hgInstance._top_area.appendChild @_container
+    @_search_results = null
 
     @_hgInstance.onTopAreaSlide @, (t) =>
       if @_hgInstance.isInMobileMode()
@@ -88,11 +89,16 @@ class HG.SearchBoxArea
     @_container.appendChild button
 
     $(button).click () ->
-      search_results = document.createElement "div"
-      search_results.className = "search-results"
-      search_results.textContent = "Ich bin ein Suchergebnis."
-      #search_results.innerHTML = "<span>Ich bin ein Suchergebnis.</span>"
-      form.appendChild search_results
+      if @_search_results?
+        @_search_results.textContent = "Ich bin ein anderes Suchergebnis."
+        #search_results.innerHTML = "<span>Ich bin ein Suchergebnis.</span>"
+        form.appendChild @_search_results
+      else
+        @_search_results = document.createElement "div"
+        @_search_results.className = "search-results"
+        @_search_results.textContent = "Ich bin ein Suchergebnis."
+        #search_results.innerHTML = "<span>Ich bin ein Suchergebnis.</span>"
+        form.appendChild @_search_results
 
     @_container.appendChild box
 
