@@ -91,7 +91,6 @@ class HG.SearchBoxArea
       search_results = document.createElement "div"
       search_results.className = "search-results"
       search_results.textContent = "Ich bin ein Suchergebnis."
-      #search_results.innerHTML = "<span>Ich bin ein Suchergebnis.</span>"
       form.appendChild search_results
 
     @_container.appendChild box
