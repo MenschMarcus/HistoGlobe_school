@@ -24,39 +24,12 @@
 
   "ControlButtonArea": {},
 
-  "Help":
-  {
-    "autoShow": true,
-    "elements": [
-      {
-        "image" : "config/common/help/help05.png",
-        "anchorX" : "left",
-        "anchorY" : "top",
-        "offsetX": "30",
-        "offsetY": "20",
-        "width": "70%"
-      },
-      {
-        "image" : "config/common/help/help03.png",
-        "anchorX" : "center",
-        "anchorY" : "bottom",
-        "offsetX": "0",
-        "offsetY": "150",
-        "width": "70%"
-      },
-      {
-        "image" : "config/common/help/help04.png",
-        "anchorX" : "center",
-        "anchorY" : "bottom",
-        "offsetX": "0",
-        "offsetY": "10",
-        "width": "80%"
-      }
-    ]
-  },
-
   "ZoomButtons": {},
   "FullscreenButton": {},
+
+  "SearchBoxArea": {},
+  "SearchSymbol": {},
+  "SearchBoxForm": {},
 
   "CategoryFilter": {},
 
@@ -160,7 +133,7 @@
       }
     ]
   },
-  "HiventMarkerRegion":{},
+
   "AreaController" :
   {
     "areaJSONPaths" : ["config/school/data/areas.json"]
