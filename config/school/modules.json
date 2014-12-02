@@ -158,7 +158,7 @@
       }
     ]
   },
-
+  "HiventMarkerRegion":{},
   "AreaController" :
   {
     "areaJSONPaths" : ["config/school/data/areas.json"]

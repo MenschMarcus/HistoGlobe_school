@@ -3,34 +3,34 @@ window.HG ?= {}
 
 class HG.HiventRegion extends HG.HiventMarker
 	constructor: (hiventHandle, display, map) ->
-		VISIBLE_REGIONS.push @
+    VISIBLE_REGIONS.push @
 
-		#Call HiventMarker Constructor
-		HG.HiventMarker.call @, hiventHandle, map.getPanes()["popupPane"]
+    #Call HiventMarker Constructor
+    HG.HiventMarker.call @, hiventHandle, map.getPanes()["popupPane"]
 
-		VISIBLE_REGIONS.push @
-		@hivent=hiventHandle.getHivent()
+    VISIBLE_REGIONS.push @
+    @hivent=hiventHandle.getHivent()
 
-		@_locationName = hivent.locactionName
+    @_locationName = hivent.locactionName
 
-		@_map = map
+    @_map = map
 
-		@_region=region
+    @_region=region
 
-		@_region= new  L.polygon @hivent.region
+    @_region= new  L.polygon @hivent.region
 
-		@_region.myHiventMarkerRegion = @
+    @_region.myHiventMarkerRegion = @
 
-		@_position = new L.Point 0,0
-    	@_updatePosition()
+    @_position = new L.Point 0,0
+    @_updatePosition()
 
-  		  #Event Listeners
-  		@_marker.on "mouseover", @_onMouseOver
- 		@_marker.on "mouseout", @_onMouseOut
- 		@_marker.on "click", @_onClick
- 		@_map.on "zoomend", @_updatePosition
- 		@_map.on "dragend", @_updatePosition
- 		@_map.on "viewreset", @_updatePosition
+  	#Event Listeners
+    @_marker.on "mouseover", @_onMouseOver
+    @_marker.on "mouseout", @_onMouseOut
+    @_marker.on "click", @_onClick
+    @_map.on "zoomend", @_updatePosition
+    @_map.on "dragend", @_updatePosition
+    @_map.on "viewreset", @_updatePosition
 
     @getHiventHandle().onFocus(@, (mousePos) =>
       if @_display.isRunning()
