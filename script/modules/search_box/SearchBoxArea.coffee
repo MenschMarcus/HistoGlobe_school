@@ -111,3 +111,5 @@ class HG.SearchBoxArea
     @_container.appendChild box
 
     return box
+
+    #=============================================================================
