@@ -38,47 +38,30 @@ class HG.SearchBoxArea
 
   # ============================================================================
 
-  _addSearchSymbol: (config) ->
-    defaultConfig =
-      icon: "fa-search"
-      #tooltip:  "Demnächst verfügbar"
-      callback: ()-> console.log "Not implmented"
-
-    config = $.extend {}, defaultConfig, config
+  _addSearchSymbol: () ->
 
     symbol = document.createElement "div"
     symbol.className = "search-symbol"
-    #$(symbol).tooltip {title: config.tooltip, placement: "right", container:"body"}
-
-    icon = document.createElement "i"
-    icon.className = "fa " + config.icon
-    symbol.appendChild icon
-
+    symbol.innerHTML = '<img class = "search-symbol-logo" src = "data/png/logo-normal-farbe.png">';
+    
     @_container.appendChild symbol
 
     return symbol
 
   # ============================================================================
 
-  _addSearchBox: (config) ->
-    defaultConfig =
-      callback: ()-> console.log "Not implmented"
-
-    config = $.extend {}, defaultConfig, config
+  _addSearchBox: () ->
 
     box = document.createElement "div"
     box.className = "search-box"
-    $(box).tooltip {title: config.tooltip, placement: "right", container:"body"}
 
     form = document.createElement "form"
     form.className = "search-form"
     box.appendChild form
 
     input = document.createElement "input"
-    #input.method = "get"
     input.type = "text"
     input.placeholder = "Suchbegriff eingeben"
-    #input.action = "http://www.google.com"
     input.id = "search-input"
     form.appendChild input
 
@@ -86,7 +69,7 @@ class HG.SearchBoxArea
     button = document.createElement "input"
     button.type = "submit" 
     button.value = "Suche"
-    button.className = "search-button"
+    button.id = "search-button"
     
     @_container.appendChild button
 
