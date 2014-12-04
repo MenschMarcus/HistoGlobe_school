@@ -1,0 +1,111 @@
+.search-box-area {
+  position: absolute;
+  top: 20px;
+  //top: 0px;
+  //padding-top: 20px;
+  padding-left: 0px;
+
+  box-shadow: 0 0 @shadow_radius rgba(0,0,0,@shadow_intensity);
+  margin: 5px 5px 5px 0;
+  font-size: 30pt * @widget_font_size_factor;
+  border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
+  //padding: @border_width;
+  // background-color: @border_color;
+
+  .transition-property(left);
+  .transition-duration(@sidebar_aimation_speed);
+
+  .search-symbol {
+    color: @widget_title_text_color;
+    cursor: pointer;
+    padding: 0px 8px 0 8px;
+    background-color: @widget_title_background_color;
+    text-align: center;
+
+    &:first-child {
+      border-top-left-radius: @widget_border_radius_top_left;
+      border-top-right-radius: @widget_border_radius_top_right;
+    }
+
+    &:last-child {
+      border-bottom-right-radius: @widget_border_radius_bottom_right;
+      border-bottom-left-radius: @widget_border_radius_bottom_left;
+    }
+
+    &:hover {
+      background-color: lighten(@widget_title_background_color, 20%);
+    }
+  }
+
+  .search-box {
+    position: absolute;
+    top: 0px;
+    left: 45px;
+    float:left;
+
+    #search-input {
+      margin: 0;
+      //height: 40px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size:20px;
+      font-weight:bold;
+      outline: none;
+      text-align: left;
+      text-decoration: none;
+      color: #000000;
+      border: solid 1px #0076a3; 
+      //border-right:0px;
+      
+      //border-top-right-radius: 5px 5px;
+      //border-bottom-right-radius: 5px 5px;
+      border-top-left-radius: 5px 5px;
+      border-bottom-left-radius: 5px 5px;
+    }
+
+    .search-results {
+      top: 45px;
+      width: 258px;
+      //height: 60px;
+      padding: 5px 15px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size:15px;
+      text-align: left;
+      color: #000000;
+      background: #ffffff;
+    }
+  }
+
+  .search-button {
+    position: absolute;
+    top: 2px;
+    left: 304px;
+    float:left;
+
+    margin: 0;
+    padding: 5px 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:15px;
+    outline: none;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    border: solid 1px #0076a3; border-right:0px;
+    background: #0095cd;
+    background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
+    background: -moz-linear-gradient(top,  #00adee,  #0078a5);
+    border-top-right-radius: 5px 5px;
+    border-bottom-right-radius: 5px 5px; 
+  }
+
+  .search-button:hover {
+    text-decoration: none;
+    background: #007ead;
+    background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
+    background: -moz-linear-gradient(top,  #0095cc,  #00678e);
+  }
+  /* Fixes submit button height problem in Firefox */
+  .search-button::-moz-focus-inner {
+    border: 0;
+  }
+}

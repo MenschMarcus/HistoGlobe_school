@@ -1,27 +1,16 @@
 @echo off
-call "H:\Stuff\NodeJs\nodevars.bat"
+rem set PROJECT=sdw
+set PROJECT=teaser1_countries
+rem set PROJECT=teaser2_hivents
+rem set PROJECT=teaser3_sidebar
 
-@echo off
-call "data_src\hivents\generate.bat"
-
-@echo off
-call "data_src\labels\generate.bat"
-
-@echo off
-call "data_src\paths\generate.bat"
+call "C:\Program Files\nodejs\nodevars.bat"
 
 IF not exist build ( mkdir build )
 
-@echo off
-set cFiles=
-for /R script\ %%a in (*.coffee) do call set cFiles=%%cFiles%% %%a
-
-@echo off
-call coffee -c -o build %cFiles%
-
-@echo off
-set jFiles=
-for /R build\ %%a in (*.js) do call set jFiles=%%jFiles%% %%a
+for /R script\ %%a in (*.coffee) do (
+	call coffee -c -o build "%%a"
+)
 
 rosetta --jsOut "build/default_config.js" ^
         --jsFormat "flat" ^
@@ -32,6 +21,6 @@ rosetta --jsOut "build/config.js" ^
         --jsFormat "flat" ^
         --jsTemplate "(function() {<%%= preamble %%> $.extend(HGConfig, <%%= blob %%>);})();" ^
         --cssOut "build/config.less" ^
-        --cssFormat "less" config/sdw/style.rose && ^
-uglifyjs %jFiles% -o script\histoglobe.min.js && ^
-lessc --no-color -x style\histoglobe.less style\histoglobe.min.css
+        --cssFormat "less" config/%PROJECT%/style.rose && ^
+lessc --no-color -x config\%PROJECT%\main.less style\histoglobe.min.css && ^
+call utils\replace_line.bat config.php 1 "<?php $config_path = '%PROJECT%'; ?>"

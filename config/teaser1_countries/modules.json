@@ -63,7 +63,7 @@
     "stylers" :
     [
       {
-        "mapping": "config/teaser_common/data/spread.json",
+        "mapping": "config/teaser1_countries/data/spread.json",
         "domain": [0, 1],
         "fillColor": {
           "range": ["#d5c900", "#d5c900"],
@@ -101,7 +101,7 @@
 
   "AreaController" :
   {
-    "areaJSONPaths" : ["config/teaser_common/data/areas.json"]
+    "areaJSONPaths" : ["config/teaser1_countries/data/areas.json"]
   },
 
   "AreasOnMap" : {

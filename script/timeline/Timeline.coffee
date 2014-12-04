@@ -17,7 +17,7 @@ class HG.Timeline
 
     defaultConfig =
       parentDiv: undefined
-      zoom: 1
+      zoom: 3       # TODO: "zoom" in modules.js does not work!
       nowYear: 1900
       minYear: 1800
       maxYear: 2020

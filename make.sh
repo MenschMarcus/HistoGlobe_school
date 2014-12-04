@@ -10,12 +10,6 @@
 # PROJECT=teaser3_sidebar
 PROJECT=school
 
-(cd data_src/hivents/; ./generate.sh)
-
-(cd data_src/labels/; ./generate.sh)
-
-(cd data_src/paths/; ./generate.sh)
-
 if [ ! -d "build" ]; then
     mkdir build
 else
@@ -42,12 +36,6 @@ jFiles=$(find build -name '*.js')
 
 uglifyjs $jFiles -o script/histoglobe.min.js #-mc
 
-LESS_MAIN=style/histoglobe.less
+lessc --no-color -x config/$PROJECT/main.less style/histoglobe.min.css
 
-if [ -e "config/$PROJECT/custom.less" ]; then
-    LESS_MAIN=config/$PROJECT/custom.less
-fi
-
-lessc --no-color -x $LESS_MAIN style/histoglobe.min.css
-
-sed -i "2s/.*/<?php \$config_path = '$PROJECT'; ?>/" index.php
+sed -i "1s/.*/<?php \$config_path = '$PROJECT'; ?>/" config.php

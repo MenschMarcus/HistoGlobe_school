@@ -1,5 +1,4 @@
-<?php //config_path is set by make.sh. ATTENTION!!!! DO NOT DELETE THE FIRST TWO LINES OF index.php! ?>
-<?php $config_path = 'school'; ?>
+<?php require('config.php'); ?>
 <?php $debug_mode = true; ?>
 
 <!DOCTYPE html>
@@ -117,10 +116,14 @@
     <script type="text/javascript" src="build/PictureWidget.js"></script>
     <script type="text/javascript" src="build/LegendWidget.js"></script>
     <script type="text/javascript" src="build/StatisticsWidget.js"></script>
+    <script type="text/javascript" src="build/SearchBoxArea.js"></script>
+    <script type="text/javascript" src="build/SearchSymbol.js"></script>
+    <script type="text/javascript" src="build/SearchBoxForm.js"></script>
     <script type="text/javascript" src="build/ControlButtonArea.js"></script>
     <script type="text/javascript" src="build/Help.js"></script>
     <script type="text/javascript" src="build/ZoomButtons.js"></script>
     <script type="text/javascript" src="build/FullscreenButton.js"></script>
+	<script type="text/javascript" src="build/InterestingButton.js"></script>
     <script type="text/javascript" src="build/HiventPresenter.js"></script>
     <script type="text/javascript" src="build/HiventsOnMap.js"></script>
     <script type="text/javascript" src="build/HiventsOnGlobe.js"></script>

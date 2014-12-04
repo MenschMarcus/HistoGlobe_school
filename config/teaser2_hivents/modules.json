@@ -59,8 +59,8 @@
   "CategoryFilter": {},
 
   "MultimediaController": {
-    "dsvPaths": ["config/teaser_common/data/medium.csv"],
-    "rootDirs": ["config/teaser_common/data/media"],
+    "dsvPaths": ["config/teaser2_hivents/data/medium.csv"],
+    "rootDirs": ["config/teaser2_hivents/data/media"],
     "ignoredLines" : [1,2,3,4,5,6],
     "indexMappings": [
       {
@@ -78,7 +78,7 @@
     "dsvConfigs":
     [
       {
-        "path": "config/teaser_common/data/event.csv",
+        "path": "config/teaser2_hivents/data/event.csv",
         "ignoredLines" : [1,2,3,4,5,6],
         "indexMapping" :
         {
@@ -100,8 +100,8 @@
 
   "CategoryIconMapping" : {
       "A" : {
-        "default" : "config/teaser_common/data/icons/default_default.png",
-        "highlighted" : "config/teaser_common/data/icons/default_highlight.png"
+        "default" : "config/teaser2_hivents/data/icons/default_default.png",
+        "highlighted" : "config/teaser2_hivents/data/icons/default_highlight.png"
       }
     },
 
@@ -113,7 +113,7 @@
     "stylers" :
     [
       {
-        "mapping": "config/teaser_common/data/spread.json",
+        "mapping": "config/teaser2_hivents/data/spread.json",
         "domain": [0, 1],
         "fillColor": {
           "range": ["#d5c900", "#d5c900"],
@@ -151,7 +151,7 @@
 
   "AreaController" :
   {
-    "areaJSONPaths" : ["config/teaser_common/data/areas.json"]
+    "areaJSONPaths" : ["config/teaser2_hivents/data/areas.json"]
   },
 
   "AreasOnMap" : {
