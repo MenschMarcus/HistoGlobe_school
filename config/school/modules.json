@@ -70,10 +70,11 @@
           "lat"         : 3,
           "long"        : 4,
           "region"      : 5,
-          "category"    : 13,
-          "description" : 14,
-          "multimedia"  : 15,
-          "link"        : 16
+          "isImp"       : 13,
+          "category"    : 14,
+          "description" : 15,
+          "multimedia"  : 16,
+          "link"        : 17
         }
       }
     ]
