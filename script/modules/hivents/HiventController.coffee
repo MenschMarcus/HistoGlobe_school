@@ -308,18 +308,18 @@ class HG.HiventController
         # 2) importance category
         imp = hivent.isImp + 1
 
-        # set importance and add in array
+        # set importance
         impScore = nowDist * imp
 
         impScores.push
           handle: handle
           score:  impScore
 
-    # sort hivents by score
+    # sort hivents by importance score
     impScores.sort (a,b) =>
       return a.score - b.score
 
-    # set hivents with highest X imp scores to visible, the other to invisible
+    # show only the hivents with the highest X imp scores
     for score, i in impScores
       # get current visible state
       state = score.handle._tmp_state

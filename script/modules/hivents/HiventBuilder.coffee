@@ -231,7 +231,10 @@ class HG.HiventBuilder
         endDay = startDay
 
       # create hivent region
-      regionPolygon = region.split("], [")
+      regionPolygon = []
+
+      if region.length > 1
+        regionPolygon = JSON.parse region
 
       hivent = new HG.Hivent(
         id,
