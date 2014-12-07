@@ -1,0 +1,43 @@
+{
+	"build_systems":
+	[
+		{
+			"cmd":
+			[
+				"./make.sh"
+			],
+			"file_regex": "^(..[^:]*):(.*)$",
+			"name": "histoglobe-project-linux",
+			"working_dir": "${project_path}"
+		},
+		{
+			"cmd":
+			[
+				"make.bat"
+			],
+			"file_regex": "^(..[^:]*):(.*)$",
+			"name": "histoglobe-project-windows",
+			"working_dir": "${project_path}"
+		},
+		{
+			"cmd":
+			[
+				"coffee script/hivents/ls"
+			],
+			"name": "little-build"
+		}
+	],
+	"folders":
+	[
+		{
+			"folder_exclude_patterns":
+			[
+				"font",
+				"img",
+				"build"
+			],
+			"follow_symlinks": true,
+			"path": "."
+		}
+	]
+}
