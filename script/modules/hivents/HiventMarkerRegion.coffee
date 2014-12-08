@@ -1,36 +1,33 @@
 window.HG ?= {}
 
 
-class HG.HiventRegion extends HG.HiventMarker
+class HG.HiventMarkerRegion extends HG.HiventMarker
 	constructor: (hiventHandle, display, map) ->
     VISIBLE_REGIONS.push @
 
     #Call HiventMarker Constructor
     HG.HiventMarker.call @, hiventHandle, map.getPanes()["popupPane"]
 
-    VISIBLE_REGIONS.push @
     @hivent=hiventHandle.getHivent()
 
-    @_locationName = hivent.locactionName
+    @_locationName = @hivent.locactionName
 
     @_map = map
 
-    @_region=region
+    @_marker= L.polygon(@hivent.region).addTo(map)
 
-    @_region= new  L.polygon @hivent.region
-
-    @_region.myHiventMarkerRegion = @
+    @_marker.myHiventMarkerRegion = @
 
     @_position = new L.Point 0,0
     @_updatePosition()
 
   	#Event Listeners
-    @_marker.on "mouseover", @_onMouseOver
-    @_marker.on "mouseout", @_onMouseOut
-    @_marker.on "click", @_onClick
-    @_map.on "zoomend", @_updatePosition
-    @_map.on "dragend", @_updatePosition
-    @_map.on "viewreset", @_updatePosition
+    #@_marker.on "mouseover", @_onMouseOver
+    #@_marker.on "mouseout", @_onMouseOut
+    #@_marker.on "click", @_onClick
+    #@_map.on "zoomend", @_updatePosition
+    #@_map.on "dragend", @_updatePosition
+    #@_map.on "viewreset", @_updatePosition
 
     @getHiventHandle().onFocus(@, (mousePos) =>
       if @_display.isRunning()
@@ -46,15 +43,15 @@ class HG.HiventRegion extends HG.HiventMarker
     )
 
     @getHiventHandle().onLink(@, (mousePos) =>
-      @_marker.setIcon icon_higlighted
+      #@_marker.setIcon icon_higlighted
     )
 
     @getHiventHandle().onUnLink(@, (mousePos) =>
-      @_marker.setIcon icon_default
+      #@_marker.setIcon icon_default
     )
 
     @getHiventHandle().onAgeChanged @, (age) =>
-      @_marker.setOpacity age
+      #@_marker.setOpacity age
 
     @getHiventHandle().onDestruction @, @_destroy
     @getHiventHandle().onVisibleFuture @, @_destroy
@@ -65,8 +62,8 @@ class HG.HiventRegion extends HG.HiventMarker
   # ============================================================================
   getPosition: ->
     {
+      long: @hivent.long[0]
       lat: @hivent.lat[0]
-      long: @_long.long[0]
     }
 
   # ============================================================================
@@ -95,7 +92,7 @@ class HG.HiventRegion extends HG.HiventMarker
 
   # ============================================================================
   _updatePosition: =>
-    @_position = @_map.latLngToLayerPoint @_marker.getLatLng()
+    #@_position = @_map.latLngToLayerPoint @_marker.getLatLng()
     @notifyAll "onPositionChanged", @getDisplayPosition()
 
   # ============================================================================
@@ -111,8 +108,6 @@ class HG.HiventRegion extends HG.HiventMarker
     @_map.off "dragend", @_updatePosition
     @_map.off "drag", @_updatePosition
     @_map.off "viewreset", @_updatePosition
-    @_markerGroup.removeLayer @_marker
-
     @_hiventHandle.removeListener "onFocus", @
     @_hiventHandle.removeListener "onActive", @
     @_hiventHandle.removeListener "onInActive", @
