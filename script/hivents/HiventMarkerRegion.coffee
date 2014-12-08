@@ -15,10 +15,12 @@ class HG.HiventRegion extends HG.HiventMarker
 
     @_map = map
 
-    @_region=region
+    @region=region
 
     @_region= new  L.polygon @hivent.region
+    @_region.addTo @_map
 
+    ###
     @_region.myHiventMarkerRegion = @
 
     @_position = new L.Point 0,0
@@ -80,6 +82,7 @@ class HG.HiventRegion extends HG.HiventMarker
   ##############################################################################
 
   # ============================================================================
+  ###
   _onMouseOver: (e) =>
     @getHiventHandle().mark @, @_position
     @getHiventHandle().linkAll @_position
@@ -127,5 +130,5 @@ class HG.HiventRegion extends HG.HiventMarker
 
     return
 
-
+###
 	VISIBLE_REGIONS=[]
