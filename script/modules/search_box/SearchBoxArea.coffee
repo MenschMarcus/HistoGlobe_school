@@ -66,6 +66,7 @@ class HG.SearchBoxArea
     input.id = "search-input"
     form.appendChild input
 
+    # Options =====================================================================
     options = document.createElement "div"
     options.className = "options"
     options.innerHTML = '<span class="msg">Was möchtest du finden?</span>';
@@ -80,6 +81,10 @@ class HG.SearchBoxArea
       box.appendChild options
       options.appendChild selection
 
+    #$(input).blur () ->
+      #options.removeChild selection
+      #box.removeChild options
+
     # Button ======================================================================
     button = document.createElement "input"
     button.type = "submit" 
@@ -92,17 +97,13 @@ class HG.SearchBoxArea
       input_text = document.getElementById("search-input").value
       search_results = document.createElement "div"
       search_results.className = "search-results"
-      # search_results.textContent = "Ich bin ein Suchergebnis."
-      # form.appendChild search_results
 
       if @_search_results?
-        #@_search_results.textContent = "Ich bin ein anderes Suchergebnis."
         @_search_results.textContent = "Suchergebnis für: " + input_text
         form.appendChild @_search_results
       else
         @_search_results = document.createElement "div"
         @_search_results.className = "search-results"
-        #@_search_results.textContent = "Ich bin ein Suchergebnis."
         @_search_results.textContent = "Suchergebnis für: " + input_text
         form.appendChild @_search_results
 
