@@ -88,10 +88,6 @@ class HG.SearchBoxArea
       box.appendChild options
       options.appendChild selection
 
-    #$(input).blur () ->
-      #options.removeChild selection
-      #box.removeChild options
-
     # Button ======================================================================
     button = document.createElement "input"
     button.type = "submit" 
@@ -104,7 +100,6 @@ class HG.SearchBoxArea
       @_input_text = document.getElementById("search-input").value
 
       options_input = document.getElementsByName("search_option")
-
       @_search_opt_event = options_input[0].checked
       @_search_opt_place = options_input[1].checked
       @_search_opt_person = options_input[2].checked
@@ -114,11 +109,20 @@ class HG.SearchBoxArea
         @_search_results = document.createElement "div"
         @_search_results.className = "search-results"       
 
-      @_search_results.textContent = "Suchergebnis für: " + @_input_text +
-      " \n" + @_search_opt_event + " \n" + @_search_opt_place +
-      " \n" + @_search_opt_person + " \n" + @_search_opt_jear
-      form.appendChild @_search_results
+      @_search_results.innerHTML  = '<span class="search-result"> Suchergebnis für: '+ 
+        @_input_text + '<br><span class="result" data-type="person">Ich bin Heinrich</span><br>
+        <span class="result" data-type="person">Ich bin Rudolf</span><br>
+        <span class="result" data-type="person">Ich bin Wilhelm</span><br>
+        <span class="result" data-type="place">Ich bin Berlin</span><br>
+        <span class="result" data-type="place">Ich bin Weimar</span><br>
+        <span class="result" data-type="event">Ich bin Unternehmen Wintergewitter</span><br>
+        <span class="result" data-type="event">Ich bin Operation Feldmaus</span><br>
+        <span class="result" data-type="event">Ich bin Unternehmen Barbarossa</span><br>
+        <span class="result" data-type="event">Und die Search Optionen sind: '+
+        @_search_opt_event + ' ' + @_search_opt_place + ' ' + @_search_opt_person + ' ' +
+        @_search_opt_jear + '</span>';
 
+      form.appendChild @_search_results
     @_container.appendChild box
 
     return box
