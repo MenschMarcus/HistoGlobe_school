@@ -73,13 +73,17 @@ class HG.SearchBoxArea
 
     selection = document.createElement "form"
     selection.className = "selection"
-    selection.innerHTML = '<input type="checkbox" id="op1" name="Option1" value="Ereignisse"/>Ereignisse
-    					   <input type="checkbox" id="op2" name="Option2" value="Orte"/>Orte
-    					   <input type="checkbox" id="op3" name="Option3" value="Personen"/>Personen';
+    selection.innerHTML = '<input checked="true" type="checkbox" id="opt1" name="Option1" value="Ereignisse"/>Ereignisse
+    					   <input type="checkbox" id="opt2" name="Option2" value="Orte"/>Orte
+    					   <input type="checkbox" id="opt3" name="Option3" value="Personen"/>Personen';
 
     $(input).click () ->
       box.appendChild options
       options.appendChild selection
+
+    event = document.getElementById("opt1")
+    place = document.getElementById("opt2")
+    person = document.getElementById("opt3")
 
     #$(input).blur () ->
       #options.removeChild selection
@@ -99,12 +103,28 @@ class HG.SearchBoxArea
       search_results.className = "search-results"
 
       if @_search_results?
-        @_search_results.textContent = "Suchergebnis für: " + input_text
+        @_search_results.innerHTML  = '<span class="search-result"> Suchergebnis für: '+ input_text + '<br>
+    								   <span class="result" data-type="person">Ich bin Heinrich</span><br>
+    								   <span class="result" data-type="person">Ich bin Rudolf</span><br>
+    								   <span class="result" data-type="person">Ich bin Wilhelm</span><br>
+    								   <span class="result" data-type="place">Ich bin Berlin</span><br>
+    								   <span class="result" data-type="place">Ich bin Weimar</span><br>
+    								   <span class="result" data-type="event">Ich bin Unternehmen Wintergewitter</span><br>
+    								   <span class="result" data-type="event">Ich bin Operation Feldmaus</span><br>
+    								   <span class="result" data-type="event">Ich bin Unternehmen Barbarossa</span>';
         form.appendChild @_search_results
       else
         @_search_results = document.createElement "div"
         @_search_results.className = "search-results"
-        @_search_results.textContent = "Suchergebnis für: " + input_text
+        @_search_results.innerHTML  = '<span class="search-result"> Suchergebnis für: '+ input_text + '<br>
+    								   <span class="result" data-type="person">Ich bin Heinrich</span><br>
+    								   <span class="result" data-type="person">Ich bin Rudolf</span><br>
+    								   <span class="result" data-type="person">Ich bin Wilhelm</span><br>
+    								   <span class="result" data-type="place">Ich bin Berlin</span><br>
+    								   <span class="result" data-type="place">Ich bin Weimar</span><br>
+    								   <span class="result" data-type="event">Ich bin Unternehmen Wintergewitter</span><br>
+    								   <span class="result" data-type="event">Ich bin Operation Feldmaus</span><br>
+    								   <span class="result" data-type="event">Ich bin Unternehmen Barbarossa</span>';
         form.appendChild @_search_results
 
     @_container.appendChild box
