@@ -72,9 +72,9 @@ class HG.SearchBoxArea
 
     selection = document.createElement "form"
     selection.className = "selection"
-    selection.innerHTML = '<input type="radio" name="Option1" value="Ereignisse">Ereignisse';
-    selection.innerHTML = '<input type="radio" name="Option2" value="Orte">Orte';
-    selection.innerHTML = '<input type="radio" name="Option3" value="Personen">Personen';
+    selection.innerHTML = '<input type="checkbox" id="op1" name="Option1" value="Ereignisse"/>Ereignisse
+    					   <input type="checkbox" id="op2" name="Option2" value="Orte"/>Orte
+    					   <input type="checkbox" id="op3" name="Option3" value="Personen"/>Personen';
 
     $(input).click () ->
       box.appendChild options
