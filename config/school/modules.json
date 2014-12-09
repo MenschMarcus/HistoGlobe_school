@@ -27,10 +27,6 @@
   "ZoomButtons": {},
   "FullscreenButton": {},
 
-  "SearchBoxArea": {},
-  "SearchSymbol": {},
-  "SearchBoxForm": {},
-
   "CategoryFilter": {},
 
   "MultimediaController": {
@@ -141,7 +137,11 @@
 
   "HiventTooltips" : {},
   "HiventInfoPopovers" : {},
-  "HiventInfoAtTag" : {}
+  "HiventInfoAtTag" : {},
+
+  "SearchBoxArea": {},
+  "SearchSymbol": {},
+  "SearchBoxForm": {}
 
 }
 
