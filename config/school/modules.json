@@ -77,7 +77,8 @@
           "link"        : 17
         }
       }
-    ]
+    ],
+    "numHiventsInView" : 8
   },
 
   "CategoryIconMapping" : {

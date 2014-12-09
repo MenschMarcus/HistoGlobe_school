@@ -292,6 +292,8 @@ class HG.HiventController
           if new_age isnt handle._age
             handle.setAge new_age
 
+    console.log "======================================="
+
     # importance filter: assign each hivent an importance score
     impScores = []
     for handle, i in @_hiventHandles
@@ -301,15 +303,17 @@ class HG.HiventController
         hivent = handle.getHivent()
 
         # 1) distance to now date
-        nowTime = @_currentTimeFilter.now.getFullYear()
-        hiventTime = (hivent.endDate.getFullYear() + hivent.startDate.getFullYear()) / 2
+        nowTime = @_currentTimeFilter.now.getTime()
+        hiventTime = (hivent.endDate.getTime() + hivent.startDate.getTime()) / 2
         nowDist = Math.abs(hiventTime - nowTime)
 
         # 2) importance category
         imp = hivent.isImp + 1
 
+        console.log nowDist + " imp: " + imp + " name: " + hivent.name
+
         # set importance and add in array
-        impScore = nowDist * imp
+        impScore = nowDist * (1/imp)/2
 
         impScores.push
           handle: handle
@@ -319,7 +323,7 @@ class HG.HiventController
     impScores.sort (a,b) =>
       return a.score - b.score
 
-    # set hivents with highest X imp scores to visible, the other to invisible
+    # set hivents with lowest X imp scores to visible, the other to invisible
     for score, i in impScores
       # get current visible state
       state = score.handle._tmp_state
