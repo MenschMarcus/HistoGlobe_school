@@ -3,7 +3,6 @@
   top: 20px;
   padding-left: 0px;
 
-  box-shadow: 0 0 @shadow_radius rgba(0,0,0,@shadow_intensity);
   margin: 5px 5px 5px 0;
   font-size: 30pt * @widget_font_size_factor;
   border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
@@ -13,8 +12,8 @@
 
   .search-symbol {
     color: @widget_title_text_color;
+    cursor: auto;
     padding: 0px 8px 0 8px;
-    background-color: @widget_title_background_color;
     text-align: center;
 
     &:first-child {
@@ -25,10 +24,6 @@
     &:last-child {
       border-bottom-right-radius: @widget_border_radius_bottom_right;
       border-bottom-left-radius: @widget_border_radius_bottom_left;
-    }
-
-    &:hover {
-      background-color: lighten(@widget_title_background_color, 20%);
     }
 
     .search-symbol-logo{
