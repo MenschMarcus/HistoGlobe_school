@@ -236,7 +236,7 @@ class HG.HiventBuilder
       if region.length > 1
         regionPolygon = JSON.parse region
 
-      hivent = new HG.Hivent(
+      hivent = new HG.Hivent
         id,
         name,
         startYear,
@@ -256,6 +256,5 @@ class HG.HiventBuilder
         description,
         multimedia,
         link
-      )
 
       hivent
