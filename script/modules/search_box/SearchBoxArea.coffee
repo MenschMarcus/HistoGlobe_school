@@ -59,11 +59,26 @@ class HG.SearchBoxArea
     form.className = "search-form"
     box.appendChild form
 
+    # Input =======================================================================
     input = document.createElement "input"
     input.type = "text"
     input.placeholder = "Suchbegriff eingeben"
     input.id = "search-input"
     form.appendChild input
+
+    options = document.createElement "div"
+    options.className = "options"
+    options.innerHTML = '<span class="msg">Was möchtest du finden?</span>';
+
+    selection = document.createElement "form"
+    selection.className = "selection"
+    selection.innerHTML = '<input type="checkbox" id="op1" name="Option1" value="Ereignisse"/>Ereignisse
+    					   <input type="checkbox" id="op2" name="Option2" value="Orte"/>Orte
+    					   <input type="checkbox" id="op3" name="Option3" value="Personen"/>Personen';
+
+    $(input).click () ->
+      box.appendChild options
+      options.appendChild selection
 
     # Button ======================================================================
     button = document.createElement "input"
