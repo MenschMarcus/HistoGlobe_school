@@ -292,8 +292,6 @@ class HG.HiventController
           if new_age isnt handle._age
             handle.setAge new_age
 
-    console.log "======================================="
-
     # importance filter: assign each hivent an importance score
     impScores = []
     for handle, i in @_hiventHandles
@@ -309,8 +307,6 @@ class HG.HiventController
 
         # 2) importance category
         imp = hivent.isImp + 1
-
-        console.log nowDist + " imp: " + imp + " name: " + hivent.name
 
         # set importance and add in array
         impScore = nowDist * (1/imp)/2
