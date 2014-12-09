@@ -17,6 +17,12 @@ class HG.SearchBoxArea
     @_container.className = "search-box-area"
     @_hgInstance._top_area.appendChild @_container
     @_search_results = null
+    @_search_opt_event = true
+    @_search_opt_place = false
+    @_search_opt_person = false
+    @_search_opt_jear = false
+
+    @_input_text = null
 
     @_hgInstance.onTopAreaSlide @, (t) =>
       if @_hgInstance.isInMobileMode()
@@ -73,9 +79,10 @@ class HG.SearchBoxArea
 
     selection = document.createElement "form"
     selection.className = "selection"
-    selection.innerHTML = '<input type="checkbox" id="op1" name="Option1" value="Ereignisse"/>Ereignisse
-    					   <input type="checkbox" id="op2" name="Option2" value="Orte"/>Orte
-    					   <input type="checkbox" id="op3" name="Option3" value="Personen"/>Personen';
+    selection.innerHTML = '<input type="checkbox" name="search_option" value="Ereignisse" checked/>Ereignisse
+    					   <input type="checkbox" name="search_option" value="Orte"/>Orte
+    					   <input type="checkbox" name="search_option" value="Personen"/>Personen
+                 <input type="checkbox" name="search_option" value="Jahr"/>Jahr';
 
     $(input).click () ->
       box.appendChild options
@@ -94,18 +101,23 @@ class HG.SearchBoxArea
     @_container.appendChild button
 
     $(button).click () ->
-      input_text = document.getElementById("search-input").value
-      search_results = document.createElement "div"
-      search_results.className = "search-results"
+      @_input_text = document.getElementById("search-input").value
 
-      if @_search_results?
-        @_search_results.textContent = "Suchergebnis für: " + input_text
-        form.appendChild @_search_results
-      else
+      options_input = document.getElementsByName("search_option")
+
+      @_search_opt_event = options_input[0].checked
+      @_search_opt_place = options_input[1].checked
+      @_search_opt_person = options_input[2].checked
+      @_search_opt_jear = options_input[3].checked
+
+      if !@_search_results?
         @_search_results = document.createElement "div"
-        @_search_results.className = "search-results"
-        @_search_results.textContent = "Suchergebnis für: " + input_text
-        form.appendChild @_search_results
+        @_search_results.className = "search-results"       
+
+      @_search_results.textContent = "Suchergebnis für: " + @_input_text +
+      " \n" + @_search_opt_event + " \n" + @_search_opt_place +
+      " \n" + @_search_opt_person + " \n" + @_search_opt_jear
+      form.appendChild @_search_results
 
     @_container.appendChild box
 
