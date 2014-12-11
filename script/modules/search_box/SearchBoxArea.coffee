@@ -20,8 +20,7 @@ class HG.SearchBoxArea
     @_search_opt_event = true
     @_search_opt_place = false
     @_search_opt_person = false
-    @_search_opt_jear = false
-
+    @_search_opt_year = false
     @_input_text = null
 
     @_hgInstance.onTopAreaSlide @, (t) =>
@@ -100,7 +99,7 @@ class HG.SearchBoxArea
     selection.innerHTML = '<input type="checkbox" name="search_option" value="Ereignisse" checked/>Ereignisse
     					   <input type="checkbox" name="search_option" value="Orte"/>Orte
     					   <input type="checkbox" name="search_option" value="Personen"/>Personen
-                 <input type="checkbox" name="search_option" value="Jahr"/>Jahr';
+                 		   <input type="checkbox" name="search_option" value="Jahr"/>Jahr';
 
     # Button ======================================================================
     button = document.createElement "input"
@@ -110,6 +109,17 @@ class HG.SearchBoxArea
     
     @_container.appendChild button
 
+    # Results =====================================================================
+
+    # event_icon = document.createElement "i"
+    # event_icon.className = "fa fa-map-marker" #fa-thumb-tack
+    # place_icon = document.createElement "i"
+    # place_icon.className = "fa fa-home"
+    # person_icon = document.createElement "i"
+    # person_icon.className = "fa fa-user"
+    # year_icon = document.createElement "i"
+    # year_icon.className = "fa fa-calendar"
+
     $(button).click () ->
       @_input_text = document.getElementById("search-input").value
 
@@ -117,26 +127,25 @@ class HG.SearchBoxArea
       @_search_opt_event = options_input[0].checked
       @_search_opt_place = options_input[1].checked
       @_search_opt_person = options_input[2].checked
-      @_search_opt_jear = options_input[3].checked
+      @_search_opt_year = options_input[3].checked
 
       if !@_search_results?
         @_search_results = document.createElement "div"
         @_search_results.className = "search-results"       
 
-      @_search_results.innerHTML  = '<span class="search-result"> Suchergebnis für: '+ 
-        @_input_text + '<br><span class="result" data-type="person">Ich bin Heinrich</span><br>
-        <span class="result" data-type="person">Ich bin Rudolf</span><br>
-        <span class="result" data-type="person">Ich bin Wilhelm</span><br>
-        <span class="result" data-type="place">Ich bin Berlin</span><br>
-        <span class="result" data-type="place">Ich bin Weimar</span><br>
-        <span class="result" data-type="event">Ich bin Unternehmen Wintergewitter</span><br>
-        <span class="result" data-type="event">Ich bin Operation Feldmaus</span><br>
-        <span class="result" data-type="event">Ich bin Unternehmen Barbarossa</span><br>
-        <span class="result" data-type="event">Und die Search Optionen sind: '+
+      @_search_results.innerHTML  = '<span> Suchergebnis für: ' + @_input_text + '</span>' +
+        '<br><i class="fa fa-user"/><span data-type="person"> Ich bin Heinrich</span>
+        <br><i class="fa fa-user"/><span data-type="person"> Ich bin Rudolf</span>
+        <br><i class="fa fa-calendar"/><span data-type="year"> Ich bin 1939</span>
+        <br><i class="fa fa-home"/><span data-type="place"> Ich bin Berlin</span>
+        <br><i class="fa fa-home"/><span data-type="place"> Ich bin Weimar</span>
+        <br><i class="fa fa-map-marker"/><span data-type="event"> Ich bin Unternehmen Barbarossa</span>
+        <hr><span data-type="event">Und die Suchoptionen sind: '+
         @_search_opt_event + ' ' + @_search_opt_place + ' ' + @_search_opt_person + ' ' +
-        @_search_opt_jear + '</span>';
+        @_search_opt_year + '</span>';
 
       form.appendChild @_search_results
+
     @_container.appendChild box
 
     return box
