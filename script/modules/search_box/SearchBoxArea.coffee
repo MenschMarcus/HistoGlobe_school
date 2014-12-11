@@ -72,9 +72,27 @@ class HG.SearchBoxArea
     input.id = "search-input"
     form.appendChild input
 
+    $(input).click () ->
+      box.appendChild options
+      options.appendChild selection
+
+      console.log @_hgInstance
+
+      #if @_hgInstance.hiventController
+        #console.log @_hgInstance.hiventController
+        #@_hiventController=@_hgInstance.hiventController
+        #hivents=@_hiventController._hiventHandles
+        #console.log hivents
+        #for hivent in hivents
+        #  console.log hivent.id
+
+#    $(input).release () ->
+#      rm_opt = document.getElementById("options");
+#      elem.parentNode.removeChild(rm_opt);
+
     # Options =====================================================================
     options = document.createElement "div"
-    options.className = "options"
+    options.id = "options"
     options.innerHTML = '<span class="msg">Was möchtest du finden?</span>';
 
     selection = document.createElement "form"
@@ -83,10 +101,6 @@ class HG.SearchBoxArea
     					   <input type="checkbox" name="search_option" value="Orte"/>Orte
     					   <input type="checkbox" name="search_option" value="Personen"/>Personen
                  <input type="checkbox" name="search_option" value="Jahr"/>Jahr';
-
-    $(input).click () ->
-      box.appendChild options
-      options.appendChild selection
 
     # Button ======================================================================
     button = document.createElement "input"

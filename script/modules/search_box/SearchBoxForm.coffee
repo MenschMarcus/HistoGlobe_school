@@ -19,13 +19,6 @@ class HG.SearchBoxForm
 
     hgInstance.search_form = @
 
-    if hgInstance.hiventController
-      @_hiventController=hgInstance.hiventController
-      hivents=@_hiventController._hiventHandles
-      console.log @_hiventController
-      for hivent in hivents
-        console.log hivent.id
-
     if hgInstance.search_box_area?
       search_form =
         callback: ()-> console.log "Not implmented"
