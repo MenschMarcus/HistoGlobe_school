@@ -14,7 +14,7 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
     @_map =display._map
 
     @_marker= L.polygon(@hivent.region)
-    
+    @_marker.options.stroke=false
     @_marker.addTo(@_map)
 
     @_marker.myHiventMarkerRegion = @
@@ -25,7 +25,7 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
   	#Event Listeners
     @_marker.on "mouseover", @_onMouseOver
     #@_marker.on "mouseout", @_onMouseOut
-    #@_marker.on "click", @_onClick
+    @_marker.on "click", @_onClick
     #@_map.on "zoomend", @_updatePosition
     #@_map.on "dragend", @_updatePosition
     #@_map.on "viewreset", @_updatePosition
