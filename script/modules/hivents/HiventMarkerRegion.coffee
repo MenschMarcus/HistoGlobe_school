@@ -3,7 +3,6 @@ window.HG ?= {}
 
 class HG.HiventMarkerRegion extends HG.HiventMarker
 	constructor: (hiventHandle, display, map) ->
-    VISIBLE_REGIONS.push @
 
     #Call HiventMarker Constructor
     HG.HiventMarker.call @, hiventHandle, map.getPanes()["popupPane"]
@@ -12,9 +11,11 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
 
     @_locationName = @hivent.locactionName
 
-    @_map = map
+    @_map =display._map
 
-    @_marker= L.polygon(@hivent.region).addTo(map)
+    @_marker= L.polygon(@hivent.region)
+    
+    @_marker.addTo(@_map)
 
     @_marker.myHiventMarkerRegion = @
 
@@ -22,7 +23,7 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
     @_updatePosition()
 
   	#Event Listeners
-    #@_marker.on "mouseover", @_onMouseOver
+    @_marker.on "mouseover", @_onMouseOver
     #@_marker.on "mouseout", @_onMouseOut
     #@_marker.on "click", @_onClick
     #@_map.on "zoomend", @_updatePosition
@@ -81,6 +82,8 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
     @getHiventHandle().mark @, @_position
     @getHiventHandle().linkAll @_position
 
+    popup = L.popup().setLatLng([@hivent.lat[0], @hivent.long[0]]).setContent("I am a standalone popup.").openOn(@_map)
+
   # ============================================================================
   _onMouseOut: (e) =>
     @getHiventHandle().unMark @, @_position
@@ -99,7 +102,8 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
   _destroy: =>
 
     @notifyAll "onMarkerDestruction"
-
+    console.log "boooooom"
+    @_map.removeLayer @_marker
     @getHiventHandle().inActiveAll()
     @_marker.off "mouseover", @_onMouseOver
     @_marker.off "mouseout", @_onMouseOut
@@ -123,4 +127,3 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
     return
 
 
-	VISIBLE_REGIONS=[]

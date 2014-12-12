@@ -235,14 +235,10 @@ class HG.HiventBuilder
 
       if region.length > 1
         regionPolygon = JSON.parse region
-        console.log "New Polygon"
-        console.log regionPolygon
         for index in regionPolygon
           tmp=index[0]
           index[0]=index[1]
           index[1]=tmp
-        console.log "Swapped" 
-        console.log  regionPolygon
       hivent = new HG.Hivent(
         id,
         name,
