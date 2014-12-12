@@ -13,7 +13,7 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
 
     @_map =display._map
 
-    @_marker= L.polygon(@hivent.region)
+    @_marker= L.polygon @hivent.region
     @_marker.options.stroke=false
     @_marker.addTo(@_map)
 
@@ -82,8 +82,7 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
     @getHiventHandle().mark @, @_position
     @getHiventHandle().linkAll @_position
 
-    popup = L.popup().setLatLng([@hivent.lat[0], @hivent.long[0]]).setContent("I am a standalone popup.").openOn(@_map)
-
+    
   # ============================================================================
   _onMouseOut: (e) =>
     @getHiventHandle().unMark @, @_position
