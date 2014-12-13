@@ -12,7 +12,7 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
     @_locationName = @hivent.locactionName
 
     @_map =display._map
-
+    @_display=display
     @_marker= L.polygon @hivent.region
     @_marker.options.stroke=false
     @_marker.addTo(@_map)
@@ -21,18 +21,20 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
 
     @_position = new L.Point 0,0
     @_updatePosition()
-
+    console.log "Region position"
+    console.log @_position
   	#Event Listeners
     @_marker.on "mouseover", @_onMouseOver
-    #@_marker.on "mouseout", @_onMouseOut
+    @_marker.on "mouseout", @_onMouseOut
     @_marker.on "click", @_onClick
-    #@_map.on "zoomend", @_updatePosition
-    #@_map.on "dragend", @_updatePosition
-    #@_map.on "viewreset", @_updatePosition
+    @_map.on "zoomend", @_updatePosition
+    @_map.on "dragend", @_updatePosition
+    @_map.on "viewreset", @_updatePosition
 
     @getHiventHandle().onFocus(@, (mousePos) =>
       if @_display.isRunning()
         @_display.focus @getHiventHandle().getHivent()
+      @_marker.options.color="#2300ff"
     )
 
     @getHiventHandle().onActive(@, (mousePos) =>
@@ -72,7 +74,8 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
     #console.log  $(@_map._container).offset()
     #console.log @_map.layerPointToContainerPoint(new L.Point @_position.x, @_position.y )
     pos = @_map.layerPointToContainerPoint(new L.Point @_position.x, @_position.y )
-
+    console.log pos
+    return pos
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
@@ -94,7 +97,8 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
 
   # ============================================================================
   _updatePosition: =>
-    #@_position = @_map.latLngToLayerPoint @_marker.getLatLng()
+
+    @_position = @_map.latLngToLayerPoint @getPosition()
     @notifyAll "onPositionChanged", @getDisplayPosition()
 
   # ============================================================================
