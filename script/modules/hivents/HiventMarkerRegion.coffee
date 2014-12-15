@@ -18,11 +18,9 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
     @_marker.addTo(@_map)
 
     @_marker.myHiventMarkerRegion = @
-
-    @_position = new L.Point 0,0
+    @_position = new L.Point @hivent.long[0],@hivent.lat[0]    
     @_updatePosition()
-    console.log "Region position"
-    console.log @_position
+
   	#Event Listeners
     @_marker.on "mouseover", @_onMouseOver
     @_marker.on "mouseout", @_onMouseOut
@@ -34,7 +32,6 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
     @getHiventHandle().onFocus(@, (mousePos) =>
       if @_display.isRunning()
         @_display.focus @getHiventHandle().getHivent()
-      @_marker.options.color="#2300ff"
     )
 
     @getHiventHandle().onActive(@, (mousePos) =>
@@ -54,7 +51,9 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
     )
 
     @getHiventHandle().onAgeChanged @, (age) =>
-      #@_marker.setOpacity age
+      opacityRegulator=0.5
+      regionOpacity=age*opacityRegulator
+      @_marker.setStyle({fillOpacity:regionOpacity})
 
     @getHiventHandle().onDestruction @, @_destroy
     @getHiventHandle().onVisibleFuture @, @_destroy
@@ -71,23 +70,21 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
 
   # ============================================================================
   getDisplayPosition: ->
-    #console.log  $(@_map._container).offset()
-    #console.log @_map.layerPointToContainerPoint(new L.Point @_position.x, @_position.y )
-    pos = @_map.layerPointToContainerPoint(new L.Point @_position.x, @_position.y )
-    console.log pos
-    return pos
+    @pos = @_map.layerPointToContainerPoint(new L.Point @_position.x, @_position.y )
+    return @pos
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
 
   # ============================================================================
   _onMouseOver: (e) =>
+    @_marker.setStyle({fillColor:"#ff00ff"})
     @getHiventHandle().mark @, @_position
     @getHiventHandle().linkAll @_position
-
     
   # ============================================================================
   _onMouseOut: (e) =>
+    @_marker.setStyle({fillColor:"#0033ff"})
     @getHiventHandle().unMark @, @_position
     @getHiventHandle().unLinkAll @_position
 
@@ -97,15 +94,15 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
 
   # ============================================================================
   _updatePosition: =>
-
-    @_position = @_map.latLngToLayerPoint @getPosition()
-    @notifyAll "onPositionChanged", @getDisplayPosition()
+    helperMarker=L.marker([@hivent.long[0],@hivent.lat[0]])
+    @_position = @_map.latLngToLayerPoint helperMarker.getLatLng()
+    displayPosition=@getDisplayPosition()
+    @notifyAll "onPositionChanged", displayPosition
 
   # ============================================================================
   _destroy: =>
 
     @notifyAll "onMarkerDestruction"
-    console.log "boooooom"
     @_map.removeLayer @_marker
     @getHiventHandle().inActiveAll()
     @_marker.off "mouseover", @_onMouseOver
