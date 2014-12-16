@@ -2,9 +2,9 @@
   "HistoGlobe" :
   {
     "container": "histoglobe",
-    "minYear": 1990,
-    "maxYear": 2014,
-    "nowYear": 1991,
+    "minYear": 1850,
+    "maxYear": 2000,
+    "nowYear": 1925,
     "minZoom": 0,
     "maxZoom": 5,
     "startZoom": 5,
@@ -13,7 +13,34 @@
     "sidebarEnabled": false,
     "nowMarker" : {
       "speedometer" : false
-    }
+    },
+    "epochs" : [
+      {
+        "startDate": "18.1.1871",
+        "endDate": "27.7.1914",
+        "name": "Imperialismus"
+      },
+      {
+        "startDate": "28.7.1914",
+        "endDate": "28.6.1919",
+        "name": "1. Wk"
+      },
+      {
+        "startDate": "29.6.1919",
+        "endDate": "31.8.1939",
+        "name": "Zwischenkriegsjahre"
+      },
+      {
+        "startDate": "1.9.1939",
+        "endDate": "8.5.1945",
+        "name": "2. Wk"
+      },
+      {
+        "startDate": "9.5.1945",
+        "endDate": "26.12.1991",
+        "name": "Bipolare Welt"
+      }
+    ]
   },
 
   "BrowserDetector": {},
@@ -32,14 +59,6 @@
         "anchorY" : "top",
         "offsetX": "30",
         "offsetY": "20",
-        "width": "70%"
-      },
-      {
-        "image" : "config/common/help/help03.png",
-        "anchorX" : "center",
-        "anchorY" : "bottom",
-        "offsetX": "0",
-        "offsetY": "150",
         "width": "70%"
       },
       {
