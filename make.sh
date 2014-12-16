@@ -5,9 +5,10 @@
 # PROJECT=fertility
 # PROJECT=scandinavia
 # PROJECT=sdw
-PROJECT=teaser1_countries
+# PROJECT=teaser1_countries
 # PROJECT=teaser2_hivents
 # PROJECT=teaser3_sidebar
+PROJECT=school
 
 if [ ! -d "build" ]; then
     mkdir build

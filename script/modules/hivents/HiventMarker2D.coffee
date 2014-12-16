@@ -12,8 +12,10 @@ class HG.HiventMarker2D extends HG.HiventMarker
   # ============================================================================
   constructor: (hiventHandle, lat, long, display, map, markerGroup, locationName) ->
 
+    #Call Hivent Marker Constructor
     HG.HiventMarker.call @, hiventHandle, map.getPanes()["popupPane"]
 
+    #List of Markers
     VISIBLE_MARKERS_2D.push @
 
     @locationName = locationName
@@ -40,6 +42,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
     @_position = new L.Point 0,0
     @_updatePosition()
 
+    #Event Listeners
     @_marker.on "mouseover", @_onMouseOver
     @_marker.on "mouseout", @_onMouseOut
     @_marker.on "click", @_onClick

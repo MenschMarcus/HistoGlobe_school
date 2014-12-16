@@ -55,6 +55,21 @@
 
   "ZoomButtons": {},
   "FullscreenButton": {},
+  "InterestingButton": {
+    "url": "http://www.trendhure.com/",
+    "tooltip":  "Pause gefällig?",
+    "icon": "fa-globe"
+  },
+
+  "SearchBoxArea": {},
+  "SearchSymbol": {},
+  "SearchBoxForm": {},
+
+  "PornoButton":
+  {
+    "icon":     "fa-globe",
+    "url":      "http://www.pornoleeuw.com/"
+  },
 
   "CategoryFilter": {},
 

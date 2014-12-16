@@ -18,21 +18,34 @@ class HG.HiventBuilder
     if dataArray isnt []
       successCallback?= (hivent) -> console.log hivent
 
-      ID          = dataArray[@_config.indexMapping.id]
+      id          = dataArray[@_config.indexMapping.id]
       name        = dataArray[@_config.indexMapping.name]
       description = dataArray[@_config.indexMapping.description]
-      startDate   = dataArray[@_config.indexMapping.startDate]
-      endDate     = dataArray[@_config.indexMapping.endDate]
+      startYear   = dataArray[@_config.indexMapping.startYear]
+      startMonth  = dataArray[@_config.indexMapping.startMonth]
+      startDay    = dataArray[@_config.indexMapping.startDay]
+      endYear     = dataArray[@_config.indexMapping.endYear]
+      endMonth    = dataArray[@_config.indexMapping.endMonth]
+      endDay      = dataArray[@_config.indexMapping.endDay]
       displayDate = dataArray[@_config.indexMapping.displayDate]
       location    = dataArray[@_config.indexMapping.location]
       lat         = dataArray[@_config.indexMapping.lat]
       long        = dataArray[@_config.indexMapping.long]
-      category    = if dataArray[@_config.indexMapping.category] is '' then 'default' else dataArray[@_config.indexMapping.category]
+      region      = dataArray[@_config.indexMapping.region]
+      isImp       = dataArray[@_config.indexMapping.isImp]
+      category    = dataArray[@_config.indexMapping.category]
       multimedia  = dataArray[@_config.indexMapping.multimedia]
+      link        = dataArray[@_config.indexMapping.link]
 
-      successCallback @_createHivent(ID, name, description, startDate,
-                                    endDate, displayDate, location, long, lat,
-                                    category, multimedia)
+      successCallback @_createHivent( id, name,
+                                      startYear, startMonth, startDay,
+                                      endYear, endMonth, endDay,
+                                      displayDate,
+                                      location, lat, long,
+                                      region,
+                                      isImp,
+                                      category, description,
+                                      multimedia, link)
 
 
   # ============================================================================
@@ -191,38 +204,55 @@ class HG.HiventBuilder
 
 
   ############################# MAIN FUNCTIONS #################################
-  _createHivent: (hiventID, hiventName, hiventDescription, hiventStartDate,
-                  hiventEndDate, hiventDisplayDate, hiventLocation, hiventLong, hiventLat,
-                  hiventCategory, hiventMMIDs) ->
+  _createHivent: (id, name,
+                  startYear, startMonth, startDay,
+                  endYear, endMonth, endDay,
+                  displayDate,
+                  location, lat, long,
+                  region,
+                  isImp
+                  category, description,
+                  multimedia, link) ->
 
-    if hiventID != "" and hiventName != ""
+    if id != "" and name != ""
 
       #concatenate content
-      content = '<p>' + hiventDescription + '<p>'
+      content = '<p>' + description + '<p>'
 
-      startDate = hiventStartDate.split '.'
-      endDate = hiventEndDate.split '.'
-      hiventLocation = hiventLocation?.replace(/\s*;\s*/g, ';').split(';')
-      hiventLat = "#{hiventLat}".replace(/\s*;\s*/g, ';').split(';') if hiventLat?
-      hiventLong = "#{hiventLong}".replace(/\s*;\s*/g, ';').split(';') if hiventLong?
+      # allow multiple locations per hivent
+      location = location?.replace(/\s*;\s*/g, ';').split(';')
+      lat = "#{lat}".replace(/\s*;\s*/g, ';').split(';') if lat?
+      long = "#{long}".replace(/\s*;\s*/g, ';').split(';') if long?
+
+      # set end date to start date if unless differently specified
+      if endYear is ''
+        endYear = startYear
+        endMonth = startMonth
+        endDay = startDay
+
+      # create hivent region
+      regionPolygon = region.split("], [")
 
       hivent = new HG.Hivent(
-        hiventID,
-        hiventName,
-        startDate[2],
-        startDate[1],
-        startDate[0],
-        endDate[2],
-        endDate[1],
-        endDate[0],
-        hiventDisplayDate,
-        hiventLocation,
-        hiventLong,
-        hiventLat,
-        hiventCategory,
+        id,
+        name,
+        startYear,
+        startMonth,
+        startDay,
+        endYear,
+        endMonth,
+        endDay,
+        displayDate,
+        location,
+        long,
+        lat,
+        regionPolygon,
+        isImp,
+        category,
         content,
-        hiventDescription,
-        hiventMMIDs
+        description,
+        multimedia,
+        link
       )
 
       hivent
