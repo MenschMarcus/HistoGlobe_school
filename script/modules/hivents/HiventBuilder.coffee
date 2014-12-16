@@ -235,12 +235,18 @@ class HG.HiventBuilder
 
       if region.length > 1
         regionPolygon = JSON.parse region
+<<<<<<< HEAD
 
+=======
+>>>>>>> fded240fd428b2f66bf1510fae9a9f190d18b151
         for index in regionPolygon
           tmp=index[0]
           index[0]=index[1]
           index[1]=tmp
+<<<<<<< HEAD
 
+=======
+>>>>>>> fded240fd428b2f66bf1510fae9a9f190d18b151
       hivent = new HG.Hivent(
         id,
         name,
