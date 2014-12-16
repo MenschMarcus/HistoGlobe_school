@@ -172,14 +172,33 @@ class HG.HistoGlobe
     @addModule @map
 
   # ============================================================================
+  stringToDate: (string) ->
+    res = (string + "").split(".")
+    i = res.length
+    d = new Date(1900, 0, 1)
+    if i > 0
+        d.setFullYear(res[i - 1])
+    else
+        alert "Error: were not able to convert string to date."
+    if i > 1
+        d.setMonth(res[i - 2] - 1)
+    if i > 2
+        d.setDate(res[i - 3])
+    d
+
+
   _createTimeline: ->
     @_timeline_area = @_createElement @_config.container, "div", "timeline-area"
+    for epoch in @_config.epochs
+      epoch.startDate = @stringToDate(epoch.startDate)
+      epoch.endDate = @stringToDate(epoch.endDate)
 
     @timeline = new HG.Timeline
       parentDiv:    @_timeline_area
       nowYear:      @_config.nowYear
       minYear:      @_config.minYear
       maxYear:      @_config.maxYear
+      epochs:       @_config.epochs
       #speedometer:  @_config.nowMarker.speedometer
 
     @addModule @timeline

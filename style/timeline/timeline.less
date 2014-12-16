@@ -3,55 +3,40 @@
   position:   absolute;
   left:       0px;
   bottom:     0px;
-
   height:     @timeline_height;
   min-width:  100%;
   overflow:   hidden;
-
   cursor:     -webkit-grab;
   cursor:     -moz-grab;
-
   font-family: @secondary_font_face;
 
-  //border-top: solid @border_width @widget_title_background_color;//Linie über dem div
 
   #tl_wrapper {
     background-color: @timeline_background_color;
     .linear-gradient-top(#878787, #878787, 0%, #636363, 100%);
-    // background-image: -webkit-linear-gradient(top,
-    //   @timeline_background_color @timeline_background_row_position_1,
-    //   @timeline_background_row_color_1 @timeline_background_row_position_1,
-    //   @timeline_background_row_color_1 (@timeline_background_row_position_1 + @timeline_background_row_height),
-    //   @timeline_background_color (@timeline_background_row_position_1 + @timeline_background_row_height),
-    //   @timeline_background_color @timeline_background_row_position_2,
-    //   @timeline_background_row_color_2 @timeline_background_row_position_2,
-    //   @timeline_background_row_color_2 (@timeline_background_row_position_2 + @timeline_background_row_height),
-    //   @timeline_background_color (@timeline_background_row_position_2 + @timeline_background_row_height));
     background-repeat: repeat;
 
     #tl_slide {
       height: @timeline_height - @border_width;
 
       .tl_datemarker {
-        font-size: 100px;
-        font-size: 6vw;
+        font-size: 40px;
+        //font-size: 6vw;
         line-height: 100px;
         color: @timeline_font_color;
         box-shadow: -3px 0px 3px rgba(0,0,0,0.17);
 
         position: absolute;
         left: 0;
-        top: 30px;
+        top: 3px;
         padding: 0px 0px 0px 5px;
         z-index: 1;
         overflow: hidden;
-
-        //border-left: solid @timeline_borders_width @timeline_font_color; //Linie vor den Jahreszahlen
       }
 
       .tl_epoch{
-        font-size: 25px;
-        font-size: 1.5vw;
+        font-size: 17px;
+        //font-size: 1vw;
         line-height: 30px;
         color: @timeline_font_color;
         box-shadow: -3px 0px 3px rgba(0,0,0,0.17);
@@ -59,26 +44,28 @@
 
         position: absolute;
         left: 0;
-        top: 0px;
+        bottom: 48px;
         padding: 0px 0px 0px 5px;
         z-index: 1;
         overflow: hidden;
+      }
 
-        //border-left: solid @timeline_borders_width @timeline_font_color; //Linie vor den Epochen
+      .tl_epoch_highlighted{
+        .tl_epoch;
+        background-color: @timeline_epoch_highlighted_color;
+      }
 
-
+      .tl_epoch_highlighted{
+        .tl_epoch;
+        background-color: @timeline_epoch_highlighted_color;
       }
 
       .tl_timebar {
         position:         absolute;
         z-index: -99;
         height:           @timeline_height;
-
-        //border-left:      solid @timeline_borders_width @timebar_on_timeline_border_color; //Linie
-        //border-right:     solid @timeline_borders_width @timebar_on_timeline_border_color; //Linie
         background-color: @timebar_on_timeline_color;
       }
     }
   }
 }
-

@@ -15,23 +15,14 @@ class HG.Timeline
     @addCallback "onIntervalChanged"
     @addCallback "onZoom"
 
-    epoch1=
-      startDate:@yearToDate 1995
-      endDate: @yearToDate 2000
-      name: "Wende!"
-    epoch2=
-      startDate:@yearToDate 2003
-      endDate: @yearToDate 2006
-      name: "Wende! 3"
-
     defaultConfig =
       parentDiv: undefined
       zoom: 1
-      nowYear: 1900
-      minYear: 1800
-      maxYear: 2020
+      minYear: 1850
+      maxYear: 2000
+      nowYear: 1925
       speedometer: true
-      epochs: [epoch1, epoch2]
+      epochs: []
 
     @_config = $.extend {}, defaultConfig, config
 
@@ -43,7 +34,7 @@ class HG.Timeline
       #nowMarker:    @addUIElement "now_marker", "now_marker", document.getElementById("histoglobe")
       timeBars:     []
       dateMarkers:  new HG.DoublyLinkedList()
-      epochs:  new HG.DoublyLinkedList()
+      #epochs:  new Array()
 
     #   ------------------------------------------------------------------------
     @_now =
@@ -303,19 +294,27 @@ class HG.Timeline
 
   #   --------------------------------------------------------------------------
   _updateEpochs:()->
-    # Sind Epochen dargestellt?
-    if @_uiElements.epochs.getLength() == 0
-      for epoch in @_config.epochs
-        @_div = document.createElement("div")
-        @_div.id = "epoch" + epoch.name
-        @_div.className = "tl_epoch"
-        @_div.innerHTML = epoch.name
-        @_div.style.left = @dateToPosition(epoch.startDate) + "px"
-        @_div.style.display = "none"
-        @_div.style.width = (@dateToPosition(epoch.endDate) - @dateToPosition(epoch.startDate)) + "px"
-        @getCanvas().appendChild @_div
-        $(@_div).fadeIn(200)
-        @_uiElements.epochs.addLast(@_div)
+    for epoch in @_config.epochs
+      if !epoch.div?
+        #Epoche wurde noch nicht dargestellt, wird hier erzeugt
+        epoch.div = document.createElement("div")
+        epoch.div.id = "epoch" + epoch.name
+        epoch.div.className = "tl_epoch"
+        epoch.div.innerHTML = epoch.name
+        epoch.div.style.left = @dateToPosition(epoch.startDate) + "px"
+        epoch.div.style.width = (@dateToPosition(epoch.endDate) - @dateToPosition(epoch.startDate)) + "px"
+        epoch.div.style.display = "none"
+        @getCanvas().appendChild epoch.div
+        $(epoch.div).fadeIn(200)
+      else
+        #Epoche bereits erstellt, Position wird nur aktualisiert
+        epoch.div.style.left = @dateToPosition(epoch.startDate) + "px"
+        epoch.div.style.width = (@dateToPosition(epoch.endDate) - @dateToPosition(epoch.startDate)) + "px"
+        #Epoche highlighted
+        if @dateToPosition(epoch.startDate) < @dateToPosition(@_now.date) and @dateToPosition(@_now.date) < @dateToPosition(epoch.endDate)
+          epoch.div.className = "tl_epoch_highlighted"
+        else
+          epoch.div.className = "tl_epoch"
 
   _updateDateMarkers: (zoomed=true) ->
     @_updateEpochs()
