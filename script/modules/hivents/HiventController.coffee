@@ -29,6 +29,7 @@ class HG.HiventController
 
     defaultConfig =
       dsvConfigs: undefined
+      numHiventsInView: 10
 
     @_config = $.extend {}, defaultConfig, config
 
@@ -217,7 +218,7 @@ class HG.HiventController
                       @_hiventHandles.push handle
                       @notifyAll "onHiventAdded", handle
                       @_handlesNeedSorting = true
-                      @_filterHivents()
+              @_filterHivents() # if in doubt, indent
 
         buildHivent dsvConfig
 
@@ -278,10 +279,9 @@ class HG.HiventController
                hivent.long >= @_currentSpaceFilter.min.long and
                hivent.lat <= @_currentSpaceFilter.max.lat and
                hivent.long <= @_currentSpaceFilter.max.long
-
           state = 0
 
-      handle.setState state
+      handle._tmp_state = state
 
       if state isnt 0
         if @_currentTimeFilter?
@@ -291,5 +291,47 @@ class HG.HiventController
           new_age = Math.min(1, ((hivent.endDate.getTime() - @_currentTimeFilter.start.getTime()) / (0.5*(@_currentTimeFilter.now.getTime() - @_currentTimeFilter.start.getTime())))-1)
           if new_age isnt handle._age
             handle.setAge new_age
+
+    # importance filter: assign each hivent an importance score
+    impScores = []
+    for handle, i in @_hiventHandles
+
+      # only for active hivents
+      if handle._tmp_state > 0
+        hivent = handle.getHivent()
+
+        # 1) distance to now date
+        nowTime = @_currentTimeFilter.now.getTime()
+        hiventTime = (hivent.endDate.getTime() + hivent.startDate.getTime()) / 2
+        nowDist = Math.abs(hiventTime - nowTime)
+
+        # 2) importance category
+        imp = hivent.isImp + 1
+
+        # set importance and add in array
+        impScore = nowDist * (1/imp)/2
+
+        impScores.push
+          handle: handle
+          score:  impScore
+
+    # sort hivents by score
+    impScores.sort (a,b) =>
+      return a.score - b.score
+
+    # set hivents with lowest X imp scores to visible, the other to invisible
+    for score, i in impScores
+      # get current visible state
+      state = score.handle._tmp_state
+
+      # if hivent is not one of the most X important ones, set it to invisible
+      if i >= @_config.numHiventsInView
+        state = 0
+      # else: take the given state
+
+      # finally set the visible state and tell everyone
+      score.handle.setState state
+
+
 
     @_handlesNeedSorting = false

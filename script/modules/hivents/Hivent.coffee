@@ -11,7 +11,8 @@ class HG.Hivent
                 endYear, endMonth, endDay,
                 displayDate,
                 locationName,
-                long, lat, region
+                long, lat, region,
+                isImp,
                 category, content,
                 description, multimedia, link)  ->
 
@@ -30,6 +31,7 @@ class HG.Hivent
     @long = long
     @lat = lat
     @region = region
+    @isImp = isImp
     @category = category
     @content = content
     @description = description

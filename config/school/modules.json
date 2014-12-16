@@ -15,7 +15,34 @@
     {
       "zoom" : 3,
       "speedometer" : false
-    }
+    },
+    "epochs" : [
+      {
+        "startDate": "18.1.1871",
+        "endDate": "27.7.1914",
+        "name": "Imperialismus"
+      },
+      {
+        "startDate": "28.7.1914",
+        "endDate": "28.6.1919",
+        "name": "1. Wk"
+      },
+      {
+        "startDate": "29.6.1919",
+        "endDate": "31.8.1939",
+        "name": "Zwischenkriegsjahre"
+      },
+      {
+        "startDate": "1.9.1939",
+        "endDate": "8.5.1945",
+        "name": "2. Wk"
+      },
+      {
+        "startDate": "9.5.1945",
+        "endDate": "26.12.1991",
+        "name": "Bipolare Welt"
+      }
+    ]
   },
 
   "BrowserDetector": {},
@@ -66,13 +93,15 @@
           "lat"         : 3,
           "long"        : 4,
           "region"      : 5,
-          "category"    : 13,
-          "description" : 14,
-          "multimedia"  : 15,
-          "link"        : 16
+          "isImp"       : 13,
+          "category"    : 14,
+          "description" : 15,
+          "multimedia"  : 16,
+          "link"        : 17
         }
       }
-    ]
+    ],
+    "numHiventsInView" : 9
   },
 
   "CategoryIconMapping" : {

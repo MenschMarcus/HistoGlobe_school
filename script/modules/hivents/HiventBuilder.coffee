@@ -32,6 +32,7 @@ class HG.HiventBuilder
       lat         = dataArray[@_config.indexMapping.lat]
       long        = dataArray[@_config.indexMapping.long]
       region      = dataArray[@_config.indexMapping.region]
+      isImp       = dataArray[@_config.indexMapping.isImp]
       category    = dataArray[@_config.indexMapping.category]
       multimedia  = dataArray[@_config.indexMapping.multimedia]
       link        = dataArray[@_config.indexMapping.link]
@@ -42,6 +43,7 @@ class HG.HiventBuilder
                                       displayDate,
                                       location, lat, long,
                                       region,
+                                      isImp,
                                       category, description,
                                       multimedia, link)
 
@@ -208,6 +210,7 @@ class HG.HiventBuilder
                   displayDate,
                   location, lat, long,
                   region,
+                  isImp
                   category, description,
                   multimedia, link) ->
 
@@ -244,6 +247,7 @@ class HG.HiventBuilder
         long,
         lat,
         regionPolygon,
+        isImp,
         category,
         content,
         description,
