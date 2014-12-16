@@ -80,14 +80,14 @@ class HG.SearchBoxArea
     # Options =====================================================================
     options = document.createElement "div"
     options.id = "options"
-    options.innerHTML = '<span class="msg">Was möchtest du finden?</span>';
+    options.innerHTML = '<span class="msg">Was möchtest du finden?</span>'
 
     selection = document.createElement "form"
     selection.className = "selection"
     selection.innerHTML = '<input type="checkbox" name="search_option" value="Ereignisse"/>Ereignisse
     					             <input type="checkbox" name="search_option" value="Orte"/>Orte
     					             <input type="checkbox" name="search_option" value="Personen"/>Personen
-                 		       <input type="checkbox" name="search_option" value="Jahr" checked/>Jahr';
+                 		       <input type="checkbox" name="search_option" value="Jahr"/>Jahr'
 
     # Button ======================================================================
     button = document.createElement "input"
@@ -103,36 +103,42 @@ class HG.SearchBoxArea
       @_input_text = document.getElementById("search-input").value
 
       options_input = document.getElementsByName("search_option")
-      @_search_opt_event = options_input[0].checked
-      @_search_opt_place = options_input[1].checked
-      @_search_opt_person = options_input[2].checked
-      @_search_opt_year = options_input[3].checked
+      if options_input? 
+        @_search_opt_event = options_input[0].checked
+        @_search_opt_place = options_input[1].checked
+        @_search_opt_person = options_input[2].checked
+        @_search_opt_year = options_input[3].checked
+        console.log options_input
 
       if !@_search_results?
         @_search_results = document.createElement "div"
-        @_search_results.className = "search-results"   
+        @_search_results.className = "search-results"
 
       result_list = []
       if @_hgInstance.hiventController._hiventHandles
         for hivent in @_hgInstance.hiventController._hiventHandles
-          #console.log hivent._hivent
-          if @_search_opt_year
-            if hivent._hivent.startYear <= @_input_text && hivent._hivent.endYear >= @_input_text
-              #console.log @_input_text
-              result_list.push hivent._hivent.name
+          console.log hivent
+          if hivent._hivent.startYear <= @_input_text && hivent._hivent.endYear >= @_input_text
+            result_list.push hivent._hivent
+
+          for location in hivent._hivent.locationName
+          	if location == @_input_text
+              result_list.push hivent._hivent
+
+          if hivent._hivent.description.indexOf(@_input_text) > -1
+          	result_list.push hivent._hivent
+
+          if hivent._hivent.name.indexOf(@_input_text) > -1
+          	result_list.push hivent._hivent
+
       console.log result_list
 
+      search_output = ''
+      for result in result_list 
+      	search_output = search_output + '<span>' + result.name + 
+      	' ' + result.startYear + '</span></br>'
 
-      @_search_results.innerHTML  = '<span> Suchergebnis für: ' + @_input_text + '</span>' +
-        '<br><i class="fa fa-user"/><span data-type="person"> Ich bin Heinrich</span>
-        <br><i class="fa fa-user"/><span data-type="person"> Ich bin Rudolf</span>
-        <br><i class="fa fa-calendar"/><span data-type="year"> Ich bin 1939</span>
-        <br><i class="fa fa-home"/><span data-type="place"> Ich bin Berlin</span>
-        <br><i class="fa fa-home"/><span data-type="place"> Ich bin Weimar</span>
-        <br><i class="fa fa-map-marker"/><span data-type="event"> Ich bin Unternehmen Barbarossa</span>
-        <hr><span data-type="event">Und die Suchoptionen sind: '+
-        @_search_opt_event + ' ' + @_search_opt_place + ' ' + @_search_opt_person + ' ' +
-        @_search_opt_year + '</span>';
+      @_search_results.innerHTML  = search_output
 
       form.appendChild @_search_results
 
