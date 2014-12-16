@@ -17,11 +17,13 @@ class HG.SearchBoxArea
     @_container.className = "search-box-area"
     @_hgInstance._top_area.appendChild @_container
     @_search_results = null
-    @_search_opt_event = true
+    @_search_opt_event = false
     @_search_opt_place = false
     @_search_opt_person = false
     @_search_opt_year = false
     @_input_text = null
+
+
 
     @_hgInstance.onTopAreaSlide @, (t) =>
       if @_hgInstance.isInMobileMode()
@@ -71,23 +73,9 @@ class HG.SearchBoxArea
     input.id = "search-input"
     form.appendChild input
 
-    $(input).click () ->
+    $(input).click () =>
       box.appendChild options
       options.appendChild selection
-
-      console.log @_hgInstance
-
-      #if @_hgInstance.hiventController
-        #console.log @_hgInstance.hiventController
-        #@_hiventController=@_hgInstance.hiventController
-        #hivents=@_hiventController._hiventHandles
-        #console.log hivents
-        #for hivent in hivents
-        #  console.log hivent.id
-
-#    $(input).release () ->
-#      rm_opt = document.getElementById("options");
-#      elem.parentNode.removeChild(rm_opt);
 
     # Options =====================================================================
     options = document.createElement "div"
@@ -96,10 +84,10 @@ class HG.SearchBoxArea
 
     selection = document.createElement "form"
     selection.className = "selection"
-    selection.innerHTML = '<input type="checkbox" name="search_option" value="Ereignisse" checked/>Ereignisse
-    					   <input type="checkbox" name="search_option" value="Orte"/>Orte
-    					   <input type="checkbox" name="search_option" value="Personen"/>Personen
-                 		   <input type="checkbox" name="search_option" value="Jahr"/>Jahr';
+    selection.innerHTML = '<input type="checkbox" name="search_option" value="Ereignisse"/>Ereignisse
+    					             <input type="checkbox" name="search_option" value="Orte"/>Orte
+    					             <input type="checkbox" name="search_option" value="Personen"/>Personen
+                 		       <input type="checkbox" name="search_option" value="Jahr" checked/>Jahr';
 
     # Button ======================================================================
     button = document.createElement "input"
@@ -111,16 +99,7 @@ class HG.SearchBoxArea
 
     # Results =====================================================================
 
-    # event_icon = document.createElement "i"
-    # event_icon.className = "fa fa-map-marker" #fa-thumb-tack
-    # place_icon = document.createElement "i"
-    # place_icon.className = "fa fa-home"
-    # person_icon = document.createElement "i"
-    # person_icon.className = "fa fa-user"
-    # year_icon = document.createElement "i"
-    # year_icon.className = "fa fa-calendar"
-
-    $(button).click () ->
+    $(button).click () =>
       @_input_text = document.getElementById("search-input").value
 
       options_input = document.getElementsByName("search_option")
@@ -131,7 +110,18 @@ class HG.SearchBoxArea
 
       if !@_search_results?
         @_search_results = document.createElement "div"
-        @_search_results.className = "search-results"       
+        @_search_results.className = "search-results"   
+
+      result_list = []
+      if @_hgInstance.hiventController._hiventHandles
+        for hivent in @_hgInstance.hiventController._hiventHandles
+          #console.log hivent._hivent
+          if @_search_opt_year
+            if hivent._hivent.startYear <= @_input_text && hivent._hivent.endYear >= @_input_text
+              #console.log @_input_text
+              result_list.push hivent._hivent.name
+      console.log result_list
+
 
       @_search_results.innerHTML  = '<span> Suchergebnis für: ' + @_input_text + '</span>' +
         '<br><i class="fa fa-user"/><span data-type="person"> Ich bin Heinrich</span>
