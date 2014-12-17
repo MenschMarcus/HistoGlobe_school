@@ -239,6 +239,7 @@ class HG.HiventBuilder
           tmp=index[0]
           index[0]=index[1]
           index[1]=tmp
+
       hivent = new HG.Hivent(
         id,
         name,
