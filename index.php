@@ -117,7 +117,7 @@
     <script type="text/javascript" src="build/LegendWidget.js"></script>
     <script type="text/javascript" src="build/StatisticsWidget.js"></script>
     <script type="text/javascript" src="build/SearchBoxArea.js"></script>
-    <script type="text/javascript" src="build/SearchSymbol.js"></script>
+    <script type="text/javascript" src="build/Logo.js"></script>
     <script type="text/javascript" src="build/SearchBoxForm.js"></script>
     <script type="text/javascript" src="build/ControlButtonArea.js"></script>
     <script type="text/javascript" src="build/Help.js"></script>

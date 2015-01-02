@@ -33,8 +33,8 @@ class HG.SearchBoxArea
 
   # ============================================================================
 
-  addSearchSymbol: (config) ->
-    @_addSearchSymbol config
+  addLogo: (config) ->
+    @_addLogo config
 
   addSearchBox: (config) ->
     @_addSearchBox config
@@ -44,16 +44,14 @@ class HG.SearchBoxArea
   ##############################################################################
 
   # ============================================================================
+  _addLogo: () ->
 
-  _addSearchSymbol: () ->
+    logo = document.createElement "div"
+    logo.className = "logo"
+    logo.innerHTML = '<img class = "hg-logo" src = "data/png/logo-normal-farbe.png">';
+    @_container.appendChild logo
 
-    symbol = document.createElement "div"
-    symbol.className = "search-symbol"
-    symbol.innerHTML = '<img class = "search-symbol-logo" src = "data/png/logo-normal-farbe.png">';
-    
-    @_container.appendChild symbol
-
-    return symbol
+    return logo
 
   # ============================================================================
 
@@ -89,17 +87,15 @@ class HG.SearchBoxArea
     					             <input type="checkbox" name="search_option" value="Personen"/>Personen
                  		       <input type="checkbox" name="search_option" value="Jahr"/>Jahr'
 
-    # Button ======================================================================
-    button = document.createElement "input"
-    button.type = "submit" 
-    button.value = "Suche"
-    button.id = "search-button"
-    
-    @_container.appendChild button
+    # Search Icon =================================================================
+    icon = document.createElement "div"
+    icon.className = "search-icon"
+    icon.innerHTML = '<i class="fa fa-search"></i>'    
+    @_container.appendChild icon
 
     # Results =====================================================================
 
-    $(button).click () =>
+    $(input).keyup () =>
       @_input_text = document.getElementById("search-input").value
 
       options_input = document.getElementsByName("search_option")
@@ -120,16 +116,20 @@ class HG.SearchBoxArea
           console.log hivent
           if hivent._hivent.startYear <= @_input_text && hivent._hivent.endYear >= @_input_text
             result_list.push hivent._hivent
+            continue
 
           for location in hivent._hivent.locationName
           	if location == @_input_text
               result_list.push hivent._hivent
+              continue
 
           if hivent._hivent.description.indexOf(@_input_text) > -1
           	result_list.push hivent._hivent
+          	continue
 
           if hivent._hivent.name.indexOf(@_input_text) > -1
           	result_list.push hivent._hivent
+          	continue
 
       console.log result_list
 
