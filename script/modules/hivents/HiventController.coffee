@@ -301,15 +301,15 @@ class HG.HiventController
         hivent = handle.getHivent()
 
         # 1) distance to now date
-        nowTime = @_currentTimeFilter.now.getFullYear()
-        hiventTime = (hivent.endDate.getFullYear() + hivent.startDate.getFullYear()) / 2
+        nowTime = @_currentTimeFilter.now.getTime()
+        hiventTime = (hivent.endDate.getTime() + hivent.startDate.getTime()) / 2
         nowDist = Math.abs(hiventTime - nowTime)
 
         # 2) importance category
         imp = hivent.isImp + 1
 
-        # set importance
-        impScore = nowDist * imp
+        # set importance and add in array
+        impScore = nowDist * (1/imp)/2
 
         impScores.push
           handle: handle
@@ -319,7 +319,7 @@ class HG.HiventController
     impScores.sort (a,b) =>
       return a.score - b.score
 
-    # show only the hivents with the highest X imp scores
+    # set hivents with lowest X imp scores to visible, the other to invisible
     for score, i in impScores
       # get current visible state
       state = score.handle._tmp_state

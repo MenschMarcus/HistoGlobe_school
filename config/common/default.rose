@@ -98,6 +98,8 @@ $now_marker_in_radius                   = 72px
 
 $timebar_on_timeline_color              = rgba(255,255,255,0.3)
 $timebar_on_timeline_border_color       = rgba(255,255,255,0.7)
+$timeline_epoch_color        		  	= #79a4ae
+$timeline_epoch_highlighted_color	  	= #286b7a
 
 // ------------------ HIVENT OPTIONS -------------------------------------------
 $hivent_marker_2D_width               = 32px

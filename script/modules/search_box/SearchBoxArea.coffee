@@ -17,6 +17,13 @@ class HG.SearchBoxArea
     @_container.className = "search-box-area"
     @_hgInstance._top_area.appendChild @_container
     @_search_results = null
+    @_search_opt_event = false
+    @_search_opt_place = false
+    @_search_opt_person = false
+    @_search_opt_year = false
+    @_input_text = null
+
+
 
     @_hgInstance.onTopAreaSlide @, (t) =>
       if @_hgInstance.isInMobileMode()
@@ -38,76 +45,105 @@ class HG.SearchBoxArea
 
   # ============================================================================
 
-  _addSearchSymbol: (config) ->
-    defaultConfig =
-      icon: "fa-search"
-      #tooltip:  "Demnächst verfügbar"
-      callback: ()-> console.log "Not implmented"
-
-    config = $.extend {}, defaultConfig, config
+  _addSearchSymbol: () ->
 
     symbol = document.createElement "div"
     symbol.className = "search-symbol"
-    #$(symbol).tooltip {title: config.tooltip, placement: "right", container:"body"}
-
-    icon = document.createElement "i"
-    icon.className = "fa " + config.icon
-    symbol.appendChild icon
-
+    symbol.innerHTML = '<img class = "search-symbol-logo" src = "data/png/logo-normal-farbe.png">';
+    
     @_container.appendChild symbol
 
     return symbol
 
   # ============================================================================
 
-  _addSearchBox: (config) ->
-    defaultConfig =
-      callback: ()-> console.log "Not implmented"
-
-    config = $.extend {}, defaultConfig, config
+  _addSearchBox: () ->
 
     box = document.createElement "div"
     box.className = "search-box"
-    $(box).tooltip {title: config.tooltip, placement: "right", container:"body"}
 
     form = document.createElement "form"
     form.className = "search-form"
     box.appendChild form
 
+    # Input =======================================================================
     input = document.createElement "input"
-    #input.method = "get"
     input.type = "text"
     input.placeholder = "Suchbegriff eingeben"
-    #input.action = "http://www.google.com"
     input.id = "search-input"
     form.appendChild input
+
+    $(input).click () =>
+      box.appendChild options
+      options.appendChild selection
+
+    # Options =====================================================================
+    options = document.createElement "div"
+    options.id = "options"
+    options.innerHTML = '<span class="msg">Was möchtest du finden?</span>'
+
+    selection = document.createElement "form"
+    selection.className = "selection"
+    selection.innerHTML = '<input type="checkbox" name="search_option" value="Ereignisse"/>Ereignisse
+    					             <input type="checkbox" name="search_option" value="Orte"/>Orte
+    					             <input type="checkbox" name="search_option" value="Personen"/>Personen
+                 		       <input type="checkbox" name="search_option" value="Jahr"/>Jahr'
 
     # Button ======================================================================
     button = document.createElement "input"
     button.type = "submit" 
     button.value = "Suche"
-    button.className = "search-button"
+    button.id = "search-button"
     
     @_container.appendChild button
 
-    $(button).click () ->
-      input_text = document.getElementById("search-input").value
-      search_results = document.createElement "div"
-      search_results.className = "search-results"
-      # search_results.textContent = "Ich bin ein Suchergebnis."
-      # form.appendChild search_results
+    # Results =====================================================================
 
-      if @_search_results?
-        #@_search_results.textContent = "Ich bin ein anderes Suchergebnis."
-        @_search_results.textContent = "Suchergebnis für: " + input_text
-        form.appendChild @_search_results
-      else
+    $(button).click () =>
+      @_input_text = document.getElementById("search-input").value
+
+      options_input = document.getElementsByName("search_option")
+      if options_input? 
+        @_search_opt_event = options_input[0].checked
+        @_search_opt_place = options_input[1].checked
+        @_search_opt_person = options_input[2].checked
+        @_search_opt_year = options_input[3].checked
+        console.log options_input
+
+      if !@_search_results?
         @_search_results = document.createElement "div"
         @_search_results.className = "search-results"
-        #@_search_results.textContent = "Ich bin ein Suchergebnis."
-        @_search_results.textContent = "Suchergebnis für: " + input_text
-        form.appendChild @_search_results
+
+      result_list = []
+      if @_hgInstance.hiventController._hiventHandles
+        for hivent in @_hgInstance.hiventController._hiventHandles
+          console.log hivent
+          if hivent._hivent.startYear <= @_input_text && hivent._hivent.endYear >= @_input_text
+            result_list.push hivent._hivent
+
+          for location in hivent._hivent.locationName
+          	if location == @_input_text
+              result_list.push hivent._hivent
+
+          if hivent._hivent.description.indexOf(@_input_text) > -1
+          	result_list.push hivent._hivent
+
+          if hivent._hivent.name.indexOf(@_input_text) > -1
+          	result_list.push hivent._hivent
+
+      console.log result_list
+
+      search_output = ''
+      for result in result_list 
+      	search_output = search_output + '<span>' + result.name + 
+      	' ' + result.startYear + '</span></br>'
+
+      @_search_results.innerHTML  = search_output
+
+      form.appendChild @_search_results
 
     @_container.appendChild box
 
     return box
+
+    #=============================================================================
