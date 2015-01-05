@@ -8,7 +8,8 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
     HG.HiventMarker.call @, hiventHandle, map.getPanes()["popupPane"]
 
     @hivent=hiventHandle.getHivent()
-
+    @hiventHandle=hiventHandle
+    @hiventHandle.regionMarker=@
     @_locationName = @hivent.locactionName
 
     @_map =display._map
@@ -72,19 +73,28 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
   getDisplayPosition: ->
     @pos = @_map.layerPointToContainerPoint(new L.Point @_position.x, @_position.y )
     return @pos
+
+
+
+  highlight: ->
+    @_marker.setStyle({fillColor: "#ff33ff"})
+
+
+  unHiglight: ->
+    @_marker.setStyle({fillColor:"#0033ff"})
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
 
   # ============================================================================
   _onMouseOver: (e) =>
-    @_marker.setStyle({fillColor:"#ff00ff"})
+    @highlight()
     @getHiventHandle().mark @, @_position
     @getHiventHandle().linkAll @_position
     
   # ============================================================================
   _onMouseOut: (e) =>
-    @_marker.setStyle({fillColor:"#0033ff"})
+    @unHiglight()
     @getHiventHandle().unMark @, @_position
     @getHiventHandle().unLinkAll @_position
 
