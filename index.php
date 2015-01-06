@@ -74,6 +74,7 @@
     <script type="text/javascript" src="build/CSSCreator.js"></script>
     <script type="text/javascript" src="build/Mixin.js"></script>
     <script type="text/javascript" src="build/Vector.js"></script>
+    <script type="text/javascript" src="build/ABTest.js"></script>
     <script type="text/javascript" src="build/Popover.js"></script>
     <script type="text/javascript" src="build/MultimediaController.js"></script>
     <script type="text/javascript" src="build/Hivent.js"></script>
@@ -136,7 +137,7 @@
     <script type="text/javascript" src="build/HiventGalleryWidget.js"></script>
     <script type="text/javascript" src="build/HiventStory.js"></script>
     <script type="text/javascript" src="build/HiventMarkerRegion.js"></script>
-    
+
     <script type="text/javascript" src="build/HistoGlobe.js"></script>
     <script type="text/javascript" src="build/CategoryIconMapping.js"></script>
     <script type="text/javascript" src="build/Path.js"></script>

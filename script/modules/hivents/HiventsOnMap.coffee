@@ -20,6 +20,9 @@ class HG.HiventsOnMap
   hgInit: (hgInstance) ->
     hgInstance.hiventsOnMap = @
 
+    # init AB tests
+    @_ab = hgInstance.abTest.config
+
     if hgInstance.categoryIconMapping
       for category in hgInstance.categoryIconMapping.getCategories()
         icons = hgInstance.categoryIconMapping.getIcons(category)
@@ -63,6 +66,11 @@ class HG.HiventsOnMap
 
           new L.DivIcon {className: "hivent_marker_2D_stack", iconAnchor: [HGConfig.hivent_marker_2D_width.val*0.5 + 5*0.5*depth, HGConfig.hivent_marker_2D_height.val*0.5], html: html}
 
+      # example of AB Test
+      if @_ab.hiventsOnMap == "A"
+        console.log "Fall A"
+      else
+        console.log "Fall B"
 
       @_hiventController.getHivents @, (handle) =>
         @_markersLoaded = @_hiventController._hiventsLoaded
@@ -98,7 +106,7 @@ class HG.HiventsOnMap
                 index = $.inArray(region, @_hiventMarkers)
                 @_hiventMarkers.splice index, 1  if index >= 0
 
-                
+
       @_map.getPanes().overlayPane.addEventListener "mousedown", (event) =>
         @_dragStart = new HG.Vector event.clientX, event.clientY
 
@@ -110,6 +118,7 @@ class HG.HiventsOnMap
           HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()
 
       @_map.addLayer @_markerGroup
+
     else
       console.error "Unable to show hivents on Map: HiventController module not detected in HistoGlobe instance!"
 
