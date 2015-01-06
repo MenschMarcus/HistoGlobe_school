@@ -68,9 +68,9 @@ class HG.HiventsOnMap
 
       # example of AB Test
       # if @_ab.hiventsOnMap == "A"
-      #   # Fall A
+      #   console.log "case A"
       # else
-      #   # Fall B
+      #   console.log "case B"
 
       @_hiventController.getHivents @, (handle) =>
         @_markersLoaded = @_hiventController._hiventsLoaded
