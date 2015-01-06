@@ -71,9 +71,16 @@ class HG.SearchBoxArea
     input.id = "search-input"
     form.appendChild input
 
+    # add options if input is clicked
     $(input).click () =>
       box.appendChild options
       options.appendChild selection
+
+    # remove options if input is not clicked
+    $(document).click (e) ->
+      if $(e.target).closest(input).length is 0
+        options.removeChild selection
+        box.removeChild options
 
     # Options =====================================================================
     options = document.createElement "div"
@@ -94,11 +101,10 @@ class HG.SearchBoxArea
     @_container.appendChild icon
 
     # Results =====================================================================
-
     $(input).keyup () =>
       @_input_text = document.getElementById("search-input").value
-
       options_input = document.getElementsByName("search_option")
+
       if options_input? 
         @_search_opt_event = options_input[0].checked
         @_search_opt_place = options_input[1].checked
@@ -113,7 +119,6 @@ class HG.SearchBoxArea
       result_list = []
       if @_hgInstance.hiventController._hiventHandles
         for hivent in @_hgInstance.hiventController._hiventHandles
-          console.log hivent
           if hivent._hivent.startYear <= @_input_text && hivent._hivent.endYear >= @_input_text
             result_list.push hivent._hivent
             continue
@@ -131,16 +136,26 @@ class HG.SearchBoxArea
           	result_list.push hivent._hivent
           	continue
 
-      console.log result_list
 
       search_output = ''
       for result in result_list 
       	search_output = search_output + '<span>' + result.name + 
       	' ' + result.startYear + '</span></br>'
 
-      @_search_results.innerHTML  = search_output
+      @_search_results.innerHTML = search_output
 
       form.appendChild @_search_results
+
+      # remove results if input string is empty
+      if @_input_text < 1
+      	form.removeChild @_search_results
+
+
+    # Search if Enter key is pressed
+    $(input).keypress (e) =>
+      if e.which is 13  #Enter key pressed
+        e.preventDefault()
+        $(input).keyup()   #Trigger search key up event
 
     @_container.appendChild box
 
