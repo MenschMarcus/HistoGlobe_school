@@ -72,27 +72,27 @@ class HG.SearchBoxArea
     form.appendChild input
 
     # add options if input is clicked
-    $(input).click () =>
-      box.appendChild options
-      options.appendChild selection
+    # $(input).click () =>
+    #   box.appendChild options
+    #   options.appendChild selection
 
     # remove options if input is not clicked
-    $(document).click (e) ->
-      if $(e.target).closest(input).length is 0
-        options.removeChild selection
-        box.removeChild options
+    # $(document).click (e) ->
+    #   if $(e.target).closest(input).length is 0
+    #     options.removeChild selection
+    #     box.removeChild options
 
     # Options =====================================================================
-    options = document.createElement "div"
-    options.id = "options"
-    options.innerHTML = '<span class="msg">Was möchtest du finden?</span>'
+    # options = document.createElement "div"
+    # options.id = "options"
+    # options.innerHTML = '<span class="msg">Was möchtest du finden?</span>'
 
-    selection = document.createElement "form"
-    selection.className = "selection"
-    selection.innerHTML = '<input type="checkbox" name="search_option" value="Ereignisse"/>Ereignisse
-    					             <input type="checkbox" name="search_option" value="Orte"/>Orte
-    					             <input type="checkbox" name="search_option" value="Personen"/>Personen
-                 		       <input type="checkbox" name="search_option" value="Jahr"/>Jahr'
+    # selection = document.createElement "form"
+    # selection.className = "selection"
+    # selection.innerHTML = '<input type="checkbox" name="search_option" value="Ereignisse"/>Ereignisse
+    # 					             <input type="checkbox" name="search_option" value="Orte"/>Orte
+    # 					             <input type="checkbox" name="search_option" value="Personen"/>Personen
+    #              		       <input type="checkbox" name="search_option" value="Jahr"/>Jahr'
 
     # Search Icon =================================================================
     icon = document.createElement "div"
@@ -105,12 +105,11 @@ class HG.SearchBoxArea
       @_input_text = document.getElementById("search-input").value
       options_input = document.getElementsByName("search_option")
 
-      if options_input? 
-        @_search_opt_event = options_input[0].checked
-        @_search_opt_place = options_input[1].checked
-        @_search_opt_person = options_input[2].checked
-        @_search_opt_year = options_input[3].checked
-        console.log options_input
+      # if options_input? 
+      #   @_search_opt_event = options_input[0].checked
+      #   @_search_opt_place = options_input[1].checked
+      #   @_search_opt_person = options_input[2].checked
+      #   @_search_opt_year = options_input[3].checked
 
       if !@_search_results?
         @_search_results = document.createElement "div"
