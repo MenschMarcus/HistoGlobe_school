@@ -98,11 +98,13 @@ class HG.HiventMarker2D extends HG.HiventMarker
 
   # ============================================================================
   _onMouseOver: (e) =>
+    @_hiventHandle.regionMarker.highlight()
     @getHiventHandle().mark @, @_position
     @getHiventHandle().linkAll @_position
 
   # ============================================================================
   _onMouseOut: (e) =>
+    @_hiventHandle.regionMarker.unHiglight()
     @getHiventHandle().unMark @, @_position
     @getHiventHandle().unLinkAll @_position
 
