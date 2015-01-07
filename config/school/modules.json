@@ -25,7 +25,7 @@
       {
         "startDate": "28.7.1914",
         "endDate": "28.6.1919",
-        "name": "1. Wk"
+        "name": "1. WK"
       },
       {
         "startDate": "29.6.1919",
@@ -35,7 +35,7 @@
       {
         "startDate": "1.9.1939",
         "endDate": "8.5.1945",
-        "name": "2. Wk"
+        "name": "2. WK"
       },
       {
         "startDate": "9.5.1945",
@@ -127,7 +127,7 @@
         "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
       },
       "region" : {
-        "default":"config/school/icons/hiventsOnMap.png",
+        "default":"config/school/icons/hiventsOnMap_region.png",
         "highlighted":"config/school/icons/hiventsOnMap_region_highlight.png"
       }
     },

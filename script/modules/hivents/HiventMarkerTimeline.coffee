@@ -40,6 +40,9 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
     @_div.setAttribute "class", @_classDefault
 
     @_div.style.left = @_position.x + "px"
+
+    # HACK: place hivents onto epochs bar
+    @_position.y -= 72
     @_div.style.top = @_position.y + "px"
 
     # new
