@@ -315,7 +315,7 @@ class HG.HiventController
           handle: handle
           score:  impScore
 
-    # sort hivents by score
+    # sort hivents by importance score
     impScores.sort (a,b) =>
       return a.score - b.score
 
