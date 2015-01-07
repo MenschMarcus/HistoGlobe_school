@@ -33,8 +33,8 @@ class HG.SearchBoxArea
 
   # ============================================================================
 
-  addSearchSymbol: (config) ->
-    @_addSearchSymbol config
+  addLogo: (config) ->
+    @_addLogo config
 
   addSearchBox: (config) ->
     @_addSearchBox config
@@ -44,16 +44,14 @@ class HG.SearchBoxArea
   ##############################################################################
 
   # ============================================================================
+  _addLogo: () ->
 
-  _addSearchSymbol: () ->
+    logo = document.createElement "div"
+    logo.className = "logo"
+    logo.innerHTML = '<img class = "hg-logo" src = "data/png/logo-normal-farbe.png">';
+    @_container.appendChild logo
 
-    symbol = document.createElement "div"
-    symbol.className = "search-symbol"
-    symbol.innerHTML = '<img class = "search-symbol-logo" src = "data/png/logo-normal-farbe.png">';
-    
-    @_container.appendChild symbol
-
-    return symbol
+    return logo
 
   # ============================================================================
 
@@ -73,42 +71,45 @@ class HG.SearchBoxArea
     input.id = "search-input"
     form.appendChild input
 
-    $(input).click () =>
-      box.appendChild options
-      options.appendChild selection
+    # add options if input is clicked
+    # $(input).click () =>
+    #   box.appendChild options
+    #   options.appendChild selection
+
+    # remove options if input is not clicked
+    # $(document).click (e) ->
+    #   if $(e.target).closest(input).length is 0
+    #     options.removeChild selection
+    #     box.removeChild options
 
     # Options =====================================================================
-    options = document.createElement "div"
-    options.id = "options"
-    options.innerHTML = '<span class="msg">Was möchtest du finden?</span>'
+    # options = document.createElement "div"
+    # options.id = "options"
+    # options.innerHTML = '<span class="msg">Was möchtest du finden?</span>'
 
-    selection = document.createElement "form"
-    selection.className = "selection"
-    selection.innerHTML = '<input type="checkbox" name="search_option" value="Ereignisse"/>Ereignisse
-    					             <input type="checkbox" name="search_option" value="Orte"/>Orte
-    					             <input type="checkbox" name="search_option" value="Personen"/>Personen
-                 		       <input type="checkbox" name="search_option" value="Jahr"/>Jahr'
+    # selection = document.createElement "form"
+    # selection.className = "selection"
+    # selection.innerHTML = '<input type="checkbox" name="search_option" value="Ereignisse"/>Ereignisse
+    # 					             <input type="checkbox" name="search_option" value="Orte"/>Orte
+    # 					             <input type="checkbox" name="search_option" value="Personen"/>Personen
+    #              		       <input type="checkbox" name="search_option" value="Jahr"/>Jahr'
 
-    # Button ======================================================================
-    button = document.createElement "input"
-    button.type = "submit" 
-    button.value = "Suche"
-    button.id = "search-button"
-    
-    @_container.appendChild button
+    # Search Icon =================================================================
+    icon = document.createElement "div"
+    icon.className = "search-icon"
+    icon.innerHTML = '<i class="fa fa-search"></i>'    
+    @_container.appendChild icon
 
     # Results =====================================================================
-
-    $(button).click () =>
+    $(input).keyup () =>
       @_input_text = document.getElementById("search-input").value
-
       options_input = document.getElementsByName("search_option")
-      if options_input? 
-        @_search_opt_event = options_input[0].checked
-        @_search_opt_place = options_input[1].checked
-        @_search_opt_person = options_input[2].checked
-        @_search_opt_year = options_input[3].checked
-        console.log options_input
+
+      # if options_input? 
+      #   @_search_opt_event = options_input[0].checked
+      #   @_search_opt_place = options_input[1].checked
+      #   @_search_opt_person = options_input[2].checked
+      #   @_search_opt_year = options_input[3].checked
 
       if !@_search_results?
         @_search_results = document.createElement "div"
@@ -117,30 +118,43 @@ class HG.SearchBoxArea
       result_list = []
       if @_hgInstance.hiventController._hiventHandles
         for hivent in @_hgInstance.hiventController._hiventHandles
-          console.log hivent
           if hivent._hivent.startYear <= @_input_text && hivent._hivent.endYear >= @_input_text
             result_list.push hivent._hivent
+            continue
 
           for location in hivent._hivent.locationName
           	if location == @_input_text
               result_list.push hivent._hivent
+              continue
 
           if hivent._hivent.description.indexOf(@_input_text) > -1
           	result_list.push hivent._hivent
+          	continue
 
           if hivent._hivent.name.indexOf(@_input_text) > -1
           	result_list.push hivent._hivent
+          	continue
 
-      console.log result_list
 
       search_output = ''
       for result in result_list 
       	search_output = search_output + '<span>' + result.name + 
       	' ' + result.startYear + '</span></br>'
 
-      @_search_results.innerHTML  = search_output
+      @_search_results.innerHTML = search_output
 
       form.appendChild @_search_results
+
+      # remove results if input string is empty
+      if @_input_text < 1
+      	form.removeChild @_search_results
+
+
+    # Search if Enter key is pressed
+    $(input).keypress (e) =>
+      if e.which is 13  #Enter key pressed
+        e.preventDefault()
+        $(input).keyup()   #Trigger search key up event
 
     @_container.appendChild box
 
