@@ -119,16 +119,16 @@
 
   "CategoryIconMapping" : {
       "norm" : {
-        "default" : "config/school/icons/old/default_default.png",
-        "highlighted" : "config/school/icons/old/default_highlight.png"
+        "default" : "config/school/icons/hiventsOnMap.png",
+        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
       },
       "imp" : {
-        "default" : "config/school/icons/old/default_default.png",
-        "highlighted" : "config/school/icons/old/default_highlight.png"
+        "default" : "config/school/icons/hiventsOnMap.png",
+        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
       },
       "region" : {
-        "default":"config/school/icons/old/icon_join.png",
-        "highlighted":"config/school/icons/old/icon_join.png"
+        "default":"config/school/icons/hiventsOnMap.png",
+        "highlighted":"config/school/icons/hiventsOnMap_region_highlight.png"
       }
     },
 
