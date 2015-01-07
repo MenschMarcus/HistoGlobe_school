@@ -11,6 +11,7 @@
     "startLatLong": [50.9869531, 11.3205004],
     "tiles": "config/school/tiles/",
     "sidebarEnabled": false,
+    "timelineZoom" : 8,
     "nowMarker" :
     {
       "zoom" : 3,

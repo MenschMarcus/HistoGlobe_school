@@ -84,6 +84,35 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
     @getHiventHandle().onInvisible @, @_destroy
 
 
+    # HACK: create labels
+    hiventName = hiventHandle.getHivent().name
+    labelClass = "hivent_marker_timeline_label"
+    width = 500
+    rotation = -30
+    labelX = -20
+    labelY = -140
+
+    console.log hiventName
+
+    @_labelDiv = document.createElement "div"
+    @_labelDiv.innerHTML = hiventName
+    @_labelDiv.setAttribute "class", labelClass
+    @_labelDiv.style.width = width + "px"
+    @_labelDiv.style.left = labelX + "px"
+    @_labelDiv.style.top = labelY + "px"
+    @_labelDiv.style.webkitTransform = 'rotate('+rotation+'deg)';
+    @_labelDiv.style.mozTransform    = 'rotate('+rotation+'deg)';
+    @_labelDiv.style.msTransform     = 'rotate('+rotation+'deg)';
+    @_labelDiv.style.oTransform      = 'rotate('+rotation+'deg)';
+    @_labelDiv.style.transform       = 'rotate('+rotation+'deg)';
+
+    @_div.appendChild @_labelDiv
+
+    console.log @_labelDiv
+
+
+
+
   # ============================================================================
   categoryChanged: (c) ->
 

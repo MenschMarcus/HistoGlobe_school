@@ -47,6 +47,7 @@ $hivent_marker_2D_height              = 50 px;
 
 $hivent_marker_timeline_width         = 28 px
 $hivent_marker_timeline_height        = 40 px
+$hivent_marker_timeline_min_distance  = 28 px
 
 // ------------------ TIMELINE OPTIONS -----------------------------------------
 $timeline_height                      = 55px
