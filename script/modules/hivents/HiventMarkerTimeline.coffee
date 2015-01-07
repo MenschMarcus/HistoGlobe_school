@@ -28,6 +28,8 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
          HGConfig.border_width.val -
          HGConfig.hivent_marker_timeline_margin_bottom.val -
          rowPosition
+    # HACK: place hivents onto epochs bar
+    @_position.y -= 72
 
     @rowPosition = rowPosition
 
@@ -41,8 +43,6 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
 
     @_div.style.left = @_position.x + "px"
 
-    # HACK: place hivents onto epochs bar
-    @_position.y -= 72
     @_div.style.top = @_position.y + "px"
 
     # new
@@ -82,6 +82,7 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
 
     @getHiventHandle().onDestruction @, @_destroy
     @getHiventHandle().onInvisible @, @_destroy
+
 
   # ============================================================================
   categoryChanged: (c) ->

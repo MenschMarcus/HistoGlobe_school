@@ -16,10 +16,10 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
     @_display=display
     @_marker= L.polygon @hivent.region
     @_marker.options.stroke=false
-    @_marker.addTo(@_map)
+    @_marker.addTo @_map
 
     @_marker.myHiventMarkerRegion = @
-    @_position = new L.Point @hivent.long[0],@hivent.lat[0]    
+    @_position = new L.Point @hivent.long[0],@hivent.lat[0]
     @_updatePosition()
 
   	#Event Listeners
@@ -91,7 +91,7 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
     @highlight()
     @getHiventHandle().mark @, @_position
     @getHiventHandle().linkAll @_position
-    
+
   # ============================================================================
   _onMouseOut: (e) =>
     @unHiglight()
