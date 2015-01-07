@@ -92,8 +92,6 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
     labelX = -20
     labelY = -140
 
-    console.log hiventName
-
     @_labelDiv = document.createElement "div"
     @_labelDiv.innerHTML = hiventName
     @_labelDiv.setAttribute "class", labelClass
@@ -107,10 +105,6 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
     @_labelDiv.style.transform       = 'rotate('+rotation+'deg)';
 
     @_div.appendChild @_labelDiv
-
-    console.log @_labelDiv
-
-
 
 
   # ============================================================================
