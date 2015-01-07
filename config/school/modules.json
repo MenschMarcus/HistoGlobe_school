@@ -119,16 +119,16 @@
 
   "CategoryIconMapping" : {
       "norm" : {
-        "default" : "config/school/data/default_default.png",
-        "highlighted" : "config/school/data/default_highlight.png"
+        "default" : "config/school/icons/old/default_default.png",
+        "highlighted" : "config/school/icons/old/default_highlight.png"
       },
       "imp" : {
-        "default" : "config/school/data/default_default.png",
-        "highlighted" : "config/school/data/default_highlight.png"
+        "default" : "config/school/icons/old/default_default.png",
+        "highlighted" : "config/school/icons/old/default_highlight.png"
       },
       "region" : {
-        "default":"config/school/data/icon_join.png",
-        "highlighted":"config/school/data/icon_join.png"
+        "default":"config/school/icons/old/icon_join.png",
+        "highlighted":"config/school/icons/old/icon_join.png"
       }
     },
 
