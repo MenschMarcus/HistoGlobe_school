@@ -65,7 +65,7 @@ class HG.NowMarker
         month = "0" + month if month.length == 1
         year = date.getFullYear() + ""
         @_uiElements.dateInput.value = day + "." + month + "." + year
-        console.log "Now Date Changed "+ day + "." + month + "." + year
+        # console.log "Now Date Changed "+ day + "." + month + "." + year             ## RAUS !!!
 
     #   --------------------------------------------------------------------------
     addButton : (buttonDiv, callback) =>
