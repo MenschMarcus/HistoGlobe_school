@@ -19,7 +19,7 @@ HG.Timeline = (function() {
     this.addCallback("onZoom");
     defaultConfig = {
       parentDiv: void 0,
-      zoom: 1,
+      timelineZoom: 1,
       minYear: 1850,
       maxYear: 2000,
       nowYear: 1925,
@@ -158,7 +158,7 @@ HG.Timeline = (function() {
 
   Timeline.prototype.millisPerPixel = function() {
     var mpp;
-    return mpp = (this.yearToMillis(this._config.maxYear - this._config.minYear) / window.innerWidth) / this._config.zoom;
+    return mpp = (this.yearToMillis(this._config.maxYear - this._config.minYear) / window.innerWidth) / this._config.timelineZoom;
   };
 
   Timeline.prototype.minVisibleDate = function() {
@@ -176,10 +176,16 @@ HG.Timeline = (function() {
   };
 
   Timeline.prototype.timeInterval = function(i) {
-    if (i % 2 !== 0) {
-      return this.yearToMillis(5 * Math.pow(10, Math.floor(i / 2)));
-    } else {
-      return this.yearToMillis(Math.pow(10, Math.floor(i / 2)));
+    var x;
+    x = Math.floor(i / 3);
+    if (i % 3 === 0) {
+      return this.yearToMillis(Math.pow(10, x));
+    }
+    if (i % 3 === 1) {
+      return this.yearToMillis(2 * Math.pow(10, x));
+    }
+    if (i % 3 === 2) {
+      return this.yearToMillis(5 * Math.pow(10, x));
     }
   };
 
@@ -410,6 +416,18 @@ HG.Timeline = (function() {
         epoch.div.style.width = (this.dateToPosition(epoch.endDate) - this.dateToPosition(epoch.startDate)) + "px";
         epoch.div.style.display = "none";
         this.getCanvas().appendChild(epoch.div);
+        $(epoch.div).on("click", {
+          value: epoch
+        }, (function(_this) {
+          return function(event) {
+            var diff, epoch_tmp, middleDate, millisec;
+            epoch_tmp = event.data.value;
+            diff = epoch_tmp.endDate.getTime() - epoch_tmp.startDate.getTime();
+            millisec = diff / 2 + epoch_tmp.startDate.getTime();
+            middleDate = new Date(millisec);
+            return _this.moveToDate(middleDate, 0.5);
+          };
+        })(this));
         _results.push($(epoch.div).fadeIn(200));
       } else {
         epoch.div.style.left = this.dateToPosition(epoch.startDate) + "px";
@@ -440,7 +458,7 @@ HG.Timeline = (function() {
     while (this.timeInterval(index) <= window.innerWidth * this.millisPerPixel()) {
       index++;
     }
-    intervalIndex = index - 2;
+    intervalIndex = index - 3;
     if (intervalIndex < 0) {
       intervalIndex = 0;
     }
@@ -495,12 +513,12 @@ HG.Timeline = (function() {
     zoomed = false;
     if (delta > 0) {
       if (this.maxVisibleDate().getFullYear() - this.minVisibleDate().getFullYear() > 2) {
-        this._config.zoom *= 1.1;
+        this._config.timelineZoom *= 1.1;
         zoomed = true;
       }
     } else {
-      if (this._config.zoom > 1) {
-        this._config.zoom /= 1.1;
+      if (this._config.timelineZoom > 1) {
+        this._config.timelineZoom /= 1.1;
         zoomed = true;
       }
     }

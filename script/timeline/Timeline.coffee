@@ -140,13 +140,10 @@ class HG.Timeline
   timeInterval: (i) ->
     x = Math.floor(i/3)
     if i % 3 == 0
-      console.log "einer schritte"
       return @yearToMillis(Math.pow(10, x))
     if i % 3 == 1
-      console.log "zweier schritte"
       return @yearToMillis(2 * Math.pow(10, x))
     if i % 3 == 2
-      console.log "fünfer schritte"
       return @yearToMillis(5 * Math.pow(10, x))
       
     # OLD DISTANZ BETWEEN THE YEARS 5 AND 10 POTENCE
