@@ -141,7 +141,7 @@ class HG.SearchBoxArea
 
       search_output = ''
       for result in result_list 
-      	search_output = search_output + '<a href="#event=' + result.id + '">' + result.name + ' ' + result.id + '</a></br>'
+      	search_output = search_output + '<a href="#event=' + result.id + '">' + result.name + ' (' + result.startYear + ')</a></br>'
 
       @_search_results.innerHTML = search_output
 
