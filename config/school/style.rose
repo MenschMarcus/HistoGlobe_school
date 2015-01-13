@@ -42,16 +42,18 @@ $vip_widget_image_height  = 150px
 
 // ------------------ HIVENT OPTIONS -------------------------------------------
 
-$hivent_marker_2D_width               = 45px;
-$hivent_marker_2D_height              = 64px;
+$hivent_marker_2D_width               = 34 px;
+$hivent_marker_2D_height              = 50 px;
 
-$hivent_marker_timeline_width         = 45px
-$hivent_marker_timeline_height        = 64px
+$hivent_marker_timeline_width         = 28 px
+$hivent_marker_timeline_height        = 40 px
+$hivent_marker_timeline_min_distance  = 28 px
 
 // ------------------ TIMELINE OPTIONS -----------------------------------------
-$timeline_height                      = 50px
+$timeline_height                      = 55px
 $timeline_background_image            = "../config/exemplum/data/bg.png"
 $now_marker_background_image          = "../config/exemplum/data/bg.png"
 $timeline_background_color            = #d5c900
-$timeline_epoch_color        		  = #79a4ae
-$timeline_epoch_highlighted_color	  = #286b7a
+$timeline_epoch_color                 = #79a4ae
+$timeline_epoch_highlighted_color     = #286b7a
+

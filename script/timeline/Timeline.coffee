@@ -17,7 +17,7 @@ class HG.Timeline
 
     defaultConfig =
       parentDiv: undefined
-      zoom: 1
+      timelineZoom: 1
       minYear: 1850
       maxYear: 2000
       nowYear: 1925
@@ -130,7 +130,7 @@ class HG.Timeline
 
   #   --------------------------------------------------------------------------
   millisPerPixel: ->
-    mpp = (@yearToMillis(@_config.maxYear - @_config.minYear) / window.innerWidth) / @_config.zoom
+    mpp = (@yearToMillis(@_config.maxYear - @_config.minYear) / window.innerWidth) / @_config.timelineZoom
   minVisibleDate: ->
     d = new Date(@_now.date.getTime() - (@millisPerPixel() * window.innerWidth / 2))
   maxVisibleDate: ->
@@ -138,14 +138,23 @@ class HG.Timeline
   timelineLength: ->
     @yearToMillis(@_config.maxYear - @_config.minYear) / @millisPerPixel()
   timeInterval: (i) ->
-    if i % 2 != 0
+    x = Math.floor(i/3)
+    if i % 3 == 0
+      return @yearToMillis(Math.pow(10, x))
+    if i % 3 == 1
+      return @yearToMillis(2 * Math.pow(10, x))
+    if i % 3 == 2
+      return @yearToMillis(5 * Math.pow(10, x))
+      
+    # OLD DISTANZ BETWEEN THE YEARS 5 AND 10 POTENCE
+    #  if i % 2 != 0
       # HACK!
       # return @yearToMillis(5 * Math.pow(5, Math.floor(i / 2)))
-      return @yearToMillis(5 * Math.pow(10, Math.floor(i / 2)))
-    else
+      # return @yearToMillis(5 * Math.pow(10, Math.floor(i / 2)))
+    #  else
       # HACK!
       # return @yearToMillis(Math.pow(5, Math.floor(i / 2)))
-      return @yearToMillis(Math.pow(10, Math.floor(i / 2)))
+      # return @yearToMillis(Math.pow(10, Math.floor(i / 2)))
   dateToPosition: (date) ->
     dateDiff = date.getTime() - @yearToDate(@_config.minYear).getTime()
     pos = (dateDiff / @millisPerPixel()) + window.innerWidth/2
@@ -304,7 +313,16 @@ class HG.Timeline
         epoch.div.style.left = @dateToPosition(epoch.startDate) + "px"
         epoch.div.style.width = (@dateToPosition(epoch.endDate) - @dateToPosition(epoch.startDate)) + "px"
         epoch.div.style.display = "none"
-        @getCanvas().appendChild epoch.div
+        @getCanvas().appendChild epoch.div        
+        $(epoch.div).on "click",
+          value: epoch
+        , (event) =>
+          epoch_tmp = event.data.value
+          diff = epoch_tmp.endDate.getTime() - epoch_tmp.startDate.getTime()
+          millisec = diff / 2 + epoch_tmp.startDate.getTime()
+          middleDate = new Date(millisec)
+          @moveToDate middleDate, 0.5
+
         $(epoch.div).fadeIn(200)
       else
         #Epoche bereits erstellt, Position wird nur aktualisiert
@@ -331,7 +349,7 @@ class HG.Timeline
     index = 0
     while @timeInterval(index) <= window.innerWidth * @millisPerPixel()
       index++
-    intervalIndex = (index - 2)
+    intervalIndex = (index - 3)
     intervalIndex = 0 if intervalIndex < 0
 
     dateMarkerMaxWidth = window.innerWidth / (@millisToYear(window.innerWidth * @millisPerPixel()) / @millisToYear(@timeInterval(intervalIndex)))
@@ -371,11 +389,11 @@ class HG.Timeline
     zoomed = false
     if delta > 0
       if @maxVisibleDate().getFullYear() - @minVisibleDate().getFullYear() > 2
-        @_config.zoom *= 1.1
+        @_config.timelineZoom *= 1.1
         zoomed = true
     else
-      if @_config.zoom > 1
-        @_config.zoom /= 1.1
+      if @_config.timelineZoom > 1
+        @_config.timelineZoom /= 1.1
         zoomed = true
 
     if zoomed

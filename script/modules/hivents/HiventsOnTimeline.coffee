@@ -36,6 +36,7 @@ class HG.HiventsOnTimeline
         #     position = obj.position
         icons = hgInstance.categoryIconMapping.getIcons(category)
         for element of icons
+          console.log #{icons[element]}
           HG.createCSSSelector ".hivent_marker_timeline_#{category}_#{element}",
           "width: #{HGConfig.hivent_marker_timeline_width.val}px !important;
            height: #{HGConfig.hivent_marker_timeline_height.val}px !important;
