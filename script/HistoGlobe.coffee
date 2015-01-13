@@ -199,6 +199,7 @@ class HG.HistoGlobe
       minYear:      @_config.minYear
       maxYear:      @_config.maxYear
       epochs:       @_config.epochs
+      timelineZoom: @_config.timelineZoom
       #speedometer:  @_config.nowMarker.speedometer
 
     @addModule @timeline

@@ -17,7 +17,7 @@ class HG.Timeline
 
     defaultConfig =
       parentDiv: undefined
-      zoom: 1
+      timelineZoom: 1
       minYear: 1850
       maxYear: 2000
       nowYear: 1925
@@ -130,7 +130,7 @@ class HG.Timeline
 
   #   --------------------------------------------------------------------------
   millisPerPixel: ->
-    mpp = (@yearToMillis(@_config.maxYear - @_config.minYear) / window.innerWidth) / @_config.zoom
+    mpp = (@yearToMillis(@_config.maxYear - @_config.minYear) / window.innerWidth) / @_config.timelineZoom
   minVisibleDate: ->
     d = new Date(@_now.date.getTime() - (@millisPerPixel() * window.innerWidth / 2))
   maxVisibleDate: ->
@@ -392,11 +392,11 @@ class HG.Timeline
     zoomed = false
     if delta > 0
       if @maxVisibleDate().getFullYear() - @minVisibleDate().getFullYear() > 2
-        @_config.zoom *= 1.1
+        @_config.timelineZoom *= 1.1
         zoomed = true
     else
-      if @_config.zoom > 1
-        @_config.zoom /= 1.1
+      if @_config.timelineZoom > 1
+        @_config.timelineZoom /= 1.1
         zoomed = true
 
     if zoomed

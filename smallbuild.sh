@@ -1,0 +1,1 @@
+coffee -c script/hivents/*.coffee

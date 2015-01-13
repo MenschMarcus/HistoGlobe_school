@@ -11,6 +11,7 @@
     "startLatLong": [50.9869531, 11.3205004],
     "tiles": "config/school/tiles/",
     "sidebarEnabled": false,
+    "timelineZoom" : 5,
     "nowMarker" :
     {
       "zoom" : 3,
@@ -25,7 +26,7 @@
       {
         "startDate": "28.7.1914",
         "endDate": "28.6.1919",
-        "name": "1. Wk"
+        "name": "1. WK"
       },
       {
         "startDate": "29.6.1919",
@@ -35,7 +36,7 @@
       {
         "startDate": "1.9.1939",
         "endDate": "8.5.1945",
-        "name": "2. Wk"
+        "name": "2. WK"
       },
       {
         "startDate": "9.5.1945",
@@ -43,6 +44,19 @@
         "name": "Bipolare Welt"
       }
     ]
+  },
+
+  "ABTest" : {
+    "hiventsOnMap" :          "A",
+    "hiventsOnTl" :           "A",
+    "hiventsOnTlLabels" :     "A",
+    "numHiventsOnMap" :       "A",
+    "hiventRegionsOnMap" :    "A",
+    "hiventClusterLabels" :   "A",
+    "epochNames-moreSpace" :  "A",
+    "epochNames-shortNames" : "A",
+    "epochNames-display" :    "A",
+    "searchFilter" :          "A"
   },
 
   "BrowserDetector": {},
@@ -53,10 +67,6 @@
 
   "ZoomButtons": {},
   "FullscreenButton": {},
-
-  "SearchBoxArea": {},
-  "SearchSymbol": {},
-  "SearchBoxForm": {},
 
   "CategoryFilter": {},
 
@@ -105,17 +115,21 @@
         }
       }
     ],
-    "numHiventsInView" : 8
+    "numHiventsInView" : 9
   },
 
   "CategoryIconMapping" : {
       "norm" : {
-        "default" : "config/school/data/default_default.png",
-        "highlighted" : "config/school/data/default_highlight.png"
+        "default" : "config/school/icons/hiventsOnMap.png",
+        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
       },
       "imp" : {
-        "default" : "config/school/data/default_default.png",
-        "highlighted" : "config/school/data/default_highlight.png"
+        "default" : "config/school/icons/hiventsOnMap.png",
+        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
+      },
+      "region" : {
+        "default":"config/school/icons/hiventsOnMap_region.png",
+        "highlighted":"config/school/icons/hiventsOnMap_region_highlight.png"
       }
     },
 
@@ -170,7 +184,11 @@
 
   "HiventTooltips" : {},
   "HiventInfoPopovers" : {},
-  "HiventInfoAtTag" : {}
+  "HiventInfoAtTag" : {},
+
+  "SearchBoxArea": {},
+  "Logo": {},
+  "SearchBoxForm": {}
 
 }
 

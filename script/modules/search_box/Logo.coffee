@@ -1,6 +1,6 @@
 window.HG ?= {}
 
-class HG.SearchSymbol
+class HG.Logo
 
   ##############################################################################
   #                            PUBLIC INTERFACE                                #
@@ -10,21 +10,19 @@ class HG.SearchSymbol
   constructor: () ->
     defaultConfig =
       icon:     "fa-search"
-      #tooltip:  "Suchleiste - Demnächst verfügbar"
 
     @_config = $.extend {}, defaultConfig
 
   hgInit: (hgInstance) ->
 
-    hgInstance.search_symbol = @
+    hgInstance.logo = @
 
     if hgInstance.search_box_area?
-      search_symbol =
-        #tooltip:    @_config.tooltip
+      logo =
         icon:       @_config.icon
         callback: ()-> console.log "Not implmented"
 
-      hgInstance.search_box_area.addSearchSymbol search_symbol
+      hgInstance.search_box_area.addLogo logo
 
     else
-      console.error "Failed to add search symbol: SearchBoxArea module not found!"
+      console.error "Failed to add logo: SearchBoxArea module not found!"

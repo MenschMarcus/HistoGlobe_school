@@ -28,6 +28,8 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
          HGConfig.border_width.val -
          HGConfig.hivent_marker_timeline_margin_bottom.val -
          rowPosition
+    # HACK: place hivents onto epochs bar
+    @_position.y -= 72
 
     @rowPosition = rowPosition
 
@@ -40,6 +42,7 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
     @_div.setAttribute "class", @_classDefault
 
     @_div.style.left = @_position.x + "px"
+
     @_div.style.top = @_position.y + "px"
 
     # new
@@ -79,6 +82,30 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
 
     @getHiventHandle().onDestruction @, @_destroy
     @getHiventHandle().onInvisible @, @_destroy
+
+
+    # HACK: create labels
+    hiventName = hiventHandle.getHivent().name
+    labelClass = "hivent_marker_timeline_label"
+    width = 500
+    rotation = -30
+    labelX = -20
+    labelY = -140
+
+    @_labelDiv = document.createElement "div"
+    @_labelDiv.innerHTML = hiventName
+    @_labelDiv.setAttribute "class", labelClass
+    @_labelDiv.style.width = width + "px"
+    @_labelDiv.style.left = labelX + "px"
+    @_labelDiv.style.top = labelY + "px"
+    @_labelDiv.style.webkitTransform = 'rotate('+rotation+'deg)';
+    @_labelDiv.style.mozTransform    = 'rotate('+rotation+'deg)';
+    @_labelDiv.style.msTransform     = 'rotate('+rotation+'deg)';
+    @_labelDiv.style.oTransform      = 'rotate('+rotation+'deg)';
+    @_labelDiv.style.transform       = 'rotate('+rotation+'deg)';
+
+    @_div.appendChild @_labelDiv
+
 
   # ============================================================================
   categoryChanged: (c) ->
