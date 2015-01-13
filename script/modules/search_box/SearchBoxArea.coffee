@@ -23,8 +23,6 @@ class HG.SearchBoxArea
     @_search_opt_year = false
     @_input_text = null
 
-
-
     @_hgInstance.onTopAreaSlide @, (t) =>
       if @_hgInstance.isInMobileMode()
         @_container.style.left = "#{t*0.5}px"
@@ -116,6 +114,7 @@ class HG.SearchBoxArea
         @_search_results.className = "search-results"
 
       result_list = []
+      found_in_location = false
       if @_hgInstance.hiventController._hiventHandles
         for hivent in @_hgInstance.hiventController._hiventHandles
           if hivent._hivent.startYear <= @_input_text && hivent._hivent.endYear >= @_input_text
@@ -125,7 +124,11 @@ class HG.SearchBoxArea
           for location in hivent._hivent.locationName
           	if location == @_input_text
               result_list.push hivent._hivent
+              found_in_location = true
               continue
+
+          if found_in_location
+            continue
 
           if hivent._hivent.description.indexOf(@_input_text) > -1
           	result_list.push hivent._hivent
@@ -138,8 +141,7 @@ class HG.SearchBoxArea
 
       search_output = ''
       for result in result_list 
-      	search_output = search_output + '<span>' + result.name + 
-      	' ' + result.startYear + '</span></br>'
+      	search_output = search_output + '<a href="#event=' + result.id + '">' + result.name + ' ' + result.id + '</a></br>'
 
       @_search_results.innerHTML = search_output
 
