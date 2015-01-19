@@ -189,7 +189,9 @@
 
   "SearchBoxArea": {},
   "Logo": {},
-  "SearchBoxForm": {}
+  "SearchBoxForm": {},
+  "HiventList": {},
+  "HiventListController": {}
 
 }
 

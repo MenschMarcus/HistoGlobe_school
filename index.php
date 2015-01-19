@@ -121,6 +121,8 @@
     <script type="text/javascript" src="build/SearchBoxArea.js"></script>
     <script type="text/javascript" src="build/Logo.js"></script>
     <script type="text/javascript" src="build/SearchBoxForm.js"></script>
+    <script type="text/javascript" src="build/HiventList.js"></script>
+    <script type="text/javascript" src="build/HiventListController.js"></script>
     <script type="text/javascript" src="build/ControlButtonArea.js"></script>
     <script type="text/javascript" src="build/Help.js"></script>
     <script type="text/javascript" src="build/ZoomButtons.js"></script>
