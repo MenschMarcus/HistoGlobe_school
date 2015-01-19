@@ -55,6 +55,10 @@ class HG.SearchBoxArea
 
   _addSearchBox: () ->
 
+    $(window).on "load", (e) =>
+      e.preventDefault()
+      window.location.hash = ""
+
     box = document.createElement "div"
     box.className = "search-box"
 
@@ -67,6 +71,7 @@ class HG.SearchBoxArea
     input.type = "text"
     input.placeholder = "Suchbegriff eingeben"
     input.id = "search-input"
+    input.autocomplete = "off"
     form.appendChild input
 
     # add options if input is clicked
@@ -150,7 +155,6 @@ class HG.SearchBoxArea
       # remove results if input string is empty
       if @_input_text < 1
       	form.removeChild @_search_results
-
 
     # Search if Enter key is pressed
     $(input).keypress (e) =>
