@@ -21,27 +21,32 @@
       {
         "startDate": "18.1.1871",
         "endDate": "27.7.1914",
-        "name": "Imperialismus"
+        "name": "Imperialismus",
+        "id": "imperialismus"
       },
       {
         "startDate": "28.7.1914",
         "endDate": "28.6.1919",
-        "name": "1. WK"
+        "name": "1. WK",
+        "id": "wk1"
       },
       {
         "startDate": "29.6.1919",
         "endDate": "31.8.1939",
-        "name": "Zwischenkriegsjahre"
+        "name": "Zwischenkriegsjahre",
+        "id": "zwischenkrieg"
       },
       {
         "startDate": "1.9.1939",
         "endDate": "8.5.1945",
-        "name": "2. WK"
+        "name": "2. WK",
+        "id": "wk2"
       },
       {
         "startDate": "9.5.1945",
         "endDate": "26.12.1991",
-        "name": "Bipolare Welt"
+        "name": "Bipolare Welt",
+        "id": "bipolar"
       }
     ]
   },
@@ -68,7 +73,9 @@
   "ZoomButtons": {},
   "FullscreenButton": {},
 
-  "CategoryFilter": {},
+  "CategoryFilter": {
+    "initial" :             "noCategory"
+  },
 
   "MultimediaController": {
     "dsvPaths": ["config/school/data/media.csv"],
@@ -119,68 +126,30 @@
   },
 
   "CategoryIconMapping" : {
-      "norm" : {
+      "imperialismus" : {
         "default" : "config/school/icons/hiventsOnMap.png",
         "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
       },
-      "imp" : {
+      "wk1" : {
         "default" : "config/school/icons/hiventsOnMap.png",
         "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
       },
-      "region" : {
-        "default":"config/school/icons/hiventsOnMap_region.png",
-        "highlighted":"config/school/icons/hiventsOnMap_region_highlight.png"
+      "zwischenkrieg" : {
+        "default" : "config/school/icons/hiventsOnMap.png",
+        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
+      },
+      "wk2" : {
+        "default" : "config/school/icons/hiventsOnMap.png",
+        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
+      },
+      "bipolar" : {
+        "default" : "config/school/icons/hiventsOnMap.png",
+        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
       }
     },
 
   "HiventsOnMap" : {},
   "HiventsOnTimeline" : {},
-
-  "AreaStyler" :
-  {
-    "stylers" :
-    [
-      {
-        "mapping": "config/school/data/spread.json",
-        "domain": [0, 1],
-        "fillColor": {
-          "range": ["#d5c900", "#d5c900"],
-          "fallback": "#d5c900",
-          "compOp": "replace"
-        },
-        "fillOpacity": {
-          "range": [0, 1],
-          "fallback": 0,
-          "compOp": "multiply"
-        },
-        "lineColor": {
-          "range": ["#555", "#555"],
-          "fallback": "#555",
-          "compOp": "replace"
-        },
-        "lineOpacity": {
-          "range": [0, 1],
-          "fallback": 0,
-          "compOp": "multiply"
-        },
-        "lineWidth": {
-          "range": [0, 2],
-          "fallback": 0,
-          "compOp": "replace"
-        },
-        "labelOpacity": {
-          "range": [0, 1],
-          "fallback": 0,
-          "compOp": "multiply"
-        }
-      }
-    ]
-  },
-
-  "AreaController" :
-  {
-    "areaJSONPaths" : ["config/school/data/areas.json"]
-  },
 
   "HiventTooltips" : {},
   "HiventInfoPopovers" : {},
