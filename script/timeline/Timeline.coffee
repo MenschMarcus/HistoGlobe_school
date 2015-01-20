@@ -314,9 +314,7 @@ class HG.Timeline
         epoch.div.style.width = (@dateToPosition(epoch.endDate) - @dateToPosition(epoch.startDate)) + "px"
         epoch.div.style.display = "none"
         @getCanvas().appendChild epoch.div        
-        $(epoch.div).on "click",
-          value: epoch
-        , (event) =>
+        $(epoch.div).on "click", value: epoch, (event) =>
           epoch_tmp = event.data.value
           diff = epoch_tmp.endDate.getTime() - epoch_tmp.startDate.getTime()
           millisec = diff / 2 + epoch_tmp.startDate.getTime()

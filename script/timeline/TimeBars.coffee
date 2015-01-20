@@ -57,14 +57,4 @@ class HG.TimeBars
   # ============================================================================
   _isArray:(value) ->
     (Object.prototype.toString.call value) is '[object Array]'
-
-
-
-
-
-
-
-
-
-
-
+    
