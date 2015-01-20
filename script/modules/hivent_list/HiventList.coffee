@@ -11,7 +11,7 @@ class HG.HiventList
   hgInit: (hgInstance) ->
 
     @_hgInstance = hgInstance
-    @_hgInstance.hivent_list = @
+    @_hgInstance.hivent_list_module = @
 
     @_container = document.createElement "div"
     @_container.className = "hivent-list-module"
@@ -37,30 +37,30 @@ class HG.HiventList
 
     hivent_list = document.createElement "div"
     hivent_list.className = "hivent-list"
-    hivent_list.innerHTML = '<span>Hivent 1</span><br>
-    <span>Hivent 2</span><br>
-    <span>Hivent 3</span><br>
-    <span>Hivent 4</span><br>
-    <span>Hivent 5</span><br>
-    <span>Hivent 6</span><br>
-    <span>Hivent 7</span><br>
-    <span>Hivent 8</span><br>
-    <span>Hivent 9</span><br>
-    <span>Hivent 10</span>'
+    # hivent_list.innerHTML = '<span>Hivent 1</span><br>
+    # <span>Hivent 2</span><br>
+    # <span>Hivent 3</span><br>
+    # <span>Hivent 4</span><br>
+    # <span>Hivent 5</span><br>
+    # <span>Hivent 6</span><br>
+    # <span>Hivent 7</span><br>
+    # <span>Hivent 8</span><br>
+    # <span>Hivent 9</span><br>
+    # <span>Hivent 10</span>'
 
     # Hivents ==================================================================
-    #hivent_array = []
+    hivent_array = []
 
-    #if @_hgInstance.hiventController._hiventHandles
-      #for hivent in @_hgInstance.hiventController._hiventHandles
-        #hivent_array.push hivent._hivent
+    if @_hgInstance.hiventController._hiventHandles
+      for hivent in @_hgInstance.hiventController._hiventHandles
+        hivent_array.push hivent._hivent
         #continue
 
-    #hivents = ''
-    #for result in hivent_array 
-    	#hivents = hivents + '<a href="#event=' + result.id + '">' + result.name + ' (' + result.startYear + ')</a>'
+    hivents = ''
+    for hivent in hivent_array 
+      hivents = hivents + '<a href="#event=' + hivent.id + '">' + hivent.name + '</a></br>'
 
-    #hivent_list.innerHTML = hivents
+    hivent_list.innerHTML = hivents
 
     @_container.appendChild hivent_list
 
