@@ -40,18 +40,19 @@ class HG.HiventList
 
     # Hivents ==================================================================
     hivent_array = []
-    console.log @_hgInstance.hiventController._hiventHandles
-    if @_hgInstance.hiventController._hiventHandles
-      for hivent in @_hgInstance.hiventController._hiventHandles
-        console.log hivent
-        # hivent_array.push hivent._hivent
-        #continue
+    $(hivent_list).click () =>
+      #console.log @_hgInstance.hiventController._hiventHandles
+      if @_hgInstance.hiventController._hiventHandles
+        for hivent in @_hgInstance.hiventController._hiventHandles
+          hivent_array.push hivent._hivent
+          console.log "hans"
+          #continue
 
-    hivents = ''
-    for hivent in hivent_array 
-      hivents = hivents + '<a href="#event=' + hivent.id + '">' + hivent.name + '</a></br>'
+      hivents = ''
+      for hivent in hivent_array 
+        hivents = hivents + '<a href="#event=' + hivent.id + '">' + hivent.name + '</a></br>'
 
-    hivent_list.innerHTML = hivents
+      hivent_list.innerHTML = hivents
 
     @_container.appendChild hivent_list
 
