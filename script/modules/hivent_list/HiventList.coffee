@@ -37,23 +37,14 @@ class HG.HiventList
 
     hivent_list = document.createElement "div"
     hivent_list.className = "hivent-list"
-    # hivent_list.innerHTML = '<span>Hivent 1</span><br>
-    # <span>Hivent 2</span><br>
-    # <span>Hivent 3</span><br>
-    # <span>Hivent 4</span><br>
-    # <span>Hivent 5</span><br>
-    # <span>Hivent 6</span><br>
-    # <span>Hivent 7</span><br>
-    # <span>Hivent 8</span><br>
-    # <span>Hivent 9</span><br>
-    # <span>Hivent 10</span>'
 
     # Hivents ==================================================================
     hivent_array = []
-
+    console.log @_hgInstance.hiventController._hiventHandles
     if @_hgInstance.hiventController._hiventHandles
       for hivent in @_hgInstance.hiventController._hiventHandles
-        hivent_array.push hivent._hivent
+        console.log hivent
+        # hivent_array.push hivent._hivent
         #continue
 
     hivents = ''
