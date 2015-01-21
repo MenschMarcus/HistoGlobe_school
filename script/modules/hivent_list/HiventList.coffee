@@ -45,12 +45,12 @@ class HG.HiventList
     # Hivents ==================================================================
     hivent_array = []
 
-    #$(hivent_list).click () =>
-    $(@_epoch).click () =>
-      console.log "Jawollja!"
+    $(hivent_list).click () =>
+    #$(@_epoch).click () =>
+      #console.log "Jawollja!"
       if @_hgInstance.hiventController._hiventHandles
         for hivent in @_hgInstance.hiventController._hiventHandles
-          if hivent._hivent.startYear <= @_epoch.endDate && hivent._hivent.endYear >= @_epoch.startDate
+          #if hivent._hivent.startYear <= @_epoch.endDate && hivent._hivent.endYear >= @_epoch.startDate
             hivent_array.push hivent._hivent
             continue
 
@@ -59,7 +59,8 @@ class HG.HiventList
         hivents = hivents + '<a href="#event=' + hivent.id + '">' + hivent.name + '</a></br>'
 
       hivent_list.innerHTML = hivents
-      @_container.appendChild hivent_list
+
+    @_container.appendChild hivent_list
 
     return hivent_list
 
