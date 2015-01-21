@@ -106,6 +106,7 @@ class HG.SearchBoxArea
     # Results =====================================================================
     $(input).keyup () =>
       @_input_text = document.getElementById("search-input").value
+      @_input_text = @_input_text.toLowerCase()
       options_input = document.getElementsByName("search_option")
 
       # if options_input? 
@@ -127,7 +128,7 @@ class HG.SearchBoxArea
             continue
 
           for location in hivent._hivent.locationName
-          	if location == @_input_text
+          	if location.toLowerCase() == @_input_text
               result_list.push hivent._hivent
               found_in_location = true
               continue
@@ -135,11 +136,11 @@ class HG.SearchBoxArea
           if found_in_location
             continue
 
-          if hivent._hivent.description.indexOf(@_input_text) > -1
+          if hivent._hivent.description.toLowerCase().indexOf(@_input_text) > -1
           	result_list.push hivent._hivent
           	continue
 
-          if hivent._hivent.name.indexOf(@_input_text) > -1
+          if hivent._hivent.name.toLowerCase().indexOf(@_input_text) > -1
           	result_list.push hivent._hivent
           	continue
 
