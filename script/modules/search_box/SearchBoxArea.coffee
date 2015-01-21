@@ -153,15 +153,70 @@ class HG.SearchBoxArea
 
       form.appendChild @_search_results
 
+    #=============================================================================
+
       # remove results if input string is empty
       if @_input_text < 1
       	form.removeChild @_search_results
 
+    #=============================================================================
+
     # Search if Enter key is pressed
-    $(input).keypress (e) =>
+    $(input).keyup (e) =>
       if e.which is 13  #Enter key pressed
         e.preventDefault()
         $(input).keyup()   #Trigger search key up event
+
+    # Arrow Key Navigation =======================================================
+    $(input).keyup (e) =>
+      if e.which is 38 # User pressed "up" arrow
+        navigate "up"
+
+      if e.which is 40 # User pressed "down" arrow
+        navigate "down"
+
+      # User pressed "enter"
+      #else if e.which is 13
+        #e.preventDefault();
+        #if $(".search-results a.hovered").length > 0
+          #$(".search-results a").click
+
+    #=============================================================================
+    currentSelection = 0
+
+    navigate = (direction) =>
+      # Check if any of the menu items is selected
+      if $(".search-results a .itemhover").size() is 0
+        currentSelection = -1  
+
+      if direction is "up" and currentSelection is not -1
+        if currentSelection is not 0
+          currentSelection--
+
+      if direction is "down" 
+        if currentSelection is not $(".search-results a").size() - 1
+          currentSelection++
+
+      setSelected currentSelection
+
+    #=============================================================================
+    setSelected = (menuitem) =>
+      $(".search-results a").removeClass "itemhover"
+      $(".search-results a").eq(menuitem).addClass "itemhover"
+
+    #=============================================================================
+    # Add data to let the hover know which index they have
+    i = 0
+    $(".search-results a").eq(i).data("number", i) for i in $(".search-results a").size()
+      
+
+    # Simulate the "hover" effect with the mouse
+    $(".search-results a").hover ( =>
+      currentSelection = $(@).data("number")
+      setSelected currentSelection), =>
+        $(".search-results a").removeClass "itemhover"
+
+    #=============================================================================
 
     @_container.appendChild box
 
