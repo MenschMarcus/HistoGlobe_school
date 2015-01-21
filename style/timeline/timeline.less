@@ -60,6 +60,32 @@
         background-color: @timeline_epoch_highlighted_color;
       }
 
+      .tl_topic{
+        font-size: 17px;
+        //font-size: 1vw;
+        line-height: 30px;
+        color: @timeline_font_color;
+        box-shadow: -3px 0px 3px rgba(0,0,0,0.17);
+        background-color: @timeline_epoch_color;
+
+        position: absolute;
+        left: 0;
+        bottom: 88px;
+        padding: 0px 0px 0px 5px;
+        z-index: 1;
+        overflow: hidden;
+      }
+
+      .tl_topic_highlighted{
+        .tl_topic;
+        background-color: @timeline_epoch_highlighted_color;
+      }
+
+      .tl_topic_highlighted{
+        .tl_topic;
+        background-color: @timeline_epoch_highlighted_color;
+      }
+
       .tl_timebar {
         position:         absolute;
         z-index: -99;
