@@ -145,7 +145,7 @@ class HG.Timeline
       return @yearToMillis(2 * Math.pow(10, x))
     if i % 3 == 2
       return @yearToMillis(5 * Math.pow(10, x))
-      
+
     # OLD DISTANZ BETWEEN THE YEARS 5 AND 10 POTENCE
     #  if i % 2 != 0
       # HACK!
@@ -307,7 +307,7 @@ class HG.Timeline
       if !epoch.div?
         #Epoche wurde noch nicht dargestellt, wird hier erzeugt
         epoch.div = document.createElement("div")
-        epoch.div.id = "epoch" + epoch.name
+        epoch.div.id = "epoch" + epoch.id
         epoch.div.className = "tl_epoch"
         epoch.div.innerHTML = epoch.name
         epoch.div.style.left = @dateToPosition(epoch.startDate) + "px"
@@ -320,9 +320,11 @@ class HG.Timeline
           millisec = diff / 2 + epoch_tmp.startDate.getTime()
           middleDate = new Date(millisec)
           @moveToDate middleDate, 0.5
+          window.location.hash = '#categories=' + epoch_tmp.id
 
         $(epoch.div).fadeIn(200)
       else
+        #@_hgInstance.hivent_list_module._addHiventList
         #Epoche bereits erstellt, Position wird nur aktualisiert
         epoch.div.style.left = @dateToPosition(epoch.startDate) + "px"
         epoch.div.style.width = (@dateToPosition(epoch.endDate) - @dateToPosition(epoch.startDate)) + "px"
