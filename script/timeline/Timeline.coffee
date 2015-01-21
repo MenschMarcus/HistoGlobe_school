@@ -100,11 +100,14 @@ class HG.Timeline
 
   # ============================================================================
   hgInit: (hgInstance) ->
-    #@_hiventController = hgInstance.hiventController
     hgInstance.onAllModulesLoaded @, () =>
-      @_hiventController = hgInstance.hiventController
+      @_hgInstance = hgInstance
+      @_hiventController = @_hgInstance.hiventController
       @notifyAll "onNowChanged", @_now.date
       @notifyAll "onIntervalChanged", @_getTimeFilter()
+      
+      #@_HiventList = @_hgInstance
+      #console.log @_HiventList
 
       if hgInstance.zoom_buttons_timeline
         hgInstance.zoom_buttons_timeline.onZoomIn @, () =>
@@ -304,6 +307,7 @@ class HG.Timeline
   #   --------------------------------------------------------------------------
   _updateEpochs:()->
     for epoch in @_config.epochs
+      #console.log @_hgInstance
       if !epoch.div?
         #Epoche wurde noch nicht dargestellt, wird hier erzeugt
         epoch.div = document.createElement("div")

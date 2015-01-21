@@ -6,8 +6,7 @@ class HG.HiventList
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
-  # ============================================================================
-
+  #   --------------------------------------------------------------------------
   hgInit: (hgInstance) ->
 
     @_hgInstance = hgInstance
@@ -18,7 +17,6 @@ class HG.HiventList
     @_hgInstance._top_area.appendChild @_container
 
     #@_timeline = hgInstance.timeline
-    @_epoch = hgInstance.timeline.epoch
     #epoch = hgInstance.timeline.epoch.div
 
     @_hgInstance.onTopAreaSlide @, (t) =>
@@ -43,16 +41,12 @@ class HG.HiventList
     hivent_list.className = "hivent-list"
 
     # Hivents ==================================================================
-    hivent_array = []
-
     $(hivent_list).click () =>
-    #$(@_epoch).click () =>
-      #console.log "Jawollja!"
+      hivent_array = []
       if @_hgInstance.hiventController._hiventHandles
         for hivent in @_hgInstance.hiventController._hiventHandles
-          #if hivent._hivent.startYear <= @_epoch.endDate && hivent._hivent.endYear >= @_epoch.startDate
+          if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
             hivent_array.push hivent._hivent
-            continue
 
       hivents = ''
       for hivent in hivent_array 
