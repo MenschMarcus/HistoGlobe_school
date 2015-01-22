@@ -314,7 +314,7 @@ class HG.Timeline
         epoch.div.style.left = @dateToPosition(epoch.startDate) + "px"
         epoch.div.style.width = (@dateToPosition(epoch.endDate) - @dateToPosition(epoch.startDate)) + "px"
         epoch.div.style.display = "none"
-        @getCanvas().appendChild epoch.div        
+        @getCanvas().appendChild epoch.div
         $(epoch.div).on "click",
           value: epoch
         , (event) =>
@@ -322,18 +322,31 @@ class HG.Timeline
           diff = epoch_tmp.endDate.getTime() - epoch_tmp.startDate.getTime()
           millisec = diff / 2 + epoch_tmp.startDate.getTime()
           middleDate = new Date(millisec)
-          @moveToDate middleDate, 0.5
+
+          #Epoche highlighted
+          for epoch in @_config.epochs
+            epoch.div.className = "tl_epoch"
+          epoch_tmp.div.className = "tl_epoch_highlighted"
+          
+          @moveToDate middleDate
+          if epoch_tmp.endDate > @maxVisibleDate()
+            while epoch_tmp.endDate > @maxVisibleDate()
+              if !@_zoom -1
+                  break
+          else
+            while epoch_tmp.endDate < maxDate or !maxDate?
+              if !@_zoom 1
+                break
+              else
+                maxDate = new Date(@maxVisibleDate().getTime() - ((@maxVisibleDate().getTime() - epoch_tmp.startDate.getTime()) * 0.2))
+          
 
         $(epoch.div).fadeIn(200)
       else
         #Epoche bereits erstellt, Position wird nur aktualisiert
         epoch.div.style.left = @dateToPosition(epoch.startDate) + "px"
         epoch.div.style.width = (@dateToPosition(epoch.endDate) - @dateToPosition(epoch.startDate)) + "px"
-        #Epoche highlighted
-        if @dateToPosition(epoch.startDate) < @dateToPosition(@_now.date) and @dateToPosition(@_now.date) < @dateToPosition(epoch.endDate)
-          epoch.div.className = "tl_epoch_highlighted"
-        else
-          epoch.div.className = "tl_epoch"
+
 
   _updateTopics:()->
     for topic in @_config.topics
@@ -354,18 +367,30 @@ class HG.Timeline
           diff = topic_tmp.endDate.getTime() - topic_tmp.startDate.getTime()
           millisec = diff / 2 + topic_tmp.startDate.getTime()
           middleDate = new Date(millisec)
-          @moveToDate middleDate, 0.5
+          
+          #Topics highlighted
+          for topic in @_config.topics
+            topic.div.className = "tl_topic"
+          topic_tmp.div.className = "tl_topic_highlighted"
+          
+          @moveToDate middleDate
+          if topic_tmp.endDate > @maxVisibleDate()
+            while topic_tmp.endDate > @maxVisibleDate()
+              if !@_zoom -1
+                  break
+          else
+            while topic_tmp.endDate < maxDate or !maxDate?
+              if !@_zoom 1
+                break
+              else
+                maxDate = new Date(@maxVisibleDate().getTime() - ((@maxVisibleDate().getTime() - topic_tmp.startDate.getTime()) * 0.2))
 
         $(topic.div).fadeIn(200)
       else
         #topic bereits erstellt, Position wird nur aktualisiert
         topic.div.style.left = @dateToPosition(topic.startDate) + "px"
         topic.div.style.width = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) + "px"
-        #topic highlighted
-        if @dateToPosition(topic.startDate) < @dateToPosition(@_now.date) and @dateToPosition(@_now.date) < @dateToPosition(topic.endDate)
-          topic.div.className = "tl_topic_highlighted"
-        else
-          topic.div.className = "tl_topic"
+
 
 
   _updateDateMarkers: (zoomed=true) ->
