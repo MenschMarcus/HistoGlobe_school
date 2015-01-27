@@ -321,11 +321,6 @@ class HG.Timeline
           middleDate = new Date(millisec)
           @moveToDate middleDate, 0.5
           window.location.hash = '#categories=' + epoch_tmp.id
-          
-          # if @_hgInstance.hiventController._hiventHandles?
-          #   handles = @_hgInstance.hiventController._hiventHandles
-
-          # @_hgInstance.hivent_list_module._addHiventList(handles)
 
         $(epoch.div).fadeIn(200)
       else
