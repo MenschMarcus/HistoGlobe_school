@@ -183,9 +183,12 @@ class HG.SearchBoxArea
           if currentUrl isnt ''
             window.location = currentUrl
 
-    # Add data to let the hover know which index they have
-    for i in $("#search-results a").size() by 1
-      $("#search-results a").eq(i).data("number", i)
+      # Add data to let the hover know which index they have
+      console.log currentSelection
+
+      for i in $("#search-results a").size()
+        console.log currentSelection
+        $("#search-results a").eq(i).data("number", i)
 
     # Simulate the "hover" effect with the mouse
     $("#search-results a").hover ->
@@ -201,13 +204,11 @@ class HG.SearchBoxArea
       if $("#search-results a .itemhover").size() is 0
         currentSelection = -1  
 
-      if direction is "up" and currentSelection isnt -1
-        if currentSelection isnt 0
-          currentSelection--
+      if direction is "up" and currentSelection > 1
+        --currentSelection
 
-      if direction is "down" 
-        if currentSelection isnt $("#search-results a").size() - 1
-          currentSelection++
+      if direction is "down" and currentSelection < $("#search-results a").size()
+        ++currentSelection
 
       setSelected(currentSelection)
 
