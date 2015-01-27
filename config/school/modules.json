@@ -27,12 +27,8 @@
       {
         "startDate": "28.7.1914",
         "endDate": "28.6.1919",
-<<<<<<< HEAD
-        "name": "1. WK",
+        "name": "Erster Weltkrieg",
         "id": "wk1"
-=======
-        "name": "Erster Weltkrieg"
->>>>>>> origin/feature/timeline_epochs
       },
       {
         "startDate": "29.6.1919",
@@ -43,12 +39,8 @@
       {
         "startDate": "1.9.1939",
         "endDate": "8.5.1945",
-<<<<<<< HEAD
-        "name": "2. WK",
+        "name": "Zweiter Weltkrieg",
         "id": "wk2"
-=======
-        "name": "Zweiter Weltkrieg"
->>>>>>> origin/feature/timeline_epochs
       },
       {
         "startDate": "9.5.1945",

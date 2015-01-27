@@ -24,7 +24,8 @@ HG.Timeline = (function() {
       maxYear: 2000,
       nowYear: 1925,
       speedometer: true,
-      epochs: []
+      epochs: [],
+      topic: []
     };
     this._config = $.extend({}, defaultConfig, config);
     this._uiElements = {
@@ -409,7 +410,7 @@ HG.Timeline = (function() {
       epoch = _ref[_i];
       if (epoch.div == null) {
         epoch.div = document.createElement("div");
-        epoch.div.id = "epoch" + epoch.name;
+        epoch.div.id = "epoch" + epoch.id;
         epoch.div.className = "tl_epoch";
         epoch.div.innerHTML = epoch.name;
         epoch.div.style.left = this.dateToPosition(epoch.startDate) + "px";
@@ -420,23 +421,108 @@ HG.Timeline = (function() {
           value: epoch
         }, (function(_this) {
           return function(event) {
-            var diff, epoch_tmp, middleDate, millisec;
+            var diff, epoch_tmp, maxDate, middleDate, millisec, _j, _len1, _ref1, _results1, _results2;
             epoch_tmp = event.data.value;
             diff = epoch_tmp.endDate.getTime() - epoch_tmp.startDate.getTime();
             millisec = diff / 2 + epoch_tmp.startDate.getTime();
             middleDate = new Date(millisec);
-            return _this.moveToDate(middleDate, 0.5);
+            _ref1 = _this._config.epochs;
+            for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+              epoch = _ref1[_j];
+              epoch.div.className = "tl_epoch";
+            }
+            epoch_tmp.div.className = "tl_epoch_highlighted";
+            _this.moveToDate(middleDate);
+            if (epoch_tmp.endDate > _this.maxVisibleDate()) {
+              _results1 = [];
+              while (epoch_tmp.endDate > _this.maxVisibleDate()) {
+                if (!_this._zoom(-1)) {
+                  break;
+                } else {
+                  _results1.push(void 0);
+                }
+              }
+              return _results1;
+            } else {
+              _results2 = [];
+              while (epoch_tmp.endDate < maxDate || (maxDate == null)) {
+                if (!_this._zoom(1)) {
+                  break;
+                } else {
+                  _results2.push(maxDate = new Date(_this.maxVisibleDate().getTime() - ((_this.maxVisibleDate().getTime() - epoch_tmp.startDate.getTime()) * 0.2)));
+                }
+              }
+              return _results2;
+            }
           };
         })(this));
         _results.push($(epoch.div).fadeIn(200));
       } else {
         epoch.div.style.left = this.dateToPosition(epoch.startDate) + "px";
-        epoch.div.style.width = (this.dateToPosition(epoch.endDate) - this.dateToPosition(epoch.startDate)) + "px";
-        if (this.dateToPosition(epoch.startDate) < this.dateToPosition(this._now.date) && this.dateToPosition(this._now.date) < this.dateToPosition(epoch.endDate)) {
-          _results.push(epoch.div.className = "tl_epoch_highlighted");
-        } else {
-          _results.push(epoch.div.className = "tl_epoch");
-        }
+        _results.push(epoch.div.style.width = (this.dateToPosition(epoch.endDate) - this.dateToPosition(epoch.startDate)) + "px");
+      }
+    }
+    return _results;
+  };
+
+  Timeline.prototype._updateTopics = function() {
+    var topic, _i, _len, _ref, _results;
+    _ref = this._config.topics;
+    _results = [];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      topic = _ref[_i];
+      if (topic.div == null) {
+        topic.div = document.createElement("div");
+        topic.div.id = "topic" + topic.name;
+        topic.div.className = "tl_topic";
+        topic.div.innerHTML = topic.name;
+        topic.div.style.left = this.dateToPosition(topic.startDate) + "px";
+        topic.div.style.width = (this.dateToPosition(topic.endDate) - this.dateToPosition(topic.startDate)) + "px";
+        topic.div.style.display = "none";
+        this.getCanvas().appendChild(topic.div);
+        $(topic.div).on("click", {
+          value: topic
+        }, (function(_this) {
+          return function(event) {
+            var diff, maxDate, middleDate, millisec, topic_tmp, _j, _len1, _ref1, _results1, _results2;
+            topic_tmp = event.data.value;
+            diff = topic_tmp.endDate.getTime() - topic_tmp.startDate.getTime();
+            millisec = diff / 2 + topic_tmp.startDate.getTime();
+            middleDate = new Date(millisec);
+            _ref1 = _this._config.topics;
+            for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+              topic = _ref1[_j];
+              topic.div.className = "tl_topic";
+            }
+            topic_tmp.div.className = "tl_topic_highlighted";
+            _this.moveToDate(middleDate);
+            if (topic_tmp.endDate > _this.maxVisibleDate()) {
+              _results1 = [];
+              while (topic_tmp.endDate > _this.maxVisibleDate()) {
+                if (!_this._zoom(-1)) {
+                  break;
+                } else {
+                  _results1.push(void 0);
+                }
+              }
+              return _results1;
+            } else {
+              _results2 = [];
+              while (topic_tmp.endDate < maxDate || (maxDate == null)) {
+                if (!_this._zoom(1)) {
+                  break;
+                } else {
+                  _results2.push(maxDate = new Date(_this.maxVisibleDate().getTime() - ((_this.maxVisibleDate().getTime() - topic_tmp.startDate.getTime()) * 0.2)));
+                }
+              }
+              return _results2;
+            }
+          };
+        })(this));
+        _results.push($(topic.div).fadeIn(200));
+      } else {
+        topic.div.style.left = this.dateToPosition(topic.startDate) + "px";
+        _results.push(topic.div.style.width = (this.dateToPosition(topic.endDate) - this.dateToPosition(topic.startDate)) + "px");
       }
     }
     return _results;
@@ -448,6 +534,7 @@ HG.Timeline = (function() {
       zoomed = true;
     }
     this._updateEpochs();
+    this._updateTopics();
     count = this._config.maxYear - this._config.minYear;
     if (this._uiElements.dateMarkers.getLength() === 0) {
       for (i = _i = 0; 0 <= count ? _i <= count : _i >= count; i = 0 <= count ? ++_i : --_i) {

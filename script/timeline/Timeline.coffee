@@ -322,11 +322,6 @@ class HG.Timeline
           diff = epoch_tmp.endDate.getTime() - epoch_tmp.startDate.getTime()
           millisec = diff / 2 + epoch_tmp.startDate.getTime()
           middleDate = new Date(millisec)
-<<<<<<< HEAD
-          @moveToDate middleDate, 0.5
-          window.location.hash = '#categories=' + epoch_tmp.id
-=======
-
           #Epoche highlighted
           for epoch in @_config.epochs
             epoch.div.className = "tl_epoch"
@@ -343,8 +338,6 @@ class HG.Timeline
                 break
               else
                 maxDate = new Date(@maxVisibleDate().getTime() - ((@maxVisibleDate().getTime() - epoch_tmp.startDate.getTime()) * 0.2))
-          
->>>>>>> origin/feature/timeline_epochs
 
         $(epoch.div).fadeIn(200)
       else
