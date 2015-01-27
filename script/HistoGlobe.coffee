@@ -192,6 +192,9 @@ class HG.HistoGlobe
     for epoch in @_config.epochs
       epoch.startDate = @stringToDate(epoch.startDate)
       epoch.endDate = @stringToDate(epoch.endDate)
+    for topic in @_config.topics
+      topic.startDate = @stringToDate(topic.startDate)
+      topic.endDate = @stringToDate(topic.endDate)
 
     @timeline = new HG.Timeline
       parentDiv:    @_timeline_area
@@ -199,6 +202,7 @@ class HG.HistoGlobe
       minYear:      @_config.minYear
       maxYear:      @_config.maxYear
       epochs:       @_config.epochs
+      topics:       @_config.topics
       timelineZoom: @_config.timelineZoom
       #speedometer:  @_config.nowMarker.speedometer
 

@@ -2,7 +2,7 @@
   "HistoGlobe" :
   {
     "container": "histoglobe",
-    "minYear": 1871,
+    "minYear": 1750,
     "maxYear": 1993,
     "nowYear": 1871,
     "minZoom": 1,
@@ -27,8 +27,12 @@
       {
         "startDate": "28.7.1914",
         "endDate": "28.6.1919",
+<<<<<<< HEAD
         "name": "1. WK",
         "id": "wk1"
+=======
+        "name": "Erster Weltkrieg"
+>>>>>>> origin/feature/timeline_epochs
       },
       {
         "startDate": "29.6.1919",
@@ -39,14 +43,51 @@
       {
         "startDate": "1.9.1939",
         "endDate": "8.5.1945",
+<<<<<<< HEAD
         "name": "2. WK",
         "id": "wk2"
+=======
+        "name": "Zweiter Weltkrieg"
+>>>>>>> origin/feature/timeline_epochs
       },
       {
         "startDate": "9.5.1945",
         "endDate": "26.12.1991",
         "name": "Bipolare Welt",
         "id": "bipolar"
+      }
+    ],
+
+    "topics" : [
+      {
+        "startDate": "1.1.1750",
+        "endDate": "31.12.1882",
+        "name": "Industrielle Revolution"
+      },
+      {
+        "startDate": "18.1.1871",
+        "endDate": "9.11.1918",
+        "name": "Deutsches Kaiserreich"
+      },
+      {
+        "startDate": "9.11.1918",
+        "endDate": "29.1.1933",
+        "name": "Weimarer Republik"
+      },
+      {
+        "startDate": "25.10.1929",
+        "endDate": "1.9.1939",
+        "name": "Weltwirtschaftskrise"
+      },
+      {
+        "startDate": "30.1.1933",
+        "endDate": "8.5.1945",
+        "name": "Nationalsozialismus"
+      },
+      {
+        "startDate": "9.5.1945",
+        "endDate": "7.10.1949",
+        "name": "Nachkriegszeit"
       }
     ]
   },

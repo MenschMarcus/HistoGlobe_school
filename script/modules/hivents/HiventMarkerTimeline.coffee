@@ -29,7 +29,7 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
          HGConfig.hivent_marker_timeline_margin_bottom.val -
          rowPosition
     # HACK: place hivents onto epochs bar
-    @_position.y -= 72
+    @_position.y -= 115
 
     @rowPosition = rowPosition
 

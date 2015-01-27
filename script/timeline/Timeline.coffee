@@ -23,6 +23,7 @@ class HG.Timeline
       nowYear: 1925
       speedometer: true
       epochs: []
+      topic: []
 
     @_config = $.extend {}, defaultConfig, config
 
@@ -321,22 +322,85 @@ class HG.Timeline
           diff = epoch_tmp.endDate.getTime() - epoch_tmp.startDate.getTime()
           millisec = diff / 2 + epoch_tmp.startDate.getTime()
           middleDate = new Date(millisec)
+<<<<<<< HEAD
           @moveToDate middleDate, 0.5
           window.location.hash = '#categories=' + epoch_tmp.id
+=======
+
+          #Epoche highlighted
+          for epoch in @_config.epochs
+            epoch.div.className = "tl_epoch"
+          epoch_tmp.div.className = "tl_epoch_highlighted"
+          
+          @moveToDate middleDate
+          if epoch_tmp.endDate > @maxVisibleDate()
+            while epoch_tmp.endDate > @maxVisibleDate()
+              if !@_zoom -1
+                  break
+          else
+            while epoch_tmp.endDate < maxDate or !maxDate?
+              if !@_zoom 1
+                break
+              else
+                maxDate = new Date(@maxVisibleDate().getTime() - ((@maxVisibleDate().getTime() - epoch_tmp.startDate.getTime()) * 0.2))
+          
+>>>>>>> origin/feature/timeline_epochs
 
         $(epoch.div).fadeIn(200)
       else
         #Epoche bereits erstellt, Position wird nur aktualisiert
         epoch.div.style.left = @dateToPosition(epoch.startDate) + "px"
         epoch.div.style.width = (@dateToPosition(epoch.endDate) - @dateToPosition(epoch.startDate)) + "px"
-        #Epoche highlighted
-        if @dateToPosition(epoch.startDate) < @dateToPosition(@_now.date) and @dateToPosition(@_now.date) < @dateToPosition(epoch.endDate)
-          epoch.div.className = "tl_epoch_highlighted"
-        else
-          epoch.div.className = "tl_epoch"
+
+
+  _updateTopics:()->
+    for topic in @_config.topics
+      if !topic.div?
+        #topic wurde noch nicht dargestellt, wird hier erzeugt
+        topic.div = document.createElement("div")
+        topic.div.id = "topic" + topic.name
+        topic.div.className = "tl_topic"
+        topic.div.innerHTML = topic.name
+        topic.div.style.left = @dateToPosition(topic.startDate) + "px"
+        topic.div.style.width = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) + "px"
+        topic.div.style.display = "none"
+        @getCanvas().appendChild topic.div        
+        $(topic.div).on "click",
+          value: topic
+        , (event) =>
+          topic_tmp = event.data.value
+          diff = topic_tmp.endDate.getTime() - topic_tmp.startDate.getTime()
+          millisec = diff / 2 + topic_tmp.startDate.getTime()
+          middleDate = new Date(millisec)
+          
+          #Topics highlighted
+          for topic in @_config.topics
+            topic.div.className = "tl_topic"
+          topic_tmp.div.className = "tl_topic_highlighted"
+          
+          @moveToDate middleDate
+          if topic_tmp.endDate > @maxVisibleDate()
+            while topic_tmp.endDate > @maxVisibleDate()
+              if !@_zoom -1
+                  break
+          else
+            while topic_tmp.endDate < maxDate or !maxDate?
+              if !@_zoom 1
+                break
+              else
+                maxDate = new Date(@maxVisibleDate().getTime() - ((@maxVisibleDate().getTime() - topic_tmp.startDate.getTime()) * 0.2))
+
+        $(topic.div).fadeIn(200)
+      else
+        #topic bereits erstellt, Position wird nur aktualisiert
+        topic.div.style.left = @dateToPosition(topic.startDate) + "px"
+        topic.div.style.width = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) + "px"
+
+
 
   _updateDateMarkers: (zoomed=true) ->
     @_updateEpochs()
+    @_updateTopics()
     #   count possible years to show
     count = @_config.maxYear - @_config.minYear
 
