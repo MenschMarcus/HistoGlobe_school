@@ -117,7 +117,7 @@ class HG.SearchBoxArea
 
       if !@_search_results?
         @_search_results = document.createElement "div"
-        @_search_results.className = "search-results"
+        @_search_results.id = "search-results"
 
       result_list = []
       found_in_location = false
@@ -168,53 +168,54 @@ class HG.SearchBoxArea
         $(input).keyup()   #Trigger search key up event
 
     # Arrow Key Navigation =======================================================
+    currentSelection = 0
+    currentUrl = ''
+    i = 0
+
     $(input).keyup (e) =>
-      if e.which is 38 # User pressed "up" arrow
-        navigate "up"
+      switch(e.keyCode)
+        # User pressed "up" arrow
+        when 38 then navigate "up"
+        # User pressed "down" arrow
+        when 40 then navigate "down"
+        # User pressed "enter"
+        when 13
+          if currentUrl isnt ''
+            window.location = currentUrl
 
-      if e.which is 40 # User pressed "down" arrow
-        navigate "down"
+    # Add data to let the hover know which index they have
+    for i in $("#search-results a").size() by 1
+      $("#search-results a").eq(i).data("number", i)
 
-      # User pressed "enter"
-      #else if e.which is 13
-        #e.preventDefault();
-        #if $(".search-results a.hovered").length > 0
-          #$(".search-results a").click
+    # Simulate the "hover" effect with the mouse
+    $("#search-results a").hover ->
+      currentSelection = $(this).data("number")
+      setSelected(currentSelection)
+    , ->
+      $("#search-results a").removeClass "itemhover"
+      currentUrl = ''
 
     #=============================================================================
-    currentSelection = 0
-
-    navigate = (direction) =>
+    navigate = (direction) ->
       # Check if any of the menu items is selected
-      if $(".search-results a .itemhover").size() is 0
+      if $("#search-results a .itemhover").size() is 0
         currentSelection = -1  
 
-      if direction is "up" and currentSelection is not -1
-        if currentSelection is not 0
+      if direction is "up" and currentSelection isnt -1
+        if currentSelection isnt 0
           currentSelection--
 
       if direction is "down" 
-        if currentSelection is not $(".search-results a").size() - 1
+        if currentSelection isnt $("#search-results a").size() - 1
           currentSelection++
 
-      setSelected currentSelection
+      setSelected(currentSelection)
 
     #=============================================================================
-    setSelected = (menuitem) =>
-      $(".search-results a").removeClass "itemhover"
-      $(".search-results a").eq(menuitem).addClass "itemhover"
-
-    #=============================================================================
-    # Add data to let the hover know which index they have
-    i = 0
-    $(".search-results a").eq(i).data("number", i) for i in $(".search-results a").size()
-      
-
-    # Simulate the "hover" effect with the mouse
-    $(".search-results a").hover ( =>
-      currentSelection = $(@).data("number")
-      setSelected currentSelection), =>
-        $(".search-results a").removeClass "itemhover"
+    setSelected = (list_item) ->
+      $("#search-results a").removeClass "itemhover"
+      $("#search-results a").eq(list_item).addClass "itemhover"
+      currentUrl = $("#search-results a").eq(list_item).attr("href")
 
     #=============================================================================
 
