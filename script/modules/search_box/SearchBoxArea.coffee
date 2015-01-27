@@ -55,10 +55,6 @@ class HG.SearchBoxArea
 
   _addSearchBox: () ->
 
-    $(window).on "load", (e) =>
-      e.preventDefault()
-      window.location.hash = ""
-
     box = document.createElement "div"
     box.className = "search-box"
 

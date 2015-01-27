@@ -35,15 +35,16 @@ class HG.HiventList
   ##############################################################################
 
   # ============================================================================
-  _addHiventList: (handles) ->
+  _addHiventList: () ->
     hivent_list = document.createElement "div"
     hivent_list.className = "hivent-list"
 
     # Hivents ==================================================================
     
     hivent_array = []
-    if handles?
-      for hivent in handles
+    if @_hgInstance.hiventController._hiventHandles?
+      for hivent in @_hgInstance.hiventController._hiventHandles
+        console.log @_hgInstance.categoryFilter._categoryFilter[0]
         if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
           hivent_array.push hivent._hivent
 

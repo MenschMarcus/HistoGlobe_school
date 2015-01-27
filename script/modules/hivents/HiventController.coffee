@@ -209,6 +209,13 @@ class HG.HiventController
           header: false
 
         buildHivent = (config) =>
+          # ---------------------------------------------------
+          # async: false bremst den Hivent Controller aus, bis die config.path (data) geladen sind
+          $.ajaxSetup({
+            async: false
+          });
+          # kann aber auch raus ... zur Not
+          # ---------------------------------------------------
           $.get config.path,
             (data) =>
               parse_result = $.parse data, parse_config
