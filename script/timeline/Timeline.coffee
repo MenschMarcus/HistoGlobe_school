@@ -284,14 +284,14 @@ class HG.Timeline
     @_moveToDate middleDate, 1, =>      
       if @_activeTopic.endDate > @maxVisibleDate()
         repeatObj = setInterval =>  
-          if @_activeTopic.endDate > (new Date(@maxVisibleDate().getTime() - (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.2))
+          if @_activeTopic.endDate > (new Date(@maxVisibleDate().getTime() - (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1))
             @_zoom -1
           else
             clearInterval(repeatObj)
         , 50
       else
         repeatObj = setInterval =>  
-          if @_activeTopic.endDate < (new Date(@maxVisibleDate().getTime() - (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.2))
+          if @_activeTopic.endDate < (new Date(@maxVisibleDate().getTime() - (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1))
             @_zoom 1
           else
             clearInterval(repeatObj)
