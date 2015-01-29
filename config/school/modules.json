@@ -17,7 +17,7 @@
       "zoom" : 3,
       "speedometer" : false
     },
-    "epochs" : [
+    "topics" : [
       {
         "startDate": "18.1.1871",
         "endDate": "27.7.1914",
@@ -121,10 +121,7 @@
           "id": "endeOstblock"
         }
         ]
-      }
-    ],
-
-    "topics" : [
+      },
       {
         "startDate": "18.1.1871",
         "endDate": "9.11.1918",
