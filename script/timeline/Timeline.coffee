@@ -309,16 +309,32 @@ class HG.Timeline
         topic.div = document.createElement("div")
         topic.div.id = "topic" + topic.id
         topic.div.className = "tl_topic tl_topic_row" + topic.row
-        topic.div.innerHTML = topic.name
+        topic.div.innerHTML = '<div class="tl_subtopics"></div>' + topic.name
         topic.div.style.left = @dateToPosition(topic.startDate) + "px"
         topic.div.style.width = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) + "px"
         topic.div.style.display = "none"
         @getCanvas().appendChild topic.div
+
+        # add subtopics
+        if topic.subtopics?
+          for subtopic in topic.subtopics
+            subtopic.div = document.createElement("div")
+            subtopic.div.id = "subtopic" + subtopic.id
+            subtopic.div.className = "tl_subtopic"
+            subtopic.div.innerHTML = subtopic.name          
+            subtopic.div.style.left = ((subtopic.startDate.getTime() - topic.startDate.getTime()) / @millisPerPixel()) + "px"
+            subtopic.div.style.width = (@dateToPosition(subtopic.endDate) - @dateToPosition(subtopic.startDate)) + "px"
+            $("#topic" + topic.id + " > .tl_subtopics" ).append subtopic.div                            
+
         $(topic.div).on "click", value: topic, (event) => @_onTopicClick(event.data.value)
         $(topic.div).fadeIn(200)
       else
         topic.div.style.left = @dateToPosition(topic.startDate) + "px"
         topic.div.style.width = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) + "px"
+        if topic.subtopics?
+          for subtopic in topic.subtopics
+            subtopic.div.style.left = ((subtopic.startDate.getTime() - topic.startDate.getTime()) / @millisPerPixel()) + "px"
+            subtopic.div.style.width = (@dateToPosition(subtopic.endDate) - @dateToPosition(subtopic.startDate)) + "px"
 
   _updateDateMarkers: (zoomed=true) ->
 

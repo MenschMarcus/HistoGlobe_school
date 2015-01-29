@@ -192,6 +192,10 @@ class HG.HistoGlobe
     for topic in @_config.topics
       topic.startDate = @stringToDate(topic.startDate)
       topic.endDate = @stringToDate(topic.endDate)
+      if topic.subtopics?
+        for subtopic in topic.subtopics
+          subtopic.startDate = @stringToDate(subtopic.startDate)
+          subtopic.endDate = @stringToDate(subtopic.endDate)
 
     @timeline = new HG.Timeline
       parentDiv:    @_timeline_area

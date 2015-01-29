@@ -37,6 +37,7 @@
       .tl_topic{
         font-size: 17px;
         line-height: 30px;
+        height: 30px;
         color: @timeline_font_color;
         box-shadow: -3px 0px 3px rgba(0,0,0,0.17);
         background-color: @timeline_epoch_color;
@@ -49,13 +50,34 @@
         padding: 0px 0px 0px 5px;
         z-index: 1;
         overflow: hidden;
+        text-overflow: ellipsis;
+
+        .tl_subtopics {
+          position: relative;
+          margin: -20px 0px 0px -5px;
+          height: 20px;
+          overflow: hidden;
+
+          .tl_subtopic{
+            position: absolute;
+            background-color: #185766;
+            height: 20px;
+            line-height: 20px;
+            font-size: 70%;
+            box-shadow: 0px 0px 5px rgba(0,0,0,0.5);   
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-left: 5px;
+          }
+        }
       }
 
-      .tl_topic_row0 { bottom: 88px; }
+      .tl_topic_row0 { bottom: 98px; }
       .tl_topic_row1 { bottom: 48px; }
 
       .tl_topic_highlighted{
         .tl_topic;
+        overflow: visible;
         background-color: @timeline_epoch_highlighted_color;
       }
 
