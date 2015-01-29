@@ -54,6 +54,6 @@ $timeline_height                      = 55px
 $timeline_background_image            = "../config/exemplum/data/bg.png"
 $now_marker_background_image          = "../config/exemplum/data/bg.png"
 $timeline_background_color            = #d5c900
-$timeline_epoch_color                 = #79a4ae
-$timeline_epoch_highlighted_color     = #286b7a
+$timeline_topic_color                 = #79a4ae
+$timeline_topic_highlighted_color     = #286b7a
 
