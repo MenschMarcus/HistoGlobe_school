@@ -278,8 +278,8 @@ class HG.Timeline
     millisec = diff / 2 + topic_tmp.startDate.getTime()
     middleDate = new Date(millisec)
     for topic in @_config.topics
-      topic.div.className = "tl_topic"
-    topic_tmp.div.className = "tl_topic_highlighted"
+      topic.div.className = "tl_topic tl_topic_row" + topic.row
+    topic_tmp.div.className = "tl_topic_highlighted tl_topic_row" + topic_tmp.row
     @_activeTopic = topic_tmp
     @_moveToDate middleDate, 1, =>      
       if @_activeTopic.endDate > @maxVisibleDate()
@@ -308,7 +308,7 @@ class HG.Timeline
       if !topic.div?
         topic.div = document.createElement("div")
         topic.div.id = "topic" + topic.id
-        topic.div.className = "tl_topic"
+        topic.div.className = "tl_topic tl_topic_row" + topic.row
         topic.div.innerHTML = topic.name
         topic.div.style.left = @dateToPosition(topic.startDate) + "px"
         topic.div.style.width = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) + "px"
