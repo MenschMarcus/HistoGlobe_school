@@ -22,8 +22,7 @@ class HG.Timeline
       maxYear: 2000
       nowYear: 1925
       speedometer: true
-      epochs: []
-      topic: []
+      topics: []
 
     @_config = $.extend {}, defaultConfig, config
 
@@ -35,7 +34,7 @@ class HG.Timeline
       #nowMarker:    @addUIElement "now_marker", "now_marker", document.getElementById("histoglobe")
       timeBars:     []
       dateMarkers:  new HG.DoublyLinkedList()
-      #epochs:  new Array()
+      #topics:  new Array()
 
     #   ------------------------------------------------------------------------
     @_now =
@@ -60,17 +59,21 @@ class HG.Timeline
           fireCallbacks = true
         @_updateNowDate(fireCallbacks)
         @_updateDateMarkers(false)
+        @_updateTopics()
     @_uiElements.tl_wrapper.addEventListener "webkitTransitionEnd", (e) =>
       @_updateNowDate()
       @_updateDateMarkers(false)
+      @_updateTopics()
     , false
     @_uiElements.tl_wrapper.addEventListener "transitionend", (e) =>
       @_updateNowDate()
       @_updateDateMarkers(false)
+      @_updateTopics()
     , false
     @_uiElements.tl_wrapper.addEventListener "oTransitionEnd", (e) =>
       @_updateNowDate()
       @_updateDateMarkers(false)
+      @_updateTopics()
     , false
 
     #   TIMELINE ANIMATION  ----------------------------------------------------
@@ -80,7 +83,9 @@ class HG.Timeline
     @_nextHiventhandle = null
     setInterval @_animTimeline, 30
 
-    #   ZOOM  ------------------------------------------------------------------
+    ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
+
+    #   ZOOM
     @_uiElements.tl.addEventListener "mousewheel", (e) =>
       e.preventDefault()
       @_zoom(e.wheelDelta, e)
@@ -88,15 +93,20 @@ class HG.Timeline
       e.preventDefault()
       @_zoom(-e.detail, e)
 
-    #   ------------------------------------------------------------------------
+    ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## 
+
     $(window).resize  =>
       @_updateLayout()
       @_updateDateMarkers()
+      @_updateTopics()
       @_updateNowDate()
 
-    #   Start !!! ---------------------------------------------------------------
+    ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## 
+
+    #   Start the timeline here !!! 
     @_updateLayout()
     @_updateDateMarkers()
+    @_updateTopics()
     @_updateNowDate()
 
   # ============================================================================
@@ -129,7 +139,10 @@ class HG.Timeline
     parentDiv.appendChild container if parentDiv?
     container
 
-  #   --------------------------------------------------------------------------
+  ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
+
+  #   GENERAL FUNCTIONS FOR CALCULATION STUFF ON CURRENT TIMELINE
+
   millisPerPixel: ->
     mpp = (@yearToMillis(@_config.maxYear - @_config.minYear) / window.innerWidth) / @_config.timelineZoom
   minVisibleDate: ->
@@ -146,21 +159,14 @@ class HG.Timeline
       return @yearToMillis(2 * Math.pow(10, x))
     if i % 3 == 2
       return @yearToMillis(5 * Math.pow(10, x))
-
-    # OLD DISTANZ BETWEEN THE YEARS 5 AND 10 POTENCE
-    #  if i % 2 != 0
-      # HACK!
-      # return @yearToMillis(5 * Math.pow(5, Math.floor(i / 2)))
-      # return @yearToMillis(5 * Math.pow(10, Math.floor(i / 2)))
-    #  else
-      # HACK!
-      # return @yearToMillis(Math.pow(5, Math.floor(i / 2)))
-      # return @yearToMillis(Math.pow(10, Math.floor(i / 2)))
   dateToPosition: (date) ->
     dateDiff = date.getTime() - @yearToDate(@_config.minYear).getTime()
     pos = (dateDiff / @millisPerPixel()) + window.innerWidth/2
 
-  #   --------------------------------------------------------------------------
+  ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
+
+  #   CONVERTER FUNCTIONS
+
   yearToDate: (year) ->
     date = new Date(0)
     date.setFullYear year
@@ -224,7 +230,8 @@ class HG.Timeline
       @notifyAll "onIntervalChanged", @_getTimeFilter()
       successCallback?()
 
-  #   --------------------------------------------------------------------------
+  ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
+
   getLayout: ->
     @_uiElements
   getNowDate: ->
@@ -302,98 +309,58 @@ class HG.Timeline
       timeBar.div.style.left = @dateToPosition(timeBar.startDate) + "px"
       timeBar.div.style.width = (@dateToPosition(timeBar.endDate) - @dateToPosition(timeBar.startDate)) + "px"
 
-  #   --------------------------------------------------------------------------
-  _updateEpochs:()->
-    for epoch in @_config.epochs
-      if !epoch.div?
-        #Epoche wurde noch nicht dargestellt, wird hier erzeugt
-        epoch.div = document.createElement("div")
-        epoch.div.id = "epoch" + epoch.id
-        epoch.div.className = "tl_epoch"
-        epoch.div.innerHTML = epoch.name
-        epoch.div.style.left = @dateToPosition(epoch.startDate) + "px"
-        epoch.div.style.width = (@dateToPosition(epoch.endDate) - @dateToPosition(epoch.startDate)) + "px"
-        epoch.div.style.display = "none"
-        @getCanvas().appendChild epoch.div
-        $(epoch.div).on "click",
-          value: epoch
-        , (event) =>
-          epoch_tmp = event.data.value
-          diff = epoch_tmp.endDate.getTime() - epoch_tmp.startDate.getTime()
-          millisec = diff / 2 + epoch_tmp.startDate.getTime()
-          middleDate = new Date(millisec)
-          #Epoche highlighted
-          for epoch in @_config.epochs
-            epoch.div.className = "tl_epoch"
-          epoch_tmp.div.className = "tl_epoch_highlighted"
-          
-          @moveToDate middleDate
-          if epoch_tmp.endDate > @maxVisibleDate()
-            while epoch_tmp.endDate > @maxVisibleDate()
-              if !@_zoom -1
-                  break
-          else
-            while epoch_tmp.endDate < maxDate or !maxDate?
-              if !@_zoom 1
-                break
-              else
-                maxDate = new Date(@maxVisibleDate().getTime() - ((@maxVisibleDate().getTime() - epoch_tmp.startDate.getTime()) * 0.2))
+  ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## 
 
-        $(epoch.div).fadeIn(200)
-      else
-        #Epoche bereits erstellt, Position wird nur aktualisiert
-        epoch.div.style.left = @dateToPosition(epoch.startDate) + "px"
-        epoch.div.style.width = (@dateToPosition(epoch.endDate) - @dateToPosition(epoch.startDate)) + "px"
+  #   if click on topic move to it and zoom in
+  #   highlight the topic div container
+  #   todo: show subtopics
 
+  _onTopicClick: (topic_tmp) ->
+    diff = topic_tmp.endDate.getTime() - topic_tmp.startDate.getTime()
+    millisec = diff / 2 + topic_tmp.startDate.getTime()
+    middleDate = new Date(millisec)
+    #Topice highlighted
+    for topic in @_config.topics
+      topic.div.className = "tl_topic"
+    topic_tmp.div.className = "tl_topic_highlighted"
+    
+    @moveToDate middleDate, 2
+    ###if topic_tmp.endDate > @maxVisibleDate()
+      while topic_tmp.endDate > @maxVisibleDate()
+        if !@_zoom -1
+            break
+    else
+      while topic_tmp.endDate < maxDate or !maxDate?
+        if !@_zoom 1
+          break
+        else
+          maxDate = new Date(@maxVisibleDate().getTime() - ((@maxVisibleDate().getTime() - topic_tmp.startDate.getTime()) * 0.2))###
+
+  ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## 
+
+  #   show or update topcis on timeline
+  #   if topic.div == null create topic 
+  #   else update position of div container
 
   _updateTopics:()->
     for topic in @_config.topics
       if !topic.div?
-        #topic wurde noch nicht dargestellt, wird hier erzeugt
         topic.div = document.createElement("div")
-        topic.div.id = "topic" + topic.name
+        topic.div.id = "topic" + topic.id
         topic.div.className = "tl_topic"
         topic.div.innerHTML = topic.name
         topic.div.style.left = @dateToPosition(topic.startDate) + "px"
         topic.div.style.width = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) + "px"
         topic.div.style.display = "none"
-        @getCanvas().appendChild topic.div        
-        $(topic.div).on "click",
-          value: topic
-        , (event) =>
-          topic_tmp = event.data.value
-          diff = topic_tmp.endDate.getTime() - topic_tmp.startDate.getTime()
-          millisec = diff / 2 + topic_tmp.startDate.getTime()
-          middleDate = new Date(millisec)
-          
-          #Topics highlighted
-          for topic in @_config.topics
-            topic.div.className = "tl_topic"
-          topic_tmp.div.className = "tl_topic_highlighted"
-          
-          @moveToDate middleDate
-          if topic_tmp.endDate > @maxVisibleDate()
-            while topic_tmp.endDate > @maxVisibleDate()
-              if !@_zoom -1
-                  break
-          else
-            while topic_tmp.endDate < maxDate or !maxDate?
-              if !@_zoom 1
-                break
-              else
-                maxDate = new Date(@maxVisibleDate().getTime() - ((@maxVisibleDate().getTime() - topic_tmp.startDate.getTime()) * 0.2))
-
+        @getCanvas().appendChild topic.div
+        $(topic.div).on "click", value: topic, (event) => @_onTopicClick(event.data.value)
         $(topic.div).fadeIn(200)
       else
-        #topic bereits erstellt, Position wird nur aktualisiert
         topic.div.style.left = @dateToPosition(topic.startDate) + "px"
         topic.div.style.width = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) + "px"
 
-
-
   _updateDateMarkers: (zoomed=true) ->
-    @_updateEpochs()
-    @_updateTopics()
+
     #   count possible years to show
     count = @_config.maxYear - @_config.minYear
 
@@ -467,6 +434,7 @@ class HG.Timeline
         toDate = new Date(@_now.date.getTime() + @_speed*@_speed * 5000 * 60 * 60 * 24 * 7)
         @moveToDate(toDate,0)
         @_updateNowDate()
+        @_updateTopics()
         @_updateDateMarkers(zoomed=false)
       else
         @_now.marker.animationSwitch()
