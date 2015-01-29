@@ -8,6 +8,9 @@ class HG.Timeline
 
   #   --------------------------------------------------------------------------
   constructor: (config) ->
+
+    @_activeTopic = null
+
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
 
@@ -31,10 +34,7 @@ class HG.Timeline
       tl:           @addUIElement "tl", "swiper-container", @_config.parentDiv
       tl_wrapper:   @addUIElement "tl_wrapper", "swiper-wrapper", tl
       tl_slide:     @addUIElement "tl_slide", "swiper-slide", tl_wrapper
-      #nowMarker:    @addUIElement "now_marker", "now_marker", document.getElementById("histoglobe")
-      timeBars:     []
       dateMarkers:  new HG.DoublyLinkedList()
-      #topics:  new Array()
 
     #   ------------------------------------------------------------------------
     @_now =
@@ -198,38 +198,6 @@ class HG.Timeline
         d.setDate(res[i - 3])
     d
 
-  #   --------------------------------------------------------------------------
-  updateTimeBars: (activeTimeBars) ->
-    for oldTimeBar in @_uiElements.timeBars
-      oldTimeBar.div.style.display = "none"
-      @getCanvas().removeChild oldTimeBar.div
-    @_uiElements.timeBars = []
-    for timeBarValues in activeTimeBars
-      @_drawTimeBar timeBarValues
-
-  #   --------------------------------------------------------------------------
-  moveToDate: (date, delay=0, successCallback=undefined) ->
-    if @yearToDate(@_config.minYear).getTime() > date.getTime()
-      @moveToDate @yearToDate(@_config.minYear), delay, successCallback
-    else if @yearToDate(@_config.maxYear).getTime() < date.getTime()
-      @moveToDate @yearToDate(@_config.maxYear), delay, successCallback
-    else
-      dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
-      @_uiElements.tl_wrapper.style.transition =  delay + "s"
-      @_uiElements.tl_wrapper.style.transform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-      @_uiElements.tl_wrapper.style.webkitTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-      @_uiElements.tl_wrapper.style.MozTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-      @_uiElements.tl_wrapper.style.MsTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-      @_uiElements.tl_wrapper.style.oTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-
-      @_animationTargetDate = date
-      @_now.date = date
-      @_now.marker.nowDateChanged()
-
-      @notifyAll "onNowChanged", @_now.date
-      @notifyAll "onIntervalChanged", @_getTimeFilter()
-      successCallback?()
-
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
   getLayout: ->
@@ -255,11 +223,34 @@ class HG.Timeline
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
 
+  _moveToDate: (date, delay=0, successCallback=undefined) ->
+    if @yearToDate(@_config.minYear).getTime() > date.getTime()
+      @_moveToDate @yearToDate(@_config.minYear), delay, successCallback
+    else if @yearToDate(@_config.maxYear).getTime() < date.getTime()
+      @_moveToDate @yearToDate(@_config.maxYear), delay, successCallback
+    else
+      dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
+      @_uiElements.tl_wrapper.style.transition =  delay + "s"
+      @_uiElements.tl_wrapper.style.transform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tl_wrapper.style.webkitTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tl_wrapper.style.MozTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tl_wrapper.style.MsTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tl_wrapper.style.oTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+
+      @_animationTargetDate = date
+      @_now.date = date
+      @_now.marker.nowDateChanged()
+
+      @notifyAll "onNowChanged", @_now.date
+      @notifyAll "onIntervalChanged", @_getTimeFilter()
+
+      setTimeout(successCallback, delay * 1000) if successCallback?
+
   #   --------------------------------------------------------------------------
   _updateLayout: ->
     @_uiElements.tl.style.width       = window.innerWidth + "px"
     @_uiElements.tl_slide.style.width = (@timelineLength() + window.innerWidth) + "px"
-    @moveToDate(@_now.date, 0)
+    @_moveToDate(@_now.date, 0)
     @_timeline_swiper.reInit()
 
   #   --------------------------------------------------------------------------
@@ -276,40 +267,7 @@ class HG.Timeline
       @notifyAll "onNowChanged", @_now.date
       @notifyAll "onIntervalChanged", @_getTimeFilter()
 
-  #   --------------------------------------------------------------------------
-  _drawTimeBar: (timeBarValues) ->
-
-    startDate = @stringToDate(timeBarValues[0])
-    endDate   = @stringToDate(timeBarValues[1])
-
-    tb_div = @addUIElement "tl_timebar_" + timeBarValues[2], "tl_timebar", @getCanvas()
-    tb_div.style.left = @dateToPosition(startDate) + "px"
-    tb_div.style.width = (@dateToPosition(endDate) - @dateToPosition(startDate)) + "px"
-
-    timeBar =
-      div: tb_div
-      startDate: startDate
-      endDate: endDate
-    @_uiElements.timeBars.push timeBar
-
-    @moveToDate startDate, 0.5
-    if timeBar.endDate > @maxVisibleDate()
-      while timeBar.endDate > @maxVisibleDate()
-        if !@_zoom -1
-            break
-    else
-      while timeBar.endDate < maxDate or !maxDate?
-        if !@_zoom 1
-          break
-        else
-          maxDate = new Date(@maxVisibleDate().getTime() - ((@maxVisibleDate().getTime() - timeBar.startDate.getTime()) * 0.2))
-
-  _updateTimeBarPositions: ->
-    for timeBar in @_uiElements.timeBars
-      timeBar.div.style.left = @dateToPosition(timeBar.startDate) + "px"
-      timeBar.div.style.width = (@dateToPosition(timeBar.endDate) - @dateToPosition(timeBar.startDate)) + "px"
-
-  ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## 
+  ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##     
 
   #   if click on topic move to it and zoom in
   #   highlight the topic div container
@@ -319,23 +277,26 @@ class HG.Timeline
     diff = topic_tmp.endDate.getTime() - topic_tmp.startDate.getTime()
     millisec = diff / 2 + topic_tmp.startDate.getTime()
     middleDate = new Date(millisec)
-    #Topice highlighted
     for topic in @_config.topics
-      topic.div.className = "tl_topic"
-    topic_tmp.div.className = "tl_topic_highlighted"
-    
-    @moveToDate middleDate, 2
-    ###if topic_tmp.endDate > @maxVisibleDate()
-      while topic_tmp.endDate > @maxVisibleDate()
-        if !@_zoom -1
-            break
-    else
-      while topic_tmp.endDate < maxDate or !maxDate?
-        if !@_zoom 1
-          break
-        else
-          maxDate = new Date(@maxVisibleDate().getTime() - ((@maxVisibleDate().getTime() - topic_tmp.startDate.getTime()) * 0.2))###
-
+      topic.div.className = "tl_topic tl_topic_row" + topic.row
+    topic_tmp.div.className = "tl_topic_highlighted tl_topic_row" + topic_tmp.row
+    @_activeTopic = topic_tmp
+    @_moveToDate middleDate, 1, =>      
+      if @_activeTopic.endDate > @maxVisibleDate()
+        repeatObj = setInterval =>  
+          if @_activeTopic.endDate > (new Date(@maxVisibleDate().getTime() - (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1))
+            @_zoom -1
+          else
+            clearInterval(repeatObj)
+        , 50
+      else
+        repeatObj = setInterval =>  
+          if @_activeTopic.endDate < (new Date(@maxVisibleDate().getTime() - (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1))
+            @_zoom 1
+          else
+            clearInterval(repeatObj)
+        , 50
+  
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## 
 
   #   show or update topcis on timeline
@@ -347,7 +308,7 @@ class HG.Timeline
       if !topic.div?
         topic.div = document.createElement("div")
         topic.div.id = "topic" + topic.id
-        topic.div.className = "tl_topic"
+        topic.div.className = "tl_topic tl_topic_row" + topic.row
         topic.div.innerHTML = topic.name
         topic.div.style.left = @dateToPosition(topic.startDate) + "px"
         topic.div.style.width = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) + "px"
@@ -407,10 +368,10 @@ class HG.Timeline
           @_uiElements.dateMarkers.get(i).nodeData.updateView(false)
           @_uiElements.dateMarkers.get(i).nodeData = null
 
-    @_updateTimeBarPositions()
+    #@_updateTimeBarPositions()
 
   #   --------------------------------------------------------------------------
-  _zoom: (delta, e=null) =>
+  _zoom: (delta, e=null, layout=true) =>
     zoomed = false
     if delta > 0
       if @maxVisibleDate().getFullYear() - @minVisibleDate().getFullYear() > 2
@@ -421,9 +382,11 @@ class HG.Timeline
         @_config.timelineZoom /= 1.1
         zoomed = true
 
-    if zoomed
-      @_updateLayout()
+    if zoomed 
+      if layout
+        @_updateLayout()
       @_updateDateMarkers()
+      @_updateTopics()
       @notifyAll "onZoom"
     zoomed
 
@@ -432,7 +395,7 @@ class HG.Timeline
     if @_play
       if @_now.date.getFullYear() <= @_config.maxYear
         toDate = new Date(@_now.date.getTime() + @_speed*@_speed * 5000 * 60 * 60 * 24 * 7)
-        @moveToDate(toDate,0)
+        @_moveToDate(toDate,0)
         @_updateNowDate()
         @_updateTopics()
         @_updateDateMarkers(zoomed=false)

@@ -36,13 +36,14 @@
 
       .tl_topic{
         font-size: 17px;
-        //font-size: 1vw;
         line-height: 30px;
         white-space: nowrap;
         color: @timeline_font_color;
         box-shadow: -3px 0px 3px rgba(0,0,0,0.17);
         background-color: @timeline_topic_color;
         text-align: center;
+
+        white-space: nowrap; // avoid break;
 
         position: absolute;
         left: 0;
@@ -56,6 +57,8 @@
         .tl_topic;
         background-color: @timeline_topic_highlighted_color;
       }
+      .tl_topic_row0 { bottom: 88px; }
+      .tl_topic_row1 { bottom: 48px; }
 
       .tl_topic_highlighted{
         .tl_topic;
