@@ -22,16 +22,39 @@
       .tl_datemarker {
         font-size: 40px;
         //font-size: 6vw;
-        line-height: 100px;
+        height: @timeline_height - @border_width;
+        line-height: @timeline_height - @border_width;
         color: @timeline_font_color;
         box-shadow: -3px 0px 3px rgba(0,0,0,0.17);
+        display: none;
 
         position: absolute;
         left: 0;
-        top: 3px;
+        top: 1px;
         padding: 0px 0px 0px 5px;
-        z-index: 1;
-        overflow: hidden;
+        z-index: 2;
+        //overflow: hidden;
+
+        .tl_months {
+          position: relative;
+          margin: 0px 0px 0px -5px;
+          height: 0px;
+          //overflow: hidden;
+
+          .tl_month {
+            position: absolute;
+            //background-color: #185766;
+            height: @timeline_height - @border_width;
+            line-height: @timeline_height - @border_width;
+            font-size: 30%;
+            text-align: center;
+            color: rgba(255,255,255, 0.3);
+            overflow: hidden;
+            text-overflow: clip;
+            padding-left: 5px;
+            z-index: 1;
+          }
+        }
       }
 
       .tl_topic{

@@ -7,7 +7,9 @@ window.HG ?= {}
 MAX_ZOOM_LEVEL = 7        # most detailed view of timeline in DAYS
 MIN_INTERVAL_INDEX = 0    # 0 = 1 Year | 1 = 2 Year | 2 = 5 Years | 3 = 10 Years | ...
 INTERVAL_SCALE = 0.2      # higher value makes greater intervals between datemarkers
-FONT_SIZE_SCALE = 2.6     # scale of datemarker years
+FADE_ANIMATION_TIME = 200 # fade in time for datemarkers and so
+
+MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
 
 class HG.Timeline
 
@@ -172,6 +174,28 @@ class HG.Timeline
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
+  millisPerPixel: ->
+    mpp = (@yearsToMillis(@_config.maxYear - @_config.minYear) / window.innerWidth) / @_config.timelineZoom
+  minVisibleDate: ->
+    d = new Date(@_now.date.getTime() - (@millisPerPixel() * window.innerWidth / 2))
+  maxVisibleDate: ->
+    d = new Date(@_now.date.getTime() + (@millisPerPixel() * window.innerWidth / 2))
+  timelineLength: ->
+    @yearsToMillis(@_config.maxYear - @_config.minYear) / @millisPerPixel()
+  timeInterval: (i) ->
+    x = Math.floor(i/3)
+    if i % 3 == 0
+      return @yearsToMillis(Math.pow(10, x))
+    if i % 3 == 1
+      return @yearsToMillis(2 * Math.pow(10, x))
+    if i % 3 == 2
+      return @yearsToMillis(5 * Math.pow(10, x))
+  dateToPosition: (date) ->
+    dateDiff = date.getTime() - @yearToDate(@_config.minYear).getTime()
+    pos = (dateDiff / @millisPerPixel()) + window.innerWidth/2
+
+  ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
+
   # animation control
   stopTimeline: ->
     @_play = false
@@ -232,29 +256,6 @@ class HG.Timeline
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
   ## ## ## ## 
   ## ##             PRIVATE
-
-  # calculations
-  millisPerPixel: ->
-    mpp = (@yearsToMillis(@_config.maxYear - @_config.minYear) / window.innerWidth) / @_config.timelineZoom
-  minVisibleDate: ->
-    d = new Date(@_now.date.getTime() - (@millisPerPixel() * window.innerWidth / 2))
-  maxVisibleDate: ->
-    d = new Date(@_now.date.getTime() + (@millisPerPixel() * window.innerWidth / 2))
-  timelineLength: ->
-    @yearsToMillis(@_config.maxYear - @_config.minYear) / @millisPerPixel()
-  timeInterval: (i) ->
-    x = Math.floor(i/3)
-    if i % 3 == 0
-      return @yearsToMillis(Math.pow(10, x))
-    if i % 3 == 1
-      return @yearsToMillis(2 * Math.pow(10, x))
-    if i % 3 == 2
-      return @yearsToMillis(5 * Math.pow(10, x))
-  dateToPosition: (date) ->
-    dateDiff = date.getTime() - @yearToDate(@_config.minYear).getTime()
-    pos = (dateDiff / @millisPerPixel()) + window.innerWidth/2
-
-  ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
   # move and zoom
   _zoom: (delta, e=null, layout=true) =>
@@ -362,15 +363,14 @@ class HG.Timeline
         if topic.subtopics?
           for subtopic in topic.subtopics
             subtopic.div.style.left = ((subtopic.startDate.getTime() - topic.startDate.getTime()) / @millisPerPixel()) + "px"
-            subtopic.div.style.width = (@dateToPosition(subtopic.endDate) - @dateToPosition(subtopic.startDate)) + "px"
+            subtopic.div.style.width = (@dateToPosition(subtopic.endDate) - @dateToPosition(subtopic.startDate)) + "px" 
 
-  _updateDateMarkers: (zoomed=true) ->
+  _updateDateMarkers: (zoomed=true) ->    
 
     interval = @getTimeInterval()
 
     # scale datemarker
     $(".tl_datemarker").css({"max-width": Math.round(interval / @millisPerPixel()) + "px"})    
-    $(".tl_datemarker").css({"font-size": Math.round((interval / @millisPerPixel()) / FONT_SIZE_SCALE) + "px"})    
 
     # for every year on timeline check if datemarker is needed
     # or can be removed. 
@@ -392,21 +392,76 @@ class HG.Timeline
             months: []
           @_uiElements.dateMarkers[i].div.id = "tl_year_" + year
           @_uiElements.dateMarkers[i].div.className = "tl_datemarker"
-          @_uiElements.dateMarkers[i].div.innerHTML = year
+          @_uiElements.dateMarkers[i].div.innerHTML = '<div class="tl_months"></div>' + year
           @_uiElements.dateMarkers[i].div.style.left = @dateToPosition(@yearToDate(year)) + "px"
-          @_uiElements.dateMarkers[i].div.style.display = "none"
+          #@_uiElements.dateMarkers[i].div.style.display = "none"
           @getCanvas().appendChild @_uiElements.dateMarkers[i].div
-          $(@_uiElements.dateMarkers[i].div).fadeIn(200)
+
+          # show and create months
+          if @millisToYears(interval) == 1            
+            for month_name, key in MONTH_NAMES
+              month = 
+                div: document.createElement("div")
+                startDate: new Date()
+                endDate: new Date()
+                name: month_name
+              month.startDate.setFullYear(year, key, 1)
+              month.endDate.setFullYear(year, key + 1, 0)
+              month.div.className = "tl_month"
+              month.div.innerHTML = month.name
+              month.div.style.left = ((month.startDate.getTime() - @yearToDate(year).getTime()) / @millisPerPixel()) + "px"
+              month.div.style.width = (@dateToPosition(month.endDate) - @dateToPosition(month.startDate)) + "px"
+              $("#tl_year_" + year + " > .tl_months" ).append month.div                            
+              @_uiElements.dateMarkers[i].months[key] = month
+          
+          # hide and delete months
+          else            
+            for months in @_uiElements.dateMarkers[i].months
+              $(month.div).fadeOut(FADE_ANIMATION_TIME, `function() { $(this).remove(); }`)
+            @_uiElements.dateMarkers[i].months.length = 0
+          $(@_uiElements.dateMarkers[i].div).fadeIn(FADE_ANIMATION_TIME)
         else
 
-          # update existing datemarker
+          # update existing datemarker and his months
           @_uiElements.dateMarkers[i].div.style.left = @dateToPosition(@yearToDate(year)) + "px"
-      else
+          if @millisToYears(interval) == 1
 
-        # hide datemarker
+            # show months, create new month divs
+            if @_uiElements.dateMarkers[i].months.length == 0
+              for month_name, key in MONTH_NAMES
+                month = 
+                  div: document.createElement("div")
+                  startDate: new Date()
+                  endDate: new Date()
+                  name: month_name
+                month.startDate.setFullYear(year, key, 1)
+                month.endDate.setFullYear(year, key + 1, 0)
+                month.div.className = "tl_month"
+                month.div.innerHTML = month.name
+                month.div.style.left = ((month.startDate.getTime() - @yearToDate(year).getTime()) / @millisPerPixel()) + "px"
+                month.div.style.width = (@dateToPosition(month.endDate) - @dateToPosition(month.startDate)) + "px"
+                $("#tl_year_" + year + " > .tl_months" ).append month.div                            
+                @_uiElements.dateMarkers[i].months[key] = month
+
+            # update existing month divs
+            else              
+              for month in @_uiElements.dateMarkers[i].months
+                month.div.style.left = ((month.startDate.getTime() - @yearToDate(year).getTime()) / @millisPerPixel()) + "px"
+                month.div.style.width = (@dateToPosition(month.endDate) - @dateToPosition(month.startDate)) + "px"
+          
+          # hide and delete months
+          else            
+            for month in @_uiElements.dateMarkers[i].months
+              $(month.div).fadeOut(FADE_ANIMATION_TIME, `function() { $(this).remove(); }`)
+            @_uiElements.dateMarkers[i].months.length = 0          
+
+      # hide and delete datemarker and their months
+      else        
         if @_uiElements.dateMarkers[i]?
-           $(@_uiElements.dateMarkers[i].div).fadeOut(200, `function() { $(this).remove(); }`)
-           @_uiElements.dateMarkers[i] = null
+          @_uiElements.dateMarkers[i].div.style.left = @dateToPosition(@yearToDate(year)) + "px"
+          #$(@_uiElements.dateMarkers[i].div).fadeOut(FADE_ANIMATION_TIME, `function() { $(this).remove(); }`)
+          $(@_uiElements.dateMarkers[i].div).remove()
+          @_uiElements.dateMarkers[i] = null
 
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##     
