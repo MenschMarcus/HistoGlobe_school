@@ -1,5 +1,10 @@
 window.HG ?= {}
 
+MAX_ZOOM_LEVEL = 7        # most detailed view of timeline in DAYS
+MIN_INTERVAL_INDEX = 0    # 0 = 1 Year | 1 = 2 Year | 2 = 5 Years | 3 = 10 Years | ...
+INTERVAL_SCALE = 0.2      # higher value makes greater intervals between datemarkers
+FONT_SIZE_SCALE = 2.6     # scale of datemarker years
+
 class HG.Timeline
 
   ##############################################################################
@@ -34,7 +39,7 @@ class HG.Timeline
       tl:           @addUIElement "tl", "swiper-container", @_config.parentDiv
       tl_wrapper:   @addUIElement "tl_wrapper", "swiper-wrapper", tl
       tl_slide:     @addUIElement "tl_slide", "swiper-slide", tl_wrapper
-      dateMarkers:  new HG.DoublyLinkedList()
+      dateMarkers:  []
 
     #   ------------------------------------------------------------------------
     @_now =
@@ -144,21 +149,22 @@ class HG.Timeline
   #   GENERAL FUNCTIONS FOR CALCULATION STUFF ON CURRENT TIMELINE
 
   millisPerPixel: ->
-    mpp = (@yearToMillis(@_config.maxYear - @_config.minYear) / window.innerWidth) / @_config.timelineZoom
+    mpp = (@yearsToMillis(@_config.maxYear - @_config.minYear) / window.innerWidth) / @_config.timelineZoom
   minVisibleDate: ->
     d = new Date(@_now.date.getTime() - (@millisPerPixel() * window.innerWidth / 2))
   maxVisibleDate: ->
     d = new Date(@_now.date.getTime() + (@millisPerPixel() * window.innerWidth / 2))
   timelineLength: ->
-    @yearToMillis(@_config.maxYear - @_config.minYear) / @millisPerPixel()
+    @yearsToMillis(@_config.maxYear - @_config.minYear) / @millisPerPixel()
   timeInterval: (i) ->
     x = Math.floor(i/3)
     if i % 3 == 0
-      return @yearToMillis(Math.pow(10, x))
+      return @yearsToMillis(Math.pow(10, x))
     if i % 3 == 1
-      return @yearToMillis(2 * Math.pow(10, x))
+      return @yearsToMillis(2 * Math.pow(10, x))
     if i % 3 == 2
-      return @yearToMillis(5 * Math.pow(10, x))
+      return @yearsToMillis(5 * Math.pow(10, x))
+
   dateToPosition: (date) ->
     dateDiff = date.getTime() - @yearToDate(@_config.minYear).getTime()
     pos = (dateDiff / @millisPerPixel()) + window.innerWidth/2
@@ -176,10 +182,16 @@ class HG.Timeline
     date.setMinutes 0
     date.setSeconds 0
     date
-  yearToMillis: (year) ->
+  yearsToMillis: (year) ->
     millis = year * 365.25 * 24 * 60 * 60 * 1000
-  millisToYear: (millis) ->
+  monthsToMillis: (months) ->
+    millis = months * 30 * 24 * 60 * 60 * 1000
+  yearsToMonths: (years) ->
+    months = Math.round(years * 12)
+  millisToYears: (millis) ->
     year = millis / 1000 / 60 / 60 / 24 / 365.25
+  millisToMonths: (millis) ->
+    months = Math.round(millis / 1000 / 60 / 60 / 24 / 365.25 / 12)
   daysToMillis: (days) ->
     millis = days * 24 * 60 * 60 * 1000
   millisToDays: (millis) ->
@@ -200,6 +212,11 @@ class HG.Timeline
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
+  getTimeInterval: ->
+    intervalIndex = MIN_INTERVAL_INDEX
+    while @timeInterval(intervalIndex) <= window.innerWidth * @millisPerPixel() * INTERVAL_SCALE
+      intervalIndex++
+    @timeInterval(intervalIndex)
   getLayout: ->
     @_uiElements
   getNowDate: ->
@@ -338,59 +355,53 @@ class HG.Timeline
 
   _updateDateMarkers: (zoomed=true) ->
 
-    #   count possible years to show
-    count = @_config.maxYear - @_config.minYear
+    interval = @getTimeInterval()
 
-    #   if list of datemarkers is not available
-    #   fill it with nulls
-    if @_uiElements.dateMarkers.getLength() == 0
-      for i in [0..count]
-        @_uiElements.dateMarkers.addLast(null)
+    # scale datemarker
+    $(".tl_datemarker").css({"max-width": Math.round(interval / @millisPerPixel()) + "px"})    
+    $(".tl_datemarker").css({"font-size": Math.round((interval / @millisPerPixel()) / FONT_SIZE_SCALE) + "px"})    
 
-    #   calculate interval between years to show
-    index = 0
-    while @timeInterval(index) <= window.innerWidth * @millisPerPixel()
-      index++
-    intervalIndex = (index - 3)
-    intervalIndex = 0 if intervalIndex < 0
+    # for every year on timeline check if datemarker is needed
+    # or can be removed. 
+    for i in [0..@_config.maxYear - @_config.minYear]
+      year = @_config.minYear + i 
 
-    dateMarkerMaxWidth = window.innerWidth / (@millisToYear(window.innerWidth * @millisPerPixel()) / @millisToYear(@timeInterval(intervalIndex)))
+      # fits year to interval? 
+      if year % @millisToYears(interval) == 0 and 
+      year >= @minVisibleDate().getFullYear() and 
+      year <= @maxVisibleDate().getFullYear() 
 
-    maxDate = @maxVisibleDate()
-    minDate = @minVisibleDate()
+        # show datemarker
+        if !@_uiElements.dateMarkers[i]?
 
-    #   walk through list an create, or hide datemarkers
-    for i in [0..count]
-      if (@_config.minYear + i) % @millisToYear(@timeInterval(intervalIndex)) == 0 && (@_config.minYear + i) >= minDate.getFullYear() && (@_config.minYear + i) <= maxDate.getFullYear()
-        if @_uiElements.dateMarkers.get(i).nodeData?
-          @_uiElements.dateMarkers.get(i).nodeData.updateView(true)
-          element = @_uiElements.dateMarkers.get(i).nodeData.getDiv()
-          element.style.maxWidth = dateMarkerMaxWidth + "px"
-          if Math.round(dateMarkerMaxWidth / 2.6) <= 100
-            $(element).css({'font-size':(Math.round(dateMarkerMaxWidth / 2.6)) + 'px'})
-          else
-            $(element).css({'font-size':'100px'})
+          # create new
+          @_uiElements.dateMarkers[i] = 
+            div: document.createElement("div")
+            year: year
+            months: []
+          @_uiElements.dateMarkers[i].div.id = "tl_year_" + year
+          @_uiElements.dateMarkers[i].div.className = "tl_datemarker"
+          @_uiElements.dateMarkers[i].div.innerHTML = year
+          @_uiElements.dateMarkers[i].div.style.left = @dateToPosition(@yearToDate(year)) + "px"
+          @_uiElements.dateMarkers[i].div.style.display = "none"
+          @getCanvas().appendChild @_uiElements.dateMarkers[i].div
+          $(@_uiElements.dateMarkers[i].div).fadeIn(200)
         else
-          date = new Date(@_config.minYear + i, 0, 1, 0, 0, 0)
-          @_uiElements.dateMarkers.get(i).nodeData = new HG.DateMarker(date, @)
-          element = @_uiElements.dateMarkers.get(i).nodeData.getDiv()
-          element.style.maxWidth = dateMarkerMaxWidth + "px"
-          if Math.round(dateMarkerMaxWidth / 2.6) <= 100
-            $(element).css({'font-size':(Math.round(dateMarkerMaxWidth / 2.6)) + 'px'})
-          else
-            $(element).css({'font-size':'100px'})
-      else
-        if @_uiElements.dateMarkers.get(i).nodeData?
-          @_uiElements.dateMarkers.get(i).nodeData.updateView(false)
-          @_uiElements.dateMarkers.get(i).nodeData = null
 
-    #@_updateTimeBarPositions()
+          # update existing datemarker
+          @_uiElements.dateMarkers[i].div.style.left = @dateToPosition(@yearToDate(year)) + "px"
+      else
+
+        # hide datemarker
+        if @_uiElements.dateMarkers[i]?
+           $(@_uiElements.dateMarkers[i].div).fadeOut(200, `function() { $(this).remove(); }`)
+           @_uiElements.dateMarkers[i] = null
 
   #   --------------------------------------------------------------------------
   _zoom: (delta, e=null, layout=true) =>
     zoomed = false
     if delta > 0
-      if @maxVisibleDate().getFullYear() - @minVisibleDate().getFullYear() > 2
+      if @millisToDays(@maxVisibleDate().getTime()) - @millisToDays(@minVisibleDate().getTime()) > MAX_ZOOM_LEVEL
         @_config.timelineZoom *= 1.1
         zoomed = true
     else
