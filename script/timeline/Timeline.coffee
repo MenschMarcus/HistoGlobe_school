@@ -392,7 +392,7 @@ class HG.Timeline
             months: []
           @_uiElements.dateMarkers[i].div.id = "tl_year_" + year
           @_uiElements.dateMarkers[i].div.className = "tl_datemarker"
-          @_uiElements.dateMarkers[i].div.innerHTML = '<div class="tl_months"></div>' + year
+          @_uiElements.dateMarkers[i].div.innerHTML = year + '<div class="tl_months"></div>'
           @_uiElements.dateMarkers[i].div.style.left = @dateToPosition(@yearToDate(year)) + "px"
           #@_uiElements.dateMarkers[i].div.style.display = "none"
           @getCanvas().appendChild @_uiElements.dateMarkers[i].div

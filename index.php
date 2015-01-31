@@ -12,6 +12,7 @@
     <title>HistoGlobe</title>
 
     <?php // third party css ?>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="style/third-party/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="style/third-party/idangerous.swiper.css" />
