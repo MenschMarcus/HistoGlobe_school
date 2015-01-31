@@ -1,115 +1,131 @@
+
 //  -------------------------------------------------------------------
-#tl {
-  position:   absolute;
-  left:       0px;
-  bottom:     0px;
-  height:     @timeline_height;
-  min-width:  100%;
-  overflow:   hidden;
-  cursor:     -webkit-grab;
-  cursor:     -moz-grab;
-  font-family: 'Open Sans';
+
+#timeline-area {
+  box-shadow:   1px 1px 2px 2px rgba(0,0,0,@shadow_intensity);
+  overflow: visible !important;
+
+  //  -------------------------------------------------------------------
+
+  .timeline-control-buttons-group {
+    box-shadow: 1px 1px 2px 2px rgba(0,0,0,@shadow_intensity);
+    margin-top: -20px;
+  }
+
+  //  -------------------------------------------------------------------
+
+  #tl {
+    position:   absolute;
+    left:       0px;
+    bottom:     0px;
+    height:     @timeline_height;
+    min-width:  100%;
+    overflow:   visible !important;
+    cursor:     -webkit-grab;
+    cursor:     -moz-grab;
+    font-family: 'Open Sans';
 
 
-  #tl_wrapper {
-    height: @timeline_height !important;
-    background-color: @timeline_background_color;
-    //.linear-gradient-top(#878787, #878787, 0%, #636363, 100%);
-    //background-repeat: repeat;
-
-    #tl_slide {
+    #tl_wrapper {
       height: @timeline_height !important;
+      background-color: @timeline_background_color;
+      //.linear-gradient-top(#878787, #878787, 0%, #636363, 100%);
+      //background-repeat: repeat;
 
-      .tl_datemarker {
-        font-size: @timeline_datemarker_font_size;
-        //font-size: 6vw;
-        //height: @timeline_height - @border_width;
-        line-height: @timeline_datemarker_line_height;
-        color: @timeline_datemarker_color;
-        //box-shadow: -3px 0px 3px rgba(0,0,0,0.17);
-        display: none;
+      #tl_slide {
+        height: @timeline_height !important;
 
-        position: absolute;
-        left: 0;
-        top: 1px;
-        padding: 0px 0px 0px 5px;
-        z-index: 2;
-        //overflow: hidden;
+        .tl_datemarker {
+          font-size: @timeline_datemarker_font_size;
+          //font-size: 6vw;
+          //height: @timeline_height - @border_width;
+          line-height: @timeline_datemarker_line_height;
+          color: @timeline_datemarker_color;
+          //box-shadow: -3px 0px 3px rgba(0,0,0,0.17);
+          display: none;
 
-        .tl_months {
-          position: relative;
-          margin: -13px 0px 0px -5px;
-          height: 0px;
+          position: absolute;
+          left: 0;
+          top: 1px;
+          padding: 0px 0px 0px 5px;
+          z-index: 2;
           //overflow: hidden;
 
-          .tl_month {
-            position: absolute;
-            //background-color: #185766;
-            //height: @timeline_height - @border_width;
-            //line-height: @timeline_height - @border_width;
-            font-size: @timeline_month_font_size;
-            text-align: center;
-            color: @timeline_month_color;
-            overflow: hidden;
-            text-overflow: clip;
-            padding-left: 5px;
-            z-index: 1;
+          .tl_months {
+            position: relative;
+            margin: -13px 0px 0px -5px;
+            height: 0px;
+            //overflow: hidden;
+
+            .tl_month {
+              position: absolute;
+              //background-color: #185766;
+              //height: @timeline_height - @border_width;
+              //line-height: @timeline_height - @border_width;
+              font-size: @timeline_month_font_size;
+              text-align: center;
+              color: @timeline_month_color;
+              overflow: hidden;
+              text-overflow: clip;
+              padding-left: 5px;
+              z-index: 1;
+            }
           }
         }
-      }
 
-      .tl_topic{
-        font-size: @timeline_topic_font_size;
-        line-height: @timeline_topic_line_height;
-        height: @timeline_topic_height;
-        color: @timeline_topic_color;
-        box-shadow: -3px 0px 3px rgba(0,0,0,0.17);
-        background-color: @timeline_topic_bgcolor;
-        text-align: center;
-        border: solid 1px #1A5280;
-        border-radius: @timeline_topic_border_radius;
+        .tl_topic{
+          font-size: @timeline_topic_font_size;
+          line-height: @timeline_topic_line_height;
+          height: @timeline_topic_height;
+          color: @timeline_topic_color;
+          box-shadow: -3px 0px 3px rgba(0,0,0,0.17);
+          background-color: @timeline_topic_bgcolor;
+          text-align: center;
+          border: solid 1px #1A5280;
+          border-radius: @timeline_topic_border_radius;
 
-        white-space: nowrap; // avoid break;
+          white-space: nowrap; // avoid break;
 
-        position: absolute;
-        padding: 0px 0px 0px 5px;
-        z-index: 1;
-        overflow: hidden;
-        text-overflow: ellipsis;
-
-        .tl_subtopics {
-          position: relative;
-          margin: -@timeline_subtopic_height 0px 0px -5px;
-          height: @timeline_subtopic_height;
+          position: absolute;
+          padding: 0px 0px 0px 5px;
+          z-index: 1;
           overflow: hidden;
+          text-overflow: ellipsis;
 
-          .tl_subtopic{
-            position: absolute;
-            background-color: @timeline_subtopic_bgcolor;
-            color: @timeline_subtopic_color;
+          .tl_subtopics {
+            position: relative;
+            margin: -@timeline_subtopic_height 0px 0px -5px;
             height: @timeline_subtopic_height;
-            line-height: @timeline_subtopic_line_height;
-            font-size: @timeline_subtopic_font_size;
-            box-shadow: 0px 0px 5px rgba(0,0,0,0.5);   
             overflow: hidden;
-            text-overflow: ellipsis;
-            padding-left: 5px;
-            //border: solid 1px #1f6dad;
-            //border-radius: @timeline_topic_border_radius;
+
+            .tl_subtopic{
+              position: absolute;
+              background-color: @timeline_subtopic_bgcolor;
+              color: @timeline_subtopic_color;
+              height: @timeline_subtopic_height;
+              line-height: @timeline_subtopic_line_height;
+              font-size: @timeline_subtopic_font_size;
+              box-shadow: 0px 0px 5px rgba(0,0,0,0.5);   
+              overflow: hidden;
+              text-overflow: ellipsis;
+              padding-left: 5px;
+              //border: solid 1px #1f6dad;
+              //border-radius: @timeline_topic_border_radius;
+            }
           }
         }
-      }
 
-      .tl_topic_row0 { bottom: @timline_row0_position; }
-      .tl_topic_row1 { bottom: @timline_row1_position; }
+        .tl_topic_row0 { bottom: @timline_row0_position; }
+        .tl_topic_row1 { bottom: @timline_row1_position; }
 
-      .tl_topic_highlighted{
-        .tl_topic;
-        overflow: visible;
-        color: @timeline_topic_highlighted_color;
-        background-color: @timeline_topic_highlighted_bgcolor;
-        border: solid 1px #2f3b47;
-        border-radius: @timeline_topic_highlighted_border_radius;
+        .tl_topic_highlighted{
+          .tl_topic;
+          overflow: visible;
+          color: @timeline_topic_highlighted_color;
+          background-color: @timeline_topic_highlighted_bgcolor;
+          border: solid 1px #2f3b47;
+          border-radius: @timeline_topic_highlighted_border_radius;
+        }
       }
     }
   }
