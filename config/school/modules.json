@@ -10,13 +10,11 @@
     "startZoom": 5,
     "startLatLong": [50.9869531, 11.3205004],
     "tiles": "config/school/tiles/",
-    "sidebarEnabled": false,
+    "sidebarEnabled": false    
+  },
+  "Timeline" :
+  {
     "timelineZoom" : 5,
-    "nowMarker" :
-    {
-      "zoom" : 3,
-      "speedometer" : false
-    },
     "topics" : [
       {
         "startDate": "18.1.1871",

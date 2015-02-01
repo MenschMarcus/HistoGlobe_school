@@ -26,23 +26,55 @@ class HG.Timeline
 
     @addCallback "onNowChanged"
     @addCallback "onIntervalChanged"
-    @addCallback "onZoom"
+    @addCallback "onZoom"    
 
     defaultConfig =
-      parentDiv: undefined
       timelineZoom: 1
       minYear: 1850
       maxYear: 2000
       nowYear: 1925
-      speedometer: true
       topics: []
 
     @_config = $.extend {}, defaultConfig, config
 
+  ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
+
+  hgInit: (hgInstance) ->
+
+    @_config.minYear = hgInstance.getMinMaxYear()[0]
+    @_config.maxYear = hgInstance.getMinMaxYear()[1]
+    @_config.nowYear = (@_config.maxYear + @_config.minYear) / 2
+
+    @_HGContainer = hgInstance.getContainer()
+
+    hgInstance.onAllModulesLoaded @, () =>
+      @_hiventController = hgInstance.hiventController
+      @notifyAll "onNowChanged", @_now.date
+      @notifyAll "onIntervalChanged", @_getTimeFilter()
+
+      if hgInstance.zoom_buttons_timeline
+        hgInstance.zoom_buttons_timeline.onZoomIn @, () =>
+          @_zoom(1)
+        hgInstance.zoom_buttons_timeline.onZoomOut @, () =>
+          @_zoom(-1)
+
+    @_parentDiv = @addUIElement "timeline-area", "timeline-area", @_HGContainer
+
+    ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
+
+    # prepare topic dates
+    for topic in @_config.topics
+      topic.startDate = @stringToDate(topic.startDate)
+      topic.endDate = @stringToDate(topic.endDate)
+      if topic.subtopics?
+        for subtopic in topic.subtopics
+          subtopic.startDate = @stringToDate(subtopic.startDate)
+          subtopic.endDate = @stringToDate(subtopic.endDate)
+
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
     @_uiElements =
-      tl:           @addUIElement "tl", "swiper-container", @_config.parentDiv
+      tl:           @addUIElement "tl", "swiper-container", @_parentDiv
       tl_wrapper:   @addUIElement "tl_wrapper", "swiper-wrapper", tl
       tl_slide:     @addUIElement "tl_slide", "swiper-slide", tl_wrapper
       dateMarkers:  []
@@ -51,7 +83,7 @@ class HG.Timeline
 
     @_now =
       date: @yearToDate(@_config.nowYear)
-      marker: new HG.NowMarker(@, @_uiElements.nowMarker, @_config.speedometer)
+      marker: @addUIElement "now_marker_arrow_bottom", null, @_HGContainer
 
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
@@ -65,7 +97,7 @@ class HG.Timeline
       onTouchStart: =>
         @_animationTargetDate = null
         if @_play
-          @_now.marker.animationSwitch()
+          @_animationSwitch()
       onTouchMove: =>
         fireCallbacks = false
         if ++@_moveDelay == 10
@@ -93,7 +125,7 @@ class HG.Timeline
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
     # animation for timeline
-    # started from NowMaker
+    # INFO: to play timeline call @playTimeline()
     @_play = false
     @_speed = 1
     @_stopDate = @yearToDate(@_config.maxYear)
@@ -120,26 +152,15 @@ class HG.Timeline
 
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## 
 
+    hgInstance.timeline = @
+
+    ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## 
+
     #   Start the timeline here !!! 
     @_updateLayout()
     @_updateDateMarkers()
     @_updateTopics()
     @_updateNowDate()
-
-  ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
-
-  hgInit: (hgInstance) ->
-    #@_hiventController = hgInstance.hiventController
-    hgInstance.onAllModulesLoaded @, () =>
-      @_hiventController = hgInstance.hiventController
-      @notifyAll "onNowChanged", @_now.date
-      @notifyAll "onIntervalChanged", @_getTimeFilter()
-
-      if hgInstance.zoom_buttons_timeline
-        hgInstance.zoom_buttons_timeline.onZoomIn @, () =>
-          @_zoom(1)
-        hgInstance.zoom_buttons_timeline.onZoomOut @, () =>
-          @_zoom(-1)
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
@@ -160,7 +181,7 @@ class HG.Timeline
   getNowMarker: ->
     @_now.marker
   getParentDiv: ->
-    @_config.parentDiv
+    @_parentDiv
   getCanvas: ->
     @_uiElements.tl_slide  
   getPlayStatus: ->
@@ -286,7 +307,13 @@ class HG.Timeline
         @_updateTopics()
         @_updateDateMarkers(zoomed=false)
       else
-        @_now.marker.animationSwitch()
+        @_animationSwitch()
+
+  _animationSwitch: =>
+    if @getPlayStatus()
+      @stopTimeline()
+    else
+      @playTimeline()
 
   _moveToDate: (date, delay=0, successCallback=undefined) ->
     if @yearToDate(@_config.minYear).getTime() > date.getTime()
@@ -304,7 +331,6 @@ class HG.Timeline
 
       @_animationTargetDate = date
       @_now.date = date
-      @_now.marker.nowDateChanged()
 
       @notifyAll "onNowChanged", @_now.date
       @notifyAll "onIntervalChanged", @_getTimeFilter()
@@ -317,6 +343,7 @@ class HG.Timeline
   _updateLayout: ->
     @_uiElements.tl.style.width       = window.innerWidth + "px"
     @_uiElements.tl_slide.style.width = (@timelineLength() + window.innerWidth) + "px"
+    @_now.marker.style.left   = (window.innerWidth / 2) + "px"
     @_moveToDate(@_now.date, 0)
     @_timeline_swiper.reInit()
 
@@ -326,7 +353,6 @@ class HG.Timeline
       @_animationTargetDate = null
     else
       @_now.date = new Date(@yearToDate(@_config.minYear).getTime() + (-1) * @_timeline_swiper.getWrapperTranslate("x") * @millisPerPixel())
-    @_now.marker.nowDateChanged()
 
     if fireCallbacks
       @notifyAll "onNowChanged", @_now.date
