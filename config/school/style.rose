@@ -60,7 +60,7 @@ $timeline_topic_line_height			= 27px
 $timeline_topic_font_size			= 17px
 $timeline_topic_highlighted_bgcolor = #1f6dad
 $timeline_topic_bgcolor 			= #ffffff
-$timeline_topic_highlighted_border_radius = 5px
+$timeline_topic_highlighted_border_radius = 0px
 $timeline_topic_border_radius 		= 5px
 
 $timeline_subtopic_height			= 25px
