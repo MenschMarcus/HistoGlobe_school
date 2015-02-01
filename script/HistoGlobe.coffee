@@ -114,6 +114,8 @@ class HG.HistoGlobe
   # ============================================================================
   getMinMaxYear: () ->
     [@_config.minYear, @_config.maxYear]
+  getStartYear: () ->
+    @_config.nowYear
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #

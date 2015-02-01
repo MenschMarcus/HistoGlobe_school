@@ -43,7 +43,7 @@ class HG.Timeline
 
     @_config.minYear = hgInstance.getMinMaxYear()[0]
     @_config.maxYear = hgInstance.getMinMaxYear()[1]
-    @_config.nowYear = (@_config.maxYear + @_config.minYear) / 2
+    @_config.nowYear = hgInstance.getStartYear()
 
     @_HGContainer = hgInstance.getContainer()
 
