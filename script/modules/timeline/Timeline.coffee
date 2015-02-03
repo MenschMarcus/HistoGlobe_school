@@ -513,6 +513,7 @@ class HG.Timeline
 
     # make topic active (also set in url)
     @_activeTopic = topic_tmp
+    window.location.hash = '#categories=' + topic_tmp.id
 
     @_moveToDate middleDate, 1, =>
       if @_activeTopic.endDate > @maxVisibleDate()
