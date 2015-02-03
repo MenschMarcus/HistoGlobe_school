@@ -15,6 +15,9 @@ class HG.HiventList
     @_container = document.createElement "div"
     @_container.className = "hivent-list-module"
     @_hgInstance._top_area.appendChild @_container
+    @_hivent_array = []
+    @_hivent_list = document.createElement "div"
+    @_hivent_list.className = "hivent-list"
 
     #@_timeline = hgInstance.timeline
     #epoch = hgInstance.timeline.epoch.div
@@ -36,30 +39,34 @@ class HG.HiventList
 
   # ============================================================================
   _addHiventList: () ->
-    hivent_list = document.createElement "div"
-    hivent_list.className = "hivent-list"
-
-    # Hivents ==================================================================
-    
-    hivent_array = []
-    if @_hgInstance.hiventController._hiventHandles?
-      for hivent in @_hgInstance.hiventController._hiventHandles
-        console.log @_hgInstance.categoryFilter._categoryFilter[0]
-        if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
-          hivent_array.push hivent._hivent
-
-    hivents = ''
-    for hivent in hivent_array 
-      hivents = hivents + '<a href="#event=' + hivent.id + '">' + hivent.name + '</a></br>'
-
-    hivent_list.innerHTML = hivents
-
-    @_container.appendChild hivent_list
 
     # remove results if input list is empty
-    if hivent_array.lenth < 1
-      @_container.removeChild hivent_list
+    if @_hivent_array.length > 0
+      @_container.removeChild @_hivent_list
 
-    return hivent_list
+    #hivent_list = document.createElement "div"
+    #hivent_list.className = "hivent-list"
+
+    # Hivents ==================================================================
+
+    @_hivent_array = []
+    if @_hgInstance.hiventController._hiventHandles?
+      for hivent in @_hgInstance.hiventController._hiventHandles
+        if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
+          @_hivent_array.push hivent._hivent
+
+    first_link = true
+    hivents = ''
+    for hivent in @_hivent_array
+      if !first_link
+        hivents = hivents + '<hr>'
+      hivents = hivents + '<i class="fa fa-map-marker"></i><a href="#event=' + hivent.id + '">  ' + hivent.name + '</a>'
+      first_link = false
+
+    @_hivent_list.innerHTML = hivents
+
+    @_container.appendChild @_hivent_list
+
+    return @_hivent_list
 
     #=============================================================================

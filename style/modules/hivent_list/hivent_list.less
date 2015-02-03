@@ -2,11 +2,10 @@
 @hg_green: #d5c900; //HistoGlobe gelbgrün
 
 .hivent-list-module {
+  z-index: 10;
   position: absolute;
-  top: 68%;
-  left: 84%;
-
-  margin: 5px 5px 5px 0;
+  bottom: 50px;
+  right: 0px;
   font-size: 30pt * @widget_font_size_factor;
   border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
 
@@ -14,27 +13,46 @@
   .transition-duration(@sidebar_aimation_speed);
     
   .hivent-list {
-    position: absolute;
     background: #ffffff;
     width: 200px;
-    max-height: 150px;
     overflow-y: auto;
-    padding: 2px 2px 2px 2px;
+    padding: 5px;
+    max-height: 30%;
     font-family: Arial, Helvetica, sans-serif;
     font-size:15px;
     color: #000000;
     text-decoration: none;
     text-align: left;
     outline: none;
-    border: solid 1px #000000; 
     //border-right: 0px;
     //border-top-left-radius: 3px 3px;
     //border-bottom-left-radius: 3px 3px;
+    box-shadow: -2px 2px 2px #888888, -2px -2px 2px #888888;
+    
+
     a {
-      color:black;
+      color: #286b7a;
+      //color: #79a4ae;
       &:hover{
         text-decoration: none;
       }
+    }
+
+    hr {
+      /* Gradient color1 - color2 - color1 */
+      border: 0;
+      margin: 0px;
+      height: 1px;
+      background: #333;
+      background-image: -webkit-linear-gradient(left, #ccc, #333, #ccc); 
+      background-image:    -moz-linear-gradient(left, #ccc, #333, #ccc); 
+      background-image:     -ms-linear-gradient(left, #ccc, #333, #ccc); 
+      background-image:      -o-linear-gradient(left, #ccc, #333, #ccc); 
+    }
+
+    i {
+      color: #286b7a;
+      //color: #79a4ae;
     }
   }
 }
