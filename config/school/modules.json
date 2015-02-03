@@ -117,7 +117,13 @@
         "row": 0,
         "subtopics": [
         {
-          "startDate": "8.10.1949",
+          "startDate": "09.05.1945",
+          "endDate": "02.12.1947",
+          "name": "Kriegsende",
+          "id": "kriegsende"
+        },
+        {
+          "startDate": "03.12.1947",
           "endDate": "28.10.1962",
           "name": "Kalter Krieg",
           "id": "kalterKrieg"
@@ -254,23 +260,7 @@
         "default" : "config/school/icons/hiventsOnMap.png",
         "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
       },
-      "kolonAfr" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
-      },
       "wk1" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
-      },
-      "wk1-1" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
-      },
-      "wk1-2" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
-      },
-      "wk1-3" : {
         "default" : "config/school/icons/hiventsOnMap.png",
         "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
       },
@@ -278,27 +268,7 @@
         "default" : "config/school/icons/hiventsOnMap.png",
         "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
       },
-      "golden20" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
-      },
-      "wirtschaftskrise" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
-      },
       "wk2" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
-      },
-      "wk2-1" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
-      },
-      "wk2-2" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
-      },
-      "wk2-3" : {
         "default" : "config/school/icons/hiventsOnMap.png",
         "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
       },
@@ -331,10 +301,6 @@
         "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
       },
       "ns" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
-      },
-      "holocaust" : {
         "default" : "config/school/icons/hiventsOnMap.png",
         "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
       },

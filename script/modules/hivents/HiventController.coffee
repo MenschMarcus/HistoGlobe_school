@@ -38,7 +38,7 @@ class HG.HiventController
   hgInit: (hgInstance) ->
     @_hgInstance = hgInstance
 
-    # init AB tests<
+    # init AB tests
     @_ab = hgInstance.abTest.config
 
     @_hgInstance.hiventController = @
@@ -244,6 +244,8 @@ class HG.HiventController
   # ============================================================================
   _filterHivents: ->
     if @_handlesNeedSorting
+
+      # filter by date
       @_hiventHandles.sort (a, b) =>
         if a? and b?
           unless a.getHivent().startDate.getTime() is b.getHivent().startDate.getTime()
@@ -265,8 +267,14 @@ class HG.HiventController
       # 1 --> visiblePast
       # 2 --> visibleFuture
 
+      # filter by category
+      categoryHierarchy = hivent.category.split ">" # hierarchical hivent categories split by ">"
+
       if @_currentCategoryFilter?
-        unless (@_currentCategoryFilter.length is 0) or (hivent.category is "default") or (hivent.category in @_currentCategoryFilter)
+        noCategoryFilter = @_currentCategoryFilter.length is 0
+        defaultCategory = hivent.category is "default"
+        inCategory = categoryHierarchy[0] in @_currentCategoryFilter
+        unless noCategoryFilter or defaultCategory or inCategory
           state = 0
 
       if state isnt 0 and @_currentTimeFilter?
@@ -277,6 +285,7 @@ class HG.HiventController
         else if hivent.startDate.getTime() > @_currentTimeFilter.end.getTime() or hivent.endDate.getTime() < @_currentTimeFilter.start.getTime()
           state = 0
 
+      # filter by location
       if state isnt 0 and @_currentSpaceFilter?
         unless hivent.lat >= @_currentSpaceFilter.min.lat and
                hivent.long >= @_currentSpaceFilter.min.long and
@@ -338,7 +347,6 @@ class HG.HiventController
 
         # finally set the visible state and tell everyone
         score.handle.setState state
-
 
 
     @_handlesNeedSorting = false
