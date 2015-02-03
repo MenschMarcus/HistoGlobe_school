@@ -121,31 +121,56 @@ class HG.SearchBoxArea
         @_search_results = document.createElement "div"
         @_search_results.id = "search-results"
 
+      #if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
+
       result_list = []
+      epoch_result_list = []
+
       found_in_location = false
       if @_hgInstance.hiventController._hiventHandles
         for hivent in @_hgInstance.hiventController._hiventHandles
           if hivent._hivent.startYear <= @_input_text && hivent._hivent.endYear >= @_input_text
-            result_list.push hivent._hivent
-            continue
+            if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
+              epoch_result_list.push hivent._hivent
+              continue
+            else
+              result_list.push hivent._hivent
+              continue
 
           for location in hivent._hivent.locationName
           	if location.toLowerCase() == @_input_text
-              result_list.push hivent._hivent
-              found_in_location = true
-              continue
+              if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
+                epoch_result_list.push hivent._hivent
+                found_in_location = true
+                continue
+              else
+                result_list.push hivent._hivent
+                found_in_location = true
+                continue
 
           if found_in_location
             continue
 
           if hivent._hivent.description.toLowerCase().indexOf(@_input_text) > -1
-          	result_list.push hivent._hivent
-          	continue
+          	if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
+              epoch_result_list.push hivent._hivent
+              continue
+            else
+              result_list.push hivent._hivent
+              continue
 
           if hivent._hivent.name.toLowerCase().indexOf(@_input_text) > -1
-          	result_list.push hivent._hivent
-          	continue
+          	if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
+              epoch_result_list.push hivent._hivent
+              continue
+            else
+              result_list.push hivent._hivent
+              continue
 
+
+      epoch_search_output = ''
+      for epoch_result in epoch_result_list
+        epoch_search_output = epoch_search_output + '<a href="#event=' + epoch_result.id + '">' + epoch_result.name + ' (' + epoch_result.startYear + ')</a></br>'
 
       search_output = ''
       for result in result_list 
@@ -155,7 +180,8 @@ class HG.SearchBoxArea
         #$("#search-results a").eq(item).data("number", item) 
         #console.log item.number
 
-      @_search_results.innerHTML = search_output
+      @_search_results.innerHTML = '<span>Suchergebnisse in aktueller Epoche: </span></br>' + epoch_search_output + 
+        '</br><span>Andere Suchergebnisse: </span></br>' + search_output
 
       form.appendChild @_search_results
 
