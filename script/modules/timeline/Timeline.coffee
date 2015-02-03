@@ -537,7 +537,6 @@ class HG.Timeline
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
   _swapTopicRows: ->
-    console.log @_activeTopic
     # hack if activeTopic is in lower row, change row for each topic
     if @_activeTopic.row is 0
       for topic in @_config.topics
