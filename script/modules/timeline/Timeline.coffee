@@ -1,8 +1,8 @@
 window.HG ?= {}
 
-## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## 
-## ## ## ##       
-## ##             STATIC PUBLIC                 
+## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
+## ## ## ##
+## ##             STATIC PUBLIC
 
 MAX_ZOOM_LEVEL = 7        # most detailed view of timeline in DAYS
 MIN_INTERVAL_INDEX = 0    # 0 = 1 Year | 1 = 2 Year | 2 = 5 Years | 3 = 10 Years | ...
@@ -14,8 +14,8 @@ MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "O
 class HG.Timeline
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
-  ## ## ## ## 
-  ## ##           PUBLIC 
+  ## ## ## ##
+  ## ##           PUBLIC
 
   constructor: (config) ->
 
@@ -26,7 +26,7 @@ class HG.Timeline
 
     @addCallback "onNowChanged"
     @addCallback "onIntervalChanged"
-    @addCallback "onZoom"    
+    @addCallback "onZoom"
 
     defaultConfig =
       timelineZoom: 1
@@ -142,7 +142,7 @@ class HG.Timeline
       e.preventDefault()
       @_zoom(-e.detail, e)
 
-    ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## 
+    ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
     $(window).resize  =>
       @_updateLayout()
@@ -150,13 +150,13 @@ class HG.Timeline
       @_updateTopics()
       @_updateNowDate()
 
-    ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## 
+    ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
     hgInstance.timeline = @
 
-    ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## 
+    ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
-    #   Start the timeline here !!! 
+    # Start the timeline here !!!
     @_updateLayout()
     @_updateDateMarkers()
     @_updateTopics()
@@ -183,7 +183,7 @@ class HG.Timeline
   getParentDiv: ->
     @_parentDiv
   getCanvas: ->
-    @_uiElements.tl_slide  
+    @_uiElements.tl_slide
   getPlayStatus: ->
     @_play
   _getTimeFilter: ->
@@ -226,7 +226,7 @@ class HG.Timeline
     @_speed = speed
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
-  ## ## ## ## 
+  ## ## ## ##
   ## ##           (STATIC) PUBLIC
 
   # TODO: make static functions
@@ -237,6 +237,7 @@ class HG.Timeline
     container.className = className if className?
     parentDiv.appendChild container if parentDiv?
     container
+
   yearToDate: (year) ->
     date = new Date(0)
     date.setFullYear year
@@ -246,20 +247,28 @@ class HG.Timeline
     date.setMinutes 0
     date.setSeconds 0
     date
+
   yearsToMillis: (year) ->
     millis = year * 365.25 * 24 * 60 * 60 * 1000
+
   monthsToMillis: (months) ->
     millis = months * 30 * 24 * 60 * 60 * 1000
+
   yearsToMonths: (years) ->
     months = Math.round(years * 12)
+
   millisToYears: (millis) ->
     year = millis / 1000 / 60 / 60 / 24 / 365.25
+
   millisToMonths: (millis) ->
     months = Math.round(millis / 1000 / 60 / 60 / 24 / 365.25 / 12)
+
   daysToMillis: (days) ->
     millis = days * 24 * 60 * 60 * 1000
+
   millisToDays: (millis) ->
     days = millis / 1000 / 60 / 60 / 24
+
   stringToDate: (string) ->
     res = (string + "").split(".")
     i = res.length
@@ -275,7 +284,7 @@ class HG.Timeline
     d
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
-  ## ## ## ## 
+  ## ## ## ##
   ## ##             PRIVATE
 
   # move and zoom
@@ -290,7 +299,7 @@ class HG.Timeline
         @_config.timelineZoom /= 1.1
         zoomed = true
 
-    if zoomed 
+    if zoomed
       if layout
         @_updateLayout()
       @_updateDateMarkers()
@@ -376,10 +385,10 @@ class HG.Timeline
             subtopic.div = document.createElement("div")
             subtopic.div.id = "subtopic" + subtopic.id
             subtopic.div.className = "tl_subtopic"
-            subtopic.div.innerHTML = subtopic.name          
+            subtopic.div.innerHTML = subtopic.name
             subtopic.div.style.left = ((subtopic.startDate.getTime() - topic.startDate.getTime()) / @millisPerPixel()) + "px"
             subtopic.div.style.width = (@dateToPosition(subtopic.endDate) - @dateToPosition(subtopic.startDate)) + "px"
-            $("#topic" + topic.id + " > .tl_subtopics" ).append subtopic.div                            
+            $("#topic" + topic.id + " > .tl_subtopics" ).append subtopic.div
 
         $(topic.div).on "click", value: topic, (event) => @_onTopicClick(event.data.value)
         $(topic.div).fadeIn(200)
@@ -389,30 +398,30 @@ class HG.Timeline
         if topic.subtopics?
           for subtopic in topic.subtopics
             subtopic.div.style.left = ((subtopic.startDate.getTime() - topic.startDate.getTime()) / @millisPerPixel()) + "px"
-            subtopic.div.style.width = (@dateToPosition(subtopic.endDate) - @dateToPosition(subtopic.startDate)) + "px" 
+            subtopic.div.style.width = (@dateToPosition(subtopic.endDate) - @dateToPosition(subtopic.startDate)) + "px"
 
-  _updateDateMarkers: (zoomed=true) ->    
+  _updateDateMarkers: (zoomed=true) ->
 
     interval = @getTimeInterval()
 
     # scale datemarker
-    $(".tl_datemarker").css({"max-width": Math.round(interval / @millisPerPixel()) + "px"})    
+    $(".tl_datemarker").css({"max-width": Math.round(interval / @millisPerPixel()) + "px"})
 
     # for every year on timeline check if datemarker is needed
-    # or can be removed. 
+    # or can be removed.
     for i in [0..@_config.maxYear - @_config.minYear]
-      year = @_config.minYear + i 
+      year = @_config.minYear + i
 
-      # fits year to interval? 
-      if year % @millisToYears(interval) == 0 and 
-      year >= @minVisibleDate().getFullYear() and 
-      year <= @maxVisibleDate().getFullYear() 
+      # fits year to interval?
+      if year % @millisToYears(interval) == 0 and
+      year >= @minVisibleDate().getFullYear() and
+      year <= @maxVisibleDate().getFullYear()
 
         # show datemarker
         if !@_uiElements.dateMarkers[i]?
 
           # create new
-          @_uiElements.dateMarkers[i] = 
+          @_uiElements.dateMarkers[i] =
             div: document.createElement("div")
             year: year
             months: []
@@ -424,9 +433,9 @@ class HG.Timeline
           @getCanvas().appendChild @_uiElements.dateMarkers[i].div
 
           # show and create months
-          if @millisToYears(interval) == 1            
+          if @millisToYears(interval) == 1
             for month_name, key in MONTH_NAMES
-              month = 
+              month =
                 div: document.createElement("div")
                 startDate: new Date()
                 endDate: new Date()
@@ -437,11 +446,11 @@ class HG.Timeline
               month.div.innerHTML = month.name
               month.div.style.left = ((month.startDate.getTime() - @yearToDate(year).getTime()) / @millisPerPixel()) + "px"
               month.div.style.width = (@dateToPosition(month.endDate) - @dateToPosition(month.startDate)) + "px"
-              $("#tl_year_" + year + " > .tl_months" ).append month.div                            
+              $("#tl_year_" + year + " > .tl_months" ).append month.div
               @_uiElements.dateMarkers[i].months[key] = month
-          
+
           # hide and delete months
-          else            
+          else
             for months in @_uiElements.dateMarkers[i].months
               $(month.div).fadeOut(FADE_ANIMATION_TIME, `function() { $(this).remove(); }`)
             @_uiElements.dateMarkers[i].months.length = 0
@@ -455,7 +464,7 @@ class HG.Timeline
             # show months, create new month divs
             if @_uiElements.dateMarkers[i].months.length == 0
               for month_name, key in MONTH_NAMES
-                month = 
+                month =
                   div: document.createElement("div")
                   startDate: new Date()
                   endDate: new Date()
@@ -466,23 +475,23 @@ class HG.Timeline
                 month.div.innerHTML = month.name
                 month.div.style.left = ((month.startDate.getTime() - @yearToDate(year).getTime()) / @millisPerPixel()) + "px"
                 month.div.style.width = (@dateToPosition(month.endDate) - @dateToPosition(month.startDate)) + "px"
-                $("#tl_year_" + year + " > .tl_months" ).append month.div                            
+                $("#tl_year_" + year + " > .tl_months" ).append month.div
                 @_uiElements.dateMarkers[i].months[key] = month
 
             # update existing month divs
-            else              
+            else
               for month in @_uiElements.dateMarkers[i].months
                 month.div.style.left = ((month.startDate.getTime() - @yearToDate(year).getTime()) / @millisPerPixel()) + "px"
                 month.div.style.width = (@dateToPosition(month.endDate) - @dateToPosition(month.startDate)) + "px"
-          
+
           # hide and delete months
-          else            
+          else
             for month in @_uiElements.dateMarkers[i].months
               $(month.div).fadeOut(FADE_ANIMATION_TIME, `function() { $(this).remove(); }`)
-            @_uiElements.dateMarkers[i].months.length = 0          
+            @_uiElements.dateMarkers[i].months.length = 0
 
       # hide and delete datemarker and their months
-      else        
+      else
         if @_uiElements.dateMarkers[i]?
           @_uiElements.dateMarkers[i].div.style.left = @dateToPosition(@yearToDate(year)) + "px"
           #$(@_uiElements.dateMarkers[i].div).fadeOut(FADE_ANIMATION_TIME, `function() { $(this).remove(); }`)
@@ -490,34 +499,38 @@ class HG.Timeline
           @_uiElements.dateMarkers[i] = null
 
 
-  ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##     
+  ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
   # eventhandler
   _onTopicClick: (topic_tmp) ->
     diff = topic_tmp.endDate.getTime() - topic_tmp.startDate.getTime()
     millisec = diff / 2 + topic_tmp.startDate.getTime()
     middleDate = new Date(millisec)
+
     for topic in @_config.topics
       topic.div.className = "tl_topic tl_topic_row" + topic.row
     topic_tmp.div.className = "tl_topic_highlighted tl_topic_row" + topic_tmp.row
+
+    # make topic active (also set in url)
     @_activeTopic = topic_tmp
-    @_moveToDate middleDate, 1, =>      
+
+    @_moveToDate middleDate, 1, =>
       if @_activeTopic.endDate > @maxVisibleDate()
-        repeatObj = setInterval =>  
+        repeatObj = setInterval =>
           if @_activeTopic.endDate > (new Date(@maxVisibleDate().getTime() - (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1))
             @_zoom -1
           else
             clearInterval(repeatObj)
         , 50
       else
-        repeatObj = setInterval =>  
+        repeatObj = setInterval =>
           if @_activeTopic.endDate < (new Date(@maxVisibleDate().getTime() - (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1))
             @_zoom 1
           else
             clearInterval(repeatObj)
         , 50
 
-  ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##     
+  ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
   _disableTextSelection : (e) ->  return false
   _enableTextSelection : () ->    return true
