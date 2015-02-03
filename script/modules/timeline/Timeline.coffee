@@ -515,6 +515,9 @@ class HG.Timeline
     @_activeTopic = topic_tmp
     window.location.hash = '#categories=' + topic_tmp.id
 
+    # swap timelines if necessary
+    @_swapTopicRows()
+
     @_moveToDate middleDate, 1, =>
       if @_activeTopic.endDate > @maxVisibleDate()
         repeatObj = setInterval =>
@@ -530,6 +533,20 @@ class HG.Timeline
           else
             clearInterval(repeatObj)
         , 50
+
+  ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
+
+  _swapTopicRows: ->
+    console.log @_activeTopic
+    # hack if activeTopic is in lower row, change row for each topic
+    if @_activeTopic.row is 0
+      for topic in @_config.topics
+        if topic.row is 1
+          topic.row = 0
+        else
+          topic.row = 1
+
+
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
