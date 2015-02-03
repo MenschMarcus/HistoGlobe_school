@@ -44,9 +44,6 @@ class HG.HiventList
     if @_hivent_array.length > 0
       @_container.removeChild @_hivent_list
 
-    #hivent_list = document.createElement "div"
-    #hivent_list.className = "hivent-list"
-
     # Hivents ==================================================================
 
     @_hivent_array = []
