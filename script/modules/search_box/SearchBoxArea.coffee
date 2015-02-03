@@ -52,12 +52,7 @@ class HG.SearchBoxArea
     return logo
 
   # ============================================================================
-
   _addSearchBox: () ->
-
-    $(window).on "load", (e) =>
-      e.preventDefault()
-      #window.location.hash = ""
 
     box = document.createElement "div"
     box.className = "search-box"
@@ -74,10 +69,18 @@ class HG.SearchBoxArea
     input.autocomplete = "off"
     form.appendChild input
 
+    # Clear Icon ==================================================================
     clear = document.createElement "div"
     clear.className = "clear"
-    clear.innerHTML = '<span>x</span>'
-    box.appendChild clear
+    clear.innerHTML = '<span>x</span>' #'<i class="fa fa-times"></i>'
+    form.appendChild clear
+    $(clear).hide()
+
+    # Search Icon =================================================================
+    icon = document.createElement "div"
+    icon.className = "search-icon"
+    icon.innerHTML = '<i class="fa fa-search"></i>'    
+    box.appendChild icon
 
     # add options if input is clicked
     # $(input).click () =>
@@ -102,17 +105,11 @@ class HG.SearchBoxArea
     # 					             <input type="checkbox" name="search_option" value="Personen"/>Personen
     #              		       <input type="checkbox" name="search_option" value="Jahr"/>Jahr'
 
-    # Search Icon =================================================================
-    icon = document.createElement "div"
-    icon.className = "search-icon"
-    icon.innerHTML = '<i class="fa fa-search"></i>'    
-    @_container.appendChild icon
-
     # Results =====================================================================
     $(input).keyup () =>
       @_input_text = document.getElementById("search-input").value
       @_input_text = @_input_text.toLowerCase()
-      options_input = document.getElementsByName("search_option")
+      #options_input = document.getElementsByName("search_option")
 
       # if options_input? 
       #   @_search_opt_event = options_input[0].checked
@@ -152,118 +149,127 @@ class HG.SearchBoxArea
 
       search_output = ''
       for result in result_list 
-      	search_output = search_output + '<a href="#event=' + result.id + '">' + result.name + ' (' + result.startYear + ')</a></br>'
+        search_output = search_output + '<a href="#event=' + result.id + '">' + result.name + ' (' + result.startYear + ')</a></br>'
+
+      #for item in result_list
+        #$("#search-results a").eq(item).data("number", item) 
+        #console.log item.number
 
       @_search_results.innerHTML = search_output
 
       form.appendChild @_search_results
 
     #=============================================================================
+      if @_input_text?
+        #form.appendChild clear # add clear icon
+        $(clear).show()
+      else
+        #form.removeChild clear # remove clear icon
+        $(clear).hide()
 
       # remove results if input string is empty
       if @_input_text < 1
         form.removeChild @_search_results
+        #form.removeChild clear
         $(clear).hide()
 
-      if @_input_text?
-        $(clear).show()
+      $(clear).click () =>
+        #form.removeChild clear
+        $(clear).hide()
+        document.getElementById("search-input").value = "" #Clear input text
+        form.removeChild @_search_results
+    
+    #=============================================================================
+    # Arrow Key Navigation V1 ====================================================
+     
+      # a = $('.search-box a')
 
-    $(clear).click () =>
-      $(clear).hide()
-      document.getElementById("search-input").value = "" #Clear input text
-      form.removeChild @_search_results
+      # $(window).keyup (e) ->
+      #   if e.which is 40 # User pressed "down" arrow
+      #     if aSelected
+      #       aSelected.removeClass('itemhover')
+      #       next = aSelected.next()
+      #       if next.length > 0
+      #         aSelected = next().addClass('itemhover')
+      #       else
+      #         aSelected = a.eq(0).addClass('itemhover')
+
+      #     else
+      #       aSelected = a.eq(0).addClass('itemhover')
+
+      #   else if e.which is 38 # User pressed "up" arrow
+      #     if aSelected
+      #       aSelected.removeClass('itemhover')
+      #       next = aSelected.prev()
+      #       if next.length > 0
+      #         aSelected = next().addClass('itemhover')
+      #       else
+      #         aSelected = a.last().addClass('itemhover')
+
+      #     else
+      #       aSelected = a.last().addClass('itemhover')
+
+      # Arrow Key Navigation V2 ====================================================
+      # currentSelection = 0
+      # currentUrl = ''
+      # #item = 0
+
+      # if $("#search-results a")?
+      #   $(input).keyup (e) =>
+
+      #     switch(e.keyCode)
+      #       # User pressed "up" arrow
+      #       when 38 then navigate "up"
+      #       # User pressed "down" arrow
+      #       when 40 then navigate "down"
+      #       # User pressed "enter"
+      #       when 13
+      #         if currentUrl isnt ''
+      #           window.location = currentUrl
+
+      # Add data to let the hover know which index they have
+      #console.log $(result_list).size()
+      #for item in $("#search-results a").size()
+      # for item in result_list
+      #   console.log "Bäm"
+      #   $("#search-results a").eq(item).data("number", item)
+
+      # Simulate the "hover" effect with the mouse
+      # $("#search-results a").hover ->
+      #   currentSelection = $(this).data(hivent.id)
+      #   #console.log currentSelection
+      #   setSelected(currentSelection)
+      # , ->
+      #   $("#search-results a").removeClass "itemhover"
+      #   currentUrl = ''
 
     #=============================================================================
-
-    # Search if Enter key is pressed
-    $(input).keyup (e) =>
-      if e.which is 13  #Enter key pressed
-        e.preventDefault()
-        $(input).keyup()   #Trigger search key up event
-
-    #if @_input_text?
-      #$(clear).show()
-
-
-    # Arrow Key Navigation =======================================================
-
-      a = $('.search-box a')
-
-      $(window).keyup (e) ->
-        if e.which is 40 # User pressed "down" arrow
-          if aSelected
-            aSelected.removeClass('itemhover')
-            next = aSelected.next()
-            if next.length > 0
-              aSelected = next().addClass('itemhover')
-            else
-              aSelected = a.eq(0).addClass('itemhover')
-
-          else
-            aSelected = a.eq(0).addClass('itemhover')
-
-        else if e.which is 38 # User pressed "up" arrow
-          if aSelected
-            aSelected.removeClass('itemhover')
-            next = aSelected.prev()
-            if next.length > 0
-              aSelected = next().addClass('itemhover')
-            else
-              aSelected = a.last().addClass('itemhover')
-
-          else
-            aSelected = a.last().addClass('itemhover')
-
-    # currentSelection = 0
-    # currentUrl = ''
-    # i = 0
-
-    # if $("#search-results a")?
-    #   $(input).keyup (e) =>
-    #     switch(e.keyCode)
-    #       # User pressed "up" arrow
-    #       when 38 then navigate "up"
-    #       # User pressed "down" arrow
-    #       when 40 then navigate "down"
-    #       # User pressed "enter"
-    #       when 13
-    #         if currentUrl isnt ''
-    #           window.location = currentUrl
-
-    #     # Add data to let the hover know which index they have
-    #     for i in $("#search-results a").size()
-    #       console.log "Bäm"
-    #       $("#search-results a").eq(i).data("number", i)
-
-    #   # Simulate the "hover" effect with the mouse
-    #   $("#search-results a").hover ->
-    #     currentSelection = $(this).data("number")
-    #     setSelected(currentSelection)
-    #   , ->
-    #     $("#search-results a").removeClass "itemhover"
-    #     currentUrl = ''
-
-    # #=============================================================================
     # navigate = (direction) ->
     #   # Check if any of the menu items is selected
-    #   if $("#search-results a .itemhover").size() is 0
+    #   if $("#search-results a .itemhover").length == 0
     #     currentSelection = -1  
 
-    #   if direction is "up" and currentSelection > 1
-    #     --currentSelection
+    #   if direction is "up" and currentSelection >= 1
+    #     currentSelection = currentSelection-1
 
-    #   else if direction is "down" and currentSelection < $("#search-results a").size()
+    #   else if direction is "down" and currentSelection < $("#search-results a").length
     #     ++currentSelection
 
     #   setSelected(currentSelection)
 
-    # #=============================================================================
+    #=============================================================================
     # setSelected = (list_item) ->
     #   $("#search-results a").removeClass "itemhover"
     #   $("#search-results a").eq(list_item).addClass "itemhover"
     #   currentUrl = $("#search-results a").eq(list_item).attr("href")
 
     #=============================================================================
+    #=============================================================================
+    # Search if Enter key is pressed
+    $(input).keyup (e) =>
+      if e.which is 13  #Enter key pressed
+        e.preventDefault()
+        $(input).keyup()   #Trigger search key up event
 
     @_container.appendChild box
 
