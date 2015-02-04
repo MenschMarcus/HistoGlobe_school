@@ -1,23 +1,26 @@
 
 .timeline-control-buttons-group {
+  width: 100px;
+  height: 45px;
+  bottom: 0px;
   box-shadow: 0 0 @shadow_radius rgba(0,0,0,@shadow_intensity);
   font-size: 30pt * @widget_font_size_factor;
   border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
   // padding: @border_width;
-  background-color: @widget_title_background_color;
+  background-color: #1F262D;
 
   z-index: 1;
   position: absolute;
   margin-top: 23px;
 
   .timeline-control-buttons-button {
-    color: @widget_title_text_color;
+    color: #ffffff;
+    margin-top: 5px;
     cursor: pointer;
-    padding: 0 8px;
-    background-color: @widget_title_background_color;
-
+    padding: 0 16px;
 
     &:first-child {
+      float: right;
       border-top-left-radius: @widget_border_radius_top_left;
       border-top-right-radius: @widget_border_radius_top_right;
     }
@@ -28,7 +31,7 @@
     }
 
     &:hover {
-      background-color: lighten(@widget_title_background_color, 20%);
+      //background-color: lighten(@widget_title_background_color, 20%);
     }
   }
 }

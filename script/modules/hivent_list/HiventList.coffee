@@ -52,13 +52,10 @@ class HG.HiventList
         if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
           @_hivent_array.push hivent._hivent
 
-    first_link = true
-    hivents = ''
+    hivents = '<ul>'
     for hivent in @_hivent_array
-      if !first_link
-        hivents = hivents + '<hr>'
-      hivents = hivents + '<i class="fa fa-map-marker"></i><a href="#event=' + hivent.id + '">  ' + hivent.name + '</a>'
-      first_link = false
+      hivents += '<li><i class="fa fa-map-marker"></i><a href="#event=' + hivent.id + '">  ' + hivent.name + '</a></li>'
+    hivents += '</ul>'
 
     @_hivent_list.innerHTML = hivents
 
