@@ -2,6 +2,10 @@ window.HG ?= {}
 
 class HG.CategoryIconMapping
 
+  # TODO: Find a better way of dealing with categories and items...
+  # - hierarchical categories
+  # - default icons
+
   ##############################################################################
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
@@ -21,10 +25,13 @@ class HG.CategoryIconMapping
 
   # ============================================================================
   getCategories: () ->
-    return Object.keys(@_config)
+    return Object.keys @_config
 
   # ============================================================================
   getIcons: (category) ->
+    icon
     if @_config.hasOwnProperty category
-      return @_config[category]
-    return @_config.default
+      icon = @_config[category]
+    else
+      icon = @_config.default
+    return icon

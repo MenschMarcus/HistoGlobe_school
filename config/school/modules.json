@@ -2,7 +2,7 @@
   "HistoGlobe" :
   {
     "container": "histoglobe",
-    "minYear": 1871,
+    "minYear": 1870,
     "maxYear": 1993,
     "nowYear": 1871,
     "minZoom": 1,
@@ -10,43 +10,174 @@
     "startZoom": 5,
     "startLatLong": [50.9869531, 11.3205004],
     "tiles": "config/school/tiles/",
-    "sidebarEnabled": false,
+    "sidebarEnabled": false
+  },
+  "Timeline" :
+  {
     "timelineZoom" : 5,
-    "nowMarker" :
-    {
-      "zoom" : 3,
-      "speedometer" : false
-    },
-    "epochs" : [
+    "topics" : [
       {
         "startDate": "18.1.1871",
         "endDate": "27.7.1914",
         "name": "Imperialismus",
-        "id": "imperialismus"
+        "id": "imperialismus",
+        "row": 0,
+        "subtopics": [
+        {
+          "startDate": "1.1.1881",
+          "endDate": "27.7.1914",
+          "name": "Kolonisierung Afrikas",
+          "id": "kolonAfr"
+        }
+        ]
       },
       {
-        "startDate": "28.7.1914",
-        "endDate": "28.6.1919",
-        "name": "1. WK",
-        "id": "wk1"
+        "startDate": "28.07.1914",
+        "endDate": "11.11.1918",
+        "name": "Erster Weltkrieg",
+        "id": "wk1",
+        "row": 0,
+        "subtopics": [
+        {
+          "startDate": "28.07.1914",
+          "endDate": "12.9.1914",
+          "name": "Bewegungskrieg",
+          "id": "wk1-1"
+        },
+        {
+          "startDate": "13.09.1914",
+          "endDate": "07.1.1918",
+          "name": "Stellungskrieg",
+          "id": "wk1-2"
+        },
+        {
+          "startDate": "08.01.1918",
+          "endDate": "11.11.1918",
+          "name": "Kriegsentscheidung",
+          "id": "wk1-3"
+        }
+        ]
       },
       {
-        "startDate": "29.6.1919",
-        "endDate": "31.8.1939",
+        "startDate": "12.11.1918",
+        "endDate": "31.08.1939",
         "name": "Zwischenkriegsjahre",
-        "id": "zwischenkrieg"
+        "id": "zwischenkrieg",
+        "row": 0,
+        "subtopics": [
+          {
+            "startDate": "30.8.1924",
+            "endDate": "24.10.1929",
+            "name": "Goldene Zwanziger",
+            "id": "golden20",
+            "row": 0
+          },
+          {
+            "startDate": "25.10.1929",
+            "endDate": "01.01.1936",
+            "name": "Weltwirtschaftskrise",
+            "id": "wirtschaftskrise",
+            "row": 0
+
+          }
+        ]
       },
       {
         "startDate": "1.9.1939",
         "endDate": "8.5.1945",
-        "name": "2. WK",
-        "id": "wk2"
+        "name": "Zweiter Weltkrieg",
+        "id": "wk2",
+        "row": 0,
+        "subtopics": [
+        {
+          "startDate": "1.9.1939",
+          "endDate": "8.9.1941",
+          "name": "Blitzkrieg",
+          "id": "wk2-1"
+        },
+        {
+          "startDate": "9.9.1941",
+          "endDate": "24.5.1943",
+          "name": "Kriegswende",
+          "id": "wk2-2"
+        },
+        {
+          "startDate": "24.5.1943",
+          "endDate": "8.5.1945",
+          "name": "Kriegsentscheidung",
+          "id": "wk2-3"
+        }
+        ]
       },
       {
         "startDate": "9.5.1945",
-        "endDate": "26.12.1991",
+        "endDate": "21.11.1990",
         "name": "Bipolare Welt",
-        "id": "bipolar"
+        "id": "bipolar",
+        "row": 0,
+        "subtopics": [
+        {
+          "startDate": "09.05.1945",
+          "endDate": "02.12.1947",
+          "name": "Kriegsende",
+          "id": "kriegsende"
+        },
+        {
+          "startDate": "03.12.1947",
+          "endDate": "28.10.1962",
+          "name": "Kalter Krieg",
+          "id": "kalterKrieg"
+        },
+        {
+          "startDate": "29.10.1962",
+          "endDate": "11.3.1985",
+          "name": "Entspannung und Koexistenz",
+          "id": "entspannung"
+        },
+        {
+          "startDate": "12.3.1985",
+          "endDate": "26.12.1991",
+          "name": "Auflösung des Ostblocks",
+          "id": "endeOstblock"
+        }
+        ]
+      },
+      {
+        "startDate": "18.1.1871",
+        "endDate": "9.11.1918",
+        "name": "Deutsches Kaiserreich",
+        "id": "kaiserreich",
+        "row": 1
+      },
+      {
+        "startDate": "9.11.1918",
+        "endDate": "29.1.1933",
+        "name": "Weimarer Republik",
+        "id": "weimarRep",
+        "row": 1
+
+      },
+      {
+        "startDate": "30.1.1933",
+        "endDate": "8.5.1945",
+        "name": "Nationalsozialismus",
+        "id": "ns",
+        "row": 1,
+        "subtopics": [
+        {
+          "startDate": "7.4.1933",
+          "endDate": "8.5.1945",
+          "name": "Judenverfolgung",
+          "id": "holocaust"
+        }
+        ]
+      },
+      {
+        "startDate": "9.5.1945",
+        "endDate": "21.11.1990",
+        "name": "Geteiltes Deutschland",
+        "id": "deuTeilung",
+        "row": 1
       }
     ]
   },
@@ -60,7 +191,6 @@
     "hiventClusterLabels" :   "A",
     "epochNames-moreSpace" :  "A",
     "epochNames-shortNames" : "A",
-    "epochNames-display" :    "A",
     "searchFilter" :          "A"
   },
 
@@ -143,6 +273,38 @@
         "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
       },
       "bipolar" : {
+        "default" : "config/school/icons/hiventsOnMap.png",
+        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
+      },
+      "kalterKrieg" : {
+        "default" : "config/school/icons/hiventsOnMap.png",
+        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
+      },
+      "entspannung" : {
+        "default" : "config/school/icons/hiventsOnMap.png",
+        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
+      },
+      "endeOstblock" : {
+        "default" : "config/school/icons/hiventsOnMap.png",
+        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
+      },
+      "kaiserreich" : {
+        "default" : "config/school/icons/hiventsOnMap.png",
+        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
+      },
+      "bismarck" : {
+        "default" : "config/school/icons/hiventsOnMap.png",
+        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
+      },
+      "weimarRep" : {
+        "default" : "config/school/icons/hiventsOnMap.png",
+        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
+      },
+      "ns" : {
+        "default" : "config/school/icons/hiventsOnMap.png",
+        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
+      },
+      "deuTeilung" : {
         "default" : "config/school/icons/hiventsOnMap.png",
         "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
       }

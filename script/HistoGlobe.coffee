@@ -48,7 +48,7 @@ class HG.HistoGlobe
       if @_config.sidebarEnabled
         @_createSidebar()
         @_createCollapseButton()
-      @_createTimeline()
+      #@_createTimeline()
 
       $(window).on 'resize', @_onResize
 
@@ -110,6 +110,12 @@ class HG.HistoGlobe
   # ============================================================================
   getContainer: () ->
     @_config.container
+
+  # ============================================================================
+  getMinMaxYear: () ->
+    [@_config.minYear, @_config.maxYear]
+  getStartYear: () ->
+    @_config.nowYear
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -186,23 +192,11 @@ class HG.HistoGlobe
         d.setDate(res[i - 3])
     d
 
-
-  _createTimeline: ->
-    @_timeline_area = @_createElement @_config.container, "div", "timeline-area"
-    for epoch in @_config.epochs
-      epoch.startDate = @stringToDate(epoch.startDate)
-      epoch.endDate = @stringToDate(epoch.endDate)
-
-    @timeline = new HG.Timeline
-      parentDiv:    @_timeline_area
-      nowYear:      @_config.nowYear
-      minYear:      @_config.minYear
-      maxYear:      @_config.maxYear
-      epochs:       @_config.epochs
+  _createTimeline: -> 
+    @addModule new HG.Timeline
+      topics:       @_config.topics
       timelineZoom: @_config.timelineZoom
       #speedometer:  @_config.nowMarker.speedometer
-
-    @addModule @timeline
 
   # ============================================================================
   _collapse: =>
