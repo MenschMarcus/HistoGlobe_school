@@ -168,6 +168,14 @@ class HG.Timeline
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
   # getter
+  getTopics: =>
+    @_config.topics
+  getRowFromTopic: (topic) =>
+    for tmp_topic in @_config.topics
+      if tmp_topic.id is topic.id
+        return topic.row
+        break
+    return -1
   getMinYear: =>
     @_config.minYear
   getMaxYear: =>

@@ -57,10 +57,16 @@ class HG.HiventsOnTimeline
           if oldState is 0 # invisible
             hiventMarkerDate = self.getHivent().startDate
             rowPosition = @_config.default_row_position
+
+            # TODO: get topics from timeline and check hivent for mapping
+            #       get row of topic and set Marker to it
+
             for obj in @_config.marker_row_positions
               if obj.category is self.getHivent().category
                 rowPosition = obj.row_position
                 break
+            rowPosition = @_timeline.getRowFromTopic(self.getHivent().category)
+            console.log rowPosition + " and " + self.getHivent().category
             marker = new HG.HiventMarkerTimeline @_timeline, self, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate), parseInt(rowPosition)
             @_hiventMarkers.push marker
             marker.onDestruction @, ()=>
