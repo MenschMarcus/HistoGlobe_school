@@ -43,9 +43,6 @@ class HG.CategoryIconMapping
     for category in defaultCategories
       @_config[category] = @_config.default
 
-    # assign default icons to these categories
-    console.log @_config
-
   # ============================================================================
   getCategories: () ->
     return Object.keys @_config
