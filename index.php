@@ -12,7 +12,7 @@
     <title>HistoGlobe</title>
 
     <?php // third party css ?>
-    
+
     <link href='http://fonts.googleapis.com/css?family=Roboto:500,400italic,700italic,300,700,500italic,300italic,400' rel='stylesheet' type='text/css'>
 
     <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.min.css" />
@@ -99,11 +99,7 @@
     <script type="text/javascript" src="build/AreasOnGlobe.js"></script>
     <script type="text/javascript" src="build/Display.js"></script>
     <script type="text/javascript" src="build/Display2D.js"></script>
-    <!--<script type="text/javascript" src="build/DoublyLinkedList.js"></script>
-    <script type="text/javascript" src="build/DateMarker.js"></script>-->
-    <script type="text/javascript" src="build/NowMarker.js"></script>
     <script type="text/javascript" src="build/Timeline.js"></script>
-    <!--<script type="text/javascript" src="build/TimeBars.js"></script>-->
     <script type="text/javascript" src="build/Sidebar.js"></script>
     <script type="text/javascript" src="build/Widget.js"></script>
     <script type="text/javascript" src="build/EventTicker.js"></script>
