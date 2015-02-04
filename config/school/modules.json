@@ -111,7 +111,7 @@
       },
       {
         "startDate": "9.5.1945",
-        "endDate": "21.11.1990",
+        "endDate": "26.12.1991",
         "name": "Bipolare Welt",
         "id": "bipolar",
         "row": 0,
@@ -256,55 +256,7 @@
   },
 
   "CategoryIconMapping" : {
-      "imperialismus" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
-      },
-      "wk1" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
-      },
-      "zwischenkrieg" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
-      },
-      "wk2" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
-      },
-      "bipolar" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
-      },
-      "kalterKrieg" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
-      },
-      "entspannung" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
-      },
-      "endeOstblock" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
-      },
-      "kaiserreich" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
-      },
-      "bismarck" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
-      },
-      "weimarRep" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
-      },
-      "ns" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
-      },
-      "deuTeilung" : {
+      "default" : {
         "default" : "config/school/icons/hiventsOnMap.png",
         "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
       }

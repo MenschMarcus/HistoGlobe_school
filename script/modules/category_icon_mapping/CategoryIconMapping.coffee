@@ -4,7 +4,6 @@ class HG.CategoryIconMapping
 
   # TODO: Find a better way of dealing with categories and items...
   # - hierarchical categories
-  # - default icons
 
   ##############################################################################
   #                            PUBLIC INTERFACE                                #
@@ -23,15 +22,38 @@ class HG.CategoryIconMapping
   hgInit: (hgInstance) ->
     hgInstance.categoryIconMapping = @
 
+    # idea: each category that does not have an IconMapping gets the default one
+
+    # get all categories from IconMapping
+    mappingCategories = []
+    for category of @_config
+      if (mappingCategories.indexOf category) is -1
+        mappingCategories.push category
+
+    # get all categories from hivents that should get the default values
+    defaultCategories = []
+    for handle in hgInstance.hiventController.getHivents()
+      category = handle.getHivent().category
+      # if category is not given in IconMapping and is unique
+      if (mappingCategories.indexOf category) is -1 and
+         (defaultCategories.indexOf category) is -1
+        defaultCategories.push category
+
+    # for each category, create default object
+    for category in defaultCategories
+      @_config[category] = @_config.default
+
+    # assign default icons to these categories
+    console.log @_config
+
   # ============================================================================
   getCategories: () ->
     return Object.keys @_config
 
   # ============================================================================
   getIcons: (category) ->
-    icon
     if @_config.hasOwnProperty category
-      icon = @_config[category]
-    else
-      icon = @_config.default
-    return icon
+      return @_config[category]
+    return @_config.default
+
+window.HG ?= {}
