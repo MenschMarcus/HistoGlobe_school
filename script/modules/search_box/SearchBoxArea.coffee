@@ -122,6 +122,7 @@ class HG.SearchBoxArea
         @_search_results.id = "search-results"
 
       #if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
+      curr_category = @_hgInstance.categoryFilter._categoryFilter[0]
 
       result_list = []
       epoch_result_list = []
@@ -130,7 +131,7 @@ class HG.SearchBoxArea
       if @_hgInstance.hiventController._hiventHandles
         for hivent in @_hgInstance.hiventController._hiventHandles
           if hivent._hivent.startYear <= @_input_text && hivent._hivent.endYear >= @_input_text
-            if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
+            if curr_category == hivent._hivent.category
               epoch_result_list.push hivent._hivent
               continue
             else
@@ -139,7 +140,7 @@ class HG.SearchBoxArea
 
           for location in hivent._hivent.locationName
             if location.toLowerCase() == @_input_text
-              if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
+              if curr_category == hivent._hivent.category
                 epoch_result_list.push hivent._hivent
                 found_in_location = true
                 continue
@@ -152,7 +153,7 @@ class HG.SearchBoxArea
             continue
 
           if hivent._hivent.description.toLowerCase().indexOf(@_input_text) > -1
-            if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
+            if curr_category == hivent._hivent.category
               epoch_result_list.push hivent._hivent
               continue
             else
@@ -160,7 +161,7 @@ class HG.SearchBoxArea
               continue
 
           if hivent._hivent.name.toLowerCase().indexOf(@_input_text) > -1
-            if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
+            if curr_category == hivent._hivent.category
               epoch_result_list.push hivent._hivent
               continue
             else
@@ -170,18 +171,30 @@ class HG.SearchBoxArea
 
       epoch_search_output = ''
       for epoch_result in epoch_result_list
-        epoch_search_output = epoch_search_output + '<a href="#event=' + epoch_result.id + '">' + epoch_result.name + ' (' + epoch_result.startYear + ')</a></br>'
+        epoch_search_output = epoch_search_output + '<a href="#event=' + epoch_result.id + '">' + 
+        epoch_result.name + ' (' + epoch_result.startYear + ')</a></br>'
 
       search_output = ''
       for result in result_list 
-        search_output = search_output + '<a href="#event=' + result.id + '">' + result.name + ' (' + result.startYear + ')</a></br>'
+        search_output = search_output + '<a href="#event=' + result.id + '">' + 
+        result.name + ' (' + result.startYear + ')</a></br>'
 
       #for item in result_list
         #$("#search-results a").eq(item).data("number", item) 
         #console.log item.number
 
-      @_search_results.innerHTML = '<span>Suchergebnisse in aktueller Epoche: </span></br>' + epoch_search_output + 
-        '</br><span>Andere Suchergebnisse: </span></br>' + search_output
+      search_result_with_categ_einteilung = ''
+      if epoch_search_output.length > 0
+        search_result_with_categ_einteilung = '<span>Suchergebnisse im aktueller Epoche: </span></br>' + epoch_search_output
+
+      if epoch_search_output.length > 0 &&  search_output.length > 0
+        search_result_with_categ_einteilung = search_result_with_categ_einteilung + '<br>'
+
+      if search_output.length > 0
+        search_result_with_categ_einteilung = search_result_with_categ_einteilung + 
+        '<span>Suchergebnisse in anderen Epochen: </span></br>' + search_output
+
+      @_search_results.innerHTML = search_result_with_categ_einteilung
 
       form.appendChild @_search_results
 
