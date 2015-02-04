@@ -84,6 +84,9 @@ class HG.Timeline
     @_now =
       date: @yearToDate(@_config.nowYear)
       marker: @addUIElement "now_marker_arrow_bottom", null, @_HGContainer
+      dateField: @addUIElement "now_date_field", null, @_HGContainer
+
+    @_now.dateField.innerHTML = @_now.date.toLocaleDateString()
 
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
@@ -353,6 +356,7 @@ class HG.Timeline
     @_uiElements.tl.style.width       = window.innerWidth + "px"
     @_uiElements.tl_slide.style.width = (@timelineLength() + window.innerWidth) + "px"
     @_now.marker.style.left   = (window.innerWidth / 2) + "px"
+    @_now.dateField.style.left   = (window.innerWidth / 2) + "px"
     @_moveToDate(@_now.date, 0)
     @_timeline_swiper.reInit()
 
