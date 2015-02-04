@@ -4,6 +4,7 @@
 #timeline-area {
   box-shadow:   1px 1px 2px 2px rgba(0,0,0,@shadow_intensity);
   overflow: visible !important;
+  font-family: @primary_font_face;
 
   //  -------------------------------------------------------------------
 
@@ -22,26 +23,20 @@
     min-width:  100%;
     overflow:   visible !important;
     cursor:     -webkit-grab;
-    cursor:     -moz-grab;
-    font-family: 'Open Sans';
-
+    cursor:     -moz-grab;   
 
     #tl_wrapper {
       height: @timeline_height !important;
       background-color: @timeline_background_color;
-      //.linear-gradient-top(#878787, #878787, 0%, #636363, 100%);
-      //background-repeat: repeat;
 
       #tl_slide {
         height: @timeline_height !important;
 
         .tl_datemarker {
           font-size: @timeline_datemarker_font_size;
-          //font-size: 6vw;
-          //height: @timeline_height - @border_width;
           line-height: @timeline_datemarker_line_height;
           color: @timeline_datemarker_color;
-          //box-shadow: -3px 0px 3px rgba(0,0,0,0.17);
+          font-weight: 100;
           display: none;
 
           position: absolute;
@@ -81,7 +76,7 @@
           box-shadow: -3px 0px 3px rgba(0,0,0,0.17);
           background-color: @timeline_topic_bgcolor;
           text-align: center;
-          border: solid 1px #1A5280;
+          border: solid 1px @timeline_topic_border_color;
           border-radius: @timeline_topic_border_radius;
 
           white-space: nowrap; // avoid break;
@@ -94,9 +89,9 @@
 
           .tl_subtopics {
             position: relative;
-            margin: -@timeline_subtopic_height 0px 0px -5px;
+            margin: -27px 0px 0px -5px;
             height: @timeline_subtopic_height;
-            overflow: hidden;
+            //overflow: hidden;
 
             .tl_subtopic{
               position: absolute;
@@ -109,8 +104,8 @@
               overflow: hidden;
               text-overflow: ellipsis;
               padding-left: 5px;
-              //border: solid 1px #1f6dad;
-              //border-radius: @timeline_topic_border_radius;
+              border: solid 0px #1f6dad;
+              border-radius: @timeline_topic_border_radius;
             }
           }
         }
@@ -123,7 +118,7 @@
           overflow: visible;
           color: @timeline_topic_highlighted_color;
           background-color: @timeline_topic_highlighted_bgcolor;
-          border: solid 1px #2f3b47;
+          border: solid 1px @timeline_topic_highlighted_border_color;
           border-radius: @timeline_topic_highlighted_border_radius !important;
         }
       }

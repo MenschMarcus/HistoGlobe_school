@@ -289,7 +289,7 @@ class HG.Timeline
 
   # move and zoom
   _zoom: (delta, e=null, layout=true) =>
-    zoomed = false
+    zoomed = false        
     if delta > 0
       if @millisToDays(@maxVisibleDate().getTime()) - @millisToDays(@minVisibleDate().getTime()) > MAX_ZOOM_LEVEL
         @_config.timelineZoom *= 1.1
