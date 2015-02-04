@@ -69,6 +69,7 @@ class HG.CategoryFilter
 
   # ============================================================================
   setCategory: (category) ->
+
     if @_isArray category
       @_categoryFilter = category
     else
