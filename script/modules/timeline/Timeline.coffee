@@ -537,13 +537,14 @@ class HG.Timeline
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
   _swapTopicRows: ->
+    TODO = "make this work"
     # hack if activeTopic is in lower row, change row for each topic
-    if @_activeTopic.row is 0
-      for topic in @_config.topics
-        if topic.row is 1
-          topic.row = 0
-        else
-          topic.row = 1
+    # if @_activeTopic.row is 0
+    #   for topic in @_config.topics
+    #     if topic.row is 1
+    #       topic.row = 0
+    #     else
+    #       topic.row = 1
 
 
 
