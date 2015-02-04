@@ -289,7 +289,7 @@ class HG.Timeline
 
   # move and zoom
   _zoom: (delta, e=null, layout=true) =>
-    zoomed = false
+    zoomed = false        
     if delta > 0
       if @millisToDays(@maxVisibleDate().getTime()) - @millisToDays(@minVisibleDate().getTime()) > MAX_ZOOM_LEVEL
         @_config.timelineZoom *= 1.1
@@ -503,48 +503,51 @@ class HG.Timeline
 
   # eventhandler
   _onTopicClick: (topic_tmp) ->
-    diff = topic_tmp.endDate.getTime() - topic_tmp.startDate.getTime()
-    millisec = diff / 2 + topic_tmp.startDate.getTime()
-    middleDate = new Date(millisec)
+    window.location.hash = '#categories=null'
+    if !@_activeTopic? or topic_tmp.id isnt @_activeTopic.id
+      diff = topic_tmp.endDate.getTime() - topic_tmp.startDate.getTime()
+      millisec = diff / 2 + topic_tmp.startDate.getTime()
+      middleDate = new Date(millisec)
 
-    for topic in @_config.topics
-      topic.div.className = "tl_topic tl_topic_row" + topic.row
-    topic_tmp.div.className = "tl_topic_highlighted tl_topic_row" + topic_tmp.row
+      for topic in @_config.topics
+        topic.div.className = "tl_topic tl_topic_row" + topic.row
+      topic_tmp.div.className = "tl_topic_highlighted tl_topic_row" + topic_tmp.row
 
-    # make topic active (also set in url)
-    @_activeTopic = topic_tmp
-    window.location.hash = '#categories=' + topic_tmp.id
+      # make topic active (also set in url)
+      @_activeTopic = topic_tmp      
 
-    # swap timelines if necessary
-    @_swapTopicRows()
+      # move row so that subtopics can be shown
+      @_moveTopicRows(true)
 
-    @_moveToDate middleDate, 1, =>
-      if @_activeTopic.endDate > @maxVisibleDate()
-        repeatObj = setInterval =>
-          if @_activeTopic.endDate > (new Date(@maxVisibleDate().getTime() - (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1))
-            @_zoom -1
-          else
-            clearInterval(repeatObj)
-        , 50
-      else
-        repeatObj = setInterval =>
-          if @_activeTopic.endDate < (new Date(@maxVisibleDate().getTime() - (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1))
-            @_zoom 1
-          else
-            clearInterval(repeatObj)
-        , 50
+      @_moveToDate middleDate, 1, =>
+        if @_activeTopic.endDate > @maxVisibleDate()
+          repeatObj = setInterval =>
+            if @_activeTopic.endDate > (new Date(@maxVisibleDate().getTime() - (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1))
+              @_zoom -1
+            else
+              clearInterval(repeatObj)
+              window.location.hash = '#categories=' + topic_tmp.id
+          , 50
+        else
+          repeatObj = setInterval =>
+            if @_activeTopic.endDate < (new Date(@maxVisibleDate().getTime() - (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1))
+              @_zoom 1
+            else
+              clearInterval(repeatObj)
+              window.location.hash = '#categories=' + topic_tmp.id
+          , 50
+    else          
+      topic_tmp.div.className = "tl_topic tl_topic_row" + topic_tmp.row
+      @_moveTopicRows(false)      
+      @_activeTopic = null
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
-  _swapTopicRows: ->
-    TODO = "make this work"
-    # hack if activeTopic is in lower row, change row for each topic
-    # if @_activeTopic.row is 0
-    #   for topic in @_config.topics
-    #     if topic.row is 1
-    #       topic.row = 0
-    #     else
-    #       topic.row = 1
+  _moveTopicRows: (showSubtopics) ->    
+    if @_activeTopic.row is 0 and showSubtopics
+      $('.tl_topic_row1').css({'bottom': HGConfig.timline_row1_position_up.val + 'px'})
+    else
+      $('.tl_topic_row1').css({'bottom': HGConfig.timline_row1_position.val + 'px'})
 
 
 
