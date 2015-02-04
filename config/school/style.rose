@@ -56,7 +56,7 @@ $timeline_background_color          = #2f3b47
 $timeline_topic_color               = #1a5280
 $timeline_topic_highlighted_color 	= #ffffff
 $timeline_topic_height				= 30px
-$timeline_topic_line_height			= 27px
+$timeline_topic_line_height			= 30px
 $timeline_topic_font_size			= 17px
 $timeline_topic_highlighted_border_color = #1f6dad
 $timeline_topic_border_color 		= #1a5280
@@ -78,6 +78,7 @@ $timeline_datemarker_line_height	= 30px
 $timeline_datemarker_font_size		= 15px
 $timeline_datemarker_color			= #ffffff
 
-$timline_row0_position				= 47px
-$timline_row1_position				= 103px
+$timline_row0_position				= 46px
+$timline_row1_position				= 78px
+$timline_row1_position_up			= 104px
 
