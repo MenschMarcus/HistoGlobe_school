@@ -245,10 +245,11 @@
           "long"        : 4,
           "region"      : 5,
           "isImp"       : 13,
-          "category"    : 14,
-          "description" : 15,
-          "multimedia"  : 16,
-          "link"        : 17
+          "parentTopic" : 14,
+          "subTopic"    : 15,
+          "description" : 16,
+          "multimedia"  : 17,
+          "link"        : 18
         }
       }
     ],

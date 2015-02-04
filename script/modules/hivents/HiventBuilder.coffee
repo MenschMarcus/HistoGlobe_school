@@ -18,24 +18,26 @@ class HG.HiventBuilder
     if dataArray isnt []
       successCallback?= (hivent) -> console.log hivent
 
-      id          = dataArray[@_config.indexMapping.id]
-      name        = dataArray[@_config.indexMapping.name]
-      description = dataArray[@_config.indexMapping.description]
-      startYear   = dataArray[@_config.indexMapping.startYear]
-      startMonth  = dataArray[@_config.indexMapping.startMonth]
-      startDay    = dataArray[@_config.indexMapping.startDay]
-      endYear     = dataArray[@_config.indexMapping.endYear]
-      endMonth    = dataArray[@_config.indexMapping.endMonth]
-      endDay      = dataArray[@_config.indexMapping.endDay]
-      displayDate = dataArray[@_config.indexMapping.displayDate]
-      location    = dataArray[@_config.indexMapping.location]
-      lat         = dataArray[@_config.indexMapping.lat]
-      long        = dataArray[@_config.indexMapping.long]
-      region      = dataArray[@_config.indexMapping.region]
-      isImp       = dataArray[@_config.indexMapping.isImp]
-      category    = dataArray[@_config.indexMapping.category]
-      multimedia  = dataArray[@_config.indexMapping.multimedia]
-      link        = dataArray[@_config.indexMapping.link]
+      id          = dataArray[@_config.indexMapping.id]           ?= ""
+      name        = dataArray[@_config.indexMapping.name]         ?= ""
+      description = dataArray[@_config.indexMapping.description]  ?= ""
+      startYear   = dataArray[@_config.indexMapping.startYear]    ?= ""
+      startMonth  = dataArray[@_config.indexMapping.startMonth]   ?= ""
+      startDay    = dataArray[@_config.indexMapping.startDay]     ?= ""
+      endYear     = dataArray[@_config.indexMapping.endYear]      ?= ""
+      endMonth    = dataArray[@_config.indexMapping.endMonth]     ?= ""
+      endDay      = dataArray[@_config.indexMapping.endDay]       ?= ""
+      displayDate = dataArray[@_config.indexMapping.displayDate]  ?= ""
+      location    = dataArray[@_config.indexMapping.location]     ?= ""
+      lat         = dataArray[@_config.indexMapping.lat]          ?= ""
+      long        = dataArray[@_config.indexMapping.long]         ?= ""
+      region      = dataArray[@_config.indexMapping.region]       ?= ""
+      isImp       = dataArray[@_config.indexMapping.isImp]        ?= ""
+      category    = dataArray[@_config.indexMapping.category]     ?= ""
+      parentTopic = dataArray[@_config.indexMapping.parentTopic]  ?= ""
+      subTopic    = dataArray[@_config.indexMapping.subTopic]     ?= ""
+      multimedia  = dataArray[@_config.indexMapping.multimedia]   ?= ""
+      link        = dataArray[@_config.indexMapping.link]         ?= ""
 
       successCallback @_createHivent( id, name,
                                       startYear, startMonth, startDay,
@@ -44,7 +46,8 @@ class HG.HiventBuilder
                                       location, lat, long,
                                       region,
                                       isImp,
-                                      category, description,
+                                      category, parentTopic, subTopic
+                                      description,
                                       multimedia, link)
 
 
@@ -211,7 +214,8 @@ class HG.HiventBuilder
                   location, lat, long,
                   region,
                   isImp
-                  category, description,
+                  category, parentTopic, subTopic
+                  description,
                   multimedia, link) ->
 
     if id != "" and name != ""
@@ -240,6 +244,9 @@ class HG.HiventBuilder
           index[0]=index[1]
           index[1]=tmp
 
+      # set hivent category
+      category = parentTopic
+
       hivent = new HG.Hivent(
         id,
         name,
@@ -256,6 +263,8 @@ class HG.HiventBuilder
         regionPolygon,
         isImp,
         category,
+        parentTopic,
+        subTopic,
         content,
         description,
         multimedia,

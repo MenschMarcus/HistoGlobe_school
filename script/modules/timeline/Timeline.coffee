@@ -186,6 +186,17 @@ class HG.Timeline
     @_uiElements.tl_slide
   getPlayStatus: ->
     @_play
+  getTopics: ->
+    # TODO: make a nice object
+    topics = []
+    for topic in @_config.topics
+      topics.push [topic.id]
+      if topic.subtopics
+        for subtopic in topic.subtopics
+          topics.push [subtopic.id, topic.id]
+    topics
+
+
   _getTimeFilter: ->
     timefilter = []
     timefilter.end = @maxVisibleDate()
@@ -289,7 +300,7 @@ class HG.Timeline
 
   # move and zoom
   _zoom: (delta, e=null, layout=true) =>
-    zoomed = false        
+    zoomed = false
     if delta > 0
       if @millisToDays(@maxVisibleDate().getTime()) - @millisToDays(@minVisibleDate().getTime()) > MAX_ZOOM_LEVEL
         @_config.timelineZoom *= 1.1
@@ -514,7 +525,7 @@ class HG.Timeline
       topic_tmp.div.className = "tl_topic_highlighted tl_topic_row" + topic_tmp.row
 
       # make topic active (also set in url)
-      @_activeTopic = topic_tmp      
+      @_activeTopic = topic_tmp
 
       # move row so that subtopics can be shown
       @_moveTopicRows(true)
@@ -536,14 +547,14 @@ class HG.Timeline
               clearInterval(repeatObj)
               window.location.hash = '#categories=' + topic_tmp.id
           , 50
-    else          
+    else
       topic_tmp.div.className = "tl_topic tl_topic_row" + topic_tmp.row
-      @_moveTopicRows(false)      
+      @_moveTopicRows(false)
       @_activeTopic = null
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
-  _moveTopicRows: (showSubtopics) ->    
+  _moveTopicRows: (showSubtopics) ->
     if @_activeTopic.row is 0 and showSubtopics
       $('.tl_topic_row1').css({'bottom': HGConfig.timline_row1_position_up.val + 'px'})
     else

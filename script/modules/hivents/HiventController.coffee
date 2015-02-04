@@ -275,12 +275,11 @@ class HG.HiventController
       # 2 --> visibleFuture
 
       # filter by category
-      categoryHierarchy = hivent.category.split ">" # hierarchical hivent categories split by ">"
 
       if @_currentCategoryFilter?
         noCategoryFilter = @_currentCategoryFilter.length is 0
         defaultCategory = hivent.category is "default"
-        inCategory = categoryHierarchy[0] in @_currentCategoryFilter
+        inCategory = @areEqual hivent.category, @_currentCategoryFilter
         unless noCategoryFilter or defaultCategory or inCategory
           state = 0
 
@@ -357,3 +356,7 @@ class HG.HiventController
 
 
     @_handlesNeedSorting = false
+
+  # ============================================================================
+  areEqual: (str1, str2) ->
+    (str1?="").localeCompare(str2) is 0
