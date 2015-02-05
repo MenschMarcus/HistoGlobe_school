@@ -72,7 +72,9 @@ class HG.HiventMarker2D extends HG.HiventMarker
     )
 
     @getHiventHandle().onAgeChanged @, (age) =>
-      @_marker.setOpacity age
+      #no more Opacity 
+      #@_marker.setOpacity age
+      0
 
     @getHiventHandle().onDestruction @, @_destroy
     @getHiventHandle().onVisibleFuture @, @_destroy
