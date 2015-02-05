@@ -4,7 +4,7 @@
     "container": "histoglobe",
     "minYear": 1870,
     "maxYear": 1993,
-    "nowYear": 1871,
+    "nowYear": 1900,
     "minZoom": 1,
     "maxZoom": 5,
     "startZoom": 5,
@@ -14,7 +14,7 @@
   },
   "Timeline" :
   {
-    "timelineZoom" : 5,
+    "timelineZoom" : 2,
     "topics" : [
       {
         "startDate": "18.1.1871",
