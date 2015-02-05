@@ -40,19 +40,9 @@
     position: absolute;
     top: 5px;
     left: 100px;
-    //float:left;
-    //width: 320px;
-
-    //top: 3px;
     height: 29px;
     width: 354px;
-<<<<<<< HEAD
-    -webkit-box-shadow: 0px 0px 5px 3px #888888;
-    -moz-box-shadow: 0px 0px 5px 3px #888888;
-    box-shadow: 0px 0px 5px 3px #888888;
-=======
     box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
->>>>>>> develop
 
     font-family: Arial, Helvetica, sans-serif;
     text-align: left;
@@ -66,23 +56,15 @@
         top: 0px;
         height: 29px;
         width: 320px;
-<<<<<<< HEAD
-        padding-left: 5px;
-        padding-right: 25px;
-        font-size:20px;
-=======
-        padding: 10px;
+        padding: 5px;
         font-family: roboto;
         font-weight: 100;
         font-size:16px;
->>>>>>> develop
         outline: none;
         text-align: left;
         text-decoration: none;
         color: #000000;
-        border: none; //solid 1px #000000; 
-        //border-top-left-radius: 3px 3px;
-        //border-bottom-left-radius: 3px 3px;
+        border: none;
       }
 
       .clear {
@@ -105,8 +87,6 @@
       left: 320px;
       float:left;
       height: 29px;
-
-      //margin: 0;
       padding: 4px 10px;
       font-family: Arial, Helvetica, sans-serif;
       font-size:15px;
@@ -115,12 +95,7 @@
       text-align: center;
       text-decoration: none;
       color: #ffffff;
-      //border: solid 1px @hg_grey;
-      //border-right:0px;
       background: @hg_green;
-      //border-top-right-radius: 5px 5px;
-      //border-bottom-right-radius: 5px 5px;
-<<<<<<< HEAD
     }
 
     /* Fixes height problem in Firefox */
@@ -128,21 +103,13 @@
       border: 0;
     }
 
-=======
-    }
-
-    /* Fixes height problem in Firefox */
-    .search-icon::-moz-focus-inner {
-      border: 0;
-    }
-
->>>>>>> develop
     #search-results {
       position: absolute;
       top: 32px;
       width: 320px;
       max-height: 300px;
-      padding-left: 5px;
+      overflow-y: auto;
+      //padding-left: 5px;
       font-size:15px;
       color: #000000;
       background: #ffffff;
@@ -151,17 +118,38 @@
       -moz-box-shadow: 0px 0px 5px 3px #888888;
       box-shadow: 0px 0px 5px 3px #888888;
 
-      overflow-y: auto;
-      a {
-        color:black;
-        &:hover{
-          text-decoration: none;
-          font-weight: bold;
+      span {
+        padding-left: 5px;
+        //font-weight: bold;
+      }
+
+      ul {
+      list-style: none;
+      padding: 0px;
+      margin: 0px;
+
+        li {
+          font-family: @primary_font_face;
+          white-space: nowrap;
+          padding-left: 5px;
+          //border-bottom: solid 1px #ddd;
+          overflow: hidden;
+          text-overflow: ellipsis;        
+          a {
+            color: #000000;
+            &:hover {
+            text-decoration: none;
+           }
+          }
+          &:hover {
+            background: @hg_green;
+          }
         }
       }
-      .itemhover {
-          background-color: @hg_green !important;
-      }
+    }
+
+    #search-results:empty {
+        display:none;
     }
 
     #options {
