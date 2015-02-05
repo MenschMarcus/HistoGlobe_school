@@ -258,7 +258,7 @@
 
   "CategoryIconMapping" : {
       "default" : {
-        "default" : "config/school/icons/hiventsOnMap.png",
+        "default" : "config/school/icons/hivent_marker.svg",
         "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
       }
     },
