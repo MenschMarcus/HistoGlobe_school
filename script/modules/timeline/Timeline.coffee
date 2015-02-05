@@ -205,11 +205,17 @@ class HG.Timeline
   # getter
   getTopics: =>
     @_config.topics
-  getRowFromTopic: (topic) =>
+  getRowFromTopicId: (id) =>
     for tmp_topic in @_config.topics
-      if tmp_topic.id is topic.id
-        return topic.row
+      if tmp_topic.id is id
+        return tmp_topic.row
         break
+      else
+        if tmp_topic.subtopics?
+          for tmp_subtopic in tmp_topic.subtopics
+            if id is tmp_subtopic.id
+              return tmp_topic.row + 0.5
+              break
     return -1
   getMinYear: =>
     @_config.minYear
@@ -232,15 +238,15 @@ class HG.Timeline
     @_uiElements.tl_slide
   getPlayStatus: ->
     @_play
-  getTopics: ->
-    # TODO: make a nice object
-    topics = []
-    for topic in @_config.topics
-      topics.push [topic.id]
-      if topic.subtopics
-        for subtopic in topic.subtopics
-          topics.push [subtopic.id, topic.id]
-    topics
+  # getTopics: ->
+  #   # TODO: make a nice object
+  #   topics = []
+  #   for topic in @_config.topics
+  #     topics.push [topic.id]
+  #     if topic.subtopics
+  #       for subtopic in topic.subtopics
+  #         topics.push [subtopic.id, topic.id]
+  #   topics
 
 
   _getTimeFilter: ->

@@ -18,18 +18,17 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
 
     time = hiventHandle.getHivent().startDate.getTime()
 
+    yRow=
+      0: HGConfig.timline_row0_position.val + 10    # main topic
+      0.5: HGConfig.timline_row0_position.val + 40  # subtopic
+      1: HGConfig.timline_row1_position.val + 10    # main topic
+      1.5: HGConfig.timline_row1_position.val + 40  # subtopic
+
     Y_OFFSETS[time] ?= 0
     @_yOffset = Y_OFFSETS[time]
     @_position =
       x: posX,
-      y: HGConfig.timeline_height.val -
-         HGConfig.hivent_marker_timeline_height.val -
-         @_yOffset*HGConfig.hivent_marker_timeline_spacing.val -
-         HGConfig.border_width.val -
-         HGConfig.hivent_marker_timeline_margin_bottom.val -
-         rowPosition
-    # HACK: place hivents onto epochs bar
-    @_position.y -= 115
+      y: yRow[rowPosition + ""]
 
     @rowPosition = rowPosition
 
@@ -42,8 +41,7 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
     @_div.setAttribute "class", @_classDefault
 
     @_div.style.left = @_position.x + "px"
-
-    @_div.style.top = @_position.y + "px"
+    @_div.style.bottom = @_position.y + "px"  # attention position from bottom!
 
     # new
     '''if hiventHandle.getHivent().startDate.getTime() isnt hiventHandle.getHivent().endDate.getTime()

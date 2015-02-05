@@ -56,18 +56,22 @@ class HG.HiventsOnTimeline
         show = (self, oldState) =>
           if oldState is 0 # invisible
             hiventMarkerDate = self.getHivent().startDate
-            rowPosition = @_config.default_row_position
+            #rowPosition = @_config.default_row_position
 
             # TODO: get topics from timeline and check hivent for mapping
             #       get row of topic and set Marker to it
 
-            for obj in @_config.marker_row_positions
+            '''for obj in @_config.marker_row_positions
               if obj.category is self.getHivent().category
                 rowPosition = obj.row_position
-                break
-            rowPosition = @_timeline.getRowFromTopic(self.getHivent().category)
-            console.log rowPosition + " and " + self.getHivent().category
-            marker = new HG.HiventMarkerTimeline @_timeline, self, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate), parseInt(rowPosition)
+                break'''
+            if self.getHivent().subTopic is ""
+              rowPosition = @_timeline.getRowFromTopicId(self.getHivent().parentTopic)
+              console.log rowPosition + " and " + self.getHivent().parentTopic
+            else
+              rowPosition = @_timeline.getRowFromTopicId(self.getHivent().subTopic)
+              console.log rowPosition + " and " + self.getHivent().subTopic
+            marker = new HG.HiventMarkerTimeline @_timeline, self, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate), rowPosition
             @_hiventMarkers.push marker
             marker.onDestruction @, ()=>
               index = $.inArray(marker, @_hiventMarkers)
@@ -123,6 +127,11 @@ class HG.HiventsOnTimeline
 
       if @_markersLoaded
         callbackFunc marker for marker in @_hiventMarkers
+
+  # ============================================================================
+
+  isInt: (n) ->
+    return n % 1 is 0
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
