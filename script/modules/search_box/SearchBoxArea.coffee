@@ -171,13 +171,13 @@ class HG.SearchBoxArea
 
       epoch_search_output = ''
       for epoch_result in epoch_result_list
-        epoch_search_output = epoch_search_output + '<a href="#event=' + epoch_result.id + '">' + 
-        epoch_result.name + ' (' + epoch_result.startYear + ')</a></br>'
+        epoch_search_output = epoch_search_output + '<li><a href="#event=' + epoch_result.id + '">' + 
+        epoch_result.name + ' (' + epoch_result.startYear + ')</a></li>'
 
       search_output = ''
       for result in result_list 
-        search_output = search_output + '<a href="#event=' + result.id + '">' + 
-        result.name + ' (' + result.startYear + ')</a></br>'
+        search_output = search_output + '<li><a href="#event=' + result.id + '">' + 
+        result.name + ' (' + result.startYear + ')</a></li>'
 
       #for item in result_list
         #$("#search-results a").eq(item).data("number", item) 
@@ -185,14 +185,15 @@ class HG.SearchBoxArea
 
       search_result_with_categ_einteilung = ''
       if epoch_search_output.length > 0
-        search_result_with_categ_einteilung = '<span>Suchergebnisse im aktueller Epoche: </span></br>' + epoch_search_output
+        search_result_with_categ_einteilung = '<span>Suchergebnisse im aktueller Epoche: </span></br><ul>' 
+        + epoch_search_output + '</ul>'
 
       if epoch_search_output.length > 0 &&  search_output.length > 0
         search_result_with_categ_einteilung = search_result_with_categ_einteilung + '<br>'
 
       if search_output.length > 0
         search_result_with_categ_einteilung = search_result_with_categ_einteilung + 
-        '<span>Suchergebnisse in anderen Epochen: </span></br>' + search_output
+        '<span>Suchergebnisse in anderen Epochen: </span></br><ul>' + search_output + '</ul>'
 
       @_search_results.innerHTML = search_result_with_categ_einteilung
 
