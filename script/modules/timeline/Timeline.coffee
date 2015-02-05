@@ -280,6 +280,28 @@ class HG.Timeline
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
+  moveToDate: (date, delay=0, successCallback=undefined) ->
+    if @yearToDate(@_config.minYear).getTime() > date.getTime()
+      @moveToDate @yearToDate(@_config.minYear), delay, successCallback
+    else if @yearToDate(@_config.maxYear).getTime() < date.getTime()
+      @moveToDate @yearToDate(@_config.maxYear), delay, successCallback
+    else
+      dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
+      @_uiElements.tl_wrapper.style.transition =  delay + "s"
+      @_uiElements.tl_wrapper.style.transform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tl_wrapper.style.webkitTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tl_wrapper.style.MozTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tl_wrapper.style.MsTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tl_wrapper.style.oTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+
+      @_animationTargetDate = date
+      @_now.date = date
+
+      @notifyAll "onNowChanged", @_now.date
+      @notifyAll "onIntervalChanged", @_getTimeFilter()
+
+      setTimeout(successCallback, delay * 1000) if successCallback?
+
   # animation control
   stopTimeline: ->
     @_play = false
@@ -374,7 +396,7 @@ class HG.Timeline
     if @_play
       if @_now.date.getFullYear() <= @_config.maxYear
         toDate = new Date(@_now.date.getTime() + @_speed*@_speed * 5000 * 60 * 60 * 24 * 7)
-        @_moveToDate(toDate,0)
+        @moveToDate(toDate,0)
         @_updateNowDate()
         @_updateTopics()
         @_updateDateMarkers(zoomed=false)
@@ -387,28 +409,6 @@ class HG.Timeline
     else
       @playTimeline()
 
-  _moveToDate: (date, delay=0, successCallback=undefined) ->
-    if @yearToDate(@_config.minYear).getTime() > date.getTime()
-      @_moveToDate @yearToDate(@_config.minYear), delay, successCallback
-    else if @yearToDate(@_config.maxYear).getTime() < date.getTime()
-      @_moveToDate @yearToDate(@_config.maxYear), delay, successCallback
-    else
-      dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
-      @_uiElements.tl_wrapper.style.transition =  delay + "s"
-      @_uiElements.tl_wrapper.style.transform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-      @_uiElements.tl_wrapper.style.webkitTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-      @_uiElements.tl_wrapper.style.MozTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-      @_uiElements.tl_wrapper.style.MsTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-      @_uiElements.tl_wrapper.style.oTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-
-      @_animationTargetDate = date
-      @_now.date = date
-
-      @notifyAll "onNowChanged", @_now.date
-      @notifyAll "onIntervalChanged", @_getTimeFilter()
-
-      setTimeout(successCallback, delay * 1000) if successCallback?
-
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
   #update
@@ -417,7 +417,7 @@ class HG.Timeline
     @_uiElements.tl_slide.style.width = (@timelineLength() + window.innerWidth) + "px"
     @_now.marker.style.left   = (window.innerWidth / 2) + "px"
     @_now.dateField.style.left   = (window.innerWidth / 2) + "px"
-    @_moveToDate(@_now.date, 0)
+    @moveToDate(@_now.date, 0)
     @_timeline_swiper.reInit()
 
   _updateNowDate: (fireCallbacks = true) ->
@@ -591,7 +591,7 @@ class HG.Timeline
 
       # move timeline to center of topic bar
       # at the end of transition zoom in and filter categories
-      @_moveToDate middleDate, 1, =>
+      @moveToDate middleDate, 1, =>
         if @_activeTopic.endDate > @maxVisibleDate()
 
           # use setInterval to zoom in repeatly
