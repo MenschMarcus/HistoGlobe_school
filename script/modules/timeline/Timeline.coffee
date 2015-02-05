@@ -1,40 +1,5 @@
 window.HG ?= {}
 
-'''
-    DOCUMENTATION
-    written by Sascha Dobschal, sascha.dobschal@histoglobe.com
-
-    the timeline is a moveable html div container
-    movement is made with swiper.js in freeMode
-
-    to place an object on the timeline or move it a specific date object is needed
-    more information about this see: "Javascript Date Object" online
-
-    objects on timline:
-      dateMarker:
-        div container with absolute position on timeline
-        showing a date
-      topic:
-        div container with given position and width
-        showing name of topic on timeline
-      now:
-        keeps current centered date and a marker on timeline
-    
-    use timeline with dates:
-      dateToPosition(date)
-        return position of date on timeline (only x value)
-      moveToDate(date, delay, successCallback)
-        moves whole timeline to given date
-      millisPerPixel()
-        returns how many milliseconds are on one pixel of timeline
-      timeInterval()
-        return time difference between two datemarkers on timeline
-      zoom(delta)
-        zoom timeline in or out
-
-
-'''
-
 ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 ## ## ## ##
 ## ##             STATIC PUBLIC
@@ -238,16 +203,6 @@ class HG.Timeline
     @_uiElements.tl_slide
   getPlayStatus: ->
     @_play
-  # getTopics: ->
-  #   # TODO: make a nice object
-  #   topics = []
-  #   for topic in @_config.topics
-  #     topics.push [topic.id]
-  #     if topic.subtopics
-  #       for subtopic in topic.subtopics
-  #         topics.push [subtopic.id, topic.id]
-  #   topics
-
 
   _getTimeFilter: ->
     timefilter = []
