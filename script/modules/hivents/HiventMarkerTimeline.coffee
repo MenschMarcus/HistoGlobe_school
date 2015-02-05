@@ -83,7 +83,7 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
 
 
     # HACK: create labels
-    hiventName = hiventHandle.getHivent().name
+    '''hiventName = hiventHandle.getHivent().name
     labelClass = "hivent_marker_timeline_label"
     width = 500
     rotation = -30
@@ -102,7 +102,7 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
     @_labelDiv.style.oTransform      = 'rotate('+rotation+'deg)';
     @_labelDiv.style.transform       = 'rotate('+rotation+'deg)';
 
-    @_div.appendChild @_labelDiv
+    @_div.appendChild @_labelDiv'''
 
 
   # ============================================================================

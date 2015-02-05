@@ -60,6 +60,7 @@ class HG.HiventList
     @_hivent_list.innerHTML = hivents
     @_hivent_list.style.display = "none"
     @_container.appendChild @_hivent_list
+    $(@_hivent_list).css({'max-height': (window.innerHeight - 150) + "px"}) # max height of list with timelin height
     $(@_hivent_list).fadeIn(1000)
 
     return @_hivent_list
