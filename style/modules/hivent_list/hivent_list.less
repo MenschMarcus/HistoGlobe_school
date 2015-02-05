@@ -1,0 +1,93 @@
+@hg_grey: #575756; //HistoGlobe dunkelgrau
+@hg_green: #d5c900; //HistoGlobe gelbgrün
+
+.hivent-list-module {
+  z-index: 10;
+  position: absolute;
+  bottom: 100px;
+  right: 0px;
+  //top: 10px;
+  width: 200px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+  overflow-y: auto;
+  font-size: 30pt * @widget_font_size_factor;
+  border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
+
+  .transition-property(left);
+  .transition-duration(@sidebar_aimation_speed);
+    
+  .hivent-list {
+    position: relative;
+    bottom: 0;
+
+    background: #ffffff;
+    //margin-top: 5px;
+    //margin-left: 5px;
+    //margin-bottom: 5px;
+    //padding: 2px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:15px;
+    color: #000000;
+    text-decoration: none;
+    text-align: left;
+    outline: none;
+    //box-shadow: 0 0 5px rgba(0,0,0,0.5);
+
+    ul {
+      list-style: none;
+      padding: 0px;
+      margin: 0px;
+
+      li {
+        font-family: @primary_font_face;
+        white-space: nowrap;
+        padding: 10px;
+        border-bottom: solid 1px #ddd;
+        overflow: hidden;
+        text-overflow: ellipsis;        
+        a {
+          color: #286b7a;
+        }
+        i {
+          color: #286b7a;
+          margin-right: 5px;
+        }
+
+        &:hover {
+          background: #2f3b47;
+          i {
+            color: #fff;
+          }
+          a {
+            color: #fff;
+          }
+        }
+      }
+    }
+    
+
+    a {
+      //color: #286b7a;
+      //color: #79a4ae;
+      &:hover{
+        text-decoration: none;
+      }
+    }
+
+    /*hr {
+      border: 0;
+      margin: 0px;
+      height: 1px;
+      background: #333;
+      background-image: -webkit-linear-gradient(left, #ccc, #333, #ccc); 
+      background-image:    -moz-linear-gradient(left, #ccc, #333, #ccc); 
+      background-image:     -ms-linear-gradient(left, #ccc, #333, #ccc); 
+      background-image:      -o-linear-gradient(left, #ccc, #333, #ccc); 
+    }*/
+
+    //i {
+      //color: #286b7a;
+      //color: #79a4ae;
+    //}
+  }
+}

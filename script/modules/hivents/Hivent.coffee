@@ -13,7 +13,8 @@ class HG.Hivent
                 locationName,
                 long, lat, region,
                 isImp,
-                category, content,
+                category, parentTopic, subTopic
+                content,
                 description, multimedia, link)  ->
 
     @id = id
@@ -33,6 +34,8 @@ class HG.Hivent
     @region = region
     @isImp = isImp
     @category = category
+    @parentTopic = parentTopic
+    @subTopic = subTopic
     @content = content
     @description = description
     @multimedia = multimedia

@@ -9,6 +9,7 @@
   margin: 5px 5px 5px 0;
   font-size: 20pt * @widget_font_size_factor;
   border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
+  z-index: 10;
 
   .transition-property(left);
   .transition-duration(@sidebar_aimation_speed);
@@ -45,9 +46,13 @@
     //top: 3px;
     height: 29px;
     width: 354px;
+<<<<<<< HEAD
     -webkit-box-shadow: 0px 0px 5px 3px #888888;
     -moz-box-shadow: 0px 0px 5px 3px #888888;
     box-shadow: 0px 0px 5px 3px #888888;
+=======
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+>>>>>>> develop
 
     font-family: Arial, Helvetica, sans-serif;
     text-align: left;
@@ -61,9 +66,16 @@
         top: 0px;
         height: 29px;
         width: 320px;
+<<<<<<< HEAD
         padding-left: 5px;
         padding-right: 25px;
         font-size:20px;
+=======
+        padding: 10px;
+        font-family: roboto;
+        font-weight: 100;
+        font-size:16px;
+>>>>>>> develop
         outline: none;
         text-align: left;
         text-decoration: none;
@@ -108,6 +120,7 @@
       background: @hg_green;
       //border-top-right-radius: 5px 5px;
       //border-bottom-right-radius: 5px 5px;
+<<<<<<< HEAD
     }
 
     /* Fixes height problem in Firefox */
@@ -115,6 +128,15 @@
       border: 0;
     }
 
+=======
+    }
+
+    /* Fixes height problem in Firefox */
+    .search-icon::-moz-focus-inner {
+      border: 0;
+    }
+
+>>>>>>> develop
     #search-results {
       position: absolute;
       top: 32px;

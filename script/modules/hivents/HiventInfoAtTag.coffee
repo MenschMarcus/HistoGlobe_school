@@ -21,6 +21,7 @@ class HG.HiventInfoAtTag
   # ============================================================================
   hgInit: (hgInstance) ->
     hgInstance.hiventInfoAtTag = @
+    @_hgInstance = hgInstance
 
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
@@ -100,6 +101,9 @@ class HG.HiventInfoAtTag
         when "categories"
           categories = @_hashEntries[target].split '+'
           @_categoryFilter?.setCategory categories
+
+          @_hgInstance.hivent_list_module?._addHiventList()
+
         else
           @notifyAll "onHashChanged", target, @_hashEntries[target]
 

@@ -7,7 +7,7 @@ class HG.CategoryFilter
   ##############################################################################
 
   # ============================================================================
-  constructor: () ->
+  constructor: (config) ->
 
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
@@ -18,6 +18,13 @@ class HG.CategoryFilter
     @_categoryFilter = []
     @_categoriesExcluded = []
     @_prefixesExcluded = []
+
+    defaultConfig =
+      initial: "noCategory"
+
+    @_config = $.extend {}, defaultConfig, config
+
+    @setCategory @_config.initial
 
 
   # ============================================================================
@@ -62,6 +69,7 @@ class HG.CategoryFilter
 
   # ============================================================================
   setCategory: (category) ->
+
     if @_isArray category
       @_categoryFilter = category
     else
