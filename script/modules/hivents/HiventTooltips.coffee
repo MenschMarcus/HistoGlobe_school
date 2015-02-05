@@ -73,7 +73,7 @@ class HG.HiventTooltips
     hiventInfo.class = "btn btn-default"
     hiventInfo.style.position = "absolute"
     hiventInfo.style.left = "0px"
-    hiventInfo.style.top = "0px"
+    hiventInfo.style.bottom = "0px"
     hiventInfo.style.visibility = "hidden"
     hiventInfo.style.pointerEvents = "none"
 
@@ -85,7 +85,7 @@ class HG.HiventTooltips
 
     showTooltip = (displayPosition) =>
       hiventInfo.style.left = displayPosition.x + "px"
-      hiventInfo.style.top = displayPosition.y + 5 + "px"
+      hiventInfo.style.bottom = displayPosition.y + 25 + "px"
       $(hiventInfo).tooltip "show"
 
     hideTooltip = (displayPosition) =>
