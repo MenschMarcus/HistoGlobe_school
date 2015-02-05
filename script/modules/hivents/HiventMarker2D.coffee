@@ -25,8 +25,10 @@ class HG.HiventMarker2D extends HG.HiventMarker
 
     @_lat = lat
     @_long = long
-
-    icon_default    = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_default", iconSize: null}
+    markerLabel=hiventHandle.getHivent().name
+    
+    html="<div class=\"markerLabel\">#{markerLabel}</div>"
+    icon_default    = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_default", iconSize: null ,html:html}
     icon_higlighted = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_highlighted", iconSize: null}
     @_marker = new L.Marker [@_lat, @_long], {icon: icon_default}
     @_marker.myHiventMarker2D = @
