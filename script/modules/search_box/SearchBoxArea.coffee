@@ -79,7 +79,7 @@ class HG.SearchBoxArea
     # Search Icon =================================================================
     icon = document.createElement "div"
     icon.className = "search-icon"
-    icon.innerHTML = '<i class="fa fa-search"></i>'    
+    icon.innerHTML = '<i class="fa fa-search"></i>'
     box.appendChild icon
 
     # add options if input is clicked
@@ -111,7 +111,7 @@ class HG.SearchBoxArea
       @_input_text = @_input_text.toLowerCase()
       #options_input = document.getElementsByName("search_option")
 
-      # if options_input? 
+      # if options_input?
       #   @_search_opt_event = options_input[0].checked
       #   @_search_opt_place = options_input[1].checked
       #   @_search_opt_person = options_input[2].checked
@@ -180,7 +180,7 @@ class HG.SearchBoxArea
         result.name + ' (' + result.startYear + ')</a></li>'
 
       #for item in result_list
-        #$("#search-results a").eq(item).data("number", item) 
+        #$("#search-results a").eq(item).data("number", item)
         #console.log item.number
 
       search_result_with_categ_einteilung = ''
@@ -218,10 +218,10 @@ class HG.SearchBoxArea
         $(clear).hide()
         document.getElementById("search-input").value = "" #Clear input text
         form.removeChild @_search_results
-    
+
     #=============================================================================
     # Arrow Key Navigation V1 ====================================================
-     
+
       # a = $('.search-box a')
 
       # $(window).keyup (e) ->
@@ -287,7 +287,7 @@ class HG.SearchBoxArea
     # navigate = (direction) ->
     #   # Check if any of the menu items is selected
     #   if $("#search-results a .itemhover").length == 0
-    #     currentSelection = -1  
+    #     currentSelection = -1
 
     #   if direction is "up" and currentSelection >= 1
     #     currentSelection = currentSelection-1
