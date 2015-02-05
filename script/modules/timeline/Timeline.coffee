@@ -1,5 +1,40 @@
 window.HG ?= {}
 
+'''
+    DOCUMENTATION
+    written by Sascha Dobschal, sascha.dobschal@histoglobe.com
+
+    the timeline is a moveable html div container
+    movement is made with swiper.js in freeMode
+
+    to place an object on the timeline or move it a specific date object is needed
+    more information about this see: "Javascript Date Object" online
+
+    objects on timline:
+      dateMarker:
+        div container with absolute position on timeline
+        showing a date
+      topic:
+        div container with given position and width
+        showing name of topic on timeline
+      now:
+        keeps current centered date and a marker on timeline
+    
+    use timeline with dates:
+      dateToPosition(date)
+        return position of date on timeline (only x value)
+      moveToDate(date, delay, successCallback)
+        moves whole timeline to given date
+      millisPerPixel()
+        returns how many milliseconds are on one pixel of timeline
+      timeInterval()
+        return time difference between two datemarkers on timeline
+      zoom(delta)
+        zoom timeline in or out
+
+
+'''
+
 ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 ## ## ## ##
 ## ##             STATIC PUBLIC
@@ -526,12 +561,18 @@ class HG.Timeline
 
   # eventhandler
   _onTopicClick: (topic_tmp) ->
+
+    # hide category
     window.location.hash = '#categories=null'
+
+    #   if there is no active topic or different topic was clicked
+    #   activate and highlight it (move to, and zoom)
     if !@_activeTopic? or topic_tmp.id isnt @_activeTopic.id
       diff = topic_tmp.endDate.getTime() - topic_tmp.startDate.getTime()
       millisec = diff / 2 + topic_tmp.startDate.getTime()
       middleDate = new Date(millisec)
 
+      # set all topics as default and choosed as highlighted
       for topic in @_config.topics
         topic.div.className = "tl_topic tl_topic_row" + topic.row
       topic_tmp.div.className = "tl_topic_highlighted tl_topic_row" + topic_tmp.row
@@ -542,8 +583,15 @@ class HG.Timeline
       # move row so that subtopics can be shown
       @_moveTopicRows(true)
 
+      # move timeline to center of topic bar
+      # at the end of transition zoom in and filter categories
       @_moveToDate middleDate, 1, =>
         if @_activeTopic.endDate > @maxVisibleDate()
+
+          # use setInterval to zoom in repeatly
+          # if zoom should stop call clearInterval(obj)
+          # zoom delay is 50ms 
+          # todo: make zoom delay as a static parameter
           repeatObj = setInterval =>
             if @_activeTopic.endDate > (new Date(@maxVisibleDate().getTime() - (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1))
               @_zoom -1
@@ -560,6 +608,9 @@ class HG.Timeline
               window.location.hash = '#categories=' + topic_tmp.id
           , 50
     else
+
+      # if same topic was clicked unable it
+      # hide subtopic row and set class to default
       topic_tmp.div.className = "tl_topic tl_topic_row" + topic_tmp.row
       @_moveTopicRows(false)
       @_activeTopic = null
