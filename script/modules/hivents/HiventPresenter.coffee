@@ -20,7 +20,8 @@ class HG.HiventPresenter
     if @_hiventController?
       @_hiventController.getHivents @, (handle) =>
         if handle.getHivent().id is id
-          @_timeline.moveToDate handle.getHivent().startDate, 0.5
+          # ??? private function call :/
+          @_timeline._moveToDate handle.getHivent().startDate, 0.5
           @_hiventController.removeListener "onHiventAdded", @
 
     if @_hiventInfoPopovers?
