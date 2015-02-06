@@ -259,7 +259,7 @@
   "CategoryIconMapping" : {
       "default" : {
         "default" : "config/school/icons/hivent_marker.svg",
-        "highlighted" : "config/school/icons/hiventsOnMap_highlight.png"
+        "highlighted" : "config/school/icons/hivent_marker_highlight.svg"
       }
     },
 
