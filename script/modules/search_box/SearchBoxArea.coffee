@@ -184,9 +184,10 @@ class HG.SearchBoxArea
         #console.log item.number
 
       search_result_with_categ_einteilung = ''
+      #console.log epoch_search_output
       if epoch_search_output.length > 0
-        search_result_with_categ_einteilung = '<span>Suchergebnisse im aktueller Epoche: </span></br><ul>' 
-        + epoch_search_output + '</ul>'
+        search_result_with_categ_einteilung = '<span>Suchergebnisse im aktueller Epoche: </span></br><ul>' +
+        epoch_search_output + '</ul>'
 
       if epoch_search_output.length > 0 &&  search_output.length > 0
         search_result_with_categ_einteilung = search_result_with_categ_einteilung + '<br>'
