@@ -171,17 +171,28 @@ class HG.SearchBoxArea
 
       epoch_search_output = ''
       for epoch_result in epoch_result_list
+
+        yearString = ''
+        if epoch_result.startYear == epoch_result.endYear
+          yearString = epoch_result.startYear
+        else
+          yearString = epoch_result.startYear + ' bis ' + epoch_result.endYear
+
+
         epoch_search_output = epoch_search_output + '<li><a href="#event=' + epoch_result.id + '">' + 
-        epoch_result.name + ' (' + epoch_result.startYear + ')</a></li>'
+        epoch_result.name + '  -' + yearString + '</a></li>'
 
       search_output = ''
-      for result in result_list 
-        search_output = search_output + '<li><a href="#event=' + result.id + '">' + 
-        result.name + ' (' + result.startYear + ')</a></li>'
+      for result in result_list
 
-      #for item in result_list
-        #$("#search-results a").eq(item).data("number", item) 
-        #console.log item.number
+        yearString = ''
+        if result.startYear == result.endYear
+          yearString = result.startYear
+        else
+          yearString = result.startYear + ' bis ' + result.endYear
+
+        search_output = search_output + '<li><a href="#event=' + result.id + '">' + 
+        result.name + '  -' + yearString  + '</a></li>'
 
       search_result_with_categ_einteilung = ''
       #console.log epoch_search_output
