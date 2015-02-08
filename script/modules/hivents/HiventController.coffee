@@ -286,7 +286,7 @@ class HG.HiventController
       if state isnt 0 and @_currentTimeFilter?
         # start date in visible future
         if hivent.startDate.getTime() > @_currentTimeFilter.now.getTime() and hivent.startDate.getTime() < @_currentTimeFilter.end.getTime()
-          state = 2
+          state = 1
         # completely  outside
         else if hivent.startDate.getTime() > @_currentTimeFilter.end.getTime() or hivent.endDate.getTime() < @_currentTimeFilter.start.getTime()
           state = 0
