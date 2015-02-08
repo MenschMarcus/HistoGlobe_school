@@ -286,6 +286,7 @@ class HG.HiventController
       if state isnt 0 and @_currentTimeFilter?
         # start date in visible future
         if hivent.startDate.getTime() > @_currentTimeFilter.now.getTime() and hivent.startDate.getTime() < @_currentTimeFilter.end.getTime()
+          #make them visible in future
           state = 1
         # completely  outside
         else if hivent.startDate.getTime() > @_currentTimeFilter.end.getTime() or hivent.endDate.getTime() < @_currentTimeFilter.start.getTime()
@@ -312,7 +313,7 @@ class HG.HiventController
           new_age = Math.min(1, ((hivent.endDate.getTime() - @_currentTimeFilter.start.getTime()) / (0.5*(@_currentTimeFilter.now.getTime() - @_currentTimeFilter.start.getTime())))-1)
           if new_age isnt handle._age
             handle.setAge new_age
-
+    ###
     # importance filter: assign each hivent an importance score
     if @_ab.hiventsOnTl is "B"
       impScores = []
@@ -354,7 +355,7 @@ class HG.HiventController
         # finally set the visible state and tell everyone
         score.handle.setState state
 
-
+    ###
     @_handlesNeedSorting = false
 
   # ============================================================================

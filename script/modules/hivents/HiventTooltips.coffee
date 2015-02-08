@@ -86,7 +86,7 @@ class HG.HiventTooltips
     showTooltip = (displayPosition) =>
       hiventInfo.style.left = displayPosition.x + "px"
       hiventInfo.style.bottom = displayPosition.y + 25 + "px"
-      $(hiventInfo).tooltip "show"
+      #$(hiventInfo).tooltip "show"
 
     hideTooltip = (displayPosition) =>
       $(hiventInfo).tooltip "hide"
