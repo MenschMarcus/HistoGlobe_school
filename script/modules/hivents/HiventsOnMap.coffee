@@ -73,10 +73,11 @@ class HG.HiventsOnMap
               html+="<div class=\"clusterLabelOnMap\"><p>#{firstChild} und ein weiteres Ereignis</p></div>"
           else
           # Show all Hivents Names
-            html+="<div class=\"clusterLabelOnMap\"><p>"
+            html+="<div class=\"clusterLabelOnMap\"><table>"
+
             for marker in cluster.getAllChildMarkers()
-              html+="#{marker.myHiventMarker2D.getHiventHandle().getHivent().name}<br>"
-            html+="</p></div>"
+              html+="<tr><td>#{marker.myHiventMarker2D.getHiventHandle().getHivent().name}</td></tr>"
+            html+="</table></div>"
 
           new L.DivIcon {className: "hivent_marker_2D_stack", iconAnchor: [HGConfig.hivent_marker_2D_width.val*0.5 + 5*0.5*depth, HGConfig.hivent_marker_2D_height.val*0.5], html: html}
 
