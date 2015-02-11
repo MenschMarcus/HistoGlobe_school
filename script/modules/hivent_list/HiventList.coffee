@@ -54,7 +54,7 @@ class HG.HiventList
 
     hivents = '<ul>'
     for hivent in @_hivent_array
-      hivents += '<li><i class="fa fa-map-marker"></i><a href="#event=' + hivent.id + '">  ' + hivent.name + '</a></li>'
+      hivents += '<a href="#event=' + hivent.id + '"><li><i class="fa fa-map-marker"></i> ' + hivent.name + '</li></a>'
     hivents += '</ul>'
 
     @_hivent_list.innerHTML = hivents

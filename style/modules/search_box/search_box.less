@@ -124,25 +124,26 @@
       }
 
       ul {
-      list-style: none;
-      padding: 0px;
-      margin: 0px;
+        list-style: none;
+        padding: 0px;
+        margin: 0px;
 
-        li {
-          font-family: @primary_font_face;
-          white-space: nowrap;
-          padding-left: 5px;
-          //border-bottom: solid 1px #ddd;
-          overflow: hidden;
-          text-overflow: ellipsis;        
-          a {
-            color: #000000;
-            &:hover {
-            text-decoration: none;
-           }
-          }
+        a {
+          color: #000000;
           &:hover {
-            background: @hg_green;
+            text-decoration: none;
+          }
+          li {
+            font-family: @primary_font_face;
+            white-space: nowrap;
+            padding-left: 5px;
+            //border-bottom: solid 1px #ddd;
+            overflow: hidden;
+            text-overflow: ellipsis;        
+
+            &:hover {
+              background: @hg_green;
+            }
           }
         }
       }

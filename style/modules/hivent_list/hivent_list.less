@@ -32,28 +32,27 @@
       padding: 0px;
       margin: 0px;
 
-      li {
-        font-family: @primary_font_face;
-        white-space: nowrap;
-        padding: 10px;
-        border-bottom: solid 1px #ddd;
-        overflow: hidden;
-        text-overflow: ellipsis;        
-        a {
-          color: #286b7a;
-        }
-        i {
-          color: #286b7a;
-          margin-right: 5px;
-        }
+      a {
+        color: #286b7a;
 
-        &:hover {
-          background: #2f3b47;
+        li {
+          font-family: @primary_font_face;
+          white-space: nowrap;
+          padding: 10px;
+          border-bottom: solid 1px #ddd;
+          overflow: hidden;
+          text-overflow: ellipsis;        
+        
           i {
-            color: #fff;
+            color: #286b7a;
+            margin-right: 5px;
           }
-          a {
-            color: #fff;
+          &:hover {
+            background: #2f3b47;
+            color:#fff;
+            i {
+              color: #fff;
+            }
           }
         }
       }
