@@ -36,7 +36,7 @@ class HG.HiventsOnTimeline
         #     position = obj.position
         icons = hgInstance.categoryIconMapping.getIcons(category)
         for element of icons
-          console.log #{icons[element]}
+          #console.log #{icons[element]}
           HG.createCSSSelector ".hivent_marker_timeline_#{category}_#{element}",
           "width: #{HGConfig.hivent_marker_timeline_width.val}px !important;
            height: #{HGConfig.hivent_marker_timeline_height.val}px !important;
@@ -67,10 +67,10 @@ class HG.HiventsOnTimeline
                 break'''
             if self.getHivent().subTopic is ""
               rowPosition = @_timeline.getRowFromTopicId(self.getHivent().parentTopic)
-              console.log rowPosition + " and " + self.getHivent().parentTopic
+              #console.log rowPosition + " and " + self.getHivent().parentTopic
             else
               rowPosition = @_timeline.getRowFromTopicId(self.getHivent().subTopic)
-              console.log rowPosition + " and " + self.getHivent().subTopic
+              #console.log rowPosition + " and " + self.getHivent().subTopic
             marker = new HG.HiventMarkerTimeline @_timeline, self, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate), rowPosition
             @_hiventMarkers.push marker
             marker.onDestruction @, ()=>

@@ -64,6 +64,25 @@ class HG.HiventsOnMap
           for i in [0..depth]
             html += "</div>"
 
+          
+          if @_ab.hiventClusterLabels=="B"
+          #Show only one Hivent indicated            
+            firstChild=cluster.getAllChildMarkers()[0].myHiventMarker2D._hiventHandle.getHivent().name
+            
+            numberOfClusterChilds=cluster.getAllChildMarkers().length
+            
+            if numberOfClusterChilds > 2
+              html+="<div class=\"clusterLabelOnMap\"><p>#{firstChild} <br> und #{numberOfClusterChilds-1} weitere Ereignisse</p></div>"
+            else
+              html+="<div class=\"clusterLabelOnMap\"><table>#{firstChild} <br> und ein weiteres Ereignis</table></div>"
+          else
+          # Show all Hivents Names
+            html+="<div class=\"clusterLabelOnMap\"><table>"
+
+            for marker in cluster.getAllChildMarkers()
+              html+="<tr><td>#{marker.myHiventMarker2D.getHiventHandle().getHivent().name}</td></tr>"
+            html+="</table></div>"
+          
           new L.DivIcon {className: "hivent_marker_2D_stack", iconAnchor: [HGConfig.hivent_marker_2D_width.val*0.5 + 5*0.5*depth, HGConfig.hivent_marker_2D_height.val*0.5], html: html}
 
       # example of AB Test

@@ -52,9 +52,10 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
     )
 
     @getHiventHandle().onAgeChanged @, (age) =>
-      opacityRegulator=0.5
-      regionOpacity=age*opacityRegulator
-      @_marker.setStyle({fillOpacity:regionOpacity})
+      #opacityRegulator=0.5
+      #regionOpacity=age*opacityRegulator
+      #@_marker.setStyle({fillOpacity:regionOpacity})
+      0
 
     @getHiventHandle().onDestruction @, @_destroy
     @getHiventHandle().onVisibleFuture @, @_destroy
