@@ -191,7 +191,8 @@
     "hiventClusterLabels" :   "A",
     "epochNames-moreSpace" :  "A",
     "epochNames-shortNames" : "A",
-    "searchFilter" :          "A"
+    "searchFilter" :          "A",
+    "regionLabels" :          "A"
   },
 
   "BrowserDetector": {},
