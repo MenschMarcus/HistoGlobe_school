@@ -188,7 +188,7 @@
     "hiventsOnTlLabels" :     "A",
     "numHiventsOnMap" :       "A",
     "hiventRegionsOnMap" :    "A",
-    "hiventClusterLabels" :   "A",
+    "hiventClusterLabels" :   "B",
     "epochNames-moreSpace" :  "A",
     "epochNames-shortNames" : "A",
     "searchFilter" :          "A",
