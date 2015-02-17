@@ -48,7 +48,7 @@ class HG.FullscreenButton
       state_b = {}
 
       state_a =
-        icon: "fa-arrows-alt"
+        icon: "fa-expand"
         tooltip: "Zum Vollbildmodus"
         callback: () =>
 

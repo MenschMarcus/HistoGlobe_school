@@ -4,10 +4,10 @@ window.HG ?= {}
 ## ## ## ##
 ## ##             STATIC PUBLIC
 
-MAX_ZOOM_LEVEL = 7        # most detailed view of timeline in DAYS
-MIN_INTERVAL_INDEX = 0    # 0 = 1 Year | 1 = 2 Year | 2 = 5 Years | 3 = 10 Years | ...
-INTERVAL_SCALE = 0.2      # higher value makes greater intervals between datemarkers
-FADE_ANIMATION_TIME = 200 # fade in time for datemarkers and so
+MAX_ZOOM_LEVEL = 7          # most detailed view of timeline in DAYS
+MIN_INTERVAL_INDEX = 0      # 0 = 1 Year | 1 = 2 Year | 2 = 5 Years | 3 = 10 Years | ...
+INTERVAL_SCALE = 0.2        # higher value makes greater intervals between datemarkers
+FADE_ANIMATION_TIME = 200   # fade in time for datemarkers and so
 
 MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
 
@@ -57,6 +57,14 @@ class HG.Timeline
           @_zoom(1)
         hgInstance.zoom_buttons_timeline.onZoomOut @, () =>
           @_zoom(-1)
+
+      # if category/topic was changed outside the timeline
+      # notify action here
+      hgInstance.categoryFilter?.onFilterChanged @,(categoryFilter) =>
+        for topic in @_config.topics
+          if categoryFilter[0] is topic.id
+            @_switchTopic(topic, false)
+            break
 
     @_parentDiv = @addUIElement "timeline-area", "timeline-area", @_HGContainer
 
@@ -409,7 +417,7 @@ class HG.Timeline
             subtopic.div.style.width = (@dateToPosition(subtopic.endDate) - @dateToPosition(subtopic.startDate)) + "px"
             $("#topic" + topic.id + " > .tl_subtopics" ).append subtopic.div
 
-        $(topic.div).on "click", value: topic, (event) => @_onTopicClick(event.data.value)
+        $(topic.div).on "click", value: topic, (event) => @_switchTopic(event.data.value)
         $(topic.div).fadeIn(200)
       else
         topic.div.style.left = @dateToPosition(topic.startDate) + "px"
@@ -521,10 +529,10 @@ class HG.Timeline
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
   # eventhandler
-  _onTopicClick: (topic_tmp) ->
+  _switchTopic: (topic_tmp, setHash=true) ->
 
     # hide category
-    window.location.hash = '#categories=null'
+    window.location.hash = '#categories=null' if setHash
 
     #   if there is no active topic or different topic was clicked
     #   activate and highlight it (move to, and zoom)
@@ -558,7 +566,7 @@ class HG.Timeline
               @_zoom -1
             else
               clearInterval(repeatObj)
-              window.location.hash = '#categories=' + topic_tmp.id
+              window.location.hash = '#categories=' + topic_tmp.id if setHash
           , 50
         else
           repeatObj = setInterval =>
@@ -566,15 +574,15 @@ class HG.Timeline
               @_zoom 1
             else
               clearInterval(repeatObj)
-              window.location.hash = '#categories=' + topic_tmp.id
+              window.location.hash = '#categories=' + topic_tmp.id  if setHash
           , 50
-    else
-
-      # if same topic was clicked unable it
-      # hide subtopic row and set class to default
-      topic_tmp.div.className = "tl_topic tl_topic_row" + topic_tmp.row
-      @_moveTopicRows(false)
-      @_activeTopic = null
+    else 
+      if setHash
+        # if same topic was clicked unable it
+        # hide subtopic row and set class to default
+        topic_tmp.div.className = "tl_topic tl_topic_row" + topic_tmp.row
+        @_moveTopicRows(false)
+        @_activeTopic = null
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
