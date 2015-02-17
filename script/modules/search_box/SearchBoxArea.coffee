@@ -195,7 +195,6 @@ class HG.SearchBoxArea
         result.name + '  -' + yearString  + '</li></a>'
 
       search_result_with_categ_einteilung = ''
-      #console.log epoch_search_output
       if epoch_search_output.length > 0
         search_result_with_categ_einteilung = '<span>Suchergebnisse im aktueller Epoche: </span></br><ul>' +
         epoch_search_output + '</ul>'
