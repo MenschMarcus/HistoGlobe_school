@@ -132,8 +132,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
       if @_map.getZoom()>3
         @_marker._icon.innerHTML="<div class=\"markerLabel\">#{@_markerLabelLocation}</div>"
       else
-        @_marker._icon.innerHTML="<div class=\"markerLabel\">#{@_markerLabelEventName}</div>"
-      console.log @_marker._icon
+        @_marker._icon.innerHTML="<div class=\"markerLabel\">#{@_markerLabelEventName}</div>"      
     0
    # ============================================================================
   _destroy: =>
