@@ -79,7 +79,7 @@ class HG.SearchBoxArea
     # Search Icon =================================================================
     icon = document.createElement "div"
     icon.className = "search-icon"
-    icon.innerHTML = '<i class="fa fa-search"></i>'    
+    icon.innerHTML = '<i class="fa fa-search"></i>'
     box.appendChild icon
 
     # add options if input is clicked
@@ -111,7 +111,7 @@ class HG.SearchBoxArea
       @_input_text = @_input_text.toLowerCase()
       #options_input = document.getElementsByName("search_option")
 
-      # if options_input? 
+      # if options_input?
       #   @_search_opt_event = options_input[0].checked
       #   @_search_opt_place = options_input[1].checked
       #   @_search_opt_person = options_input[2].checked
@@ -171,28 +171,30 @@ class HG.SearchBoxArea
 
       epoch_search_output = ''
       for epoch_result in epoch_result_list
-        epoch_search_output = epoch_search_output + '<a href="#event=' + epoch_result.id + '">' + 
-        epoch_result.name + ' (' + epoch_result.startYear + ')</a></br>'
+        epoch_search_output = epoch_search_output + '<li><a href="#event=' + epoch_result.id + '">' +
+        epoch_result.name + ' (' + epoch_result.startYear + ')</a></li>'
 
       search_output = ''
-      for result in result_list 
-        search_output = search_output + '<a href="#event=' + result.id + '">' + 
-        result.name + ' (' + result.startYear + ')</a></br>'
+      for result in result_list
+        search_output = search_output + '<li><a href="#event=' + result.id + '">' +
+        result.name + ' (' + result.startYear + ')</a></li>'
 
       #for item in result_list
-        #$("#search-results a").eq(item).data("number", item) 
+        #$("#search-results a").eq(item).data("number", item)
         #console.log item.number
 
       search_result_with_categ_einteilung = ''
+      #console.log epoch_search_output
       if epoch_search_output.length > 0
-        search_result_with_categ_einteilung = '<span>Suchergebnisse im aktueller Epoche: </span></br>' + epoch_search_output
+        search_result_with_categ_einteilung = '<span>Suchergebnisse im aktueller Epoche: </span></br><ul>' +
+        epoch_search_output + '</ul>'
 
       if epoch_search_output.length > 0 &&  search_output.length > 0
         search_result_with_categ_einteilung = search_result_with_categ_einteilung + '<br>'
 
       if search_output.length > 0
-        search_result_with_categ_einteilung = search_result_with_categ_einteilung + 
-        '<span>Suchergebnisse in anderen Epochen: </span></br>' + search_output
+        search_result_with_categ_einteilung = search_result_with_categ_einteilung +
+        '<span>Suchergebnisse in anderen Epochen: </span></br><ul>' + search_output + '</ul>'
 
       @_search_results.innerHTML = search_result_with_categ_einteilung
 
@@ -217,10 +219,10 @@ class HG.SearchBoxArea
         $(clear).hide()
         document.getElementById("search-input").value = "" #Clear input text
         form.removeChild @_search_results
-    
+
     #=============================================================================
     # Arrow Key Navigation V1 ====================================================
-     
+
       # a = $('.search-box a')
 
       # $(window).keyup (e) ->
@@ -286,7 +288,7 @@ class HG.SearchBoxArea
     # navigate = (direction) ->
     #   # Check if any of the menu items is selected
     #   if $("#search-results a .itemhover").length == 0
-    #     currentSelection = -1  
+    #     currentSelection = -1
 
     #   if direction is "up" and currentSelection >= 1
     #     currentSelection = currentSelection-1
