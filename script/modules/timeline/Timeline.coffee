@@ -20,6 +20,7 @@ class HG.Timeline
   constructor: (config) ->
 
     @_activeTopic = null
+    @_dragged = false
 
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
@@ -106,10 +107,12 @@ class HG.Timeline
       momentumRatio: 0.5
       scrollContainer: true
       onTouchStart: =>
-        @_animationTargetDate = null
+        @_dragged = false
+        @_animationTargetDate = null        
         if @_play
           @_animationSwitch()
-      onTouchMove: =>
+      onTouchMove: =>        
+        @_dragged = true
         fireCallbacks = false
         if ++@_moveDelay == 10
           @_moveDelay = 0
@@ -121,16 +124,19 @@ class HG.Timeline
       @_updateNowDate()
       @_updateDateMarkers(false)
       @_updateTopics()
+      @_dragged = false
     , false
     @_uiElements.tl_wrapper.addEventListener "transitionend", (e) =>
       @_updateNowDate()
       @_updateDateMarkers(false)
       @_updateTopics()
+      @_dragged = false
     , false
     @_uiElements.tl_wrapper.addEventListener "oTransitionEnd", (e) =>
       @_updateNowDate()
       @_updateDateMarkers(false)
       @_updateTopics()
+      @_dragged = false
     , false
 
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
@@ -417,7 +423,7 @@ class HG.Timeline
             subtopic.div.style.width = (@dateToPosition(subtopic.endDate) - @dateToPosition(subtopic.startDate)) + "px"
             $("#topic" + topic.id + " > .tl_subtopics" ).append subtopic.div
 
-        $(topic.div).on "click", value: topic, (event) => @_switchTopic(event.data.value)
+        $(topic.div).on "click", value: topic, (event) => @_switchTopic(event.data.value) if !@_dragged
         $(topic.div).fadeIn(200)
       else
         topic.div.style.left = @dateToPosition(topic.startDate) + "px"
