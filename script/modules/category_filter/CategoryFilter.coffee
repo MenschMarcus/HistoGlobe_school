@@ -33,7 +33,7 @@ class HG.CategoryFilter
 
   # ============================================================================
   getCurrentFilter:() ->
-    return @_categoryFilter
+    @_categoryFilter
 
   # ============================================================================
   exclusiveFilter: (category,outOfThese) ->
@@ -69,7 +69,6 @@ class HG.CategoryFilter
 
   # ============================================================================
   setCategory: (category) ->
-
     if @_isArray category
       @_categoryFilter = category
     else

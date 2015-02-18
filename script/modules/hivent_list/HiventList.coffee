@@ -15,6 +15,7 @@ class HG.HiventList
     @_container = document.createElement "div"
     @_container.className = "hivent-list-module"
     @_hgInstance._top_area.appendChild @_container
+    @_allTopics = @_hgInstance.timeline._config.topics
     @_hivent_array = []
     @_hivent_list = document.createElement "div"
     @_hivent_list.className = "hivent-list"
@@ -52,15 +53,22 @@ class HG.HiventList
         if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
           @_hivent_array.push hivent._hivent
 
-    hivents = '<ul>'
+    for topic in @_allTopics
+      if topic.id == @_hgInstance.categoryFilter.getCurrentFilter()[0]
+        aktualleCath = topic.name
+
+
+    hivents = '<div id="hivent-list-headline">' + 'Aktuelle Epoche: ' + aktualleCath + '</div><ul>'
+
     for hivent in @_hivent_array
-      hivents += '<a href="#event=' + hivent.id + '"><li><i class="fa fa-map-marker"></i> ' + hivent.name + '</li></a>'
+      hivents += '<a href="#event=' + hivent.id +
+                 '"><li><i class="fa fa-map-marker"></i> ' + hivent.name + '</li></a>'
     hivents += '</ul>'
 
     @_hivent_list.innerHTML = hivents
     @_hivent_list.style.display = "none"
     @_container.appendChild @_hivent_list
-    $(@_hivent_list).css({'max-height': (window.innerHeight - 150) + "px"}) # max height of list with timelin height
+    $(@_hivent_list).css({'max-height': (window.innerHeight - 200) + "px"}) # max height of list with timelin height
     $(@_hivent_list).fadeIn(1000)
 
     return @_hivent_list

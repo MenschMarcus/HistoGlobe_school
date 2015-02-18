@@ -6,9 +6,8 @@
   position: absolute;
   background: rgba(255,255,255,0.6);
   bottom: 100px;
-  right: 0px;
-  //top: 10px;
-  width: 200px;
+  right: 10px;
+  width: 300px;
   box-shadow: 0 0 5px rgba(0,0,0,0.5);
   overflow-y: auto;
   font-size: 30pt * @widget_font_size_factor;
@@ -26,6 +25,17 @@
     text-decoration: none;
     text-align: left;
     outline: none;
+
+    #hivent-list-headline {
+      font-family: @primary_font_face;
+      white-space: nowrap;
+      padding: 10px;
+      border-bottom: solid 1px #ddd;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      background: #2f3b47;
+      color:#fff;
+    }
 
     ul {
       list-style: none;
