@@ -28,13 +28,13 @@ class HG.ZoomButtonsTimeline
         @_container.appendChild group
 
         zoom_in =
-        icon: "fa-search-plus"
+        icon: "fa-plus"
         tooltip: "Zeitskala dehnen"
         callback: () =>
           @notifyAll "onZoomIn"
 
         zoom_out =
-        icon: "fa-search-minus"
+        icon: "fa-minus"
         tooltip: "Zeitskala stauchen"
         callback: () =>
           @notifyAll "onZoomOut"
@@ -74,4 +74,4 @@ class HG.ZoomButtonsTimeline
         $(button).attr('title', config.tooltip).tooltip('fixTitle').tooltip('show');
 
     group.appendChild button
-      
+

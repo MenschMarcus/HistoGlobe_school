@@ -14,7 +14,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
 
     #Call Hivent Marker Constructor
     HG.HiventMarker.call @, hiventHandle, map.getPanes()["popupPane"]
-
+    
     #List of Markers
     VISIBLE_MARKERS_2D.push @
 
@@ -25,12 +25,20 @@ class HG.HiventMarker2D extends HG.HiventMarker
 
     @_lat = lat
     @_long = long
-    markerLabel=hiventHandle.getHivent().name
     
-    html="<div class=\"markerLabel\">#{markerLabel}</div>"
-    icon_default    = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_default", iconSize: null ,html:html}
-    icon_higlighted = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_highlighted", iconSize: null}
+    #Private Name and Location because constant use
+    @_markerLabelLocation=hiventHandle.getHivent().locationName
+     
+    @_markerLabelEventName=hiventHandle.getHivent().name
+
+    
+    html="<div class=\"markerLabel\">#{@_markerLabelLocation}</div>"
+    icon_default    = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_default", iconSize: null,    iconAnchor:   [22, 94],html:html}
+    icon_higlighted = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_highlighted", iconSize: null,html:html}
+
     @_marker = new L.Marker [@_lat, @_long], {icon: icon_default}
+    
+
     @_marker.myHiventMarker2D = @
 
     @_markerGroup = markerGroup
@@ -51,7 +59,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
     @_map.on "zoomend", @_updatePosition
     @_map.on "dragend", @_updatePosition
     @_map.on "viewreset", @_updatePosition
-
+    @_map.on "zoomend", @_updateMarker
     @getHiventHandle().onFocus(@, (mousePos) =>
       if @_display.isRunning()
         @_display.focus @getHiventHandle().getHivent()
@@ -120,8 +128,15 @@ class HG.HiventMarker2D extends HG.HiventMarker
   _updatePosition: =>
     @_position = @_map.latLngToLayerPoint @_marker.getLatLng()
     @notifyAll "onPositionChanged", @getDisplayPosition()
-
-  # ============================================================================
+  _updateMarker: =>
+    if @_marker._icon?
+      if @_map.getZoom()>3
+        @_marker._icon.innerHTML="<div class=\"markerLabel\">#{@_markerLabelLocation}</div>"
+      else
+        @_marker._icon.innerHTML="<div class=\"markerLabel\">#{@_markerLabelEventName}</div>"
+      console.log @_marker._icon
+    0
+   # ============================================================================
   _destroy: =>
 
     @notifyAll "onMarkerDestruction"
