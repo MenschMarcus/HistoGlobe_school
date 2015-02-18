@@ -53,6 +53,8 @@ class HG.HiventList
         if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
           @_hivent_array.push hivent._hivent
 
+    aktualleCath = "HIVENTORRRR"
+    
     for topic in @_allTopics
       if topic.id == @_hgInstance.categoryFilter.getCurrentFilter()[0]
         aktualleCath = topic.name
