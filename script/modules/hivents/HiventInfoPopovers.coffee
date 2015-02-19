@@ -102,9 +102,8 @@ class HG.HiventInfoPopovers
       if handle.popoverShown? and marker.hiventInfoPopover?.isVisible()
         marker.hiventInfoPopover.hide()
         handle.popoverShown = null
-    #Removed InfoPopovers
-    #handle.onActive marker, showHiventInfoPopover
-    #handle.onInActive marker, hideHiventInfoPopover
+    handle.onActive marker, showHiventInfoPopover
+    handle.onInActive marker, hideHiventInfoPopover
 
     if useMarkerPosition
       handle.onFocus marker, () =>
