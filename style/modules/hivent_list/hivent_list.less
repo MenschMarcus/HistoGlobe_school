@@ -6,9 +6,8 @@
   position: absolute;
   background: rgba(255,255,255,0.6);
   bottom: 100px;
-  right: 0px;
-  //top: 10px;
-  width: 200px;
+  right: 10px;
+  width: 300px;
   box-shadow: 0 0 5px rgba(0,0,0,0.5);
   overflow-y: auto;
   font-size: 30pt * @widget_font_size_factor;
@@ -20,75 +19,61 @@
   .hivent-list {
     position: relative;
     bottom: 0;
-
-    
-    //margin-top: 5px;
-    //margin-left: 5px;
-    //margin-bottom: 5px;
-    //padding: 2px;
     font-family: Arial, Helvetica, sans-serif;
     font-size:15px;
     color: #000000;
     text-decoration: none;
     text-align: left;
     outline: none;
-    //box-shadow: 0 0 5px rgba(0,0,0,0.5);
+
+    #hivent-list-headline {
+      font-family: @primary_font_face;
+      white-space: nowrap;
+      padding: 10px;
+      border-bottom: solid 1px #ddd;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      background: #2f3b47;
+      color:#fff;
+      position: fixed;
+      width: 286px;
+    }
 
     ul {
       list-style: none;
       padding: 0px;
       margin: 0px;
 
-      li {
-        font-family: @primary_font_face;
-        white-space: nowrap;
-        padding: 10px;
-        border-bottom: solid 1px #ddd;
-        overflow: hidden;
-        text-overflow: ellipsis;        
-        a {
-          color: #286b7a;
-        }
-        i {
-          color: #286b7a;
-          margin-right: 5px;
-        }
+      a {
+        color: #286b7a;
 
-        &:hover {
-          background: #2f3b47;
+        li {
+          font-family: @primary_font_face;
+          white-space: nowrap;
+          padding: 10px;
+          border-bottom: solid 1px #ddd;
+          overflow: hidden;
+          text-overflow: ellipsis;        
+        
           i {
-            color: #fff;
+            color: #286b7a;
+            margin-right: 5px;
           }
-          a {
-            color: #fff;
+          &:hover {
+            background: #2f3b47;
+            color:#fff;
+            i {
+              color: #fff;
+            }
           }
         }
       }
     }
     
-
     a {
-      //color: #286b7a;
-      //color: #79a4ae;
       &:hover{
         text-decoration: none;
       }
     }
-
-    /*hr {
-      border: 0;
-      margin: 0px;
-      height: 1px;
-      background: #333;
-      background-image: -webkit-linear-gradient(left, #ccc, #333, #ccc); 
-      background-image:    -moz-linear-gradient(left, #ccc, #333, #ccc); 
-      background-image:     -ms-linear-gradient(left, #ccc, #333, #ccc); 
-      background-image:      -o-linear-gradient(left, #ccc, #333, #ccc); 
-    }*/
-
-    //i {
-      //color: #286b7a;
-      //color: #79a4ae;
-    //}
   }
 }

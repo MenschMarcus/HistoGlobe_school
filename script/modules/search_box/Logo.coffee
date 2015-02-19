@@ -17,12 +17,12 @@ class HG.Logo
 
     hgInstance.logo = @
 
-    if hgInstance.search_box_area?
+    if hgInstance.hg_logo?
       logo =
         icon:       @_config.icon
         callback: ()-> console.log "Not implmented"
 
-      hgInstance.search_box_area.addLogo logo
+      hgInstance.hg_logo.addLogo logo
 
     else
       console.error "Failed to add logo: SearchBoxArea module not found!"
