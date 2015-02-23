@@ -198,10 +198,9 @@
   "BrowserDetector": {},
 
   "ZoomButtonsTimeline": {},
-
   "ControlButtonArea": {},
-
   "ZoomButtons": {},
+
   "FullscreenButton": {},
 
   "CategoryFilter": {
@@ -322,7 +321,9 @@
   "AreaController":
   {
     "areaJSONPaths" : ["config/school/data/DEU.geojson"]
-  }
+  },
+
+  "AreasOnMap" : {}
 
 }
 

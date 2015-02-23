@@ -28,6 +28,7 @@ class HG.AreasOnMap
 
     if @_areaController
       @_areaController.onShowArea @, (area) =>
+        console.log "SHOW COUNTRY!"
         @_showAreaLayer area
 
       @_areaController.onHideArea @, (area) =>
