@@ -276,7 +276,53 @@
   "Logo": {},
   "SearchBoxForm": {},
   "HiventList": {},
-  "HiventListController": {}
+  "HiventListController": {},
+
+  "AreaStyler" :
+  {
+    "stylers" :
+    [
+      {
+        "mapping": "config/school/data/countryMapping.json",
+        "domain": [0, 1],
+        "fillColor": {
+          "range": ["#d5c900", "#d5c900"],
+          "fallback": "#d5c900",
+          "compOp": "replace"
+        },
+        "fillOpacity": {
+          "range": [0, 1],
+          "fallback": 0,
+          "compOp": "multiply"
+        },
+        "lineColor": {
+          "range": ["#555", "#555"],
+          "fallback": "#555",
+          "compOp": "replace"
+        },
+        "lineOpacity": {
+          "range": [0, 1],
+          "fallback": 0,
+          "compOp": "multiply"
+        },
+        "lineWidth": {
+          "range": [0, 2],
+          "fallback": 0,
+          "compOp": "replace"
+        },
+        "labelOpacity": {
+          "range": [0, 1],
+          "fallback": 0,
+          "compOp": "multiply"
+        }
+      }
+    ]
+  },
+
+  "AreaController":
+  {
+    "areaJSONPaths" : ["config/school/data/DEU.geojson"]
+  }
 
 }
 
