@@ -62,12 +62,13 @@ class HG.AreasOnMap
     area.myLeafletLayer.on "click", @_onClick
 
     area.onStyleChange @, @_onStyleChange
+    console.log "NOW HERE!"
 
     # area.myLeafletLayer.addTo @_map
     area.myLeafletLayer.bindLabel(area.getLabel()).addTo @_map
 
     area.myLeafletLayer.hgArea = area
-    ###
+
     # add label
     area.myLeafletLabel = new L.Label();
     area.myLeafletLabel.setContent area.getLabel()
@@ -92,7 +93,6 @@ class HG.AreasOnMap
     area.myLeafletLabelIsVisible = false
     # if @_isLabelVisible area
     @_showAreaLabel area
-    ###
 
   # ============================================================================
   _hideAreaLayer: (area) ->
@@ -124,18 +124,19 @@ class HG.AreasOnMap
 
   # ============================================================================
   _showAreaLabel: (area) =>
-    # area.myLeafletLabelIsVisible = true
-    # $(area.myLeafletLabel._container).removeClass("invisible")
+    area.myLeafletLabelIsVisible = true
+    $(area.myLeafletLabel._container).removeClass("invisible")
 
 
   # ============================================================================
   _hideAreaLabel: (area) =>
-    # area.myLeafletLabelIsVisible = false
-    # $(area.myLeafletLabel._container).addClass("invisible")
+    area.myLeafletLabelIsVisible = false
+    $(area.myLeafletLabel._container).addClass("invisible")
 
 
   # ============================================================================
   _onStyleChange: (area) =>
+    console.log "HERE NOW!"
     if area.myLeafletLayer?
       @_animate area.myLeafletLayer,
         "fill":           area.getNormalStyle().fillColor
