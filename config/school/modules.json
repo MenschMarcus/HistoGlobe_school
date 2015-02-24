@@ -2,7 +2,7 @@
   "HistoGlobe" :
   {
     "container": "histoglobe",
-    "minYear": 1870,
+    "minYear": 1871,
     "maxYear": 1993,
     "nowYear": 1900,
     "minZoom": 1,
