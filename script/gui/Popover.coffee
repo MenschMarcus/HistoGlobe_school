@@ -101,7 +101,7 @@ class HG.Popover
     if @_config.content? or @_config.contentHTML isnt ""
 
       content = document.createElement "div"
-      content.className = "guiPopoverContent"content
+      content.className = "guiPopoverContent"
 
       if @_config.content?
         content.appendChild @_config.content
