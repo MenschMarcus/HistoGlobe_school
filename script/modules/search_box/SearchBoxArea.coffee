@@ -16,6 +16,13 @@ class HG.SearchBoxArea
     @_container = document.createElement "div"
     @_container.className = "search-box-area"
     @_hgInstance._top_area.appendChild @_container
+
+    @_hgInstance.hg_logo = @
+
+    @_logo_container = document.createElement "div"
+    @_logo_container.className = "logo-area"
+    @_hgInstance._top_area.appendChild @_logo_container
+
     @_search_results = null
     @_search_opt_event = false
     @_search_opt_place = false
@@ -47,7 +54,7 @@ class HG.SearchBoxArea
     logo = document.createElement "div"
     logo.className = "logo"
     logo.innerHTML = '<img class = "hg-logo" src = "data/png/logo-normal-farbe.png">';
-    @_container.appendChild logo
+    @_logo_container.appendChild logo
 
     return logo
 
@@ -80,7 +87,8 @@ class HG.SearchBoxArea
     icon = document.createElement "div"
     icon.className = "search-icon"
     icon.innerHTML = '<i class="fa fa-search"></i>'
-    box.appendChild icon
+    form.appendChild icon
+    $(icon).show()
 
     # add options if input is clicked
     # $(input).click () =>
@@ -171,20 +179,31 @@ class HG.SearchBoxArea
 
       epoch_search_output = ''
       for epoch_result in epoch_result_list
-        epoch_search_output = epoch_search_output + '<li><a href="#event=' + epoch_result.id + '">' +
-        epoch_result.name + ' (' + epoch_result.startYear + ')</a></li>'
+
+        yearString = ''
+        if epoch_result.startYear == epoch_result.endYear
+          yearString = epoch_result.startYear
+        else
+          yearString = epoch_result.startYear + ' bis ' + epoch_result.endYear
+
+
+        epoch_search_output = epoch_search_output + '<a href="#event=' + epoch_result.id + '"><li>' + 
+        epoch_result.name + '  -' + yearString + '</li></a>'
 
       search_output = ''
       for result in result_list
-        search_output = search_output + '<li><a href="#event=' + result.id + '">' +
-        result.name + ' (' + result.startYear + ')</a></li>'
+        #console.log result
 
-      #for item in result_list
-        #$("#search-results a").eq(item).data("number", item)
-        #console.log item.number
+        yearString = ''
+        if result.startYear == result.endYear
+          yearString = result.startYear
+        else
+          yearString = result.startYear + ' bis ' + result.endYear
+
+        search_output = search_output + '<a href="#categories=' + result.category + '&#event=' + result.id + '"><li>' + 
+        result.name + '  -' + yearString  + '</li></a>'
 
       search_result_with_categ_einteilung = ''
-      #console.log epoch_search_output
       if epoch_search_output.length > 0
         search_result_with_categ_einteilung = '<span>Suchergebnisse im aktueller Epoche: </span></br><ul>' +
         epoch_search_output + '</ul>'
@@ -199,24 +218,31 @@ class HG.SearchBoxArea
       @_search_results.innerHTML = search_result_with_categ_einteilung
 
       form.appendChild @_search_results
+      @_search_results.style.display = "none"
+      $(@_search_results).css({'max-height': (window.innerHeight - 180) + "px"}) # max height of list with timelin height
+      $(@_search_results).fadeIn(1000)
 
     #=============================================================================
       if @_input_text?
         #form.appendChild clear # add clear icon
         $(clear).show()
+        $(icon).hide()
       else
         #form.removeChild clear # remove clear icon
         $(clear).hide()
+        $(icon).show()
 
       # remove results if input string is empty
       if @_input_text < 1
         form.removeChild @_search_results
         #form.removeChild clear
         $(clear).hide()
+        $(icon).show()
 
       $(clear).click () =>
         #form.removeChild clear
         $(clear).hide()
+        $(icon).show()
         document.getElementById("search-input").value = "" #Clear input text
         form.removeChild @_search_results
 
