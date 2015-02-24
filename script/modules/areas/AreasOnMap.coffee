@@ -28,7 +28,6 @@ class HG.AreasOnMap
 
     if @_areaController
       @_areaController.onShowArea @, (area) =>
-        console.log "SHOW COUNTRY!"
         @_showAreaLayer area
 
       @_areaController.onHideArea @, (area) =>
@@ -63,7 +62,6 @@ class HG.AreasOnMap
     area.myLeafletLayer.on "click", @_onClick
 
     area.onStyleChange @, @_onStyleChange
-    console.log "NOW HERE!"
 
     # area.myLeafletLayer.addTo @_map
     area.myLeafletLayer.bindLabel(area.getLabel()).addTo @_map
@@ -137,7 +135,6 @@ class HG.AreasOnMap
 
   # ============================================================================
   _onStyleChange: (area) =>
-    console.log "HERE NOW!"
     if area.myLeafletLayer?
       @_animate area.myLeafletLayer,
         "fill":           area.getNormalStyle().fillColor

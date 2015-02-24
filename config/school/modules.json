@@ -282,7 +282,7 @@
     "stylers" :
     [
       {
-        "mapping": "config/school/data/countryMapping.json",
+        "mapping": "config/school/data/countries_mapping.json",
         "domain": [0, 1],
         "fillColor": {
           "range": ["#d5c900", "#d5c900"],
@@ -320,7 +320,7 @@
 
   "AreaController":
   {
-    "areaJSONPaths" : ["config/school/data/DEU.geojson"]
+    "areaJSONPaths" : ["config/school/data/countries.geojson"]
   },
 
   "AreasOnMap" : {}
