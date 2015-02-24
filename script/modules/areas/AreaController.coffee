@@ -72,7 +72,6 @@ class HG.AreaController
 
               newArea.setDate @_now
 
-
               countries_to_load--
               if countries_to_load is 0
                 @_currentCategoryFilter = @_categoryFilter.getCurrentFilter()

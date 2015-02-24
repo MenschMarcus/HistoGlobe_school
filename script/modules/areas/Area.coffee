@@ -84,9 +84,12 @@ class HG.Area
   # ============================================================================
   _initData: (geoJson) ->
     @_data        = []
-    @_state       = geoJson.properties.iso_a3
-    @_name        = geoJson.properties.name_de
-    @_iso_a2      = geoJson.properties.iso_a2
+    # @_state       = geoJson.properties.iso_a3
+    # old! iso_a3 not suitable for historic countries, because it is hard to always come up with three letters for a country
+    # => introduce a "country_id" in geojson, which is a 3 (current country) or 4 (historic country) letter country code
+
+    @_state       = geoJson.properties.country_id
+    @_name        = geoJson.properties.name_de_shrt
     @_labelLatLng = geoJson.properties.label_lat_long
     @_labelDir    = geoJson.properties.label_dir
 

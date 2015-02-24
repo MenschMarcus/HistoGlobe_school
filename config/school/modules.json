@@ -6,7 +6,7 @@
     "maxYear": 1993,
     "nowYear": 1900,
     "minZoom": 1,
-    "maxZoom": 5,
+    "maxZoom": 7,
     "startZoom": 5,
     "startLatLong": [50.9869531, 11.3205004],
     "tiles": "config/school/tiles/",
@@ -198,10 +198,9 @@
   "BrowserDetector": {},
 
   "ZoomButtonsTimeline": {},
-
   "ControlButtonArea": {},
-
   "ZoomButtons": {},
+
   "FullscreenButton": {},
 
   "CategoryFilter": {
@@ -276,7 +275,55 @@
   "Logo": {},
   "SearchBoxForm": {},
   "HiventList": {},
-  "HiventListController": {}
+  "HiventListController": {},
+
+  "AreaStyler" :
+  {
+    "stylers" :
+    [
+      {
+        "mapping": "config/school/data/countries_mapping.json",
+        "domain": [0, 1],
+        "fillColor": {
+          "range": ["#fefefe", "#fefefe"],
+          "fallback": "#fefefe",
+          "compOp": "replace"
+        },
+        "fillOpacity": {
+          "range": [0, 1],
+          "fallback": 0,
+          "compOp": "multiply"
+        },
+        "lineColor": {
+          "range": ["#bbb", "#bbb"],
+          "fallback": "#bbb",
+          "compOp": "replace"
+        },
+        "lineOpacity": {
+          "range": [0, 1],
+          "fallback": 0,
+          "compOp": "multiply"
+        },
+        "lineWidth": {
+          "range": [0, 1.5],
+          "fallback": 0,
+          "compOp": "replace"
+        },
+        "labelOpacity": {
+          "range": [0, 1],
+          "fallback": 0,
+          "compOp": "multiply"
+        }
+      }
+    ]
+  },
+
+  "AreaController":
+  {
+    "areaJSONPaths" : ["config/school/data/countries.geojson"]
+  },
+
+  "AreasOnMap" : {}
 
 }
 
