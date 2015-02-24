@@ -6,7 +6,7 @@
     "maxYear": 1993,
     "nowYear": 1900,
     "minZoom": 1,
-    "maxZoom": 5,
+    "maxZoom": 7,
     "startZoom": 5,
     "startLatLong": [50.9869531, 11.3205004],
     "tiles": "config/school/tiles/",
