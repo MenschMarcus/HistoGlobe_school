@@ -119,7 +119,7 @@ class HG.HiventsOnMap
         distance.sub @_dragStart
         if distance.length() <= 2
           HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()
-
+      
       @_map.addLayer @_markerGroup
 
     else
@@ -162,11 +162,18 @@ class HG.HiventsOnMap
               labelHtml+="</table></div>"
     #EventPlace
     if config.regionLabels=="B"
-      locationName=cluster.getAllChildMarkers()[0].myHiventMarker2D._hiventHandle.getHivent().locationName
+      locationNames=[]
+      for marker in cluster.getAllChildMarkers()   
+        locationName=marker.myHiventMarker2D._hiventHandle.getHivent().locationName[0]        
+        exists=$.inArray(locationName, locationNames)        
+        if  exists==-1          
+          locationNames.push locationName
+
       labelHtml+="<div class=\"clusterLabelOnMap\"><table>"
-      for marker in cluster.getAllChildMarkers()
-        labelHtml+="<li>#{marker.myHiventMarker2D.getHiventHandle().getHivent().locationName}</li>"
-      labelHtml+"</table></div>"    
+
+      for locationName in locationNames
+        labelHtml+="<tr><td>#{locationName}</td></tr>"
+      labelHtml+"</table></div>"
     return labelHtml
 
 
