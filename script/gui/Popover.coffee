@@ -31,6 +31,14 @@ class HG.Popover
 
     @_mainDiv = document.createElement "div"
     @_mainDiv.className = "guiPopover"
+    #@_mainDiv.draggable = "true"
+
+    image_url = "http://upload.wikimedia.org/wikipedia/de/thumb/d/dc/Verdun_15_03_1914_Toter_Mann_296_2.jpg/640px-Verdun_15_03_1914_Toter_Mann_296_2.jpg"
+    @_mainDiv.style.backgroundImage = "url( #{image_url} )"
+    @_mainDiv.style.backgroundSize = "cover"
+    @_mainDiv.style.backgroundRepeat = "no-repeat"
+    @_mainDiv.style.backgroundPosition = "50% 50%"
+
     @_mainDiv.style.position = "absolute"
     @_mainDiv.style.top = "#{WINDOW_TO_ANCHOR_OFFSET_Y}px"
     @_mainDiv.style.visibility = "hidden"
@@ -40,31 +48,49 @@ class HG.Popover
     else
       @_mainDiv.style.left = "#{WINDOW_TO_ANCHOR_OFFSET_X}px"
 
-    @_topArrow = document.createElement "div"
-    @_topArrow.className = "arrow arrow-up"
 
-    @_bottomArrow = document.createElement "div"
-    @_bottomArrow.className = "arrow arrow-down"
+    # $(".guiPopover").on("mousedown", "div", ->
+    #   $(this).addClass("draggable").parents().on "mousemove", (e) ->
+    #     $(".draggable").offset(
+    #       top: e.pageY - $(".draggable").outerHeight() / 2
+    #       left: e.pageX - $(".draggable").outerWidth() / 2
+    #     ).on "mouseup", ->
+    #       $(this).removeClass "draggable"
 
-    @_rightArrow = document.createElement "div"
-    @_rightArrow.className = "arrow arrow-right"
+    #   e.preventDefault()
+    # ).on "mouseup", ->
+    #   $(".draggable").removeClass "draggable"
 
-    @_leftArrow = document.createElement "div"
-    @_leftArrow.className = "arrow arrow-left"
+    # Arrows ==========================================================
 
-    titleDiv = document.createElement "h4"
-    titleDiv.className = "guiPopoverTitle"
-    titleDiv.innerHTML = @_config.title
+    # @_topArrow = document.createElement "div"
+    # @_topArrow.className = "arrow arrow-up"
+
+    # @_bottomArrow = document.createElement "div"
+    # @_bottomArrow.className = "arrow arrow-down"
+
+    # @_rightArrow = document.createElement "div"
+    # @_rightArrow.className = "arrow arrow-right"
+
+    # @_leftArrow = document.createElement "div"
+    # @_leftArrow.className = "arrow arrow-left"
+
+
+
+    #titleDiv = document.createElement "h4"
+    #titleDiv.className = "guiPopoverTitle"
+    #titleDiv.innerHTML = @_config.title
 
     closeDiv = document.createElement "span"
+    closeDiv.className = "close-button"
     closeDiv.innerHTML = "×"
     closeDiv.addEventListener 'mouseup', () =>
       @notifyAll "onClose"
       @hide()
     , false
 
-    clearDiv = document.createElement "div"
-    clearDiv.className = "clear"
+    #clearDiv = document.createElement "div"
+    #clearDiv.className = "clear"
 
     @_bodyDiv = document.createElement "div"
     @_bodyDiv.className = "guiPopoverBody"
@@ -75,7 +101,7 @@ class HG.Popover
     if @_config.content? or @_config.contentHTML isnt ""
 
       content = document.createElement "div"
-      content.className = "guiPopoverContent"
+      content.className = "guiPopoverContent"content
 
       if @_config.content?
         content.appendChild @_config.content
@@ -90,14 +116,14 @@ class HG.Popover
         @_width = Math.min content.offsetWidth, BODY_MAX_WIDTH
         @_height = Math.min @_height, BODY_MAX_HEIGHT
 
-    titleDiv.appendChild closeDiv
-    titleDiv.appendChild clearDiv
-    @_mainDiv.appendChild @_topArrow
-    @_mainDiv.appendChild @_rightArrow
-    @_mainDiv.appendChild @_leftArrow
-    @_mainDiv.appendChild titleDiv
+    #titleDiv.appendChild clearDiv
+    #@_bodyDiv.appendChild titleDiv
+    @_mainDiv.appendChild closeDiv
+    # @_mainDiv.appendChild @_topArrow
+    # @_mainDiv.appendChild @_rightArrow
+    # @_mainDiv.appendChild @_leftArrow
     @_mainDiv.appendChild @_bodyDiv
-    @_mainDiv.appendChild @_bottomArrow
+    # @_mainDiv.appendChild @_bottomArrow
 
     @_parentDiv = $(@_config.container)[0]
     @_parentDiv.appendChild @_mainDiv
@@ -119,6 +145,10 @@ class HG.Popover
       $(window).on 'resize', () =>
         if @_mainDiv.style.visibility is "visible"
           @updateSize()
+
+    $(@_mainDiv).draggable()
+    #$(@_mainDiv).draggable({ handle: ".guiPopoverTitle" })
+    $(@_mainDiv).fadeIn(1000)
 
 
   # ============================================================================
@@ -253,15 +283,15 @@ class HG.Popover
         console.warn "Invalid popover placement: ", @_config.placement
 
 
-    if @_config.showArrow
-      $(@_topArrow).css "display", if @_placement.y is 1 then "block" else "none"
-      $(@_bottomArrow).css "display", if @_placement.y is -1 then "block" else "none"
-      $(@_leftArrow).css "display", if @_placement.x is 1 then "block" else "none"
-      $(@_rightArrow).css "display", if @_placement.x is -1 then "block" else "none"
+    # if @_config.showArrow
+    #   $(@_topArrow).css "display", if @_placement.y is 1 then "block" else "none"
+    #   $(@_bottomArrow).css "display", if @_placement.y is -1 then "block" else "none"
+    #   $(@_leftArrow).css "display", if @_placement.x is 1 then "block" else "none"
+    #   $(@_rightArrow).css "display", if @_placement.x is -1 then "block" else "none"
 
-      verticalArrowMargin = @_mainDiv.offsetHeight / 2 - HGConfig.hivent_info_popover_arrow_height.val / 2
-      $(@_leftArrow).css "margin-top", "#{verticalArrowMargin}px"
-      $(@_rightArrow).css "margin-top", "#{verticalArrowMargin}px"
+    #   verticalArrowMargin = @_mainDiv.offsetHeight / 2 - HGConfig.hivent_info_popover_arrow_height.val / 2
+    #   $(@_leftArrow).css "margin-top", "#{verticalArrowMargin}px"
+    #   $(@_rightArrow).css "margin-top", "#{verticalArrowMargin}px"
 
     unless @_config.fullscreen
       $(@_mainDiv).offset
@@ -299,6 +329,6 @@ class HG.Popover
   WINDOW_TO_ANCHOR_OFFSET_Y = 0
   BODY_DEFAULT_WIDTH = 450
   BODY_MAX_WIDTH = 400
-  BODY_DEFAULT_HEIGHT = 300
+  BODY_DEFAULT_HEIGHT = 350
   BODY_MAX_HEIGHT = 400
 

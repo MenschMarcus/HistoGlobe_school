@@ -14,28 +14,46 @@ class HG.HiventInfoPopover
     @_visible = false
     @_multimediaController = hgInstance.multimediaController
 
+    @_description_length = 300
+
     # generate content
     body = document.createElement "div"
+    body.className = "hivent-body"
+
+    titleDiv = document.createElement "h4"
+    titleDiv.className = "guiPopoverTitle"
+    titleDiv.innerHTML = @_hiventHandle.getHivent().name
+    body.appendChild titleDiv
+
+    text = document.createElement "div"
+    text.className = "hivent-content"
+
+    description = @_hiventHandle.getHivent().description
+    if description.length > 300
+      desc_output = description.substring(0,@_description_length)
+      text.innerHTML = desc_output + "... "
+    else
+      text.innerHTML = description
+
+    body.appendChild text
+
 
     locationString = ''
     if hiventIndex? and @_hiventHandle.getHivent().locationName?
       locationString = @_hiventHandle.getHivent().locationName[hiventIndex] + ', '
 
-    subheading = document.createElement "h3"
-    subheading.innerHTML = locationString + @_hiventHandle.getHivent().displayDate
-    body.appendChild subheading
+    date = document.createElement "span"
+    date.innerHTML = ' - ' + locationString + @_hiventHandle.getHivent().displayDate
+    text.appendChild date
 
     gotoDate = document.createElement "i"
     gotoDate.className = "fa fa-clock-o"
     $(gotoDate).tooltip {title: "Springe zum Ereignisdatum", placement: "right", container:"#histoglobe"}
     $(gotoDate).click () =>
       @_hgInstance.timeline.moveToDate @_hiventHandle.getHivent().startDate, 0.5
-    subheading.appendChild gotoDate
+    date.appendChild gotoDate
 
 
-    text = document.createElement "div"
-    text.innerHTML = @_hiventHandle.getHivent().content
-    body.appendChild text
 
     # if !showArrow
     #   container = window.body

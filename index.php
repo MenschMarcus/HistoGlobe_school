@@ -51,7 +51,7 @@
     <script type="text/javascript" src="script/third-party/jquery.fullscreenApi.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.parse.min.js"></script>
     <script type="text/javascript" src="script/third-party/jquery.jplayer.min.js"></script>
-
+    <script type="text/javascript" src="script/third-party/jquery-ui.js"></script>
     <script type="text/javascript" src="script/third-party/idangerous.swiper.min.js"></script>
     <script type="text/javascript" src="script/third-party/idangerous.swiper.scrollbar.min.js"></script>
 
