@@ -150,7 +150,7 @@ class HG.HiventsOnMap
               numberOfClusterChilds=cluster.getAllChildMarkers().length
               
               if numberOfClusterChilds > 2
-                labelHtml+="<div class=\"clusterLabelOnMap\"><p>#{firstChild} <br> und #{numberOfClusterChilds-1} weitere Ereignisse</p></div>"
+                labelHtml+="<div class=\"clusterLabelOnMap\"><table>#{firstChild} <br> und #{numberOfClusterChilds-1} weitere Ereignisse</table></div>"
               else
                 labelHtml+="<div class=\"clusterLabelOnMap\"><table>#{firstChild} <br> und ein weiteres Ereignis</table></div>"
             else
