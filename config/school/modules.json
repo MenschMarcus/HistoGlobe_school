@@ -188,11 +188,11 @@
     "hiventsOnTlLabels" :     "A",
     "numHiventsOnMap" :       "A",
     "hiventRegionsOnMap" :    "A",
-    "hiventClusterLabels" :   "B",
+    "hiventClusterLabels" :   "A",
     "epochNames-moreSpace" :  "A",
     "epochNames-shortNames" : "A",
     "searchFilter" :          "A",
-    "regionLabels" :          "A"
+    "regionLabels" :          "B"
   },
 
   "BrowserDetector": {},

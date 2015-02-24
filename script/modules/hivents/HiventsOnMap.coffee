@@ -163,7 +163,10 @@ class HG.HiventsOnMap
     #EventPlace
     if config.regionLabels=="B"
       locationName=cluster.getAllChildMarkers()[0].myHiventMarker2D._hiventHandle.getHivent().locationName
-      labelHtml+="<div class=\"clusterLabelOnMap\"><table>#{locationName} <br> </table></div>"    
+      labelHtml+="<div class=\"clusterLabelOnMap\"><table>"
+      for marker in cluster.getAllChildMarkers()
+        labelHtml+="<li>#{marker.myHiventMarker2D.getHiventHandle().getHivent().locationName}</li>"
+      labelHtml+"</table></div>"    
     return labelHtml
 
 
