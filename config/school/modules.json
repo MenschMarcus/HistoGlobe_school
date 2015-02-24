@@ -192,7 +192,7 @@
     "epochNames-moreSpace" :  "A",
     "epochNames-shortNames" : "A",
     "searchFilter" :          "A",
-    "regionLabels" :          "B"
+    "regionLabels" :          "A"
   },
 
   "BrowserDetector": {},

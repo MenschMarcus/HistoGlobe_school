@@ -67,7 +67,7 @@ class HG.HiventsOnMap
           html+=labelCluster(cluster, @_ab)
           
           
-          new L.DivIcon {className: "hivent_marker_2D_stack", iconAnchor: [HGConfig.hivent_marker_2D_width.val*0.5 + 5*0.5*depth, HGConfig.hivent_marker_2D_height.val*0.5], html: html}
+          new L.DivIcon {className: "hivent_marker_2D_stack", iconAnchor:[17,60], html: html}
 
       # example of AB Test
       # if @_ab.hiventsOnMap == "A"
@@ -142,8 +142,8 @@ class HG.HiventsOnMap
     #regionLabels indicate if the Location Name, or the Name of the event should be shown 
 
     #Event Names
-    if config.regionLabels=="A"
-      if config.hiventClusterLabels=="B" 
+    if config.regionLabels=="B"
+      if config.hiventClusterLabels=="A" 
             #Show only one Hivent indicated            
               firstChild=cluster.getAllChildMarkers()[0].myHiventMarker2D._hiventHandle.getHivent().name
               
@@ -161,7 +161,7 @@ class HG.HiventsOnMap
                 labelHtml+="<tr><td>#{marker.myHiventMarker2D.getHiventHandle().getHivent().name}</td></tr>"
               labelHtml+="</table></div>"
     #EventPlace
-    if config.regionLabels=="B"
+    if config.regionLabels=="A"
       locationNames=[]
       for marker in cluster.getAllChildMarkers()   
         locationName=marker.myHiventMarker2D._hiventHandle.getHivent().locationName[0]        
