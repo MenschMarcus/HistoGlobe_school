@@ -72,7 +72,7 @@ class HG.AreasOnMap
     area.myLeafletLabel = new L.Label();
     area.myLeafletLabel.setContent area.getLabel()
     area.myLeafletLabel.setLatLng area.getLabelLatLng()
-    area.myLeafletLabel.options.className = "invisible"   # bugfix: makes label invisible onLoad
+    # area.myLeafletLabel.options.className = "invisible"   # bugfix: makes label invisible onLoad
 
     @_map.showLabel area.myLeafletLabel
 
@@ -89,9 +89,9 @@ class HG.AreasOnMap
       ]
       area.myLeafletLabel._updatePosition()
 
-    area.myLeafletLabelIsVisible = false
-    # if @_isLabelVisible area
-    @_showAreaLabel area
+    # area.myLeafletLabelIsVisible = false
+    if @_isLabelVisible area
+      @_showAreaLabel area
 
   # ============================================================================
   _hideAreaLayer: (area) ->

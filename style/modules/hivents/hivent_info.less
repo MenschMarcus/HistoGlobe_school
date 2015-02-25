@@ -1,61 +1,79 @@
 .guiPopover {
   z-index: 5;
-}
+  cursor: move;
 
-.guiPopoverBody {
-  h3 {
-    color: #A5A5A5;
-    text-align: right;
-    margin-top: 0px;
-    font-size: 10pt;
+  .guiPopoverBody {
 
-    i {
-      padding-left: 10px;
-      cursor: pointer;
+    .guiPopoverContent {
+      position: relative;
+      text-align: justify;
+      font-size: 10pt;
+      padding-left: 0px;
 
-      &:hover {
-        color: #000;
+      .hivent-body {
+
+        .guiPopoverTitle {
+          //cursor: move;
+        }
+
+        .hivent-content {
+          font-size: 10pt;
+          max-height: 200px;
+          overflow: auto;
+
+          span {
+            //color: #A5A5A5;
+            color: #fff;
+            text-align: right;
+            margin-top: 0px;
+            font-size: 10pt;
+
+            i {
+              padding-left: 10px;
+              cursor: pointer;
+
+              &:hover {
+                color: #fff;
+              }
+            }
+          }
+        }
       }
+
+      .gallery {
+
+        padding: 0px;
+
+        li {
+          width: 100%;
+          overflow: hidden;
+          display: inline-block;
+        }
+
+        a {
+          border-bottom: @border_width solid @border_color_dark;
+          display: block;
+          height: 100px;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: 50% 50%;
+
+          .fullscreen & {
+            height: 250px;
+          }
+        }
+      }
+
+      -webkit-touch-callout: text;
+      -webkit-user-select: text;
+      -khtml-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
     }
   }
 }
 
-.guiPopoverContent {
-  text-align: justify;
-  font-size: 10pt;
-  padding-left: 0px;
-
-  .gallery {
-
-    padding: 0px;
-
-    li {
-      width: 100%;
-      overflow: hidden;
-      display: inline-block;
-    }
-
-    a {
-      border-bottom: @border_width solid @border_color_dark;
-      display: block;
-      height: 100px;
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: 50% 50%;
-
-      .fullscreen & {
-        height: 250px;
-      }
-    }
-  }
-
-  -webkit-touch-callout: text;
-  -webkit-user-select: text;
-  -khtml-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  user-select: text;
-}
 
 .hiventInfoPopoverSource {
   color: #FFF;
