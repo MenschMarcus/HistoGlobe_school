@@ -3,7 +3,7 @@
 .logo-area {
   position: absolute;
   top: 10px;
-  padding-left: 0px;
+  left: 19px;
 
   margin: 5px 5px 5px 0;
   font-size: 20pt * @widget_font_size_factor;
@@ -127,7 +127,10 @@
       box-shadow: 0px 0px 5px 3px #888888;
 
       span {
-        padding-left: 5px;
+        padding: 5px;
+        color: #898888;
+        overflow: hidden;
+        text-overflow: ellipsis;
         //font-weight: bold;
       }
 
@@ -137,7 +140,7 @@
         margin: 0px;
 
         a {
-          color: #000000;
+          color: #286b7a;
           &:hover {
             text-decoration: none;
           }
@@ -145,12 +148,43 @@
             font-family: @primary_font_face;
             white-space: nowrap;
             padding-left: 5px;
-            //border-bottom: solid 1px #ddd;
+            border-bottom: solid 1px #ddd;
             overflow: hidden;
-            text-overflow: ellipsis;        
+            text-overflow: ellipsis;
 
+            .wrap {
+              float: left;
+              width: 100%;
+              max-width: 265px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+
+              .res_location {
+                float: left;
+                max-width: 250px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                color: #898888;
+              }
+
+              .res_year {
+                float:right;
+                color: #898888;
+              }
+            }
+
+            i {
+              color: #286b7a;
+              margin-right: 5px;
+              margin-top: 12px;
+              float: left;
+            }
             &:hover {
-              background: @hg_green;
+              background: #2f3b47;
+              color:#fff;
+              i {
+                color: #fff;
+              }
             }
           }
         }

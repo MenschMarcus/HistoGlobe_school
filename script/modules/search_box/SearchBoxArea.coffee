@@ -16,6 +16,7 @@ class HG.SearchBoxArea
     @_container = document.createElement "div"
     @_container.className = "search-box-area"
     @_hgInstance._top_area.appendChild @_container
+    @_allTopics = @_hgInstance.timeline._config.topics
 
     @_hgInstance.hg_logo = @
 
@@ -129,7 +130,6 @@ class HG.SearchBoxArea
         @_search_results = document.createElement "div"
         @_search_results.id = "search-results"
 
-      #if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
       curr_category = @_hgInstance.categoryFilter._categoryFilter[0]
 
       result_list = []
@@ -188,11 +188,11 @@ class HG.SearchBoxArea
 
 
         epoch_search_output = epoch_search_output + '<a href="#event=' + epoch_result.id + '"><li>' + 
-        epoch_result.name + '  -' + yearString + '</li></a>'
+        '<i class="fa fa-map-marker"></i><div class="wrap"><div class="res_name">' + epoch_result.name + '</div>' + 
+        '<div class="res_location">' + epoch_result.locationName[0] + '</div><div class="res_year">' + yearString + '</div></div></li></a>'
 
       search_output = ''
       for result in result_list
-        #console.log result
 
         yearString = ''
         if result.startYear == result.endYear
@@ -201,11 +201,18 @@ class HG.SearchBoxArea
           yearString = result.startYear + ' bis ' + result.endYear
 
         search_output = search_output + '<a href="#categories=' + result.category + '&#event=' + result.id + '"><li>' + 
-        result.name + '  -' + yearString  + '</li></a>'
+        '<i class="fa fa-map-marker"></i><div class="wrap"><div class="res_name">' + result.name + '</div>' +
+        '<div class="res_location">' + result.locationName[0] + '</div><div class="res_year">' + yearString + '</div></div></li></a>'
+
+      aktualleCath = "none"
+    
+      for topic in @_allTopics
+        if topic.id == @_hgInstance.categoryFilter.getCurrentFilter()[0]
+          aktualleCath = topic.name
 
       search_result_with_categ_einteilung = ''
       if epoch_search_output.length > 0
-        search_result_with_categ_einteilung = '<span>Suchergebnisse im aktueller Epoche: </span></br><ul>' +
+        search_result_with_categ_einteilung = '<span>Suchergebnisse in "' + aktualleCath + '": </span></br><ul>' +
         epoch_search_output + '</ul>'
 
       if epoch_search_output.length > 0 &&  search_output.length > 0

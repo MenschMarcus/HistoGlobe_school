@@ -59,17 +59,29 @@ class HG.HiventList
       if topic.id == @_hgInstance.categoryFilter.getCurrentFilter()[0]
         aktualleCath = topic.name
 
+    console.log @_hivent_array.length
 
+    
     hivents = '<div id="hivent-list-headline">' + 'Aktuelle Epoche: ' + aktualleCath + '</div><ul>'
 
     for hivent in @_hivent_array
+      yearString = ''
+      if hivent.startYear == hivent.endYear
+        yearString = hivent.startYear
+      else
+        yearString = hivent.startYear + ' bis ' + hivent.endYear
+
       hivents += '<a href="#event=' + hivent.id +
-                 '"><li><i class="fa fa-map-marker"></i> ' + hivent.name + '</li></a>'
+                 '"><li><i class="fa fa-map-marker"></i><div class="wrap"><div class="res_name"> ' + 
+                  hivent.name + '</div><div class="res_location">' + hivent.locationName[0] + 
+                  '</div><div class="res_year">' + yearString + '</div></div></li></a>'
+
     hivents += '</ul>'
 
     @_hivent_list.innerHTML = hivents
     @_hivent_list.style.display = "none"
-    @_container.appendChild @_hivent_list
+    if @_hivent_array.length > 0
+      @_container.appendChild @_hivent_list
     $(@_hivent_list).css({'max-height': (window.innerHeight - 200) + "px"}) # max height of list with timelin height
     $(@_hivent_list).fadeIn(1000)
 
