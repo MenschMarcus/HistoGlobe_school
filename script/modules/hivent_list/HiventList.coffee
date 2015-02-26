@@ -54,14 +54,11 @@ class HG.HiventList
           @_hivent_array.push hivent._hivent
 
     aktualleCath = "HIVENTORRRR"
-    
+
     for topic in @_allTopics
       if topic.id == @_hgInstance.categoryFilter.getCurrentFilter()[0]
         aktualleCath = topic.name
 
-    console.log @_hivent_array.length
-
-    
     hivents = '<div id="hivent-list-headline">' + 'Aktuelle Epoche: ' + aktualleCath + '</div><ul>'
 
     for hivent in @_hivent_array
@@ -72,8 +69,8 @@ class HG.HiventList
         yearString = hivent.startYear + ' bis ' + hivent.endYear
 
       hivents += '<a href="#event=' + hivent.id +
-                 '"><li><i class="fa fa-map-marker"></i><div class="wrap"><div class="res_name"> ' + 
-                  hivent.name + '</div><div class="res_location">' + hivent.locationName[0] + 
+                 '"><li><i class="fa fa-map-marker"></i><div class="wrap"><div class="res_name"> ' +
+                  hivent.name + '</div><div class="res_location">' + hivent.locationName[0] +
                   '</div><div class="res_year">' + yearString + '</div></div></li></a>'
 
     hivents += '</ul>'
