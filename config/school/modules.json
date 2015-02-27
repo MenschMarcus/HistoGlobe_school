@@ -204,7 +204,7 @@
   "FullscreenButton": {},
 
   "CategoryFilter": {
-    "initial" :             "noCategory"
+    "initial" : "noCategory"
   },
 
   "MultimediaController": {
@@ -323,7 +323,9 @@
     "areaJSONPaths" : ["config/school/data/countries.geojson"]
   },
 
-  "AreasOnMap" : {}
+  "AreasOnMap" : {
+    "areaHighlightColor" : "#d4c900"
+  }
 
 }
 
