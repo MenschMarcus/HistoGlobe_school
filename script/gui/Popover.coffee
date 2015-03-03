@@ -232,69 +232,72 @@ class HG.Popover
     canvasOffset = $(@_parentDiv).offset()
 
     unless @_placement?
-      if @_config.placement is "left"
-        @_placement = {x:-1, y:0}
-      else if @_config.placement is "right"
-        @_placement = {x:1, y:0}
-      else if @_config.placement is "top"
+      if @_config.placement is "top"
         @_placement = {x:0, y:-1}
-      else if @_config.placement is "bottom"
-        @_placement = {x:0, y:1}
-      else if @_config.placement is "auto"
-        @_placement = {x:1, y:0}
+        
+      # if @_config.placement is "left"
+      #   @_placement = {x:-1, y:0}
+      # else if @_config.placement is "right"
+      #   @_placement = {x:1, y:0}
+      # else if @_config.placement is "top"
+      #   @_placement = {x:0, y:-1}
+      # else if @_config.placement is "bottom"
+      #   @_placement = {x:0, y:1}
+      # else if @_config.placement is "auto"
+      #   @_placement = {x:1, y:0}
 
-        margin =
-          top : @_position.y
-          left : @_position.x + canvasOffset.left
-          bottom : @_parentDiv.offsetHeight - @_position.y
-          right : @_parentDiv.offsetWidth - @_position.x
+      #   margin =
+      #     top : @_position.y
+      #     left : @_position.x + canvasOffset.left
+      #     bottom : @_parentDiv.offsetHeight - @_position.y
+      #     right : @_parentDiv.offsetWidth - @_position.x
 
-        neededWidth = @_width +
-                      HGConfig.hivent_marker_2D_width.val / 2 +
-                      HGConfig.hivent_info_popover_arrow_height.val
+      #   neededWidth = @_width +
+      #                 HGConfig.hivent_marker_2D_width.val / 2 +
+      #                 HGConfig.hivent_info_popover_arrow_height.val
 
-        neededHeight = @_mainDiv.offsetHeight +
-                      HGConfig.hivent_marker_2D_height.val / 2 +
-                      HGConfig.hivent_info_popover_arrow_height.val
+      #   neededHeight = @_mainDiv.offsetHeight +
+      #                 HGConfig.hivent_marker_2D_height.val / 2 +
+      #                 HGConfig.hivent_info_popover_arrow_height.val
 
-        # if enough space on top
-        if margin.top >= neededHeight
+      #   # if enough space on top
+      #   if margin.top >= neededHeight
 
-          # if enough space left and right
-          if margin.left >= neededWidth*0.5 and margin.right >= neededWidth*0.5
-            @_placement = {x:0, y:-1}
+      #     # if enough space left and right
+      #     if margin.left >= neededWidth*0.5 and margin.right >= neededWidth*0.5
+      #       @_placement = {x:0, y:-1}
 
-          # if enough space right
-          else if margin.left <= neededWidth
-            @_placement = {x:1, y:0}
+      #     # if enough space right
+      #     else if margin.left <= neededWidth
+      #       @_placement = {x:1, y:0}
 
-          # if enough space left
-          else if margin.right <= neededWidth
-            @_placement = {x:-1, y:0}
+      #     # if enough space left
+      #     else if margin.right <= neededWidth
+      #       @_placement = {x:-1, y:0}
 
-        # if not enough space on top or bottom
-        else if margin.bottom < neededHeight
-          # if enough space right
-          if margin.left <= neededWidth
-            @_placement = {x:1, y:0}
+      #   # if not enough space on top or bottom
+      #   else if margin.bottom < neededHeight
+      #     # if enough space right
+      #     if margin.left <= neededWidth
+      #       @_placement = {x:1, y:0}
 
-          # if enough space left
-          else if margin.right <= neededWidth
-            @_placement = {x:-1, y:0}
+      #     # if enough space left
+      #     else if margin.right <= neededWidth
+      #       @_placement = {x:-1, y:0}
 
-        # if enough space on bottom
-        else
-          # if enough space left and right
-          if margin.left >= neededWidth*0.5 and margin.right >= neededWidth*0.5
-            @_placement = {x:0, y:1}
+      #   # if enough space on bottom
+      #   else
+      #     # if enough space left and right
+      #     if margin.left >= neededWidth*0.5 and margin.right >= neededWidth*0.5
+      #       @_placement = {x:0, y:1}
 
-          # if enough space right
-          else if margin.left <= neededWidth
-            @_placement = {x:1, y:0}
+      #     # if enough space right
+      #     else if margin.left <= neededWidth
+      #       @_placement = {x:1, y:0}
 
-          # if enough space left
-          else if margin.right <= neededWidth
-            @_placement = {x:-1, y:0}
+      #     # if enough space left
+      #     else if margin.right <= neededWidth
+      #       @_placement = {x:-1, y:0}
 
       else
         @_placement = {x:0, y:-1}
