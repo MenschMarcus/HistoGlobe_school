@@ -29,7 +29,7 @@ class HG.HiventInfoPopover
     text.className = "hivent-content"
 
     description = @_hiventHandle.getHivent().description
-    if description.length > 300
+    if description.length > @_description_length
       desc_output = description.substring(0,@_description_length)
       text.innerHTML = desc_output + "... "
     else

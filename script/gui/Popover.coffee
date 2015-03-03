@@ -16,12 +16,12 @@ class HG.Popover
 
     defaultConfig =
       hgInstance: undefined
-      placement: "auto"
+      placement: "top"
       content: undefined
       contentHTML: ""
       title: ""
       container: "body"
-      showArrow: true
+      showArrow: false
       fullscreen: false
 
     @_config = $.extend {}, defaultConfig, config
@@ -29,15 +29,13 @@ class HG.Popover
     @_width = BODY_DEFAULT_WIDTH
     @_height = BODY_DEFAULT_HEIGHT
 
+    @_popoverYOffset = 30
+
+    @_image_url = "http://upload.wikimedia.org/wikipedia/de/thumb/d/dc/Verdun_15_03_1914_Toter_Mann_296_2.jpg/640px-Verdun_15_03_1914_Toter_Mann_296_2.jpg"
+
     @_mainDiv = document.createElement "div"
     @_mainDiv.className = "guiPopover"
     #@_mainDiv.draggable = "true"
-
-    image_url = "http://upload.wikimedia.org/wikipedia/de/thumb/d/dc/Verdun_15_03_1914_Toter_Mann_296_2.jpg/640px-Verdun_15_03_1914_Toter_Mann_296_2.jpg"
-    @_mainDiv.style.backgroundImage = "url( #{image_url} )"
-    @_mainDiv.style.backgroundSize = "cover"
-    @_mainDiv.style.backgroundRepeat = "no-repeat"
-    @_mainDiv.style.backgroundPosition = "50% 50%"
 
     @_mainDiv.style.position = "absolute"
     @_mainDiv.style.top = "#{WINDOW_TO_ANCHOR_OFFSET_Y}px"
@@ -125,6 +123,9 @@ class HG.Popover
     @_mainDiv.appendChild @_bodyDiv
     # @_mainDiv.appendChild @_bottomArrow
 
+
+    #console.log @_multimedia
+
     @_parentDiv = $(@_config.container)[0]
     @_parentDiv.appendChild @_mainDiv
 
@@ -146,9 +147,26 @@ class HG.Popover
         if @_mainDiv.style.visibility is "visible"
           @updateSize()
 
+  # ============================================================================
+
     $(@_mainDiv).draggable()
     #$(@_mainDiv).draggable({ handle: ".guiPopoverTitle" })
     $(@_mainDiv).fadeIn(1000)
+
+  # ============================================================================
+
+    if @_image_url.length < 1
+      @_mainDiv.style.height = "180px"
+      @_mainDiv.style.background = "#fff"
+      @_bodyDiv.style.backgroundImage = "none"
+      @_bodyDiv.style.color = "#000"
+      closeDiv.style.color = "#000"
+
+    else
+      @_mainDiv.style.backgroundImage = "url( #{@_image_url} )"
+      @_mainDiv.style.backgroundSize = "cover"
+      @_mainDiv.style.backgroundRepeat = "no-repeat"
+      @_mainDiv.style.backgroundPosition = "50% 50%"
 
 
   # ============================================================================
@@ -305,7 +323,7 @@ class HG.Popover
         top:  @_position.y + canvasOffset.top +
               @_placement.y * (HGConfig.hivent_marker_2D_height.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
               @_placement.y * ((@_mainDiv.offsetHeight - @_mainDiv.offsetHeight * @_placement.y) / 2) -
-              Math.abs(@_placement.x) * @_mainDiv.offsetHeight / 2
+              Math.abs(@_placement.x) * @_mainDiv.offsetHeight / 2 - @_popoverYOffset # Offset over marker
     else
       $(@_mainDiv).offset
         top:  25 + canvasOffset.top
