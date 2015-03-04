@@ -16,6 +16,7 @@ class HG.Popover
 
     defaultConfig =
       hgInstance: undefined
+      hiventHandle: undefined
       placement: "top"
       content: undefined
       contentHTML: ""
@@ -26,12 +27,20 @@ class HG.Popover
 
     @_config = $.extend {}, defaultConfig, config
 
+    @_hgInstance = @_config.hgInstance
+    @_hiventHandle = @_config.hiventHandle
+    @_multimediaController = @_config.hgInstance.multimediaController
+    @_multimedia = @_hiventHandle.getHivent().multimedia
+
+    # ============================================================================
+
     @_width = BODY_DEFAULT_WIDTH
     @_height = BODY_DEFAULT_HEIGHT
 
+    @_description_length = 300
     @_popoverYOffset = 30
 
-    @_image_url = "http://upload.wikimedia.org/wikipedia/de/thumb/d/dc/Verdun_15_03_1914_Toter_Mann_296_2.jpg/640px-Verdun_15_03_1914_Toter_Mann_296_2.jpg"
+    #@_image_url = "http://upload.wikimedia.org/wikipedia/de/thumb/d/dc/Verdun_15_03_1914_Toter_Mann_296_2.jpg/640px-Verdun_15_03_1914_Toter_Mann_296_2.jpg"
 
     @_mainDiv = document.createElement "div"
     @_mainDiv.className = "guiPopover"
@@ -154,20 +163,30 @@ class HG.Popover
     $(@_mainDiv).fadeIn(1000)
 
   # ============================================================================
+    if @_multimedia != "" and @_multimediaController?
+      mmids = @_multimedia.split ","
 
-    if @_image_url.length < 1
-      @_mainDiv.style.height = "180px"
-      @_mainDiv.style.background = "#fff"
-      @_bodyDiv.style.backgroundImage = "none"
-      @_bodyDiv.style.color = "#000"
-      closeDiv.style.color = "#000"
+      @_multimediaController.onMultimediaLoaded () =>
 
-    else
-      @_mainDiv.style.backgroundImage = "url( #{@_image_url} )"
-      @_mainDiv.style.backgroundSize = "cover"
-      @_mainDiv.style.backgroundRepeat = "no-repeat"
-      @_mainDiv.style.backgroundPosition = "50% 50%"
+          for id in mmids
+            mm = @_multimediaController.getMultimediaById id
+            if mm?
 
+              if mm.type is "WEBIMAGE"
+                link = mm.link
+
+                @_mainDiv.style.backgroundImage = "url( #{link} )"
+                @_mainDiv.style.backgroundSize = "cover"
+                @_mainDiv.style.backgroundRepeat = "no-repeat"
+                @_mainDiv.style.backgroundPosition = "50% 50%"
+                @_bodyDiv.style.color = "none"
+
+                if link.length < 0 
+                  @_mainDiv.style.height = "180px"
+                  @_mainDiv.style.background = "#fff"
+                  @_bodyDiv.style.backgroundImage = "none"
+                  @_bodyDiv.style.color = "#000"
+                  closeDiv.style.color = "#000"                  
 
   # ============================================================================
   toggle: (position) =>
@@ -234,7 +253,7 @@ class HG.Popover
     unless @_placement?
       if @_config.placement is "top"
         @_placement = {x:0, y:-1}
-        
+
       # if @_config.placement is "left"
       #   @_placement = {x:-1, y:0}
       # else if @_config.placement is "right"
