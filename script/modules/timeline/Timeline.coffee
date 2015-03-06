@@ -6,7 +6,7 @@ window.HG ?= {}
 
 MAX_ZOOM_LEVEL = 7          # most detailed view of timeline in DAYS
 MIN_INTERVAL_INDEX = 0      # 0 = 1 Year | 1 = 2 Year | 2 = 5 Years | 3 = 10 Years | ...
-INTERVAL_SCALE = 0.2        # higher value makes greater intervals between datemarkers
+INTERVAL_SCALE = 0.05       # higher value makes greater intervals between datemarkers
 FADE_ANIMATION_TIME = 200   # fade in time for datemarkers and so
 
 MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
@@ -384,8 +384,8 @@ class HG.Timeline
   _updateLayout: ->
     @_uiElements.tl.style.width       = window.innerWidth + "px"
     @_uiElements.tl_slide.style.width = (@timelineLength() + window.innerWidth) + "px"
-    @_now.marker.style.left   = (window.innerWidth / 2) + "px"
-    @_now.dateField.style.left   = (window.innerWidth / 2) + "px"
+    @_now.marker.style.left           = (window.innerWidth / 2) + "px"
+    @_now.dateField.style.left        = (window.innerWidth / 2) + "px"
     @moveToDate(@_now.date, 0)
     @_timeline_swiper.reInit()
 
