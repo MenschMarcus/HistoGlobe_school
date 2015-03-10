@@ -236,8 +236,8 @@ class HG.SearchBoxArea
 
         @_list.push epoch_result.id
         epoch_search_output = epoch_search_output + '<a onmouseout="this.firstChild.className = \'\'; window.current_active_element = -1;" onmouseover="this.firstChild.className = \'itemhover_list\'; window.current_active_element = ' + live_ticker + ';" id="' + epoch_result.id + '" href="#event=' + epoch_result.id + '"><li>' + 
-        '<i class="fa fa-map-marker"></i><div class="wrap"><div class="res_name">' + epoch_result.name + '</div>' + 
-        '<div class="res_location">' + epoch_result.locationName[0] + '</div><div class="res_year">' + yearString + '</div></div></li></a>'
+        '<div class="wrap"><div class="res_name">' + epoch_result.name + '</div>' + 
+        '<div class="res_location">' + epoch_result.locationName[0] + '</div><div class="res_year">' + yearString + '</div></div><i class="fa fa-map-marker"></i></li></a>'
         live_ticker++
 
       search_output = ''
@@ -251,8 +251,8 @@ class HG.SearchBoxArea
 
         @_list.push result.id
         search_output = search_output + '<a onmouseout="this.firstChild.className = \'\'; window.current_active_element = -1;" onmouseover="this.firstChild.className = \'itemhover_list\'; window.current_active_element = ' + live_ticker + ';" id="' + result.id + '" href="#categories=' + result.category + '&event=' + result.id + '"><li>' + 
-        '<i class="fa fa-map-marker"></i><div class="wrap"><div class="res_name">' + result.name + '</div>' +
-        '<div class="res_location">' + result.locationName[0] + '</div><div class="res_year">' + yearString + '</div></div></li></a>'
+        '<div class="wrap"><div class="res_name">' + result.name + '</div>' +
+        '<div class="res_location">' + result.locationName[0] + '</div><div class="res_year">' + yearString + '</div></div><i class="fa fa-map-marker"></i></li></a>'
         live_ticker++
 
       aktualleCath = "none"

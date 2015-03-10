@@ -91,9 +91,9 @@ class HG.HiventList
         yearString = hivent.startYear + ' bis ' + hivent.endYear
 
       hivents += '<a href="#event=' + hivent.id +
-                 '"><li><i class="fa fa-map-marker"></i><div class="wrap"><div class="res_name"> ' +
+                 '"><li><div class="wrap"><div class="res_name"> ' +
                   hivent.name + '</div><div class="res_location">' + hivent.locationName[0] +
-                  '</div><div class="res_year">' + yearString + '</div></div></li></a>'
+                  '</div><div class="res_year">' + yearString + '</div></div><i class="fa fa-map-marker"></i></li></a>'
 
     hivents += '</ul>'
 
