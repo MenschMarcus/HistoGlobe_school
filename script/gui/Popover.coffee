@@ -40,8 +40,6 @@ class HG.Popover
     @_description_length = 300
     @_popoverYOffset = 30
 
-    #@_image_url = "http://upload.wikimedia.org/wikipedia/de/thumb/d/dc/Verdun_15_03_1914_Toter_Mann_296_2.jpg/640px-Verdun_15_03_1914_Toter_Mann_296_2.jpg"
-
     @_mainDiv = document.createElement "div"
     @_mainDiv.className = "guiPopover"
     #@_mainDiv.draggable = "true"
@@ -100,7 +98,7 @@ class HG.Popover
     #clearDiv.className = "clear"
 
     @_bodyDiv = document.createElement "div"
-    @_bodyDiv.className = "guiPopoverBody"
+    @_bodyDiv.className = "guiPopoverBodyV1"
 
     if @_config.fullscreen
       $(@_bodyDiv).addClass("fullscreen")
@@ -162,35 +160,34 @@ class HG.Popover
     #$(@_mainDiv).draggable({ handle: ".guiPopoverTitle" })
     $(@_mainDiv).fadeIn(1000)
 
+    @_mainDiv.style.height = "180px"
+    @_mainDiv.style.background = "#fff"
+    #@_bodyDiv.style.backgroundImage = "none"
+    @_bodyDiv.style.color = "#000"
+    closeDiv.style.color = "#000" 
+
   # ============================================================================
     if @_multimedia != "" and @_multimediaController?
       mmids = @_multimedia.split ","
-      console.log @_multimediaController
 
       @_multimediaController.onMultimediaLoaded () =>
 
           for id in mmids
             mm = @_multimediaController.getMultimediaById id
-            link = ""
+
             if mm?
 
               if mm.type is "WEBIMAGE"
                 link = mm.link
-                console.log link.length
 
-
+                @_mainDiv.style.height = "350px"
                 @_mainDiv.style.backgroundImage = "url( #{link} )"
                 @_mainDiv.style.backgroundSize = "cover"
                 @_mainDiv.style.backgroundRepeat = "no-repeat"
                 @_mainDiv.style.backgroundPosition = "50% 50%"
-                @_bodyDiv.style.color = "none"
-
-                if link.length < 0
-                  @_mainDiv.style.height = "180px"
-                  @_mainDiv.style.background = "#fff"
-                  @_bodyDiv.style.backgroundImage = "none"
-                  @_bodyDiv.style.color = "#000"
-                  closeDiv.style.color = "#000"                  
+                @_bodyDiv.className = "guiPopoverBodyV2"
+                @_bodyDiv.style.color = "#fff"
+                closeDiv.style.color = "#fff" 
 
   # ============================================================================
   toggle: (position) =>

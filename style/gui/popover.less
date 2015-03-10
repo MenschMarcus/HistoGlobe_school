@@ -17,6 +17,53 @@
   box-shadow: 0 1px @shadow_radius rgba(0,0,0,@shadow_intensity);
 
 
+  .guiPopoverBodyV1, .guiPopoverBodyV2 {
+  //max-height: @popover_height;
+  font: "Helvetica Neue", Arial, Helvetica, sans-serif;
+  padding: @popover_body_padding;
+  //overflow-x: hidden;
+  //overflow-y: auto;
+
+  &.fullscreen {
+    max-height: 60%;
+
+  }
+  
+    .guiPopoverContent {
+
+      .hivent-body {
+
+        .guiPopoverTitle {
+          font-family: @secondary_font_face;
+          //color: @widget_title_text_color;
+          //color: #fff;
+          padding: @popover_title_padding 3*@popover_title_padding @popover_title_padding/2 @popover_title_padding;
+          //border-bottom: @border_width solid @border_color;
+          margin: 0px;
+          //.linear-gradient-top(@widget_title_background_color, lighten(@widget_title_background_color, @widget_title_gradient_effect), 0%, @widget_title_background_color, 100%);
+          line-height: normal;
+        }
+      }
+    }
+  }
+
+  .guiPopoverBodyV1 {
+    max-height: 180px;
+    color: #000000;
+  }
+
+  .guiPopoverBodyV2 {
+    max-height: 350px;
+    color: #ffffff;
+    background-image: -webkit-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
+    background-image: -moz-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
+    background-image: -ms-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
+    background-image: -o-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
+    background-image: linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
+  }
+
+
+
   &.fullscreen {
     margin-left: auto;
     margin-right: auto;
@@ -104,43 +151,6 @@
 
   &:hover {
     opacity: 1;
-  }
-}
-
-.guiPopoverBody {
-  //max-height: @popover_height;
-  max-height: 500px;
-  font: "Helvetica Neue", Arial, Helvetica, sans-serif;
-  padding: @popover_body_padding;
-  //overflow-x: hidden;
-  //overflow-y: auto;
-  background-image: -webkit-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
-  background-image: -moz-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
-  background-image: -ms-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
-  background-image: -o-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
-  background-image: linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
-
-
-  &.fullscreen {
-    max-height: 60%;
-
-  }
-  
-  .guiPopoverContent {
-
-    .hivent-body {
-
-      .guiPopoverTitle {
-        font-family: @secondary_font_face;
-        //color: @widget_title_text_color;
-        //color: #fff;
-        padding: @popover_title_padding 3*@popover_title_padding @popover_title_padding/2 @popover_title_padding;
-        //border-bottom: @border_width solid @border_color;
-        margin: 0px;
-        //.linear-gradient-top(@widget_title_background_color, lighten(@widget_title_background_color, @widget_title_gradient_effect), 0%, @widget_title_background_color, 100%);
-        line-height: normal;
-      }
-    }
   }
 }
 
