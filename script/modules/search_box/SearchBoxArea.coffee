@@ -17,8 +17,9 @@ class HG.SearchBoxArea
       active: false
       height: 0
 
-    @_list =[]
-    window.current_active_element = -1
+    window.list_items = []
+    window.mouse_hover_active = true
+    window.current_active_element = -1    
 
   # ============================================================================
 
@@ -56,26 +57,45 @@ class HG.SearchBoxArea
         console.log "SB" + @props.active
         $(@_search_results).css({'max-height': (@props.height - 10) + "px"}) # max height of list with timelin height
 
-    $(window).keyup (e) =>
-      if @_list[window.current_active_element]?
-        $("#" + @_list[window.current_active_element] + " > li").removeClass("itemhover_list")
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
+    # handle key up and down on list to highlight the different items
+    # 1. if up and down is pressed dehighlight all items
+    # 2. get index of new element (next, prev, first or last)
+    # 3. set element at index to highlighted
+    # 4. scroll to element
+
+    $(window).mousemove (e) =>      
+      window.mouse_hover_active = true
+      for item, index in window.list_items
+        if index != window.current_active_element
+          console.log "remove highlight" + item
+          $("#" + item + " > li").removeClass("itemhover_list")
+
+    $(window).keyup (e) =>      
+      if e.which is 40 or e.which is 38
+        window.mouse_hover_active = false
+      if window.list_items[window.current_active_element]? and (e.which is 40 or e.which is 38)
+        $("#" + window.list_items[window.current_active_element] + " > li").removeClass("itemhover_list")
       if e.which is 40 # down
-        if window.current_active_element is @_list.length - 1
+        if window.current_active_element is window.list_items.length - 1
           window.current_active_element = 0
         else
           window.current_active_element++
-
       if e.which is 38 # up
         if window.current_active_element is -1 or window.current_active_element is 0
-          window.current_active_element = @_list.length-1
-
+          window.current_active_element = window.list_items.length - 1
         else
           window.current_active_element--
+      $("#" + window.list_items[window.current_active_element] + " > li").addClass("itemhover_list")
+      sr = document.getElementById("search-results")
+      if(sr.scrollTop > window.current_active_element * 43)
+        sr.scrollTop = window.current_active_element * 43
+      else if(sr.scrollTop + sr.offsetHeight < (window.current_active_element * 43) + 50)
+        sr.scrollTop = (window.current_active_element * 43) - sr.offsetHeight + 150
+        #$("#search-results").animate({ scrollTop: (window.current_active_element * 43) + "px" });
 
-      $("#" + @_list[window.current_active_element] + " > li").addClass("itemhover_list")
-      document.getElementById("search-results").scrollTop = window.current_active_element*43
-
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
     @_hgInstance.onTopAreaSlide @, (t) =>
       if @_hgInstance.isInMobileMode()
@@ -84,6 +104,8 @@ class HG.SearchBoxArea
         @_container.style.left = "0px"
 
   # ============================================================================
+  deHighlightAllItems: ->
+    console.log "jiüppi"
 
   addLogo: (config) ->
     @_addLogo config
@@ -181,7 +203,7 @@ class HG.SearchBoxArea
 
       result_list = []
       epoch_result_list = []
-      @_list = []
+      window.list_items = []
 
       found_in_location = false
       if @_hgInstance.hiventController._hiventHandles
@@ -234,8 +256,8 @@ class HG.SearchBoxArea
         else
           yearString = epoch_result.startYear + ' bis ' + epoch_result.endYear
 
-        @_list.push epoch_result.id
-        epoch_search_output = epoch_search_output + '<a onmouseout="this.firstChild.className = \'\'; window.current_active_element = -1;" onmouseover="this.firstChild.className = \'itemhover_list\'; window.current_active_element = ' + live_ticker + ';" id="' + epoch_result.id + '" href="#event=' + epoch_result.id + '"><li>' + 
+        window.list_items.push epoch_result.id
+        epoch_search_output = epoch_search_output + '<a onmouseout="if(window.mouse_hover_active) { this.firstChild.className = \'\'; window.current_active_element = -1; }" onmouseover="if(window.mouse_hover_active) { this.firstChild.className = \'itemhover_list\'; window.current_active_element = ' + live_ticker + '; }" id="' + epoch_result.id + '" href="#event=' + epoch_result.id + '"><li>' + 
         '<div class="wrap"><div class="res_name">' + epoch_result.name + '</div>' + 
         '<div class="res_location">' + epoch_result.locationName[0] + '</div><div class="res_year">' + yearString + '</div></div><i class="fa fa-map-marker"></i></li></a>'
         live_ticker++
@@ -249,8 +271,8 @@ class HG.SearchBoxArea
         else
           yearString = result.startYear + ' bis ' + result.endYear
 
-        @_list.push result.id
-        search_output = search_output + '<a onmouseout="this.firstChild.className = \'\'; window.current_active_element = -1;" onmouseover="this.firstChild.className = \'itemhover_list\'; window.current_active_element = ' + live_ticker + ';" id="' + result.id + '" href="#categories=' + result.category + '&event=' + result.id + '"><li>' + 
+        window.list_items.push result.id
+        search_output = search_output + '<a onmouseout="if(window.mouse_hover_active) { this.firstChild.className = \'\'; window.current_active_element = -1; }" onmouseover="if(window.mouse_hover_active) { this.firstChild.className = \'itemhover_list\'; window.current_active_element = ' + live_ticker + '; }" id="' + result.id + '" href="#categories=' + result.category + '&event=' + result.id + '"><li>' + 
         '<div class="wrap"><div class="res_name">' + result.name + '</div>' +
         '<div class="res_location">' + result.locationName[0] + '</div><div class="res_year">' + yearString + '</div></div><i class="fa fa-map-marker"></i></li></a>'
         live_ticker++
