@@ -2,49 +2,57 @@
 
 .guiPopoverBody {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
-  color: #333;
-  background-color: #fff;
+  color: #fff;
+  position:absolute; 
+  bottom:0; 
+  width:100%;
+  //background-color: #fff;
+
+  .guiPopoverContent {
+    font-size: 12pt;
+
+    .hivent-body {
+
+      .guiPopoverTitle {
+        // font-family: 'Libre Baskerville', serif;
+        // font-style: italic;
+        font-size: 20pt;
+        color: #fff;
+        //background-color: #fff;
+        //border-bottom: @border_width solid #bcb100;
+        //background-image: none;
+      }
+    }
+  }
 
   h3 {
     // display: none;
-    color: #555;
+    color: #fff;
   }
 }
 
-.guiPopoverContent {
-  font-size: 12pt;
-}
 
-.guiPopoverTitle {
-  // font-family: 'Libre Baskerville', serif;
-  font-style: italic;
-  font-size: 20pt;
-  color: #333;
-  background-color: #fff;
-  border-bottom: @border_width solid #bcb100;
-  background-image: none;
-}
 
 .guiPopover {
   box-shadow: 1px 1px 2px 2px rgba(0,0,0,@shadow_intensity);
 
-  .arrow {
-    &.arrow-up {
-      border-bottom: @hivent_info_popover_arrow_height solid #fff;
-    }
+  // .arrow {
+  //   &.arrow-up {
+  //     border-bottom: @hivent_info_popover_arrow_height solid #fff;
+  //   }
 
-    &.arrow-down {
-      border-top: @hivent_info_popover_arrow_height solid #fff;
-    }
+  //   &.arrow-down {
+  //     border-top: @hivent_info_popover_arrow_height solid #fff;
+  //   }
 
-    &.arrow-right {
-      border-left: @hivent_info_popover_arrow_height solid #fff;
-    }
+  //   &.arrow-right {
+  //     border-left: @hivent_info_popover_arrow_height solid #fff;
+  //   }
 
-    &.arrow-left {
-      border-right: @hivent_info_popover_arrow_height solid #fff;
-    }
-  }
+  //   &.arrow-left {
+  //     border-right: @hivent_info_popover_arrow_height solid #fff;
+  //   }
+  // }
 }
 
 .tooltip-inner {
@@ -126,31 +134,3 @@
   }
 }
 
-
-.markerLabel {
-position: fixed;
-left: 20px;
-background-color: ghostwhite;
-white-space: nowrap;
-box-shadow: 1px 1px 2px 2px rgba(0,0,0,@shadow_intensity);
-padding-left: 2px;
-padding-right: 2px;
-padding-top: 2px;
-padding-buttom: 3px;
-border-radius: 5px;
-
-}
-
-.clusterLabelOnMap{
-position: fixed;
-left: 20px;
-background-color: ghostwhite;
-white-space: nowrap;
-box-shadow: 1px 1px 2px 2px rgba(0,0,0,@shadow_intensity);
-padding-left: 2px;
-padding-right: 2px;
-padding-top: 2px;
-padding-buttom: 3px;
-border-radius: 5px;
-
-}

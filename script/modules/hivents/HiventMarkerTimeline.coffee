@@ -38,10 +38,10 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
     @_classHighlighted = "hivent_marker_timeline_#{hiventHandle.getHivent().category}_highlighted"
 
     @_div = document.createElement "div"
-    @_div.setAttribute "class", @_classDefault
-
+    @_div.setAttribute "class", @_classDefault 
+    @_div.setAttribute "width", 50+"px";
     @_div.style.left = @_position.x + "px"
-    @_div.style.bottom = @_position.y + "px"  # attention position from bottom!
+    @_div.style.bottom = @_position.y+23 + "px"  # attention position from bottom!
 
     # new
     '''if hiventHandle.getHivent().startDate.getTime() isnt hiventHandle.getHivent().endDate.getTime()
