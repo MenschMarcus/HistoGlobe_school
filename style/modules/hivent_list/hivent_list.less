@@ -25,6 +25,8 @@
     text-decoration: none;
     text-align: left;
     outline: none;
+    transition: 1s;
+    -webkit-transition: 1s;
 
     #hivent-list-headline {
       font-family: @primary_font_face;
@@ -60,8 +62,8 @@
           text-overflow: ellipsis; 
 
           .wrap {
-            float: left;
-            width: 100%;
+            float: right;
+            width: 90%;
             max-width: 260px;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -83,8 +85,10 @@
           i {
             color: #286b7a;
             margin-right: 5px;
+            margin-left: 5px;
             margin-top: 12px;
-            float: left;
+            //float: left;
+            //width: 10%;
           }
           &:hover {
             background: #2f3b47;
