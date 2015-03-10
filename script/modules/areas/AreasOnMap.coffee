@@ -53,17 +53,17 @@ class HG.AreasOnMap
     options.color = area.getNormalStyle().lineColor
     options.opacity = 0       # bugfix: makes border invisible onLoad
     # options.clickable = false
-    # options.pointerEvents = "none"
+    options.pointerEvents = "none"  # prevents label to appear
 
     area.myLeafletLayer = L.multiPolygon(area.getData(), options)
 
-    area.myLeafletLayer.on "mouseover", @_onHover
+    area.myLeafletLayer.on "mouseover", @_onHover     # TODO: why does hover not work?
     area.myLeafletLayer.on "mouseout", @_onUnHover
     area.myLeafletLayer.on "click", @_onClick
 
     area.onStyleChange @, @_onStyleChange
 
-    # area.myLeafletLayer.addTo @_map
+    # area.myLeafletLayer.addTo @_map   # why is this commented out?
     area.myLeafletLayer.bindLabel(area.getLabel()).addTo @_map
 
     area.myLeafletLayer.hgArea = area
@@ -72,25 +72,36 @@ class HG.AreasOnMap
     area.myLeafletLabel = new L.Label();
     area.myLeafletLabel.setContent area.getLabel()
     area.myLeafletLabel.setLatLng area.getLabelLatLng()
-    # area.myLeafletLabel.options.className = "invisible"   # bugfix: makes label invisible onLoad
+
+    area.myLeafletLabel.options.className = "invisible"   # makes label invisible onLoad
 
     @_map.showLabel area.myLeafletLabel
 
-    if area.getLabelDir() is "center"
-      area.myLeafletLabel.options.offset = [
-        -area.myLeafletLabel._container.offsetWidth/2,
-        -area.myLeafletLabel._container.offsetHeight/2
-      ]
-      area.myLeafletLabel._updatePosition()
-    else if area.getLabelDir() is "right"
-      area.myLeafletLabel.options.offset = [
-        -area.myLeafletLabel._container.offsetWidth,
-        -area.myLeafletLabel._container.offsetHeight
-      ]
-      area.myLeafletLabel._updatePosition()
+    # too lazy to change .getLabelDir(), so changed back to original version
+    # ---- original version ----
+    area.myLeafletLabel.options.offset = [
+      -area.myLeafletLabel._container.offsetWidth/2,
+      -area.myLeafletLabel._container.offsetHeight/2
+    ]
 
-    # area.myLeafletLabelIsVisible = false
-    if @_isLabelVisible area
+    area.myLeafletLabel._updatePosition()
+
+    # ---- new version ----
+    # if area.getLabelDir() is "center"
+    #   area.myLeafletLabel.options.offset = [
+    #     -area.myLeafletLabel._container.offsetWidth/2,
+    #     -area.myLeafletLabel._container.offsetHeight/2
+    #   ]
+    #   area.myLeafletLabel._updatePosition()
+    # else if area.getLabelDir() is "right"
+    #   area.myLeafletLabel.options.offset = [
+    #     -area.myLeafletLabel._container.offsetWidth,
+    #     -area.myLeafletLabel._container.offsetHeight
+    #   ]
+      # area.myLeafletLabel._updatePosition()
+
+    area.myLeafletLabelIsVisible = false
+    if @_isLabelVisible area          # makes label visible only after determined if actually active
       @_showAreaLabel area
 
   # ============================================================================
@@ -117,7 +128,7 @@ class HG.AreasOnMap
 
     visible = false
     if area.getLabel()?
-      width = area.getLabel().length * 5
+      width = area.getLabel().length * 6  # MAGIC number!
 
       visible = (max.x - min.x) > width or @_map.getZoom() is @_map.getMaxZoom()
 
