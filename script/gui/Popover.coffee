@@ -165,15 +165,19 @@ class HG.Popover
   # ============================================================================
     if @_multimedia != "" and @_multimediaController?
       mmids = @_multimedia.split ","
+      console.log @_multimediaController
 
       @_multimediaController.onMultimediaLoaded () =>
 
           for id in mmids
             mm = @_multimediaController.getMultimediaById id
+            link = ""
             if mm?
 
               if mm.type is "WEBIMAGE"
                 link = mm.link
+                console.log link.length
+
 
                 @_mainDiv.style.backgroundImage = "url( #{link} )"
                 @_mainDiv.style.backgroundSize = "cover"
@@ -181,7 +185,7 @@ class HG.Popover
                 @_mainDiv.style.backgroundPosition = "50% 50%"
                 @_bodyDiv.style.color = "none"
 
-                if link.length < 0 
+                if link.length < 0
                   @_mainDiv.style.height = "180px"
                   @_mainDiv.style.background = "#fff"
                   @_bodyDiv.style.backgroundImage = "none"
