@@ -401,16 +401,18 @@ class HG.Timeline
       @notifyAll "onIntervalChanged", @_getTimeFilter()
 
   _updateTopics:()->
-    for topic in @_config.topics
+    for topic in @_config.topics      
       if !topic.div?
         topic.div = document.createElement("div")
         topic.div.id = "topic" + topic.id
         topic.div.className = "tl_topic tl_topic_row" + topic.row
-        topic.div.innerHTML = '<div class="tl_subtopics"></div>' + topic.name
+        topic.div.innerHTML = '<div class="tl_subtopics"></div>' + '<div id="topic_inner_' + topic.id + '">' + topic.name + '</div>'
         topic.div.style.left = @dateToPosition(topic.startDate) + "px"
         topic.div.style.width = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) + "px"
         topic.div.style.display = "none"
         @getCanvas().appendChild topic.div
+       
+
 
         # add subtopics
         if topic.subtopics?
@@ -425,9 +427,29 @@ class HG.Timeline
 
         $(topic.div).on "click", value: topic, (event) => @_switchTopic(event.data.value) if !@_dragged
         $(topic.div).fadeIn(200)
+
+        inner_el = document.getElementById("topic_inner_" + topic.id)
+        inner_el.style.maxWidth = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate) - 25) + "px"
+        margin = ((@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) / 2) - inner_el.offsetWidth / 2
+        if (@dateToPosition(topic.startDate) + margin + inner_el.offsetWidth) > @dateToPosition @maxVisibleDate()
+          margin = @dateToPosition(@maxVisibleDate()) - @dateToPosition(topic.startDate) - inner_el.offsetWidth - 10
+          margin = 0 if margin < 0
+        else if (@dateToPosition(topic.startDate) + margin) < @dateToPosition @minVisibleDate()
+          margin = @dateToPosition(@minVisibleDate()) - @dateToPosition(topic.startDate) + 10
+        inner_el.style.marginLeft = margin + "px"
       else
         topic.div.style.left = @dateToPosition(topic.startDate) + "px"
         topic.div.style.width = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) + "px"
+        
+        inner_el = document.getElementById("topic_inner_" + topic.id)
+        inner_el.style.maxWidth = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate) - 25) + "px"
+        margin = ((@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) / 2) - inner_el.offsetWidth / 2
+        if (@dateToPosition(topic.startDate) + margin + inner_el.offsetWidth) > @dateToPosition @maxVisibleDate()
+          margin = @dateToPosition(@maxVisibleDate()) - @dateToPosition(topic.startDate) - inner_el.offsetWidth - 10
+          margin = 0 if margin < 0
+        else if (@dateToPosition(topic.startDate) + margin) < @dateToPosition @minVisibleDate()
+          margin = @dateToPosition(@minVisibleDate()) - @dateToPosition(topic.startDate) + 10
+        inner_el.style.marginLeft = margin + "px"
         if topic.subtopics?
           for subtopic in topic.subtopics
             subtopic.div.style.left = ((subtopic.startDate.getTime() - topic.startDate.getTime()) / @millisPerPixel()) + "px"
