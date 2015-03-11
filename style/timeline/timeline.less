@@ -75,7 +75,7 @@
           color: @timeline_topic_color;
           box-shadow: -3px 0px 3px rgba(0,0,0,0.17);
           background-color: @timeline_topic_bgcolor;
-          text-align: center;
+          //text-align: center;
           border: solid 1px @timeline_topic_border_color;
           border-radius: @timeline_topic_border_radius;
 
@@ -87,6 +87,13 @@
           overflow: hidden;
           text-overflow: ellipsis;
 
+          div:nth-child(2) {
+            //margin: 0px auto;
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
           .tl_subtopics {
             position: relative;
             margin: -27px 0px 0px -5px;
@@ -95,6 +102,7 @@
 
             .tl_subtopic{
               position: absolute;
+              text-align: center;
               background-color: @timeline_subtopic_bgcolor;
               color: @timeline_subtopic_color;
               height: @timeline_subtopic_height;

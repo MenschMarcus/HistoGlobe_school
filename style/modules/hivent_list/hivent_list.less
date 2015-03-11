@@ -25,6 +25,8 @@
     text-decoration: none;
     text-align: left;
     outline: none;
+    transition: 1s;
+    -webkit-transition: 1s;
 
     #hivent-list-headline {
       font-family: @primary_font_face;
@@ -36,28 +38,57 @@
       background: #2f3b47;
       color:#fff;
       position: fixed;
-      width: 286px;
+      width: 300px;
     }
 
     ul {
       list-style: none;
       padding: 0px;
+      padding-top: 42px;
       margin: 0px;
 
       a {
         color: #286b7a;
+        &:hover {
+          text-decoration: none;
+        }
 
         li {
           font-family: @primary_font_face;
           white-space: nowrap;
-          padding: 10px;
+          padding: 5px;
           border-bottom: solid 1px #ddd;
           overflow: hidden;
-          text-overflow: ellipsis;        
+          text-overflow: ellipsis; 
+
+          .wrap {
+            float: right;
+            width: 90%;
+            max-width: 260px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            .res_location {
+              float: left;
+              max-width: 250px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              color: #898888;
+            }
+
+            .res_year {
+              float:right;
+              color: #898888;
+            }
+          }       
         
           i {
             color: #286b7a;
             margin-right: 5px;
+            margin-left: 5px;
+            margin-top: 12px;
+            //float: left;
+            //width: 10%;
           }
           &:hover {
             background: #2f3b47;
@@ -75,5 +106,9 @@
         text-decoration: none;
       }
     }
+  }
+
+  .hivent-list:empty {
+    display:none;
   }
 }

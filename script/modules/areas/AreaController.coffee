@@ -58,6 +58,7 @@ class HG.AreaController
 
           execute_async = (c) =>
             setTimeout () =>
+
               newArea = new HG.Area c, @_area_styler
 
               newArea.onShow @, (area) =>
@@ -71,7 +72,6 @@ class HG.AreaController
               @_areas.push newArea
 
               newArea.setDate @_now
-
 
               countries_to_load--
               if countries_to_load is 0

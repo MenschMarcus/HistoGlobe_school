@@ -6,6 +6,21 @@ class HG.SearchBoxArea
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
+  constructor: (config) ->
+
+    HG.mixin @, HG.CallbackContainer
+    HG.CallbackContainer.call @
+
+    @addCallback "onSearchBoxChanged"
+
+    @props = 
+      active: false
+      height: 0
+
+    window.list_items = []
+    window.mouse_hover_active = true
+    window.current_active_element = -1    
+
   # ============================================================================
 
   hgInit: (hgInstance) ->
@@ -16,6 +31,7 @@ class HG.SearchBoxArea
     @_container = document.createElement "div"
     @_container.className = "search-box-area"
     @_hgInstance._top_area.appendChild @_container
+    @_allTopics = @_hgInstance.timeline._config.topics
 
     @_hgInstance.hg_logo = @
 
@@ -30,6 +46,58 @@ class HG.SearchBoxArea
     @_search_opt_year = false
     @_input_text = null
 
+
+    @_hgInstance.onAllModulesLoaded @, () =>
+      @_hgInstance.hivent_list_module?.onHiventListChanged @, (list_props) =>
+        if @props.active
+          if list_props.active
+            @props.height = (window.innerHeight - 180) / 2 
+          else
+            @props.height = (window.innerHeight - 180)
+        console.log "SB" + @props.active
+        $(@_search_results).css({'max-height': (@props.height - 10) + "px"}) # max height of list with timelin height
+
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
+    # handle key up and down on list to highlight the different items
+    # 1. if up and down is pressed dehighlight all items
+    # 2. get index of new element (next, prev, first or last)
+    # 3. set element at index to highlighted
+    # 4. scroll to element
+
+    $(window).mousemove (e) =>      
+      window.mouse_hover_active = true
+      for item, index in window.list_items
+        if index != window.current_active_element
+          $("#" + item + " > li").removeClass("itemhover_list")
+
+    $(window).keyup (e) =>      
+      if e.which is 40 or e.which is 38
+        window.mouse_hover_active = false
+      if window.list_items[window.current_active_element]? and (e.which is 40 or e.which is 38)
+        $("#" + window.list_items[window.current_active_element] + " > li").removeClass("itemhover_list")
+      if e.which is 40 # down
+        if window.current_active_element is window.list_items.length - 1
+          window.current_active_element = 0
+        else
+          window.current_active_element++
+      if e.which is 38 # up
+        if window.current_active_element is -1 or window.current_active_element is 0
+          window.current_active_element = window.list_items.length - 1
+        else
+          window.current_active_element--
+
+      $("#" + window.list_items[window.current_active_element] + " > li").addClass("itemhover_list")
+
+      sr = document.getElementById("search-results")
+      if(sr.scrollTop > window.current_active_element * 44)
+        sr.scrollTop = window.current_active_element * 44
+      else if(sr.scrollTop + sr.offsetHeight < (window.current_active_element * 44) + 50)
+        sr.scrollTop = (window.current_active_element * 44) - sr.offsetHeight + 150
+        #$("#search-results").animate({ scrollTop: (window.current_active_element * 43) + "px" });
+
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
     @_hgInstance.onTopAreaSlide @, (t) =>
       if @_hgInstance.isInMobileMode()
         @_container.style.left = "#{t*0.5}px"
@@ -37,6 +105,8 @@ class HG.SearchBoxArea
         @_container.style.left = "0px"
 
   # ============================================================================
+  deHighlightAllItems: ->
+    console.log "jiüppi"
 
   addLogo: (config) ->
     @_addLogo config
@@ -66,6 +136,7 @@ class HG.SearchBoxArea
 
     form = document.createElement "form"
     form.className = "search-form"
+    
     box.appendChild form
 
     # Input =======================================================================
@@ -129,11 +200,11 @@ class HG.SearchBoxArea
         @_search_results = document.createElement "div"
         @_search_results.id = "search-results"
 
-      #if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
       curr_category = @_hgInstance.categoryFilter._categoryFilter[0]
 
       result_list = []
       epoch_result_list = []
+      window.list_items = []
 
       found_in_location = false
       if @_hgInstance.hiventController._hiventHandles
@@ -176,7 +247,7 @@ class HG.SearchBoxArea
               result_list.push hivent._hivent
               continue
 
-
+      live_ticker = 0
       epoch_search_output = ''
       for epoch_result in epoch_result_list
 
@@ -186,13 +257,14 @@ class HG.SearchBoxArea
         else
           yearString = epoch_result.startYear + ' bis ' + epoch_result.endYear
 
-
-        epoch_search_output = epoch_search_output + '<a href="#event=' + epoch_result.id + '"><li>' + 
-        epoch_result.name + '  -' + yearString + '</li></a>'
+        window.list_items.push epoch_result.id
+        epoch_search_output = epoch_search_output + '<a onmouseout="if(window.mouse_hover_active) { this.firstChild.className = \'\'; window.current_active_element = -1; }" onmouseover="if(window.mouse_hover_active) { this.firstChild.className = \'itemhover_list\'; window.current_active_element = ' + live_ticker + '; }" id="' + epoch_result.id + '" href="#event=' + epoch_result.id + '"><li>' + 
+        '<div class="wrap"><div class="res_name">' + epoch_result.name + '</div>' + 
+        '<div class="res_location">' + epoch_result.locationName[0] + '</div><div class="res_year">' + yearString + '</div></div><i class="fa fa-map-marker"></i></li></a>'
+        live_ticker++
 
       search_output = ''
       for result in result_list
-        #console.log result
 
         yearString = ''
         if result.startYear == result.endYear
@@ -200,12 +272,21 @@ class HG.SearchBoxArea
         else
           yearString = result.startYear + ' bis ' + result.endYear
 
-        search_output = search_output + '<a href="#categories=' + result.category + '&#event=' + result.id + '"><li>' + 
-        result.name + '  -' + yearString  + '</li></a>'
+        window.list_items.push result.id
+        search_output = search_output + '<a onmouseout="if(window.mouse_hover_active) { this.firstChild.className = \'\'; window.current_active_element = -1; }" onmouseover="if(window.mouse_hover_active) { this.firstChild.className = \'itemhover_list\'; window.current_active_element = ' + live_ticker + '; }" id="' + result.id + '" href="#categories=' + result.category + '&event=' + result.id + '"><li>' + 
+        '<div class="wrap"><div class="res_name">' + result.name + '</div>' +
+        '<div class="res_location">' + result.locationName[0] + '</div><div class="res_year">' + yearString + '</div></div><i class="fa fa-map-marker"></i></li></a>'
+        live_ticker++
+
+      aktualleCath = "none"
+    
+      for topic in @_allTopics
+        if topic.id == @_hgInstance.categoryFilter.getCurrentFilter()[0]
+          aktualleCath = topic.name
 
       search_result_with_categ_einteilung = ''
       if epoch_search_output.length > 0
-        search_result_with_categ_einteilung = '<span>Suchergebnisse im aktueller Epoche: </span></br><ul>' +
+        search_result_with_categ_einteilung = '<span>Suchergebnisse in "' + aktualleCath + '": </span></br><ul>' +
         epoch_search_output + '</ul>'
 
       if epoch_search_output.length > 0 &&  search_output.length > 0
@@ -218,9 +299,14 @@ class HG.SearchBoxArea
       @_search_results.innerHTML = search_result_with_categ_einteilung
 
       form.appendChild @_search_results
-      @_search_results.style.display = "none"
-      $(@_search_results).css({'max-height': (window.innerHeight - 180) + "px"}) # max height of list with timelin height
-      $(@_search_results).fadeIn(1000)
+
+      # calc height
+      if @_hgInstance.hivent_list_module.props.active
+        @props.height = (window.innerHeight - 180) / 2 
+      else
+        @props.height = (window.innerHeight - 180)
+      
+      $(@_search_results).css({'max-height': (@props.height - 10) + "px"}) # max height of list with timelin height
 
     #=============================================================================
       if @_input_text?
@@ -238,6 +324,11 @@ class HG.SearchBoxArea
         #form.removeChild clear
         $(clear).hide()
         $(icon).show()
+        @props.active = false
+        @notifyAll "onSearchBoxChanged", @props
+      else
+        @props.active = true
+        @notifyAll "onSearchBoxChanged", @props
 
       $(clear).click () =>
         #form.removeChild clear
@@ -245,99 +336,17 @@ class HG.SearchBoxArea
         $(icon).show()
         document.getElementById("search-input").value = "" #Clear input text
         form.removeChild @_search_results
-
-    #=============================================================================
-    # Arrow Key Navigation V1 ====================================================
-
-      # a = $('.search-box a')
-
-      # $(window).keyup (e) ->
-      #   if e.which is 40 # User pressed "down" arrow
-      #     if aSelected
-      #       aSelected.removeClass('itemhover')
-      #       next = aSelected.next()
-      #       if next.length > 0
-      #         aSelected = next().addClass('itemhover')
-      #       else
-      #         aSelected = a.eq(0).addClass('itemhover')
-
-      #     else
-      #       aSelected = a.eq(0).addClass('itemhover')
-
-      #   else if e.which is 38 # User pressed "up" arrow
-      #     if aSelected
-      #       aSelected.removeClass('itemhover')
-      #       next = aSelected.prev()
-      #       if next.length > 0
-      #         aSelected = next().addClass('itemhover')
-      #       else
-      #         aSelected = a.last().addClass('itemhover')
-
-      #     else
-      #       aSelected = a.last().addClass('itemhover')
-
-      # Arrow Key Navigation V2 ====================================================
-      # currentSelection = 0
-      # currentUrl = ''
-      # #item = 0
-
-      # if $("#search-results a")?
-      #   $(input).keyup (e) =>
-
-      #     switch(e.keyCode)
-      #       # User pressed "up" arrow
-      #       when 38 then navigate "up"
-      #       # User pressed "down" arrow
-      #       when 40 then navigate "down"
-      #       # User pressed "enter"
-      #       when 13
-      #         if currentUrl isnt ''
-      #           window.location = currentUrl
-
-      # Add data to let the hover know which index they have
-      #console.log $(result_list).size()
-      #for item in $("#search-results a").size()
-      # for item in result_list
-      #   console.log "Bäm"
-      #   $("#search-results a").eq(item).data("number", item)
-
-      # Simulate the "hover" effect with the mouse
-      # $("#search-results a").hover ->
-      #   currentSelection = $(this).data(hivent.id)
-      #   #console.log currentSelection
-      #   setSelected(currentSelection)
-      # , ->
-      #   $("#search-results a").removeClass "itemhover"
-      #   currentUrl = ''
-
-    #=============================================================================
-    # navigate = (direction) ->
-    #   # Check if any of the menu items is selected
-    #   if $("#search-results a .itemhover").length == 0
-    #     currentSelection = -1
-
-    #   if direction is "up" and currentSelection >= 1
-    #     currentSelection = currentSelection-1
-
-    #   else if direction is "down" and currentSelection < $("#search-results a").length
-    #     ++currentSelection
-
-    #   setSelected(currentSelection)
-
-    #=============================================================================
-    # setSelected = (list_item) ->
-    #   $("#search-results a").removeClass "itemhover"
-    #   $("#search-results a").eq(list_item).addClass "itemhover"
-    #   currentUrl = $("#search-results a").eq(list_item).attr("href")
+        @props.active = false
+        @notifyAll "onSearchBoxChanged", @props
 
     #=============================================================================
     #=============================================================================
     # Search if Enter key is pressed
-    $(input).keyup (e) =>
+    $(form).keyup (e) =>
       if e.which is 13  #Enter key pressed
         e.preventDefault()
-        $(input).keyup()   #Trigger search key up event
 
+    #@notifyAll "onSearchBoxChanged", @props
     @_container.appendChild box
 
     return box

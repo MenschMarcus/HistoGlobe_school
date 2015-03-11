@@ -6,7 +6,7 @@
     "maxYear": 1993,
     "nowYear": 1900,
     "minZoom": 1,
-    "maxZoom": 5,
+    "maxZoom": 7,
     "startZoom": 5,
     "startLatLong": [50.9869531, 11.3205004],
     "tiles": "config/school/tiles/",
@@ -188,24 +188,23 @@
     "hiventsOnTlLabels" :     "A",
     "numHiventsOnMap" :       "A",
     "hiventRegionsOnMap" :    "A",
-    "hiventClusterLabels" :   "B",
+    "hiventClusterLabels" :   "A",
     "epochNames-moreSpace" :  "A",
     "epochNames-shortNames" : "A",
     "searchFilter" :          "A",
-    "regionLabels" :          "B"
+    "regionLabels" :          "A"
   },
 
   "BrowserDetector": {},
 
   "ZoomButtonsTimeline": {},
-
   "ControlButtonArea": {},
-
   "ZoomButtons": {},
+
   "FullscreenButton": {},
 
   "CategoryFilter": {
-    "initial" :             "noCategory"
+    "initial" : "noCategory"
   },
 
   "MultimediaController": {
@@ -232,25 +231,26 @@
         "ignoredLines" : [1,2,3],
         "indexMapping" :
         {
-          "id"          : 0,
-          "name"        : 1,
-          "startYear"   : 6,
-          "startMonth"  : 7,
-          "startDay"    : 8,
-          "endYear"     : 9,
-          "endMonth"    : 10,
-          "endDay"      : 11,
-          "displayDate" : 12,
-          "location"    : 2,
-          "lat"         : 3,
-          "long"        : 4,
-          "region"      : 5,
-          "isImp"       : 13,
-          "parentTopic" : 14,
-          "subTopic"    : 15,
-          "description" : 16,
-          "multimedia"  : 17,
-          "link"        : 18
+          "id"              : 0,
+          "name"            : 1,
+          "startYear"       : 6,
+          "startMonth"      : 7,
+          "startDay"        : 8,
+          "endYear"         : 9,
+          "endMonth"        : 10,
+          "endDay"          : 11,
+          "displayDate"     : 12,
+          "location"        : 2,
+          "lat"             : 3,
+          "long"            : 4,
+          "region"          : 5,
+          "isImp"           : 13,
+          "parentTopic"     : 14,
+          "subTopic"        : 15,
+          "description"     : 16,
+          "description_new" : 17,
+          "multimedia"      : 18,
+          "link"            : 19
         }
       }
     ],
@@ -259,8 +259,8 @@
 
   "CategoryIconMapping" : {
       "default" : {
-        "default" : "config/school/icons/hivent_marker.svg",
-        "highlighted" : "config/school/icons/hivent_marker_highlight.svg"
+        "default" : "config/school/icons/marker_hivent-map.svg",
+        "highlighted" : "config/school/icons/marker_hivent-map-active.svg"
       }
     },
 
@@ -276,7 +276,57 @@
   "Logo": {},
   "SearchBoxForm": {},
   "HiventList": {},
-  "HiventListController": {}
+  "HiventListController": {},
+
+  "AreaStyler" :
+  {
+    "stylers" :
+    [
+      {
+        "mapping": "config/school/data/countries_mapping.json",
+        "domain": [0, 1],
+        "fillColor": {
+          "range": ["#fefefe", "#fefefe"],
+          "fallback": "#fefefe",
+          "compOp": "replace"
+        },
+        "fillOpacity": {
+          "range": [0, 1],
+          "fallback": 0,
+          "compOp": "multiply"
+        },
+        "lineColor": {
+          "range": ["#bbb", "#bbb"],
+          "fallback": "#bbb",
+          "compOp": "replace"
+        },
+        "lineOpacity": {
+          "range": [0, 1],
+          "fallback": 0,
+          "compOp": "multiply"
+        },
+        "lineWidth": {
+          "range": [0, 1.5],
+          "fallback": 0,
+          "compOp": "replace"
+        },
+        "labelOpacity": {
+          "range": [0, 1],
+          "fallback": 0,
+          "compOp": "multiply"
+        }
+      }
+    ]
+  },
+
+  "AreaController":
+  {
+    "areaJSONPaths" : ["config/school/data/countries.geojson"]
+  },
+
+  "AreasOnMap" : {
+    "areaHighlightColor" : "#d4c900"
+  }
 
 }
 

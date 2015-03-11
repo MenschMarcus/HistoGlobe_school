@@ -3,7 +3,7 @@
 .logo-area {
   position: absolute;
   top: 10px;
-  padding-left: 0px;
+  left: 19px;
 
   margin: 5px 5px 5px 0;
   font-size: 20pt * @widget_font_size_factor;
@@ -122,12 +122,18 @@
       color: #000000;
       background: #ffffff;
 
-      -webkit-box-shadow: 0px 0px 5px 3px #888888;
-      -moz-box-shadow: 0px 0px 5px 3px #888888;
-      box-shadow: 0px 0px 5px 3px #888888;
+      transition: 1s;
+      -webkit-transition: 1s;
+
+      -webkit-box-shadow: 0px 0px 3px #888888;
+      -moz-box-shadow: 0px 0px 3px #888888;
+      box-shadow: 0px 0px 3px #888888;
 
       span {
-        padding-left: 5px;
+        padding: 5px;
+        color: #898888;
+        overflow: hidden;
+        text-overflow: ellipsis;
         //font-weight: bold;
       }
 
@@ -137,7 +143,7 @@
         margin: 0px;
 
         a {
-          color: #000000;
+          color: #286b7a;
           &:hover {
             text-decoration: none;
           }
@@ -145,13 +151,46 @@
             font-family: @primary_font_face;
             white-space: nowrap;
             padding-left: 5px;
-            //border-bottom: solid 1px #ddd;
+            border-bottom: solid 1px #ddd;
             overflow: hidden;
-            text-overflow: ellipsis;        
+            text-overflow: ellipsis;
 
-            &:hover {
-              background: @hg_green;
+            .wrap {
+              float: right;
+              width: 90%;
+              max-width: 265px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+
+              .res_location {
+                float: left;
+                max-width: 250px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                color: #898888;
+              }
+
+              .res_year {
+                float:right;
+                color: #898888;
+              }
             }
+
+            i {
+              color: #286b7a;
+              margin-right: 5px;
+              margin-left: 5px;
+              margin-top: 12px;
+              //float: left;
+              //width: 20%
+            }
+            /*&:hover {
+              background: #2f3b47;
+              color:#fff;
+              i {
+                color: #fff;
+              }
+            }*/
           }
         }
       }
@@ -176,5 +215,13 @@
         color: #000000;
       }
     }
+  }
+}
+
+.itemhover_list {
+  background: #2f3b47;
+  color:#fff;
+  i {
+    color: #fff;
   }
 }

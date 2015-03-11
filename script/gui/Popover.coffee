@@ -167,6 +167,7 @@ class HG.Popover
     closeDiv.style.color = "#000" 
 
   # ============================================================================
+
     if @_multimedia != "" and @_multimediaController?
       mmids = @_multimedia.split ","
 

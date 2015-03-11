@@ -19,12 +19,25 @@ class HG.MultimediaController
       ignoredLines: [] # line indices starting at 1
       indexMappings: [
         id          : 0
-        type        : 1
-        description : 2
-        link        : 3
+        type        : 2
+        description : 3
+        link        : 1
         source      : 4
         crop        : 5
         type        : 6
+        # id          : 0
+        # type        : 1
+        # description : 2
+        # link        : 3
+        # source      : 4
+        # crop        : 5
+        # type        : 6
+
+        # "id"          : 0,
+        # "type"        : 2,
+        # "description" : 3,
+        # "source"      : 4,
+        # "link"        : 1
       ]
 
     @_config = $.extend {}, defaultConfig, config
