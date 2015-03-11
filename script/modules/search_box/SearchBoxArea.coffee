@@ -69,7 +69,6 @@ class HG.SearchBoxArea
       window.mouse_hover_active = true
       for item, index in window.list_items
         if index != window.current_active_element
-          console.log "remove highlight" + item
           $("#" + item + " > li").removeClass("itemhover_list")
 
     $(window).keyup (e) =>      
@@ -87,12 +86,14 @@ class HG.SearchBoxArea
           window.current_active_element = window.list_items.length - 1
         else
           window.current_active_element--
+
       $("#" + window.list_items[window.current_active_element] + " > li").addClass("itemhover_list")
+
       sr = document.getElementById("search-results")
-      if(sr.scrollTop > window.current_active_element * 43)
-        sr.scrollTop = window.current_active_element * 43
-      else if(sr.scrollTop + sr.offsetHeight < (window.current_active_element * 43) + 50)
-        sr.scrollTop = (window.current_active_element * 43) - sr.offsetHeight + 150
+      if(sr.scrollTop > window.current_active_element * 44)
+        sr.scrollTop = window.current_active_element * 44
+      else if(sr.scrollTop + sr.offsetHeight < (window.current_active_element * 44) + 50)
+        sr.scrollTop = (window.current_active_element * 44) - sr.offsetHeight + 150
         #$("#search-results").animate({ scrollTop: (window.current_active_element * 43) + "px" });
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
