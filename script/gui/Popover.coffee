@@ -167,9 +167,6 @@ class HG.Popover
     closeDiv.style.color = "#000" 
 
   # ============================================================================
-    console.log @_multimedia
-    #console.log @_multimediaController
-    console.log @_hiventHandle
 
     if @_multimedia != "" and @_multimediaController?
       mmids = @_multimedia.split ","
