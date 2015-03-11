@@ -16,6 +16,9 @@ class HG.HiventInfoPopover
 
     @_description_length = 300
 
+    #@_hivent_ID = @_hiventHandle.getHivent().id.substring(2)
+    #@_multimedia_ID = @_hiventHandle.getHivent().multimedia.substring(2)
+
     # generate content
     body = document.createElement "div"
     body.className = "hivent-body"
@@ -29,7 +32,7 @@ class HG.HiventInfoPopover
     text.className = "hivent-content"
 
     description = @_hiventHandle.getHivent().description
-    if description.length > 300
+    if description.length > @_description_length
       desc_output = description.substring(0,@_description_length)
       text.innerHTML = desc_output + "... "
     else
@@ -54,14 +57,14 @@ class HG.HiventInfoPopover
     date.appendChild gotoDate
 
 
-
     # if !showArrow
     #   container = window.body
 
     # create popover
     @_popover = new HG.Popover
       hgInstance: hgInstance
-      placement:  "auto"
+      hiventHandle: hiventHandle
+      placement:  "top"
       content:    body
       title:      @_hiventHandle.getHivent().name
       container:  container
@@ -71,94 +74,98 @@ class HG.HiventInfoPopover
     @_popover.onClose @, () =>
       @_hiventHandle.inActiveAll()
 
-    @_multimedia = @_hiventHandle.getHivent().multimedia
-    if @_multimedia != "" and @_multimediaController?
-      mmids = @_multimedia.split ","
-      gallery = new HG.Gallery
-        interactive : true
-        showPagination : (mmids.length >= 2)
 
-      gallery.mainDiv.style.marginLeft = -HGConfig.widget_body_padding.val + "px"
-      gallery.mainDiv.style.marginRight = -HGConfig.widget_body_padding.val + "px"
+    # @_multimedia = @_hiventHandle.getHivent().multimedia
 
-      body.insertBefore gallery.mainDiv, text
+    # if @_multimedia != "" and @_multimediaController?
+    #   mmids = @_multimedia.split ","
+    #   gallery = new HG.Gallery
+    #     interactive : true
+    #     showPagination : (mmids.length >= 2)
 
-      gallery.init()
+    #   gallery.mainDiv.style.marginLeft = -HGConfig.widget_body_padding.val + "px"
+    #   gallery.mainDiv.style.marginRight = -HGConfig.widget_body_padding.val + "px"
 
-      @_popover.onResize @, () =>
-        gallery.reInit()
+    #   body.insertBefore gallery.mainDiv, text
 
-      @_multimediaController.onMultimediaLoaded () =>
+    #   gallery.init()
 
-        for id in mmids
-          mm = @_multimediaController.getMultimediaById id
-          if mm?
+    #   @_popover.onResize @, () =>
+    #     gallery.reInit()
 
-            if mm.type is "IMAGE"
-              elem = document.createElement "a"
+      # @_multimediaController.onMultimediaLoaded () =>
 
-              elem.href = mm.thumbnail
-              elem.title = mm.description
-              elem.alt = mm.description
-              elem.style.backgroundImage = "url( #{mm.thumbnail})"
-              elem.className = "gallery-image"
-              $(elem).colorbox
-                title: "<p class='gallery-copyright'>" + mm.source + "</p>" + mm.description
-                maxWidth: "90%"
-                maxHeight: "80%"
-                # rel: gallery.id
-                # current: "Bild {current} von {total}"
-                # loop: false
+      #   for id in mmids
+      #     mm = @_multimediaController.getMultimediaById id
+      #     if mm?
 
-              if mm.crop
-                $(elem).addClass("cropped")
+      #       if mm.type is "WEBIMAGE"
+      #         elem = document.createElement "a"
 
-              gallery.addDivSlide elem
+      #         elem.href = mm.thumbnail
+      #         elem.link = mm.link
+      #         console.log elem.link
+      #         elem.title = mm.description
+      #         elem.alt = mm.description
+      #         elem.style.backgroundImage = "url( #{mm.thumbnail})"
+      #         elem.className = "gallery-image"
+      #         $(elem).colorbox
+      #           title: "<p class='gallery-copyright'>" + mm.source + "</p>" + mm.description
+      #           maxWidth: "90%"
+      #           maxHeight: "80%"
+      #           # rel: gallery.id
+      #           # current: "Bild {current} von {total}"
+      #           # loop: false
 
-            else if mm.type is "YOUTUBE"
-              elem = document.createElement "div"
-              elem.innerHTML = "<iframe width='100%' height='240px' src='#{mm.link}' frameborder='0' allowfullscreen> </iframe>"
-              gallery.addDivSlide elem
+      #         if mm.crop
+      #           $(elem).addClass("cropped")
 
-            else if mm.type is "AUDIO"
-              elem = document.createElement "div"
-              elem.style.marginTop = "150px"
-              audio = document.createElement "audio"
-              audio.className = "swiper-no-swiping"
-              audio.controls = true
+      #         gallery.addDivSlide elem
 
-              linkData = mm.link.split(",")
+      #       else if mm.type is "YOUTUBE"
+      #         elem = document.createElement "div"
+      #         elem.innerHTML = "<iframe width='100%' height='240px' src='#{mm.link}' frameborder='0' allowfullscreen> </iframe>"
+      #         gallery.addDivSlide elem
 
-              mp3 = ""
+      #       else if mm.type is "AUDIO"
+      #         elem = document.createElement "div"
+      #         elem.style.marginTop = "150px"
+      #         audio = document.createElement "audio"
+      #         audio.className = "swiper-no-swiping"
+      #         audio.controls = true
 
-              for link in linkData
-                source = document.createElement "source"
-                source.src = link
-                audio.appendChild source
+      #         linkData = mm.link.split(",")
 
-                type = link.split(".")
-                type = type[type.length-1]
+      #         mp3 = ""
 
-                if type is "mp3"
-                  source.type = "audio/mpeg"
-                  mp3 = link
-                else if type is "ogg"
-                  source.type = "audio/ogg"
+      #         for link in linkData
+      #           source = document.createElement "source"
+      #           source.src = link
+      #           audio.appendChild source
 
-              if mp3 isnt ""
-                source = document.createElement "embed"
-                source.src = link
-                source.height = "50px"
-                source.width = "150px"
-                audio.appendChild source
+      #           type = link.split(".")
+      #           type = type[type.length-1]
 
-              elem.appendChild audio
+      #           if type is "mp3"
+      #             source.type = "audio/mpeg"
+      #             mp3 = link
+      #           else if type is "ogg"
+      #             source.type = "audio/ogg"
 
-              text = document.createElement "div"
-              text.innerHTML = mm.description
-              elem.appendChild text
+      #         if mp3 isnt ""
+      #           source = document.createElement "embed"
+      #           source.src = link
+      #           source.height = "50px"
+      #           source.width = "150px"
+      #           audio.appendChild source
 
-              gallery.addDivSlide elem
+      #         elem.appendChild audio
+
+      #         text = document.createElement "div"
+      #         text.innerHTML = mm.description
+      #         elem.appendChild text
+
+      #         gallery.addDivSlide elem
 
 
             #   elem = document.createElement "div"

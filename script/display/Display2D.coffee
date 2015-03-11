@@ -42,8 +42,36 @@ class HG.Display2D extends HG.Display
     @_mapParent
 
   # ============================================================================
+  # L.Map.panToOffset = (longLat, offset, options) ->
+  # panToOffset: (longLat, offset, options) ->
+  #   x = @latLngToContainerPoint(longLat).x - offset[0]
+  #   y = @latLngToContainerPoint(longLat).y - offset[1]
+  #   point = @containerPointToLatLng([ x, y ])
+  #   @setView point, @_zoom,
+  #     pan: options
+
+  # ============================================================================
   setCenter: (longLat) ->
+    #@_map.panTo [longLat.y, longLat.x]
+
+    #Calculate the offset
+    offsetX = @_map.getSize().x*0.10
+    offsetY = @_map.getSize().y*0.25
+
+    #newCenterX = @_map.latLngToContainerPoint(longLat.x) + offsetX
+    #newCenterY = @_map.latLngToContainerPoint(longLat.y) - offsetY 
+
+    #newPointX = @_map.containerPointToLatLng(newCenterX)
+    #newPointY = @_map.containerPointToLatLng(newCenterY)
+
+    #point = new L.Point(newCenterX, newCenterY)
+
+    #@_map.panTo [newPointY, newPointX]
     @_map.panTo [longLat.y, longLat.x]
+
+    #Then move the map
+    @_map.panBy(new L.Point(offsetX, -offsetY), 
+      animate: false)
 
   # ============================================================================
   zoomToBounds: (minLong, minLat, maxLong, maxLat) ->

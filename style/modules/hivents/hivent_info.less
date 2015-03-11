@@ -2,11 +2,10 @@
   z-index: 5;
   cursor: move;
 
-  .guiPopoverBody {
+  .guiPopoverBodyV1, .guiPopoverBodyV2 {
 
     .guiPopoverContent {
       position: relative;
-      text-align: justify;
       font-size: 10pt;
       padding-left: 0px;
 
@@ -18,12 +17,13 @@
 
         .hivent-content {
           font-size: 10pt;
+          text-align: justify;
           max-height: 200px;
           overflow: auto;
 
           span {
             //color: #A5A5A5;
-            color: #fff;
+            //color: #fff;
             text-align: right;
             margin-top: 0px;
             font-size: 10pt;
@@ -33,7 +33,7 @@
               cursor: pointer;
 
               &:hover {
-                color: #fff;
+                //color: #fff;
               }
             }
           }
@@ -71,6 +71,21 @@
       -ms-user-select: text;
       user-select: text;
     }
+  }
+
+  .guiPopoverBodyV1 {
+    max-height: 180px;
+    color: #000000;
+  }
+
+  .guiPopoverBodyV2 {
+    max-height: 350px;
+    color: #ffffff;
+    background-image: -webkit-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
+    background-image: -moz-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
+    background-image: -ms-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
+    background-image: -o-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
+    background-image: linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
   }
 }
 
