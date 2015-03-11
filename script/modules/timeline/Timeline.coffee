@@ -67,6 +67,9 @@ class HG.Timeline
             @_switchTopic(topic, false)
             break
 
+      hgInstance.timeline?.onNowChanged @, (date) =>
+        @_now.dateField.innerHTML = date.toLocaleDateString()
+
     @_parentDiv = @addUIElement "timeline-area", "timeline-area", @_HGContainer
 
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
@@ -96,6 +99,7 @@ class HG.Timeline
       dateField: @addUIElement "now_date_field", null, @_HGContainer
 
     @_now.dateField.innerHTML = @_now.date.toLocaleDateString()
+    $(@_now.dateField).fadeIn()
 
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
