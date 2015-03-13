@@ -11,6 +11,16 @@ FADE_ANIMATION_TIME = 200   # fade in time for datemarkers and so
 
 MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
 
+DATE_LOCALE = 'de-DE'
+DATE_OPTIONS = {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit'
+}
+
+
+
+
 class HG.Timeline
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
@@ -68,7 +78,7 @@ class HG.Timeline
             break
 
       hgInstance.timeline?.onNowChanged @, (date) =>
-        @_now.dateField.innerHTML = date.toLocaleDateString()
+        @_now.dateField.innerHTML = date.toLocaleDateString DATE_LOCALE, DATE_OPTIONS
 
     @_parentDiv = @addUIElement "timeline-area", "timeline-area", @_HGContainer
 
@@ -98,7 +108,7 @@ class HG.Timeline
       marker: @addUIElement "now_marker_arrow_bottom", null, @_HGContainer
       dateField: @addUIElement "now_date_field", null, @_HGContainer
 
-    @_now.dateField.innerHTML = @_now.date.toLocaleDateString()
+    @_now.dateField.innerHTML = @_now.date.toLocaleDateString DATE_LOCALE, DATE_OPTIONS
     $(@_now.dateField).fadeIn()
 
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
@@ -112,10 +122,10 @@ class HG.Timeline
       scrollContainer: true
       onTouchStart: =>
         @_dragged = false
-        @_animationTargetDate = null        
+        @_animationTargetDate = null
         if @_play
           @_animationSwitch()
-      onTouchMove: =>        
+      onTouchMove: =>
         @_dragged = true
         fireCallbacks = false
         if ++@_moveDelay == 10
@@ -405,7 +415,7 @@ class HG.Timeline
       @notifyAll "onIntervalChanged", @_getTimeFilter()
 
   _updateTopics:()->
-    for topic in @_config.topics      
+    for topic in @_config.topics
       if !topic.div?
         topic.div = document.createElement("div")
         topic.div.id = "topic" + topic.id
@@ -415,7 +425,7 @@ class HG.Timeline
         topic.div.style.width = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) + "px"
         topic.div.style.display = "none"
         @getCanvas().appendChild topic.div
-       
+
 
 
         # add subtopics
@@ -444,7 +454,7 @@ class HG.Timeline
       else
         topic.div.style.left = @dateToPosition(topic.startDate) + "px"
         topic.div.style.width = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) + "px"
-        
+
         inner_el = document.getElementById("topic_inner_" + topic.id)
         inner_el.style.maxWidth = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate) - 25) + "px"
         margin = ((@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) / 2) - inner_el.offsetWidth / 2
@@ -591,7 +601,7 @@ class HG.Timeline
 
           # use setInterval to zoom in repeatly
           # if zoom should stop call clearInterval(obj)
-          # zoom delay is 50ms 
+          # zoom delay is 50ms
           # todo: make zoom delay as a static parameter
           repeatObj = setInterval =>
             if @_activeTopic.endDate > (new Date(@maxVisibleDate().getTime() - (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1))
@@ -608,7 +618,7 @@ class HG.Timeline
               clearInterval(repeatObj)
               window.location.hash = '#categories=' + topic_tmp.id  if setHash
           , 50
-    else 
+    else
       if setHash
         # if same topic was clicked unable it
         # hide subtopic row and set class to default
