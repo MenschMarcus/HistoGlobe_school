@@ -10,8 +10,15 @@
   position:   absolute;
   z-index:    3;
   bottom:     0px;
+
+  display: none;
 }
 #now_date_field {
+	
+	// MAGIC
+	// click trough element
+	pointer-events: none;
+
 	font-family: Roboto;
 	color: #fff;
 	background-color: rgba(19, 31, 41, 0.77);
@@ -19,11 +26,13 @@
 	z-index: 10;
 	bottom: 0px;
 	left: 500px;
-	margin-left: -61px;
+	margin-left: -70px;
 	height: 45px;
 	line-height: 45px;
 	font-weight: 100;
 	font-size: 120%;
 	padding: 0px 20px;
 	display: none;
+	width: 120px;
+	text-align: center;
 }
