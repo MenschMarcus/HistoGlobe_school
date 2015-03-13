@@ -14,7 +14,8 @@ class HG.AreasOnMap
     @_visibleAreas = []
 
     defaultConfig =
-      areaHighlightColor: "#fff"
+      areaHighlightColor: "#fff",
+      labelVisibilityFactor: 5
 
     @_config = $.extend {}, defaultConfig, config
 
@@ -128,7 +129,7 @@ class HG.AreasOnMap
 
     visible = false
     if area.getLabel()?
-      width = area.getLabel().length * 6  # MAGIC number!
+      width = area.getLabel().length * @_config.labelVisibilityFactor  # MAGIC number!
 
       visible = (max.x - min.x) > width or @_map.getZoom() is @_map.getMaxZoom()
 
