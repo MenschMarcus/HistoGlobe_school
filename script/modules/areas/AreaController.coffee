@@ -19,7 +19,7 @@ class HG.AreaController
     @_timeline = null
     @_now = null
 
-    @_categoryFilter =null
+    @_categoryFilter = null
     @_currentCategoryFilter = null # [category_a, category_b, ...]
 
     defaultConfig =
@@ -27,40 +27,93 @@ class HG.AreaController
 
     conf = $.extend {}, defaultConfig, config
 
-    @loadAreasFromJSON conf
+    # init all areas
+    @_loadAreasFromJSON conf
 
   # ============================================================================
   hgInit: (hgInstance) ->
+
     hgInstance.areaController = @
 
     @_timeline = hgInstance.timeline
-    @_area_styler = hgInstance.areaStyler
+    @_areaStyler = hgInstance.areaStyler
     @_now = @_timeline.getNowDate()
 
+    # main activity: what happens if now date changes?
     @_timeline.onNowChanged @, (date) ->
-      @_now = date
-      for area in @_areas
-        area.setDate date
+      oldDate = @_now
+      newDate = date
 
+      oldAreas = @getActiveAreas()   # old countries of last time point
+      newAreas = [] # new countries of current time point
+
+      console.log oldAreas
+
+      # problem: active state of areas
+
+      addAreas = []
+      remAreas = []
+
+      for area in @_areas
+
+        # active status
+        wasActive = area.isActive()
+        # console.log wasActive
+
+        area.setDate newDate
+
+      @_now = date
+
+    # category handling
     hgInstance.categoryFilter?.onFilterChanged @,(categoryFilter) =>
       @_currentCategoryFilter = categoryFilter
       @_filterActiveAreas()
 
     @_categoryFilter = hgInstance.categoryFilter if hgInstance.categoryFilter
 
-  # ============================================================================
-  loadAreasFromJSON: (config) ->
 
-    for path in config.areaJSONPaths
-      $.getJSON path, (countries) =>
-        countries_to_load = countries.features.length
+  # ============================================================================
+  getAllAreas:()->   @_areas
+
+  # ============================================================================
+  getActiveAreas:()->
+    newArray = []
+    for a in @_areas
+      if a._active
+        newArray.push a
+    newArray
+
+  # # ============================================================================
+  # filterArea:()->
+  #   for category in area.getCategories() #TODO
+  #     if category in @_currentCategoryFilter
+  #       true
+  #   false
+
+
+
+  ##############################################################################
+  #                            PRIVATE INTERFACE                               #
+  ##############################################################################
+
+  # ============================================================================
+  _loadAreasFromJSON: (config) ->
+
+    # parse each geojson file
+    for file in config.areaJSONPaths
+      $.getJSON file, (countries) =>
+        numCountriesToLoad = countries.features.length  # counter
         for country in countries.features
 
-          execute_async = (c) =>
+          # parse file asynchronously
+          executeAsync = (country) =>
             setTimeout () =>
 
-              newArea = new HG.Area c, @_area_styler
+              # convert data to HG area
+              newArea = new HG.Area country, @_areaStyler
+              newArea.setDate @_now
 
+              # attach event handlers to area
               newArea.onShow @, (area) =>
                 @notifyAll "onShowArea", area
                 area.isVisible = true
@@ -71,16 +124,15 @@ class HG.AreaController
 
               @_areas.push newArea
 
-              newArea.setDate @_now
-
-              countries_to_load--
-              if countries_to_load is 0
+              # counter handling
+              numCountriesToLoad--
+              if numCountriesToLoad is 0
                 @_currentCategoryFilter = @_categoryFilter.getCurrentFilter()
                 @_filterActiveAreas()
 
             , 0
 
-          execute_async country
+          executeAsync country
 
   # ============================================================================
   _filterActiveAreas:()->
@@ -97,6 +149,7 @@ class HG.AreaController
           else
             active = true
             break
+
       if active
         @notifyAll "onShowArea", area if not area.isVisible
         area.isVisible = true
@@ -104,30 +157,3 @@ class HG.AreaController
       else
         @notifyAll "onHideArea", area
         area.isVisible = false
-
-  # ============================================================================
-  filterArea:()->
-    for category in area.getCategories() #TODO
-      if category in @_currentCategoryFilter
-        return true
-    return false
-
-
-
-
-  # ============================================================================
-  getActiveAreas:()->
-    newArray = []
-    for a in @_areas
-      if a._active
-        newArray.push a
-    return newArray
-
-
-  # ============================================================================
-  getAllAreas:()->
-    return @_areas
-
-  ##############################################################################
-  #                            PRIVATE INTERFACE                               #
-  ##############################################################################

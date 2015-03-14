@@ -112,10 +112,8 @@
     <script type="text/javascript" src="build/TimeGalleryWidget.js"></script>
     <script type="text/javascript" src="build/PictureGalleryWidget.js"></script>
     <script type="text/javascript" src="build/VIPWidget.js"></script>
-    <script type="text/javascript" src="build/SingleVIPWidget.js"></script>
     <script type="text/javascript" src="build/LogoWidget.js"></script>
     <script type="text/javascript" src="build/PictureWidget.js"></script>
-    <script type="text/javascript" src="build/LegendWidget.js"></script>
     <script type="text/javascript" src="build/StatisticsWidget.js"></script>
     <script type="text/javascript" src="build/SearchBoxArea.js"></script>
     <script type="text/javascript" src="build/Logo.js"></script>

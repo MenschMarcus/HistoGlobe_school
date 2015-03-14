@@ -56,7 +56,7 @@ class HG.AreasOnMap
     # options.clickable = false
     options.pointerEvents = "none"  # prevents label to appear
 
-    area.myLeafletLayer = L.multiPolygon(area.getData(), options)
+    area.myLeafletLayer = L.multiPolygon area.getGeometry(), options
 
     area.myLeafletLayer.on "mouseover", @_onHover     # TODO: why does hover not work?
     area.myLeafletLayer.on "mouseout", @_onUnHover
