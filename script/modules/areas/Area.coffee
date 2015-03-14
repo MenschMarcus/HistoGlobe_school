@@ -22,10 +22,13 @@ class HG.Area
     @_endDate   = endDate
     @_type      = type
 
+    @_calcLabelPos()
+
   # ============================================================================
   getId: ->           @_id
   getName: ->         @_name
   getLabelPos: ->     @_labelPos
+  getBoundingBox: ->  @_boundingBox
   getStartDate: ->    @_startDate
   getEndDate: ->      @_endDate
   getGeometry: ->     @_geometry
@@ -37,7 +40,6 @@ class HG.Area
   # set the label of the area only with a name given
   setLabel: (name) ->
     @_name = name
-    @_labelPos = @_calcLabelPos()
 
   # ============================================================================
   # set label of the area with name and position
@@ -92,4 +94,5 @@ class HG.Area
       labelLat /= @_geometry[maxIndex].length
       labelLng /= @_geometry[maxIndex].length
 
-      [labelLat, labelLng]
+      @_labelPos = [labelLat, labelLng]
+      @_boundingBox = [minLat, minLng, maxLat, maxLng]

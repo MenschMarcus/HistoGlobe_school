@@ -19,6 +19,16 @@ class HG.AreasOnMap
 
     @_config = $.extend {}, defaultConfig, config
 
+    @_normalStyle =
+      fillColor:    "#992200"
+      fillOpacity:  0.75
+      lineColor:    "#992200"
+      lineOpacity:  1
+      lineWidth:    1
+      labelOpacity: 1
+      color:        "#992200"   # copy of lineColor
+      opacity:      1           # copy of lineOpacity
+
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -50,10 +60,7 @@ class HG.AreasOnMap
 
     area.myLeafletLayer = null
 
-    options = area.getNormalStyle()
-    options.color = area.getNormalStyle().lineColor
-    options.opacity = 0       # bugfix: makes border invisible onLoad
-    # options.clickable = false
+    options = @_normalStyle
     options.pointerEvents = "none"  # prevents label to appear
 
     area.myLeafletLayer = L.multiPolygon area.getGeometry(), options
@@ -62,17 +69,17 @@ class HG.AreasOnMap
     area.myLeafletLayer.on "mouseout", @_onUnHover
     area.myLeafletLayer.on "click", @_onClick
 
-    area.onStyleChange @, @_onStyleChange
+    # area.onStyleChange @, @_onStyleChange
 
     # area.myLeafletLayer.addTo @_map   # why is this commented out?
-    area.myLeafletLayer.bindLabel(area.getLabel()).addTo @_map
+    area.myLeafletLayer.bindLabel(area.getName()).addTo @_map
 
     area.myLeafletLayer.hgArea = area
 
     # add label
     area.myLeafletLabel = new L.Label();
-    area.myLeafletLabel.setContent area.getLabel()
-    area.myLeafletLabel.setLatLng area.getLabelLatLng()
+    area.myLeafletLabel.setContent area.getName()
+    area.myLeafletLabel.setLatLng area.getLabelPos()
 
     area.myLeafletLabel.options.className = "invisible"   # makes label invisible onLoad
 
@@ -124,14 +131,19 @@ class HG.AreasOnMap
 
   # ============================================================================
   _isLabelVisible: (area) ->
-    max = @_map.project area._maxLatLng
-    min = @_map.project area._minLatLng
+    bb = area.getBoundingBox()
+    minPt = [bb[0], bb[1]]
+    maxPt = [bb[2], bb[3]]
+
+    min = @_map.project minPt
+    max = @_map.project maxPt
+
 
     visible = false
-    if area.getLabel()?
-      width = area.getLabel().length * @_config.labelVisibilityFactor  # MAGIC number!
+    if area.getName()?
+      width = area.getName().length * @_config.labelVisibilityFactor  # MAGIC number!
 
-      visible = (max.x - min.x) > width or @_map.getZoom() is @_map.getMaxZoom()
+      visible = (max - min) > width or @_map.getZoom() is @_map.getMaxZoom()
 
   # ============================================================================
   _showAreaLabel: (area) =>
