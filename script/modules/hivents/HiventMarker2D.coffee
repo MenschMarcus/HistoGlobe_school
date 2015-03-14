@@ -110,14 +110,17 @@ class HG.HiventMarker2D extends HG.HiventMarker
   # ============================================================================
   _onMouseOver: (e) =>
     #@_hiventHandle.regionMarker.highlight()
+
     @getHiventHandle().mark @, @_position
     @getHiventHandle().linkAll @_position
+    @_updateMarker()
 
   # ============================================================================
   _onMouseOut: (e) =>
     #@_hiventHandle.regionMarker.unHiglight()
     @getHiventHandle().unMark @, @_position
     @getHiventHandle().unLinkAll @_position
+    @_updateMarker()
 
   # ============================================================================
   _onClick: (e) =>
@@ -127,6 +130,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
   _updatePosition: =>
     @_position = @_map.latLngToLayerPoint @_marker.getLatLng()
     @notifyAll "onPositionChanged", @getDisplayPosition()
+  
   _updateMarker: =>
     if @_marker._icon?
       if @_map.getZoom()>3
