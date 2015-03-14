@@ -291,7 +291,7 @@
   "AreasOnMap" :
   {
     "areaHighlightColor" : "#d4c900",
-    "labelVisibilityFactor" : 10
+    "labelVisibilityFactor" : 8
   }
 
 }

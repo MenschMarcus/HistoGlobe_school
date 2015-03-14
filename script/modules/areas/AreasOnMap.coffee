@@ -25,7 +25,7 @@ class HG.AreasOnMap
       fillOpacity:  0.75
       lineColor:    "#BBBBBB"
       lineOpacity:  1
-      weight:       1.5         # stroke width
+      weight:       2.25         # stroke width
       labelOpacity: 1
       color:        "#BBBBBB"   # lineColor
       opacity:      1           # lineOpacity
@@ -142,8 +142,7 @@ class HG.AreasOnMap
     visible = no
     if area.getName()?
       width = area.getName().length * @_config.labelVisibilityFactor  # MAGIC number!
-      console.log area.getName(), width
-    #   visible = (max - min) > width or @_map.getZoom() is @_map.getMaxZoom()
+      visible = (max.x - min.x) > width or @_map.getZoom() is @_map.getMaxZoom()
 
   # ============================================================================
   _showAreaLabel: (area) =>
