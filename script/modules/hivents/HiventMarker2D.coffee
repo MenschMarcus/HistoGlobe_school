@@ -64,7 +64,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
         @_display.focus @getHiventHandle().getHivent()
     )
 
-    @getHiventHandle().onActive(@, (mousePos) =>
+    @getHiventHandle().onActive(@, (mousePos) =>     
       @_map.on "drag", @_updatePosition
     )
 
