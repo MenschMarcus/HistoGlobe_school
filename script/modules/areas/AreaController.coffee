@@ -75,7 +75,7 @@ class HG.AreaController
 
         if becameInactive
           # @notifyAll "onHide", @
-          @_remAreas.enqueue area.getId()
+          @_remAreas.enqueue area
           area.setInactive()
 
 
@@ -188,6 +188,11 @@ class HG.AreaController
     while not @_addAreas.isEmpty()
       addArea = @_addAreas.dequeue()
       @notifyAll "onShowArea", addArea
+
+    # remove all new areas (asynchronously)
+    while not @_remAreas.isEmpty()
+      remArea = @_remAreas.dequeue()
+      @notifyAll "onHideArea", remArea
 
     # # remove all old areas (asynchronously)
     # while not @_remAreas.isEmpty()

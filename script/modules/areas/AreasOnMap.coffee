@@ -19,15 +19,16 @@ class HG.AreasOnMap
 
     @_config = $.extend {}, defaultConfig, config
 
+    # HACK !!! TODO: make nice
     @_normalStyle =
-      fillColor:    "#992200"
+      fillColor:    "#FCFCFC"
       fillOpacity:  0.75
-      lineColor:    "#992200"
+      lineColor:    "#BBBBBB"
       lineOpacity:  1
-      lineWidth:    1
+      weight:       1.5         # stroke width
       labelOpacity: 1
-      color:        "#992200"   # copy of lineColor
-      opacity:      1           # copy of lineOpacity
+      color:        "#BBBBBB"   # lineColor
+      opacity:      1           # lineOpacity
 
 
   # ============================================================================
@@ -122,7 +123,7 @@ class HG.AreasOnMap
       area.myLeafletLayer.off "mouseout", @_onUnHover
       area.myLeafletLayer.off "click", @_onClick
 
-      area.removeListener "onStyleChange", @
+      # area.removeListener "onStyleChange", @
 
       @_hideAreaLabel area
 
@@ -138,12 +139,11 @@ class HG.AreasOnMap
     min = @_map.project minPt
     max = @_map.project maxPt
 
-
-    visible = false
+    visible = no
     if area.getName()?
       width = area.getName().length * @_config.labelVisibilityFactor  # MAGIC number!
-
-      visible = (max - min) > width or @_map.getZoom() is @_map.getMaxZoom()
+      console.log area.getName(), width
+    #   visible = (max - min) > width or @_map.getZoom() is @_map.getMaxZoom()
 
   # ============================================================================
   _showAreaLabel: (area) =>
