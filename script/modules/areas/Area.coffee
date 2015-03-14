@@ -27,7 +27,7 @@ class HG.Area
   getName: ->         @_name
   getLabelPos: ->     @_labelPos
   getStartDate: ->    @_startDate
-  getendDate: ->      @_endDate
+  getEndDate: ->      @_endDate
   getGeometry: ->     @_geometry
   getType: ->         @_type
   isActive: ->        @_active

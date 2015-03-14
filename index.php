@@ -55,6 +55,7 @@
     <script type="text/javascript" src="script/third-party/idangerous.swiper.min.js"></script>
     <script type="text/javascript" src="script/third-party/idangerous.swiper.scrollbar.min.js"></script>
 
+    <script type="text/javascript" src="script/third-party/Queue.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.label.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.markercluster.js"></script>
@@ -65,6 +66,7 @@
     <script type="text/javascript" src="script/third-party/TessellateModifier.js"></script>
 
     <script type="text/javascript" src="script/third-party/BrowserDetect.js"></script>
+
 
     <script src="script/third-party/select2.min.js"></script>
 
