@@ -67,8 +67,7 @@
 
     <script type="text/javascript" src="script/third-party/BrowserDetect.js"></script>
 
-
-    <script src="script/third-party/select2.min.js"></script>
+    <script type="text/javascript" src="script/third-party/select2.min.js"></script>
 
     <?php // histoglobe javascript ?>
     <?php if ($debug_mode) {?>
