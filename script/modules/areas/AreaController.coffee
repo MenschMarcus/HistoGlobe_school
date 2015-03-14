@@ -15,20 +15,26 @@ class HG.AreaController
     @addCallback "onShowArea"
     @addCallback "onHideArea"
 
-    @_areas = []
     @_timeline = null
     @_now = null
-
-    @_categoryFilter = null
-    @_currentCategoryFilter = null # [category_a, category_b, ...]
 
     defaultConfig =
       areaJSONPaths: undefined,
 
     conf = $.extend {}, defaultConfig, config
 
-    # init all areas
+    # area handling
+    @_areas = []        # main array of all HG areas (id, name, geometry, ...)
+    @_activeAreas = []  # backup: id of all areas that are currently active
+    @_addAreas = []     # id of areas that are new and to be put on the map/globe
+    @_remAreas = []     # id of areas that are old and to be removed on the map/globe
+    @_transAreas = []   # if of areas that transisted from one country to another (to be calculated)
+
+    # initially load areas from input files
     @_loadAreasFromJSON conf
+
+    # has time ever changed?
+    @_hasTimeChanged = no
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -36,60 +42,53 @@ class HG.AreaController
     hgInstance.areaController = @
 
     @_timeline = hgInstance.timeline
-    @_areaStyler = hgInstance.areaStyler
     @_now = @_timeline.getNowDate()
 
     # main activity: what happens if now date changes?
     @_timeline.onNowChanged @, (date) ->
+
+      # comparison by dates
       oldDate = @_now
       newDate = date
 
-      oldAreas = @getActiveAreas()   # old countries of last time point
-      newAreas = [] # new countries of current time point
-
-      console.log oldAreas
-
-      # problem: active state of areas
-
-      addAreas = []
-      remAreas = []
-
       for area in @_areas
 
-        # active status
+        # comparison by active state
         wasActive = area.isActive()
-        # console.log wasActive
+        isActive = no
+        console.log @_now
+        if @_now >= area.getStartDate() and @_now < area.getEndDate()
+          isActive = yes
 
-        area.setDate newDate
+        # change? -> became active/inactive
+        becameActive    = isActive and not wasActive
+        becameInactive  = wasActive and not isActive
 
-      @_now = date
+        if becameActive
+          @notifyAll "onShow", @
+          area.setActive()
+
+        if becameInactive
+          @notifyAll "onHide", @
+          area.setInactive()
+
+
+      # update now date
+      @_now = newDate
+      # time has changed once -> never reset to "no"
+      @_hasTimeChanged = yes
 
     # category handling
-    hgInstance.categoryFilter?.onFilterChanged @,(categoryFilter) =>
-      @_currentCategoryFilter = categoryFilter
-      @_filterActiveAreas()
+    # hgInstance.categoryFilter?.onFilterChanged @,(categoryFilter) =>
+    #   @_currentCategoryFilter = categoryFilter
+    #   @_filterActiveAreas()
 
-    @_categoryFilter = hgInstance.categoryFilter if hgInstance.categoryFilter
+    # @_categoryFilter = hgInstance.categoryFilter if hgInstance.categoryFilter
 
-
-  # ============================================================================
-  getAllAreas:()->   @_areas
 
   # ============================================================================
-  getActiveAreas:()->
-    newArray = []
-    for a in @_areas
-      if a._active
-        newArray.push a
-    newArray
-
-  # # ============================================================================
-  # filterArea:()->
-  #   for category in area.getCategories() #TODO
-  #     if category in @_currentCategoryFilter
-  #       true
-  #   false
-
+  getAllAreas:()->    @_areas
+  getActiveAreas:()-> @_activeAreas
 
 
   ##############################################################################
@@ -109,51 +108,86 @@ class HG.AreaController
           executeAsync = (country) =>
             setTimeout () =>
 
-              # convert data to HG area
-              newArea = new HG.Area country, @_areaStyler
-              newArea.setDate @_now
+              ## id
+              # @_id       = country.properties.iso_a3
+              # old! iso_a3 not suitable for historic countries, because it is hard to always come up with three letters for a country
+              # => introduce a "country_id" in geojson, which is a 3 (current country) or 4 (historic country) letter country code
+              id = country.properties.country_id
+
+              ## geometry (polygons)
+              data = L.GeoJSON.geometryToLayer country
+              geometry = []
+              if country.geometry.type is "Polygon"
+                geometry.push data._latlngs
+              else if country.geometry.type is "MultiPolygon"
+                for id, layer of data._layers
+                  geometry.push layer._latlngs
+
+              ## label
+              name     = country.properties.name_de_shrt    # to be changed if other languages are desired
+              labelPos = country.properties.label_lat_lng
+
+              ## misc
+              # startDate = new Date country.properties.start_date, 0, 1    # 01.01. of start year
+              # endDate   = new Date country.properties.end_date-1, 11, 31  # 31.12. of year before
+              startDate = new Date country.properties.start_date.toString()
+              endDate   = new Date country.properties.end_date.toString()
+              type      = 'country'
+              active    = false
+
+              # create HG area
+              newArea = new HG.Area id, geometry, startDate, endDate, type
+              newArea.setInactive()
+              if labelPos?
+                newArea.setLabelWithPos name, labelPos
+              else
+                newArea.setLabel name
 
               # attach event handlers to area
-              newArea.onShow @, (area) =>
-                @notifyAll "onShowArea", area
-                area.isVisible = true
+              # newArea.onShow @, (area) =>
+              #   @notifyAll "onShowArea", area
+              #   area.isVisible = true
 
-              newArea.onHide @, (area) =>
-                @notifyAll "onHideArea", area
-                area.isVisible = false
+              # newArea.onHide @, (area) =>
+              #   @notifyAll "onHideArea", area
+              #   area.isVisible = false
 
+              # fill areas array
               @_areas.push newArea
 
               # counter handling
               numCountriesToLoad--
-              if numCountriesToLoad is 0
-                @_currentCategoryFilter = @_categoryFilter.getCurrentFilter()
-                @_filterActiveAreas()
+              # if numCountriesToLoad is 0
+                # initially put areas on the map / globe
+                # TODO
+
+                # @_currentCategoryFilter = @_categoryFilter.getCurrentFilter()
+                # @_filterActiveAreas()
 
             , 0
 
           executeAsync country
 
   # ============================================================================
-  _filterActiveAreas:()->
+  # _filterActiveAreas:()->
 
     #console.log "filter areas",@_currentCategoryFilter
 
-    activeAreas = @getActiveAreas()
-    for area in activeAreas
-      active = true
-      if area.getCategories()?
-        for category in area.getCategories()
-          unless category in @_currentCategoryFilter
-            active = false
-          else
-            active = true
-            break
+    # activeAreas = @getActiveAreas()
+    # for area in activeAreas
+    #   active = true
+    #   if area.getCategories()?
+    #     for category in area.getCategories()
+    #       unless category in @_currentCategoryFilter
+    #         active = false
+    #       else
+    #         active = true
+    #         break
 
-      if active
-        @notifyAll "onShowArea", area if not area.isVisible
-        area.isVisible = true
-        area.setDate @_now
-      else
-        @notifyAll "onHideArea", area
-        area.isVisible = false
+    #   if active
+    #     @notifyAll "onShowArea", area if not area.isVisible
+    #     area.isVisible = true
+    #     area.setDate @_now
+    #   else
+    #     @notifyAll "onHideArea", area
+    #     area.isVisible = false
