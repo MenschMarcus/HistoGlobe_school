@@ -11,9 +11,14 @@ class HG.AreasOnMap
     @_map = null
     @_areaController = null
 
+    # areaColorMapping
+    # map: type -> color
+    # -> in config
+
     @_visibleAreas = []
 
     defaultConfig =
+      areaNormalColor: "#FCFCFC"
       areaHighlightColor: "#fff",
       labelVisibilityFactor: 5
 
@@ -21,7 +26,7 @@ class HG.AreasOnMap
 
     # HACK !!! TODO: make nice
     @_normalStyle =
-      fillColor:    "#FCFCFC"
+      fillColor:    @_config.areaNormalColor
       fillOpacity:  0.75
       lineColor:    "#BBBBBB"
       lineOpacity:  1
@@ -62,7 +67,6 @@ class HG.AreasOnMap
     area.myLeafletLayer = null
 
     options = @_normalStyle
-    options.pointerEvents = "none"  # prevents label to appear
 
     area.myLeafletLayer = L.multiPolygon area.getGeometry(), options
 
@@ -72,8 +76,7 @@ class HG.AreasOnMap
 
     # area.onStyleChange @, @_onStyleChange
 
-    # area.myLeafletLayer.addTo @_map   # why is this commented out?
-    area.myLeafletLayer.bindLabel(area.getName()).addTo @_map
+    area.myLeafletLayer.addTo @_map   # finally puts are on the map
 
     area.myLeafletLayer.hgArea = area
 
@@ -184,7 +187,8 @@ class HG.AreasOnMap
 
   # ============================================================================
   _onUnHover: (event) =>
-    @_animate event.target, {"fill": "#{event.target.hgArea.getNormalStyle().fillColor}"}, 150
+    @_animate event.target, {"fill": "#{@_config.areaNormalColor}"}, 150
+    # @_animate event.target, {"fill": "#{event.target.hgArea.getNormalStyle().fillColor}"}, 150
 
   # ============================================================================
   _onClick: (event) =>

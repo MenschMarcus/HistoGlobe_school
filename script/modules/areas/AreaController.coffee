@@ -46,46 +46,7 @@ class HG.AreaController
 
     # main activity: what happens if now date changes?
     @_timeline.onNowChanged @, (date) ->
-
-      # # comparison by dates
-      oldDate = @_now
-      newDate = date
-
-      for area in @_areas
-
-        startDate = area.getStartDate()
-        endDate = area.getEndDate()
-
-        # comparison by active state
-        wasActive = area.isActive()
-        isActive = no
-        if newDate >= startDate and newDate < endDate
-          isActive = yes
-
-        # change? -> became active/inactive
-        becameActive    = isActive and not wasActive
-        becameInactive  = wasActive and not isActive
-
-        # console.log area.getId(), isActive, wasActive, becameActive, becameInactive
-
-        if becameActive
-          # @notifyAll "onShow", @
-          @_addAreas.enqueue area
-          area.setActive()
-
-        if becameInactive
-          # @notifyAll "onHide", @
-          @_remAreas.enqueue area
-          area.setInactive()
-
-
-      # reset now Date
-      @_now = newDate
-
-      # time has changed once -> never reset to "no"
-      @_hasTimeChanged = yes
-
-      @_updateAreas()
+      @_filterActiveAreas date
 
     # category handling
     # hgInstance.categoryFilter?.onFilterChanged @,(categoryFilter) =>
@@ -166,12 +127,9 @@ class HG.AreaController
 
               # counter handling
               numCountriesToLoad--
-              # if numCountriesToLoad is 0
+              if numCountriesToLoad is 0
                 # initially put areas on the map / globe
-                # TODO
-
-                # @_currentCategoryFilter = @_categoryFilter.getCurrentFilter()
-                # @_filterActiveAreas()
+                @_filterActiveAreas @_timeline.getNowDate()
 
             , 0
 
@@ -200,25 +158,41 @@ class HG.AreaController
 
 
   # ============================================================================
-  # _filterActiveAreas:()->
+  _filterActiveAreas:(date)->
 
-    #console.log "filter areas",@_currentCategoryFilter
+    # comparison by dates
+    oldDate = @_now
+    newDate = date
 
-    # activeAreas = @getActiveAreas()
-    # for area in activeAreas
-    #   active = true
-    #   if area.getCategories()?
-    #     for category in area.getCategories()
-    #       unless category in @_currentCategoryFilter
-    #         active = false
-    #       else
-    #         active = true
-    #         break
+    for area in @_areas
 
-    #   if active
-    #     @notifyAll "onShowArea", area if not area.isVisible
-    #     area.isVisible = true
-    #     area.setDate @_now
-    #   else
-    #     @notifyAll "onHideArea", area
-    #     area.isVisible = false
+      # comparison by active state
+      wasActive = area.isActive()
+      isActive = no
+      if newDate >= area.getStartDate() and newDate < area.getEndDate()
+        isActive = yes
+
+      # change? -> became active/inactive
+      becameActive    = isActive and not wasActive
+      becameInactive  = wasActive and not isActive
+
+      # console.log area.getId(), isActive, wasActive, becameActive, becameInactive
+
+      if becameActive
+        # @notifyAll "onShow", @
+        @_addAreas.enqueue area
+        area.setActive()
+
+      if becameInactive
+        # @notifyAll "onHide", @
+        @_remAreas.enqueue area
+        area.setInactive()
+
+
+    # reset now Date
+    @_now = newDate
+
+    # time has changed once -> never reset to "no"
+    @_hasTimeChanged = yes
+
+    @_updateAreas()

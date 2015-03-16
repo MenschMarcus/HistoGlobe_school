@@ -290,7 +290,8 @@
 
   "AreasOnMap" :
   {
-    "areaHighlightColor" : "#d4c900",
+    "areaNormalColor" : "#FCFCFC",
+    "areaHighlightColor" : "#EDEAAB",
     "labelVisibilityFactor" : 8
   }
 
