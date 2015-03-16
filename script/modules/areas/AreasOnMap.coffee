@@ -30,7 +30,7 @@ class HG.AreasOnMap
       fillOpacity:  0.75
       lineColor:    "#BBBBBB"
       lineOpacity:  1
-      weight:       2.25         # stroke width
+      weight:       1.8         # stroke width
       labelOpacity: 1
       color:        "#BBBBBB"   # lineColor
       opacity:      1           # lineOpacity
