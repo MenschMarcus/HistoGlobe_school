@@ -7,7 +7,7 @@ class HG.Area
   ##############################################################################
 
   # ============================================================================
-  constructor: (id, name, geometry, startDate, endDate, type) ->
+  constructor: (id, geometry, startDate, endDate, type) ->
 
     # HG.mixin @, HG.CallbackContainer
     # HG.CallbackContainer.call @
@@ -17,7 +17,6 @@ class HG.Area
 
     # init necessary area data
     @_id        = id
-    @_name      = name
     @_geometry  = geometry
     @_startDate = startDate
     @_endDate   = endDate
@@ -36,8 +35,16 @@ class HG.Area
   getType: ->         @_type
   isActive: ->        @_active
 
+
   # ============================================================================
-  setLabelPos: (labelPos) ->
+  # set the label of the area only with a name given
+  setLabel: (name) ->
+    @_name = name
+
+  # ============================================================================
+  # set label of the area with name and position
+  setLabelWithPos: (name, labelPos) ->
+    @_name = name
     @_labelPos = labelPos
 
   # ============================================================================
