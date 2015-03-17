@@ -68,14 +68,18 @@ class HG.AreaController
           # add all new areas
           for area in areaChange[1]
             @notifyAll "onShowArea", area
+            area.setActive()
 
           # remove all old areas
           for area in areaChange[2]
             @notifyAll "onHideArea", area
+            area.setInactive()
 
           # fade-out transition area
-          if areaChange[3]
-            @notifyAll "onHideArea", areaChange[3], yes
+          transArea = areaChange[3]
+          if transArea
+            @notifyAll "onHideArea", transArea, yes
+            transArea.setInactive()
 
       # ++ctr
       # if ctr == 5
@@ -194,6 +198,7 @@ class HG.AreaController
       transArea = null
       if transArea
         @notifyAll "onShowArea", transArea, yes
+        transArea.setActive()
 
       # if there is no transition area, the adding and deletion of countries can happen right away
       ready = no
