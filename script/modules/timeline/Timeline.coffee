@@ -31,6 +31,7 @@ class HG.Timeline
 
     @_activeTopic = null
     @_dragged = false
+    @topicsloaded = false
 
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
@@ -38,6 +39,7 @@ class HG.Timeline
     @addCallback "onNowChanged"
     @addCallback "onIntervalChanged"
     @addCallback "onZoom"
+    @addCallback "OnTopicsLoaded"
 
     defaultConfig =
       timelineZoom: 1
@@ -45,6 +47,11 @@ class HG.Timeline
       maxYear: 2000
       nowYear: 1925
       topics: []
+      dsvPaths: []
+      rootDirs: []
+      ignoredLines : []
+      indexMappings: []
+      delimiter: ","
 
     @_config = $.extend {}, defaultConfig, config
 
@@ -84,14 +91,14 @@ class HG.Timeline
 
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
-    # prepare topic dates
-    for topic in @_config.topics
-      topic.startDate = @stringToDate(topic.startDate)
-      topic.endDate = @stringToDate(topic.endDate)
-      if topic.subtopics?
-        for subtopic in topic.subtopics
-          subtopic.startDate = @stringToDate(subtopic.startDate)
-          subtopic.endDate = @stringToDate(subtopic.endDate)
+    # # prepare topic dates
+    # for topic in @_config.topics
+    #   topic.startDate = @stringToDate(topic.startDate)
+    #   topic.endDate = @stringToDate(topic.endDate)
+    #   if topic.subtopics?
+    #     for subtopic in topic.subtopics
+    #       subtopic.startDate = @stringToDate(subtopic.startDate)
+    #       subtopic.endDate = @stringToDate(subtopic.endDate)
 
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
@@ -188,10 +195,71 @@ class HG.Timeline
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
     # Start the timeline here !!!
-    @_updateLayout()
-    @_updateDateMarkers()
-    @_updateTopics()
-    @_updateNowDate()
+    @_loadTopicsFromDSV( =>      
+      @_updateLayout()
+      @_updateDateMarkers()
+      @_updateTopics()
+      @_updateNowDate()
+      categoryFilter = hgInstance.categoryFilter.getCurrentFilter()
+      for topic in @_config.topics
+        if categoryFilter[0] is topic.id
+          @_switchTopic(topic, false)
+          break
+      @notifyAll "OnTopicsLoaded"
+      @topicsloaded = true
+    )
+
+  ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
+
+  _loadTopicsFromDSV: (callback = undefined) ->
+
+    if @_config.dsvPaths?
+      parse_config =
+        delimiter: @_config.delimiter
+        header: false
+
+      pathIndex = 0
+      for dsvPath in @_config.dsvPaths
+        $.get dsvPath,
+          (data) =>
+            parse_result = $.parse data, parse_config
+            for result, i in parse_result.results
+              unless i+1 in @_config.ignoredLines
+                
+                id = result[@_config.indexMappings[pathIndex].id]
+                start = @stringToDate result[@_config.indexMappings[pathIndex].start]
+                end = @stringToDate result[@_config.indexMappings[pathIndex].end]
+                topic = result[@_config.indexMappings[pathIndex].topic]
+                subtopic_of = result[@_config.indexMappings[pathIndex].subtopic_of]
+                token = result[@_config.indexMappings[pathIndex].token]
+                row = result[@_config.indexMappings[pathIndex].row]
+
+                if subtopic_of is "" # head topic
+                  tmp_topic =
+                    startDate: start
+                    endDate: end
+                    name: topic
+                    id: id
+                    token: token
+                    row: parseInt(row)
+                    subtopics: []
+                  @_config.topics.push tmp_topic
+
+                else # is subtopic                  
+                  for headtopic in @_config.topics
+                    if headtopic.id == subtopic_of
+                      tmp_subtopic =
+                        startDate: start
+                        endDate: end
+                        name: topic
+                        id: id
+                        token: token
+                      headtopic.subtopics.push tmp_subtopic
+ 
+            if pathIndex == @_config.dsvPaths.length - 1
+              callback() if callback?
+
+            else pathIndex++
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
@@ -426,8 +494,6 @@ class HG.Timeline
         topic.div.style.display = "none"
         @getCanvas().appendChild topic.div
 
-
-
         # add subtopics
         if topic.subtopics?
           for subtopic in topic.subtopics
@@ -443,6 +509,10 @@ class HG.Timeline
         $(topic.div).fadeIn(200)
 
         inner_el = document.getElementById("topic_inner_" + topic.id)
+        if inner_el.offsetWidth > (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate) - 25) and topic.token != ""
+          inner_el.innerHTML = topic.token
+        else
+          inner_el.innerHTML = topic.name
         inner_el.style.maxWidth = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate) - 25) + "px"
         margin = ((@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) / 2) - inner_el.offsetWidth / 2
         if (@dateToPosition(topic.startDate) + margin + inner_el.offsetWidth) > @dateToPosition @maxVisibleDate()
@@ -456,6 +526,10 @@ class HG.Timeline
         topic.div.style.width = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) + "px"
 
         inner_el = document.getElementById("topic_inner_" + topic.id)
+        if inner_el.offsetWidth > (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate) - 25) and topic.token != ""
+          inner_el.innerHTML = topic.token
+        else
+          inner_el.innerHTML = topic.name
         inner_el.style.maxWidth = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate) - 25) + "px"
         margin = ((@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) / 2) - inner_el.offsetWidth / 2
         if (@dateToPosition(topic.startDate) + margin + inner_el.offsetWidth) > @dateToPosition @maxVisibleDate()

@@ -11,10 +11,11 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
   ##############################################################################
 
   # ============================================================================
-  constructor: (timeline, hiventHandle, parent, posX, rowPosition=0) ->
+  constructor: (timeline, hiventHandle, parent, posX, rowPosition=0, id) ->
     HG.HiventMarker.call @, hiventHandle, parent
 
     @_timeline = timeline
+    @_id = id
 
     time = hiventHandle.getHivent().startDate.getTime()
 
@@ -41,7 +42,8 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
     @_div.setAttribute "class", @_classDefault 
     @_div.setAttribute "width", 50+"px";
     @_div.style.left = @_position.x + "px"
-    @_div.style.bottom = @_position.y+23 + "px"  # attention position from bottom!
+    @_div.style.bottom = @_position.y + "px"  # attention position from bottom!
+    @_div.style.display = "none" if !@_timeline.topicsloaded
 
     # new
     '''if hiventHandle.getHivent().startDate.getTime() isnt hiventHandle.getHivent().endDate.getTime()
@@ -80,6 +82,12 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
 
     @getHiventHandle().onDestruction @, @_destroy
     @getHiventHandle().onInvisible @, @_destroy
+
+    @_timeline.OnTopicsLoaded @, () =>
+      rowPosition = @_timeline.getRowFromTopicId(@_id)
+      @_position.y = yRow[rowPosition + ""]
+      @_div.style.bottom = @_position.y + "px"
+      $(@_div).fadeIn()
 
 
     # HACK: create labels
