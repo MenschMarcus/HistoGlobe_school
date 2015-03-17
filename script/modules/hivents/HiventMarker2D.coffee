@@ -124,6 +124,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
   _onClick: (e) =>
     # default behavior
     @getHiventHandle().toggleActive @, @getDisplayPosition()
+    
     # marker: center horizontally and ~ 2/3 vertically; hivent box above marker
     # @getHiventHandle().focusAll @, @_position
     # @getHiventHandle().activeAll @, @_position
