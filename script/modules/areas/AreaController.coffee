@@ -56,7 +56,7 @@ class HG.AreaController
     # mainLoop = setInterval (mainLoop, ctr) =>
 
 
-    ctr = 0
+    # ctr = 0
     mainLoop = setInterval () =>    # => is important to be able to access global variables (compared to ->)
 
       # check if area change can happen
@@ -77,10 +77,10 @@ class HG.AreaController
           if areaChange[3]
             @notifyAll "onHideArea", areaChange[3], yes
 
-      ++ctr
-      if ctr == 5
-        console.log "DONE!"
-        clearInterval mainLoop
+      # ++ctr
+      # if ctr == 5
+      #   console.log "DONE!"
+      #   clearInterval mainLoop
     , 50
 
 
