@@ -59,6 +59,7 @@
     <script type="text/javascript" src="script/third-party/leaflet.label.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.markercluster.js"></script>
     <script type="text/javascript" src="script/third-party/Queue.js"></script>
+    <script type="text/javascript" src="script/third-party/clipper.js"></script>
 
     <script type="text/javascript" src="script/third-party/bootstrap.min.js"></script>
 

@@ -141,7 +141,6 @@ class HG.AreaController
 
   _updateAreas:()->
     # TODO assemble and show transition area
-
     # add all new areas (asynchronously)
     while not @_addAreas.isEmpty()
       addArea = @_addAreas.dequeue()
@@ -153,8 +152,8 @@ class HG.AreaController
       @notifyAll "onHideArea", remArea
 
     # # remove all old areas (asynchronously)
-    # while not @_remAreas.isEmpty()
-    #   remId = @_remAreas.dequeue()
+    while not @_remAreas.isEmpty()
+      remId = @_remAreas.dequeue()
 
 
   # ============================================================================
@@ -179,13 +178,13 @@ class HG.AreaController
       # console.log area.getId(), isActive, wasActive, becameActive, becameInactive
 
       if becameActive
-        # @notifyAll "onShow", @
         @_addAreas.enqueue area
+        @_transAreas.enqueue ['new', area.getGeometry()]
         area.setActive()
 
       if becameInactive
-        # @notifyAll "onHide", @
         @_remAreas.enqueue area
+        @_transAreas.enqueue ['old', area.getGeometry()]
         area.setInactive()
 
 
@@ -196,3 +195,7 @@ class HG.AreaController
     @_hasTimeChanged = yes
 
     @_updateAreas()
+
+  # ============================================================================
+  _jsonToClipperPath: (geometry) ->
+    console.log geometry
