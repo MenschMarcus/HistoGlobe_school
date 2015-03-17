@@ -30,7 +30,7 @@ class HG.AreasOnMap
       fillOpacity:  0.75
       lineColor:    "#BBBBBB"
       lineOpacity:  1
-      weight:       1.8         # stroke width
+      weight:       2.25         # stroke width
       labelOpacity: 1
       color:        "#BBBBBB"   # lineColor
       opacity:      1           # lineOpacity
@@ -59,7 +59,7 @@ class HG.AreasOnMap
   ##############################################################################
 
   # ============================================================================
-  _showAreaLayer: (area, isAnimated) ->
+  _showAreaLayer: (area) ->
 
     # add area
     @_visibleAreas.push area
@@ -80,46 +80,44 @@ class HG.AreasOnMap
 
     area.myLeafletLayer.hgArea = area
 
-    # add label if given
-    if area.getName()
-      area.myLeafletLabel = new L.Label();
-      area.myLeafletLabel.setContent area.getName()
-      area.myLeafletLabel.setLatLng area.getLabelPos()
+    # add label
+    area.myLeafletLabel = new L.Label();
+    area.myLeafletLabel.setContent area.getName()
+    area.myLeafletLabel.setLatLng area.getLabelPos()
 
-      area.myLeafletLabel.options.className = "invisible"   # makes label invisible onLoad
+    area.myLeafletLabel.options.className = "invisible"   # makes label invisible onLoad
 
-      @_map.showLabel area.myLeafletLabel
+    @_map.showLabel area.myLeafletLabel
 
-      # too lazy to change .getLabelDir(), so changed back to original version
-      # ---- original version ----
-      area.myLeafletLabel.options.offset = [
-        -area.myLeafletLabel._container.offsetWidth/2,
-        -area.myLeafletLabel._container.offsetHeight/2
-      ]
+    # too lazy to change .getLabelDir(), so changed back to original version
+    # ---- original version ----
+    area.myLeafletLabel.options.offset = [
+      -area.myLeafletLabel._container.offsetWidth/2,
+      -area.myLeafletLabel._container.offsetHeight/2
+    ]
 
-      area.myLeafletLabel._updatePosition()
+    area.myLeafletLabel._updatePosition()
 
-      # ---- new version ----
-      # if area.getLabelDir() is "center"
-      #   area.myLeafletLabel.options.offset = [
-      #     -area.myLeafletLabel._container.offsetWidth/2,
-      #     -area.myLeafletLabel._container.offsetHeight/2
-      #   ]
-      #   area.myLeafletLabel._updatePosition()
-      # else if area.getLabelDir() is "right"
-      #   area.myLeafletLabel.options.offset = [
-      #     -area.myLeafletLabel._container.offsetWidth,
-      #     -area.myLeafletLabel._container.offsetHeight
-      #   ]
-        # area.myLeafletLabel._updatePosition()
+    # ---- new version ----
+    # if area.getLabelDir() is "center"
+    #   area.myLeafletLabel.options.offset = [
+    #     -area.myLeafletLabel._container.offsetWidth/2,
+    #     -area.myLeafletLabel._container.offsetHeight/2
+    #   ]
+    #   area.myLeafletLabel._updatePosition()
+    # else if area.getLabelDir() is "right"
+    #   area.myLeafletLabel.options.offset = [
+    #     -area.myLeafletLabel._container.offsetWidth,
+    #     -area.myLeafletLabel._container.offsetHeight
+    #   ]
+      # area.myLeafletLabel._updatePosition()
 
-      area.myLeafletLabelIsVisible = false
-
-      if @_isLabelVisible area          # makes label visible only after determined if actually active
-        @_showAreaLabel area
+    area.myLeafletLabelIsVisible = false
+    if @_isLabelVisible area          # makes label visible only after determined if actually active
+      @_showAreaLabel area
 
   # ============================================================================
-  _hideAreaLayer: (area, isAnimated) ->
+  _hideAreaLayer: (area) ->
     if area.myLeafletLayer?
 
       @_visibleAreas.splice(@_visibleAreas.indexOf(area), 1)
@@ -199,11 +197,11 @@ class HG.AreasOnMap
   # ============================================================================
   _onZoomEnd: (event) =>
     for area in @_visibleAreas
-      shouldBeVisible = @_isLabelVisible area
+      shoulBeVisible = @_isLabelVisible area
 
-      if shouldBeVisible and not area.myLeafletLabelIsVisible
+      if shoulBeVisible and not area.myLeafletLabelIsVisible
         @_showAreaLabel area
-      else if not shouldBeVisible and area.myLeafletLabelIsVisible
+      else if not shoulBeVisible and area.myLeafletLabelIsVisible
         @_hideAreaLabel area
 
   ##############################################################################
