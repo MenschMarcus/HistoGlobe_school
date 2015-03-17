@@ -75,7 +75,7 @@ class HG.HistoGlobe
         if moduleName isnt "HistoGlobe"
           load_module moduleName, moduleConfig
 
-
+        window.hgConf=config
       @notifyAll "onAllModulesLoaded"
 
       @_updateLayout()

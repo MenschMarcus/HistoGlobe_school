@@ -18,8 +18,7 @@ class HG.HiventsOnMap
 
   # ============================================================================
   hgInit: (hgInstance) ->
-    hgInstance.hiventsOnMap = @
-
+    hgInstance.hiventsOnMap = @    
     # init AB tests
     @_ab = hgInstance.abTest.config
 
