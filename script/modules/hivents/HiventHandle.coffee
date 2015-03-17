@@ -60,6 +60,8 @@ class HG.HiventHandle
   active: (obj, mousePixelPosition) ->
     @_activated = true
     ACTIVE_HIVENTS.push @
+    if @regionMarker?
+      @regionMarker.makeVisible()
     @notify "onActive", obj, mousePixelPosition
 
   # ============================================================================
@@ -67,7 +69,8 @@ class HG.HiventHandle
     @_activated = false
     index = $.inArray(@, ACTIVE_HIVENTS)
     if index >= 0 then delete ACTIVE_HIVENTS[index]
-
+    if @regionMarker?
+      @regionMarker.makeInvisible()
     @notifyAll "onInActive", mousePixelPosition
 
   # ============================================================================
@@ -75,7 +78,8 @@ class HG.HiventHandle
     @_activated = false
     index = $.inArray(@, ACTIVE_HIVENTS)
     if index >= 0 then delete ACTIVE_HIVENTS[index]
-
+    if @regionMarker?
+      @regionMarker.makeInvisible()
     @notify "onInActive", obj, mousePixelPosition
 
   # ============================================================================

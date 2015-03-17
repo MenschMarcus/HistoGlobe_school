@@ -17,7 +17,8 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
     @_marker= L.polygon @hivent.region
     @_marker.options.stroke=false
     @_marker.addTo @_map
-
+    #set opacity to 0 as default, so it can be shown when hivent activates
+    @_marker.setStyle({fillOpacity:0})
     @_marker.myHiventMarkerRegion = @
     @_position = new L.Point @hivent.long[0],@hivent.lat[0]
     @_updatePosition()
@@ -35,15 +36,18 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
         @_display.focus @getHiventHandle().getHivent()
     )
 
-    @getHiventHandle().onActive(@, (mousePos) =>
+    @getHiventHandle().onActive(@, (mousePos) =>      
       @_map.on "drag", @_updatePosition
+      @makeVisible()
     )
 
     @getHiventHandle().onInActive(@, (mousePos) =>
       @_map.off "drag", @_updatePosition
+      @makeInvisible
     )
 
     @getHiventHandle().onLink(@, (mousePos) =>
+     
       #@_marker.setIcon icon_higlighted
     )
 
@@ -75,7 +79,11 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
     @pos = @_map.layerPointToContainerPoint(new L.Point @_position.x, @_position.y )
     return @pos
 
+  makeVisible:->    
+    @_marker.setStyle({fillOpacity:0.5})
 
+  makeInvisible:->
+    @_marker.setStyle({fillOpacity:0})
 
   highlight: ->
     @_marker.setStyle({fillColor: "#ff33ff"})
@@ -103,7 +111,7 @@ class HG.HiventMarkerRegion extends HG.HiventMarker
   _onClick: (e) =>
     @getHiventHandle().toggleActive @, @getDisplayPosition()
 
-  # ============================================================================
+  # ======================re======================================================
   _updatePosition: =>
     helperMarker=L.marker([@hivent.long[0],@hivent.lat[0]])
     @_position = @_map.latLngToLayerPoint helperMarker.getLatLng()

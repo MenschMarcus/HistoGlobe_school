@@ -55,6 +55,7 @@
     <script type="text/javascript" src="script/third-party/idangerous.swiper.min.js"></script>
     <script type="text/javascript" src="script/third-party/idangerous.swiper.scrollbar.min.js"></script>
 
+    <script type="text/javascript" src="script/third-party/Queue.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.label.js"></script>
     <script type="text/javascript" src="script/third-party/leaflet.markercluster.js"></script>
@@ -66,7 +67,7 @@
 
     <script type="text/javascript" src="script/third-party/BrowserDetect.js"></script>
 
-    <script src="script/third-party/select2.min.js"></script>
+    <script type="text/javascript" src="script/third-party/select2.min.js"></script>
 
     <?php // histoglobe javascript ?>
     <?php if ($debug_mode) {?>
@@ -90,11 +91,9 @@
     <script type="text/javascript" src="build/HiventMarkerTimeline.js"></script>
     <script type="text/javascript" src="build/HiventController.js"></script>
     <script type="text/javascript" src="build/Styler.js"></script>
-    <script type="text/javascript" src="build/TimeMapper.js"></script>
     <script type="text/javascript" src="build/ShapeController.js"></script>
     <script type="text/javascript" src="build/Area.js"></script>
     <script type="text/javascript" src="build/AreaController.js"></script>
-    <script type="text/javascript" src="build/AreaStyler.js"></script>
     <script type="text/javascript" src="build/AreasOnMap.js"></script>
     <script type="text/javascript" src="build/AreasOnGlobe.js"></script>
     <script type="text/javascript" src="build/Display.js"></script>
@@ -112,10 +111,8 @@
     <script type="text/javascript" src="build/TimeGalleryWidget.js"></script>
     <script type="text/javascript" src="build/PictureGalleryWidget.js"></script>
     <script type="text/javascript" src="build/VIPWidget.js"></script>
-    <script type="text/javascript" src="build/SingleVIPWidget.js"></script>
     <script type="text/javascript" src="build/LogoWidget.js"></script>
     <script type="text/javascript" src="build/PictureWidget.js"></script>
-    <script type="text/javascript" src="build/LegendWidget.js"></script>
     <script type="text/javascript" src="build/StatisticsWidget.js"></script>
     <script type="text/javascript" src="build/SearchBoxArea.js"></script>
     <script type="text/javascript" src="build/Logo.js"></script>

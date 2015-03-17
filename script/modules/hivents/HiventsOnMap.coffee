@@ -104,7 +104,7 @@ class HG.HiventsOnMap
             region = new HG.HiventMarkerRegion self, hgInstance.map, @_map
 
             @_hiventMarkers.push region
-            callback marker for callback in @_onMarkerAddedCallbacks
+            callback region for callback in @_onMarkerAddedCallbacks
             region.onDestruction @,() =>
                 index = $.inArray(region, @_hiventMarkers)
                 @_hiventMarkers.splice index, 1  if index >= 0
