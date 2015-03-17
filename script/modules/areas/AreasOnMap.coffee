@@ -11,12 +11,29 @@ class HG.AreasOnMap
     @_map = null
     @_areaController = null
 
+    # areaColorMapping
+    # map: type -> color
+    # -> in config
+
     @_visibleAreas = []
 
     defaultConfig =
-      areaHighlightColor: "#fff"
+      areaNormalColor: "#FCFCFC"
+      areaHighlightColor: "#fff",
+      labelVisibilityFactor: 5
 
     @_config = $.extend {}, defaultConfig, config
+
+    # HACK !!! TODO: make nice
+    @_normalStyle =
+      fillColor:    @_config.areaNormalColor
+      fillOpacity:  0.75
+      lineColor:    "#BBBBBB"
+      lineOpacity:  1
+      weight:       2.25         # stroke width
+      labelOpacity: 1
+      color:        "#BBBBBB"   # lineColor
+      opacity:      1           # lineOpacity
 
 
   # ============================================================================
@@ -49,29 +66,24 @@ class HG.AreasOnMap
 
     area.myLeafletLayer = null
 
-    options = area.getNormalStyle()
-    options.color = area.getNormalStyle().lineColor
-    options.opacity = 0       # bugfix: makes border invisible onLoad
-    # options.clickable = false
-    options.pointerEvents = "none"  # prevents label to appear
+    options = @_normalStyle
 
-    area.myLeafletLayer = L.multiPolygon(area.getData(), options)
+    area.myLeafletLayer = L.multiPolygon area.getGeometry(), options
 
     area.myLeafletLayer.on "mouseover", @_onHover     # TODO: why does hover not work?
     area.myLeafletLayer.on "mouseout", @_onUnHover
     area.myLeafletLayer.on "click", @_onClick
 
-    area.onStyleChange @, @_onStyleChange
+    # area.onStyleChange @, @_onStyleChange
 
-    # area.myLeafletLayer.addTo @_map   # why is this commented out?
-    area.myLeafletLayer.bindLabel(area.getLabel()).addTo @_map
+    area.myLeafletLayer.addTo @_map   # finally puts are on the map
 
     area.myLeafletLayer.hgArea = area
 
     # add label
     area.myLeafletLabel = new L.Label();
-    area.myLeafletLabel.setContent area.getLabel()
-    area.myLeafletLabel.setLatLng area.getLabelLatLng()
+    area.myLeafletLabel.setContent area.getName()
+    area.myLeafletLabel.setLatLng area.getLabelPos()
 
     area.myLeafletLabel.options.className = "invisible"   # makes label invisible onLoad
 
@@ -114,7 +126,7 @@ class HG.AreasOnMap
       area.myLeafletLayer.off "mouseout", @_onUnHover
       area.myLeafletLayer.off "click", @_onClick
 
-      area.removeListener "onStyleChange", @
+      # area.removeListener "onStyleChange", @
 
       @_hideAreaLabel area
 
@@ -123,13 +135,16 @@ class HG.AreasOnMap
 
   # ============================================================================
   _isLabelVisible: (area) ->
-    max = @_map.project area._maxLatLng
-    min = @_map.project area._minLatLng
+    bb = area.getBoundingBox()
+    minPt = [bb[0], bb[1]]
+    maxPt = [bb[2], bb[3]]
 
-    visible = false
-    if area.getLabel()?
-      width = area.getLabel().length * 6  # MAGIC number!
+    min = @_map.project minPt
+    max = @_map.project maxPt
 
+    visible = no
+    if area.getName()?
+      width = area.getName().length * @_config.labelVisibilityFactor  # MAGIC number!
       visible = (max.x - min.x) > width or @_map.getZoom() is @_map.getMaxZoom()
 
   # ============================================================================
@@ -172,7 +187,8 @@ class HG.AreasOnMap
 
   # ============================================================================
   _onUnHover: (event) =>
-    @_animate event.target, {"fill": "#{event.target.hgArea.getNormalStyle().fillColor}"}, 150
+    @_animate event.target, {"fill": "#{@_config.areaNormalColor}"}, 150
+    # @_animate event.target, {"fill": "#{event.target.hgArea.getNormalStyle().fillColor}"}, 150
 
   # ============================================================================
   _onClick: (event) =>
