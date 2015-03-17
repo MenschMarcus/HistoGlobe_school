@@ -59,7 +59,7 @@ class HG.AreasOnMap
   ##############################################################################
 
   # ============================================================================
-  _showAreaLayer: (area) ->
+  _showAreaLayer: (area, isAnimated) ->
 
     # add area
     @_visibleAreas.push area
@@ -119,7 +119,7 @@ class HG.AreasOnMap
         @_showAreaLabel area
 
   # ============================================================================
-  _hideAreaLayer: (area) ->
+  _hideAreaLayer: (area, isAnimated) ->
     if area.myLeafletLayer?
 
       @_visibleAreas.splice(@_visibleAreas.indexOf(area), 1)

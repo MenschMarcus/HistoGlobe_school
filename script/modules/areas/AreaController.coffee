@@ -14,6 +14,8 @@ class HG.AreaController
 
     @addCallback "onShowArea"
     @addCallback "onHideArea"
+    # @addCallback "onShowArea"
+    # @addCallback "onHideArea"
 
     @_timeline = null
     @_now = null
@@ -73,7 +75,7 @@ class HG.AreaController
 
           # fade-out transition area
           if areaChange[3]
-            @notifyAll "onHideArea", areaChange[3]
+            @notifyAll "onHideArea", areaChange[3], yes
 
       ++ctr
       if ctr == 5
@@ -191,7 +193,7 @@ class HG.AreaController
       transArea = new HG.Area "T1", null, transAreaGeo, null, null, "trans"
       transArea = null
       if transArea
-        @notifyAll "onShowArea", transArea
+        @notifyAll "onShowArea", transArea, yes
 
       # if there is no transition area, the adding and deletion of countries can happen right away
       ready = no
