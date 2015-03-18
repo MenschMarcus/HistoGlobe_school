@@ -10,13 +10,16 @@ class HG.HiventMarker2D extends HG.HiventMarker
   ##############################################################################
 
   # ============================================================================
-  constructor: (hiventHandle, lat, long, display, map, markerGroup, locationName) ->
+  constructor: (hiventHandle, lat, long, display, map, markerGroup, locationName, hgInstance) ->
 
     #Call Hivent Marker Constructor
     HG.HiventMarker.call @, hiventHandle, map.getPanes()["popupPane"]
     
     #List of Markers
     VISIBLE_MARKERS_2D.push @
+
+    @_hgInstance = hgInstance
+    @_mode = hgInstance.abTest.config.hiventMarkerMode
 
     @locationName = locationName
 
@@ -121,9 +124,9 @@ class HG.HiventMarker2D extends HG.HiventMarker
     @getHiventHandle().unLinkAll @_position
 
   # ============================================================================
-  _onClick: (e) =>
+  # _onClick: (e) =>
     # default behavior
-    @getHiventHandle().toggleActive @, @getDisplayPosition()
+    # @getHiventHandle().toggleActive @, @getDisplayPosition()
     
     # marker: center horizontally and ~ 2/3 vertically; hivent box above marker
     # @getHiventHandle().focusAll @, @_position
@@ -131,18 +134,17 @@ class HG.HiventMarker2D extends HG.HiventMarker
     # @_updatePosition()
 
   # AB Test ====================================================================
-  # _onClick: (e, config) =>
-  #   if config.hiventMarker2D is "A"
-  #     console.log "Test"
-  #     # default behavior
-  #     @getHiventHandle().toggleActive @, @getDisplayPosition()
+  _onClick: (e, config) =>
+    if @_mode is "A"
+      # default behavior
+      @getHiventHandle().toggleActive @, @getDisplayPosition()
 
-  #   if config.hiventMarker2D is "B"
-  #     # marker: center horizontally and ~ 2/3 vertically; hivent box above marker
-  #     @getHiventHandle().toggleActive @, @getDisplayPosition()
-  #     @getHiventHandle().focusAll @, @_position
-  #     @getHiventHandle().activeAll @, @_position
-  #     @_updatePosition()
+    if @_mode is "B"
+      # marker: center horizontally and ~ 2/3 vertically; hivent box above marker
+      @getHiventHandle().toggleActive @, @getDisplayPosition()
+      @getHiventHandle().focusAll @, @_position
+      @getHiventHandle().activeAll @, @_position
+      @_updatePosition()
 
   # ============================================================================
   _updatePosition: =>
