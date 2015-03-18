@@ -9,16 +9,32 @@
   right: 10px;
   width: 300px;
   box-shadow: 0 0 5px rgba(0,0,0,0.5);
-  overflow-y: auto;
-  overflow-x: hidden;
   font-size: 30pt * @widget_font_size_factor;
   border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
 
   .transition-property(left);
   .transition-duration(@sidebar_aimation_speed);
-    
+  
+  .hivent-list-headline {
+    font-family: @primary_font_face;
+    white-space: nowrap;
+    padding: 10px;
+    border-bottom: solid 1px #ddd;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: #2f3b47;
+    color:#fff;
+    position: relative;
+    width: 300px;
+    height: 53px;
+    font-size: 15px;
+    padding: 15px;
+  }
+
   .hivent-list {
     position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
     bottom: 0;
     font-family: Arial, Helvetica, sans-serif;
     font-size:15px;
@@ -29,23 +45,10 @@
     transition: 1s;
     -webkit-transition: 1s;
 
-    #hivent-list-headline {
-      font-family: @primary_font_face;
-      white-space: nowrap;
-      padding: 10px;
-      border-bottom: solid 1px #ddd;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      background: #2f3b47;
-      color:#fff;
-      position: fixed;
-      width: 300px;
-    }
-
     ul {
       list-style: none;
       padding: 0px;
-      padding-top: 42px;
+      
       margin: 0px;
 
       a {
