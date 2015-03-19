@@ -67,11 +67,13 @@ class HG.AreaController
 
           # add all new areas
           for area in areaChange[1]
+            # console.log "add ", area.getId()
             @notifyAll "onShowArea", area
             area.setActive()
 
           # remove all old areas
           for area in areaChange[2]
+            # console.log "rem ", area.getId()
             @notifyAll "onHideArea", area
             area.setInactive()
 
@@ -181,11 +183,13 @@ class HG.AreaController
       # if area became active
       if isActive and not wasActive
         newAreas.push area
+        area.setActive()
         areasChanged = yes
 
       # if area became inactive
       if wasActive and not isActive
         oldAreas.push area
+        area.setInactive()
         areasChanged = yes
 
     ## update the changing areas
