@@ -182,7 +182,8 @@
     ]
   },
 
-  "ABTest" : {
+  "ABTest" :
+  {
     "hiventsOnMap" :          "A",
     "hiventsOnTl" :           "A",
     "hiventsOnTlLabels" :     "A",
@@ -192,7 +193,8 @@
     "epochNames-moreSpace" :  "A",
     "epochNames-shortNames" : "A",
     "searchFilter" :          "A",
-    "regionLabels" :          "A"
+    "regionLabels" :          "A",
+    "hiventMarkerMode" :      "A"
   },
 
   "BrowserDetector": {},
@@ -203,11 +205,13 @@
 
   "FullscreenButton": {},
 
-  "CategoryFilter": {
+  "CategoryFilter":
+  {
     "initial" : "noCategory"
   },
 
-  "MultimediaController": {
+  "MultimediaController":
+  {
     "dsvPaths": ["config/school/data/media.csv"],
     "rootDirs": ["config/school/data/media"],
     "ignoredLines" : [1,2,3],
@@ -257,12 +261,14 @@
     "numHiventsInView" : 9
   },
 
-  "CategoryIconMapping" : {
-      "default" : {
-        "default" : "config/school/icons/marker_hivent-map.svg",
-        "highlighted" : "config/school/icons/marker_hivent-map-active.svg"
-      }
-    },
+  "CategoryIconMapping" :
+  {
+    "default" :
+    {
+      "default" : "config/school/icons/marker_hivent-map.svg",
+      "highlighted" : "config/school/icons/marker_hivent-map-active.svg"
+    }
+  },
 
   "HiventsOnMap" : {},
   "HiventsOnTimeline" : {},
@@ -278,55 +284,16 @@
   "HiventList": {},
   "HiventListController": {},
 
-  "AreaStyler" :
-  {
-    "stylers" :
-    [
-      {
-        "mapping": "config/school/data/countries_mapping.json",
-        "domain": [0, 1],
-        "fillColor": {
-          "range": ["#fefefe", "#fefefe"],
-          "fallback": "#fefefe",
-          "compOp": "replace"
-        },
-        "fillOpacity": {
-          "range": [0, 1],
-          "fallback": 0,
-          "compOp": "multiply"
-        },
-        "lineColor": {
-          "range": ["#bbb", "#bbb"],
-          "fallback": "#bbb",
-          "compOp": "replace"
-        },
-        "lineOpacity": {
-          "range": [0, 1],
-          "fallback": 0,
-          "compOp": "multiply"
-        },
-        "lineWidth": {
-          "range": [0, 1.5],
-          "fallback": 0,
-          "compOp": "replace"
-        },
-        "labelOpacity": {
-          "range": [0, 1],
-          "fallback": 0,
-          "compOp": "multiply"
-        }
-      }
-    ]
-  },
-
   "AreaController":
   {
     "areaJSONPaths" : ["config/school/data/countries.geojson"]
   },
 
-  "AreasOnMap" : {
-    "areaHighlightColor" : "#d4c900",
-    "labelVisibilityFactor" : 10
+  "AreasOnMap" :
+  {
+    "areaNormalColor" : "#FCFCFC",
+    "areaHighlightColor" : "#EDEAAB",
+    "labelVisibilityFactor" : 8
   }
 
 }

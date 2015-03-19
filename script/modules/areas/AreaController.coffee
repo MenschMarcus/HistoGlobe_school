@@ -14,120 +14,210 @@ class HG.AreaController
 
     @addCallback "onShowArea"
     @addCallback "onHideArea"
+    # @addCallback "onShowArea"
+    # @addCallback "onHideArea"
 
-    @_areas = []
     @_timeline = null
     @_now = null
-
-    @_categoryFilter =null
-    @_currentCategoryFilter = null # [category_a, category_b, ...]
 
     defaultConfig =
       areaJSONPaths: undefined,
 
     conf = $.extend {}, defaultConfig, config
 
-    @loadAreasFromJSON conf
+    # area handling
+    @_areas = []                # main array of all HG areas (id, name, geometry, ...)
+    @_activeAreas = []          # backup: id of all areas that are currently active
+
+    @_areaChanges = new Queue() # main queue, each element describes one area change
+      # 1) flag: ready to be executed? (if transition animation of related areas is done)
+      # 2) set of areas to be added on the map
+      # 3) set of areas to be deleted from the map
+      # 4) set of transition areas to be faded out on the map
+
+
+    # initially load areas from input files
+    @_loadAreasFromJSON conf
 
   # ============================================================================
   hgInit: (hgInstance) ->
+
     hgInstance.areaController = @
 
     @_timeline = hgInstance.timeline
-    @_area_styler = hgInstance.areaStyler
     @_now = @_timeline.getNowDate()
 
+    # main activity: what happens if now date changes?
     @_timeline.onNowChanged @, (date) ->
-      @_now = date
-      for area in @_areas
-        area.setDate date
+      @_filterActiveAreas date
 
-    hgInstance.categoryFilter?.onFilterChanged @,(categoryFilter) =>
-      @_currentCategoryFilter = categoryFilter
-      @_filterActiveAreas()
-
-    @_categoryFilter = hgInstance.categoryFilter if hgInstance.categoryFilter
-
-  # ============================================================================
-  loadAreasFromJSON: (config) ->
-
-    for path in config.areaJSONPaths
-      $.getJSON path, (countries) =>
-        countries_to_load = countries.features.length
-        for country in countries.features
-
-          execute_async = (c) =>
-            setTimeout () =>
-
-              newArea = new HG.Area c, @_area_styler
-
-              newArea.onShow @, (area) =>
-                @notifyAll "onShowArea", area
-                area.isVisible = true
-
-              newArea.onHide @, (area) =>
-                @notifyAll "onHideArea", area
-                area.isVisible = false
-
-              @_areas.push newArea
-
-              newArea.setDate @_now
-
-              countries_to_load--
-              if countries_to_load is 0
-                @_currentCategoryFilter = @_categoryFilter.getCurrentFilter()
-                @_filterActiveAreas()
-
-            , 0
-
-          execute_async country
-
-  # ============================================================================
-  _filterActiveAreas:()->
-
-    #console.log "filter areas",@_currentCategoryFilter
-
-    activeAreas = @getActiveAreas()
-    for area in activeAreas
-      active = true
-      if area.getCategories()?
-        for category in area.getCategories()
-          unless category in @_currentCategoryFilter
-            active = false
-          else
-            active = true
-            break
-      if active
-        @notifyAll "onShowArea", area if not area.isVisible
-        area.isVisible = true
-        area.setDate @_now
-      else
-        @notifyAll "onHideArea", area
-        area.isVisible = false
-
-  # ============================================================================
-  filterArea:()->
-    for category in area.getCategories() #TODO
-      if category in @_currentCategoryFilter
-        return true
-    return false
+    # start working through loop that makes sure countries are added and removed correctly
+    # ctr = 0
+    # mainLoop = setInterval (mainLoop, ctr) =>
 
 
+    # ctr = 0
+    mainLoop = setInterval () =>    # => is important to be able to access global variables (compared to ->)
+
+      # check if area change can happen
+      if not @_areaChanges.isEmpty()
+        isReady = @_areaChanges.peek()[0]
+        if isReady
+          areaChange = @_areaChanges.dequeue()
+
+          # add all new areas
+          for area in areaChange[1]
+            # console.log "add ", area.getId()
+            @notifyAll "onShowArea", area
+            area.setActive()
+
+          # remove all old areas
+          for area in areaChange[2]
+            # console.log "rem ", area.getId()
+            @notifyAll "onHideArea", area
+            area.setInactive()
+
+          # fade-out transition area
+          transArea = areaChange[3]
+          if transArea
+            @notifyAll "onHideArea", transArea, yes
+            transArea.setInactive()
+
+      # ++ctr
+      # if ctr == 5
+      #   console.log "DONE!"
+      #   clearInterval mainLoop
+    , 50
 
 
   # ============================================================================
-  getActiveAreas:()->
-    newArray = []
-    for a in @_areas
-      if a._active
-        newArray.push a
-    return newArray
+  getAllAreas:()->    @_areas
+  getActiveAreas:()-> @_activeAreas
 
-
-  # ============================================================================
-  getAllAreas:()->
-    return @_areas
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
+
+  # ============================================================================
+  _loadAreasFromJSON: (config) ->
+
+    # parse each geojson file
+    for file in config.areaJSONPaths
+      $.getJSON file, (countries) =>
+        numAreasToLoad = countries.features.length  # counter
+
+        for country in countries.features
+
+          # parse file asynchronously
+          executeAsync = (country) =>
+            setTimeout () =>
+
+              ## id
+              # @_id       = country.properties.iso_a3
+              # old! iso_a3 not suitable for historic countries, because it is hard to always come up with three letters for a country
+              # => introduce a "country_id" in geojson, which is a 3 (current country) or 4 (historic country) letter country code
+              ctryId = country.properties.country_id
+
+              ## misc
+              name     = country.properties.name_de_shrt    # to be changed if other languages are desired
+              labelPos = country.properties.label_lat_lng
+              startDate = new Date country.properties.start_date.toString()
+              endDate   = new Date country.properties.end_date.toString()
+              type      = 'country'
+              active    = false
+
+              ## geometry (polygons)
+              data = L.GeoJSON.geometryToLayer country
+              geometry = []
+              if country.geometry.type is "Polygon"
+                geometry.push data._latlngs
+              else if country.geometry.type is "MultiPolygon"
+                for id, layer of data._layers
+                  geometry.push layer._latlngs
+
+              # create HG area
+              newArea = new HG.Area ctryId, name, geometry, startDate, endDate, type
+              newArea.setInactive()
+              if labelPos?
+                newArea.setLabelPos labelPos
+
+              # fill areas array
+              @_areas.push newArea
+
+              # one less area to go
+              numAreasToLoad--
+
+              # initially put areas on the map / globe
+              if numAreasToLoad is 0
+                @_filterActiveAreas @_timeline.getNowDate()
+
+            , 0
+
+          executeAsync country
+
+
+  # ============================================================================
+  # add all new and remove all old areas to map/globe
+  # and emphasize transition areas (areas that move from one country to another)
+
+  _filterActiveAreas:(date)->
+
+    # comparison by dates
+    oldDate = @_now
+    newDate = date
+
+    # changing areas in this step
+    areasChanged = no
+    newAreas = []
+    oldAreas = []
+
+    for area in @_areas
+
+      # comparison by active state
+      wasActive = area.isActive()
+      isActive = no
+      if newDate >= area.getStartDate() and newDate < area.getEndDate()
+        isActive = yes
+
+      # if area became active
+      if isActive and not wasActive
+        newAreas.push area
+        area.setActive()
+        areasChanged = yes
+
+      # if area became inactive
+      if wasActive and not isActive
+        oldAreas.push area
+        area.setInactive()
+        areasChanged = yes
+
+    ## update the changing areas
+    if areasChanged
+      # fade-in transition area (areas that actually change)
+      # assemble transition areas
+      # TODO
+      transAreaGeo = [[[52.874124, 7.601427], [53.026369, 13.962511], [48.022933, 13.217549], [47.890499, 6.647725]]]
+      transArea = new HG.Area "T1", null, transAreaGeo, null, null, "trans"
+      transArea = null
+      if transArea
+        @notifyAll "onShowArea", transArea, yes
+        transArea.setActive()
+
+      # if there is no transition area, the adding and deletion of countries can happen right away
+      ready = no
+      if not transArea
+        ready = yes
+
+      # enqueue set of area change
+      @_areaChanges.enqueue [ready, newAreas, oldAreas, transArea]
+
+
+      #   @notifyAll "onHideArea", remArea
+
+    # reset now Date
+    @_now = newDate
+
+  # ============================================================================
+  _jsonToClipperPath: (geometry) ->
+    console.log geometry

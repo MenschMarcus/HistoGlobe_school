@@ -20,8 +20,6 @@ class HG.HiventList
   #   --------------------------------------------------------------------------
   hgInit: (hgInstance) ->
 
-
-
     @_hgInstance = hgInstance
     @_hgInstance.hivent_list_module = @
 
@@ -32,17 +30,19 @@ class HG.HiventList
     @_hivent_array = []
     @_hivent_list = document.createElement "div"
     @_hivent_list.className = "hivent-list"
+    @_hivent_headline = document.createElement "div"
+    @_hivent_headline.className = "hivent-list-headline"
 
 
     @_hgInstance.onAllModulesLoaded @, () =>
       @_hgInstance.search_box_area?.onSearchBoxChanged @, (search_props) =>
         if @props.active
           if search_props.active
-            @props.height = (window.innerHeight - 180) / 2 
+            @props.height = 0
           else
-            @props.height = (window.innerHeight - 180)
-        console.log "HL" + @props.active
-        $(@_hivent_list).css({'max-height': (@props.height - 10) + "px"}) # max height of list with timelin height
+            @props.height = (window.innerHeight - 190 - 53)
+        # console.log "HL" + @props.active
+        $(@_hivent_list).css({'max-height': (@props.height) + "px"}) # max height of list with timelin height
 
 
     @_hgInstance.onTopAreaSlide @, (t) =>
@@ -66,6 +66,7 @@ class HG.HiventList
     # remove results if input list is empty
     if @_hivent_array.length > 0
       @_container.removeChild @_hivent_list
+      @_container.removeChild @_hivent_headline
 
     # Hivents ==================================================================
 
@@ -81,7 +82,8 @@ class HG.HiventList
       if topic.id == @_hgInstance.categoryFilter.getCurrentFilter()[0]
         aktualleCath = topic.name
 
-    hivents = '<div id="hivent-list-headline">' + 'Aktuelle Epoche: ' + aktualleCath + '</div><ul>'
+    headline = '<div>' + 'Aktuelle Epoche: ' + aktualleCath + '</div>'
+    hivents = '<ul>'
 
     for hivent in @_hivent_array
       yearString = ''
@@ -96,21 +98,23 @@ class HG.HiventList
                   '</div><div class="res_year">' + yearString + '</div></div><i class="fa fa-map-marker"></i></li></a>'
 
     hivents += '</ul>'
-
+    # some stuff to do
+    @_hivent_headline.innerHTML = headline
     @_hivent_list.innerHTML = hivents
     
     if @_hivent_array.length > 0
+      @_container.appendChild @_hivent_headline
       @_container.appendChild @_hivent_list
       @props.active = true
     else
       @props.active = false
 
     if @_hgInstance.search_box_area.props.active
-      @props.height = (window.innerHeight - 180) / 2 
+      @props.height = 0
     else
-      @props.height = (window.innerHeight - 180)
+      @props.height = (window.innerHeight - 190 - 53)
 
-    $(@_hivent_list).css({'max-height': (@props.height - 10) + "px"}) # max height of list with timelin height
+    $(@_hivent_list).css({'max-height': (@props.height) + "px"}) # max height of list with timelin height
 
     @notifyAll "onHiventListChanged", @props
 

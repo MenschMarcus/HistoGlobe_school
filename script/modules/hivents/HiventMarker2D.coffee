@@ -10,13 +10,16 @@ class HG.HiventMarker2D extends HG.HiventMarker
   ##############################################################################
 
   # ============================================================================
-  constructor: (hiventHandle, lat, long, display, map, markerGroup, locationName) ->
+  constructor: (hiventHandle, lat, long, display, map, markerGroup, locationName, hgInstance) ->
 
     #Call Hivent Marker Constructor
     HG.HiventMarker.call @, hiventHandle, map.getPanes()["popupPane"]
     
     #List of Markers
     VISIBLE_MARKERS_2D.push @
+
+    @_hgInstance = hgInstance
+    @_mode = hgInstance.abTest.config.hiventMarkerMode
 
     @locationName = locationName
 
@@ -33,8 +36,9 @@ class HG.HiventMarker2D extends HG.HiventMarker
 
     
     html="<div class=\"markerLabel\">#{@_markerLabelLocation}</div>"
-    icon_default    = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_default", iconSize: [34, 50] ,iconAnchor:[17,60],html:html}
-    icon_higlighted = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_highlighted", iconSize: [34, 50], iconAnchor:[17,60], html:html}
+    iconAnchor=[15,45]
+    icon_default    = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_default", iconSize: [34, 50] ,iconAnchor:iconAnchor,html:html}
+    icon_higlighted = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_highlighted", iconSize: [34, 50], iconAnchor:iconAnchor, html:html}
     @_marker = new L.Marker [@_lat, @_long], {icon: icon_default}
     
 
@@ -66,7 +70,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
         @_display.focus @getHiventHandle().getHivent()
     )
 
-    @getHiventHandle().onActive(@, (mousePos) =>
+    @getHiventHandle().onActive(@, (mousePos) =>     
       @_map.on "drag", @_updatePosition
     )
 
@@ -125,8 +129,27 @@ class HG.HiventMarker2D extends HG.HiventMarker
     @_updateMarker()
 
   # ============================================================================
-  _onClick: (e) =>
-    @getHiventHandle().toggleActive @, @getDisplayPosition()
+  # _onClick: (e) =>
+    # default behavior
+    # @getHiventHandle().toggleActive @, @getDisplayPosition()
+    
+    # marker: center horizontally and ~ 2/3 vertically; hivent box above marker
+    # @getHiventHandle().focusAll @, @_position
+    # @getHiventHandle().activeAll @, @_position
+    # @_updatePosition()
+
+  # AB Test ====================================================================
+  _onClick: (e, config) =>
+    if @_mode is "A"
+      # default behavior
+      @getHiventHandle().toggleActive @, @getDisplayPosition()
+
+    if @_mode is "B"
+      # marker: center horizontally and ~ 2/3 vertically; hivent box above marker
+      @getHiventHandle().toggleActive @, @getDisplayPosition()
+      @getHiventHandle().focusAll @, @_position
+      @getHiventHandle().activeAll @, @_position
+      @_updatePosition()
 
   # ============================================================================
   _updatePosition: =>
