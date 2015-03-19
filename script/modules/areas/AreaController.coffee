@@ -14,6 +14,8 @@ class HG.AreaController
 
     @addCallback "onShowArea"
     @addCallback "onHideArea"
+    # @addCallback "onShowArea"
+    # @addCallback "onHideArea"
 
     @_timeline = null
     @_now = null
@@ -26,15 +28,16 @@ class HG.AreaController
     # area handling
     @_areas = []                # main array of all HG areas (id, name, geometry, ...)
     @_activeAreas = []          # backup: id of all areas that are currently active
-    @_addAreas = new Queue()    # id of areas that are new and to be put on the map/globe
-    @_remAreas = new Queue()    # id of areas that are old and to be removed on the map/globe
-    @_transAreas = new Queue()  # if of areas that transisted from one country to another (to be calculated)
+
+    @_areaChanges = new Queue() # main queue, each element describes one area change
+      # 1) flag: ready to be executed? (if transition animation of related areas is done)
+      # 2) set of areas to be added on the map
+      # 3) set of areas to be deleted from the map
+      # 4) set of transition areas to be faded out on the map
+
 
     # initially load areas from input files
     @_loadAreasFromJSON conf
-
-    # has time ever changed?
-    @_hasTimeChanged = no
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -47,6 +50,20 @@ class HG.AreaController
     # main activity: what happens if now date changes?
     @_timeline.onNowChanged @, (date) ->
       @_filterActiveAreas date
+
+    # start working through loop that makes sure countries are added and removed correctly
+    # ctr = 0
+    # mainLoop = setInterval (mainLoop, ctr) =>
+
+
+    # ctr = 0
+    mainLoop = setInterval () =>    # => is important to be able to access global variables (compared to ->)
+
+      # check if area change can happen
+      if not @_areaChanges.isEmpty()
+        isReady = @_areaChanges.peek()[0]
+        if isReady
+          areaChange = @_areaChanges.dequeue()
 
           # add all new areas
           for area in areaChange[1]
@@ -71,7 +88,6 @@ class HG.AreaController
       #   console.log "DONE!"
       #   clearInterval mainLoop
     , 50
->>>>>>> feature/borderChanges
 
 
   # ============================================================================
@@ -89,7 +105,8 @@ class HG.AreaController
     # parse each geojson file
     for file in config.areaJSONPaths
       $.getJSON file, (countries) =>
-        numCountriesToLoad = countries.features.length  # counter
+        numAreasToLoad = countries.features.length  # counter
+
         for country in countries.features
 
           # parse file asynchronously
@@ -102,6 +119,14 @@ class HG.AreaController
               # => introduce a "country_id" in geojson, which is a 3 (current country) or 4 (historic country) letter country code
               ctryId = country.properties.country_id
 
+              ## misc
+              name     = country.properties.name_de_shrt    # to be changed if other languages are desired
+              labelPos = country.properties.label_lat_lng
+              startDate = new Date country.properties.start_date.toString()
+              endDate   = new Date country.properties.end_date.toString()
+              type      = 'country'
+              active    = false
+
               ## geometry (polygons)
               data = L.GeoJSON.geometryToLayer country
               geometry = []
@@ -111,76 +136,41 @@ class HG.AreaController
                 for id, layer of data._layers
                   geometry.push layer._latlngs
 
-              ## label
-              name     = country.properties.name_de_shrt    # to be changed if other languages are desired
-              labelPos = country.properties.label_lat_lng
-
-              ## misc
-              # startDate = new Date country.properties.start_date, 0, 1    # 01.01. of start year
-              # endDate   = new Date country.properties.end_date-1, 11, 31  # 31.12. of year before
-              startDate = new Date country.properties.start_date.toString()
-              endDate   = new Date country.properties.end_date.toString()
-              type      = 'country'
-              active    = false
-
               # create HG area
-              newArea = new HG.Area ctryId, geometry, startDate, endDate, type
+              newArea = new HG.Area ctryId, name, geometry, startDate, endDate, type
               newArea.setInactive()
               if labelPos?
-                newArea.setLabelWithPos name, labelPos
-              else
-                newArea.setLabel name
-
-              # attach event handlers to area
-              # newArea.onShow @, (area) =>
-              #   @notifyAll "onShowArea", area
-              #   area.isVisible = true
-
-              # newArea.onHide @, (area) =>
-              #   @notifyAll "onHideArea", area
-              #   area.isVisible = false
+                newArea.setLabelPos labelPos
 
               # fill areas array
               @_areas.push newArea
 
-              # counter handling
-              numCountriesToLoad--
-              if numCountriesToLoad is 0
-                # initially put areas on the map / globe
+              # one less area to go
+              numAreasToLoad--
+
+              # initially put areas on the map / globe
+              if numAreasToLoad is 0
                 @_filterActiveAreas @_timeline.getNowDate()
 
             , 0
 
           executeAsync country
 
+
   # ============================================================================
   # add all new and remove all old areas to map/globe
   # and emphasize transition areas (areas that move from one country to another)
 
-  _updateAreas:()->
-    # TODO assemble and show transition area
-
-    # add all new areas (asynchronously)
-    while not @_addAreas.isEmpty()
-      addArea = @_addAreas.dequeue()
-      @notifyAll "onShowArea", addArea
-
-    # remove all new areas (asynchronously)
-    while not @_remAreas.isEmpty()
-      remArea = @_remAreas.dequeue()
-      @notifyAll "onHideArea", remArea
-
-    # # remove all old areas (asynchronously)
-    # while not @_remAreas.isEmpty()
-    #   remId = @_remAreas.dequeue()
-
-
-  # ============================================================================
   _filterActiveAreas:(date)->
 
     # comparison by dates
     oldDate = @_now
     newDate = date
+
+    # changing areas in this step
+    areasChanged = no
+    newAreas = []
+    oldAreas = []
 
     for area in @_areas
 
@@ -214,19 +204,20 @@ class HG.AreaController
         @notifyAll "onShowArea", transArea, yes
         transArea.setActive()
 
-      if becameActive
-        @_addAreas.enqueue area
-        area.setActive()
+      # if there is no transition area, the adding and deletion of countries can happen right away
+      ready = no
+      if not transArea
+        ready = yes
 
-      if becameInactive
-        @_remAreas.enqueue area
-        area.setInactive()
+      # enqueue set of area change
+      @_areaChanges.enqueue [ready, newAreas, oldAreas, transArea]
 
+
+      #   @notifyAll "onHideArea", remArea
 
     # reset now Date
     @_now = newDate
 
-    # time has changed once -> never reset to "no"
-    @_hasTimeChanged = yes
-
-    @_updateAreas()
+  # ============================================================================
+  _jsonToClipperPath: (geometry) ->
+    console.log geometry
