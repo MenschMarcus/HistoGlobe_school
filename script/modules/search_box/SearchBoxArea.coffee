@@ -25,6 +25,7 @@ class HG.SearchBoxArea
 
   hgInit: (hgInstance) ->
 
+
     @_hgInstance = hgInstance
     @_hgInstance.search_box_area = @
 
@@ -51,11 +52,11 @@ class HG.SearchBoxArea
       @_hgInstance.hivent_list_module?.onHiventListChanged @, (list_props) =>
         if @props.active
           if list_props.active
-            @props.height = (window.innerHeight - 180) / 2 
+            @props.height = (window.innerHeight - 190 - 53)
           else
-            @props.height = (window.innerHeight - 180)
-        console.log "SB" + @props.active
-        $(@_search_results).css({'max-height': (@props.height - 10) + "px"}) # max height of list with timelin height
+            @props.height = (window.innerHeight - 190)
+        # console.log "SB" + @props.active
+        $(@_search_results).css({'max-height': (@props.height) + "px"}) # max height of list with timelin height
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
@@ -305,11 +306,11 @@ class HG.SearchBoxArea
 
       # calc height
       if @_hgInstance.hivent_list_module.props.active
-        @props.height = (window.innerHeight - 180) / 2 
+        @props.height = (window.innerHeight - 190 - 53) 
       else
-        @props.height = (window.innerHeight - 180)
+        @props.height = (window.innerHeight - 190)
       
-      $(@_search_results).css({'max-height': (@props.height - 10) + "px"}) # max height of list with timelin height
+      $(@_search_results).css({'max-height': (@props.height) + "px"}) # max height of list with timelin height
 
     #=============================================================================
       if @_input_text?

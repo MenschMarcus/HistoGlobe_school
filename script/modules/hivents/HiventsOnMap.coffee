@@ -18,8 +18,7 @@ class HG.HiventsOnMap
 
   # ============================================================================
   hgInit: (hgInstance) ->
-    hgInstance.hiventsOnMap = @
-
+    hgInstance.hiventsOnMap = @    
     # init AB tests
     @_ab = hgInstance.abTest.config
 
@@ -88,7 +87,7 @@ class HG.HiventsOnMap
             locations = self.getHivent().locationName[0].split(',')
 
             for i in [0...self.getHivent().lat.length]
-              marker = new HG.HiventMarker2D self, self.getHivent().lat[i], self.getHivent().long[i],  hgInstance.map, @_map, @_markerGroup, locations[i]
+              marker = new HG.HiventMarker2D self, self.getHivent().lat[i], self.getHivent().long[i],  hgInstance.map, @_map, @_markerGroup, locations[i], hgInstance
 
               @_hiventMarkers.push marker
 

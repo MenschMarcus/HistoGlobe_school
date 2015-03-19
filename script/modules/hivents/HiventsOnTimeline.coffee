@@ -37,8 +37,11 @@ class HG.HiventsOnTimeline
         #   if obj.category == category
         #     position = obj.position
         icons = hgInstance.categoryIconMapping.getIcons(category)
-        for element of icons
-          #console.log #{icons[element]}
+        iconsTimeLine = {default: "config/school/icons/marker_hivent-timeline.svg", highlighted: "config/school/icons/marker_hivent-timeline-active.svg"}
+        #console.log icons
+        #console.log iconsTimeLine
+        for element of iconsTimeLine
+          #console.log element
           HG.createCSSSelector ".hivent_marker_timeline_#{category}_#{element}",
           "width: #{HGConfig.hivent_marker_timeline_width.val}px !important;
            height: #{HGConfig.hivent_marker_timeline_height.val}px !important;
@@ -47,7 +50,7 @@ class HG.HiventsOnTimeline
            margin-top: 0px;
            margin-left: -#{HGConfig.hivent_marker_timeline_width.val/2}px;
            position: absolute !important;
-           background-image: url(#{icons[element]}) !important;
+           background-image: url(#{iconsTimeLine[element]}) !important;
            background-size: cover !important;"
     
     @_hiventController = hgInstance.hiventController    
