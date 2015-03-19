@@ -48,12 +48,30 @@ class HG.AreaController
     @_timeline.onNowChanged @, (date) ->
       @_filterActiveAreas date
 
-    # category handling
-    # hgInstance.categoryFilter?.onFilterChanged @,(categoryFilter) =>
-    #   @_currentCategoryFilter = categoryFilter
-    #   @_filterActiveAreas()
+          # add all new areas
+          for area in areaChange[1]
+            # console.log "add ", area.getId()
+            @notifyAll "onShowArea", area
+            area.setActive()
 
-    # @_categoryFilter = hgInstance.categoryFilter if hgInstance.categoryFilter
+          # remove all old areas
+          for area in areaChange[2]
+            # console.log "rem ", area.getId()
+            @notifyAll "onHideArea", area
+            area.setInactive()
+
+          # fade-out transition area
+          transArea = areaChange[3]
+          if transArea
+            @notifyAll "onHideArea", transArea, yes
+            transArea.setInactive()
+
+      # ++ctr
+      # if ctr == 5
+      #   console.log "DONE!"
+      #   clearInterval mainLoop
+    , 50
+>>>>>>> feature/borderChanges
 
 
   # ============================================================================
@@ -172,19 +190,35 @@ class HG.AreaController
       if newDate >= area.getStartDate() and newDate < area.getEndDate()
         isActive = yes
 
-      # change? -> became active/inactive
-      becameActive    = isActive and not wasActive
-      becameInactive  = wasActive and not isActive
+      # if area became active
+      if isActive and not wasActive
+        newAreas.push area
+        area.setActive()
+        areasChanged = yes
 
-      # console.log area.getId(), isActive, wasActive, becameActive, becameInactive
+      # if area became inactive
+      if wasActive and not isActive
+        oldAreas.push area
+        area.setInactive()
+        areasChanged = yes
+
+    ## update the changing areas
+    if areasChanged
+      # fade-in transition area (areas that actually change)
+      # assemble transition areas
+      # TODO
+      transAreaGeo = [[[52.874124, 7.601427], [53.026369, 13.962511], [48.022933, 13.217549], [47.890499, 6.647725]]]
+      transArea = new HG.Area "T1", null, transAreaGeo, null, null, "trans"
+      transArea = null
+      if transArea
+        @notifyAll "onShowArea", transArea, yes
+        transArea.setActive()
 
       if becameActive
-        # @notifyAll "onShow", @
         @_addAreas.enqueue area
         area.setActive()
 
       if becameInactive
-        # @notifyAll "onHide", @
         @_remAreas.enqueue area
         area.setInactive()
 
