@@ -94,6 +94,7 @@
     <script type="text/javascript" src="build/ShapeController.js"></script>
     <script type="text/javascript" src="build/Area.js"></script>
     <script type="text/javascript" src="build/AreaController.js"></script>
+    <script type="text/javascript" src="build/AreaStyler.js"></script>
     <script type="text/javascript" src="build/AreasOnMap.js"></script>
     <script type="text/javascript" src="build/AreasOnGlobe.js"></script>
     <script type="text/javascript" src="build/Display.js"></script>
