@@ -138,6 +138,37 @@
     "areaJSONPaths" : ["config/school/data/countries.geojson"]
   },
 
+  "AreaStyler":
+  {
+    "normalStyle":
+    {
+      "areaColor":      "#FCFCFC",
+      "areaOpacity":    0.75,
+      "borderWidth":    1.0,
+      "borderColor":    "#BBBBBB",
+      "borderOpacity":  1.0,
+      "nameSize":       1,
+      "nameColor":      "#BBBBBB",
+      "nameOpacity":    1.0
+    },
+    "highlightStyle":
+    {
+      "areaColor":      "#EDEAAB"
+    },
+    "emphStyleMappingPaths" : ["config/school/data/alliances.csv"],
+    "emphStyles":
+    {
+      "NATO":
+      {
+        "areaColor":    "#ABB3ED"
+      },
+      "WP":
+      {
+        "areaColor":    "#EDABB0"
+      }
+    }
+  },
+
   "AreasOnMap" :
   {
     "areaNormalColor" : "#FCFCFC",

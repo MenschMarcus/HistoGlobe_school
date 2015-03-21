@@ -90,7 +90,6 @@
     <script type="text/javascript" src="build/HiventMarker3D.js"></script>
     <script type="text/javascript" src="build/HiventMarkerTimeline.js"></script>
     <script type="text/javascript" src="build/HiventController.js"></script>
-    <script type="text/javascript" src="build/Styler.js"></script>
     <script type="text/javascript" src="build/ShapeController.js"></script>
     <script type="text/javascript" src="build/Area.js"></script>
     <script type="text/javascript" src="build/AreaController.js"></script>
@@ -137,7 +136,6 @@
     <script type="text/javascript" src="build/HiventStory.js"></script>
     <script type="text/javascript" src="build/HiventMarkerRegion.js"></script>
 
-    <script type="text/javascript" src="build/HistoGlobe.js"></script>
     <script type="text/javascript" src="build/CategoryIconMapping.js"></script>
     <script type="text/javascript" src="build/Path.js"></script>
     <script type="text/javascript" src="build/PathController.js"></script>
@@ -150,6 +148,8 @@
     <script type="text/javascript" src="build/CategoryFilter.js"></script>
     <script type="text/javascript" src="build/WidgetController.js"></script>
     <script type="text/javascript" src="build/ZoomButtonsTimeline.js"></script>
+
+    <script type="text/javascript" src="build/HistoGlobe.js"></script>
 
     <!-- init histoglobe -->
     <?php } else { ?>
