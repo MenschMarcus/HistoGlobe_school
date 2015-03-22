@@ -12,6 +12,22 @@
     "tiles": "config/school/tiles/",
     "sidebarEnabled": false
   },
+
+  "ABTest" :
+  {
+    "hiventsOnMap" :          "A",
+    "hiventsOnTl" :           "A",
+    "hiventsOnTlLabels" :     "A",
+    "numHiventsOnMap" :       "A",
+    "hiventRegionsOnMap" :    "A",
+    "hiventClusterLabels" :   "A",
+    "epochNames-moreSpace" :  "A",
+    "epochNames-shortNames" : "A",
+    "searchFilter" :          "A",
+    "regionLabels" :          "A",
+    "hiventMarkerMode" :      "A"
+  },
+
   "Timeline" :
   {
     "timelineZoom" : 2,
@@ -29,21 +45,6 @@
         "row"         : 6
       }
     ]
-  },
-
-  "ABTest" :
-  {
-    "hiventsOnMap" :          "A",
-    "hiventsOnTl" :           "A",
-    "hiventsOnTlLabels" :     "A",
-    "numHiventsOnMap" :       "A",
-    "hiventRegionsOnMap" :    "A",
-    "hiventClusterLabels" :   "A",
-    "epochNames-moreSpace" :  "A",
-    "epochNames-shortNames" : "A",
-    "searchFilter" :          "A",
-    "regionLabels" :          "A",
-    "hiventMarkerMode" :      "A"
   },
 
   "BrowserDetector": {},
@@ -133,11 +134,6 @@
   "HiventList": {},
   "HiventListController": {},
 
-  "AreaController":
-  {
-    "areaJSONPaths" : ["config/school/data/countries.geojson"]
-  },
-
   "AreaStyler":
   {
     "normalStyle":
@@ -158,20 +154,29 @@
     "countryThemeMapping" :
     [
       {
+        "theme":        "bipolarAlliances",
         "csvFilePath":  "config/school/data/alliances.csv"
       }
     ],
     "themeStyles":
     {
-      "NATO":
+      "bipolarAlliances":
       {
-        "areaColor":    "#ABB3ED"
-      },
-      "WP":
-      {
-        "areaColor":    "#EDABB0"
+        "NATO":
+        {
+          "areaColor":    "#ABB3ED"
+        },
+        "WP":
+        {
+          "areaColor":    "#EDABB0"
+        }
       }
     }
+  },
+
+  "AreaController":
+  {
+    "areaJSONPaths" : ["config/school/data/countries.geojson"]
   },
 
   "AreasOnMap" :

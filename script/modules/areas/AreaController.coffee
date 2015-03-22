@@ -6,6 +6,8 @@ class HG.AreaController
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
+  SHOW_BLOCKS = on
+
   # ============================================================================
   constructor: (config) ->
 
@@ -46,6 +48,9 @@ class HG.AreaController
 
     @_timeline = hgInstance.timeline
     @_now = @_timeline.getNowDate()
+
+    @_areaStyler = hgInstance.areaStyler
+    console.log @_areaStyler.getCountryThemeStyle '1990-9999-DEU', 'bipolarAlliances', @_now
 
     # main activity: what happens if now date changes?
     @_timeline.onNowChanged @, (date) ->
@@ -213,7 +218,7 @@ class HG.AreaController
       @_areaChanges.enqueue [ready, newAreas, oldAreas, transArea]
 
 
-      #   @notifyAll "onHideArea", remArea
+
 
     # reset now Date
     @_now = newDate

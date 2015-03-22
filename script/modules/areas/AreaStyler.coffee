@@ -43,71 +43,81 @@ class HG.AreaStyler
 
     # theme styles: take from modules.json and take normal style as fallback style
     if @_config.themeStyles?
-      for themeName, themeStyle of @_config.themeStyles
-        themeStyle.areaColor     = themeStyle.areaColor ? @_config.normalStyle.areaColor
-        themeStyle.areaOpacity   = themeStyle.areaOpacity ? @_config.normalStyle.areaOpacity
-        themeStyle.borderWidth   = themeStyle.borderWidth ? @_config.normalStyle.borderWidth
-        themeStyle.borderColor   = themeStyle.borderColor ? @_config.normalStyle.borderColor
-        themeStyle.borderOpacity = themeStyle.borderOpacity ? @_config.normalStyle.borderOpacity
-        themeStyle.nameSize      = themeStyle.nameSize ? @_config.normalStyle.nameSize
-        themeStyle.nameColor     = themeStyle.nameColor ? @_config.normalStyle.nameColor
-        themeStyle.nameOpacity   = themeStyle.nameOpacity ? @_config.normalStyle.nameOpacity
+      for themeName, themeClasses of @_config.themeStyles
+        for themeClassName, themeClassStyle of themeClasses
+          themeClassStyle.areaColor     = themeClassStyle.areaColor ? @_config.normalStyle.areaColor
+          themeClassStyle.areaOpacity   = themeClassStyle.areaOpacity ? @_config.normalStyle.areaOpacity
+          themeClassStyle.borderWidth   = themeClassStyle.borderWidth ? @_config.normalStyle.borderWidth
+          themeClassStyle.borderColor   = themeClassStyle.borderColor ? @_config.normalStyle.borderColor
+          themeClassStyle.borderOpacity = themeClassStyle.borderOpacity ? @_config.normalStyle.borderOpacity
+          themeClassStyle.nameSize      = themeClassStyle.nameSize ? @_config.normalStyle.nameSize
+          themeClassStyle.nameColor     = themeClassStyle.nameColor ? @_config.normalStyle.nameColor
+          themeClassStyle.nameOpacity   = themeClassStyle.nameOpacity ? @_config.normalStyle.nameOpacity
 
-        # @_config.themeStyles.themeStyle
+    # translate the style from the user point of view to the leaflet point of view
+    @_normalStyle     = @_translateStyle @_config.normalStyle
+    @_highlightStyle  = @_translateStyle @_config.highlightStyle
 
-    console.log @_config
+    # theme style structure:
+    # each theme has a name and can have multpile classes, each class has a name and a style
+    # => array of theme objects (name, classes), theme class as array of theme class objects (name, style)
+    @_themeStyles     = []
+    if @_config.themeStyles?
+      for themeName, themeClasses of @_config.themeStyles
+        theme = {}
+        theme.themeName = themeName
+        theme.themeClasses = []
+        for className, classStyle of themeClasses
+          themeClass = {}
+          themeClass.className = className
+          themeClass.classStyle = @_translateStyle classStyle
+          theme.themeClasses.push themeClass
+        @_themeStyles.push theme
 
   # ============================================================================
   hgInit: (hgInstance) ->
-    42
+
+    hgInstance.areaStyler = @
 
   # ============================================================================
-  getFallbackStyle: (value) ->
-    result =
-      style:
-        fillColor:    d3.rgb(@_config.fillColor.fallback).toString()
-        fillOpacity:  @_config.fillOpacity.fallback
-        lineColor:    d3.rgb(@_config.lineColor.fallback).toString()
-        lineOpacity:  @_config.lineOpacity.fallback
-        lineWidth:    @_config.lineWidth.fallback
-        labelOpacity: @_config.labelOpacity.fallback
-      compOp:
-        fillColor:    @_config.fillColor.compOp
-        fillOpacity:  @_config.fillOpacity.compOp
-        lineColor:    @_config.lineColor.compOp
-        lineOpacity:  @_config.lineOpacity.compOp
-        lineWidth:    @_config.lineWidth.compOp
-        labelOpacity: @_config.labelOpacity.compOp
+  getNormalStyle: () ->
+    @_normalStyle
 
   # ============================================================================
-  getInterpolatedStyle: (alpha) ->
-    result =
-      style:
-        fillColor:    @_fill_color(alpha)
-        fillOpacity:  @_fill_opacity(alpha)
-        lineColor:    @_line_color(alpha)
-        lineOpacity:  @_line_opacity(alpha)
-        lineWidth:    @_line_width(alpha)
-        labelOpacity: @_label_opacity(alpha)
-      compOp:
-        fillColor:    @_config.fillColor.compOp
-        fillOpacity:  @_config.fillOpacity.compOp
-        lineColor:    @_config.lineColor.compOp
-        lineOpacity:  @_config.lineOpacity.compOp
-        lineWidth:    @_config.lineWidth.compOp
-        labelOpacity: @_config.labelOpacity.compOp
+  getHighlightStyle: () ->
+    @_highlightStyle
 
   # ============================================================================
-  getStyle: (value) ->
+  # given country id and theme and current date
+  # return style of the country at this point
+  getCountryThemeStyle: (inCountryId, inThemeName, inNowDate) ->
+    countryThemeStyle = null
 
-    unless value?
-      return @getFallbackStyle()
+    # find theme in stored theme styles
+    themeFound = no
+    for theme in @_themeStyles
+      if theme.themeName == inThemeName
+        themeFound = yes
 
-    if value >= @_config.domain[0] and value <= @_config.domain[@_config.domain.length-1]
-      return @getInterpolatedStyle value
+        # find country in stored country-theme-mappings
+        for country in @_countryThemeMappings
+          if country.countryId == inCountryId
 
-    else
-      return @getFallbackStyle()
+            # get style for theme class of given country in stored theme styles
+            for themeClass in theme.themeClasses
+              if themeClass.className == country.themeClass
+
+                # final assignment of output style
+                countryThemeStyle = themeClass.classStyle
+
+    if not themeFound
+      console.error "requested theme '" + themeName + "' not found."
+
+    countryThemeStyle
+
+  ##############################################################################
+  #                            PRIVATE INTERFACE                               #
+  ##############################################################################
 
   # ============================================================================
   _loadMappingFromCSV: (config) ->
@@ -125,7 +135,7 @@ class HG.AreaStyler
           delimiter:      ","
           indexMapping:
             countryId:    0
-            theme:        1
+            themeClass:   1
             startDate:    2
             endDate:      3
 
@@ -137,7 +147,7 @@ class HG.AreaStyler
           # load mapping data for each row
           # each row is already an object, not an array! -> no indexMapping needed
           # N.B: data MUST have these column names, but order can be inpedendent:
-          # country_id, theme, start_date, end_date
+          # country_id, theme_class, start_date, end_date
           for row in parseResult.results.rows
 
             # error handling for not given start and end dates
@@ -147,8 +157,23 @@ class HG.AreaStyler
             # final mapping object
             @_countryThemeMappings.push {
               countryId:  row.country_id
-              theme:      row.theme
+              themeClass: row.theme_class
               # create date objects from input date strings/numbers
               startDate:  new Date startDate.toString()
               endDate:    new Date endDate.toString()
             }
+
+  # ============================================================================
+  # user centered styling (area, border, name) -> leaflet styling options
+
+  _translateStyle: (config) ->
+    options =
+      fillColor:    config.areaColor
+      fillOpacity:  config.areaOpacity
+      lineColor:    config.borderColor
+      lineOpacity:  config.borderOpacity
+      weight:       config.borderWidth
+      labelOpacity: config.nameOpacity
+      # backup styling for whatsoever weird browser that can only handle them
+      color:        config.borderColor
+      opacity:      config.borderOpacity
