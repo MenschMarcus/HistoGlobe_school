@@ -80,8 +80,8 @@
     "dsvConfigs":
     [
       {
-        "path": "config/school/data/hivents.csv",
-        "ignoredLines" : [1,2,3],
+        "path":             "config/school/data/hivents.csv",
+        "ignoredLines" :    [1,2,3],
         "indexMapping" :
         {
           "id"              : 0,
@@ -155,8 +155,13 @@
     {
       "areaColor":      "#EDEAAB"
     },
-    "emphStyleMappingPaths" : ["config/school/data/alliances.csv"],
-    "emphStyles":
+    "countryThemeMapping" :
+    [
+      {
+        "csvFilePath":  "config/school/data/alliances.csv"
+      }
+    ],
+    "themeStyles":
     {
       "NATO":
       {

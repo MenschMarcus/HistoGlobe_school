@@ -1,4 +1,4 @@
-country,country_id,alliance,start date,end date
+country,country_id,theme,start_date,end_date
 Albania,1944-1990-ALB,WP,1955,1968
 Soviet Union,1945-1991-CCCP,WP,1955,1991
 Bulgaria,1974-1990-BGR,WP,1955,1990

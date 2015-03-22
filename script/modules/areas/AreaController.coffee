@@ -217,7 +217,3 @@ class HG.AreaController
 
     # reset now Date
     @_now = newDate
-
-  # ============================================================================
-  _jsonToClipperPath: (geometry) ->
-    console.log geometry
