@@ -24,17 +24,6 @@ class HG.AreasOnMap
 
     @_config = $.extend {}, defaultConfig, config
 
-    # HACK !!! TODO: make nice
-    @_normalStyle =
-      fillColor:    @_config.areaNormalColor
-      fillOpacity:  0.75
-      lineColor:    "#BBBBBB"
-      lineOpacity:  1
-      weight:       1.8         # stroke width
-      labelOpacity: 1
-      color:        "#BBBBBB"   # lineColor
-      opacity:      1           # lineOpacity
-
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -44,8 +33,8 @@ class HG.AreasOnMap
     @_areaController = hgInstance.areaController
 
     if @_areaController
-      @_areaController.onShowArea @, (area) =>
-        @_showAreaLayer area
+      @_areaController.onShowArea @, (area, style) =>
+        @_showAreaLayer area, @_translateStyle style
 
       @_areaController.onHideArea @, (area) =>
         @_hideAreaLayer area
@@ -59,24 +48,22 @@ class HG.AreasOnMap
   ##############################################################################
 
   # ============================================================================
-  _showAreaLayer: (area, isAnimated) ->
+  _showAreaLayer: (area, style) ->
 
     # add area
     @_visibleAreas.push area
 
+    # leaflet layer style
+    options = style
+
     area.myLeafletLayer = null
-
-    options = @_normalStyle
-
     area.myLeafletLayer = L.multiPolygon area.getGeometry(), options
 
     area.myLeafletLayer.on "mouseover", @_onHover     # TODO: why does hover not work?
     area.myLeafletLayer.on "mouseout", @_onUnHover
     area.myLeafletLayer.on "click", @_onClick
 
-    # area.onStyleChange @, @_onStyleChange
-
-    area.myLeafletLayer.addTo @_map   # finally puts are on the map
+    area.myLeafletLayer.addTo @_map   # finally puts area on the map
 
     area.myLeafletLayer.hgArea = area
 
@@ -119,7 +106,7 @@ class HG.AreasOnMap
         @_showAreaLabel area
 
   # ============================================================================
-  _hideAreaLayer: (area, isAnimated) ->
+  _hideAreaLayer: (area) ->
     if area.myLeafletLayer?
 
       @_visibleAreas.splice(@_visibleAreas.indexOf(area), 1)
@@ -205,6 +192,22 @@ class HG.AreasOnMap
         @_showAreaLabel area
       else if not shouldBeVisible and area.myLeafletLabelIsVisible
         @_hideAreaLabel area
+
+
+  # ============================================================================
+  # user centered styling (area, border, name) -> leaflet styling options
+
+  _translateStyle: (userStyle) ->
+    options =
+      fillColor:    userStyle.areaColor
+      fillOpacity:  userStyle.areaOpacity
+      lineColor:    userStyle.borderColor
+      lineOpacity:  userStyle.borderOpacity
+      weight:       userStyle.borderWidth
+      labelOpacity: userStyle.nameOpacity
+      # backup styling for whatsoever weird browser that can only handle them
+      color:        userStyle.borderColor
+      opacity:      userStyle.borderOpacity
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #

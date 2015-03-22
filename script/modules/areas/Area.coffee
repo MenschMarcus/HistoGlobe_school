@@ -34,6 +34,7 @@ class HG.Area
   getEndDate: ->      @_endDate
   getGeometry: ->     @_geometry
   getType: ->         @_type
+  getStyle: ->        @_style
   isActive: ->        @_active
 
   # ============================================================================

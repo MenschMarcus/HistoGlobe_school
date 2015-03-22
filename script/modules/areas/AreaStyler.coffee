@@ -55,8 +55,8 @@ class HG.AreaStyler
           themeClassStyle.nameOpacity   = themeClassStyle.nameOpacity ? @_config.normalStyle.nameOpacity
 
     # translate the style from the user point of view to the leaflet point of view
-    @_normalStyle     = @_translateStyle @_config.normalStyle
-    @_highlightStyle  = @_translateStyle @_config.highlightStyle
+    @_normalStyle     = @_config.normalStyle
+    @_highlightStyle  = @_config.highlightStyle
 
     # theme style structure:
     # each theme has a name and can have multpile classes, each class has a name and a style
@@ -70,7 +70,7 @@ class HG.AreaStyler
         for className, classStyle of themeClasses
           themeClass = {}
           themeClass.className = className
-          themeClass.classStyle = @_translateStyle classStyle
+          themeClass.classStyle = classStyle
           theme.themeClasses.push themeClass
         @_themeStyles.push theme
 
@@ -90,8 +90,8 @@ class HG.AreaStyler
   # ============================================================================
   # given country id and theme and current date
   # return style of the country at this point
-  getCountryThemeStyle: (inCountryId, inThemeName, inNowDate) ->
-    countryThemeStyle = null
+  getCountryStyle: (inCountryId, inThemeName, inNowDate) ->
+    countryStyle = null
 
     # find theme in stored theme styles
     themeFound = no
@@ -107,13 +107,17 @@ class HG.AreaStyler
             for themeClass in theme.themeClasses
               if themeClass.className == country.themeClass
 
-                # final assignment of output style
-                countryThemeStyle = themeClass.classStyle
+                # check if style currently active
+                if inNowDate >= country.startDate and inNowDate < country.endDate
+
+                  # final assignment of output style
+                  countryStyle = themeClass.classStyle
+                  break
 
     if not themeFound
       console.error "requested theme '" + themeName + "' not found."
 
-    countryThemeStyle
+    countryStyle
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -162,18 +166,3 @@ class HG.AreaStyler
               startDate:  new Date startDate.toString()
               endDate:    new Date endDate.toString()
             }
-
-  # ============================================================================
-  # user centered styling (area, border, name) -> leaflet styling options
-
-  _translateStyle: (config) ->
-    options =
-      fillColor:    config.areaColor
-      fillOpacity:  config.areaOpacity
-      lineColor:    config.borderColor
-      lineOpacity:  config.borderOpacity
-      weight:       config.borderWidth
-      labelOpacity: config.nameOpacity
-      # backup styling for whatsoever weird browser that can only handle them
-      color:        config.borderColor
-      opacity:      config.borderOpacity

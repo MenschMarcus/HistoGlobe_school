@@ -6,7 +6,8 @@ class HG.AreaController
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
-  SHOW_BLOCKS = on
+  SHOW_THEME  = on
+  THEME       = 'bipolarAlliances'
 
   # ============================================================================
   constructor: (config) ->
@@ -28,14 +29,14 @@ class HG.AreaController
     conf = $.extend {}, defaultConfig, config
 
     # area handling
-    @_areas = []                # main array of all HG areas (id, name, geometry, ...)
-    @_activeAreas = []          # backup: id of all areas that are currently active
+    @_areas = []  # main array of all HG areas (id, name, geometry, ...)
 
     @_areaChanges = new Queue() # main queue, each element describes one area change
       # 1) flag: ready to be executed? (if transition animation of related areas is done)
       # 2) set of areas to be added on the map
       # 3) set of areas to be deleted from the map
-      # 4) set of transition areas to be faded out on the map
+      # 4) set of areas whose style is to be changed on the map
+      # 5) set of transition areas to be faded out on the map
 
 
     # initially load areas from input files
@@ -50,16 +51,14 @@ class HG.AreaController
     @_now = @_timeline.getNowDate()
 
     @_areaStyler = hgInstance.areaStyler
-    console.log @_areaStyler.getCountryThemeStyle '1990-9999-DEU', 'bipolarAlliances', @_now
 
     # main activity: what happens if now date changes?
     @_timeline.onNowChanged @, (date) ->
-      @_filterActiveAreas date
+      @_updateAreas date
 
     # start working through loop that makes sure countries are added and removed correctly
     # ctr = 0
     # mainLoop = setInterval (mainLoop, ctr) =>
-
 
     # ctr = 0
     mainLoop = setInterval () =>    # => is important to be able to access global variables (compared to ->)
@@ -72,21 +71,26 @@ class HG.AreaController
 
           # add all new areas
           for area in areaChange[1]
-            # console.log "add ", area.getId()
             @notifyAll "onShowArea", area
             area.setActive()
 
           # remove all old areas
           for area in areaChange[2]
-            # console.log "rem ", area.getId()
             @notifyAll "onHideArea", area
             area.setInactive()
 
+          # change style of all areas to be changed
+          for area in areaChange[3]
+            console.log "change style for " + area.getId()
+
           # fade-out transition area
-          transArea = areaChange[3]
-          if transArea
-            @notifyAll "onHideArea", transArea, yes
-            transArea.setInactive()
+          # transArea = areaChange[4]
+          # if transArea
+          #   @notifyAll "onHideArea", transArea
+          #   transArea.setInactive()
+
+        # update style
+
 
       # ++ctr
       # if ctr == 5
@@ -96,8 +100,8 @@ class HG.AreaController
 
 
   # ============================================================================
-  getAllAreas:()->    @_areas
-  getActiveAreas:()-> @_activeAreas
+  getAllAreas:()->
+    @_areas
 
 
   ##############################################################################
@@ -122,7 +126,7 @@ class HG.AreaController
               # @_id       = country.properties.iso_a3
               # old! iso_a3 not suitable for historic countries, because it is hard to always come up with three letters for a country
               # => introduce a "country_id" in geojson, which is a 3 (current country) or 4 (historic country) letter country code
-              ctryId = country.properties.country_id
+              countryId = country.properties.id
 
               ## misc
               name     = country.properties.name_de_shrt    # to be changed if other languages are desired
@@ -142,7 +146,7 @@ class HG.AreaController
                   geometry.push layer._latlngs
 
               # create HG area
-              newArea = new HG.Area ctryId, name, geometry, startDate, endDate, type
+              newArea = new HG.Area countryId, name, geometry, startDate, endDate, type
               newArea.setInactive()
               if labelPos?
                 newArea.setLabelPos labelPos
@@ -155,7 +159,7 @@ class HG.AreaController
 
               # initially put areas on the map / globe
               if numAreasToLoad is 0
-                @_filterActiveAreas @_timeline.getNowDate()
+                @_updateAreas @_timeline.getNowDate()
 
             , 0
 
@@ -166,7 +170,7 @@ class HG.AreaController
   # add all new and remove all old areas to map/globe
   # and emphasize transition areas (areas that move from one country to another)
 
-  _filterActiveAreas:(date)->
+  _updateAreas:(date)->
 
     # comparison by dates
     oldDate = @_now
@@ -176,6 +180,7 @@ class HG.AreaController
     areasChanged = no
     newAreas = []
     oldAreas = []
+    newStyles = []
 
     for area in @_areas
 
@@ -197,6 +202,14 @@ class HG.AreaController
         area.setInactive()
         areasChanged = yes
 
+      # check if style changed
+      if isActive
+        # check if style has changed, if so, put in array
+        oldStyle = area.getStyle()
+        newStyle = @_areaStyler.getCountryThemeStyle area.getId(), THEME, newDate
+        if oldStyle.styleName not newStyle.styleName
+          newStyles.push "find a clever way to add the new style here"
+
     ## update the changing areas
     if areasChanged
       # fade-in transition area (areas that actually change)
@@ -206,7 +219,7 @@ class HG.AreaController
       transArea = new HG.Area "T1", null, transAreaGeo, null, null, "trans"
       transArea = null
       if transArea
-        @notifyAll "onShowArea", transArea, yes
+        @notifyAll "onShowArea", transArea
         transArea.setActive()
 
       # if there is no transition area, the adding and deletion of countries can happen right away
@@ -215,10 +228,7 @@ class HG.AreaController
         ready = yes
 
       # enqueue set of area change
-      @_areaChanges.enqueue [ready, newAreas, oldAreas, transArea]
-
-
-
+      @_areaChanges.enqueue [ready, newAreas, oldAreas, newStyles, transArea]
 
     # reset now Date
     @_now = newDate
