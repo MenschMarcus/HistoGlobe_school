@@ -91,6 +91,7 @@ class HG.Area
   # ============================================================================
   getThemeClasses: (inTheme) ->
     outThemeClasses = null
+    # find correct theme
     for theme in @_themeStyles
       if theme.themeName is inTheme
         # find correct theme class

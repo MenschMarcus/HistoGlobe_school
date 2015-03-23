@@ -84,12 +84,6 @@ class HG.AreaController
           #   transArea.setInactive()
 
         # update style
-
-
-      # ++ctr
-      # if ctr == 5
-      #   console.log "DONE!"
-      #   clearInterval mainLoop
     , 50
 
 
