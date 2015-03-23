@@ -17,8 +17,7 @@ class HG.AreaController
 
     @addCallback "onShowArea"
     @addCallback "onHideArea"
-    # @addCallback "onShowArea"
-    # @addCallback "onHideArea"
+    @addCallback "onUpdateArea"
 
     @_timeline = null
     @_now = null
@@ -81,7 +80,7 @@ class HG.AreaController
 
           # change style of all areas to be changed
           for area in areaChange[3]
-            console.log "change style for " + area.getId()
+            @notifyAll "onUpdateArea", area
 
           # fade-out transition area
           # transArea = areaChange[4]
@@ -146,8 +145,9 @@ class HG.AreaController
                   geometry.push layer._latlngs
 
               # create HG area
-              newArea = new HG.Area countryId, name, geometry, startDate, endDate, type
-              newArea.setInactive()
+              newArea = new HG.Area countryId, name, geometry, startDate, endDate, type, @_areaStyler
+
+              # manually set label position if given in data
               if labelPos?
                 newArea.setLabelPos labelPos
 
@@ -164,7 +164,6 @@ class HG.AreaController
             , 0
 
           executeAsync country
-
 
   # ============================================================================
   # add all new and remove all old areas to map/globe
@@ -192,40 +191,53 @@ class HG.AreaController
 
       # if area became active
       if isActive and not wasActive
-        newAreas.push area
         area.setActive()
         areasChanged = yes
+        newAreas.push area
 
       # if area became inactive
       if wasActive and not isActive
-        oldAreas.push area
         area.setInactive()
         areasChanged = yes
+        oldAreas.push area
 
       # check if style changed
       if isActive
-        # check if style has changed, if so, put in array
-        oldStyle = area.getStyle()
-        newStyle = @_areaStyler.getCountryThemeStyle area.getId(), THEME, newDate
-        if oldStyle.styleName not newStyle.styleName
-          newStyles.push "find a clever way to add the new style here"
+        oldStyleTheme = area.getCurrentStyleTheme()
+        newStyleTheme = null
+        # distinction: currently a theme active?
+        if SHOW_THEME
+          if area.getId() is '1958-9999-FRA'
+            console.log area.isInTheme THEME, newDate
+          if area.isInTheme THEME, newDate
+            newStyleTheme = THEME
+          else
+            newStyleTheme = 'normal'
+        else
+          newStyleTheme = 'normal'
+
+        # check if theme style has changed
+        if (oldStyleTheme.localeCompare newStyleTheme) != 0   # N.B.! this took so long to find out how to actually compare if two strings are NOT equal in CoffeeScript...
+          console.log area.getId(), newStyleTheme
+          area.setCurrentStyleTheme newStyleTheme
+          areasChanged = yes
+          newStyles.push area
+
 
     ## update the changing areas
     if areasChanged
       # fade-in transition area (areas that actually change)
       # assemble transition areas
       # TODO
-      transAreaGeo = [[[52.874124, 7.601427], [53.026369, 13.962511], [48.022933, 13.217549], [47.890499, 6.647725]]]
-      transArea = new HG.Area "T1", null, transAreaGeo, null, null, "trans"
+      # transAreaGeo = [[[52.874124, 7.601427], [53.026369, 13.962511], [48.022933, 13.217549], [47.890499, 6.647725]]]
+      # transArea = new HG.Area "T1", null, transAreaGeo, null, null, "trans"
       transArea = null
-      if transArea
-        @notifyAll "onShowArea", transArea
-        transArea.setActive()
+      # if transArea
+      #   @notifyAll "onShowArea", transArea
+      #   transArea.setActive()
 
       # if there is no transition area, the adding and deletion of countries can happen right away
-      ready = no
-      if not transArea
-        ready = yes
+      ready = yes
 
       # enqueue set of area change
       @_areaChanges.enqueue [ready, newAreas, oldAreas, newStyles, transArea]

@@ -88,36 +88,35 @@ class HG.AreaStyler
     @_highlightStyle
 
   # ============================================================================
-  # given country id and theme and current date
-  # return style of the country at this point
-  getCountryStyle: (inCountryId, inThemeName, inNowDate) ->
-    countryStyle = null
+  getThemeStyles: (inCountryId) ->
+    themeStyles = []
 
-    # find theme in stored theme styles
-    themeFound = no
+    # for all themes
     for theme in @_themeStyles
-      if theme.themeName == inThemeName
-        themeFound = yes
+      countryFoundInTheme = no
+      themeStyle = {}
 
-        # find country in stored country-theme-mappings
-        for country in @_countryThemeMappings
-          if country.countryId == inCountryId
+      # find if country has a class in this theme
+      for country in @_countryThemeMappings
+        if country.countryId == inCountryId
 
-            # get style for theme class of given country in stored theme styles
-            for themeClass in theme.themeClasses
-              if themeClass.className == country.themeClass
+          # if so, get the style and the start / end dates for the country for this theme class
+          for themeClass in theme.themeClasses
+            if themeClass.className == country.themeClass
 
-                # check if style currently active
-                if inNowDate >= country.startDate and inNowDate < country.endDate
+              themeStyle.themeName  = theme.themeName
+              themeStyle.startDate  = country.startDate
+              themeStyle.endDate    = country.endDate
+              themeStyle.style      = themeClass.classStyle
 
-                  # final assignment of output style
-                  countryStyle = themeClass.classStyle
-                  break
+              countryFoundInTheme = yes
+              break
+          break
 
-    if not themeFound
-      console.error "requested theme '" + themeName + "' not found."
+      if countryFoundInTheme
+        themeStyles.push themeStyle
 
-    countryStyle
+    themeStyles
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #

@@ -8,18 +8,11 @@ class HG.AreasOnMap
 
   # ============================================================================
   constructor: (config) ->
-    @_map = null
-    @_areaController = null
-
-    # areaColorMapping
-    # map: type -> color
-    # -> in config
-
-    @_visibleAreas = []
+    @_map             = null
+    @_areaController  = null
+    @_visibleAreas    = []
 
     defaultConfig =
-      areaNormalColor: "#FCFCFC"
-      areaHighlightColor: "#fff",
       labelVisibilityFactor: 5
 
     @_config = $.extend {}, defaultConfig, config
@@ -33,11 +26,14 @@ class HG.AreasOnMap
     @_areaController = hgInstance.areaController
 
     if @_areaController
-      @_areaController.onShowArea @, (area, style) =>
-        @_showAreaLayer area, @_translateStyle style
+      @_areaController.onShowArea @, (area) =>
+        @_showAreaLayer area
 
       @_areaController.onHideArea @, (area) =>
         @_hideAreaLayer area
+
+      @_areaController.onUpdateArea @, (area) =>
+        @_updateAreaStyle area
 
       @_map.on "zoomend", @_onZoomEnd
     else
@@ -48,13 +44,13 @@ class HG.AreasOnMap
   ##############################################################################
 
   # ============================================================================
-  _showAreaLayer: (area, style) ->
+  _showAreaLayer: (area) ->
 
     # add area
     @_visibleAreas.push area
 
     # leaflet layer style
-    options = style
+    options = @_translateStyle area.getStyle()
 
     area.myLeafletLayer = null
     area.myLeafletLayer = L.multiPolygon area.getGeometry(), options
@@ -123,6 +119,20 @@ class HG.AreasOnMap
       @_map.removeLayer area.myLeafletLayer if area.myLeafletLayer?
 
   # ============================================================================
+  _updateAreaStyle: (area) ->
+    newStyle = @_translateStyle area.getStyle()
+    if area.myLeafletLayer?
+      @_animate area.myLeafletLayer,
+        "fill":           (@_translateStyle area.getStyle()).fillColor
+        "fill-opacity":   (@_translateStyle area.getStyle()).fillOpacity
+        "stroke":         (@_translateStyle area.getStyle()).lineColor
+        "stroke-opacity": (@_translateStyle area.getStyle()).lineOpacity
+        "stroke-width":   (@_translateStyle area.getStyle()).lineWidth
+      , 200
+    # if area.myLeafletLabel?
+    #   area.myLeafletLabel._container.newStyle.opacity = newStyle.labelOpacity
+
+  # ============================================================================
   _isLabelVisible: (area) ->
     bb = area.getBoundingBox()
     minPt = [bb[0], bb[1]]
@@ -147,21 +157,6 @@ class HG.AreasOnMap
     area.myLeafletLabelIsVisible = false
     $(area.myLeafletLabel._container).addClass("invisible")
 
-
-  # ============================================================================
-  _onStyleChange: (area) =>
-    if area.myLeafletLayer?
-      @_animate area.myLeafletLayer,
-        "fill":           area.getNormalStyle().fillColor
-        "fill-opacity":   area.getNormalStyle().fillOpacity
-        "stroke":         area.getNormalStyle().lineColor
-        "stroke-opacity": area.getNormalStyle().lineOpacity
-        "stroke-width":   area.getNormalStyle().lineWidth
-      , 200
-    if area.myLeafletLabel?
-      area.myLeafletLabel._container.style.opacity = area.getNormalStyle().labelOpacity
-
-
   # ============================================================================
   _animate: (area, attributes, durartion) ->
     if area._layers?
@@ -172,12 +167,12 @@ class HG.AreasOnMap
 
   # ============================================================================
   _onHover: (event) =>
-    @_animate event.target, {"fill": "#{@_config.areaHighlightColor}"}, 150
+    @_animate event.target, {"fill": "#{event.target.hgArea.getHighlightStyle().areaColor}"}, 150
 
   # ============================================================================
   _onUnHover: (event) =>
-    @_animate event.target, {"fill": "#{@_config.areaNormalColor}"}, 150
-    # @_animate event.target, {"fill": "#{event.target.hgArea.getNormalStyle().fillColor}"}, 150
+    # @_animate event.target, {"fill": "#{@_config.areaNormalColor}"}, 150
+    @_animate event.target, {"fill": "#{event.target.hgArea.getStyle().areaColor}"}, 150
 
   # ============================================================================
   _onClick: (event) =>

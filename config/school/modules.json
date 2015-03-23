@@ -166,6 +166,10 @@
         {
           "areaColor":    "#ABB3ED"
         },
+        "NATO_no_military":
+        {
+          "areaColor":    "#CAD0FF"
+        },
         "WP":
         {
           "areaColor":    "#EDABB0"
@@ -181,8 +185,6 @@
 
   "AreasOnMap" :
   {
-    "areaNormalColor" : "#FCFCFC",
-    "areaHighlightColor" : "#EDEAAB",
     "labelVisibilityFactor" : 8
   }
 
