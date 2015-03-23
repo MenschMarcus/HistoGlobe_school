@@ -94,7 +94,10 @@ class HG.AreaStyler
     # for all themes
     for theme in @_themeStyles
       countryFoundInTheme = no
+
       themeStyle = {}
+      themeStyle.themeName = theme.themeName
+      themeStyle.themeClasses = []
 
       # find if country has a class in this theme
       for country in @_countryThemeMappings
@@ -103,15 +106,13 @@ class HG.AreaStyler
           # if so, get the style and the start / end dates for the country for this theme class
           for themeClass in theme.themeClasses
             if themeClass.className == country.themeClass
-
-              themeStyle.themeName  = theme.themeName
-              themeStyle.startDate  = country.startDate
-              themeStyle.endDate    = country.endDate
-              themeStyle.style      = themeClass.classStyle
-
+              themeStyle.themeClasses.push {
+                className  : themeClass.className
+                startDate  : country.startDate
+                endDate    : country.endDate
+                style      : themeClass.classStyle
+              }
               countryFoundInTheme = yes
-              break
-          break
 
       if countryFoundInTheme
         themeStyles.push themeStyle

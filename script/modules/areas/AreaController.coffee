@@ -37,7 +37,6 @@ class HG.AreaController
       # 4) set of areas whose style is to be changed on the map
       # 5) set of transition areas to be faded out on the map
 
-
     # initially load areas from input files
     @_loadAreasFromJSON conf
 
@@ -54,10 +53,6 @@ class HG.AreaController
     # main activity: what happens if now date changes?
     @_timeline.onNowChanged @, (date) ->
       @_updateAreas date
-
-    # start working through loop that makes sure countries are added and removed correctly
-    # ctr = 0
-    # mainLoop = setInterval (mainLoop, ctr) =>
 
     # ctr = 0
     mainLoop = setInterval () =>    # => is important to be able to access global variables (compared to ->)
@@ -145,16 +140,18 @@ class HG.AreaController
                   geometry.push layer._latlngs
 
               # create HG area
-              newArea = new HG.Area countryId, name, geometry, startDate, endDate, type, @_areaStyler
-
-              # manually set label position if given in data
-              if labelPos?
-                newArea.setLabelPos labelPos
+              newArea = new HG.Area countryId, name, geometry, labelPos, startDate, endDate, type, @_areaStyler
 
               # set initial style
               if SHOW_THEME
-                if newArea.isInTheme THEME, @_timeline.getNowDate()
-                  newArea.setCurrentStyleTheme THEME
+                # check if area has a class in this theme
+                nowDate = @_timeline.getNowDate
+                themeClasses = newArea.getThemeClasses THEME
+                if themeClasses?
+                  for themeClass in themeClasses
+                    if nowDate >= themeClass.startDate and nowDate < themeClass.endDate
+                      newThemeClass = themeClass.className
+                      break
 
               # fill areas array
               @_areas.push newArea
@@ -208,21 +205,21 @@ class HG.AreaController
 
       # check if style changed
       if isActive
-        oldStyleTheme = area.getCurrentStyleTheme()
-        newStyleTheme = null
-        # distinction: currently a theme active?
+        oldThemeClass = area.getActiveThemeClass()
+        newThemeClass = 'normal'  # initially normal class, if not overwritten by
+        # if currently a theme active
         if SHOW_THEME
-          if area.isInTheme THEME, newDate
-            newStyleTheme = THEME
-          else
-            newStyleTheme = 'normal'
-        else
-          newStyleTheme = 'normal'
+          # check if area has a class in this theme
+          themeClasses = area.getThemeClasses THEME
+          if themeClasses?
+            for themeClass in themeClasses
+              if newDate >= themeClass.startDate and newDate < themeClass.endDate
+                newThemeClass = themeClass.className
+                break
 
         # check if theme style has changed
-        if (oldStyleTheme.localeCompare newStyleTheme) != 0   # N.B.! this took so long to find out how to actually compare if two strings are NOT equal in CoffeeScript...
-          console.log area.getId(), newStyleTheme
-          area.setCurrentStyleTheme newStyleTheme
+        if (oldThemeClass.localeCompare newThemeClass) != 0   # N.B.! this took so long to find out how to actually compare if two strings are NOT equal in CoffeeScript...
+          area.setActiveThemeClass THEME, newThemeClass
           areasChanged = yes
           newStyles.push area
 

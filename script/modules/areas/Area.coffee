@@ -7,7 +7,7 @@ class HG.Area
   ##############################################################################
 
   # ============================================================================
-  constructor: (id, name, geometry, startDate, endDate, type, areaStyler) ->
+  constructor: (id, name, geometry, labelPos, startDate, endDate, type, areaStyler) ->
 
     # HG.mixin @, HG.CallbackContainer
     # HG.CallbackContainer.call @
@@ -16,22 +16,29 @@ class HG.Area
     # @addCallback "onHide"
 
     # init necessary area data
-    @_id                = id
-    @_name              = name
-    @_geometry          = geometry
-    @_startDate         = startDate
-    @_endDate           = endDate
-    @_type              = type
+    @_id        = id
+    @_name      = name
+    @_geometry  = geometry
+    @_startDate = startDate
+    @_endDate   = endDate
+    @_type      = type
 
     # initally each area is inactive and is set active only by AreaController
-    @_active            = false
-    @_currentStyleTheme = 'normal'
+    @_active    = false
 
     # get all styles from area styler
     if areaStyler?
       @_setStyles areaStyler
 
-    @_calcLabelPos()
+    # initially area has normal theme class
+    @_activeThemeClass  = 'normal'
+    @_prepareStyle null
+
+    # set label from manual input or calculate it based on geometry
+    if labelPos?
+      @_labelPos = labelPos
+    else
+      @_calcLabelPos()
 
   # ============================================================================
   getId: ->
@@ -71,37 +78,24 @@ class HG.Area
 
   # ============================================================================
   getStyle: ->
-    style = null
-    if @_currentStyleTheme is 'normal'
-      style = @_normalStyle
-    else
-      for theme in @_themeStyles
-        if theme.themeName == @_currentStyleTheme
-          style = theme.style
-    style
-
-  # ============================================================================
-  getCurrentStyleTheme: () ->
-    @_currentStyleTheme
+    @_style
 
   # ============================================================================
   getHighlightStyle: ->
     @_highlightStyle
 
   # ============================================================================
-  isInTheme: (inThemeName, inNowDate) ->
-    isIn = no
-    for theme in @_themeStyles
-      if theme.themeName == inThemeName
-        if inNowDate >= theme.startDate and inNowDate < theme.endDate
-          isIn = yes
-          break
-    isIn
-
+  getActiveThemeClass: () ->
+    @_activeThemeClass
 
   # ============================================================================
-  setLabelPos: (labelPos) ->
-    @_labelPos = labelPos
+  getThemeClasses: (inTheme) ->
+    outThemeClasses = null
+    for theme in @_themeStyles
+      if theme.themeName is inTheme
+        # find correct theme class
+        outThemeClasses = theme.themeClasses
+    outThemeClasses
 
   # ============================================================================
   setActive: () ->
@@ -112,8 +106,9 @@ class HG.Area
     @_active = no
 
   # ============================================================================
-  setCurrentStyleTheme: (currentStyleTheme) ->
-    @_currentStyleTheme = currentStyleTheme
+  setActiveThemeClass: (activeTheme, activeThemeClass) ->
+    @_activeThemeClass = activeThemeClass
+    @_prepareStyle activeTheme
 
 
   ##############################################################################
@@ -157,6 +152,21 @@ class HG.Area
       @_boundingBox = [minLat, minLng, maxLat, maxLng]
 
   # ============================================================================
+  # idea: prepare style so it can be handed out in O(1)
+  _prepareStyle: (inTheme) ->
+    if not inTheme or @_activeThemeClass is 'normal'
+      @_style = @_normalStyle
+    else
+      # find correct theme
+      for theme in @_themeStyles
+        if theme.themeName is inTheme
+          # find correct theme class
+          for themeClass in theme.themeClasses
+            if themeClass.className is @_activeThemeClass
+              @_style = themeClass.style
+
+  # ============================================================================
+  # get all styles from area styler
   _setStyles: (areaStyler) ->
     @_normalStyle     = areaStyler.getNormalStyle()
     @_highlightStyle  = areaStyler.getHighlightStyle()
