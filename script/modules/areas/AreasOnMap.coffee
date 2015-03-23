@@ -32,7 +32,7 @@ class HG.AreasOnMap
       @_areaController.onHideArea @, (area) =>
         @_hideAreaLayer area
 
-      @_areaController.onUpdateArea @, (area) =>
+      @_areaController.onUpdateAreaStyle @, (area) =>
         @_updateAreaStyle area
 
       @_map.on "zoomend", @_onZoomEnd

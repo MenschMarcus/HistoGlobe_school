@@ -17,7 +17,7 @@ class HG.AreaController
 
     @addCallback "onShowArea"
     @addCallback "onHideArea"
-    @addCallback "onUpdateArea"
+    @addCallback "onUpdateAreaStyle"
 
     @_timeline = null
     @_now = null
@@ -80,7 +80,7 @@ class HG.AreaController
 
           # change style of all areas to be changed
           for area in areaChange[3]
-            @notifyAll "onUpdateArea", area
+            @notifyAll "onUpdateAreaStyle", area
 
           # fade-out transition area
           # transArea = areaChange[4]
@@ -151,6 +151,11 @@ class HG.AreaController
               if labelPos?
                 newArea.setLabelPos labelPos
 
+              # set initial style
+              if SHOW_THEME
+                if newArea.isInTheme THEME, @_timeline.getNowDate()
+                  newArea.setCurrentStyleTheme THEME
+
               # fill areas array
               @_areas.push newArea
 
@@ -207,8 +212,6 @@ class HG.AreaController
         newStyleTheme = null
         # distinction: currently a theme active?
         if SHOW_THEME
-          if area.getId() is '1958-9999-FRA'
-            console.log area.isInTheme THEME, newDate
           if area.isInTheme THEME, newDate
             newStyleTheme = THEME
           else
