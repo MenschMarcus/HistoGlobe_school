@@ -58,7 +58,7 @@ class HG.AreaController
       hgInstance.hivent_list_module?.onUpdateTheme @, (theme) =>
         @_theme = theme
         @_updateAreas @_now
-        console.log "smth " + @_theme + " " + @_now
+        console.log "Topic active: " + @_theme
 
     # ctr = 0
     mainLoop = setInterval () =>    # => is important to be able to access global variables (compared to ->)

@@ -21,7 +21,6 @@ class HG.HiventList
       boder: 0
 
     @theme = ''
-    #@theme = 'bipolarAlliances'
 
   #   --------------------------------------------------------------------------
   hgInit: (hgInstance) ->
@@ -33,6 +32,7 @@ class HG.HiventList
     @_container.className = "hivent-list-module"
     @_hgInstance._top_area.appendChild @_container
     @_allTopics = @_hgInstance.timeline._config.topics
+    console.log @_hgInstance.timeline.getTopics()
     @_hivent_array = []
     @_hivent_list = document.createElement "div"
     @_hivent_list.className = "hivent-list"
@@ -90,13 +90,21 @@ class HG.HiventList
         if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
           @_hivent_array.push hivent._hivent
 
-    aktualleCath = "HIVENTORRRR"
+    #############################################################
+    console.log @_allTopics
+    console.log @_hgInstance.categoryFilter.getCurrentFilter()[0]
+    #############################################################
+
+    aktualleCath = ""
+    if @_hgInstance.categoryFilter.getCurrentFilter()[0] != "bipolar"
+      @theme = ""
+      @notifyAll "onUpdateTheme", @theme
 
     for topic in @_allTopics
       if topic.id == @_hgInstance.categoryFilter.getCurrentFilter()[0]
         aktualleCath = topic.name
 
-    headline = '<div>' + 'Aktuelle Epoche: ' + aktualleCath + '</div>'
+    headline = '<div>' + 'Aktuelles Thema: ' + aktualleCath + '</div>'
 
     alliances = '<div class="alliances-content"> Millitärbündnisse </div>'
 
@@ -141,17 +149,23 @@ class HG.HiventList
     $(@_alliances_option).css({'max-height':(@props.heigth_options) + "px"})
     $(@_alliances_option).css({'border-bottom': (@props.border) + "px"})
 
-    @notifyAll "onHiventListChanged", @props
-   
+    if @_hgInstance.categoryFilter.getCurrentFilter()[0] != "bipolar"
+      $(@_alliances_option).css({'max-height':0 + "px"})
 
+    @notifyAll "onHiventListChanged", @props
+
+    war = 0
     $(@_alliances_option).click () =>
       # hivent list alliaces click
-      # console.log @theme? && @theme != ""
+      war = war + 1
       if @theme? && @theme != ""
         @theme = ""
       else
-        @theme = "bipolarAlliances"
-
+        if @_hgInstance.categoryFilter.getCurrentFilter()[0] == "bipolar"
+          @theme = "bipolarAlliances"
+        else
+          @theme = ""
+      console.log @theme + " hList " + war + " " + aktualleCath
       @notifyAll "onUpdateTheme", @theme
 
     return @_hivent_list
