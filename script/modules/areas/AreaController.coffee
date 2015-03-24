@@ -16,11 +16,11 @@ class HG.AreaController
     @addCallback "onShowArea"
     @addCallback "onHideArea"
     @addCallback "onUpdateAreaStyle"
-    @addCallback "onUpdateTheme"
+
 
     @_timeline  = null
     @_now       = null
-    @_theme     = 'bipolarAlliances'
+    @_theme     = ''
 
     defaultConfig =
       areaJSONPaths: undefined,
@@ -53,6 +53,12 @@ class HG.AreaController
     # main activity: what happens if now date changes?
     @_timeline.onNowChanged @, (date) ->
       @_updateAreas date
+
+    hgInstance.onAllModulesLoaded @, () =>
+      hgInstance.hivent_list_module?.onUpdateTheme @, (theme) =>
+        @_theme = theme
+        @_updateAreas @_now
+        console.log "smth " + @_theme + " " + @_now
 
     # ctr = 0
     mainLoop = setInterval () =>    # => is important to be able to access global variables (compared to ->)

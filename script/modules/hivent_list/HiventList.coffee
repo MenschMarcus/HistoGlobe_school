@@ -12,12 +12,16 @@ class HG.HiventList
     HG.CallbackContainer.call @
 
     @addCallback "onHiventListChanged"
+    @addCallback "onUpdateTheme"
 
     @props = 
       active: false
       heigth_hivent_list: 0
       heigth_options: 0
       boder: 0
+
+    @theme = ''
+    #@theme = 'bipolarAlliances'
 
   #   --------------------------------------------------------------------------
   hgInit: (hgInstance) ->
@@ -138,6 +142,17 @@ class HG.HiventList
     $(@_alliances_option).css({'border-bottom': (@props.border) + "px"})
 
     @notifyAll "onHiventListChanged", @props
+   
+
+    $(@_alliances_option).click () =>
+      # hivent list alliaces click
+      # console.log @theme? && @theme != ""
+      if @theme? && @theme != ""
+        @theme = ""
+      else
+        @theme = "bipolarAlliances"
+
+      @notifyAll "onUpdateTheme", @theme
 
     return @_hivent_list
 
