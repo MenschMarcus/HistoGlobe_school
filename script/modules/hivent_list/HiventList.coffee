@@ -15,7 +15,9 @@ class HG.HiventList
 
     @props = 
       active: false
-      heigth: 0
+      heigth_hivent_list: 0
+      heigth_options: 0
+      boder: 0
 
   #   --------------------------------------------------------------------------
   hgInit: (hgInstance) ->
@@ -32,18 +34,25 @@ class HG.HiventList
     @_hivent_list.className = "hivent-list"
     @_hivent_headline = document.createElement "div"
     @_hivent_headline.className = "hivent-list-headline"
+    @_alliances_option = document.createElement "div"
+    @_alliances_option.className = "hivent-list-alliances"
 
 
     @_hgInstance.onAllModulesLoaded @, () =>
       @_hgInstance.search_box_area?.onSearchBoxChanged @, (search_props) =>
         if @props.active
           if search_props.active
-            @props.height = 0
+            @props.height_hivent_list = 0
+            @props.heigth_options = 0
+            @props.boder = 0
           else
-            @props.height = (window.innerHeight - 190 - 53)
+            @props.height_hivent_list = (window.innerHeight - 190 - 53 - 43)
+            @props.heigth_options = 43
+            @props.boder = 1
         # console.log "HL" + @props.active
-        $(@_hivent_list).css({'max-height': (@props.height) + "px"}) # max height of list with timelin height
-
+        $(@_hivent_list).css({'max-height': (@props.height_hivent_list) + "px"}) # max height of list with timelin height
+        $(@_alliances_option).css({'max-height':(@props.heigth_options) + "px"})
+        $(@_alliances_option).css({'border-bottom': (@props.border) + "px"})
 
     @_hgInstance.onTopAreaSlide @, (t) =>
       if @_hgInstance.isInMobileMode()
@@ -67,6 +76,7 @@ class HG.HiventList
     if @_hivent_array.length > 0
       @_container.removeChild @_hivent_list
       @_container.removeChild @_hivent_headline
+      @_container.removeChild @_alliances_option
 
     # Hivents ==================================================================
 
@@ -83,6 +93,9 @@ class HG.HiventList
         aktualleCath = topic.name
 
     headline = '<div>' + 'Aktuelle Epoche: ' + aktualleCath + '</div>'
+
+    alliances = '<div class="alliances-content"> Millitärbündnisse </div>'
+
     hivents = '<ul>'
 
     for hivent in @_hivent_array
@@ -100,21 +113,29 @@ class HG.HiventList
     hivents += '</ul>'
     # some stuff to do
     @_hivent_headline.innerHTML = headline
+    @_alliances_option.innerHTML = alliances
     @_hivent_list.innerHTML = hivents
     
     if @_hivent_array.length > 0
       @_container.appendChild @_hivent_headline
+      @_container.appendChild @_alliances_option
       @_container.appendChild @_hivent_list
       @props.active = true
     else
       @props.active = false
 
     if @_hgInstance.search_box_area.props.active
-      @props.height = 0
+      @props.height_hivent_list = 0
+      @props.heigth_options = 0
+      @props.border = 0
     else
-      @props.height = (window.innerHeight - 190 - 53)
+      @props.height_hivent_list = (window.innerHeight - 190 - 53 - 43)
+      @props.heigth_options = 43
+      @props.border = 1
 
-    $(@_hivent_list).css({'max-height': (@props.height) + "px"}) # max height of list with timelin height
+    $(@_hivent_list).css({'max-height': (@props.height_hivent_list) + "px"}) # max height of list with timelin height
+    $(@_alliances_option).css({'max-height':(@props.heigth_options) + "px"})
+    $(@_alliances_option).css({'border-bottom': (@props.border) + "px"})
 
     @notifyAll "onHiventListChanged", @props
 

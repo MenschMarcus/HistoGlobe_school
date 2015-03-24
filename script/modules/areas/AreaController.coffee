@@ -16,6 +16,7 @@ class HG.AreaController
     @addCallback "onShowArea"
     @addCallback "onHideArea"
     @addCallback "onUpdateAreaStyle"
+    @addCallback "onUpdateTheme"
 
     @_timeline  = null
     @_now       = null
