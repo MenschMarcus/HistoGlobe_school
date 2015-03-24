@@ -6,7 +6,7 @@ class HG.AreaController
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
-  SHOW_THEME  = on
+  SHOW_THEME  = off
   THEME       = 'bipolarAlliances'
 
   # ============================================================================
@@ -117,8 +117,7 @@ class HG.AreaController
               countryId = country.properties.id
 
               ## misc
-              name     = country.properties.name_de_shrt    # to be changed if other languages are desired
-              labelPos = country.properties.label_lat_lng
+              name      = country.properties.name_de_shrt    # to be changed if other languages are desired
               startDate = new Date country.properties.start_date.toString()
               endDate   = new Date country.properties.end_date.toString()
               type      = 'country'
@@ -132,6 +131,13 @@ class HG.AreaController
               else if country.geometry.type is "MultiPolygon"
                 for id, layer of data._layers
                   geometry.push layer._latlngs
+
+              ## label pos
+              labelLat = country.properties.label_lat
+              labelLng = country.properties.label_lng
+              labelPos = null
+              if labelLat isnt "" and labelLng isnt ""
+                labelPos = [(parseFloat labelLat), (parseFloat labelLng)]
 
               # create HG area
               newArea = new HG.Area countryId, name, geometry, labelPos, startDate, endDate, type, @_areaStyler

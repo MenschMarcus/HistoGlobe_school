@@ -23,12 +23,15 @@ class HG.Area
     @_endDate   = endDate
     @_type      = type
 
-    # initally each area is inactive and is set active only by AreaController
-    @_active    = false
+    # init bounding box (needed for manual label position calculation)
+    @_calcBoundingBox()
 
     # get all styles from area styler
     if areaStyler?
       @_setStyles areaStyler
+
+    # initally each area is inactive and is set active only by AreaController
+    @_active    = false
 
     # initially area has normal theme class
     @_activeThemeClass  = 'normal'
@@ -38,7 +41,7 @@ class HG.Area
     if labelPos?
       @_labelPos = labelPos
     else
-      @_calcLabelPos()
+      @_labelPos = @_calcLabelPos()
 
   # ============================================================================
   getId: ->
@@ -117,7 +120,7 @@ class HG.Area
   ##############################################################################
 
   # ============================================================================
-  _calcLabelPos: () ->
+  _calcBoundingBox: () ->
 
     minLat = 180
     minLng = 90
@@ -130,27 +133,30 @@ class HG.Area
       if area.length > @_geometry[maxIndex].length
         maxIndex = i
 
-    # calculate label position based on largest subpart
+    # find smallest and largest lat and long coordinates of all points in largest subpart
     if  @_geometry[maxIndex].length > 0
-      # final position [lat, lng]
-      labelLat = 0
-      labelLng = 0
-
-      # position = center of bounding box of polygon
       for coords in @_geometry[maxIndex]
-        labelLat += coords.lat
-        labelLng += coords.lng
-
         if coords.lat < minLat then minLat = coords.lat
         if coords.lat > maxLat then maxLat = coords.lat
         if coords.lng < minLng then minLng = coords.lng
         if coords.lng > maxLng then maxLng = coords.lng
 
-      labelLat /= @_geometry[maxIndex].length
-      labelLng /= @_geometry[maxIndex].length
-
-      @_labelPos = [labelLat, labelLng]
       @_boundingBox = [minLat, minLng, maxLat, maxLng]
+
+
+  # ============================================================================
+  # calculate label position based on largest subpart of the area
+  _calcLabelPos: () ->
+
+    minLat = @_boundingBox[0]
+    minLng = @_boundingBox[1]
+    maxLat = @_boundingBox[2]
+    maxLng = @_boundingBox[3]
+
+    labelLat = (minLat+maxLat)/ 2
+    labelLng = (minLng+maxLng)/ 2
+
+    [labelLat, labelLng]
 
   # ============================================================================
   # idea: prepare style so it can be handed out in O(1)
