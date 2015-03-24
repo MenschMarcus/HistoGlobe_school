@@ -10,13 +10,16 @@ class HG.HiventMarker2D extends HG.HiventMarker
   ##############################################################################
 
   # ============================================================================
-  constructor: (hiventHandle, lat, long, display, map, markerGroup, locationName) ->
+  constructor: (hiventHandle, lat, long, display, map, markerGroup, locationName, hgInstance) ->
 
     #Call Hivent Marker Constructor
     HG.HiventMarker.call @, hiventHandle, map.getPanes()["popupPane"]
     
     #List of Markers
     VISIBLE_MARKERS_2D.push @
+
+    @_hgInstance = hgInstance
+    @_mode = hgInstance.abTest.config.hiventMarkerMode
 
     @locationName = locationName
 
@@ -57,6 +60,8 @@ class HG.HiventMarker2D extends HG.HiventMarker
     @_marker.on "mouseout", @_onMouseOut
     @_marker.on "click", @_onClick
     @_map.on "zoomend", @_updatePosition
+    @_map.on "dragend", @_updateMarker
+    
     @_map.on "dragend", @_updatePosition
     @_map.on "viewreset", @_updatePosition
     @_map.on "zoomend", @_updateMarker
@@ -111,29 +116,57 @@ class HG.HiventMarker2D extends HG.HiventMarker
   # ============================================================================
   _onMouseOver: (e) =>
     #@_hiventHandle.regionMarker.highlight()
+
     @getHiventHandle().mark @, @_position
     @getHiventHandle().linkAll @_position
+    @_updateMarker()
 
   # ============================================================================
   _onMouseOut: (e) =>
     #@_hiventHandle.regionMarker.unHiglight()
     @getHiventHandle().unMark @, @_position
     @getHiventHandle().unLinkAll @_position
+    @_updateMarker()
 
   # ============================================================================
-  _onClick: (e) =>
-    @getHiventHandle().toggleActive @, @getDisplayPosition()
+  # _onClick: (e) =>
+    # default behavior
+    # @getHiventHandle().toggleActive @, @getDisplayPosition()
+    
+    # marker: center horizontally and ~ 2/3 vertically; hivent box above marker
+    # @getHiventHandle().focusAll @, @_position
+    # @getHiventHandle().activeAll @, @_position
+    # @_updatePosition()
+
+  # AB Test ====================================================================
+  _onClick: (e, config) =>
+    if @_mode is "A"
+      # default behavior
+      @getHiventHandle().toggleActive @, @getDisplayPosition()
+
+    if @_mode is "B"
+      # marker: center horizontally and ~ 2/3 vertically; hivent box above marker
+      @getHiventHandle().toggleActive @, @getDisplayPosition()
+      @getHiventHandle().focusAll @, @_position
+      @getHiventHandle().activeAll @, @_position
+      @_updatePosition()
 
   # ============================================================================
   _updatePosition: =>
     @_position = @_map.latLngToLayerPoint @_marker.getLatLng()
     @notifyAll "onPositionChanged", @getDisplayPosition()
+  
   _updateMarker: =>
-    if @_marker._icon?
-      if @_map.getZoom()>3
-        @_marker._icon.innerHTML="<div class=\"markerLabel\">#{@_markerLabelLocation}</div>"
-      else
-        @_marker._icon.innerHTML="<div class=\"markerLabel\">#{@_markerLabelEventName}</div>"      
+    #should be a way to specify behaviour over config/abtest
+    #if window.hgConfig.ABTest.regionLabels=="B"    
+    #disabled for better performance
+    #marcus you told me to write this function
+    if false
+      if @_marker._icon?
+        if @_map.getZoom()>3
+          @_marker._icon.innerHTML="<div class=\"markerLabel\">#{@_markerLabelLocation}</div>"
+        else
+          @_marker._icon.innerHTML="<div class=\"markerLabel\">#{@_markerLabelEventName}</div>"      
     0
    # ============================================================================
   _destroy: =>

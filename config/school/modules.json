@@ -12,175 +12,6 @@
     "tiles": "config/school/tiles/",
     "sidebarEnabled": false
   },
-  "Timeline" :
-  {
-    "timelineZoom" : 2,
-    "topics" : [
-      {
-        "startDate": "18.1.1871",
-        "endDate": "27.7.1914",
-        "name": "Imperialismus",
-        "id": "imperialismus",
-        "row": 0,
-        "subtopics": [
-        {
-          "startDate": "1.1.1881",
-          "endDate": "27.7.1914",
-          "name": "Kolonisierung Afrikas",
-          "id": "kolonAfr"
-        }
-        ]
-      },
-      {
-        "startDate": "28.07.1914",
-        "endDate": "11.11.1918",
-        "name": "Erster Weltkrieg",
-        "id": "wk1",
-        "row": 0,
-        "subtopics": [
-        {
-          "startDate": "28.07.1914",
-          "endDate": "12.9.1914",
-          "name": "Bewegungskrieg",
-          "id": "wk1-1"
-        },
-        {
-          "startDate": "13.09.1914",
-          "endDate": "07.1.1918",
-          "name": "Stellungskrieg",
-          "id": "wk1-2"
-        },
-        {
-          "startDate": "08.01.1918",
-          "endDate": "11.11.1918",
-          "name": "Kriegsentscheidung",
-          "id": "wk1-3"
-        }
-        ]
-      },
-      {
-        "startDate": "12.11.1918",
-        "endDate": "31.08.1939",
-        "name": "Zwischenkriegsjahre",
-        "id": "zwischenkrieg",
-        "row": 0,
-        "subtopics": [
-          {
-            "startDate": "30.8.1924",
-            "endDate": "24.10.1929",
-            "name": "Goldene Zwanziger",
-            "id": "golden20",
-            "row": 0
-          },
-          {
-            "startDate": "25.10.1929",
-            "endDate": "01.01.1936",
-            "name": "Weltwirtschaftskrise",
-            "id": "wirtschaftskrise",
-            "row": 0
-
-          }
-        ]
-      },
-      {
-        "startDate": "1.9.1939",
-        "endDate": "8.5.1945",
-        "name": "Zweiter Weltkrieg",
-        "id": "wk2",
-        "row": 0,
-        "subtopics": [
-        {
-          "startDate": "1.9.1939",
-          "endDate": "8.9.1941",
-          "name": "Blitzkrieg",
-          "id": "wk2-1"
-        },
-        {
-          "startDate": "9.9.1941",
-          "endDate": "24.5.1943",
-          "name": "Kriegswende",
-          "id": "wk2-2"
-        },
-        {
-          "startDate": "24.5.1943",
-          "endDate": "8.5.1945",
-          "name": "Kriegsentscheidung",
-          "id": "wk2-3"
-        }
-        ]
-      },
-      {
-        "startDate": "9.5.1945",
-        "endDate": "26.12.1991",
-        "name": "Bipolare Welt",
-        "id": "bipolar",
-        "row": 0,
-        "subtopics": [
-        {
-          "startDate": "09.05.1945",
-          "endDate": "02.12.1947",
-          "name": "Kriegsende",
-          "id": "kriegsende"
-        },
-        {
-          "startDate": "03.12.1947",
-          "endDate": "28.10.1962",
-          "name": "Kalter Krieg",
-          "id": "kalterKrieg"
-        },
-        {
-          "startDate": "29.10.1962",
-          "endDate": "11.3.1985",
-          "name": "Entspannung und Koexistenz",
-          "id": "entspannung"
-        },
-        {
-          "startDate": "12.3.1985",
-          "endDate": "26.12.1991",
-          "name": "Auflösung des Ostblocks",
-          "id": "endeOstblock"
-        }
-        ]
-      },
-      {
-        "startDate": "18.1.1871",
-        "endDate": "9.11.1918",
-        "name": "Deutsches Kaiserreich",
-        "id": "kaiserreich",
-        "row": 1
-      },
-      {
-        "startDate": "9.11.1918",
-        "endDate": "29.1.1933",
-        "name": "Weimarer Republik",
-        "id": "weimarRep",
-        "row": 1
-
-      },
-      {
-        "startDate": "30.1.1933",
-        "endDate": "8.5.1945",
-        "name": "Nationalsozialismus",
-        "id": "ns",
-        "row": 1,
-        "subtopics": [
-        {
-          "startDate": "7.4.1933",
-          "endDate": "8.5.1945",
-          "name": "Judenverfolgung",
-          "id": "holocaust"
-        }
-        ]
-      },
-      {
-        "startDate": "9.5.1945",
-        "endDate": "21.11.1990",
-        "name": "Geteiltes Deutschland",
-        "id": "deuTeilung",
-        "row": 1
-      }
-    ]
-  },
 
   "ABTest" :
   {
@@ -193,7 +24,27 @@
     "epochNames-moreSpace" :  "A",
     "epochNames-shortNames" : "A",
     "searchFilter" :          "A",
-    "regionLabels" :          "A"
+    "regionLabels" :          "A",
+    "hiventMarkerMode" :      "A"
+  },
+
+  "Timeline" :
+  {
+    "timelineZoom" : 2,
+    "dsvPaths": ["config/school/data/topics.csv"],
+    "rootDirs": ["config/school/data/topics"],
+    "ignoredLines" : [1],
+    "indexMappings": [
+      {
+        "start"       : 0,
+        "end"         : 1,
+        "id"          : 2,
+        "subtopic_of" : 3,
+        "topic"       : 4,
+        "token"       : 5,
+        "row"         : 6
+      }
+    ]
   },
 
   "BrowserDetector": {},
@@ -230,8 +81,8 @@
     "dsvConfigs":
     [
       {
-        "path": "config/school/data/hivents.csv",
-        "ignoredLines" : [1,2,3],
+        "path":             "config/school/data/hivents.csv",
+        "ignoredLines" :    [1,2,3],
         "indexMapping" :
         {
           "id"              : 0,
@@ -283,6 +134,50 @@
   "HiventList": {},
   "HiventListController": {},
 
+  "AreaStyler":
+  {
+    "normalStyle":
+    {
+      "areaColor":      "#FCFCFC",
+      "areaOpacity":    0.75,
+      "borderWidth":    1.5,
+      "borderColor":    "#BBBBBB",
+      "borderOpacity":  1.0,
+      "nameSize":       1,
+      "nameColor":      "#BBBBBB",
+      "nameOpacity":    1.0
+    },
+    "highlightStyle":
+    {
+      "areaColor":      "#EDEAAB"
+    },
+    "countryThemeMapping" :
+    [
+      {
+        "theme":        "bipolarAlliances",
+        "csvFilePath":  "config/school/data/alliances.csv"
+      }
+    ],
+    "themeStyles":
+    {
+      "bipolarAlliances":
+      {
+        "NATO":
+        {
+          "areaColor":    "#ABB3ED"
+        },
+        "NATO_no_military":
+        {
+          "areaColor":    "#CAD0FF"
+        },
+        "WP":
+        {
+          "areaColor":    "#EDABB0"
+        }
+      }
+    }
+  },
+
   "AreaController":
   {
     "areaJSONPaths" : ["config/school/data/countries.geojson"]
@@ -290,8 +185,6 @@
 
   "AreasOnMap" :
   {
-    "areaNormalColor" : "#FCFCFC",
-    "areaHighlightColor" : "#EDEAAB",
     "labelVisibilityFactor" : 8
   }
 

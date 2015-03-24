@@ -218,9 +218,9 @@ class HG.HiventController
           # ---------------------------------------------------
           $.get config.path,
             (data) =>
-              parse_result = $.parse data, parse_config
+              parseResult = $.parse data, parse_config
               builder = new HG.HiventBuilder config, @_hgInstance.multimediaController
-              for result, i in parse_result.results
+              for result, i in parseResult.results
                 unless i+1 in config.ignoredLines
                   builder.constructHiventFromArray result, (hivent) =>
                     if hivent

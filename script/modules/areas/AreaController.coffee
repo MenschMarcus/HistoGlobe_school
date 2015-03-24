@@ -6,6 +6,7 @@ class HG.AreaController
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
+
   # ============================================================================
   constructor: (config) ->
 
@@ -14,9 +15,11 @@ class HG.AreaController
 
     @addCallback "onShowArea"
     @addCallback "onHideArea"
+    @addCallback "onUpdateAreaStyle"
 
-    @_timeline = null
-    @_now = null
+    @_timeline  = null
+    @_now       = null
+    @_theme     = 'bipolarAlliances'
 
     defaultConfig =
       areaJSONPaths: undefined,
@@ -24,17 +27,17 @@ class HG.AreaController
     conf = $.extend {}, defaultConfig, config
 
     # area handling
-    @_areas = []                # main array of all HG areas (id, name, geometry, ...)
-    @_activeAreas = []          # backup: id of all areas that are currently active
-    @_addAreas = new Queue()    # id of areas that are new and to be put on the map/globe
-    @_remAreas = new Queue()    # id of areas that are old and to be removed on the map/globe
-    @_transAreas = new Queue()  # if of areas that transisted from one country to another (to be calculated)
+    @_areas = []  # main array of all HG areas (id, name, geometry, ...)
+
+    @_areaChanges = new Queue() # main queue, each element describes one area change
+      # 1) flag: ready to be executed? (if transition animation of related areas is done)
+      # 2) set of areas to be added on the map
+      # 3) set of areas to be deleted from the map
+      # 4) set of areas whose style is to be changed on the map
+      # 5) set of transition areas to be faded out on the map
 
     # initially load areas from input files
     @_loadAreasFromJSON conf
-
-    # has time ever changed?
-    @_hasTimeChanged = no
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -44,21 +47,48 @@ class HG.AreaController
     @_timeline = hgInstance.timeline
     @_now = @_timeline.getNowDate()
 
+    @_areaStyler = hgInstance.areaStyler
+
     # main activity: what happens if now date changes?
     @_timeline.onNowChanged @, (date) ->
-      @_filterActiveAreas date
+      @_updateAreas date
 
-    # category handling
-    # hgInstance.categoryFilter?.onFilterChanged @,(categoryFilter) =>
-    #   @_currentCategoryFilter = categoryFilter
-    #   @_filterActiveAreas()
+    # ctr = 0
+    mainLoop = setInterval () =>    # => is important to be able to access global variables (compared to ->)
 
-    # @_categoryFilter = hgInstance.categoryFilter if hgInstance.categoryFilter
+      # check if area change can happen
+      if not @_areaChanges.isEmpty()
+        isReady = @_areaChanges.peek()[0]
+        if isReady
+          areaChange = @_areaChanges.dequeue()
+
+          # add all new areas
+          for area in areaChange[1]
+            @notifyAll "onShowArea", area
+            area.setActive()
+
+          # remove all old areas
+          for area in areaChange[2]
+            @notifyAll "onHideArea", area
+            area.setInactive()
+
+          # change style of all areas to be changed
+          for area in areaChange[3]
+            @notifyAll "onUpdateAreaStyle", area
+
+          # fade-out transition area
+          # transArea = areaChange[4]
+          # if transArea
+          #   @notifyAll "onHideArea", transArea
+          #   transArea.setInactive()
+
+        # update style
+    , 50
 
 
   # ============================================================================
-  getAllAreas:()->    @_areas
-  getActiveAreas:()-> @_activeAreas
+  getAllAreas:()->
+    @_areas
 
 
   ##############################################################################
@@ -71,7 +101,8 @@ class HG.AreaController
     # parse each geojson file
     for file in config.areaJSONPaths
       $.getJSON file, (countries) =>
-        numCountriesToLoad = countries.features.length  # counter
+        numAreasToLoad = countries.features.length  # counter
+
         for country in countries.features
 
           # parse file asynchronously
@@ -82,7 +113,15 @@ class HG.AreaController
               # @_id       = country.properties.iso_a3
               # old! iso_a3 not suitable for historic countries, because it is hard to always come up with three letters for a country
               # => introduce a "country_id" in geojson, which is a 3 (current country) or 4 (historic country) letter country code
-              ctryId = country.properties.country_id
+              countryId = country.properties.id
+
+              ## misc
+              name     = country.properties.name_de_shrt    # to be changed if other languages are desired
+              labelPos = country.properties.label_lat_lng
+              startDate = new Date country.properties.start_date.toString()
+              endDate   = new Date country.properties.end_date.toString()
+              type      = 'country'
+              active    = false
 
               ## geometry (polygons)
               data = L.GeoJSON.geometryToLayer country
@@ -93,43 +132,29 @@ class HG.AreaController
                 for id, layer of data._layers
                   geometry.push layer._latlngs
 
-              ## label
-              name     = country.properties.name_de_shrt    # to be changed if other languages are desired
-              labelPos = country.properties.label_lat_lng
-
-              ## misc
-              # startDate = new Date country.properties.start_date, 0, 1    # 01.01. of start year
-              # endDate   = new Date country.properties.end_date-1, 11, 31  # 31.12. of year before
-              startDate = new Date country.properties.start_date.toString()
-              endDate   = new Date country.properties.end_date.toString()
-              type      = 'country'
-              active    = false
-
               # create HG area
-              newArea = new HG.Area ctryId, geometry, startDate, endDate, type
-              newArea.setInactive()
-              if labelPos?
-                newArea.setLabelWithPos name, labelPos
-              else
-                newArea.setLabel name
+              newArea = new HG.Area countryId, name, geometry, labelPos, startDate, endDate, type, @_areaStyler
 
-              # attach event handlers to area
-              # newArea.onShow @, (area) =>
-              #   @notifyAll "onShowArea", area
-              #   area.isVisible = true
-
-              # newArea.onHide @, (area) =>
-              #   @notifyAll "onHideArea", area
-              #   area.isVisible = false
+              # set initial style
+              if @_theme?
+                # check if area has a class in this theme
+                nowDate = @_timeline.getNowDate
+                themeClasses = newArea.getThemeClasses @_theme
+                if themeClasses?
+                  for themeClass in themeClasses
+                    if nowDate >= themeClass.startDate and nowDate < themeClass.endDate
+                      newThemeClass = themeClass.className
+                      break
 
               # fill areas array
               @_areas.push newArea
 
-              # counter handling
-              numCountriesToLoad--
-              if numCountriesToLoad is 0
-                # initially put areas on the map / globe
-                @_filterActiveAreas @_timeline.getNowDate()
+              # one less area to go
+              numAreasToLoad--
+
+              # initially put areas on the map / globe
+              if numAreasToLoad is 0
+                @_updateAreas @_timeline.getNowDate()
 
             , 0
 
@@ -139,30 +164,17 @@ class HG.AreaController
   # add all new and remove all old areas to map/globe
   # and emphasize transition areas (areas that move from one country to another)
 
-  _updateAreas:()->
-    # TODO assemble and show transition area
-
-    # add all new areas (asynchronously)
-    while not @_addAreas.isEmpty()
-      addArea = @_addAreas.dequeue()
-      @notifyAll "onShowArea", addArea
-
-    # remove all new areas (asynchronously)
-    while not @_remAreas.isEmpty()
-      remArea = @_remAreas.dequeue()
-      @notifyAll "onHideArea", remArea
-
-    # # remove all old areas (asynchronously)
-    # while not @_remAreas.isEmpty()
-    #   remId = @_remAreas.dequeue()
-
-
-  # ============================================================================
-  _filterActiveAreas:(date)->
+  _updateAreas:(date)->
 
     # comparison by dates
     oldDate = @_now
     newDate = date
+
+    # changing areas in this step
+    areasChanged = no
+    newAreas = []
+    oldAreas = []
+    newStyles = []
 
     for area in @_areas
 
@@ -172,27 +184,56 @@ class HG.AreaController
       if newDate >= area.getStartDate() and newDate < area.getEndDate()
         isActive = yes
 
-      # change? -> became active/inactive
-      becameActive    = isActive and not wasActive
-      becameInactive  = wasActive and not isActive
-
-      # console.log area.getId(), isActive, wasActive, becameActive, becameInactive
-
-      if becameActive
-        # @notifyAll "onShow", @
-        @_addAreas.enqueue area
+      # if area became active
+      if isActive and not wasActive
         area.setActive()
+        areasChanged = yes
+        newAreas.push area
 
-      if becameInactive
-        # @notifyAll "onHide", @
-        @_remAreas.enqueue area
+      # if area became inactive
+      if wasActive and not isActive
         area.setInactive()
+        areasChanged = yes
+        oldAreas.push area
 
+      # check if style changed
+      if isActive
+        oldThemeClass = area.getActiveThemeClass()
+        newThemeClass = 'normal'  # initially normal class, if not overwritten by
+        # if currently a theme active
+        if @_theme?
+          # check if area has a class in this theme
+          themeClasses = area.getThemeClasses @_theme
+          if themeClasses?
+            for themeClass in themeClasses
+              if newDate >= themeClass.startDate and newDate < themeClass.endDate
+                newThemeClass = themeClass.className
+                break
+
+        # check if theme style has changed
+        if (oldThemeClass.localeCompare newThemeClass) != 0   # N.B.! this took so long to find out how to actually compare if two strings are NOT equal in CoffeeScript...
+          area.setActiveThemeClass @_theme, newThemeClass
+          areasChanged = yes
+          newStyles.push area
+
+
+    ## update the changing areas
+    if areasChanged
+      # fade-in transition area (areas that actually change)
+      # assemble transition areas
+      # TODO
+      # transAreaGeo = [[[52.874124, 7.601427], [53.026369, 13.962511], [48.022933, 13.217549], [47.890499, 6.647725]]]
+      # transArea = new HG.Area "T1", null, transAreaGeo, null, null, "trans"
+      transArea = null
+      # if transArea
+      #   @notifyAll "onShowArea", transArea
+      #   transArea.setActive()
+
+      # if there is no transition area, the adding and deletion of countries can happen right away
+      ready = yes
+
+      # enqueue set of area change
+      @_areaChanges.enqueue [ready, newAreas, oldAreas, newStyles, transArea]
 
     # reset now Date
     @_now = newDate
-
-    # time has changed once -> never reset to "no"
-    @_hasTimeChanged = yes
-
-    @_updateAreas()

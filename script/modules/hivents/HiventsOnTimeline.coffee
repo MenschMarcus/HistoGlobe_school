@@ -27,6 +27,8 @@ class HG.HiventsOnTimeline
   # ============================================================================
   hgInit: (hgInstance) ->
     hgInstance.hiventsOnTimeline = @
+    @_timeline = hgInstance.timeline
+  
 
     if hgInstance.categoryIconMapping
       for category in hgInstance.categoryIconMapping.getCategories()
@@ -50,9 +52,8 @@ class HG.HiventsOnTimeline
            position: absolute !important;
            background-image: url(#{iconsTimeLine[element]}) !important;
            background-size: cover !important;"
-
-    @_timeline = hgInstance.timeline
-    @_hiventController = hgInstance.hiventController
+    
+    @_hiventController = hgInstance.hiventController    
 
     if @_hiventController
       @_hiventController.getHivents @, (handle) =>
@@ -70,11 +71,13 @@ class HG.HiventsOnTimeline
                 break'''
             if self.getHivent().subTopic is ""
               rowPosition = @_timeline.getRowFromTopicId(self.getHivent().parentTopic)
+              id = self.getHivent().parentTopic
               #console.log rowPosition + " and " + self.getHivent().parentTopic
             else
               rowPosition = @_timeline.getRowFromTopicId(self.getHivent().subTopic)
+              id = self.getHivent().subTopic
               #console.log rowPosition + " and " + self.getHivent().subTopic
-            marker = new HG.HiventMarkerTimeline @_timeline, self, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate), rowPosition
+            marker = new HG.HiventMarkerTimeline @_timeline, self, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate), rowPosition, id
             @_hiventMarkers.push marker
             marker.onDestruction @, ()=>
               index = $.inArray(marker, @_hiventMarkers)

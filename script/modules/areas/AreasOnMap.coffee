@@ -8,32 +8,14 @@ class HG.AreasOnMap
 
   # ============================================================================
   constructor: (config) ->
-    @_map = null
-    @_areaController = null
-
-    # areaColorMapping
-    # map: type -> color
-    # -> in config
-
-    @_visibleAreas = []
+    @_map             = null
+    @_areaController  = null
+    @_visibleAreas    = []
 
     defaultConfig =
-      areaNormalColor: "#FCFCFC"
-      areaHighlightColor: "#fff",
       labelVisibilityFactor: 5
 
     @_config = $.extend {}, defaultConfig, config
-
-    # HACK !!! TODO: make nice
-    @_normalStyle =
-      fillColor:    @_config.areaNormalColor
-      fillOpacity:  0.75
-      lineColor:    "#BBBBBB"
-      lineOpacity:  1
-      weight:       2.25         # stroke width
-      labelOpacity: 1
-      color:        "#BBBBBB"   # lineColor
-      opacity:      1           # lineOpacity
 
 
   # ============================================================================
@@ -50,6 +32,9 @@ class HG.AreasOnMap
       @_areaController.onHideArea @, (area) =>
         @_hideAreaLayer area
 
+      @_areaController.onUpdateAreaStyle @, (area) =>
+        @_updateAreaStyle area
+
       @_map.on "zoomend", @_onZoomEnd
     else
       console.error "Unable to show areas on Map: AreaController module not detected in HistoGlobe instance!"
@@ -64,57 +49,57 @@ class HG.AreasOnMap
     # add area
     @_visibleAreas.push area
 
+    # leaflet layer style
+    options = @_translateStyle area.getStyle()
+
     area.myLeafletLayer = null
-
-    options = @_normalStyle
-
     area.myLeafletLayer = L.multiPolygon area.getGeometry(), options
 
     area.myLeafletLayer.on "mouseover", @_onHover     # TODO: why does hover not work?
     area.myLeafletLayer.on "mouseout", @_onUnHover
     area.myLeafletLayer.on "click", @_onClick
 
-    # area.onStyleChange @, @_onStyleChange
-
-    area.myLeafletLayer.addTo @_map   # finally puts are on the map
+    area.myLeafletLayer.addTo @_map   # finally puts area on the map
 
     area.myLeafletLayer.hgArea = area
 
-    # add label
-    area.myLeafletLabel = new L.Label();
-    area.myLeafletLabel.setContent area.getName()
-    area.myLeafletLabel.setLatLng area.getLabelPos()
+    # add label if given
+    if area.getName()
+      area.myLeafletLabel = new L.Label();
+      area.myLeafletLabel.setContent area.getName()
+      area.myLeafletLabel.setLatLng area.getLabelPos()
 
-    area.myLeafletLabel.options.className = "invisible"   # makes label invisible onLoad
+      area.myLeafletLabel.options.className = "invisible"   # makes label invisible onLoad
 
-    @_map.showLabel area.myLeafletLabel
+      @_map.showLabel area.myLeafletLabel
 
-    # too lazy to change .getLabelDir(), so changed back to original version
-    # ---- original version ----
-    area.myLeafletLabel.options.offset = [
-      -area.myLeafletLabel._container.offsetWidth/2,
-      -area.myLeafletLabel._container.offsetHeight/2
-    ]
+      # too lazy to change .getLabelDir(), so changed back to original version
+      # ---- original version ----
+      area.myLeafletLabel.options.offset = [
+        -area.myLeafletLabel._container.offsetWidth/2,
+        -area.myLeafletLabel._container.offsetHeight/2
+      ]
 
-    area.myLeafletLabel._updatePosition()
+      area.myLeafletLabel._updatePosition()
 
-    # ---- new version ----
-    # if area.getLabelDir() is "center"
-    #   area.myLeafletLabel.options.offset = [
-    #     -area.myLeafletLabel._container.offsetWidth/2,
-    #     -area.myLeafletLabel._container.offsetHeight/2
-    #   ]
-    #   area.myLeafletLabel._updatePosition()
-    # else if area.getLabelDir() is "right"
-    #   area.myLeafletLabel.options.offset = [
-    #     -area.myLeafletLabel._container.offsetWidth,
-    #     -area.myLeafletLabel._container.offsetHeight
-    #   ]
-      # area.myLeafletLabel._updatePosition()
+      # ---- new version ----
+      # if area.getLabelDir() is "center"
+      #   area.myLeafletLabel.options.offset = [
+      #     -area.myLeafletLabel._container.offsetWidth/2,
+      #     -area.myLeafletLabel._container.offsetHeight/2
+      #   ]
+      #   area.myLeafletLabel._updatePosition()
+      # else if area.getLabelDir() is "right"
+      #   area.myLeafletLabel.options.offset = [
+      #     -area.myLeafletLabel._container.offsetWidth,
+      #     -area.myLeafletLabel._container.offsetHeight
+      #   ]
+        # area.myLeafletLabel._updatePosition()
 
-    area.myLeafletLabelIsVisible = false
-    if @_isLabelVisible area          # makes label visible only after determined if actually active
-      @_showAreaLabel area
+      area.myLeafletLabelIsVisible = false
+
+      if @_isLabelVisible area          # makes label visible only after determined if actually active
+        @_showAreaLabel area
 
   # ============================================================================
   _hideAreaLayer: (area) ->
@@ -132,6 +117,20 @@ class HG.AreasOnMap
 
       @_map.removeLayer area.myLeafletLabel if area.myLeafletLabel?
       @_map.removeLayer area.myLeafletLayer if area.myLeafletLayer?
+
+  # ============================================================================
+  _updateAreaStyle: (area) ->
+    newStyle = @_translateStyle area.getStyle()
+    if area.myLeafletLayer?
+      @_animate area.myLeafletLayer,
+        "fill":           (@_translateStyle area.getStyle()).fillColor
+        "fill-opacity":   (@_translateStyle area.getStyle()).fillOpacity
+        "stroke":         (@_translateStyle area.getStyle()).lineColor
+        "stroke-opacity": (@_translateStyle area.getStyle()).lineOpacity
+        "stroke-width":   (@_translateStyle area.getStyle()).lineWidth
+      , 200
+    # if area.myLeafletLabel?
+    #   area.myLeafletLabel._container.newStyle.opacity = newStyle.labelOpacity
 
   # ============================================================================
   _isLabelVisible: (area) ->
@@ -158,21 +157,6 @@ class HG.AreasOnMap
     area.myLeafletLabelIsVisible = false
     $(area.myLeafletLabel._container).addClass("invisible")
 
-
-  # ============================================================================
-  _onStyleChange: (area) =>
-    if area.myLeafletLayer?
-      @_animate area.myLeafletLayer,
-        "fill":           area.getNormalStyle().fillColor
-        "fill-opacity":   area.getNormalStyle().fillOpacity
-        "stroke":         area.getNormalStyle().lineColor
-        "stroke-opacity": area.getNormalStyle().lineOpacity
-        "stroke-width":   area.getNormalStyle().lineWidth
-      , 200
-    if area.myLeafletLabel?
-      area.myLeafletLabel._container.style.opacity = area.getNormalStyle().labelOpacity
-
-
   # ============================================================================
   _animate: (area, attributes, durartion) ->
     if area._layers?
@@ -183,12 +167,12 @@ class HG.AreasOnMap
 
   # ============================================================================
   _onHover: (event) =>
-    @_animate event.target, {"fill": "#{@_config.areaHighlightColor}"}, 150
+    @_animate event.target, {"fill": "#{event.target.hgArea.getHighlightStyle().areaColor}"}, 150
 
   # ============================================================================
   _onUnHover: (event) =>
-    @_animate event.target, {"fill": "#{@_config.areaNormalColor}"}, 150
-    # @_animate event.target, {"fill": "#{event.target.hgArea.getNormalStyle().fillColor}"}, 150
+    # @_animate event.target, {"fill": "#{@_config.areaNormalColor}"}, 150
+    @_animate event.target, {"fill": "#{event.target.hgArea.getStyle().areaColor}"}, 150
 
   # ============================================================================
   _onClick: (event) =>
@@ -197,12 +181,28 @@ class HG.AreasOnMap
   # ============================================================================
   _onZoomEnd: (event) =>
     for area in @_visibleAreas
-      shoulBeVisible = @_isLabelVisible area
+      shouldBeVisible = @_isLabelVisible area
 
-      if shoulBeVisible and not area.myLeafletLabelIsVisible
+      if shouldBeVisible and not area.myLeafletLabelIsVisible
         @_showAreaLabel area
-      else if not shoulBeVisible and area.myLeafletLabelIsVisible
+      else if not shouldBeVisible and area.myLeafletLabelIsVisible
         @_hideAreaLabel area
+
+
+  # ============================================================================
+  # user centered styling (area, border, name) -> leaflet styling options
+
+  _translateStyle: (userStyle) ->
+    options =
+      fillColor:    userStyle.areaColor
+      fillOpacity:  userStyle.areaOpacity
+      lineColor:    userStyle.borderColor
+      lineOpacity:  userStyle.borderOpacity
+      weight:       userStyle.borderWidth
+      labelOpacity: userStyle.nameOpacity
+      # backup styling for whatsoever weird browser that can only handle them
+      color:        userStyle.borderColor
+      opacity:      userStyle.borderOpacity
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #
