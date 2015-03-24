@@ -6,8 +6,6 @@ class HG.AreaController
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
-  SHOW_THEME  = off
-  THEME       = 'bipolarAlliances'
 
   # ============================================================================
   constructor: (config) ->
@@ -19,8 +17,9 @@ class HG.AreaController
     @addCallback "onHideArea"
     @addCallback "onUpdateAreaStyle"
 
-    @_timeline = null
-    @_now = null
+    @_timeline  = null
+    @_now       = null
+    @_theme     = 'bipolarAlliances'
 
     defaultConfig =
       areaJSONPaths: undefined,
@@ -143,10 +142,10 @@ class HG.AreaController
               newArea = new HG.Area countryId, name, geometry, labelPos, startDate, endDate, type, @_areaStyler
 
               # set initial style
-              if SHOW_THEME
+              if @_theme?
                 # check if area has a class in this theme
                 nowDate = @_timeline.getNowDate
-                themeClasses = newArea.getThemeClasses THEME
+                themeClasses = newArea.getThemeClasses @_theme
                 if themeClasses?
                   for themeClass in themeClasses
                     if nowDate >= themeClass.startDate and nowDate < themeClass.endDate
@@ -208,9 +207,9 @@ class HG.AreaController
         oldThemeClass = area.getActiveThemeClass()
         newThemeClass = 'normal'  # initially normal class, if not overwritten by
         # if currently a theme active
-        if SHOW_THEME
+        if @_theme?
           # check if area has a class in this theme
-          themeClasses = area.getThemeClasses THEME
+          themeClasses = area.getThemeClasses @_theme
           if themeClasses?
             for themeClass in themeClasses
               if newDate >= themeClass.startDate and newDate < themeClass.endDate
@@ -219,7 +218,7 @@ class HG.AreaController
 
         # check if theme style has changed
         if (oldThemeClass.localeCompare newThemeClass) != 0   # N.B.! this took so long to find out how to actually compare if two strings are NOT equal in CoffeeScript...
-          area.setActiveThemeClass THEME, newThemeClass
+          area.setActiveThemeClass @_theme, newThemeClass
           areasChanged = yes
           newStyles.push area
 
