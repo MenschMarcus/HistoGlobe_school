@@ -14,7 +14,7 @@ class HG.HiventList
     @addCallback "onHiventListChanged"
     @addCallback "onUpdateTheme"
 
-    @props = 
+    @props =
       active: false
       heigth_hivent_list: 0
       heigth_options: 0
@@ -43,6 +43,7 @@ class HG.HiventList
 
 
     @_hgInstance.onAllModulesLoaded @, () =>
+      @_hgInstance.onActive
       @_hgInstance.search_box_area?.onSearchBoxChanged @, (search_props) =>
         if @props.active
           if search_props.active
@@ -87,7 +88,16 @@ class HG.HiventList
     @_hivent_array = []
     if @_hgInstance.hiventController._hiventHandles?
       for hivent in @_hgInstance.hiventController._hiventHandles
+
+
         if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
+          # hivent.onActive @, ()->
+          #   console.log @_hgInstance.categoryFilter._categoryFilter[0]
+          #   console.log hivent._hivent.category
+          #   console.log document.getElementsByClassName(hivent.id)[0]
+          #   document.getElementsByClassName(hivent.id)[0].style.color= "red"
+          #   0
+
           @_hivent_array.push hivent._hivent
 
     #############################################################
@@ -118,16 +128,18 @@ class HG.HiventList
         yearString = hivent.startYear + ' bis ' + hivent.endYear
 
       hivents += '<a href="#event=' + hivent.id +
-                 '"><li><div class="wrap"><div class="res_name"> ' +
+                 '"><li class="' + hivent.id + '"><div class="wrap" ><div class="res_name"> ' +
                   hivent.name + '</div><div class="res_location">' + hivent.locationName[0] +
                   '</div><div class="res_year">' + yearString + '</div></div><i class="fa fa-map-marker"></i></li></a>'
 
     hivents += '</ul>'
+
+
     # some stuff to do
     @_hivent_headline.innerHTML = headline
     @_alliances_option.innerHTML = alliances
     @_hivent_list.innerHTML = hivents
-    
+
     if @_hivent_array.length > 0
       @_container.appendChild @_hivent_headline
       @_container.appendChild @_alliances_option
@@ -154,10 +166,8 @@ class HG.HiventList
 
     @notifyAll "onHiventListChanged", @props
 
-    war = 0
     $(@_alliances_option).click () =>
       # hivent list alliaces click
-      war = war + 1
       if @theme? && @theme != ""
         @theme = ""
       else
@@ -165,7 +175,6 @@ class HG.HiventList
           @theme = "bipolarAlliances"
         else
           @theme = ""
-      console.log @theme + " hList " + war + " " + aktualleCath
       @notifyAll "onUpdateTheme", @theme
 
     return @_hivent_list
