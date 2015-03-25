@@ -54,7 +54,6 @@ class HG.HiventList
             @props.height_hivent_list = (window.innerHeight - 190 - 53 - 43)
             @props.heigth_options = 43
             @props.boder = 1
-        # console.log "HL" + @props.active
         $(@_hivent_list).css({'max-height': (@props.height_hivent_list) + "px"}) # max height of list with timelin height
         $(@_alliances_option).css({'max-height':(@props.heigth_options) + "px"})
         $(@_alliances_option).css({'border-bottom': (@props.border) + "px"})
@@ -91,12 +90,12 @@ class HG.HiventList
 
 
         if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
-          # hivent.onActive @, ()->
-          #   console.log @_hgInstance.categoryFilter._categoryFilter[0]
-          #   console.log hivent._hivent.category
-          #   console.log document.getElementsByClassName(hivent.id)[0]
-          #   document.getElementsByClassName(hivent.id)[0].style.color= "red"
-          #   0
+          hivent.onActive @, ()->
+            console.log @_hgInstance.categoryFilter._categoryFilter[0]
+            console.log hivent._hivent.category
+            console.log document.getElementsByClassName(hivent.id)[0]
+            document.getElementsByClassName(hivent.id)[0].style.color= "red"
+            0
 
           @_hivent_array.push hivent._hivent
 
