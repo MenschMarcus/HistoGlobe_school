@@ -477,7 +477,6 @@ class HG.Timeline
       @_animationTargetDate = null
     else
       now = new Date(@yearToDate(@_config.minYear).getTime() + (-1) * @_timeline_swiper.getWrapperTranslate("x") * @millisPerPixel())
-      console.log now, @_cropDateToMinMax now
       @_now.date = @_cropDateToMinMax now
 
     if fireCallbacks
