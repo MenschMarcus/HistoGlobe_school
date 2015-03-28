@@ -102,9 +102,8 @@
           "parentTopic"     : 14,
           "subTopic"        : 15,
           "description"     : 16,
-          "description_new" : 17,
-          "multimedia"      : 18,
-          "link"            : 19
+          "multimedia"      : 17,
+          "link"            : 18
         }
       }
     ],
