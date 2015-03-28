@@ -174,7 +174,8 @@
         "WP":
         {
           "areaColor":    "#c67e7f",
-          "nameColor":    "#ffffff"
+          "nameColor":    "#ffffff",
+          "borderColor":  "#E6E6E6"
         }
       }
     }

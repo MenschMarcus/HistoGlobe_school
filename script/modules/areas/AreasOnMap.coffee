@@ -73,6 +73,10 @@ class HG.AreasOnMap
 
       @_map.showLabel area.myLeafletLabel
 
+      # style
+      area.myLeafletLabel._container.style.color = options.labelColor
+      area.myLeafletLabel._container.style.opacity = options.labelOpacity
+
       # too lazy to change .getLabelDir(), so changed back to original version
       # ---- original version ----
       area.myLeafletLabel.options.offset = [
@@ -123,13 +127,16 @@ class HG.AreasOnMap
     newStyle = @_translateStyle area.getStyle()
     if area.myLeafletLayer?
       @_animate area.myLeafletLayer,
+        # TODO: does that work better? translating the whole style 5 times for each item separately seems not intuitive...
         "fill":           (@_translateStyle area.getStyle()).fillColor
         "fill-opacity":   (@_translateStyle area.getStyle()).fillOpacity
         "stroke":         (@_translateStyle area.getStyle()).lineColor
         "stroke-opacity": (@_translateStyle area.getStyle()).lineOpacity
         "stroke-width":   (@_translateStyle area.getStyle()).lineWidth
       , 200
-    # if area.myLeafletLabel?
+    if area.myLeafletLabel?
+      area.myLeafletLabel._container.style.color = newStyle.labelColor
+      area.myLeafletLabel._container.style.opacity = newStyle.labelOpacity
     #   area.myLeafletLabel._container.newStyle.opacity = newStyle.labelOpacity
 
   # ============================================================================
@@ -200,6 +207,7 @@ class HG.AreasOnMap
       lineOpacity:  userStyle.borderOpacity
       weight:       userStyle.borderWidth
       labelOpacity: userStyle.nameOpacity
+      labelColor:   userStyle.nameColor
       # backup styling for whatsoever weird browser that can only handle them
       color:        userStyle.borderColor
       opacity:      userStyle.borderOpacity
