@@ -66,7 +66,7 @@ class HG.AreasOnMap
     # add label if given
     if area.getName()
       area.myLeafletLabel = new L.Label();
-      area.myLeafletLabel.setContent area.getName()
+      area.myLeafletLabel.setContent @_addLinebreaks area.getName()
       area.myLeafletLabel.setLatLng area.getLabelPos()
 
       area.myLeafletLabel.options.className = "invisible"   # makes label invisible onLoad
@@ -194,6 +194,22 @@ class HG.AreasOnMap
         @_showAreaLabel area
       else if not shouldBeVisible and area.myLeafletLabelIsVisible
         @_hideAreaLabel area
+
+  # ============================================================================
+  _addLinebreaks : (name) =>
+    # 1st approach: break at all whitespaces
+    name = name.replace /\s/gi, '<br\>'
+
+    # # find all whitespaces in the name
+    # len = name.length
+    # regEx = /\s/gi  # finds all whitespaces (\s) globally (g) and case-insensitive (i)
+    # posWhite = []
+    # while result = regEx.exec name
+    #   posWhite.push result.index
+    # for posW in posWhite
+
+    # if name.indexOf ' ' isnt -1
+    name
 
 
   # ============================================================================
