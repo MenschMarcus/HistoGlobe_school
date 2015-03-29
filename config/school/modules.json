@@ -142,14 +142,14 @@
       "borderWidth":    1.5,
       "borderColor":    "#BBBBBB",
       "borderOpacity":  1.0,
-      "nameSize":       1,
-      "nameColor":      "#bebebe",
-      "nameOpacity":    1.0
+      "labelSize":       1,
+      "labelColor":      "#bebebe",
+      "labelOpacity":    1.0
     },
     "highlightStyle":
     {
       "areaColor":      "#eaeaea",
-      "nameColor":      "#000000"
+      "labelColor":      "#000000"
     },
     "countryThemeMapping" :
     [
@@ -165,18 +165,18 @@
         "NATO":
         {
           "areaColor":    "#9ec9d9",
-          "nameColor":    "#ffffff"
+          "labelColor":    "#ffffff"
         },
         "NATO_no_military":
         {
           "areaColor":    "#C5E4EE",
-          "nameColor":    "#ffffff"
+          "labelColor":    "#ffffff"
         },
         "WP":
         {
           "areaColor":    "#c67e7f",
-          "nameColor":    "#ffffff",
-          "borderColor":  "#E6E6E6"
+          "borderColor":  "#E6E6E6",
+          "labelColor":    "#ffffff"
         }
       }
     }

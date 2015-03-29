@@ -13,13 +13,20 @@ class HG.AreaController
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
 
-    @addCallback "onShowArea"
-    @addCallback "onHideArea"
+    @addCallback "onAddArea"
+    @addCallback "onRemoveArea"
+    @addCallback "onFadeInArea"
+    @addCallback "onFadeOutArea"
     @addCallback "onUpdateAreaStyle"
+    @addCallback "onAddLabel"
+    @addCallback "onRemoveLabel"
+    @addCallback "onMoveLabel"
+    @addCallback "onUpdateLabelStyle"
 
     @_timeline  = null
     @_now       = null
-    @_theme     = 'bipolarAlliances'
+    @_theme     = null
+    # @_theme     = 'bipolarAlliances'
 
     defaultConfig =
       areaJSONPaths: undefined,
