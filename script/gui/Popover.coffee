@@ -165,6 +165,7 @@ class HG.Popover
     #@_bodyDiv.style.backgroundImage = "none"
     @_bodyDiv.style.color = "#000"
     closeDiv.style.color = "#000"
+    closeDiv.style.zIndex = "5"
 
   # ============================================================================
 
@@ -190,6 +191,7 @@ class HG.Popover
                 @_bodyDiv.className = "guiPopoverBodyV2"
                 @_bodyDiv.style.color = "#fff"
                 closeDiv.style.color = "#fff"
+                closeDiv.style.textShadow = "0 2px 0 #000" 
 
   # ============================================================================
   toggle: (position) =>
