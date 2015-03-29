@@ -148,7 +148,8 @@
     },
     "highlightStyle":
     {
-      "areaColor":      "#eaeaea"
+      "areaColor":      "#eaeaea",
+      "nameColor":      "#000000"
     },
     "countryThemeMapping" :
     [

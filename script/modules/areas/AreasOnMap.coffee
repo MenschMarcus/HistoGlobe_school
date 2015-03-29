@@ -175,6 +175,8 @@ class HG.AreasOnMap
   # ============================================================================
   _onHover: (event) =>
     @_animate event.target, {"fill": "#{event.target.hgArea.getHighlightStyle().areaColor}"}, 150
+    # TODO: for countries with white labels, hovering means the country name is not readable
+    # -> how to get the label of the current layer I am hovering? How to change its color?
 
   # ============================================================================
   _onUnHover: (event) =>
