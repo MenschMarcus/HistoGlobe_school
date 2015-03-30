@@ -508,40 +508,45 @@ class HG.Timeline
         $(topic.div).on "click", value: topic, (event) => @_switchTopic(event.data.value) if !@_dragged
         $(topic.div).fadeIn(200)
 
-        inner_el = document.getElementById("topic_inner_" + topic.id)
-        if inner_el.offsetWidth > (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate) - 25) and topic.token != ""
-          inner_el.innerHTML = topic.token
-        else
-          inner_el.innerHTML = topic.name
-        inner_el.style.maxWidth = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate) - 25) + "px"
-        margin = ((@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) / 2) - inner_el.offsetWidth / 2
-        if (@dateToPosition(topic.startDate) + margin + inner_el.offsetWidth) > @dateToPosition @maxVisibleDate()
-          margin = @dateToPosition(@maxVisibleDate()) - @dateToPosition(topic.startDate) - inner_el.offsetWidth - 10
-          margin = 0 if margin < 0
-        else if (@dateToPosition(topic.startDate) + margin) < @dateToPosition @minVisibleDate()
-          margin = @dateToPosition(@minVisibleDate()) - @dateToPosition(topic.startDate) + 10
-        inner_el.style.marginLeft = margin + "px"
+        #   set text in topic bar so that text 
+        #   is always centered in visible part of topic
+        @_scaleTopicText topic
       else
         topic.div.style.left = @dateToPosition(topic.startDate) + "px"
         topic.div.style.width = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) + "px"
 
-        inner_el = document.getElementById("topic_inner_" + topic.id)
-        if inner_el.offsetWidth > (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate) - 25) and topic.token != ""
-          inner_el.innerHTML = topic.token
-        else
-          inner_el.innerHTML = topic.name
-        inner_el.style.maxWidth = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate) - 25) + "px"
-        margin = ((@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) / 2) - inner_el.offsetWidth / 2
-        if (@dateToPosition(topic.startDate) + margin + inner_el.offsetWidth) > @dateToPosition @maxVisibleDate()
-          margin = @dateToPosition(@maxVisibleDate()) - @dateToPosition(topic.startDate) - inner_el.offsetWidth - 10
-          margin = 0 if margin < 0
-        else if (@dateToPosition(topic.startDate) + margin) < @dateToPosition @minVisibleDate()
-          margin = @dateToPosition(@minVisibleDate()) - @dateToPosition(topic.startDate) + 10
-        inner_el.style.marginLeft = margin + "px"
+        #   set text in topic bar so that text 
+        #   is always centered in visible part of topic
+        @_scaleTopicText topic
         if topic.subtopics?
           for subtopic in topic.subtopics
             subtopic.div.style.left = ((subtopic.startDate.getTime() - topic.startDate.getTime()) / @millisPerPixel()) + "px"
             subtopic.div.style.width = (@dateToPosition(subtopic.endDate) - @dateToPosition(subtopic.startDate)) + "px"
+
+  _scaleTopicText: (topic) ->
+    end_pos   = @dateToPosition(topic.endDate)
+    start_pos = @dateToPosition(topic.startDate)
+    max_pos   = @dateToPosition(@maxVisibleDate())
+    min_pos   = @dateToPosition(@minVisibleDate())
+    inner_el  = document.getElementById("topic_inner_" + topic.id)
+
+    #   take short name of topic if name is too long
+    inner_el.style.maxWidth = "none"
+    inner_el.innerHTML = topic.name
+    if inner_el.offsetWidth > (end_pos - start_pos) and topic.token != ""
+      inner_el.innerHTML = topic.token
+    inner_el.style.maxWidth = (end_pos - start_pos - 25) + "px"
+
+    # align text always to middle of visible part
+    margin = ((end_pos - start_pos) / 2) - inner_el.offsetWidth / 2
+    if end_pos > max_pos
+      margin = (max_pos - start_pos) / 2 - inner_el.offsetWidth / 2
+      margin = 0 if margin < 0 or (start_pos + margin + inner_el.offsetWidth) > max_pos
+    else if start_pos < min_pos
+      margin = (end_pos - min_pos) / 2 - inner_el.offsetWidth / 2 + min_pos - start_pos
+      margin = min_pos - start_pos if margin < 0 or margin + start_pos < min_pos
+    inner_el.style.marginLeft = margin + "px"
+    false
 
   _updateDateMarkers: (zoomed=true) ->
 
@@ -671,7 +676,7 @@ class HG.Timeline
       # move timeline to center of topic bar
       # at the end of transition zoom in and filter categories
       @moveToDate middleDate, 1, =>
-        if @_activeTopic.endDate > @maxVisibleDate()
+        if @_activeTopic.endDate > @maxVisibleDate() || @_activeTopic.startDate < @minVisibleDate()
 
           # use setInterval to zoom in repeatly
           # if zoom should stop call clearInterval(obj)
