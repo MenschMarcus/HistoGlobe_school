@@ -12,6 +12,22 @@
     "tiles": "config/school/tiles/",
     "sidebarEnabled": false
   },
+
+  "ABTest" :
+  {
+    "hiventsOnMap" :          "A",
+    "hiventsOnTl" :           "A",
+    "hiventsOnTlLabels" :     "A",
+    "numHiventsOnMap" :       "A",
+    "hiventRegionsOnMap" :    "A",
+    "hiventClusterLabels" :   "A",
+    "epochNames-moreSpace" :  "A",
+    "epochNames-shortNames" : "A",
+    "searchFilter" :          "A",
+    "regionLabels" :          "A",
+    "hiventMarkerMode" :      "A"
+  },
+
   "Timeline" :
   {
     "timelineZoom" : 2,
@@ -29,21 +45,6 @@
         "row"         : 6
       }
     ]
-  },
-
-  "ABTest" :
-  {
-    "hiventsOnMap" :          "A",
-    "hiventsOnTl" :           "A",
-    "hiventsOnTlLabels" :     "A",
-    "numHiventsOnMap" :       "A",
-    "hiventRegionsOnMap" :    "A",
-    "hiventClusterLabels" :   "A",
-    "epochNames-moreSpace" :  "A",
-    "epochNames-shortNames" : "A",
-    "searchFilter" :          "A",
-    "regionLabels" :          "A",
-    "hiventMarkerMode" :      "A"
   },
 
   "BrowserDetector": {},
@@ -80,8 +81,8 @@
     "dsvConfigs":
     [
       {
-        "path": "config/school/data/hivents.csv",
-        "ignoredLines" : [1,2,3],
+        "path":             "config/school/data/hivents.csv",
+        "ignoredLines" :    [1,2,3],
         "indexMapping" :
         {
           "id"              : 0,
@@ -101,9 +102,8 @@
           "parentTopic"     : 14,
           "subTopic"        : 15,
           "description"     : 16,
-          "description_new" : 17,
-          "multimedia"      : 18,
-          "link"            : 19
+          "multimedia"      : 17,
+          "link"            : 18
         }
       }
     ],
@@ -133,6 +133,55 @@
   "HiventList": {},
   "HiventListController": {},
 
+  "AreaStyler":
+  {
+    "normalStyle":
+    {
+      "areaColor":      "#ffffff",
+      "areaOpacity":    0.75,
+      "borderWidth":    1.5,
+      "borderColor":    "#BBBBBB",
+      "borderOpacity":  1.0,
+      "nameSize":       1,
+      "nameColor":      "#bebebe",
+      "nameOpacity":    1.0
+    },
+    "highlightStyle":
+    {
+      "areaColor":      "#eaeaea",
+      "nameColor":      "#000000"
+    },
+    "countryThemeMapping" :
+    [
+      {
+        "theme":        "bipolarAlliances",
+        "csvFilePath":  "config/school/data/alliances.csv"
+      }
+    ],
+    "themeStyles":
+    {
+      "bipolarAlliances":
+      {
+        "NATO":
+        {
+          "areaColor":    "#9ec9d9",
+          "nameColor":    "#ffffff"
+        },
+        "NATO_no_military":
+        {
+          "areaColor":    "#C5E4EE",
+          "nameColor":    "#ffffff"
+        },
+        "WP":
+        {
+          "areaColor":    "#c67e7f",
+          "nameColor":    "#ffffff",
+          "borderColor":  "#E6E6E6"
+        }
+      }
+    }
+  },
+
   "AreaController":
   {
     "areaJSONPaths" : ["config/school/data/countries.geojson"]
@@ -140,8 +189,6 @@
 
   "AreasOnMap" :
   {
-    "areaNormalColor" : "#FCFCFC",
-    "areaHighlightColor" : "#EDEAAB",
     "labelVisibilityFactor" : 8
   }
 

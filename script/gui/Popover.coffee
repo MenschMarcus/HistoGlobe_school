@@ -164,7 +164,7 @@ class HG.Popover
     @_mainDiv.style.background = "#fff"
     #@_bodyDiv.style.backgroundImage = "none"
     @_bodyDiv.style.color = "#000"
-    closeDiv.style.color = "#000" 
+    closeDiv.style.color = "#000"
 
   # ============================================================================
 
@@ -174,6 +174,7 @@ class HG.Popover
       @_multimediaController.onMultimediaLoaded () =>
 
           for id in mmids
+            id=id.trim() # removes whitespaces
             mm = @_multimediaController.getMultimediaById id
 
             if mm?
@@ -188,7 +189,7 @@ class HG.Popover
                 @_mainDiv.style.backgroundPosition = "50% 50%"
                 @_bodyDiv.className = "guiPopoverBodyV2"
                 @_bodyDiv.style.color = "#fff"
-                closeDiv.style.color = "#fff" 
+                closeDiv.style.color = "#fff"
 
   # ============================================================================
   toggle: (position) =>

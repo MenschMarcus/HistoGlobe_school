@@ -67,7 +67,7 @@ class HG.Timeline
 
     hgInstance.onAllModulesLoaded @, () =>
       @_hiventController = hgInstance.hiventController
-      @notifyAll "onNowChanged", @_now.date
+      @notifyAll "onNowChanged", @_cropDateToMinMax @_now.date
       @notifyAll "onIntervalChanged", @_getTimeFilter()
 
       if hgInstance.zoom_buttons_timeline
@@ -195,7 +195,7 @@ class HG.Timeline
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
     # Start the timeline here !!!
-    @_loadTopicsFromDSV( =>      
+    @_loadTopicsFromDSV( =>
       @_updateLayout()
       @_updateDateMarkers()
       @_updateTopics()
@@ -225,7 +225,7 @@ class HG.Timeline
             parse_result = $.parse data, parse_config
             for result, i in parse_result.results
               unless i+1 in @_config.ignoredLines
-                
+
                 id = result[@_config.indexMappings[pathIndex].id]
                 start = @stringToDate result[@_config.indexMappings[pathIndex].start]
                 end = @stringToDate result[@_config.indexMappings[pathIndex].end]
@@ -245,7 +245,7 @@ class HG.Timeline
                     subtopics: []
                   @_config.topics.push tmp_topic
 
-                else # is subtopic                  
+                else # is subtopic
                   for headtopic in @_config.topics
                     if headtopic.id == subtopic_of
                       tmp_subtopic =
@@ -255,7 +255,7 @@ class HG.Timeline
                         id: id
                         token: token
                       headtopic.subtopics.push tmp_subtopic
- 
+
             if pathIndex == @_config.dsvPaths.length - 1
               callback() if callback?
 
@@ -346,7 +346,7 @@ class HG.Timeline
       @_uiElements.tl_wrapper.style.oTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
 
       @_animationTargetDate = date
-      @_now.date = date
+      @_now.date = @_cropDateToMinMax date
 
       @notifyAll "onNowChanged", @_now.date
       @notifyAll "onIntervalChanged", @_getTimeFilter()
@@ -473,14 +473,22 @@ class HG.Timeline
 
   _updateNowDate: (fireCallbacks = true) ->
     if @_animationTargetDate?
-      @_now.date = @_animationTargetDate
+      @_now.date = @_cropDateToMinMax @_animationTargetDate
       @_animationTargetDate = null
     else
-      @_now.date = new Date(@yearToDate(@_config.minYear).getTime() + (-1) * @_timeline_swiper.getWrapperTranslate("x") * @millisPerPixel())
+      now = new Date(@yearToDate(@_config.minYear).getTime() + (-1) * @_timeline_swiper.getWrapperTranslate("x") * @millisPerPixel())
+      @_now.date = @_cropDateToMinMax now
 
     if fireCallbacks
       @notifyAll "onNowChanged", @_now.date
       @notifyAll "onIntervalChanged", @_getTimeFilter()
+
+  _cropDateToMinMax: (date) ->
+    if date.getFullYear() <= @_config.minYear
+      date = @yearToDate @_config.minYear+1
+    if date.getFullYear() > @_config.maxYear
+      date = @yearToDate @_config.maxYear
+    date
 
   _updateTopics:()->
     for topic in @_config.topics
