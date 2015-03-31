@@ -49,6 +49,7 @@ class HG.HighContrastButton
         icon: "fa-adjust"
         tooltip: "Hohen Kontrast einschalten"
         callback: () =>
+          $(hgInstance._config.container).addClass 'highContrast'
           @notifyAll "onEnterHighContrast"
           return state_b
 
@@ -56,6 +57,7 @@ class HG.HighContrastButton
         icon: "fa-adjust"
         tooltip: "Hohen Kontrast ausschalten"
         callback: () =>
+          $(hgInstance._config.container).removeClass 'highContrast'
           @notifyAll "onLeaveHighContrast"
           return state_a
 
