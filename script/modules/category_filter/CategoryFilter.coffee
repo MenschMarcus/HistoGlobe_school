@@ -63,7 +63,7 @@ class HG.CategoryFilter
       for c in category
         @_categoryFilter.push c
     else
-      @_categoryFilter.push category
+      @_categoryFilter.push category    
 
     @notifyAll "onFilterChanged", @_categoryFilter
 
@@ -73,6 +73,7 @@ class HG.CategoryFilter
       @_categoryFilter = category
     else
       @_categoryFilter = [category]
+    console.log "neue kategorie: " + category
 
     @notifyAll "onFilterChanged", @_categoryFilter
 
