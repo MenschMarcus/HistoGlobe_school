@@ -26,7 +26,6 @@
 
   &.fullscreen {
     max-height: 60%;
-
   }
   
     .guiPopoverContent {
@@ -63,55 +62,6 @@
     background-image: linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
   }
 
-  .guiPopoverBodyV1FS, .guiPopoverBodyV2FS {
-    font: "Helvetica Neue", Arial, Helvetica, sans-serif;
-    padding: @popover_body_padding;
-
-    .guiPopoverContent {
-
-      .hivent-body {
-
-        .guiPopoverTitle {
-          font-family: @secondary_font_face;
-          padding: @popover_title_padding 3*@popover_title_padding @popover_title_padding/2 @popover_title_padding;
-          margin: 0px;
-          line-height: normal;
-        }
-      }
-    }
-  }
-
-  .guiPopoverBodyV1FS {
-    max-height: 400px;
-    color: #000000;
-  }
-
-  .guiPopoverBodyV2FS {
-    max-height: 600px;
-    width: 400px;
-    position: absolute;
-    bottom: 0;
-    padding-left: 20px;
-    padding-bottom: 20px;
-    color: #ffffff;
-
-    //background-image: -webkit-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
-    //background-image: -moz-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
-    //background-image: -ms-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
-    //background-image: -o-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
-    //background-image: linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
-
-    .guiPopoverContent {
-
-      .hivent-body {
-        left: 10px;
-
-      }
-    }
-  }
-
-
-
   &.fullscreen {
     margin-left: auto;
     margin-right: auto;
@@ -137,6 +87,38 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
+  .close-button {
+    position: absolute;
+    z-index: 5;
+    color: #fff;
+    font-size: 35pt;
+    opacity: 0.75;
+    text-shadow: 0 2px 0 #000;
+    top: -8px;
+    right: 10px;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .expand2FS {
+    position: absolute;
+    color: #fff;
+    z-index: 5;
+    font-size: 12pt;
+    opacity: 0.75;
+    text-shadow: 0 2px 0 #000;
+    bottom: 2px;
+    right: 6px;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 
   // .arrow {
   //   position: absolute;
@@ -186,52 +168,97 @@
 
 }
 
+/* ================================================================================== */
 
-.close-button {
-  position: absolute;
-  z-index: 5;
-  color: #fff;
-  font-size: 35pt;
-  opacity: 0.75;
-  text-shadow: 0 2px 0 #000;
-  top: -8px;
-  right: 10px;
-  cursor: pointer;
+.guiBigPopover {
+  border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
+  .transition-property(opacity);
+  .transition-duration(0.2s);
+  .transition-timing-function(ease-in-out);
+  box-shadow: 0 1px @shadow_radius rgba(0,0,0,@shadow_intensity);
 
-  &:hover {
-    opacity: 1;
+  .guiPopoverBodyBig {
+  font: "Helvetica Neue", Arial, Helvetica, sans-serif;
+  padding: @popover_body_padding;
+
+  &.fullscreen {
+    max-height: 60%;
   }
-}
+  
+    .guiPopoverContentBig {
 
-.expand2FS {
-  position: absolute;
-  color: #fff;
-  z-index: 5;
-  font-size: 12pt;
-  opacity: 0.75;
-  text-shadow: 0 2px 0 #000;
-  bottom: 2px;
-  right: 6px;
-  cursor: pointer;
+      .hivent-body-big {
 
-  &:hover {
-    opacity: 1;
+        .guiPopoverTitleBig {
+          font-family: @secondary_font_face;
+          //color: @widget_title_text_color;
+          //color: #fff;
+          padding: @popover_title_padding 3*@popover_title_padding @popover_title_padding/2 @popover_title_padding;
+          //border-bottom: @border_width solid @border_color;
+          margin: 0px;
+          //.linear-gradient-top(@widget_title_background_color, lighten(@widget_title_background_color, @widget_title_gradient_effect), 0%, @widget_title_background_color, 100%);
+          line-height: normal;
+        }
+      }
+    }
   }
-}
 
-.compress2Normal {
-  position: absolute;
-  color: #fff;
-  z-index: 5;
-  font-size: 12pt;
-  opacity: 0.75;
-  text-shadow: 0 2px 0 #000;
-  bottom: 2px;
-  right: 6px;
-  cursor: pointer;
+  &.fullscreen {
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    max-width: 600px;
+    min-width: 300px;
+  }
 
-  &:hover {
-    opacity: 1;
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    overflow: hidden;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #ddd;
+  }
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  .close-button-big {
+    position: absolute;
+    z-index: 5;
+    color: #fff;
+    font-size: 35pt;
+    opacity: 0.75;
+    text-shadow: 0 2px 0 #000;
+    top: -8px;
+    right: 10px;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .compress2Normal {
+    position: absolute;
+    color: #fff;
+    z-index: 5;
+    font-size: 12pt;
+    opacity: 0.75;
+    text-shadow: 0 2px 0 #000;
+    bottom: 2px;
+    right: 6px;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 }
 
