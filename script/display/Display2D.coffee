@@ -47,10 +47,12 @@ class HG.Display2D extends HG.Display
     offsetX = @_map.getSize().x*0.10
     offsetY = @_map.getSize().y*0.25
 
-    @_map.panTo [longLat.y, longLat.x]
+    @_map.panTo
+      lon: longLat.x
+      lat: longLat.y
 
     #Then move the map
-    @_map.panBy(new L.Point(offsetX, -offsetY), 
+    @_map.panBy(new L.Point(offsetX, -offsetY),
       animate: false)
 
   # ============================================================================
