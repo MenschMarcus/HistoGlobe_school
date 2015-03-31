@@ -53,6 +53,13 @@ class HG.Popover
     else
       @_mainDiv.style.left = "#{WINDOW_TO_ANCHOR_OFFSET_X}px"
 
+    # Fullscreen Box ==================================================
+    @_mainDivFS = document.createElement "div"
+    @_mainDivFS.className = "guiPopoverFullscreen"
+    @_mainDivFS.style.position = "absolute"
+    @_mainDivFS.style.top = "#{WINDOW_TO_ANCHOR_OFFSET_Y}px"
+    @_mainDivFS.style.visibility = "hidden"
+
 
     # $(".guiPopover").on("mousedown", "div", ->
     #   $(this).addClass("draggable").parents().on "mousemove", (e) ->
@@ -89,13 +96,25 @@ class HG.Popover
     closeDiv = document.createElement "span"
     closeDiv.className = "close-button"
     closeDiv.innerHTML = "×"
+    #$(closeDiv).tooltip {title: "Box schließen", placement: "right", container:"#histoglobe"}
     closeDiv.addEventListener 'mouseup', () =>
       @notifyAll "onClose"
       @hide()
     , false
 
-    #clearDiv = document.createElement "div"
-    #clearDiv.className = "clear"
+    expandBox = document.createElement "span"
+    expandBox.className = "expand2FS"
+    expandBox.innerHTML = '<i class="fa fa-expand"></i>'
+    $(expandBox).tooltip {title: "Box im Vollbildmodus öffnen", placement: "right", container:"#histoglobe"}
+    expandBox.addEventListener 'mouseup', () =>
+      console.log "Vollbild ahoi!"
+
+    compressBox = document.createElement "span"
+    compressBox.className = "compress2Normal"
+    compressBox.innerHTML = '<i class="fa fa-compress"></i>'
+    $(compressBox).tooltip {title: "Zurück zur normalen Ansicht", placement: "left", container:"#histoglobe"}
+    compressBox.addEventListener 'mouseup', () =>
+      console.log "Box wieder normal!"
 
     @_bodyDiv = document.createElement "div"
     @_bodyDiv.className = "guiPopoverBodyV1"
@@ -124,6 +143,7 @@ class HG.Popover
     #titleDiv.appendChild clearDiv
     #@_bodyDiv.appendChild titleDiv
     @_mainDiv.appendChild closeDiv
+    @_mainDiv.appendChild expandBox
     # @_mainDiv.appendChild @_topArrow
     # @_mainDiv.appendChild @_rightArrow
     # @_mainDiv.appendChild @_leftArrow
@@ -165,7 +185,7 @@ class HG.Popover
     #@_bodyDiv.style.backgroundImage = "none"
     @_bodyDiv.style.color = "#000"
     closeDiv.style.color = "#000"
-    closeDiv.style.zIndex = "5"
+    #closeDiv.style.zIndex = "5"
 
   # ============================================================================
 
@@ -191,7 +211,7 @@ class HG.Popover
                 @_bodyDiv.className = "guiPopoverBodyV2"
                 @_bodyDiv.style.color = "#fff"
                 closeDiv.style.color = "#fff"
-                closeDiv.style.textShadow = "0 2px 0 #000" 
+                #closeDiv.style.textShadow = "0 2px 0 #000" 
 
   # ============================================================================
   toggle: (position) =>

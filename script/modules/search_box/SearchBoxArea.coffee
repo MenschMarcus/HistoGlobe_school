@@ -89,7 +89,7 @@ class HG.SearchBoxArea
           window.current_active_element--
       if e.which is 13 # enter
         e.preventDefault()
-        if @_input_text.length > 0
+        if @_input_text.length > 0 and window.current_active_element > -1
           window.location = $("#" + window.list_items[window.current_active_element]).attr("href")
 
       $("#" + window.list_items[window.current_active_element] + " > li").addClass("itemhover_list")
