@@ -41,18 +41,55 @@
     color:#fff;
     position: relative;
     width: 300px;
-    height: 43px;
+    height: 114px;
     font-size: 15px;
     cursor: pointer;
+
+    .shield_bipolar {
+      padding-right: 8px;
+    }
+
+    .toggle_on_off {
+      float: right;
+      padding: 4px;
+      background-color: #D5C900;
+      border-radius: 50%;
+    }
+
+    
 
     .alliances-content {
       padding: 10px;
     }
-  }
 
-  .hivent-list-alliances:hover {
-    background: #fff;
-    color: #2f3b47;
+    #legend_table {
+      margin-left: 22px;
+    }
+
+    #legend_table td {
+      padding-right: 5px;
+    }
+
+    #nato {
+      width: 10px;
+      height: 10px;
+      background-color: #9EC8D8;
+      border-radius: 50%;
+    }
+
+    #natooM {
+      width: 10px;
+      height: 10px;
+      background-color: #CAE5F0;
+      border-radius: 50%;
+    }
+
+    #warschP {
+      width: 10px;
+      height: 10px;
+      background-color: #C47D7E;
+      border-radius: 50%;
+    }
   }
 
   .hivent-list {
@@ -119,11 +156,8 @@
             //width: 10%;
           }
           &:hover {
-            background: #2f3b47;
-            color:#fff;
-            i {
-              color: #fff;
-            }
+            background: #f0f0f0;
+
           }
         }
       }
@@ -140,3 +174,12 @@
     display:none;
   }
 }
+
+/*
+hivents active:
+background: #2f3b47;
+color:#fff;
+i {
+  color: #fff;
+}
+*/

@@ -38,20 +38,22 @@ class HG.HiventList
     @_container.className = "hivent-list-module"
     @_hgInstance._top_area.appendChild @_container
     
+    @_hgInstance.hivent_list_module = @
 
-    war = 0
     $(@_alliances_option).click () =>
+      knopp = $(".toggle_on_off")
       # hivent list alliaces click
-      war = war + 1
       if @theme == ''
         @theme = 'bipolarAlliances'
+        knopp.removeClass "fa-toggle-off"
+        knopp.addClass "fa-toggle-on"
       else
         @theme = ''
-
-      console.log "Akt. Thema: " + @theme + " hListTicker: " + war + " Kath: "
+        knopp.removeClass "fa-toggle-on"
+        knopp.addClass "fa-toggle-off"
+        
+      #console.log @theme
       @notifyAll "onUpdateTheme", @theme
-
-    
 
     @_hgInstance.onAllModulesLoaded @, () =>
 
@@ -62,20 +64,21 @@ class HG.HiventList
             @props.heigth_options = 0
             @props.boder = 0
           else
-            @props.height_hivent_list = (window.innerHeight - 190 - 53 - 43)
-            @props.heigth_options = 43
+            @props.height_hivent_list = (window.innerHeight - 190 - 53 - 43 - 71)
+            @props.heigth_options = 43 + 71
             @props.boder = 1
-        # console.log "HL" + @props.active
+
         $(@_hivent_list).css({'max-height': (@props.height_hivent_list) + "px"}) # max height of list with timelin height
         $(@_alliances_option).css({'max-height':(@props.heigth_options) + "px"})
         $(@_alliances_option).css({'border-bottom': (@props.border) + "px"})
 
       @_hgInstance.timeline.OnTopicsLoaded @, () =>
         @_allTopics = @_hgInstance.timeline._config.topics
-        console.log @_allTopics
         @_addHiventList()
-        @_hgInstance.hivent_list_module = @
 
+      @_hgInstance.hiventInfoAtTag?.onHashChanged @, (key, value) =>
+          if key is "categories"
+            @_addHiventList()
 
     @_hgInstance.onTopAreaSlide @, (t) =>
       if @_hgInstance.isInMobileMode()
@@ -95,12 +98,6 @@ class HG.HiventList
     if @_hivent_array.length > 0
       @_container.removeChild @_hivent_list
       @_container.removeChild @_hivent_headline
-      #@_container.removeChild @_alliances_option
-
-    #if @_alliances_option?
-      #console.log @_alliances_option?
-      #@_container.removeChild @_alliances_option
-      #console.log @_alliances_option?
 
     # Hivents ==================================================================
 
@@ -110,9 +107,6 @@ class HG.HiventList
         if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
           @_hivent_array.push hivent._hivent
 
-    #############################################################
-    console.log "Topics", @_allTopics, "ist noch nicht geladen"
-    console.log "Current Filter", @_hgInstance.categoryFilter.getCurrentFilter()[0], "ist initial da"
     #############################################################
 
     aktualleCath = ""
@@ -126,7 +120,13 @@ class HG.HiventList
 
     headline = '<div>' + 'Aktuelles Thema: ' + aktualleCath + '</div>'
 
-    alliances = '<div class="alliances-content"> Millitärbündnisse </div>'
+    alliances = '<div class="alliances-content"><i class="shield_bipolar fa fa-shield"></i> Millitärbündnisse anzeigen <i class="toggle_on_off fa fa-toggle-off fa-4"></i>' + 
+      '<br><table id="legend_table">
+        <tr><td><div id="nato"></div></td><td> Mitglieder der Nato</td></tr>
+        <tr><td><div id="natooM"></div></td><td> Mitglieder der Nato ohne Millitär</td></tr>
+        <tr><td><div id="warschP"></div></td><td> Mitglieder des Warschauer Pakts</td></tr>
+      </table>
+      </div>'
 
     hivents = '<ul>'
 
@@ -161,8 +161,8 @@ class HG.HiventList
       @props.heigth_options = 0
       @props.border = 0
     else
-      @props.height_hivent_list = (window.innerHeight - 190 - 53 - 43)
-      @props.heigth_options = 43
+      @props.height_hivent_list = (window.innerHeight - 190 - 53 - 43 - 71)
+      @props.heigth_options = 43 + 71
       @props.border = 1
 
     $(@_hivent_list).css({'max-height': (@props.height_hivent_list) + "px"}) # max height of list with timelin height
