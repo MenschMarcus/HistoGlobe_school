@@ -54,12 +54,60 @@
 
   .guiPopoverBodyV2 {
     max-height: 350px;
+    width: 450px;
     color: #ffffff;
     background-image: -webkit-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
     background-image: -moz-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
     background-image: -ms-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
     background-image: -o-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
     background-image: linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
+  }
+
+  .guiPopoverBodyV1FS, .guiPopoverBodyV2FS {
+    font: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    padding: @popover_body_padding;
+
+    .guiPopoverContent {
+
+      .hivent-body {
+
+        .guiPopoverTitle {
+          font-family: @secondary_font_face;
+          padding: @popover_title_padding 3*@popover_title_padding @popover_title_padding/2 @popover_title_padding;
+          margin: 0px;
+          line-height: normal;
+        }
+      }
+    }
+  }
+
+  .guiPopoverBodyV1FS {
+    max-height: 400px;
+    color: #000000;
+  }
+
+  .guiPopoverBodyV2FS {
+    max-height: 600px;
+    width: 400px;
+    position: absolute;
+    bottom: 0;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    color: #ffffff;
+
+    //background-image: -webkit-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
+    //background-image: -moz-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
+    //background-image: -ms-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
+    //background-image: -o-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
+    //background-image: linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
+
+    .guiPopoverContent {
+
+      .hivent-body {
+        left: 10px;
+
+      }
+    }
   }
 
 
@@ -171,128 +219,15 @@
   }
 }
 
-.link-button {
-  display: block;
-  margin: auto;
-  text-align: center;
-  background-color: #fc0;
-  font-size: 14px;
-  color: #fff;
-  padding: 8px;
-  margin-top: 12px;
-  font-weight: bold;
-  text-transform: uppercase;
-
-  &:hover {
-    color: #fff;
-  }
-}
-
-.guiPopoverFullscreen {
-
-  border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
-  width: @popover_width;
-  height: 700px;
-  opacity: 0;
-  .transition-property(opacity);
-  .transition-duration(0.2s);
-  .transition-timing-function(ease-in-out);
-  box-shadow: 0 1px @shadow_radius rgba(0,0,0,@shadow_intensity);
-
-
-  .guiPopoverBodyV1, .guiPopoverBodyV2 {
-  font: "Helvetica Neue", Arial, Helvetica, sans-serif;
-  padding: @popover_body_padding;
-
-  &.fullscreen {
-    max-height: 60%;
-
-  }
-  
-    .guiPopoverContent {
-
-      .hivent-body {
-
-        .guiPopoverTitle {
-          font-family: @secondary_font_face;
-          padding: @popover_title_padding 3*@popover_title_padding @popover_title_padding/2 @popover_title_padding;
-          margin: 0px;
-          line-height: normal;
-        }
-      }
-    }
-  }
-
-  .guiPopoverBodyV1 {
-    max-height: 180px;
-    color: #000000;
-  }
-
-  .guiPopoverBodyV2 {
-    max-height: 350px;
-    color: #ffffff;
-    background-image: -webkit-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
-    background-image: -moz-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
-    background-image: -ms-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
-    background-image: -o-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
-    background-image: linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
-  }
-
-
-
-  &.fullscreen {
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
-    max-width: 600px;
-    min-width: 300px;
-  }
-
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-    overflow: hidden;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: #ddd;
-  }
-
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-
-
-}
-
-.close-buttonFS {
-  position: absolute;
-  z-index: 5;
-  color: #fff;
-  font-size: 35pt;
-  opacity: 0.75;
-  text-shadow: 0 2px 0 #000;
-  top: -8px;
-  right: 10px;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 1;
-  }
-}
-
 .compress2Normal {
   position: absolute;
   color: #fff;
-  font-size: 18pt;
+  z-index: 5;
+  font-size: 12pt;
   opacity: 0.75;
   text-shadow: 0 2px 0 #000;
-  bottom: 5px;
-  right: 10px;
+  bottom: 2px;
+  right: 6px;
   cursor: pointer;
 
   &:hover {
