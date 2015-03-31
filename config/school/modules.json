@@ -21,11 +21,9 @@
     "numHiventsOnMap" :       "A",
     "hiventRegionsOnMap" :    "A",
     "hiventClusterLabels" :   "A",
-    "epochNames-moreSpace" :  "A",
-    "epochNames-shortNames" : "A",
     "searchFilter" :          "A",
     "regionLabels" :          "A",
-    "hiventMarkerMode" :      "A"
+    "hiventMarkerMode" :      "B"
   },
 
   "Timeline" :
