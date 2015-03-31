@@ -37,6 +37,12 @@ class HG.Popover
     @_width = BODY_DEFAULT_WIDTH
     @_height = BODY_DEFAULT_HEIGHT
 
+    @_bigBoxMode = false
+    @_normalBoxMode = true
+
+    @_widthFSBox = 0.68 * @_config.hgInstance.getMapAreaSize().x
+    @_heightFSBox = 0.81 * @_config.hgInstance.getMapAreaSize().y
+
     @_description_length = 300
     @_popoverYOffset = 30
 
@@ -54,11 +60,11 @@ class HG.Popover
       @_mainDiv.style.left = "#{WINDOW_TO_ANCHOR_OFFSET_X}px"
 
     # Fullscreen Box ==================================================
-    @_mainDivFS = document.createElement "div"
-    @_mainDivFS.className = "guiPopoverFullscreen"
-    @_mainDivFS.style.position = "absolute"
-    @_mainDivFS.style.top = "#{WINDOW_TO_ANCHOR_OFFSET_Y}px"
-    @_mainDivFS.style.visibility = "hidden"
+    # @_mainDivFS = document.createElement "div"
+    # @_mainDivFS.className = "guiPopoverFullscreen"
+    # @_mainDivFS.style.position = "absolute"
+    # @_mainDivFS.style.top = "#{WINDOW_TO_ANCHOR_OFFSET_Y}px"
+    # @_mainDivFS.style.visibility = "hidden"
 
 
     # $(".guiPopover").on("mousedown", "div", ->
@@ -93,31 +99,47 @@ class HG.Popover
     #titleDiv.className = "guiPopoverTitle"
     #titleDiv.innerHTML = @_config.title
 
+    @_bodyDiv = document.createElement "div"
+    @_bodyDiv.className = "guiPopoverBodyV1"  
+
     closeDiv = document.createElement "span"
     closeDiv.className = "close-button"
     closeDiv.innerHTML = "×"
-    #$(closeDiv).tooltip {title: "Box schließen", placement: "right", container:"#histoglobe"}
     closeDiv.addEventListener 'mouseup', () =>
       @notifyAll "onClose"
       @hide()
+      @_mainDiv.style.width = "450px"
+      @_mainDiv.style.height = "350px"
+      @_bodyDiv.className = "guiPopoverBodyV2"
+      @_mainDiv.removeChild compressBox
+      @_mainDiv.appendChild expandBox
     , false
 
     expandBox = document.createElement "span"
     expandBox.className = "expand2FS"
     expandBox.innerHTML = '<i class="fa fa-expand"></i>'
-    $(expandBox).tooltip {title: "Box im Vollbildmodus öffnen", placement: "right", container:"#histoglobe"}
+    #$(expandBox).tooltip {title: "Box im Vollbildmodus öffnen", placement: "right", container:"#histoglobe"}
     expandBox.addEventListener 'mouseup', () =>
-      console.log "Vollbild ahoi!"
+      @_mainDiv.style.width = "#{@_widthFSBox}px"
+      @_mainDiv.style.height = "#{@_heightFSBox}px"
+      @_mainDiv.style.top = "#{FULLSCREEN_BOX_TOP_OFFSET}px"
+      @_mainDiv.style.left = "#{FULLSCREEN_BOX_LEFT_OFFSET}px"
+      @_bodyDiv.className = "guiPopoverBodyV2FS"
+      @_mainDiv.removeChild expandBox
+      @_mainDiv.appendChild compressBox
 
     compressBox = document.createElement "span"
     compressBox.className = "compress2Normal"
     compressBox.innerHTML = '<i class="fa fa-compress"></i>'
-    $(compressBox).tooltip {title: "Zurück zur normalen Ansicht", placement: "left", container:"#histoglobe"}
+    #$(compressBox).tooltip {title: "Zurück zur normalen Ansicht", placement: "left", container:"#histoglobe"}
     compressBox.addEventListener 'mouseup', () =>
-      console.log "Box wieder normal!"
+      @_mainDiv.style.width = "450px"
+      @_mainDiv.style.height = "350px"
+      @_bodyDiv.className = "guiPopoverBodyV2"
+      @_mainDiv.removeChild compressBox
+      @_mainDiv.appendChild expandBox   
 
-    @_bodyDiv = document.createElement "div"
-    @_bodyDiv.className = "guiPopoverBodyV1"
+    # ============================================================================
 
     if @_config.fullscreen
       $(@_bodyDiv).addClass("fullscreen")
@@ -177,15 +199,12 @@ class HG.Popover
   # ============================================================================
 
     $(@_mainDiv).draggable()
-    #$(@_mainDiv).draggable({ handle: ".guiPopoverTitle" })
     $(@_mainDiv).fadeIn(1000)
 
     @_mainDiv.style.height = "180px"
     @_mainDiv.style.background = "#fff"
-    #@_bodyDiv.style.backgroundImage = "none"
     @_bodyDiv.style.color = "#000"
     closeDiv.style.color = "#000"
-    #closeDiv.style.zIndex = "5"
 
   # ============================================================================
 
@@ -211,7 +230,14 @@ class HG.Popover
                 @_bodyDiv.className = "guiPopoverBodyV2"
                 @_bodyDiv.style.color = "#fff"
                 closeDiv.style.color = "#fff"
-                #closeDiv.style.textShadow = "0 2px 0 #000" 
+
+  # ============================================================================
+  bigBoxMode: () ->
+    
+
+  normalBoxMode: () ->
+    @_mainDiv.style.width = "450px"
+    @_mainDiv.style.height = "350px"
 
   # ============================================================================
   toggle: (position) =>
@@ -392,6 +418,8 @@ class HG.Popover
   ARROW_ROOT_OFFSET_Y = 0
   WINDOW_TO_ANCHOR_OFFSET_X = 0
   WINDOW_TO_ANCHOR_OFFSET_Y = 0
+  FULLSCREEN_BOX_TOP_OFFSET = 10
+  FULLSCREEN_BOX_LEFT_OFFSET = 120
   BODY_DEFAULT_WIDTH = 450
   BODY_MAX_WIDTH = 400
   BODY_DEFAULT_HEIGHT = 350
