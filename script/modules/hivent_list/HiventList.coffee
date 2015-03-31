@@ -24,15 +24,9 @@ class HG.HiventList
 
   #   --------------------------------------------------------------------------
   hgInit: (hgInstance) ->
-
     @_hgInstance = hgInstance
-    @_hgInstance.hivent_list_module = @
-
-    @_container = document.createElement "div"
-    @_container.className = "hivent-list-module"
-    @_hgInstance._top_area.appendChild @_container
-    @_allTopics = @_hgInstance.timeline._config.topics
-    console.log @_hgInstance.timeline.getTopics()
+    
+    #console.log "Timeline Topics", @_hgInstance.timeline.getTopics()
     @_hivent_array = []
     @_hivent_list = document.createElement "div"
     @_hivent_list.className = "hivent-list"
@@ -40,9 +34,27 @@ class HG.HiventList
     @_hivent_headline.className = "hivent-list-headline"
     @_alliances_option = document.createElement "div"
     @_alliances_option.className = "hivent-list-alliances"
+    @_container = document.createElement "div"
+    @_container.className = "hivent-list-module"
+    @_hgInstance._top_area.appendChild @_container
+    
 
+    war = 0
+    $(@_alliances_option).click () =>
+      # hivent list alliaces click
+      war = war + 1
+      if @theme == ''
+        @theme = 'bipolarAlliances'
+      else
+        @theme = ''
+
+      console.log "Akt. Thema: " + @theme + " hListTicker: " + war + " Kath: "
+      @notifyAll "onUpdateTheme", @theme
+
+    
 
     @_hgInstance.onAllModulesLoaded @, () =>
+
       @_hgInstance.search_box_area?.onSearchBoxChanged @, (search_props) =>
         if @props.active
           if search_props.active
@@ -58,16 +70,19 @@ class HG.HiventList
         $(@_alliances_option).css({'max-height':(@props.heigth_options) + "px"})
         $(@_alliances_option).css({'border-bottom': (@props.border) + "px"})
 
+      @_hgInstance.timeline.OnTopicsLoaded @, () =>
+        @_allTopics = @_hgInstance.timeline._config.topics
+        console.log @_allTopics
+        @_addHiventList()
+        @_hgInstance.hivent_list_module = @
+
+
     @_hgInstance.onTopAreaSlide @, (t) =>
       if @_hgInstance.isInMobileMode()
         @_container.style.left = "#{t*0.5}px"
       else
         @_container.style.left = "0px"
 
-  # ============================================================================
-
-  addHiventList: () ->
-    @_addHiventList
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -80,7 +95,12 @@ class HG.HiventList
     if @_hivent_array.length > 0
       @_container.removeChild @_hivent_list
       @_container.removeChild @_hivent_headline
-      @_container.removeChild @_alliances_option
+      #@_container.removeChild @_alliances_option
+
+    #if @_alliances_option?
+      #console.log @_alliances_option?
+      #@_container.removeChild @_alliances_option
+      #console.log @_alliances_option?
 
     # Hivents ==================================================================
 
@@ -91,8 +111,8 @@ class HG.HiventList
           @_hivent_array.push hivent._hivent
 
     #############################################################
-    console.log @_allTopics
-    console.log @_hgInstance.categoryFilter.getCurrentFilter()[0]
+    console.log "Topics", @_allTopics, "ist noch nicht geladen"
+    console.log "Current Filter", @_hgInstance.categoryFilter.getCurrentFilter()[0], "ist initial da"
     #############################################################
 
     aktualleCath = ""
@@ -153,20 +173,6 @@ class HG.HiventList
       $(@_alliances_option).css({'max-height':0 + "px"})
 
     @notifyAll "onHiventListChanged", @props
-
-    war = 0
-    $(@_alliances_option).click () =>
-      # hivent list alliaces click
-      war = war + 1
-      if @theme? && @theme != ""
-        @theme = ""
-      else
-        if @_hgInstance.categoryFilter.getCurrentFilter()[0] == "bipolar"
-          @theme = "bipolarAlliances"
-        else
-          @theme = ""
-      console.log @theme + " hList " + war + " " + aktualleCath
-      @notifyAll "onUpdateTheme", @theme
 
     return @_hivent_list
 

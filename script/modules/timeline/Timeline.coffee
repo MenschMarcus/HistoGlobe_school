@@ -65,7 +65,7 @@ class HG.Timeline
 
     @_HGContainer = hgInstance.getContainer()
 
-    console.log "Topics are loaded", @_config.topics
+    #console.log "Topics are loaded", @_config.topics
 
     hgInstance.onAllModulesLoaded @, () =>
       @_hiventController = hgInstance.hiventController
