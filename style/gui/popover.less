@@ -91,7 +91,7 @@
   .close-button {
     position: absolute;
     z-index: 5;
-    color: #fff;
+    color: #D5C900;
     font-size: 35pt;
     opacity: 0.75;
     text-shadow: 0 2px 0 #000;
@@ -106,7 +106,7 @@
 
   .expand2FS {
     position: absolute;
-    color: #fff;
+    color: #D5C900;
     z-index: 5;
     font-size: 12pt;
     opacity: 0.75;
@@ -178,26 +178,36 @@
   box-shadow: 0 1px @shadow_radius rgba(0,0,0,@shadow_intensity);
 
   .guiPopoverBodyBig {
-  font: "Helvetica Neue", Arial, Helvetica, sans-serif;
-  padding: @popover_body_padding;
+    font: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    padding: @popover_body_padding;
+    background-image: -webkit-linear-gradient(right, rgba(0,0,0,0), rgb(0,0,0,0));
+    background-image: -moz-linear-gradient(right, rgba(0,0,0,0), rgb(0,0,0,0));
+    background-image: -ms-linear-gradient(right, rgba(0,0,0,0), rgb(0,0,0,0));
+    background-image: -o-linear-gradient(right, rgba(0,0,0,0), rgb(0,0,0,0));
+    background-image: linear-gradient(right, rgba(0,0,0,0), rgb(0,0,0,0));
 
-  &.fullscreen {
-    max-height: 60%;
-  }
+    &.fullscreen {
+      max-height: 60%;
+    }
   
     .guiPopoverContentBig {
 
       .hivent-body-big {
+        padding-top: 30px;
 
         .guiPopoverTitleBig {
           font-family: @secondary_font_face;
-          //color: @widget_title_text_color;
-          //color: #fff;
-          padding: @popover_title_padding 3*@popover_title_padding @popover_title_padding/2 @popover_title_padding;
-          //border-bottom: @border_width solid @border_color;
+          font-size: 22px;
+          padding-left: 0px;
+          padding-bottom: 10px;
           margin: 0px;
-          //.linear-gradient-top(@widget_title_background_color, lighten(@widget_title_background_color, @widget_title_gradient_effect), 0%, @widget_title_background_color, 100%);
           line-height: normal;
+        }
+      }
+      i {
+        padding-left: 5px;
+        &:hover {
+          cursor: pointer;
         }
       }
     }
@@ -208,8 +218,8 @@
     margin-right: auto;
     left: 0;
     right: 0;
-    max-width: 600px;
-    min-width: 300px;
+    //max-width: 600px;
+    //min-width: 300px;
   }
 
   ::-webkit-scrollbar {
@@ -232,7 +242,7 @@
   .close-button-big {
     position: absolute;
     z-index: 5;
-    color: #fff;
+    color: #D5C900;
     font-size: 35pt;
     opacity: 0.75;
     text-shadow: 0 2px 0 #000;
@@ -247,7 +257,7 @@
 
   .compress2Normal {
     position: absolute;
-    color: #fff;
+    color: #D5C900;
     z-index: 5;
     font-size: 12pt;
     opacity: 0.75;

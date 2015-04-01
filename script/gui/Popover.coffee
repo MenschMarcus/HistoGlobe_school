@@ -41,6 +41,7 @@ class HG.Popover
     @_heightFSBox = 0.81 * @_config.hgInstance.getMapAreaSize().y
 
     @_popoverYOffset = 30
+    # @_link = @_config.hiventHandle.getHivent().url
 
     @_mainDiv = document.createElement "div"
     @_mainDiv.className = "guiPopover"
@@ -66,18 +67,24 @@ class HG.Popover
 
     @_bodyDivBig = document.createElement "div"
     @_bodyDivBig.className = "guiPopoverBodyBig"
+    @_bodyDivBig.style.width = "#{0.5 * @_widthFSBox}px"
+    @_bodyDivBig.style.height = "#{@_heightFSBox}px"
 
     contentBig = document.createElement "div"
     contentBig.className = "guiPopoverContentBig"
+    contentBig.style.width = "#{0.33 * @_widthFSBox}px"
+    contentBig.style.height = "#{@_heightFSBox}px"
 
-    closeDivBig = document.createElement "span"
-    closeDivBig.className = "close-button-big"
-    closeDivBig.innerHTML = "×"
+    #closeDivBig = document.createElement "span"
+    #closeDivBig.className = "close-button-big"
+    #closeDivBig.innerHTML = "×"
 
     compressBox = document.createElement "span"
     compressBox.className = "compress2Normal"
     compressBox.innerHTML = '<i class="fa fa-compress"></i>'
-    #$(compressBox).tooltip {title: "Zurück zur normalen Ansicht", placement: "left", container:"#histoglobe"}
+    # $(compressBox).tooltip {title: "Zurück zur normalen Ansicht", placement: "left", container:"#histoglobe"}
+
+    # =================================================================
 
     # generate content
     bodyBig = document.createElement "div"
@@ -97,12 +104,10 @@ class HG.Popover
     bodyBig.appendChild textBig
     contentBig.appendChild bodyBig
 
-    locationStringBig = ''
-    if @_config.hiventIndex? and @_config.hiventHandle.getHivent().locationName?
-      locationStringBig = @_config.hiventHandle.getHivent().locationName[hiventIndex] + ', '
+    locationStringBig = @_config.hiventHandle.getHivent().locationName[0] + ', '
 
     dateBig = document.createElement "span"
-    dateBig.innerHTML = ' - ' + locationStringBig + @_config.hiventHandle.getHivent().displayDate
+    dateBig.innerHTML = ' - ' + locationStringBig + @_config.hiventHandle.getHivent().displayDate #+ ' '
     textBig.appendChild dateBig
 
     gotoDateBig = document.createElement "i"
@@ -111,6 +116,11 @@ class HG.Popover
     gotoDateBig.addEventListener 'mouseup', () =>
       @_hgInstance.timeline.moveToDate @_config.hiventHandle.getHivent().startDate, 0.5
     dateBig.appendChild gotoDateBig
+
+    # linkToWiki = document.createElement "a"
+    # linkToWiki.className = "wikipedia-link"
+    # linkToWiki.innerHTML = 'href="' + @_link + '"target="_blank">Link zum Artikel'
+    # console.log @_link
 
     # =================================================================
     # =================================================================
@@ -130,12 +140,6 @@ class HG.Popover
     # @_leftArrow = document.createElement "div"
     # @_leftArrow.className = "arrow arrow-left"
 
-
-
-    #titleDiv = document.createElement "h4"
-    #titleDiv.className = "guiPopoverTitle"
-    #titleDiv.innerHTML = @_config.title
-
     @_bodyDiv = document.createElement "div"
     @_bodyDiv.className = "guiPopoverBodyV1"  
 
@@ -146,18 +150,7 @@ class HG.Popover
     expandBox = document.createElement "span"
     expandBox.className = "expand2FS"
     expandBox.innerHTML = '<i class="fa fa-expand"></i>'
-    #$(expandBox).tooltip {title: "Box im Vollbildmodus öffnen", placement: "right", container:"#histoglobe"}
-    # expandBox.addEventListener 'mouseup', () =>
-    #   @_parentDiv.removeChild @_mainDiv
-    #   @_parentDiv.appendChild @_mainDivBig
-
-      # @_mainDiv.style.width = "#{@_widthFSBox}px"
-      # @_mainDiv.style.height = "#{@_heightFSBox}px"
-      # @_mainDiv.style.top = "#{FULLSCREEN_BOX_TOP_OFFSET}px"
-      # @_mainDiv.style.left = "#{FULLSCREEN_BOX_LEFT_OFFSET}px"
-      # @_bodyDiv.className = "guiPopoverBodyV2FS"
-      # @_mainDiv.removeChild expandBox
-      # @_mainDiv.appendChild compressBox 
+    # $(expandBox).tooltip {title: "Box vergrößern", placement: "left", container:"#histoglobe"}
 
     # ============================================================================
 
