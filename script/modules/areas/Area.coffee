@@ -7,28 +7,20 @@ class HG.Area
   ##############################################################################
 
   # ============================================================================
-  constructor: (id, name, geometry, labelPos, startDate, endDate, type, areaStyler) ->
+  constructor: (id, geometry, startDate, endDate, type, styler) ->
 
-    # HG.mixin @, HG.CallbackContainer
-    # HG.CallbackContainer.call @
-
-    # @addCallback "onShow"
-    # @addCallback "onHide"
-
-    # init necessary area data
+    # init data
     @_id        = id
-    @_name      = name
     @_geometry  = geometry
     @_startDate = startDate
     @_endDate   = endDate
     @_type      = type
 
-    # init bounding box (needed for manual label position calculation)
     @_calcBoundingBox()
 
-    # get all styles from area styler
-    if areaStyler?
-      @_setStyles areaStyler
+    # get all styles
+    if styler?
+      @_setStyles styler
 
     # initally each area is inactive and is set active only by AreaController
     @_active    = false
@@ -37,12 +29,6 @@ class HG.Area
     @_activeThemeClass  = 'normal'
     @_prepareStyle null
 
-    # set label from manual input or calculate it based on geometry
-    if labelPos?
-      @_labelPos = labelPos
-    else
-      @_labelPos = @_calcLabelPos()
-
   # ============================================================================
   getId: ->
     @_id
@@ -50,10 +36,6 @@ class HG.Area
   # ============================================================================
   getName: ->
     @_name
-
-  # ============================================================================
-  getLabelPos: ->
-    @_labelPos
 
   # ============================================================================
   getBoundingBox: ->
@@ -143,21 +125,6 @@ class HG.Area
 
       @_boundingBox = [minLat, minLng, maxLat, maxLng]
 
-
-  # ============================================================================
-  # calculate label position based on largest subpart of the area
-  _calcLabelPos: () ->
-
-    minLat = @_boundingBox[0]
-    minLng = @_boundingBox[1]
-    maxLat = @_boundingBox[2]
-    maxLng = @_boundingBox[3]
-
-    labelLat = (minLat+maxLat)/ 2
-    labelLng = (minLng+maxLng)/ 2
-
-    [labelLat, labelLng]
-
   # ============================================================================
   # idea: prepare style so it can be handed out in O(1)
   _prepareStyle: (inTheme) ->
@@ -174,9 +141,9 @@ class HG.Area
 
   # ============================================================================
   # get all styles from area styler
-  _setStyles: (areaStyler) ->
-    @_normalStyle     = areaStyler.getNormalStyle()
-    @_highlightStyle  = areaStyler.getHighlightStyle()
+  _setStyles: (styler) ->
+    @_normalStyle     = styler.getNormalStyle()
+    @_highlightStyle  = styler.getHighlightStyle()
 
     # for each theme area has certain style in certain time period
-    @_themeStyles     = areaStyler.getThemeStyles @_id
+    @_themeStyles     = styler.getThemeStyles @_id

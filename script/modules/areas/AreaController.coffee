@@ -34,17 +34,20 @@ class HG.AreaController
     conf = $.extend {}, defaultConfig, config
 
     # area handling
-    @_areas = []  # main array of all HG areas (id, name, geometry, ...)
+    @_areas = []    # set of all HG areas (id, geometry, ...)
+    @_labels = []   # set of all HG labels (id, name, position, ...)
+    @_changes = []  # set of all HG areas (id, type, date, old/new areas/labels)
 
-    @_areaChanges = new Queue() # main queue, each element describes one area change
-      # 1) flag: ready to be executed? (if transition animation of related areas is done)
-      # 2) set of areas to be added on the map
-      # 3) set of areas to be deleted from the map
-      # 4) set of areas whose style is to be changed on the map
-      # 5) set of transition areas to be faded out on the map
+    # main queue, each element describes one area change
+    @_areaChanges = []
 
     # initially load areas from input files
+    @_areasLoaded = no
+    @_labelsLoaded = no
+    @_changesLoaded = no
     @_loadAreasFromJSON conf
+    @_loadLabelsFromJSON conf
+    @_loadChangesFromJSON conf
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -54,7 +57,7 @@ class HG.AreaController
     @_timeline = hgInstance.timeline
     @_now = @_timeline.getNowDate()
 
-    @_areaStyler = hgInstance.areaStyler
+    @_styler = hgInstance.styler
 
     # main activity: what happens if now date changes?
     @_timeline.onNowChanged @, (date) ->
@@ -62,34 +65,7 @@ class HG.AreaController
 
     # ctr = 0
     mainLoop = setInterval () =>    # => is important to be able to access global variables (compared to ->)
-
-      # check if area change can happen
-      if not @_areaChanges.isEmpty()
-        isReady = @_areaChanges.peek()[0]
-        if isReady
-          areaChange = @_areaChanges.dequeue()
-
-          # add all new areas
-          for area in areaChange[1]
-            @notifyAll "onShowArea", area
-            area.setActive()
-
-          # remove all old areas
-          for area in areaChange[2]
-            @notifyAll "onHideArea", area
-            area.setInactive()
-
-          # change style of all areas to be changed
-          for area in areaChange[3]
-            @notifyAll "onUpdateAreaStyle", area
-
-          # fade-out transition area
-          # transArea = areaChange[4]
-          # if transArea
-          #   @notifyAll "onHideArea", transArea
-          #   transArea.setInactive()
-
-        # update style
+      @_executeChange()
     , 50
 
 
@@ -107,46 +83,32 @@ class HG.AreaController
 
     # parse each geojson file
     for file in config.areaJSONPaths
-      $.getJSON file, (countries) =>
-        numAreasToLoad = countries.features.length  # counter
+      $.getJSON file, (areas) =>
+        numAreasToLoad = areas.features.length  # counter
 
-        for country in countries.features
+        for area in areas.features
 
           # parse file asynchronously
-          executeAsync = (country) =>
+          executeAsync = (area) =>
             setTimeout () =>
 
-              ## id
-              # @_id       = country.properties.iso_a3
-              # old! iso_a3 not suitable for historic countries, because it is hard to always come up with three letters for a country
-              # => introduce a "country_id" in geojson, which is a 3 (current country) or 4 (historic country) letter country code
-              countryId = country.properties.id
+              # meta
+              areaId    = area.properties.id
+              startDate = new Date area.properties.start_date.toString()
+              endDate   = new Date area.properties.end_date.toString()
+              type      = area.properties.type
 
-              ## misc
-              name      = country.properties.name_de_shrt    # to be changed if other languages are desired
-              startDate = new Date country.properties.start_date.toString()
-              endDate   = new Date country.properties.end_date.toString()
-              type      = 'country'
-              active    = false
-
-              ## geometry (polygons)
-              data = L.GeoJSON.geometryToLayer country
+              # geometry (polygons)
+              data = L.GeoJSON.geometryToLayer area
               geometry = []
-              if country.geometry.type is "Polygon"
+              if area.geometry.type is "Polygon"
                 geometry.push data._latlngs
-              else if country.geometry.type is "MultiPolygon"
+              else if area.geometry.type is "MultiPolygon"
                 for id, layer of data._layers
                   geometry.push layer._latlngs
 
-              ## label pos
-              labelLat = country.properties.label_lat
-              labelLng = country.properties.label_lng
-              labelPos = null
-              if labelLat isnt "" and labelLng isnt ""
-                labelPos = [(parseFloat labelLat), (parseFloat labelLng)]
-
               # create HG area
-              newArea = new HG.Area countryId, name, geometry, labelPos, startDate, endDate, type, @_areaStyler
+              newArea = new HG.Area areaId, geometry, startDate, endDate, type, @_styler
 
               # set initial style
               if @_theme?
@@ -164,19 +126,96 @@ class HG.AreaController
 
               # one less area to go
               numAreasToLoad--
-
-              # initially put areas on the map / globe
               if numAreasToLoad is 0
-                @_updateAreas @_timeline.getNowDate()
+                @_areasLoaded = yes
+                console.log @_areas
 
-            , 0
+            , 0 # execute immediately
 
-          executeAsync country
+          executeAsync area
+
+  # ============================================================================
+  _loadLabelsFromJSON: (config) ->
+
+    # parse each geojson file
+    for file in config.labelJSONPaths
+      $.getJSON file, (labels) =>
+        numLabelsToLoad = labels.features.length  # counter
+
+        for label in labels.features
+
+          # parse file asynchronously
+          executeAsync = (label) =>
+            setTimeout () =>
+
+              # meta
+              labelId   = label.properties.id
+              startDate = new Date label.properties.start_date.toString()
+              endDate   = new Date label.properties.end_date.toString()
+              name      = label.properties.name
+
+              # geometry (point)
+              position    = label.geometry.coordinates
+              boundingBox = label.properties.boundingBox
+
+              # create HG label
+              newLabel = new HG.Label labelId, name, position, boundingBox, startDate, endDate, @_styler
+
+              # set initial style
+              if @_theme?
+                # check if label has a class in this theme
+                nowDate = @_timeline.getNowDate
+                themeClasses = newLabel.getThemeClasses @_theme
+                if themeClasses?
+                  for themeClass in themeClasses
+                    if nowDate >= themeClass.startDate and nowDate < themeClass.endDate
+                      newThemeClass = themeClass.className
+                      break
+
+              # fill labels array
+              @_labels.push newLabel
+
+              # one less label to go
+              numLabelsToLoad--
+              if numLabelsToLoad is 0
+                @_labelsLoaded = yes
+                console.log @_labels
+
+            , 0 # execute immediately
+
+          executeAsync label
+
+  # ============================================================================
+  _loadChangesFromJSON: (config) ->
+
+    # parse each geojson file
+    for file in config.changeJSONPaths
+      $.getJSON file, (changes) =>
+        numChangesToLoad = changes.features.length  # counter
+
+        for change in changes.features
+
+          # parse file asynchronously
+          executeAsync = (change) =>
+            setTimeout () =>
+
+              # fill labels array
+              @_changes.push change
+
+              # one less change to go
+              numChangesToLoad--
+              if numChangesToLoad is 0
+                @_changesLoaded = yes
+                console.log @_changes
+
+            , 0 # execute immediately
+
+          executeAsync change
+
 
   # ============================================================================
   # add all new and remove all old areas to map/globe
   # and emphasize transition areas (areas that move from one country to another)
-
   _updateAreas:(date)->
 
     # comparison by dates
@@ -246,7 +285,17 @@ class HG.AreaController
       ready = yes
 
       # enqueue set of area change
-      @_areaChanges.enqueue [ready, newAreas, oldAreas, newStyles, transArea]
+      # @_areaChanges.enqueue [ready, newAreas, oldAreas, newStyles, transArea]
 
     # reset now Date
     @_now = newDate
+
+
+  # ============================================================================
+  # find next ready area change and execute it (one at a time)
+  _executeChange: () ->
+    for change in @_areaChanges
+      if change.isReady
+        # execute it
+        # terminate loop
+        break

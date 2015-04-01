@@ -1,0 +1,152 @@
+{
+  "content": "label", 
+  "features": [
+    {
+      "properties": {
+        "date": 2003, 
+        "id": "2003-JUG-to-SRB", 
+        "new_areas": [], 
+        "new_labels": [
+          "2003-2006-SRB"
+        ], 
+        "old_areas": [], 
+        "old_labels": [
+          "1992-2003-JUG"
+        ]
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "properties": {
+        "date": 1992, 
+        "id": "1992-JUG-splitup", 
+        "new_areas": [
+          "1992-9999-SVN,", 
+          "1992-2006-SRB,", 
+          "1992-9999-HRV,", 
+          "1992-9999-BIH,", 
+          "1990-9999-ALB,", 
+          "1992-9999-MKD"
+        ], 
+        "new_labels": [
+          "1992-9999-SVN,", 
+          "1992-2003-JUG,", 
+          "1992-9999-HRV,", 
+          "1992-9999-BIH,", 
+          "1992-9999-MKD"
+        ], 
+        "old_areas": [
+          "1954-1992-SFY"
+        ], 
+        "old_labels": [
+          "1918-1992-SFY"
+        ]
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "properties": {
+        "date": 1990, 
+        "id": "1990-ALB-demo", 
+        "new_areas": [], 
+        "new_labels": [
+          "1990-9999-ALB"
+        ], 
+        "old_areas": [], 
+        "old_labels": [
+          "1944-1990-ALB"
+        ]
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "properties": {
+        "date": 1954, 
+        "id": "1954-TRST-end", 
+        "new_areas": [
+          "1954-9999-ITA,", 
+          "1954-1992-SFY"
+        ], 
+        "new_labels": [], 
+        "old_areas": [
+          "1947-1954-TRST,", 
+          "1947-1954-ITA,", 
+          "1947-1954-SFY"
+        ], 
+        "old_labels": [
+          "1947-1954-TRST"
+        ]
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "properties": {
+        "date": 1947, 
+        "id": "1947-TRST-creation", 
+        "new_areas": [
+          "1947-1954-SFY,", 
+          "1947-1954-ITA,", 
+          "1947-1954-TRST"
+        ], 
+        "new_labels": [
+          "1947-1954-TRST"
+        ], 
+        "old_areas": [
+          "1918-1947-SFY,", 
+          "1929-1947-ITA"
+        ], 
+        "old_labels": []
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "properties": {
+        "date": 1945, 
+        "id": "1945-SFY-creation", 
+        "new_areas": [], 
+        "new_labels": [
+          "1945-1992-SFY"
+        ], 
+        "old_areas": [], 
+        "old_labels": [
+          "1918-1945-JUG"
+        ]
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "properties": {
+        "date": 1929, 
+        "id": "1929-VAT-creation", 
+        "new_areas": [
+          "1929-1947-ITA,", 
+          "1929-9999-VAT"
+        ], 
+        "new_labels": [
+          "1929-9999-VAT"
+        ], 
+        "old_areas": [
+          "1919-1929-ITA"
+        ], 
+        "old_labels": []
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "properties": {
+        "date": 1919, 
+        "id": "1919-SouthTyrol-to-ITA", 
+        "new_areas": [
+          "1919-1929-ITA"
+        ], 
+        "new_labels": [], 
+        "old_areas": [
+          "1866-1919-ITA"
+        ], 
+        "old_labels": []
+      }, 
+      "type": "Feature"
+    }
+  ], 
+  "type": "FeatureCollection"
+}

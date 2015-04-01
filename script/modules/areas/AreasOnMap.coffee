@@ -13,7 +13,8 @@ class HG.AreasOnMap
     @_visibleAreas    = []
 
     defaultConfig =
-      labelVisibilityFactor: 5
+      labelVisibilityFactor: 5,
+      animationTime: 200
 
     @_config = $.extend {}, defaultConfig, config
 
@@ -31,18 +32,18 @@ class HG.AreasOnMap
       # change of areas
       @_areaController.onAddArea @, (area) =>
         @_addArea area
-        @_showArea area
+        @_showArea area, 0
 
       @_areaController.onRemoveArea @, (area) =>
-        @_hideArea area
+        @_hideArea area, 0
         @_removeArea area
 
       @_areaController.onFadeInArea @, (area) =>
         @_addArea area
-        @_fadeInArea area
+        @_showArea area, @_config.animationTime
 
       @_areaController.onFadeOutArea @, (area) =>
-        @_fadeOutArea area
+        @_hideArea area, @_config.animationTime
         @_removeArea area
 
       @_areaController.onUpdateAreaStyle @, (area) =>
@@ -63,10 +64,8 @@ class HG.AreasOnMap
       @_areaController.onUpdateLabelStyle @, (label) =>
         @_updateLabelStyle label
 
-
-      # change of style
-
       @_map.on "zoomend", @_onZoomEnd
+
     else
       console.error "Unable to show areas on Map: AreaController module not detected in HistoGlobe instance!"
 
@@ -91,12 +90,12 @@ class HG.AreasOnMap
     area.myLeafletLayer.on "mouseout", @_onUnHover
     area.myLeafletLayer.on "click", @_onClick
 
-    # update list of visible areas
-    @_visibleAreas.push area
-
     # create double-link: leaflet layer knows HG area and HG area knows leaflet layer
     area.myLeafletLayer.hgArea = area
     area.myLeafletLayer.addTo @_map
+
+    # update list of visible areas
+    @_visibleAreas.push area
 
 
   # ============================================================================
@@ -116,40 +115,24 @@ class HG.AreasOnMap
       # update list of visible areas
       @_visibleAreas.splice(@_visibleAreas.indexOf(area), 1)
 
-
-  # ============================================================================
-  # makes area abruptly visible and allows interaction with it
-  _showArea: (area) ->
-    if area.myLeafletLayer?
-      area.myLeafletLayer.options.fillOpacity = area.getStyle().areaOpacity
-      area.myLeafletLayer.options.lineOpacity = area.getStyle().borderOpacity
-      @_visibleAreas.push area
-
-  # ============================================================================
-  # makes area abruptly invisible and allows interaction with it
-  _hideArea: (area) ->
-    if area.myLeafletLayer?
-      area.myLeafletLayer.options.fillOpacity = 0
-      area.myLeafletLayer.options.lineOpacity = 0
-
   # ============================================================================
   # slowly fades in area and allows interaction with it
-  _fadeInArea: (area) ->
+  _showArea: (area, aniTime) ->
     if area.myLeafletLayer?
       @_animate area.myLeafletLayer,
         # TODO: does that work better? translating the whole style 5 times for each item separately seems not intuitive...
         "fill-opacity":   area.getStyle().areaOpacity
         "stroke-opacity": area.getStyle().borderOpacity
-      , 200   # TODO: get from config
+      , aniTime
 
   # ============================================================================
-  _fadeOutArea: (area) ->
+  _hideArea: (area, aniTime) ->
     if area.myLeafletLayer?
       @_animate area.myLeafletLayer,
         # TODO: does that work better? translating the whole style 5 times for each item separately seems not intuitive...
         "fill-opacity":   0
         "stroke-opacity": 0
-      , 200   # TODO: get from config
+      , aniTime
 
   # ============================================================================
   _updateAreaStyle: (area) ->

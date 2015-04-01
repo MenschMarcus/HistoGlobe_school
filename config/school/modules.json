@@ -21,11 +21,9 @@
     "numHiventsOnMap" :       "A",
     "hiventRegionsOnMap" :    "A",
     "hiventClusterLabels" :   "A",
-    "epochNames-moreSpace" :  "A",
-    "epochNames-shortNames" : "A",
     "searchFilter" :          "A",
     "regionLabels" :          "A",
-    "hiventMarkerMode" :      "A"
+    "hiventMarkerMode" :      "B"
   },
 
   "Timeline" :
@@ -133,7 +131,7 @@
   "HiventList": {},
   "HiventListController": {},
 
-  "AreaStyler":
+  "Styler":
   {
     "normalStyle":
     {
@@ -184,12 +182,15 @@
 
   "AreaController":
   {
-    "areaJSONPaths" : ["config/school/data/countries.geojson"]
+    "areaJSONPaths" : ["config/school/data/countryAreas.geojson"],
+    "labelJSONPaths" : ["config/school/data/countryLabels.geojson"],
+    "changeJSONPaths" : ["config/school/data/countryChanges.json"]
   },
 
   "AreasOnMap" :
   {
-    "labelVisibilityFactor" : 8
+    "labelVisibilityFactor" : 8,
+    "animationTime" : 200
   }
 
 }
