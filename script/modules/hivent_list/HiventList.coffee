@@ -14,7 +14,7 @@ class HG.HiventList
     @addCallback "onHiventListChanged"
     @addCallback "onUpdateTheme"
 
-    @props = 
+    @props =
       active: false
       heigth_hivent_list: 0
       heigth_options: 0
@@ -25,7 +25,7 @@ class HG.HiventList
   #   --------------------------------------------------------------------------
   hgInit: (hgInstance) ->
     @_hgInstance = hgInstance
-    
+
     #console.log "Timeline Topics", @_hgInstance.timeline.getTopics()
     @_hivent_array = []
     @_hivent_list = document.createElement "div"
@@ -37,7 +37,7 @@ class HG.HiventList
     @_container = document.createElement "div"
     @_container.className = "hivent-list-module"
     @_hgInstance._top_area.appendChild @_container
-    
+
     @_hgInstance.hivent_list_module = @
 
     $(@_alliances_option).click () =>
@@ -51,7 +51,7 @@ class HG.HiventList
         @theme = ''
         knopp.removeClass "fa-toggle-on"
         knopp.addClass "fa-toggle-off"
-        
+
       #console.log @theme
       @notifyAll "onUpdateTheme", @theme
 
@@ -120,11 +120,11 @@ class HG.HiventList
 
     headline = '<div>' + 'Aktuelles Thema: ' + aktualleCath + '</div>'
 
-    alliances = '<div class="alliances-content"><i class="shield_bipolar fa fa-shield"></i> Millitärbündnisse anzeigen <i class="toggle_on_off fa fa-toggle-off fa-4"></i>' + 
+    alliances = '<div class="alliances-content"><i class="shield_bipolar fa fa-shield"></i> Millitärbündnisse anzeigen <i class="toggle_on_off fa fa-toggle-off fa-4"></i>' +
       '<br><table id="legend_table">
-        <tr><td><div id="nato"></div></td><td> Mitglieder der Nato</td></tr>
-        <tr><td><div id="natooM"></div></td><td> Mitglieder der Nato ohne Millitär</td></tr>
-        <tr><td><div id="warschP"></div></td><td> Mitglieder des Warschauer Pakts</td></tr>
+        <tr><td><div id="nato"></div></td><td> NATO</td></tr>
+        <tr><td><div id="natooM"></div></td><td> NATO (aber nicht im Militärbündnis)</td></tr>
+        <tr><td><div id="warschP"></div></td><td> Warschauer Pakt</td></tr>
       </table>
       </div>'
 
@@ -147,7 +147,7 @@ class HG.HiventList
     @_hivent_headline.innerHTML = headline
     @_alliances_option.innerHTML = alliances
     @_hivent_list.innerHTML = hivents
-    
+
     if @_hivent_array.length > 0
       @_container.appendChild @_hivent_headline
       @_container.appendChild @_alliances_option
