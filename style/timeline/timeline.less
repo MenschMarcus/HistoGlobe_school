@@ -82,22 +82,23 @@
           white-space: nowrap; // avoid break;
 
           position: absolute;
-          padding: 0px 0px 0px 5px;
+          padding: 0px 0px 0px 0px;
           z-index: 1;
           overflow: hidden;
           text-overflow: ellipsis;
 
           // Text in topix bars
-          div:nth-child(2) {
-            //margin: 0px auto;            
+          div:nth-child(2) {                  
             display: inline-block;
             overflow: hidden;
             text-overflow: ellipsis;
+            text-align: center;
+            margin: 0px auto;
           }
 
           .tl_subtopics {
             position: relative;
-            margin: -27px 0px 0px -5px;
+            margin: -27px 0px 0px 0px;
             height: @timeline_subtopic_height;
             //overflow: hidden;
 

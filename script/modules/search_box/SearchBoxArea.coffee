@@ -263,7 +263,7 @@ class HG.SearchBoxArea
           yearString = epoch_result.startYear + ' bis ' + epoch_result.endYear
 
         window.list_items.push epoch_result.id
-        epoch_search_output = epoch_search_output + '<a onmouseout="if(window.mouse_hover_active) { this.firstChild.className = \'\'; window.current_active_element = -1; }" onmouseover="if(window.mouse_hover_active) { this.firstChild.className = \'itemhover_list\'; window.current_active_element = ' + live_ticker + '; }" id="' + epoch_result.id + '" href="#event=' + epoch_result.id + '"><li>' + 
+        epoch_search_output = epoch_search_output + '<a onmouseout="if(window.mouse_hover_active) { this.firstChild.className = \'\'; window.current_active_element = -1; }" onmouseover="if(window.mouse_hover_active) { this.firstChild.className = \'itemhover_list\'; window.current_active_element = ' + live_ticker + '; }" id="' + epoch_result.id + '" href="#categories=' + epoch_result.category + '&event=' + epoch_result.id + '"><li>' + 
         '<div class="wrap"><div class="res_name">' + epoch_result.name + '</div>' + 
         '<div class="res_location">' + epoch_result.locationName[0] + '</div><div class="res_year">' + yearString + '</div></div><i class="fa fa-map-marker"></i></li></a>'
         live_ticker++
