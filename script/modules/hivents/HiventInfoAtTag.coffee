@@ -102,15 +102,4 @@ class HG.HiventInfoAtTag
           categories = @_hashEntries[target].split '+'
           @_categoryFilter?.setCategory categories
 
-          @_hgInstance.hivent_list_module?._addHiventList()
-
-        else
-          @notifyAll "onHashChanged", target, @_hashEntries[target]
-
-
-
-
-
-
-
-
+      @notifyAll "onHashChanged", target, @_hashEntries[target]

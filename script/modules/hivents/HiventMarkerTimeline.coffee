@@ -20,10 +20,14 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
     time = hiventHandle.getHivent().startDate.getTime()
 
     yRow=
-      0: HGConfig.timeline_row0_position.val + 10    # main topic
-      0.5: HGConfig.timeline_row0_position.val + 40  # subtopic
-      1: HGConfig.timeline_row1_position.val + 10    # main topic
-      1.5: HGConfig.timeline_row1_position.val + 40  # subtopic
+      # 0: HGConfig.timeline_row0_position.val + 10    # main topic
+      # 0.5: HGConfig.timeline_row0_position.val + 40  # subtopic
+      # 1: HGConfig.timeline_row1_position.val + 10    # main topic
+      # 1.5: HGConfig.timeline_row1_position.val + 40  # subtopic
+      0: HGConfig.timeline_row0_position.val + HGConfig.hivent_marker_timeline_main_topic_offset_y.val    # main topic
+      0.5: HGConfig.timeline_row0_position.val + HGConfig.hivent_marker_timeline_sub_topic_offset_y.val  # subtopic
+      1: HGConfig.timeline_row1_position.val + HGConfig.hivent_marker_timeline_main_topic_offset_y.val    # main topic
+      1.5: HGConfig.timeline_row1_position.val + HGConfig.hivent_marker_timeline_sub_topic_offset_y.val  # subtopic
 
     Y_OFFSETS[time] ?= 0
     @_yOffset = Y_OFFSETS[time]
