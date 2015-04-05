@@ -40,7 +40,6 @@ class HG.HighContrastButton
         width: "70%"
 
 
-
     if hgInstance.control_button_area?
       state_a = {}
       state_b = {}
