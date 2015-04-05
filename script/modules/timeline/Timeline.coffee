@@ -110,7 +110,7 @@ class HG.Timeline
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
     # transition of timeline container with swiper.js
-    @_moveDelay = 0    
+    @_moveDelay = 0
     @_timeline_swiper ?= new Swiper '#tl',
       mode:'horizontal'
       freeMode: true
@@ -118,14 +118,14 @@ class HG.Timeline
       scrollContainer: true
       onTouchStart: =>
         @_dragged = false
-        @_animationTargetDate = null                
+        @_animationTargetDate = null
         @_animationSwitch() if @_play
-      onTouchMove: =>       
+      onTouchMove: =>
         fireCallbacks = ++@_moveDelay % 10 == 0
         @_dragged = @_moveDelay > 2
         @_updateNowDate(fireCallbacks)
         @_updateDateMarkers(false)
-        @_updateTopics()    
+        @_updateTopics()
       onTouchEnd: =>
         $(".topic_inner").css({transition: 0.5 + "s"})
     @_uiElements.tl_wrapper.addEventListener "webkitTransitionEnd", (e) =>
@@ -231,7 +231,7 @@ class HG.Timeline
                   @_config.topics.push tmp_topic
 
                 # is subtopic
-                else 
+                else
                   for headtopic in @_config.topics
                     if headtopic.id == result[@_config.indexMappings[pathIndex].subtopic_of]
                       tmp_subtopic =
@@ -502,14 +502,14 @@ class HG.Timeline
         $(topic.div).on "mouseup", value: topic, (event) => @_switchTopic(event.data.value) if !@_dragged
         $(topic.div).fadeIn(200)
 
-        #   set text in topic bar so that text 
+        #   set text in topic bar so that text
         #   is always centered in visible part of topic
         @_scaleTopicText topic
       else
         topic.div.style.left = @dateToPosition(topic.startDate) + "px"
         topic.div.style.width = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) + "px"
 
-        #   set text in topic bar so that text 
+        #   set text in topic bar so that text
         #   is always centered in visible part of topic
         @_scaleTopicText topic
         if topic.subtopics?
@@ -703,9 +703,9 @@ class HG.Timeline
 
   _moveTopicRows: (showSubtopics) ->
     if @_activeTopic.row is 0 and showSubtopics
-      $('.tl_topic_row1').css({'bottom': HGConfig.timline_row1_position_up.val + 'px'})
+      $('.tl_topic_row1').css({'bottom': HGConfig.timeline_row1_position_up.val + 'px'})
     else
-      $('.tl_topic_row1').css({'bottom': HGConfig.timline_row1_position.val + 'px'})
+      $('.tl_topic_row1').css({'bottom': HGConfig.timeline_row1_position.val + 'px'})
 
 
 
