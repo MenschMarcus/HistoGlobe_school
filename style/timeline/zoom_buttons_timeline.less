@@ -7,14 +7,14 @@
   font-size: 30pt * @widget_font_size_factor;
   border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
   // padding: @border_width;
-  background-color: #1F262D;
+  background-color: #121212;
 
   z-index: 1;
   position: absolute;
   margin-top: 23px;
 
   .timeline-control-buttons-button {
-    color: #ffffff;
+    color: #d5c900;
     margin-top: 7px;
     cursor: pointer;
     padding: 0 16px;
@@ -34,4 +34,11 @@
       //background-color: lighten(@widget_title_background_color, 20%);
     }
   }
+}
+
+.highContrast .timeline-control-buttons-group {
+  background-color: #000000;
+  .timeline-control-buttons-button {
+    color: #ffffff;
+    }
 }
