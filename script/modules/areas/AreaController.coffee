@@ -23,6 +23,7 @@ class HG.AreaController
     @addCallback "onMoveLabel"
     @addCallback "onUpdateLabelStyle"
 
+
     @_timeline  = null
     @_now       = null
     @_theme     = null
@@ -68,6 +69,11 @@ class HG.AreaController
       @_doChanges()
     , 50
 
+    # ???
+    # hgInstance.onAllModulesLoaded @, () =>
+    #   hgInstance.hivent_list_module?.onUpdateTheme @, (theme) =>
+    #     @_theme = theme
+    #     @_updateAreas @_now
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #

@@ -10,6 +10,7 @@
     "startZoom": 5,
     "startLatLong": [50.9869531, 11.3205004],
     "tiles": "config/school/tiles/",
+    "tilesHighContrast": "config/school/tiles_ehc/",
     "sidebarEnabled": false
   },
 
@@ -50,8 +51,8 @@
   "ZoomButtonsTimeline": {},
   "ControlButtonArea": {},
   "ZoomButtons": {},
-
   "FullscreenButton": {},
+  "HighContrastButton": {},
 
   "CategoryFilter":
   {
@@ -129,7 +130,6 @@
   "Logo": {},
   "SearchBoxForm": {},
   "HiventList": {},
-  "HiventListController": {},
 
   "Styler":
   {

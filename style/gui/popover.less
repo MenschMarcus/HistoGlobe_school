@@ -26,7 +26,6 @@
 
   &.fullscreen {
     max-height: 60%;
-
   }
   
     .guiPopoverContent {
@@ -54,6 +53,7 @@
 
   .guiPopoverBodyV2 {
     max-height: 350px;
+    width: 450px;
     color: #ffffff;
     background-image: -webkit-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
     background-image: -moz-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
@@ -61,8 +61,6 @@
     background-image: -o-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
     background-image: linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
   }
-
-
 
   &.fullscreen {
     margin-left: auto;
@@ -89,6 +87,38 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
+  .close-button {
+    position: absolute;
+    z-index: 5;
+    color: #D5C900;
+    font-size: 35pt;
+    opacity: 0.75;
+    text-shadow: 0 2px 0 #000;
+    top: -8px;
+    right: 10px;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .expand2FS {
+    position: absolute;
+    color: #D5C900;
+    z-index: 5;
+    font-size: 12pt;
+    opacity: 0.75;
+    text-shadow: 0 2px 0 #000;
+    bottom: 2px;
+    right: 6px;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 
   // .arrow {
   //   position: absolute;
@@ -138,19 +168,107 @@
 
 }
 
+/* ================================================================================== */
 
-.close-button {
-  position: absolute;
-  color: #fff;
-  font-size: 35pt;
-  opacity: 0.75;
-  top: -5px;
-  right: 10px;
+.guiBigPopover {
+  border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
+  .transition-property(opacity);
+  .transition-duration(0.2s);
+  .transition-timing-function(ease-in-out);
+  box-shadow: 0 1px @shadow_radius rgba(0,0,0,@shadow_intensity);
 
-  cursor: pointer;
+  .guiPopoverBodyBig {
+    font: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    padding: @popover_body_padding;
+    background-image: -webkit-linear-gradient(right, rgba(0,0,0,0), rgb(0,0,0,0));
+    background-image: -moz-linear-gradient(right, rgba(0,0,0,0), rgb(0,0,0,0));
+    background-image: -ms-linear-gradient(right, rgba(0,0,0,0), rgb(0,0,0,0));
+    background-image: -o-linear-gradient(right, rgba(0,0,0,0), rgb(0,0,0,0));
+    background-image: linear-gradient(right, rgba(0,0,0,0), rgb(0,0,0,0));
 
-  &:hover {
-    opacity: 1;
+    &.fullscreen {
+      max-height: 60%;
+    }
+  
+    .guiPopoverContentBig {
+
+      .hivent-body-big {
+        padding-top: 30px;
+
+        .guiPopoverTitleBig {
+          font-family: @secondary_font_face;
+          font-size: 22px;
+          padding-left: 0px;
+          padding-bottom: 10px;
+          margin: 0px;
+          line-height: normal;
+        }
+      }
+      i {
+        padding-left: 5px;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  &.fullscreen {
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    //max-width: 600px;
+    //min-width: 300px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    overflow: hidden;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #ddd;
+  }
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  .close-button-big {
+    position: absolute;
+    z-index: 5;
+    color: #D5C900;
+    font-size: 35pt;
+    opacity: 0.75;
+    text-shadow: 0 2px 0 #000;
+    top: -8px;
+    right: 10px;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .compress2Normal {
+    position: absolute;
+    color: #D5C900;
+    z-index: 5;
+    font-size: 12pt;
+    opacity: 0.75;
+    text-shadow: 0 2px 0 #000;
+    bottom: 2px;
+    right: 6px;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 }
 

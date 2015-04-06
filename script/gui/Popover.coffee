@@ -37,12 +37,14 @@ class HG.Popover
     @_width = BODY_DEFAULT_WIDTH
     @_height = BODY_DEFAULT_HEIGHT
 
-    @_description_length = 300
+    @_widthFSBox = 0.68 * @_config.hgInstance.getMapAreaSize().x
+    @_heightFSBox = 0.81 * @_config.hgInstance.getMapAreaSize().y
+
     @_popoverYOffset = 30
+    # @_link = @_config.hiventHandle.getHivent().url
 
     @_mainDiv = document.createElement "div"
     @_mainDiv.className = "guiPopover"
-    #@_mainDiv.draggable = "true"
 
     @_mainDiv.style.position = "absolute"
     @_mainDiv.style.top = "#{WINDOW_TO_ANCHOR_OFFSET_Y}px"
@@ -53,18 +55,76 @@ class HG.Popover
     else
       @_mainDiv.style.left = "#{WINDOW_TO_ANCHOR_OFFSET_X}px"
 
+    # Fullscreen Box ==================================================
+    # =================================================================
+    @_mainDivBig = document.createElement "div"
+    @_mainDivBig.className = "guiBigPopover"
+    @_mainDivBig.style.position = "absolute"
+    @_mainDivBig.style.width = "#{@_widthFSBox}px"
+    @_mainDivBig.style.height = "#{@_heightFSBox}px"
+    @_mainDivBig.style.top = "#{FULLSCREEN_BOX_TOP_OFFSET}px"
+    @_mainDivBig.style.left = "#{FULLSCREEN_BOX_LEFT_OFFSET}px"
 
-    # $(".guiPopover").on("mousedown", "div", ->
-    #   $(this).addClass("draggable").parents().on "mousemove", (e) ->
-    #     $(".draggable").offset(
-    #       top: e.pageY - $(".draggable").outerHeight() / 2
-    #       left: e.pageX - $(".draggable").outerWidth() / 2
-    #     ).on "mouseup", ->
-    #       $(this).removeClass "draggable"
+    @_bodyDivBig = document.createElement "div"
+    @_bodyDivBig.className = "guiPopoverBodyBig"
+    @_bodyDivBig.style.width = "#{0.5 * @_widthFSBox}px"
+    @_bodyDivBig.style.height = "#{@_heightFSBox}px"
 
-    #   e.preventDefault()
-    # ).on "mouseup", ->
-    #   $(".draggable").removeClass "draggable"
+    contentBig = document.createElement "div"
+    contentBig.className = "guiPopoverContentBig"
+    contentBig.style.width = "#{0.33 * @_widthFSBox}px"
+    contentBig.style.height = "#{@_heightFSBox}px"
+
+    #closeDivBig = document.createElement "span"
+    #closeDivBig.className = "close-button-big"
+    #closeDivBig.innerHTML = "×"
+
+    compressBox = document.createElement "span"
+    compressBox.className = "compress2Normal"
+    compressBox.innerHTML = '<i class="fa fa-compress"></i>'
+    # $(compressBox).tooltip {title: "Zurück zur normalen Ansicht", placement: "left", container:"#histoglobe"}
+
+    # =================================================================
+
+    # generate content
+    bodyBig = document.createElement "div"
+    bodyBig.className = "hivent-body-big"
+
+    titleDivBig = document.createElement "h4"
+    titleDivBig.className = "guiPopoverTitleBig"
+    titleDivBig.innerHTML = @_config.hiventHandle.getHivent().name
+    bodyBig.appendChild titleDivBig
+
+    textBig = document.createElement "div"
+    textBig.className = "hivent-content-big"
+
+    descriptionBig = @_config.hiventHandle.getHivent().description
+    textBig.innerHTML = descriptionBig
+
+    bodyBig.appendChild textBig
+    contentBig.appendChild bodyBig
+
+    locationStringBig = @_config.hiventHandle.getHivent().locationName[0] + ', '
+
+    dateBig = document.createElement "span"
+    dateBig.innerHTML = ' - ' + locationStringBig + @_config.hiventHandle.getHivent().displayDate #+ ' '
+    textBig.appendChild dateBig
+
+    gotoDateBig = document.createElement "i"
+    gotoDateBig.className = "fa fa-clock-o"
+    $(gotoDateBig).tooltip {title: "Springe zum Ereignisdatum", placement: "right", container:"#histoglobe"}
+    gotoDateBig.addEventListener 'mouseup', () =>
+      @_hgInstance.timeline.moveToDate @_config.hiventHandle.getHivent().startDate, 0.5
+    dateBig.appendChild gotoDateBig
+
+    # linkToWiki = document.createElement "a"
+    # linkToWiki.className = "wikipedia-link"
+    # linkToWiki.innerHTML = 'href="' + @_link + '"target="_blank">Link zum Artikel'
+    # console.log @_link
+
+    # =================================================================
+    # =================================================================
+
 
     # Arrows ==========================================================
 
@@ -80,25 +140,19 @@ class HG.Popover
     # @_leftArrow = document.createElement "div"
     # @_leftArrow.className = "arrow arrow-left"
 
-
-
-    #titleDiv = document.createElement "h4"
-    #titleDiv.className = "guiPopoverTitle"
-    #titleDiv.innerHTML = @_config.title
+    @_bodyDiv = document.createElement "div"
+    @_bodyDiv.className = "guiPopoverBodyV1"  
 
     closeDiv = document.createElement "span"
     closeDiv.className = "close-button"
     closeDiv.innerHTML = "×"
-    closeDiv.addEventListener 'mouseup', () =>
-      @notifyAll "onClose"
-      @hide()
-    , false
 
-    #clearDiv = document.createElement "div"
-    #clearDiv.className = "clear"
+    expandBox = document.createElement "span"
+    expandBox.className = "expand2FS"
+    expandBox.innerHTML = '<i class="fa fa-expand"></i>'
+    # $(expandBox).tooltip {title: "Box vergrößern", placement: "left", container:"#histoglobe"}
 
-    @_bodyDiv = document.createElement "div"
-    @_bodyDiv.className = "guiPopoverBodyV1"
+    # ============================================================================
 
     if @_config.fullscreen
       $(@_bodyDiv).addClass("fullscreen")
@@ -121,14 +175,18 @@ class HG.Popover
         @_width = Math.min content.offsetWidth, BODY_MAX_WIDTH
         @_height = Math.min @_height, BODY_MAX_HEIGHT
 
-    #titleDiv.appendChild clearDiv
-    #@_bodyDiv.appendChild titleDiv
     @_mainDiv.appendChild closeDiv
+    @_mainDiv.appendChild expandBox
+    @_mainDiv.appendChild @_bodyDiv
     # @_mainDiv.appendChild @_topArrow
     # @_mainDiv.appendChild @_rightArrow
     # @_mainDiv.appendChild @_leftArrow
-    @_mainDiv.appendChild @_bodyDiv
     # @_mainDiv.appendChild @_bottomArrow
+
+    #@_mainDivBig.appendChild closeDivBig
+    @_mainDivBig.appendChild compressBox
+    @_mainDivBig.appendChild @_bodyDivBig
+    @_bodyDivBig.appendChild contentBig
 
 
     #console.log @_multimedia
@@ -157,12 +215,10 @@ class HG.Popover
   # ============================================================================
 
     $(@_mainDiv).draggable()
-    #$(@_mainDiv).draggable({ handle: ".guiPopoverTitle" })
     $(@_mainDiv).fadeIn(1000)
 
     @_mainDiv.style.height = "180px"
     @_mainDiv.style.background = "#fff"
-    #@_bodyDiv.style.backgroundImage = "none"
     @_bodyDiv.style.color = "#000"
     closeDiv.style.color = "#000"
 
@@ -190,6 +246,31 @@ class HG.Popover
                 @_bodyDiv.className = "guiPopoverBodyV2"
                 @_bodyDiv.style.color = "#fff"
                 closeDiv.style.color = "#fff"
+
+                @_mainDivBig.style.backgroundImage = "url( #{link} )"
+                @_mainDivBig.style.backgroundSize = "cover"
+                @_mainDivBig.style.backgroundRepeat = "no-repeat"
+                @_mainDivBig.style.backgroundPosition = "50% 50%"
+                @_bodyDivBig.style.color = "#fff"
+
+  # ============================================================================
+
+    expandBox.addEventListener 'mouseup', () =>
+      @_parentDiv.removeChild @_mainDiv
+      @_parentDiv.appendChild @_mainDivBig
+
+    compressBox.addEventListener 'mouseup', () =>
+      @_parentDiv.removeChild @_mainDivBig
+      @_parentDiv.appendChild @_mainDiv
+
+    closeDiv.addEventListener 'mouseup', () =>
+      @notifyAll "onClose"
+      @hide()
+    , false
+
+    #closeDivBig.addEventListener 'mouseup', () =>
+      #@_mainDivBig.style.visibility = "hidden"
+      #@_mainDivBig.style.opacity = 0.0
 
   # ============================================================================
   toggle: (position) =>
@@ -370,6 +451,8 @@ class HG.Popover
   ARROW_ROOT_OFFSET_Y = 0
   WINDOW_TO_ANCHOR_OFFSET_X = 0
   WINDOW_TO_ANCHOR_OFFSET_Y = 0
+  FULLSCREEN_BOX_TOP_OFFSET = 10
+  FULLSCREEN_BOX_LEFT_OFFSET = 120
   BODY_DEFAULT_WIDTH = 450
   BODY_MAX_WIDTH = 400
   BODY_DEFAULT_HEIGHT = 350

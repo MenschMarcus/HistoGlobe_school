@@ -83,10 +83,10 @@ class HG.AreasOnMap
     # create layer with loaded geometry and style
     area.myLeafletLayer = L.multiPolygon area.getGeometry(), options
 
-    # enable event handling on the area
-    area.myLeafletLayer.on "mouseover", @_onHover
-    area.myLeafletLayer.on "mouseout", @_onUnHover
-    area.myLeafletLayer.on "click", @_onClick
+    # hack: disable interaction with countries
+    # area.myLeafletLayer.on "mouseover", @_onHover     # TODO: why does hover not work?
+    # area.myLeafletLayer.on "mouseout", @_onUnHover
+    # area.myLeafletLayer.on "click", @_onClick
 
     # create double-link: leaflet layer knows HG area and HG area knows leaflet layer
     area.myLeafletLayer.hgArea = area
@@ -213,7 +213,7 @@ class HG.AreasOnMap
 
   # ============================================================================
   _onHover: (event) =>
-    @_animate event.target, {"fill": "#{event.target.hgArea.getHighlightStyle().areaColor}"}, 150
+    # @_animate event.target, {"fill": "#{event.target.hgArea.getHighlightStyle().areaColor}"}, 150
     # TODO: for countries with white labels, hovering means the country name is not readable
     # -> how to get the label of the current layer I am hovering? How to change its color?
 

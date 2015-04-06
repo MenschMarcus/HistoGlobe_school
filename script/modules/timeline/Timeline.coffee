@@ -59,46 +59,37 @@ class HG.Timeline
 
   hgInit: (hgInstance) ->
 
-    @_config.minYear = hgInstance.getMinMaxYear()[0]
-    @_config.maxYear = hgInstance.getMinMaxYear()[1]
-    @_config.nowYear = hgInstance.getStartYear()
+    @_hgInstance = hgInstance
 
-    @_HGContainer = hgInstance.getContainer()
+    @_config.minYear = @_hgInstance.getMinMaxYear()[0]
+    @_config.maxYear = @_hgInstance.getMinMaxYear()[1]
+    @_config.nowYear = @_hgInstance.getStartYear()
 
-    hgInstance.onAllModulesLoaded @, () =>
-      @_hiventController = hgInstance.hiventController
+    @_HGContainer = @_hgInstance.getContainer()
+
+    @_hgInstance.onAllModulesLoaded @, () =>
+      @_hiventController = @_hgInstance.hiventController
       @notifyAll "onNowChanged", @_cropDateToMinMax @_now.date
       @notifyAll "onIntervalChanged", @_getTimeFilter()
 
-      if hgInstance.zoom_buttons_timeline
-        hgInstance.zoom_buttons_timeline.onZoomIn @, () =>
+      if @_hgInstance.zoom_buttons_timeline
+        @_hgInstance.zoom_buttons_timeline.onZoomIn @, () =>
           @_zoom(1)
-        hgInstance.zoom_buttons_timeline.onZoomOut @, () =>
+        @_hgInstance.zoom_buttons_timeline.onZoomOut @, () =>
           @_zoom(-1)
 
-      # if category/topic was changed outside the timeline
-      # notify action here
-      hgInstance.categoryFilter?.onFilterChanged @,(categoryFilter) =>
+      # show or hide topic
+      @_hgInstance.categoryFilter?.onFilterChanged @, (categoryFilter) =>
+        @_unhighlightTopics()
         for topic in @_config.topics
           if categoryFilter[0] is topic.id
-            @_switchTopic(topic, false)
+            @_switchTopic(topic)
             break
 
-      hgInstance.timeline?.onNowChanged @, (date) =>
+      @_hgInstance.timeline?.onNowChanged @, (date) =>
         @_now.dateField.innerHTML = date.toLocaleDateString DATE_LOCALE, DATE_OPTIONS
 
     @_parentDiv = @addUIElement "timeline-area", "timeline-area", @_HGContainer
-
-    ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
-
-    # # prepare topic dates
-    # for topic in @_config.topics
-    #   topic.startDate = @stringToDate(topic.startDate)
-    #   topic.endDate = @stringToDate(topic.endDate)
-    #   if topic.subtopics?
-    #     for subtopic in topic.subtopics
-    #       subtopic.startDate = @stringToDate(subtopic.startDate)
-    #       subtopic.endDate = @stringToDate(subtopic.endDate)
 
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
@@ -130,34 +121,35 @@ class HG.Timeline
       onTouchStart: =>
         @_dragged = false
         @_animationTargetDate = null
-        if @_play
-          @_animationSwitch()
+        @_animationSwitch() if @_play
       onTouchMove: =>
-        @_dragged = true
-        fireCallbacks = false
-        if ++@_moveDelay == 10
-          @_moveDelay = 0
-          fireCallbacks = true
+        fireCallbacks = ++@_moveDelay % 10 == 0
+        @_dragged = @_moveDelay > 2
         @_updateNowDate(fireCallbacks)
         @_updateDateMarkers(false)
         @_updateTopics()
+      onTouchEnd: =>
+        $(".topic_inner").css({transition: 0.5 + "s"})
     @_uiElements.tl_wrapper.addEventListener "webkitTransitionEnd", (e) =>
       @_updateNowDate()
       @_updateDateMarkers(false)
       @_updateTopics()
       @_dragged = false
+      $(".topic_inner").css({transition: 0 + "s"})
     , false
     @_uiElements.tl_wrapper.addEventListener "transitionend", (e) =>
       @_updateNowDate()
       @_updateDateMarkers(false)
       @_updateTopics()
       @_dragged = false
+      $(".topic_inner").css({transition: 0 + "s"})
     , false
     @_uiElements.tl_wrapper.addEventListener "oTransitionEnd", (e) =>
       @_updateNowDate()
       @_updateDateMarkers(false)
       @_updateTopics()
       @_dragged = false
+      $(".topic_inner").css({transition: 0 + "s"})
     , false
 
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
@@ -190,23 +182,28 @@ class HG.Timeline
 
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
-    hgInstance.timeline = @
+    @_hgInstance.timeline = @
 
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
     # Start the timeline here !!!
+    @_uiElements.tl.style.display = "none"
     @_loadTopicsFromDSV( =>
       @_updateLayout()
       @_updateDateMarkers()
       @_updateTopics()
       @_updateNowDate()
-      categoryFilter = hgInstance.categoryFilter.getCurrentFilter()
+      categoryFilter = @_hgInstance.categoryFilter.getCurrentFilter()
       for topic in @_config.topics
         if categoryFilter[0] is topic.id
-          @_switchTopic(topic, false)
+
+          #   switch topic
+          #   Params: name of topic, setHash in URL?, move to Topic?
+          @_switchTopic(topic)
           break
       @notifyAll "OnTopicsLoaded"
       @topicsloaded = true
+      $(@_uiElements.tl).fadeIn()
     )
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
@@ -226,34 +223,28 @@ class HG.Timeline
             for result, i in parse_result.results
               unless i+1 in @_config.ignoredLines
 
-                id = result[@_config.indexMappings[pathIndex].id]
-                start = @stringToDate result[@_config.indexMappings[pathIndex].start]
-                end = @stringToDate result[@_config.indexMappings[pathIndex].end]
-                topic = result[@_config.indexMappings[pathIndex].topic]
-                subtopic_of = result[@_config.indexMappings[pathIndex].subtopic_of]
-                token = result[@_config.indexMappings[pathIndex].token]
-                row = result[@_config.indexMappings[pathIndex].row]
-
-                if subtopic_of is "" # head topic
+                # is head topic
+                if result[@_config.indexMappings[pathIndex].subtopic_of] is ""
                   tmp_topic =
-                    startDate: start
-                    endDate: end
-                    name: topic
-                    id: id
-                    token: token
-                    row: parseInt(row)
+                    startDate: @stringToDate result[@_config.indexMappings[pathIndex].start]
+                    endDate: @stringToDate result[@_config.indexMappings[pathIndex].end]
+                    name: result[@_config.indexMappings[pathIndex].topic]
+                    id: result[@_config.indexMappings[pathIndex].id]
+                    token: result[@_config.indexMappings[pathIndex].token]
+                    row: parseInt(result[@_config.indexMappings[pathIndex].row])
                     subtopics: []
                   @_config.topics.push tmp_topic
 
-                else # is subtopic
+                # is subtopic
+                else
                   for headtopic in @_config.topics
-                    if headtopic.id == subtopic_of
+                    if headtopic.id == result[@_config.indexMappings[pathIndex].subtopic_of]
                       tmp_subtopic =
-                        startDate: start
-                        endDate: end
-                        name: topic
-                        id: id
-                        token: token
+                        startDate: @stringToDate result[@_config.indexMappings[pathIndex].start]
+                        endDate: @stringToDate result[@_config.indexMappings[pathIndex].end]
+                        name: result[@_config.indexMappings[pathIndex].topic]
+                        id: result[@_config.indexMappings[pathIndex].id]
+                        token: result[@_config.indexMappings[pathIndex].token]
                       headtopic.subtopics.push tmp_subtopic
 
             if pathIndex == @_config.dsvPaths.length - 1
@@ -491,16 +482,42 @@ class HG.Timeline
     date
 
   _updateTopics:()->
+
+    # get max visible position
+    max_pos   = @dateToPosition(@maxVisibleDate())
+    min_pos   = @dateToPosition(@minVisibleDate())
+
+    # update each topic
     for topic in @_config.topics
+
+      # start and end position of topic bar
+      end_pos   = @dateToPosition(topic.endDate)
+      start_pos = @dateToPosition(topic.startDate)
+
+      # is topic already shown?
       if !topic.div?
+
+        # create topic bar
         topic.div = document.createElement("div")
         topic.div.id = "topic" + topic.id
         topic.div.className = "tl_topic tl_topic_row" + topic.row
-        topic.div.innerHTML = '<div class="tl_subtopics"></div>' + '<div id="topic_inner_' + topic.id + '">' + topic.name + '</div>'
-        topic.div.style.left = @dateToPosition(topic.startDate) + "px"
-        topic.div.style.width = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) + "px"
+        #topic.div.innerHTML = '<div class="tl_subtopics"></div>' + '<div class="topic_inner" id="topic_inner_' + topic.id + '">' + topic.name + '</div>'
+        topic.div.style.left = start_pos + "px"
+        topic.div.style.width = (end_pos - start_pos) + "px"
         topic.div.style.display = "none"
         @getCanvas().appendChild topic.div
+
+        # div which keeps subtopics
+        subtopics_element = document.createElement("div")
+        subtopics_element.className = "tl_subtopics"
+        topic.div.appendChild subtopics_element
+
+        # div keeps name of topic
+        topic.text_element = document.createElement("div")
+        topic.text_element.id = 'topic_inner_' + topic.id
+        topic.text_element.className = "topic_inner"
+        topic.text_element.innerHTML = topic.name
+        topic.div.appendChild topic.text_element
 
         # add subtopics
         if topic.subtopics?
@@ -513,43 +530,83 @@ class HG.Timeline
             subtopic.div.style.width = (@dateToPosition(subtopic.endDate) - @dateToPosition(subtopic.startDate)) + "px"
             $("#topic" + topic.id + " > .tl_subtopics" ).append subtopic.div
 
-        $(topic.div).on "click", value: topic, (event) => @_switchTopic(event.data.value) if !@_dragged
+        #   onclick switch topic
+        $(topic.div).on "mouseup", value: topic, (event) =>
+          if @_activeTopic? and event.data.value.id is @_activeTopic.id and !@_dragged
+              window.location.hash = '#categories=noCategory'
+              @_activeTopic = null
+          else if !@_dragged
+            window.location.hash = '#categories=' + event.data.value.id
         $(topic.div).fadeIn(200)
 
-        inner_el = document.getElementById("topic_inner_" + topic.id)
-        if inner_el.offsetWidth > (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate) - 25) and topic.token != ""
-          inner_el.innerHTML = topic.token
-        else
-          inner_el.innerHTML = topic.name
-        inner_el.style.maxWidth = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate) - 25) + "px"
-        margin = ((@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) / 2) - inner_el.offsetWidth / 2
-        if (@dateToPosition(topic.startDate) + margin + inner_el.offsetWidth) > @dateToPosition @maxVisibleDate()
-          margin = @dateToPosition(@maxVisibleDate()) - @dateToPosition(topic.startDate) - inner_el.offsetWidth - 10
-          margin = 0 if margin < 0
-        else if (@dateToPosition(topic.startDate) + margin) < @dateToPosition @minVisibleDate()
-          margin = @dateToPosition(@minVisibleDate()) - @dateToPosition(topic.startDate) + 10
-        inner_el.style.marginLeft = margin + "px"
+        #   set text in topic bar so that text
+        #   is always centered in visible part of topic
+        @_scaleTopicText topic, start_pos, end_pos, min_pos, max_pos
       else
-        topic.div.style.left = @dateToPosition(topic.startDate) + "px"
-        topic.div.style.width = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) + "px"
+        topic.div.style.left = start_pos + "px"
+        topic.div.style.width = (end_pos - start_pos) + "px"
 
-        inner_el = document.getElementById("topic_inner_" + topic.id)
-        if inner_el.offsetWidth > (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate) - 25) and topic.token != ""
-          inner_el.innerHTML = topic.token
-        else
-          inner_el.innerHTML = topic.name
-        inner_el.style.maxWidth = (@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate) - 25) + "px"
-        margin = ((@dateToPosition(topic.endDate) - @dateToPosition(topic.startDate)) / 2) - inner_el.offsetWidth / 2
-        if (@dateToPosition(topic.startDate) + margin + inner_el.offsetWidth) > @dateToPosition @maxVisibleDate()
-          margin = @dateToPosition(@maxVisibleDate()) - @dateToPosition(topic.startDate) - inner_el.offsetWidth - 10
-          margin = 0 if margin < 0
-        else if (@dateToPosition(topic.startDate) + margin) < @dateToPosition @minVisibleDate()
-          margin = @dateToPosition(@minVisibleDate()) - @dateToPosition(topic.startDate) + 10
-        inner_el.style.marginLeft = margin + "px"
+        #   set text in topic bar so that text
+        #   is always centered in visible part of topic
+        @_scaleTopicText topic, start_pos, end_pos, min_pos, max_pos
+
+        # update position of subtopics
         if topic.subtopics?
           for subtopic in topic.subtopics
             subtopic.div.style.left = ((subtopic.startDate.getTime() - topic.startDate.getTime()) / @millisPerPixel()) + "px"
             subtopic.div.style.width = (@dateToPosition(subtopic.endDate) - @dateToPosition(subtopic.startDate)) + "px"
+
+  _textCutted: (element) ->
+    $element = $(element)
+    $c = $element.clone().css({display: 'inline', width: 'auto', visibility: 'hidden'}).appendTo('body')
+    width = $c.width()
+    $c.remove()
+    return width > $element.width()
+
+  _scaleTopicText: (topic, start_pos, end_pos, min_pos, max_pos) ->
+    topic.text_element.style.width = (end_pos - start_pos) + "px"
+    topic.text_element.style.marginLeft = "auto"
+    if end_pos > max_pos and start_pos < min_pos
+      topic.text_element.style.width = (max_pos - min_pos) + "px"
+      topic.text_element.style.marginLeft = (min_pos - start_pos) + "px"
+    else if end_pos > max_pos
+      topic.text_element.style.width = (max_pos - start_pos) + "px"
+    else if start_pos < min_pos
+      topic.text_element.style.width = (end_pos - min_pos) + "px"
+      topic.text_element.style.marginLeft = (min_pos - start_pos) + "px"
+
+    topic.text_element.innerHTML = topic.name
+    topic.text_element.innerHTML = topic.token if @_textCutted topic.text_element
+
+    #   text_element  = document.getElementById("topic_inner_" + topic.id)
+    #   margin = max_pos - end_pos
+    #   text_element.style.marginLeft = margin + "px"
+    # else if start_pos < min_pos
+    #   text_element  = document.getElementById("topic_inner_" + topic.id)
+    #   margin = min_pos - start_pos
+    #   text_element.style.marginLeft = margin + "px"
+
+
+    #   take short name of topic if name is too long
+    # inner_el.style.maxWidth = "none"
+    # inner_el.innerHTML = topic.name
+    # if inner_el.offsetWidth > (end_pos - start_pos) and topic.token != ""
+    #   inner_el.innerHTML = topic.token
+    # inner_el.style.maxWidth = (end_pos - start_pos - 25) + "px"
+
+    # # align text always to middle of visible part
+    # if end_pos > max_pos and start_pos < min_pos
+    #   margin = min_pos - start_pos + (max_pos - min_pos) / 2 - inner_el.offsetWidth / 2
+    # else if end_pos > max_pos
+    #   margin = (max_pos - start_pos) / 2 - inner_el.offsetWidth / 2
+    #   margin = 0 if margin < 0 or (start_pos + margin + inner_el.offsetWidth) > max_pos
+    # else if start_pos < min_pos
+    #   margin = (end_pos - min_pos) / 2 - inner_el.offsetWidth / 2 + min_pos - start_pos
+    #   margin = min_pos - start_pos if margin < 0 or margin + start_pos < min_pos
+    # else
+    #   margin = ((end_pos - start_pos) / 2) - inner_el.offsetWidth / 2
+    # inner_el.style.marginLeft = margin + "px"
+    false
 
   _updateDateMarkers: (zoomed=true) ->
 
@@ -652,71 +709,58 @@ class HG.Timeline
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
-  # eventhandler
-  _switchTopic: (topic_tmp, setHash=true) ->
+  _unhighlightTopics: ->
+    for topic in @_config.topics
+      topic.div.className = "tl_topic tl_topic_row" + topic.row
+    @_moveTopicRows(false)
 
-    # hide category
-    window.location.hash = '#categories=null' if setHash
+  _switchTopic: (topic_tmp) ->
 
-    #   if there is no active topic or different topic was clicked
-    #   activate and highlight it (move to, and zoom)
-    if !@_activeTopic? or topic_tmp.id isnt @_activeTopic.id
-      diff = topic_tmp.endDate.getTime() - topic_tmp.startDate.getTime()
-      millisec = diff / 2 + topic_tmp.startDate.getTime()
-      middleDate = new Date(millisec)
+    # calculate date at center of topic
+    diff = topic_tmp.endDate.getTime() - topic_tmp.startDate.getTime()
+    millisec = diff / 2 + topic_tmp.startDate.getTime()
+    middleDate = new Date(millisec)
 
-      # set all topics as default and choosed as highlighted
-      for topic in @_config.topics
-        topic.div.className = "tl_topic tl_topic_row" + topic.row
-      topic_tmp.div.className = "tl_topic_highlighted tl_topic_row" + topic_tmp.row
+    # set all topics as default and choosed as highlighted
+    @_unhighlightTopics()
+    topic_tmp.div.className = "tl_topic_highlighted tl_topic_row" + topic_tmp.row
 
-      # make topic active (also set in url)
-      @_activeTopic = topic_tmp
+    # make topic active (also set in url)
+    @_activeTopic = topic_tmp
 
-      # move row so that subtopics can be shown
-      @_moveTopicRows(true)
+    # move row so that subtopics can be shown
+    @_moveTopicRows(true)
 
-      # move timeline to center of topic bar
-      # at the end of transition zoom in and filter categories
-      @moveToDate middleDate, 1, =>
-        if @_activeTopic.endDate > @maxVisibleDate()
+    # move timeline to center of topic bar
+    # at the end of transition zoom in
+    @moveToDate middleDate, 1, =>
+      if @_activeTopic.endDate > @maxVisibleDate() || @_activeTopic.startDate < @minVisibleDate()
 
-          # use setInterval to zoom in repeatly
-          # if zoom should stop call clearInterval(obj)
-          # zoom delay is 50ms
-          # todo: make zoom delay as a static parameter
-          repeatObj = setInterval =>
-            if @_activeTopic.endDate > (new Date(@maxVisibleDate().getTime() - (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1))
-              @_zoom -1
-            else
-              clearInterval(repeatObj)
-              window.location.hash = '#categories=' + topic_tmp.id if setHash
-          , 50
-        else
-          repeatObj = setInterval =>
-            if @_activeTopic.endDate < (new Date(@maxVisibleDate().getTime() - (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1))
-              @_zoom 1
-            else
-              clearInterval(repeatObj)
-              window.location.hash = '#categories=' + topic_tmp.id  if setHash
-          , 50
-    else
-      if setHash
-        # if same topic was clicked unable it
-        # hide subtopic row and set class to default
-        topic_tmp.div.className = "tl_topic tl_topic_row" + topic_tmp.row
-        @_moveTopicRows(false)
-        @_activeTopic = null
+        # use setInterval to zoom in repeatly
+        # if zoom should stop call clearInterval(obj)
+        repeatObj = setInterval =>
+          if @_activeTopic.endDate > (new Date(@maxVisibleDate().getTime() - (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1)) or
+          @_activeTopic.startDate < (new Date(@minVisibleDate().getTime() + (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1))
+            @_zoom -1
+          else
+            clearInterval(repeatObj)
+        , 50
+      else
+        repeatObj = setInterval =>
+          if @_activeTopic.endDate < (new Date(@maxVisibleDate().getTime() - (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1)) and
+          @_activeTopic.startDate > (new Date(@minVisibleDate().getTime() + (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1))
+            @_zoom 1
+          else
+            clearInterval(repeatObj)
+        , 50
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
   _moveTopicRows: (showSubtopics) ->
-    if @_activeTopic.row is 0 and showSubtopics
-      $('.tl_topic_row1').css({'bottom': HGConfig.timline_row1_position_up.val + 'px'})
-    else
-      $('.tl_topic_row1').css({'bottom': HGConfig.timline_row1_position.val + 'px'})
-
-
+    if !showSubtopics
+      $('.tl_topic_row1').css({'bottom': HGConfig.timeline_row1_position.val + 'px'})
+    else if @_activeTopic.row is 0 and showSubtopics
+      $('.tl_topic_row1').css({'bottom': HGConfig.timeline_row1_position_up.val + 'px'})
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
