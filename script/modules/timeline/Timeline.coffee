@@ -339,8 +339,9 @@ class HG.Timeline
       @_animationTargetDate = date
       @_now.date = @_cropDateToMinMax date
 
-      @notifyAll "onNowChanged", @_now.date
-      @notifyAll "onIntervalChanged", @_getTimeFilter()
+      # TEST HACK: only fire "onNowChanged" if nowDate really changed a lot
+      # @notifyAll "onNowChanged", @_now.date
+      # @notifyAll "onIntervalChanged", @_getTimeFilter()
 
       setTimeout(successCallback, delay * 1000) if successCallback?
 
