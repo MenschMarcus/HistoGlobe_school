@@ -61,7 +61,7 @@ class HG.AreaController
 
     # main activity: what happens if now date changes?
     @_timeline.onNowChanged @, (date) ->
-      return # TODO: updateAreas
+      @_pushAreas()
 
     # infinite loop that executes all changes in the queue
     mainLoop = setInterval () =>    # => is important to be able to access global variables (compared to ->)
@@ -223,20 +223,24 @@ class HG.AreaController
     # put all current areas on the map
     for area in @_areas
       if @_now >= area.getStartDate() and @_now < area.getEndDate()
-        area.setActive()
-        @notifyAll "onFadeInArea", area
+        if not area.isActive()
+          area.setActive()
+          @notifyAll "onFadeInArea", area
       else
-        area.setInactive()
-        @notifyAll "onFadeOutArea", area
+        if area.isActive()
+          area.setInactive()
+          @notifyAll "onFadeOutArea", area
 
     # put all current labels on the map
     for label in @_labels
       if @_now >= label.getStartDate() and @_now < label.getEndDate()
-        label.setActive()
-        @notifyAll "onAddLabel", label
+        if not label.isActive()
+          label.setActive()
+          @notifyAll "onAddLabel", label
       else
-        label.setInactive()
-        @notifyAll "onRemoveLabel", label
+        if label.isActive()
+          label.setInactive()
+          @notifyAll "onRemoveLabel", label
 
   # # ============================================================================
   # # add all new and remove all old areas to map/globe
