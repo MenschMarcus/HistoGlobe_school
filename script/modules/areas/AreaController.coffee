@@ -61,17 +61,12 @@ class HG.AreaController
 
     # main activity: what happens if now date changes?
     @_timeline.onNowChanged @, (date) ->
-      @_updateAreas date
+      return # TODO: updateAreas
 
-    # ctr = 0
+    # infinite loop that executes all changes in the queue
     mainLoop = setInterval () =>    # => is important to be able to access global variables (compared to ->)
-      @_executeChange()
+      @_doChanges()
     , 50
-
-
-  # ============================================================================
-  getAllAreas:()->
-    @_areas
 
 
   ##############################################################################
@@ -128,7 +123,9 @@ class HG.AreaController
               numAreasToLoad--
               if numAreasToLoad is 0
                 @_areasLoaded = yes
-                console.log @_areas
+                # if labels and areas fully loaded, initially put them on the map
+                if @_labelsLoaded
+                  @_pushAreas()
 
             , 0 # execute immediately
 
@@ -158,28 +155,31 @@ class HG.AreaController
               position    = label.geometry.coordinates
               boundingBox = label.properties.boundingBox
 
-              # create HG label
-              newLabel = new HG.Label labelId, name, position, boundingBox, startDate, endDate, @_styler
+              # create HG label if it exists
+              if position[0]?
+                newLabel = new HG.Label labelId, name, position, boundingBox, startDate, endDate, @_styler
 
-              # set initial style
-              if @_theme?
-                # check if label has a class in this theme
-                nowDate = @_timeline.getNowDate
-                themeClasses = newLabel.getThemeClasses @_theme
-                if themeClasses?
-                  for themeClass in themeClasses
-                    if nowDate >= themeClass.startDate and nowDate < themeClass.endDate
-                      newThemeClass = themeClass.className
-                      break
+                # set initial style
+                if @_theme?
+                  # check if label has a class in this theme
+                  nowDate = @_timeline.getNowDate
+                  themeClasses = newLabel.getThemeClasses @_theme
+                  if themeClasses?
+                    for themeClass in themeClasses
+                      if nowDate >= themeClass.startDate and nowDate < themeClass.endDate
+                        newThemeClass = themeClass.className
+                        break
 
-              # fill labels array
-              @_labels.push newLabel
+                # fill labels array
+                @_labels.push newLabel
 
               # one less label to go
               numLabelsToLoad--
               if numLabelsToLoad is 0
                 @_labelsLoaded = yes
-                console.log @_labels
+                # if labels and areas fully loaded, initially put them on the map
+                if @_areasLoaded
+                  @_pushAreas()
 
             , 0 # execute immediately
 
@@ -206,7 +206,6 @@ class HG.AreaController
               numChangesToLoad--
               if numChangesToLoad is 0
                 @_changesLoaded = yes
-                console.log @_changes
 
             , 0 # execute immediately
 
@@ -216,84 +215,112 @@ class HG.AreaController
   # ============================================================================
   # add all new and remove all old areas to map/globe
   # and emphasize transition areas (areas that move from one country to another)
-  _updateAreas:(date)->
+  _pushAreas:()->
 
-    # comparison by dates
-    oldDate = @_now
-    newDate = date
+    # get current date
+    @_now = @_timeline.getNowDate()
 
-    # changing areas in this step
-    areasChanged = no
-    newAreas = []
-    oldAreas = []
-    newStyles = []
-
+    # put all current areas on the map
     for area in @_areas
-
-      # comparison by active state
-      wasActive = area.isActive()
-      isActive = no
-      if newDate >= area.getStartDate() and newDate < area.getEndDate()
-        isActive = yes
-
-      # if area became active
-      if isActive and not wasActive
+      if @_now >= area.getStartDate() and @_now < area.getEndDate()
         area.setActive()
-        areasChanged = yes
-        newAreas.push area
-
-      # if area became inactive
-      if wasActive and not isActive
+        @notifyAll "onFadeInArea", area
+      else
         area.setInactive()
-        areasChanged = yes
-        oldAreas.push area
+        @notifyAll "onFadeOutArea", area
 
-      # check if style changed
-      if isActive
-        oldThemeClass = area.getActiveThemeClass()
-        newThemeClass = 'normal'  # initially normal class, if not overwritten by
-        # if currently a theme active
-        if @_theme?
-          # check if area has a class in this theme
-          themeClasses = area.getThemeClasses @_theme
-          if themeClasses?
-            for themeClass in themeClasses
-              if newDate >= themeClass.startDate and newDate < themeClass.endDate
-                newThemeClass = themeClass.className
-                break
+    # put all current labels on the map
+    for label in @_labels
+      if @_now >= label.getStartDate() and @_now < label.getEndDate()
+        label.setActive()
+        @notifyAll "onAddLabel", label
+      else
+        label.setInactive()
+        @notifyAll "onRemoveLabel", label
 
-        # check if theme style has changed
-        if (oldThemeClass.localeCompare newThemeClass) != 0   # N.B.! this took so long to find out how to actually compare if two strings are NOT equal in CoffeeScript...
-          area.setActiveThemeClass @_theme, newThemeClass
-          areasChanged = yes
-          newStyles.push area
+  # # ============================================================================
+  # # add all new and remove all old areas to map/globe
+  # # and emphasize transition areas (areas that move from one country to another)
+  # _pushAreas:(date)->
+
+  #   console.log "GO"
+
+  #   # comparison by dates
+  #   oldDate = @_now
+  #   newDate = date
+
+  #   # changing areas in this step
+  #   areasChanged = no
+  #   newAreas = []
+  #   oldAreas = []
+  #   newStyles = []
+
+  #   for area in @_areas
+
+  #     # comparison by active state
+  #     wasActive = area.isActive()
+  #     isActive = no
+  #     if newDate >= area.getStartDate() and newDate < area.getEndDate()
+  #       isActive = yes
+
+  #     # if area became active
+  #     if isActive and not wasActive
+  #       area.setActive()
+  #       areasChanged = yes
+  #       newAreas.push area
+
+  #     # if area became inactive
+  #     if wasActive and not isActive
+  #       area.setInactive()
+  #       areasChanged = yes
+  #       oldAreas.push area
+
+  #     # check if style changed
+  #     if isActive
+  #       oldThemeClass = area.getActiveThemeClass()
+  #       newThemeClass = 'normal'  # initially normal class, if not overwritten by
+  #       # if currently a theme active
+  #       if @_theme?
+  #         # check if area has a class in this theme
+  #         themeClasses = area.getThemeClasses @_theme
+  #         if themeClasses?
+  #           for themeClass in themeClasses
+  #             if newDate >= themeClass.startDate and newDate < themeClass.endDate
+  #               newThemeClass = themeClass.className
+  #               break
+
+  #       # check if theme style has changed
+  #       if (oldThemeClass.localeCompare newThemeClass) != 0   # N.B.! this took so long to find out how to actually compare if two strings are NOT equal in CoffeeScript...
+  #         area.setActiveThemeClass @_theme, newThemeClass
+  #         areasChanged = yes
+  #         newStyles.push area
 
 
-    ## update the changing areas
-    if areasChanged
-      # fade-in transition area (areas that actually change)
-      # assemble transition areas
-      # TODO
-      # transAreaGeo = [[[52.874124, 7.601427], [53.026369, 13.962511], [48.022933, 13.217549], [47.890499, 6.647725]]]
-      # transArea = new HG.Area "T1", null, transAreaGeo, null, null, "trans"
-      transArea = null
-      # if transArea
-      #   @notifyAll "onShowArea", transArea
-      #   transArea.setActive()
+  #   ## update the changing areas
+  #   if areasChanged
+  #     # fade-in transition area (areas that actually change)
+  #     # assemble transition areas
+  #     # TODO
+  #     # transAreaGeo = [[[52.874124, 7.601427], [53.026369, 13.962511], [48.022933, 13.217549], [47.890499, 6.647725]]]
+  #     # transArea = new HG.Area "T1", null, transAreaGeo, null, null, "trans"
+  #     transArea = null
+  #     # if transArea
+  #     #   @notifyAll "onShowArea", transArea
+  #     #   transArea.setActive()
 
-      # if there is no transition area, the adding and deletion of countries can happen right away
-      ready = yes
+  #     # if there is no transition area, the adding and deletion of countries can happen right away
+  #     ready = yes
 
-      # enqueue set of area change
-      # @_areaChanges.enqueue [ready, newAreas, oldAreas, newStyles, transArea]
+  #     # enqueue set of area change
+  #     # @_areaChanges.enqueue [ready, newAreas, oldAreas, newStyles, transArea]
 
-    # reset now Date
-    @_now = newDate
+  #   # reset now Date
+  #   @_now = newDate
 
 
   # ============================================================================
   # find next ready area change and execute it (one at a time)
-  _executeChange: () ->
+  _doChanges: () ->
     for change in @_areaChanges
       if change.isReady
         # execute it

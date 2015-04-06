@@ -10,7 +10,7 @@ class HG.AreasOnMap
   constructor: (config) ->
     @_map             = null
     @_areaController  = null
-    @_visibleAreas    = []
+    @_visibleLabels    = []
 
     defaultConfig =
       labelVisibilityFactor: 5,
@@ -52,10 +52,8 @@ class HG.AreasOnMap
       # change of labels
       @_areaController.onAddLabel @, (label) =>
         @_addLabel label
-        @_showLabel label
 
       @_areaController.onRemoveLabel @, (label) =>
-        @_hideLabel label
         @_removeLabel label
 
       @_areaController.onMoveLabel @, (label) =>
@@ -78,7 +76,7 @@ class HG.AreasOnMap
   _addArea: (area) ->
 
     # take style of country but make it invisible
-    options = @_translateStyle area.getStyle()
+    options = @_translateAreaStyle area.getStyle()
     options.fillOpacity = 0
     options.lineOpacity = 0
 
@@ -94,10 +92,6 @@ class HG.AreasOnMap
     area.myLeafletLayer.hgArea = area
     area.myLeafletLayer.addTo @_map
 
-    # update list of visible areas
-    @_visibleAreas.push area
-
-
   # ============================================================================
   # physically removes area from the map
   _removeArea: (area) ->
@@ -111,9 +105,6 @@ class HG.AreasOnMap
       # remove double-link: leaflet layer from area and area from leaflet layer
       @_map.removeLayer area.myLeafletLayer if area.myLeafletLayer?
       area.myLeafletLayer = null
-
-      # update list of visible areas
-      @_visibleAreas.splice(@_visibleAreas.indexOf(area), 1)
 
   # ============================================================================
   # slowly fades in area and allows interaction with it
@@ -149,49 +140,48 @@ class HG.AreasOnMap
 
   # ============================================================================
   _addLabel: (label) ->
-    # create label with name and position
+    # create invisible label with name and position
     label.myLeafletLabel = new L.Label()
     label.myLeafletLabel.setContent @_addLinebreaks label.getName()
-    label.myLeafletLabel.setLatLng label.getLabelPos()
+    label.myLeafletLabel.setOpacity 0
+    label.myLeafletLabel.setLatLng label.getPos()
 
-    # needed ?!?
+    # add label to map
+    @_map.showLabel label.myLeafletLabel
+
+    # put in center of label
     label.myLeafletLabel.options.offset = [
       -label.myLeafletLabel._container.offsetWidth/2,
       -label.myLeafletLabel._container.offsetHeight/2
     ]
+    label.myLeafletLabel._updatePosition()
 
-    # add label to map, but invisible
-    @_hideLabel label
-    @_map.showLabel label.myLeafletLabel
-
-    # check if label is visible
-    if @_isLabelVisible label
-      @_showLabel label
+    # show if visible label
+    # if @_isLabelVisible label
+    @_updateLabelStyle label
+    # $(area.myLeafletLabel._container).removeClass("invisible")
+    label.setActive()
+    # update list of visible labels
+    @_visibleLabels.push label
 
   # ============================================================================
   _removeLabel: (label) ->
     if label.myLeafletLabel?
+      # $(label.myLeafletLabel._container).addClass("invisible")
+      label.myLeafletLabel.setOpacity(0)
+      label.setInactive()
 
       # remove double-link: leaflet label from HG label and HG label from leaflet label
       @_map.removeLayer label.myLeafletLabel
       label.myLeafletLabel = null
 
-  # ============================================================================
-  _showLabel: (label) ->
-    @_updateLabelStyle label
-    # $(area.myLeafletLabel._container).removeClass("invisible")
-    label.setVisible()
-
-  # ============================================================================
-  _hideLabel: (label) ->
-    label.myLeafletLabel.setOpacity(0)
-    # $(label.myLeafletLabel._container).addClass("invisible")
-    label.setInvisible()
+      # update list of visible areas
+      @_visibleLabels.splice(@_visibleLabels.indexOf(label), 1)
 
   # ============================================================================
   _moveLabel: (label) ->
     # TODO: animated move?
-    label.myLeafletLabel.setLatLng label.getLabelPos()
+    label.myLeafletLabel.setLatLng label.getPos()
 
   # ============================================================================
   _updateLabelStyle: (label) ->
@@ -199,14 +189,6 @@ class HG.AreasOnMap
     if label.myLeafletLabel?
       label.myLeafletLabel._container.style.color = style.labelColor
       label.myLeafletLabel.setOpacity style.labelOpacity
-
-
-  # ============================================================================
-  # ============================================================================
-  # ============================================================================
-  # ============================================================================
-
-
 
   # ============================================================================
   _isLabelVisible: (label) ->
@@ -245,13 +227,14 @@ class HG.AreasOnMap
 
   # ============================================================================
   _onZoomEnd: (event) =>
-    for area in @_visibleAreas
-      shouldBeVisible = @_isLabelVisible area
+    for label in @_visibleLabels
+      # shouldBeVisible = @_isLabelVisible label
+      shouldBeVisible = yes
 
-      if shouldBeVisible and not area.myLeafletLabelIsVisible
-        @_showAreaLabel area
-      else if not shouldBeVisible and area.myLeafletLabelIsVisible
-        @_hideAreaLabel area
+      if shouldBeVisible and not label.isActive()
+        @_addLabel label
+      else if not shouldBeVisible and label.isActive()
+        @_removeLabel label
 
   # ============================================================================
   _addLinebreaks : (name) =>
