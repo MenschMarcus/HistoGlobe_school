@@ -92,6 +92,96 @@ class HG.AreaController
   ##############################################################################
 
   # ============================================================================
+  # add all new and remove all old areas to map/globe
+  # -> immediately, without changes
+  _redrawAreas: (nowDate)->
+
+    # put all current areas on the map
+    for area in @_areas
+
+      # comparison by active state
+      wasActive = area.isActive()
+      isActive = no
+      if nowDate >= area.getStartDate() and nowDate < area.getEndDate()
+        isActive = yes
+
+      # if area became active
+      if isActive and not wasActive
+        area.setActive()
+        @notifyAll "onAddArea", area
+
+      # if area became inactive
+      if wasActive and not isActive
+        area.setInactive()
+        @notifyAll "onRemoveArea", area
+
+    # put all current labels on the map
+    for label in @_labels
+
+      # comparison by active state
+      wasActive = label.isActive()
+      isActive = no
+      if nowDate >= label.getStartDate() and nowDate < label.getEndDate()
+        isActive = yes
+
+      # if label became active
+      if isActive and not wasActive
+        label.setActive()
+        @notifyAll "onAddLabel", label
+
+      # if label became inactive
+      if wasActive and not isActive
+        label.setInactive()
+        @notifyAll "onRemoveLabel", label
+
+
+  # ============================================================================
+  # add all new and remove all old areas to map/globe
+  # and emphasize transition areas (areas that move from one country to another)
+  _updateAreas: (oldDate, newDate) ->
+    # change direction: forwards (-1) or backwards (1) ?
+    # changes are sorted the other way!
+    changeDir = -1
+    if oldDate > newDate
+      changeDir = 1
+      # swap old and new date, so it can be assumed that always oldDate < newDate
+      tempDate = oldDate
+      oldDate = newDate
+      newDate = tempDate
+
+    # idea: go through all changes in (reversed) order
+    # check if the change date is inside the change range from the old to the new date
+    # as soon as one change is inside, all changes will be executed until  one change is outside the range
+    # -> then termination of the loop
+    enteredChangeRange = no
+    for change in @_changes by changeDir
+      # console.log oldDate.getFullYear(), change.date.getFullYear(), newDate.getFullYear()
+      if change.date >= oldDate and change.date < newDate
+        # execute change
+        console.log change.new_areas # TODO: why is there a comma after the area id's ???
+        for id in change.new_areas
+          area = @_getAreaById id
+          console.log id
+          console.log area
+
+        enteredChangeRange = yes
+      else
+        if enteredChangeRange
+          break
+
+
+  # ============================================================================
+  # find next ready area change and execute it (one at a time)
+  _doChanges: () ->
+    for change in @_areaChanges
+      if change.isReady
+        # execute it
+        # terminate loop
+        break
+
+
+
+  # ============================================================================
   _loadAreasFromJSON: (config) ->
 
     # parse each geojson file
@@ -231,95 +321,6 @@ class HG.AreaController
             , 0 # execute immediately
 
           executeAsync change
-
-
-  # ============================================================================
-  # add all new and remove all old areas to map/globe
-  # -> immediately, without changes
-  _redrawAreas: (nowDate)->
-
-    # put all current areas on the map
-    for area in @_areas
-
-      # comparison by active state
-      wasActive = area.isActive()
-      isActive = no
-      if nowDate >= area.getStartDate() and nowDate < area.getEndDate()
-        isActive = yes
-
-      # if area became active
-      if isActive and not wasActive
-        area.setActive()
-        @notifyAll "onAddArea", area
-
-      # if area became inactive
-      if wasActive and not isActive
-        area.setInactive()
-        @notifyAll "onRemoveArea", area
-
-    # put all current labels on the map
-    for label in @_labels
-
-      # comparison by active state
-      wasActive = label.isActive()
-      isActive = no
-      if nowDate >= label.getStartDate() and nowDate < label.getEndDate()
-        isActive = yes
-
-      # if label became active
-      if isActive and not wasActive
-        label.setActive()
-        @notifyAll "onAddLabel", label
-
-      # if label became inactive
-      if wasActive and not isActive
-        label.setInactive()
-        @notifyAll "onRemoveLabel", label
-
-
-  # ============================================================================
-  # add all new and remove all old areas to map/globe
-  # and emphasize transition areas (areas that move from one country to another)
-  _updateAreas: (oldDate, newDate) ->
-    # change direction: forwards (-1) or backwards (1) ?
-    # changes are sorted the other way!
-    changeDir = -1
-    if oldDate > newDate
-      changeDir = 1
-      # swap old and new date, so it can be assumed that always oldDate < newDate
-      tempDate = oldDate
-      oldDate = newDate
-      newDate = tempDate
-
-    # idea: go through all changes in (reversed) order
-    # check if the change date is inside the change range from the old to the new date
-    # as soon as one change is inside, all changes will be executed until  one change is outside the range
-    # -> then termination of the loop
-    enteredChangeRange = no
-    for change in @_changes by changeDir
-      # console.log oldDate.getFullYear(), change.date.getFullYear(), newDate.getFullYear()
-      if change.date >= oldDate and change.date < newDate
-        # execute change
-        console.log change.new_areas # TODO: why is there a comma after the area id's ???
-        for id in change.new_areas
-          area = @_getAreaById id
-          console.log id
-          console.log area
-
-        enteredChangeRange = yes
-      else
-        if enteredChangeRange
-          break
-
-
-  # ============================================================================
-  # find next ready area change and execute it (one at a time)
-  _doChanges: () ->
-    for change in @_areaChanges
-      if change.isReady
-        # execute it
-        # terminate loop
-        break
 
   # ============================================================================
   # find area/label
