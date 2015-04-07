@@ -17,25 +17,25 @@
       "date": 1992, 
       "id": "1992-JUG-splitup", 
       "new_areas": [
-        "1992-9999-SVN,", 
-        "1992-2006-SRB,", 
-        "1992-9999-HRV,", 
-        "1992-9999-BIH,", 
-        "1990-9999-ALB,", 
+        "1992-9999-SVN", 
+        "1992-2006-SRB", 
+        "1992-9999-HRV", 
+        "1992-9999-BIH", 
+        "1990-9999-ALB", 
         "1992-9999-MKD"
       ], 
       "new_labels": [
-        "1992-9999-SVN,", 
-        "1992-2003-JUG,", 
-        "1992-9999-HRV,", 
-        "1992-9999-BIH,", 
+        "1992-9999-SVN", 
+        "1992-2003-JUG", 
+        "1992-9999-HRV", 
+        "1992-9999-BIH", 
         "1992-9999-MKD"
       ], 
       "old_areas": [
         "1954-1992-SFY"
       ], 
       "old_labels": [
-        "1918-1992-SFY"
+        "1945-1992-SFY"
       ]
     }, 
     {
@@ -47,20 +47,20 @@
       ], 
       "old_areas": [], 
       "old_labels": [
-        "1944-1990-ALB"
+        "1944-1990-VR_ALB"
       ]
     }, 
     {
       "date": 1954, 
       "id": "1954-TRST-end", 
       "new_areas": [
-        "1954-9999-ITA,", 
+        "1954-9999-ITA", 
         "1954-1992-SFY"
       ], 
       "new_labels": [], 
       "old_areas": [
-        "1947-1954-TRST,", 
-        "1947-1954-ITA,", 
+        "1947-1954-TRST", 
+        "1947-1954-ITA", 
         "1947-1954-SFY"
       ], 
       "old_labels": [
@@ -71,15 +71,15 @@
       "date": 1947, 
       "id": "1947-TRST-creation", 
       "new_areas": [
-        "1947-1954-SFY,", 
-        "1947-1954-ITA,", 
+        "1947-1954-SFY", 
+        "1947-1954-ITA", 
         "1947-1954-TRST"
       ], 
       "new_labels": [
         "1947-1954-TRST"
       ], 
       "old_areas": [
-        "1918-1947-SFY,", 
+        "1918-1947-SFY", 
         "1929-1947-ITA"
       ], 
       "old_labels": []
@@ -97,10 +97,22 @@
       ]
     }, 
     {
+      "date": 1944, 
+      "id": "1944-VR_ALB-creation", 
+      "new_areas": [
+        "1944-9999-ALB"
+      ], 
+      "new_labels": [
+        "1944-1990-VR_ALB"
+      ], 
+      "old_areas": [], 
+      "old_labels": []
+    }, 
+    {
       "date": 1929, 
       "id": "1929-VAT-creation", 
       "new_areas": [
-        "1929-1947-ITA,", 
+        "1929-1947-ITA", 
         "1929-9999-VAT"
       ], 
       "new_labels": [
@@ -121,6 +133,42 @@
       "old_areas": [
         "1866-1919-ITA"
       ], 
+      "old_labels": []
+    }, 
+    {
+      "date": 1918, 
+      "id": "1918-JUG-creation", 
+      "new_areas": [
+        "1918-1947-SFY"
+      ], 
+      "new_labels": [
+        "1918-1945-JUG"
+      ], 
+      "old_areas": [], 
+      "old_labels": []
+    }, 
+    {
+      "date": 1866, 
+      "id": "1866-ITA-creation", 
+      "new_areas": [
+        "1866-1919-ITA"
+      ], 
+      "new_labels": [
+        "1866-9999-ITA"
+      ], 
+      "old_areas": [], 
+      "old_labels": []
+    }, 
+    {
+      "date": 301, 
+      "id": "301-SMR-creation", 
+      "new_areas": [
+        "301-9999-SMR"
+      ], 
+      "new_labels": [
+        "301-9999-SMR"
+      ], 
+      "old_areas": [], 
       "old_labels": []
     }
   ], 

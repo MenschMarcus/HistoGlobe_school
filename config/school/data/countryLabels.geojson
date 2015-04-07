@@ -1,1 +1,244 @@
-{"content": "label", "type": "FeatureCollection", "features": [{"geometry": {"type": "Point", "coordinates": [null, null]}, "type": "Feature", "properties": {"name": "San Marino", "bounding_box": null, "id": "301-9999-SMR", "end_date": 9999, "start_date": 301}}, {"geometry": {"type": "Point", "coordinates": [null, null]}, "type": "Feature", "properties": {"name": "Vatikan", "bounding_box": null, "id": "1929-9999-VAT", "end_date": 9999, "start_date": 1929}}, {"geometry": {"type": "Point", "coordinates": [null, null]}, "type": "Feature", "properties": {"name": "Freies Territorium Triest", "bounding_box": null, "id": "1947-1954-TRST", "end_date": 1954, "start_date": 1947}}, {"geometry": {"type": "Point", "coordinates": [43.086166, 12.301865]}, "type": "Feature", "properties": {"name": "Italien", "bounding_box": null, "id": "1866-9999-ITA", "end_date": 9999, "start_date": 1866}}, {"geometry": {"type": "Point", "coordinates": [46.036676, 14.647536]}, "type": "Feature", "properties": {"name": "Slovenien", "bounding_box": null, "id": "1992-9999-SVN", "end_date": 9999, "start_date": 1992}}, {"geometry": {"type": "Point", "coordinates": [43.844079, 21.063551]}, "type": "Feature", "properties": {"name": "Jugoslawien", "bounding_box": null, "id": "1992-2003-JUG", "end_date": 2006, "start_date": 2003}}, {"geometry": {"type": "Point", "coordinates": [43.844079, 21.063551]}, "type": "Feature", "properties": {"name": "Serbien und Montenegro", "bounding_box": null, "id": "2003-2006-SRB", "end_date": 2006, "start_date": 2003}}, {"geometry": {"type": "Point", "coordinates": [45.58487, 16.449293]}, "type": "Feature", "properties": {"name": "Kroatien", "bounding_box": null, "id": "1992-9999-HRV", "end_date": 9999, "start_date": 1992}}, {"geometry": {"type": "Point", "coordinates": [44.199577, 17.844557]}, "type": "Feature", "properties": {"name": "Bosnien und Herzegowina", "bounding_box": null, "id": "1992-9999-BIH", "end_date": 9999, "start_date": 1992}}, {"geometry": {"type": "Point", "coordinates": [null, null]}, "type": "Feature", "properties": {"name": "Mazedonien", "bounding_box": null, "id": "1992-9999-MKD", "end_date": 9999, "start_date": 1992}}, {"geometry": {"type": "Point", "coordinates": [44.349037, 18.888258]}, "type": "Feature", "properties": {"name": "SFR Jugoslawien", "bounding_box": null, "id": "1945-1992-SFY", "end_date": 1992, "start_date": 1945}}, {"geometry": {"type": "Point", "coordinates": [44.349037, 18.888258]}, "type": "Feature", "properties": {"name": "Jugoslawien", "bounding_box": null, "id": "1918-1945-JUG", "end_date": 1945, "start_date": 1918}}, {"geometry": {"type": "Point", "coordinates": [40.848332, 20.102158]}, "type": "Feature", "properties": {"name": "VR Albanien", "bounding_box": null, "id": "1944-1990-VR_ALB", "end_date": 1990, "start_date": 1944}}, {"geometry": {"type": "Point", "coordinates": [40.848332, 20.102158]}, "type": "Feature", "properties": {"name": "Albanien", "bounding_box": null, "id": "1990-9999-ALB", "end_date": 9999, "start_date": 1990}}]}
+{
+  "content": "label", 
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          null, 
+          null
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "end_date": 9999, 
+        "id": "301-9999-SMR", 
+        "name": "San Marino", 
+        "start_date": 301
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          null, 
+          null
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "end_date": 9999, 
+        "id": "1929-9999-VAT", 
+        "name": "Vatikan", 
+        "start_date": 1929
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          null, 
+          null
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "end_date": 1954, 
+        "id": "1947-1954-TRST", 
+        "name": "Freies Territorium Triest", 
+        "start_date": 1947
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          43.086166, 
+          12.301865
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "end_date": 9999, 
+        "id": "1866-9999-ITA", 
+        "name": "Italien", 
+        "start_date": 1866
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          46.036676, 
+          14.647536
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "end_date": 9999, 
+        "id": "1992-9999-SVN", 
+        "name": "Slovenien", 
+        "start_date": 1992
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          43.844079, 
+          21.063551
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "end_date": 2006, 
+        "id": "1992-2003-JUG", 
+        "name": "Jugoslawien", 
+        "start_date": 2003
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          43.844079, 
+          21.063551
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "end_date": 2006, 
+        "id": "2003-2006-SRB", 
+        "name": "Serbien und Montenegro", 
+        "start_date": 2003
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          45.58487, 
+          16.449293
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "end_date": 9999, 
+        "id": "1992-9999-HRV", 
+        "name": "Kroatien", 
+        "start_date": 1992
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          44.199577, 
+          17.844557
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "end_date": 9999, 
+        "id": "1992-9999-BIH", 
+        "name": "Bosnien und Herzegowina", 
+        "start_date": 1992
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          null, 
+          null
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "end_date": 9999, 
+        "id": "1992-9999-MKD", 
+        "name": "Mazedonien", 
+        "start_date": 1992
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          44.349037, 
+          18.888258
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "end_date": 1992, 
+        "id": "1945-1992-SFY", 
+        "name": "SFR Jugoslawien", 
+        "start_date": 1945
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          44.349037, 
+          18.888258
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "end_date": 1945, 
+        "id": "1918-1945-JUG", 
+        "name": "Jugoslawien", 
+        "start_date": 1918
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          40.848332, 
+          20.102158
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "end_date": 1990, 
+        "id": "1944-1990-VR_ALB", 
+        "name": "VR Albanien", 
+        "start_date": 1944
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          40.848332, 
+          20.102158
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "end_date": 9999, 
+        "id": "1990-9999-ALB", 
+        "name": "Albanien", 
+        "start_date": 1990
+      }, 
+      "type": "Feature"
+    }
+  ], 
+  "type": "FeatureCollection"
+}

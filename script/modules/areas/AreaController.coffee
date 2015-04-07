@@ -41,7 +41,7 @@ class HG.AreaController
     @_changes = []  # set of all HG areas (id, type, date, old/new areas/labels)
 
     # main queue, each element describes one area change
-    @_areaChanges = []
+    @_changeQueue = new Queue()
 
     # initially load areas from input files
     @_areasLoaded = no
@@ -79,7 +79,7 @@ class HG.AreaController
     # infinite loop that executes all changes in the queue
     mainLoop = setInterval () =>    # => is important to be able to access global variables (compared to ->)
       @_doChanges()
-    , 50
+    , 1000 # TODO: set back to 50
 
     # ???
     # hgInstance.onAllModulesLoaded @, () =>
@@ -155,29 +155,82 @@ class HG.AreaController
     # -> then termination of the loop
     enteredChangeRange = no
     for change in @_changes by changeDir
-      # console.log oldDate.getFullYear(), change.date.getFullYear(), newDate.getFullYear()
       if change.date >= oldDate and change.date < newDate
-        # execute change
-        console.log change.new_areas # TODO: why is there a comma after the area id's ???
+        # enqueue next change
+        ready = yes       # [0]: flag yes/no
+        oldAreas = []     # [1]: areas to be deleted
+        newAreas = []     # [2]: areas to be added
+        oldLabels = []    # [3]: labels to be deleted
+        newLabels = []    # [4]: labels to be added
+        transRegions = [] # [5]: regions to be faded out when change is done
+
+        for id in change.old_areas
+          area = @_getAreaById id
+          if area?
+            oldAreas.push area if changeDir is -1   # timeline moves forward => old areas are old areas
+            newAreas.push area if changeDir is 1    # timeline moves backward => old areas are new areas
+
         for id in change.new_areas
           area = @_getAreaById id
-          console.log id
-          console.log area
+          if area?
+            newAreas.push area if changeDir is -1
+            oldAreas.push area if changeDir is 1
+
+        for id in change.old_labels
+          label = @_getLabelById id
+          if label?
+            oldLabels.push label if changeDir is -1
+            newLabels.push label if changeDir is 1
+
+        for id in change.new_labels
+          label = @_getLabelById id
+          if label?
+            newLabels.push label if changeDir is -1
+            oldLabels.push label if changeDir is 1
+
+        # TODO: transition areas
+
+        @_changeQueue.enqueue [ready, oldAreas, newAreas, oldLabels, newLabels, transRegions]
 
         enteredChangeRange = yes
       else
-        if enteredChangeRange
-          break
-
+        break if enteredChangeRange
 
   # ============================================================================
   # find next ready area change and execute it (one at a time)
   _doChanges: () ->
-    for change in @_areaChanges
-      if change.isReady
-        # execute it
-        # terminate loop
-        break
+    # execute change if it is ready
+    if not @_changeQueue.isEmpty()
+      if @_changeQueue.peek()[0]
+        change = @_changeQueue.dequeue()
+
+        # remove all old areas
+        for area in change[1]
+          console.log "rem area", area.getId() if area?
+          area.setInactive()
+          @notifyAll "onRemoveArea", area
+
+        # add all new areas
+        for area in change[2]
+          console.log "add area", area.getId() if area?
+          area.setActive()
+          @notifyAll "onAddArea", area
+
+        # remove all old labels
+        for label in change[3]
+          console.log "rem label", label.getName() if label?
+          label.setInactive()
+          @notifyAll "onRemoveLabel", label
+
+        # add all new labels
+        for label in change[4]
+          console.log "add label", label.getName() if label?
+          label.setActive()
+          @notifyAll "onAddLabel", label
+
+        # fade-out transition region
+        for transRegion in change[5]
+          @notifyAll "onFadeOutArea", transRegion
 
 
 
