@@ -67,6 +67,7 @@ class HG.AreasOnMap
 
     area.myLeafletLayer.addTo @_map   # finally puts area on the map
 
+    # create double-link
     area.myLeafletLayer.hgArea = area
 
     # add label if given
@@ -240,6 +241,7 @@ class HG.AreasOnMap
     if @_isHighContrast
       options.fillColor   = userStyle.areaColor_hc
       options.lineColor   = userStyle.borderColor_hc
+      options.color       = userStyle.borderColor_hc
       options.labelColor  = userStyle.labelColor_hc
 
     options

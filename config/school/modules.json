@@ -151,7 +151,7 @@
     {
       "areaColor":      "#eaeaea",
       "areaColor_hc":   "#d8d8d8",
-      "labelColor":     "#000000"
+      "labelColor":     "#bebebe"
     },
     "countryThemeMapping" :
     [
@@ -167,18 +167,23 @@
         "NATO":
         {
           "areaColor":    "#9ec9d9",
-          "labelColor":   "#ffffff"
+          "labelColor":   "#ffffff",
+          "labelColor_hc":  "#000000",
+          "borderColor_hc": "#000000"
         },
         "NATO_no_military":
         {
           "areaColor":    "#C5E4EE",
-          "labelColor":   "#ffffff"
+          "labelColor":   "#aaaaaa",
+          "labelColor_hc":  "#000000",
+          "borderColor_hc": "#000000"
         },
         "WP":
         {
           "areaColor":    "#c67e7f",
           "labelColor":   "#ffffff",
-          "borderColor":  "#E6E6E6"
+          "borderColor":  "#E6E6E6",
+          "borderColor_hc": "#000000"
         }
       }
     }
