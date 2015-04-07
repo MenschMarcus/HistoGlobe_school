@@ -71,10 +71,14 @@ class HG.HiventMarker2D extends HG.HiventMarker
     )
 
     @getHiventHandle().onActive(@, (mousePos) =>
+      console.log "active"
+      @_marker.setIcon icon_higlighted
       @_map.on "drag", @_updatePosition
     )
 
     @getHiventHandle().onInActive(@, (mousePos) =>
+      console.log "inactive"
+      @_marker.setIcon icon_default
       @_map.off "drag", @_updatePosition
     )
 

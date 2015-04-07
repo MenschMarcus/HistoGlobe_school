@@ -86,6 +86,12 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
     @getHiventHandle().onUnLink @, (mousePos) =>
       @_div.setAttribute "class", @_classDefault
 
+    @getHiventHandle().onActive @, (mousePos) =>
+      @_div.setAttribute "class", @_classHighlighted
+
+    @getHiventHandle().onInActive @, (mousePos) =>
+      @_div.setAttribute "class", @_classDefault
+        
     @getHiventHandle().onDestruction @, @_destroy
     @getHiventHandle().onInvisible @, @_destroy
 

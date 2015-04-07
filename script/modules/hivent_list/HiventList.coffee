@@ -53,9 +53,12 @@ class HG.HiventList
       handle.linkAll @, 0          
       ).on("mouseleave", ".hiventListItem", ->
         id=this.id
+        
         handle=window.hgInstance.hiventController.getHiventHandleById(id)
-        handle.unMark @, 0
-        handle.unLinkAll @, 0   
+
+        if !handle._activated
+          handle.unMark @, 0
+          handle.unLinkAll @, 0   
       )
 
     handels=window.hgInstance.hiventController.getHivents()
