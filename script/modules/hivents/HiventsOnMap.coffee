@@ -33,7 +33,8 @@ class HG.HiventsOnMap
            margin-left: -#{HGConfig.hivent_marker_2D_width.val/2}px;
            position: absolute !important;
            background-image: url(#{icons[element]}) !important;
-           background-size: cover !important;"
+           background-size: cover !important;
+           z-index: 100;"
         HG.createCSSSelector ".hivent_marker_2D_stack .#{category}",
         "width: #{HGConfig.hivent_marker_2D_width.val}px !important;
          height: #{HGConfig.hivent_marker_2D_height.val}px !important;
@@ -41,7 +42,8 @@ class HG.HiventsOnMap
          margin-left: 5px;
          position: absolute !important;
          background-image: url(#{icons.default}) !important;
-         background-size: cover !important;"
+         background-size: cover !important;
+         z-index: 100;"
 
     @_map = hgInstance.map._map
     @_hiventController = hgInstance.hiventController
