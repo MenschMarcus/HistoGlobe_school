@@ -71,13 +71,13 @@ class HG.HiventMarker2D extends HG.HiventMarker
     )
 
     @getHiventHandle().onActive(@, (mousePos) =>
-      console.log "active"
+      
       @_marker.setIcon icon_higlighted
       @_map.on "drag", @_updatePosition
     )
 
     @getHiventHandle().onInActive(@, (mousePos) =>
-      console.log "inactive"
+      
       @_marker.setIcon icon_default
       @_map.off "drag", @_updatePosition
     )
@@ -129,8 +129,9 @@ class HG.HiventMarker2D extends HG.HiventMarker
   # ============================================================================
   _onMouseOut: (e) =>
     #@_hiventHandle.regionMarker.unHiglight()
-    @getHiventHandle().unMark @, @_position
-    @getHiventHandle().unLinkAll @_position
+    if !@getHiventHandle()._activated
+      @getHiventHandle().unMark @, @_position
+      @getHiventHandle().unLinkAll @_position
     @_updateMarker()
 
   # ============================================================================

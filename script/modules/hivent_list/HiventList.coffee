@@ -200,12 +200,9 @@ class HG.HiventList
 
     return @_hivent_list
 
-  activateElement: (id) -> 
-    console.log "prog"
-    console.log $("#"+id)
+  activateElement: (id) ->     
     $("#"+id).switchClass("inActive", "active")
-  deactivateElement:(id) ->
-    console.log console.log $("#"+id)
+  deactivateElement:(id) ->    
     $("#"+id).switchClass("active", "inactive")
 
 
