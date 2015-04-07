@@ -12,6 +12,9 @@ class HG.AreasOnMap
     @_areaController  = null
     @_visibleAreas    = []
 
+    # highcontrast hack: swap between normal and "_hc" mode
+    @_isHighContrast  = no
+
     defaultConfig =
       labelVisibilityFactor: 5
 
@@ -32,12 +35,14 @@ class HG.AreasOnMap
       @_areaController.onHideArea @, (area) =>
         @_hideAreaLayer area
 
-      @_areaController.onUpdateAreaStyle @, (area) =>
+      @_areaController.onUpdateAreaStyle @, (area, isHC) =>
+        @_isHighContrast = isHC
         @_updateAreaStyle area
 
       @_map.on "zoomend", @_onZoomEnd
     else
       console.error "Unable to show areas on Map: AreaController module not detected in HistoGlobe instance!"
+
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -225,11 +230,19 @@ class HG.AreasOnMap
       lineColor:    userStyle.borderColor
       lineOpacity:  userStyle.borderOpacity
       weight:       userStyle.borderWidth
-      labelOpacity: userStyle.nameOpacity
-      labelColor:   userStyle.nameColor
+      labelOpacity: userStyle.labelOpacity
+      labelColor:   userStyle.labelColor
       # backup styling for whatsoever weird browser that can only handle them
       color:        userStyle.borderColor
       opacity:      userStyle.borderOpacity
+
+    # override in highContrast mode
+    if @_isHighContrast
+      options.fillColor   = userStyle.areaColor_hc
+      options.lineColor   = userStyle.borderColor_hc
+      options.labelColor  = userStyle.labelColor_hc
+
+    options
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #

@@ -18,9 +18,10 @@ class HG.AreaController
     @addCallback "onUpdateAreaStyle"
 
 
-    @_timeline  = null
-    @_now       = null
-    @_theme     = ''
+    @_timeline        = null
+    @_now             = null
+    @_theme           = ''
+    @_isHighContrast  = no
 
     defaultConfig =
       areaJSONPaths: undefined,
@@ -58,7 +59,20 @@ class HG.AreaController
       hgInstance.hivent_list_module?.onUpdateTheme @, (theme) =>
         @_theme = theme
         @_updateAreas @_now
-        
+
+    # toggle highContrast mode
+    hgInstance.highcontrast_button.onEnterHighContrast @, () =>
+      @_isHighContrast = yes
+      for area in @_areas
+        if area.isActive()
+          @notifyAll "onUpdateAreaStyle", area, yes
+
+    hgInstance.highcontrast_button.onLeaveHighContrast @, () =>
+      @_isHighContrast = no
+      for area in @_areas
+        if area.isActive()
+          @notifyAll "onUpdateAreaStyle", area, no
+
 
     # ctr = 0
     mainLoop = setInterval () =>    # => is important to be able to access global variables (compared to ->)
@@ -81,7 +95,7 @@ class HG.AreaController
 
           # change style of all areas to be changed
           for area in areaChange[3]
-            @notifyAll "onUpdateAreaStyle", area
+            @notifyAll "onUpdateAreaStyle", area, @_isHighContrast
 
           # fade-out transition area
           # transArea = areaChange[4]

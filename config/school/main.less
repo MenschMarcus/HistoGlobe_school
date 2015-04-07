@@ -148,18 +148,26 @@
 }
 
 
-// country names
+/*** country styling ***/
+// labels
 // class: style/modules/areas/leaflet_labels_override.less
 
 .leaflet-label
 {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
-  font-style: italic !important;
+  //font-style: italic !important;
+  font-size: 1.05em !important;
   .transition(opacity 0.5s ease-in-out);
 
   &.invisible {
     opacity: 0.0 !important;
   }
+}
+
+.highContrast .leaflet-label
+{
+  font-size: 1.2em !important;
+  text-shadow: 0px 0px 7px #ffffff;
 }
 
 .control-buttons {
@@ -176,4 +184,5 @@
     }
   }
 }
+
 
