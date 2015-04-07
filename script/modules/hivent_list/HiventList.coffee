@@ -46,8 +46,8 @@ class HG.HiventList
       handle=window.hgInstance.hiventController.getHiventHandleById(id)
       handle.toggleActive(@, 0)        
       )
-    $(@_hivent_list).on("mouseenter", ".hiventListItem",  ->  
-      id=this.id
+    $(@_hivent_list).on("mouseenter", ".hiventListItem",  ->      
+      id=this.id      
       handle=window.hgInstance.hiventController.getHiventHandleById(id)
       handle.mark @, 0
       handle.linkAll @, 0          
