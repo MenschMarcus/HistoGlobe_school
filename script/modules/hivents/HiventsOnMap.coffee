@@ -65,7 +65,7 @@ class HG.HiventsOnMap
           for i in [0..depth]
             html += "</div>"
 
-          html+=labelCluster(cluster, @_ab)
+          html+=@labelCluster(cluster, @_ab)
           
           
           new L.DivIcon {className: "hivent_marker_2D_stack", iconAnchor:[17,60], html: html}
@@ -138,7 +138,7 @@ class HG.HiventsOnMap
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
 
-  labelCluster= (cluster, config)->
+  labelCluster: (cluster, config)->
     labelHtml=""
     #regionLabels indicate if the Location Name, or the Name of the event should be shown 
 
@@ -164,17 +164,29 @@ class HG.HiventsOnMap
     #EventPlace
     if config.regionLabels=="A"
       locationNames=[]
-      for marker in cluster.getAllChildMarkers()   
-        locationName=marker.myHiventMarker2D._hiventHandle.getHivent().locationName[0]        
-        exists=$.inArray(locationName, locationNames)        
-        if  exists==-1          
-          locationNames.push locationName
+      
+      if @_map.getZoom()>4
+        for marker in cluster.getAllChildMarkers()   
+          locationName=marker.myHiventMarker2D._hiventHandle.getHivent().locationName[0]        
+          exists=$.inArray(locationName, locationNames)        
+          if  exists==-1          
+            locationNames.push locationName
 
-      labelHtml+="<div class=\"clusterLabelOnMap\"><table>"
+        labelHtml+="<div class=\"clusterLabelOnMap\"><table>"
+        #old version which shows all hivents in cluster
+        #for locationName in locationNames
+        #  labelHtml+="<tr><td>#{locationName}</td></tr>"
+        #labelHtml+"</table></div>"
+        if locationNames.length>2
+          labelHtml+="<tr><td>#{locationNames[0]}</td></tr>"
+          labelHtml+="<tr><td>#{locationNames[1]}</td></tr>"
+          labelHtml+="<tr><td>And #{locationNames.length-2} more</td></tr>"
+        else 
+          for locationName in locationNames
+            labelHtml+="<tr><td>#{locationName}</td></tr>"
 
-      for locationName in locationNames
-        labelHtml+="<tr><td>#{locationName}</td></tr>"
-      labelHtml+"</table></div>"
+      else
+        labelHtml=""
     return labelHtml
 
 
