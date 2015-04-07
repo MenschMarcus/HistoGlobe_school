@@ -25,7 +25,6 @@ class HG.HiventList
   #   --------------------------------------------------------------------------
   hgInit: (hgInstance) ->
     @_hgInstance = hgInstance
-
     #console.log "Timeline Topics", @_hgInstance.timeline.getTopics()
     @_hivent_array = []
     @_hivent_list = document.createElement "div"
@@ -39,6 +38,28 @@ class HG.HiventList
     @_hgInstance._top_area.appendChild @_container
 
     @_hgInstance.hivent_list_module = @
+
+    window.hgInstance=@_hgInstance
+
+    $(@_hivent_list).on("click", ".hiventListItem",  ->
+      id=this.id
+      handle=window.hgInstance.hiventController.getHiventHandleById(id)
+      handle.toggleActive(@, 0)        
+      )
+    $(@_hivent_list).on("mouseenter", ".hiventListItem",  ->  
+      id=this.id
+      handle=window.hgInstance.hiventController.getHiventHandleById(id)
+      handle.mark @, 0
+      handle.linkAll @, 0          
+      ).on("mouseleave", ".hiventListItem", ->
+        id=this.id
+        handle=window.hgInstance.hiventController.getHiventHandleById(id)
+        handle.unMark @, 0
+        handle.unLinkAll @, 0   
+      )
+
+    handels=window.hgInstance.hiventController.getHivents()
+
 
     $(@_alliances_option).click () =>
       knopp = $(".toggle_on_off")
@@ -138,7 +159,7 @@ class HG.HiventList
         yearString = hivent.startYear + ' bis ' + hivent.endYear
 
       hivents += '<a href="#event=' + hivent.id +
-                 '"><li><div class="wrap"><div class="res_name"> ' +
+                 '"><li><div class="wrap hiventListItem" id='+hivent.id+'><div class="res_name"> ' +
                   hivent.name + '</div><div class="res_location">' + hivent.locationName[0] +
                   '</div><div class="res_year">' + yearString + '</div></div><i class="fa fa-map-marker"></i></li></a>'
 
@@ -175,5 +196,11 @@ class HG.HiventList
     @notifyAll "onHiventListChanged", @props
 
     return @_hivent_list
+
+  activateElement: (id) ->    
+    $("#"+id).switchClass("inActive", "active")
+  deactivateElement:(id) ->    
+    $("#"+id).switchClass("active", "inactive")
+
 
     #=============================================================================

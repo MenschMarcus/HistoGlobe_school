@@ -79,6 +79,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
     )
 
     @getHiventHandle().onLink(@, (mousePos) =>
+      
       @_marker.setIcon icon_higlighted
     )
 
