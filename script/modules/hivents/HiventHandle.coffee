@@ -130,28 +130,28 @@ class HG.HiventHandle
 
   # ============================================================================
   linkAll: (mousePixelPosition) ->    
-    window.hgInstance.hivent_list_module.activateElement(@_hivent.id)
+    #window.hgInstance.hivent_list_module.activateElement(@_hivent.id)
     unless @_linked
       @_linked = true
       @notifyAll "onLink", mousePixelPosition
 
   # ============================================================================
   link: (obj, mousePixelPosition) ->    
-    window.hgInstance.hivent_list_module.activateElement(@_hivent.id)
+    #window.hgInstance.hivent_list_module.activateElement(@_hivent.id)
     unless @_linked
       @_linked = true
       @notify "onLink", obj, mousePixelPosition
 
   # ============================================================================
   unLinkAll: (mousePixelPosition) ->
-    window.hgInstance.hivent_list_module.deactivateElement(@_hivent.id)
+    #window.hgInstance.hivent_list_module.deactivateElement(@_hivent.id)
     if @_linked
       @_linked = false
       @notifyAll "onUnLink", mousePixelPosition
 
   # ============================================================================
   unLink: (obj, mousePixelPosition) ->
-    window.hgInstance.hivent_list_module.deactivateElement(@_hivent.id)
+    #window.hgInstance.hivent_list_module.deactivateElement(@_hivent.id)
     if @_linked
       @_linked = false
       @notify "onUnLink", obj, mousePixelPosition
