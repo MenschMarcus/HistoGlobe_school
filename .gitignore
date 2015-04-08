@@ -22,3 +22,4 @@ config/sixt/data/tiles
 config/teaser_common/data/tiles
 config/school/tiles
 config/school/tiles_hc
+config/school/tiles_ehc
