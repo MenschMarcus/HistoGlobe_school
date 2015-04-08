@@ -106,62 +106,25 @@
     transition: 1s;
     -webkit-transition: 1s;
 
+
     ul {
       list-style: none;
       padding: 0px;
       margin: 0px;
 
       a {
-        color: #286b7a;
         &:hover {
           text-decoration: none;
         }
-        .active{
-          background: #57626D;
-          color:#fff;
-          i {
-            color: #fff;
-          }
-          .res_location {
-            color: #b7b7b7;
-          }
-            res_year {
-            color: #b7b7b7;
-          }
-        .inActive{
-          background: white;
-          color:#fff;
-          .res_location {
-            float: left;
-            max-width: 250px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            color: #808080;
-          }
 
-          .res_year {
-            float:right;
-            color: #808080;
-            
-          }
+        .inactive{
 
-          i {
-            color: #286b7a;
-            margin-right: 5px;
-            margin-left: 5px;
-            margin-top: 12px;
-            //float: left;
-            //width: 10%;
-          }
-        }
-
-        li {
           font-family: @primary_font_face;
           white-space: nowrap;
           padding: 5px;
           border-bottom: solid 1px #ddd;
           overflow: hidden;
-          text-overflow: ellipsis;
+          text-overflow: ellipsis; 
 
           .wrap {
             float: right;
@@ -175,15 +138,15 @@
               max-width: 250px;
               overflow: hidden;
               text-overflow: ellipsis;
-              color: #808080;
+              color: #898888;
             }
 
             .res_year {
               float:right;
-              color: #808080;
+              color: #898888;
             }
-          }
-
+          }       
+        
           i {
             color: #286b7a;
             margin-right: 5px;
@@ -192,10 +155,46 @@
             //float: left;
             //width: 10%;
           }
-
-
-          }
         }
+
+        .active{
+          font-family: @primary_font_face;
+          white-space: nowrap;
+          padding: 5px;
+          border-bottom: solid 1px #ddd;
+          overflow: hidden;
+          text-overflow: ellipsis; 
+
+          .wrap {
+            float: right;
+            width: 90%;
+            max-width: 260px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            .res_location {
+              float: left;
+              max-width: 250px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              color: #898888;
+            }
+
+            .res_year {
+              float:right;
+              color: #898888;
+            }
+          }       
+        
+          i {
+            color: #286b7a;
+            margin-right: 5px;
+            margin-left: 5px;
+            margin-top: 12px;
+            //float: left;
+            //width: 10%;
+          }
+        }       
       }
     }
 
@@ -210,6 +209,14 @@
     display:none;
   }
 }
+
+
+
+
+
+
+
+
 
 .highContrast {
   .hivent-list-module {

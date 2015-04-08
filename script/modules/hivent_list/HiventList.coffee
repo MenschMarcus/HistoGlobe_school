@@ -162,7 +162,7 @@ class HG.HiventList
         yearString = hivent.startYear + ' bis ' + hivent.endYear
 
       hivents += '<a  href="#event=' + hivent.id +
-                 '"><li class= "hiventListItem" id='+hivent.id+'><div class="wrap" ><div class="res_name"> ' +
+                 '"><li class= "hiventListItem inactive" id='+hivent.id+'><div class="wrap" ><div class="res_name"> ' +
                   hivent.name + '</div><div class="res_location">' + hivent.locationName[0] +
                   '</div><div class="res_year">' + yearString + '</div></div><i class="fa fa-map-marker"></i></li></a>'
 
@@ -201,7 +201,7 @@ class HG.HiventList
     return @_hivent_list
 
   activateElement: (id) ->     
-    $("#"+id).switchClass("inActive", "active")
+    $("#"+id).switchClass("inactive", "active")
   deactivateElement:(id) ->    
     $("#"+id).switchClass("active", "inactive")
 
