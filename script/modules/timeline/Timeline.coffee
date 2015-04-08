@@ -758,9 +758,9 @@ class HG.Timeline
 
   _moveTopicRows: (showSubtopics) ->
     if !showSubtopics
-      $('.tl_topic_row1').css({'bottom': HGConfig.timline_row1_position.val + 'px'})
+      $('.tl_topic_row1').css({'bottom': HGConfig.timeline_row1_position.val + 'px'})
     else if @_activeTopic.row is 0 and showSubtopics
-      $('.tl_topic_row1').css({'bottom': HGConfig.timline_row1_position_up.val + 'px'})
+      $('.tl_topic_row1').css({'bottom': HGConfig.timeline_row1_position_up.val + 'px'})
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 

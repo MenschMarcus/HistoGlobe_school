@@ -102,7 +102,8 @@ class HG.Display2D extends HG.Display
     @_map.setView @_hgInstance._config.startLatLong, @_hgInstance._config.startZoom
     @_map.attributionControl.setPrefix ''
 
-    L.tileLayer(@_hgInstance._config.tiles + '/{z}/{x}/{y}.png').addTo @_map
+    tileLayer = L.tileLayer(@_hgInstance._config.tiles + '/{z}/{x}/{y}.png')
+    tileLayer.addTo @_map
 
     @_hgInstance.onAllModulesLoaded @, () =>
       if @_hgInstance.zoom_buttons?
@@ -111,6 +112,13 @@ class HG.Display2D extends HG.Display
 
         @_hgInstance.zoom_buttons.onZoomOut @, () =>
           @_map.zoomOut()
+
+      if @_hgInstance.highcontrast_button?
+        @_hgInstance.highcontrast_button.onEnterHighContrast @, () =>
+          tileLayer.setUrl @_hgInstance._config.tilesHighContrast + '/{z}/{x}/{y}.png'
+
+        @_hgInstance.highcontrast_button.onLeaveHighContrast @, () =>
+          tileLayer.setUrl @_hgInstance._config.tiles + '/{z}/{x}/{y}.png'
 
     @overlayContainer = @_map.getPanes().mapPane
     @_isRunning = true

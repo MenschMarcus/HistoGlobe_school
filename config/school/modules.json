@@ -4,12 +4,13 @@
     "container": "histoglobe",
     "minYear": 1871,
     "maxYear": 1993,
-    "nowYear": 1900,
-    "minZoom": 1,
+    "nowYear": 1949,
+    "minZoom": 3,
     "maxZoom": 7,
     "startZoom": 5,
     "startLatLong": [50.9869531, 11.3205004],
     "tiles": "config/school/tiles/",
+    "tilesHighContrast": "config/school/tiles_ehc/",
     "sidebarEnabled": false
   },
 
@@ -50,8 +51,8 @@
   "ZoomButtonsTimeline": {},
   "ControlButtonArea": {},
   "ZoomButtons": {},
-
   "FullscreenButton": {},
+  "HighContrastButton": {},
 
   "CategoryFilter":
   {
@@ -135,18 +136,21 @@
     "normalStyle":
     {
       "areaColor":      "#ffffff",
+      "areaColor_hc":   "#ffffff",
       "areaOpacity":    0.75,
       "borderWidth":    1.5,
-      "borderColor":    "#BBBBBB",
+      "borderColor":    "#c1c1c1",
+      "borderColor_hc": "#000000",
       "borderOpacity":  1.0,
-      "nameSize":       1,
-      "nameColor":      "#bebebe",
-      "nameOpacity":    1.0
+      "labelSize":      2,
+      "labelColor":     "#7f7f7f",
+      "labelColor_hc":  "#050505",
+      "labelOpacity":   1.0
     },
     "highlightStyle":
     {
       "areaColor":      "#eaeaea",
-      "nameColor":      "#000000"
+      "areaColor_hc":   "#d8d8d8"
     },
     "countryThemeMapping" :
     [
@@ -162,18 +166,25 @@
         "NATO":
         {
           "areaColor":    "#9ec9d9",
-          "nameColor":    "#ffffff"
+          "labelColor":   "#2f3b46",
+          "labelColor_hc":  "#000000",
+          "borderColor_hc": "#000000"
         },
         "NATO_no_military":
         {
-          "areaColor":    "#C5E4EE",
-          "nameColor":    "#ffffff"
+          "areaColor":    "#dcf3f9",
+          "labelColor":   "#2f3b46",
+          "labelColor_hc":  "#000000",
+          "borderColor_hc": "#000000"
         },
         "WP":
+
         {
           "areaColor":    "#c67e7f",
-          "nameColor":    "#ffffff",
-          "borderColor":  "#E6E6E6"
+          "labelColor":   "#2f3b46",
+          "labelColor_hc": "#05050500000",
+          "borderColor":  "#E6E6E6",
+          "borderColor_hc": "#000000"
         }
       }
     }
