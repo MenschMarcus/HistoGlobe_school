@@ -13,16 +13,17 @@ class HG.AreasOnMap
     @_visibleLabels    = []
 
     defaultConfig =
-      labelVisibilityFactor: 5,
-      animationTime: 200
+      labelVisibilityFactor: 5
 
     @_config = $.extend {}, defaultConfig, config
 
 
   # ============================================================================
   hgInit: (hgInstance) ->
+
     hgInstance.areasOnMap = @
 
+    @_aniTime = hgInstance._config.areaAniTime
     @_map = hgInstance.map._map
     @_areaController = hgInstance.areaController
 
@@ -36,15 +37,13 @@ class HG.AreasOnMap
 
       @_areaController.onRemoveArea @, (area) =>
         @_hideArea area, 0
-        @_removeArea area
 
-      @_areaController.onFadeInArea @, (area) =>
+      @_areaController.onFadeInArea @, (area, isHighlight) =>
         @_addArea area
-        @_showArea area, @_config.animationTime
+        @_showArea area, @_aniTime, isHighlight
 
       @_areaController.onFadeOutArea @, (area) =>
-        @_hideArea area, @_config.animationTime
-        @_removeArea area
+        @_hideArea area, @_aniTime
 
       @_areaController.onUpdateAreaStyle @, (area) =>
         @_updateAreaStyle area
@@ -74,23 +73,24 @@ class HG.AreasOnMap
   # ============================================================================
   # physically adds area to the map, but makes it invisible
   _addArea: (area) ->
+    if not area.myLeafletLayer?
 
-    # take style of country but make it invisible
-    options = @_translateAreaStyle area.getStyle()
-    options.fillOpacity = 0
-    options.lineOpacity = 0
+      # take style of country but make it invisible
+      options = @_translateAreaStyle area.getStyle()
+      options.fillOpacity = 0
+      options.lineOpacity = 0
 
-    # create layer with loaded geometry and style
-    area.myLeafletLayer = L.multiPolygon area.getGeometry(), options
+      # create layer with loaded geometry and style
+      area.myLeafletLayer = L.multiPolygon area.getGeometry(), options
 
-    # hack: disable interaction with countries
-    # area.myLeafletLayer.on "mouseover", @_onHover     # TODO: why does hover not work?
-    # area.myLeafletLayer.on "mouseout", @_onUnHover
-    # area.myLeafletLayer.on "click", @_onClick
+      # hack: disable interaction with countries
+      # area.myLeafletLayer.on "mouseover", @_onHover     # TODO: why does hover not work?
+      # area.myLeafletLayer.on "mouseout", @_onUnHover
+      # area.myLeafletLayer.on "click", @_onClick
 
-    # create double-link: leaflet layer knows HG area and HG area knows leaflet layer
-    area.myLeafletLayer.hgArea = area
-    area.myLeafletLayer.addTo @_map
+      # create double-link: leaflet layer knows HG area and HG area knows leaflet layer
+      area.myLeafletLayer.hgArea = area
+      area.myLeafletLayer.addTo @_map
 
   # ============================================================================
   # physically removes area from the map
@@ -108,13 +108,21 @@ class HG.AreasOnMap
 
   # ============================================================================
   # slowly fades in area and allows interaction with it
-  _showArea: (area, aniTime) ->
+  _showArea: (area, aniTime, isHighlight) ->
     if area.myLeafletLayer?
-      @_animate area.myLeafletLayer,
-        # TODO: does that work better? translating the whole style 5 times for each item separately seems not intuitive...
-        "fill-opacity":   area.getStyle().areaOpacity
-        "stroke-opacity": area.getStyle().borderOpacity
-      , aniTime
+      if not isHighlight
+        @_animate area.myLeafletLayer,
+          # TODO: does that work better? translating the whole style 5 times for each item separately seems not intuitive...
+          "fill-opacity":   area.getStyle().areaOpacity
+          "stroke-opacity": area.getStyle().borderOpacity
+        , aniTime
+      else
+        @_animate area.myLeafletLayer,
+          # TODO: does that work better? translating the whole style 5 times for each item separately seems not intuitive...
+          "fill":           "#ff0000"
+          "fill-opacity":   1.0
+        , aniTime
+
 
   # ============================================================================
   _hideArea: (area, aniTime) ->
@@ -123,7 +131,8 @@ class HG.AreasOnMap
         # TODO: does that work better? translating the whole style 5 times for each item separately seems not intuitive...
         "fill-opacity":   0
         "stroke-opacity": 0
-      , aniTime
+      , aniTime, () =>
+        @_removeArea area
 
   # ============================================================================
   _updateAreaStyle: (area) ->
@@ -140,29 +149,30 @@ class HG.AreasOnMap
 
   # ============================================================================
   _addLabel: (label) ->
-    # create invisible label with name and position
-    label.myLeafletLabel = new L.Label()
-    label.myLeafletLabel.setContent @_addLinebreaks label.getName()
-    label.myLeafletLabel.setOpacity 0
-    label.myLeafletLabel.setLatLng label.getPos()
+    if not label.myLeafletLabel?
+      # create invisible label with name and position
+      label.myLeafletLabel = new L.Label()
+      label.myLeafletLabel.setContent @_addLinebreaks label.getName()
+      label.myLeafletLabel.setOpacity 0
+      label.myLeafletLabel.setLatLng label.getPos()
 
-    # add label to map
-    @_map.showLabel label.myLeafletLabel
+      # add label to map
+      @_map.showLabel label.myLeafletLabel
 
-    # put in center of label
-    label.myLeafletLabel.options.offset = [
-      -label.myLeafletLabel._container.offsetWidth/2,
-      -label.myLeafletLabel._container.offsetHeight/2
-    ]
-    label.myLeafletLabel._updatePosition()
+      # put in center of label
+      label.myLeafletLabel.options.offset = [
+        -label.myLeafletLabel._container.offsetWidth/2,
+        -label.myLeafletLabel._container.offsetHeight/2
+      ]
+      label.myLeafletLabel._updatePosition()
 
-    # show if visible label
-    # if @_isLabelVisible label
-    @_updateLabelStyle label
-    # $(area.myLeafletLabel._container).removeClass("invisible")
-    label.setActive()
-    # update list of visible labels
-    @_visibleLabels.push label
+      # show if visible label
+      # if @_isLabelVisible label
+      @_updateLabelStyle label
+      # $(area.myLeafletLabel._container).removeClass("invisible")
+      label.setActive()
+      # update list of visible labels
+      @_visibleLabels.push label
 
   # ============================================================================
   _removeLabel: (label) ->
@@ -204,12 +214,12 @@ class HG.AreasOnMap
     visible = (max.x - min.x) > width or @_map.getZoom() is @_map.getMaxZoom()
 
   # ============================================================================
-  _animate: (area, attributes, durartion) ->
+  _animate: (area, attributes, durartion, finishFunction) ->
     if area._layers?
       for id, path of area._layers
-        d3.select(path._path).transition().duration(durartion).attr(attributes)
+        d3.select(path._path).transition().duration(durartion).attr(attributes).each("end", finishFunction)
     else if area._path?
-      d3.select(area._path).transition().duration(durartion).attr(attributes)
+      d3.select(area._path).transition().duration(durartion).attr(attributes).each("end", finishFunction)
 
   # ============================================================================
   _onHover: (event) =>

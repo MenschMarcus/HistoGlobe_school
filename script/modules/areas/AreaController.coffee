@@ -56,25 +56,21 @@ class HG.AreaController
 
     hgInstance.areaController = @
 
+    @_aniTime = hgInstance._config.areaAniTime
     @_timeline = hgInstance.timeline
-    @_now = @_timeline.getNowDate()
+    @_now = new Date -5000, 0, 1  # horrible init start year hack
 
     @_styler = hgInstance.styler
 
     # main activity: what happens if now date changes?
     @_timeline.onNowChanged @, (date) ->
-      oldDate = @_now
-      newDate = date
-
-      # for small changes: update all areas one at a time
-      if (Math.abs oldDate.getFullYear()-newDate.getFullYear()) < (BIG_JUMP_THRESHOLD)
+      if @_areasLoaded and @_labelsLoaded and @_changesLoaded
+        oldDate = @_now
+        newDate = date
         @_updateAreas oldDate, newDate
-      # for big jumps: completely redraw the map
-      else
-        @_redrawAreas newDate
 
-      # update now date
-      @_now = date
+        # update now date
+        @_now = date
 
     # infinite loop that executes all changes in the queue
     mainLoop = setInterval () =>    # => is important to be able to access global variables (compared to ->)
@@ -93,52 +89,10 @@ class HG.AreaController
 
   # ============================================================================
   # add all new and remove all old areas to map/globe
-  # -> immediately, without changes
-  _redrawAreas: (nowDate)->
-
-    # put all current areas on the map
-    for area in @_areas
-
-      # comparison by active state
-      wasActive = area.isActive()
-      isActive = no
-      if nowDate >= area.getStartDate() and nowDate < area.getEndDate()
-        isActive = yes
-
-      # if area became active
-      if isActive and not wasActive
-        area.setActive()
-        @notifyAll "onAddArea", area
-
-      # if area became inactive
-      if wasActive and not isActive
-        area.setInactive()
-        @notifyAll "onRemoveArea", area
-
-    # put all current labels on the map
-    for label in @_labels
-
-      # comparison by active state
-      wasActive = label.isActive()
-      isActive = no
-      if nowDate >= label.getStartDate() and nowDate < label.getEndDate()
-        isActive = yes
-
-      # if label became active
-      if isActive and not wasActive
-        label.setActive()
-        @notifyAll "onAddLabel", label
-
-      # if label became inactive
-      if wasActive and not isActive
-        label.setInactive()
-        @notifyAll "onRemoveLabel", label
-
-
-  # ============================================================================
-  # add all new and remove all old areas to map/globe
   # and emphasize transition areas (areas that move from one country to another)
+
   _updateAreas: (oldDate, newDate) ->
+
     # change direction: forwards (-1) or backwards (1) ?
     # changes are sorted the other way!
     changeDir = -1
@@ -156,41 +110,76 @@ class HG.AreaController
     enteredChangeRange = no
     for change in @_changes by changeDir
       if change.date >= oldDate and change.date < newDate
+
+        # fade-in transition region
+        hasTransition = no
+        for id in change.transition_regions
+          if id?
+            hasTransition = yes
+            transRegion = @_getAreaById id
+            @notifyAll "onFadeInArea", transRegion, yes
+
         # enqueue next change
-        ready = yes       # [0]: flag yes/no
+        timestamp = null  # [0]: timestamp at wich changes shall be executed
         oldAreas = []     # [1]: areas to be deleted
         newAreas = []     # [2]: areas to be added
         oldLabels = []    # [3]: labels to be deleted
         newLabels = []    # [4]: labels to be added
         transRegions = [] # [5]: regions to be faded out when change is done
 
-        for id in change.old_areas
-          area = @_getAreaById id
-          if area?
-            oldAreas.push area if changeDir is -1   # timeline moves forward => old areas are old areas
-            newAreas.push area if changeDir is 1    # timeline moves backward => old areas are new areas
+        timestamp = new Date()
+        if hasTransition
+          timestamp.setMilliseconds timestamp.getMilliseconds() + @_aniTime
 
         for id in change.new_areas
-          area = @_getAreaById id
-          if area?
-            newAreas.push area if changeDir is -1
-            oldAreas.push area if changeDir is 1
+          newAreas.push id if changeDir is -1
+          oldAreas.push id if changeDir is 1
 
-        for id in change.old_labels
-          label = @_getLabelById id
-          if label?
-            oldLabels.push label if changeDir is -1
-            newLabels.push label if changeDir is 1
+        for id in change.old_areas
+          oldAreas.push id if changeDir is -1   # timeline moves forward => old areas are old areas
+          newAreas.push id if changeDir is 1    # timeline moves backward => old areas are new areas
 
         for id in change.new_labels
-          label = @_getLabelById id
-          if label?
-            newLabels.push label if changeDir is -1
-            oldLabels.push label if changeDir is 1
+          newLabels.push id if changeDir is -1
+          oldLabels.push id if changeDir is 1
 
-        # TODO: transition areas
+        for id in change.old_labels
+          oldLabels.push id if changeDir is -1
+          newLabels.push id if changeDir is 1
 
-        @_changeQueue.enqueue [ready, oldAreas, newAreas, oldLabels, newLabels, transRegions]
+        for id in change.transition_regions
+          transRegions.push id
+
+        # remove duplicates -> all areas/labels that are both in new or old array
+        # TODO: O(n²) in the moment -> does that get better?
+        iNew = 0
+        iOld = 0
+        lenNew = newAreas.length
+        lenOld = oldAreas.length
+        while iNew < lenNew
+          while iOld < lenOld
+            if newAreas[iNew] == oldAreas[iOld]
+              newAreas[iNew] = null
+              oldAreas[iOld] = null
+              break
+            ++iOld
+          ++iNew
+
+        iNew = 0
+        iOld = 0
+        lenNew = newLabels.length
+        lenOld = oldLabels.length
+        while iNew < lenNew
+          while iOld < lenOld
+            if newLabels[iNew] == oldLabels[iOld]
+              newLabels[iNew] = null
+              oldLabels[iOld] = null
+              break
+            ++iOld
+          ++iNew
+
+        # finally enqueue distinct changes
+        @_changeQueue.enqueue [timestamp, oldAreas, newAreas, oldLabels, newLabels, transRegions]
 
         enteredChangeRange = yes
       else
@@ -200,37 +189,48 @@ class HG.AreaController
   # find next ready area change and execute it (one at a time)
   _doChanges: () ->
     # execute change if it is ready
-    if not @_changeQueue.isEmpty()
-      if @_changeQueue.peek()[0]
-        change = @_changeQueue.dequeue()
+    while not @_changeQueue.isEmpty()
+      # check if first element in queue is ready (timestamp is reached)
+      break if @_changeQueue.peek()[0] > new Date()
 
-        # remove all old areas
-        for area in change[1]
-          console.log "rem area", area.getId() if area?
+      change = @_changeQueue.dequeue()
+
+      # remove all old areas
+      for id in change[1]
+        area = @_getAreaById id
+        if area?
+          # console.log "rem area", area.getId()
           area.setInactive()
           @notifyAll "onRemoveArea", area
 
-        # add all new areas
-        for area in change[2]
-          console.log "add area", area.getId() if area?
+      # add all new areas
+      for id in change[2]
+        area = @_getAreaById id
+        if area?
+          # console.log "add area", area.getId()
           area.setActive()
           @notifyAll "onAddArea", area
 
-        # remove all old labels
-        for label in change[3]
-          console.log "rem label", label.getName() if label?
+      # remove all old labels
+      for id in change[3]
+        label = @_getLabelById id
+        if label?
+          # console.log "rem label", label.getName()
           label.setInactive()
           @notifyAll "onRemoveLabel", label
 
-        # add all new labels
-        for label in change[4]
-          console.log "add label", label.getName() if label?
+      # add all new labels
+      for id in change[4]
+        label = @_getLabelById id
+        if label?
+          # console.log "add label", label.getName()
           label.setActive()
           @notifyAll "onAddLabel", label
 
-        # fade-out transition region
-        for transRegion in change[5]
-          @notifyAll "onFadeOutArea", transRegion
+      # fade-out transition region
+      for id in change[5]
+        transRegion = @_getAreaById id
+        @notifyAll "onFadeOutArea", transRegion
 
 
 
@@ -284,9 +284,6 @@ class HG.AreaController
               numAreasToLoad--
               if numAreasToLoad is 0
                 @_areasLoaded = yes
-                # if labels and areas fully loaded, initially put them on the map
-                if @_labelsLoaded
-                  @_redrawAreas @_timeline.getNowDate()
 
             , 0 # execute immediately
 
@@ -338,9 +335,6 @@ class HG.AreaController
               numLabelsToLoad--
               if numLabelsToLoad is 0
                 @_labelsLoaded = yes
-                # if labels and areas fully loaded, initially put them on the map
-                if @_areasLoaded
-                  @_redrawAreas @_timeline.getNowDate()
 
             , 0 # execute immediately
 
@@ -378,13 +372,15 @@ class HG.AreaController
   # ============================================================================
   # find area/label
   _getAreaById: (id) ->
-    for area in @_areas
-      if area.getId() is id
-        return area
+    if id?
+      for area in @_areas
+        if area.getId() is id
+          return area
     undefined
 
   _getLabelById: (id) ->
-    for label in @_labels
-      if label.getId() is id
-        return label
+    if id?
+      for label in @_labels
+        if label.getId() is id
+          return label
     undefined

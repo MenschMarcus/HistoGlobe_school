@@ -11,6 +11,7 @@
     "startLatLong": [50.9869531, 11.3205004],
     "tiles": "config/school/tiles/",
     "tilesHighContrast": "config/school/tiles_ehc/",
+    "areaAniTime" : 800,
     "sidebarEnabled": false
   },
 
@@ -189,8 +190,7 @@
 
   "AreasOnMap" :
   {
-    "labelVisibilityFactor" : 8,
-    "animationTime" : 200
+    "labelVisibilityFactor" : 8
   }
 
 }
