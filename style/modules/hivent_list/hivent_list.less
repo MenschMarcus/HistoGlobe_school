@@ -1,6 +1,32 @@
 @hg_grey: #575756;  //HistoGlobe dunkelgrau
 @hg_green: #d5c900; //HistoGlobe gelbgrün
 
+.switch-off{
+  background-image: url("../config/school/icons/switch/switch-off.svg");
+  width: 30px;
+  height: 17px;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.switch-on{
+  background-image: url("../config/school/icons/switch/switch-on.svg");
+  width: 30px;
+  height: 17px;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.display_on {
+  display: block;
+}
+
+.display_off {
+  display: none;
+}
+
 .hivent-list-module {
   z-index: 10;
   position: absolute;
@@ -41,7 +67,6 @@
     color:#fff;
     position: relative;
     width: 300px;
-    height: 114px;
     font-size: 15px;
     cursor: pointer;
 
@@ -56,17 +81,16 @@
       border-radius: 50%;
     }
 
-
-
     .alliances-content {
       padding: 10px;
+      position: relative;
     }
 
-    #legend_table {
+    .legend_table {
       margin-left: 22px;
     }
 
-    #legend_table td {
+    .legend_table td {
       padding-right: 5px;
     }
 
@@ -231,7 +255,7 @@
     background: rgba(255,255,255,1.0);
 
     .hivent-list-headline {
-      background: #206eae;
+      background: #19242f;
     }
     .hivent-list ul a li {
       .wrap {
