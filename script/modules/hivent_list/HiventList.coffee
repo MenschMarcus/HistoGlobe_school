@@ -42,21 +42,28 @@ class HG.HiventList
 
     $(@_alliances_option).click () =>
       knopp = $(".toggle_on_off")
+      display_knopp = $(".legend_table")
       # hivent list alliaces click
       if @theme == ''
         @theme = 'bipolarAlliances'
-        knopp.removeClass "fa-toggle-off"
-        knopp.addClass "fa-toggle-on"
+        knopp.removeClass "switch-off"
+        knopp.addClass "switch-on"
+        display_knopp.removeClass "display_off"
+        display_knopp.addClass "display_on"
       else
         @theme = ''
-        knopp.removeClass "fa-toggle-on"
-        knopp.addClass "fa-toggle-off"
+        knopp.removeClass "switch-on"
+        knopp.addClass "switch-off"
+        display_knopp.removeClass "display_on"
+        display_knopp.addClass "display_off"
+
+
+
         
       #console.log @theme
       @notifyAll "onUpdateTheme", @theme
 
     @_hgInstance.onAllModulesLoaded @, () =>
-
       @_hgInstance.search_box_area?.onSearchBoxChanged @, (search_props) =>
         if @props.active
           if search_props.active
@@ -72,9 +79,15 @@ class HG.HiventList
         $(@_alliances_option).css({'max-height':(@props.heigth_options) + "px"})
         $(@_alliances_option).css({'border-bottom': (@props.border) + "px"})
 
-      @_hgInstance.timeline.OnTopicsLoaded @, () =>
+      if @_hgInstance.timeline._config.topics.length > 0
         @_allTopics = @_hgInstance.timeline._config.topics
+        console.log @_allTopics
         @_addHiventList()
+      else
+        @_hgInstance.timeline.OnTopicsLoaded @, () =>
+          @_allTopics = @_hgInstance.timeline._config.topics
+          console.log @_allTopics
+          @_addHiventList()
 
       @_hgInstance.hiventInfoAtTag?.onHashChanged @, (key, value) =>
           if key is "categories"
@@ -119,9 +132,9 @@ class HG.HiventList
         aktualleCath = topic.name
 
     headline = '<div>' + 'Aktuelles Thema: ' + aktualleCath + '</div>'
-
-    alliances = '<div class="alliances-content"><i class="shield_bipolar fa fa-shield"></i> Millitärbündnisse anzeigen <i class="toggle_on_off fa fa-toggle-off fa-4"></i>' + 
-      '<br><table id="legend_table">
+    #<i class="toggle_on_off fa fa-toggle-off fa-4"></i>
+    alliances = '<div class="alliances-content"><i class="shield_bipolar fa fa-shield"></i> Millitärbündnisse anzeigen <span class="toggle_on_off switch-off"></span>' + 
+      '<br><table class="legend_table display_off">
         <tr><td><div id="nato"></div></td><td> Mitglieder der Nato</td></tr>
         <tr><td><div id="natooM"></div></td><td> Mitglieder der Nato ohne Millitär</td></tr>
         <tr><td><div id="warschP"></div></td><td> Mitglieder des Warschauer Pakts</td></tr>
