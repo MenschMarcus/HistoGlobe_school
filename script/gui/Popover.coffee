@@ -32,16 +32,17 @@ class HG.Popover
     @_multimediaController = @_config.hgInstance.multimediaController
     @_multimedia = @_hiventHandle.getHivent().multimedia
 
+    @_mode = @_hgInstance.abTest.config.hiventMarkerMode
+
     # ============================================================================
+    @_screenWidth = @_config.hgInstance.getMapAreaSize().x
+    @_screenHeight = @_config.hgInstance.getMapAreaSize().y
 
     @_width = BODY_DEFAULT_WIDTH
     @_height = BODY_DEFAULT_HEIGHT
 
     @_widthFSBox = 0.68 * @_config.hgInstance.getMapAreaSize().x
     @_heightFSBox = 0.81 * @_config.hgInstance.getMapAreaSize().y
-
-    @_popoverYOffset = 30
-    # @_link = @_config.hiventHandle.getHivent().url
 
     @_mainDiv = document.createElement "div"
     @_mainDiv.className = "guiPopover"
@@ -55,16 +56,7 @@ class HG.Popover
     else
       @_mainDiv.style.left = "#{WINDOW_TO_ANCHOR_OFFSET_X}px"
 
-    # Fullscreen Box ==================================================
-    # =================================================================
-    @_mainDivBig = document.createElement "div"
-    @_mainDivBig.className = "guiBigPopover"
-    @_mainDivBig.style.position = "absolute"
-    @_mainDivBig.style.width = "#{@_widthFSBox}px"
-    @_mainDivBig.style.height = "#{@_heightFSBox}px"
-    @_mainDivBig.style.top = "#{FULLSCREEN_BOX_TOP_OFFSET}px"
-    @_mainDivBig.style.left = "#{FULLSCREEN_BOX_LEFT_OFFSET}px"
-
+    # Big HiventBox ===================================================
     @_bodyDivBig = document.createElement "div"
     @_bodyDivBig.className = "guiPopoverBodyBig"
     @_bodyDivBig.style.width = "#{0.5 * @_widthFSBox}px"
@@ -75,18 +67,8 @@ class HG.Popover
     contentBig.style.width = "#{0.33 * @_widthFSBox}px"
     contentBig.style.height = "#{@_heightFSBox}px"
 
-    #closeDivBig = document.createElement "span"
-    #closeDivBig.className = "close-button-big"
-    #closeDivBig.innerHTML = "×"
-
-    compressBox = document.createElement "span"
-    compressBox.className = "compress2Normal"
-    compressBox.innerHTML = '<i class="fa fa-compress"></i>'
-    # $(compressBox).tooltip {title: "Zurück zur normalen Ansicht", placement: "left", container:"#histoglobe"}
-
     # =================================================================
-
-    # generate content
+    # generate content for big HiventBox
     bodyBig = document.createElement "div"
     bodyBig.className = "hivent-body-big"
 
@@ -117,40 +99,24 @@ class HG.Popover
       @_hgInstance.timeline.moveToDate @_config.hiventHandle.getHivent().startDate, 0.5
     dateBig.appendChild gotoDateBig
 
-    # linkToWiki = document.createElement "a"
-    # linkToWiki.className = "wikipedia-link"
-    # linkToWiki.innerHTML = 'href="' + @_link + '"target="_blank">Link zum Artikel'
-    # console.log @_link
-
     # =================================================================
-    # =================================================================
-
-
-    # Arrows ==========================================================
-
-    # @_topArrow = document.createElement "div"
-    # @_topArrow.className = "arrow arrow-up"
-
-    # @_bottomArrow = document.createElement "div"
-    # @_bottomArrow.className = "arrow arrow-down"
-
-    # @_rightArrow = document.createElement "div"
-    # @_rightArrow.className = "arrow arrow-right"
-
-    # @_leftArrow = document.createElement "div"
-    # @_leftArrow.className = "arrow arrow-left"
-
     @_bodyDiv = document.createElement "div"
     @_bodyDiv.className = "guiPopoverBodyV1"  
 
     closeDiv = document.createElement "span"
     closeDiv.className = "close-button"
     closeDiv.innerHTML = "×"
+    closeDiv.style.color = "#D5C900"
 
     expandBox = document.createElement "span"
     expandBox.className = "expand2FS"
     expandBox.innerHTML = '<i class="fa fa-expand"></i>'
     # $(expandBox).tooltip {title: "Box vergrößern", placement: "left", container:"#histoglobe"}
+
+    compressBox = document.createElement "span"
+    compressBox.className = "compress2Normal"
+    compressBox.innerHTML = '<i class="fa fa-compress"></i>'
+    # $(compressBox).tooltip {title: "Zurück zur normalen Ansicht", placement: "left", container:"#histoglobe"}
 
     # ============================================================================
 
@@ -176,20 +142,9 @@ class HG.Popover
         @_height = Math.min @_height, BODY_MAX_HEIGHT
 
     @_mainDiv.appendChild closeDiv
-    @_mainDiv.appendChild expandBox
     @_mainDiv.appendChild @_bodyDiv
-    # @_mainDiv.appendChild @_topArrow
-    # @_mainDiv.appendChild @_rightArrow
-    # @_mainDiv.appendChild @_leftArrow
-    # @_mainDiv.appendChild @_bottomArrow
-
-    #@_mainDivBig.appendChild closeDivBig
-    @_mainDivBig.appendChild compressBox
-    @_mainDivBig.appendChild @_bodyDivBig
+    #@_mainDiv.appendChild expandBox
     @_bodyDivBig.appendChild contentBig
-
-
-    #console.log @_multimedia
 
     @_parentDiv = $(@_config.container)[0]
     @_parentDiv.appendChild @_mainDiv
@@ -230,7 +185,7 @@ class HG.Popover
       @_multimediaController.onMultimediaLoaded () =>
 
           for id in mmids
-            id=id.trim() # removes whitespaces
+            id = id.trim() # removes whitespaces
             mm = @_multimediaController.getMultimediaById id
 
             if mm?
@@ -245,32 +200,53 @@ class HG.Popover
                 @_mainDiv.style.backgroundPosition = "50% 50%"
                 @_bodyDiv.className = "guiPopoverBodyV2"
                 @_bodyDiv.style.color = "#fff"
-                closeDiv.style.color = "#fff"
+                closeDiv.style.color = "#D5C900"
 
-                @_mainDivBig.style.backgroundImage = "url( #{link} )"
-                @_mainDivBig.style.backgroundSize = "cover"
-                @_mainDivBig.style.backgroundRepeat = "no-repeat"
-                @_mainDivBig.style.backgroundPosition = "50% 50%"
+                @_mainDiv.appendChild expandBox
                 @_bodyDivBig.style.color = "#fff"
 
   # ============================================================================
 
     expandBox.addEventListener 'mouseup', () =>
-      @_parentDiv.removeChild @_mainDiv
-      @_parentDiv.appendChild @_mainDivBig
-
+      @expand()
+      @_mainDiv.removeChild expandBox
+      @_mainDiv.appendChild compressBox
+      
     compressBox.addEventListener 'mouseup', () =>
-      @_parentDiv.removeChild @_mainDivBig
-      @_parentDiv.appendChild @_mainDiv
+      @compress()
+      @_mainDiv.removeChild compressBox
+      @_mainDiv.appendChild expandBox
 
     closeDiv.addEventListener 'mouseup', () =>
+      #if @_mainDiv.childNodes[1].className = "guiPopoverBodyBig"
       @notifyAll "onClose"
       @hide()
+      @_mainDiv.removeChild @_bodyDivBig
+      @_mainDiv.appendChild @_bodyDiv
+      @_mainDiv.removeChild compressBox
+      @_mainDiv.appendChild expandBox
     , false
 
-    #closeDivBig.addEventListener 'mouseup', () =>
-      #@_mainDivBig.style.visibility = "hidden"
-      #@_mainDivBig.style.opacity = 0.0
+  # ============================================================================
+  expand: () ->
+    @_mainDiv.style.width = "#{@_widthFSBox}px"
+    @_mainDiv.style.height = "#{@_heightFSBox}px"
+    @_mainDiv.style.top = "#{FULLSCREEN_BOX_TOP_OFFSET}px"
+    @_mainDiv.style.left = "#{FULLSCREEN_BOX_LEFT_OFFSET}px"
+
+    @_mainDiv.removeChild @_bodyDiv
+    @_mainDiv.appendChild @_bodyDivBig
+    
+  # ============================================================================
+  compress: () ->
+    @_mainDiv.style.width = "#{@_width}px"
+    @_mainDiv.style.height = "#{@_height}px"
+    $(@_mainDiv).offset
+      left: @_screenWidth / 2 - 0.74 * @_width
+      top: @_screenHeight / 2 - 0.73 * @_height
+
+    @_mainDiv.removeChild @_bodyDivBig
+    @_mainDiv.appendChild @_bodyDiv       
 
   # ============================================================================
   toggle: (position) =>
@@ -292,6 +268,8 @@ class HG.Popover
   hide: =>
     hideInfo = =>
       @_mainDiv.style.visibility = "hidden"
+      @_mainDiv.style.width = "#{@_width}px"
+      @_mainDiv.style.height = "#{@_height}px"
 
     window.setTimeout hideInfo, 200
     @_mainDiv.style.opacity = 0.0
@@ -338,102 +316,33 @@ class HG.Popover
       if @_config.placement is "top"
         @_placement = {x:0, y:-1}
 
-      # if @_config.placement is "left"
-      #   @_placement = {x:-1, y:0}
-      # else if @_config.placement is "right"
-      #   @_placement = {x:1, y:0}
-      # else if @_config.placement is "top"
-      #   @_placement = {x:0, y:-1}
-      # else if @_config.placement is "bottom"
-      #   @_placement = {x:0, y:1}
-      # else if @_config.placement is "auto"
-      #   @_placement = {x:1, y:0}
-
-      #   margin =
-      #     top : @_position.y
-      #     left : @_position.x + canvasOffset.left
-      #     bottom : @_parentDiv.offsetHeight - @_position.y
-      #     right : @_parentDiv.offsetWidth - @_position.x
-
-      #   neededWidth = @_width +
-      #                 HGConfig.hivent_marker_2D_width.val / 2 +
-      #                 HGConfig.hivent_info_popover_arrow_height.val
-
-      #   neededHeight = @_mainDiv.offsetHeight +
-      #                 HGConfig.hivent_marker_2D_height.val / 2 +
-      #                 HGConfig.hivent_info_popover_arrow_height.val
-
-      #   # if enough space on top
-      #   if margin.top >= neededHeight
-
-      #     # if enough space left and right
-      #     if margin.left >= neededWidth*0.5 and margin.right >= neededWidth*0.5
-      #       @_placement = {x:0, y:-1}
-
-      #     # if enough space right
-      #     else if margin.left <= neededWidth
-      #       @_placement = {x:1, y:0}
-
-      #     # if enough space left
-      #     else if margin.right <= neededWidth
-      #       @_placement = {x:-1, y:0}
-
-      #   # if not enough space on top or bottom
-      #   else if margin.bottom < neededHeight
-      #     # if enough space right
-      #     if margin.left <= neededWidth
-      #       @_placement = {x:1, y:0}
-
-      #     # if enough space left
-      #     else if margin.right <= neededWidth
-      #       @_placement = {x:-1, y:0}
-
-      #   # if enough space on bottom
-      #   else
-      #     # if enough space left and right
-      #     if margin.left >= neededWidth*0.5 and margin.right >= neededWidth*0.5
-      #       @_placement = {x:0, y:1}
-
-      #     # if enough space right
-      #     else if margin.left <= neededWidth
-      #       @_placement = {x:1, y:0}
-
-      #     # if enough space left
-      #     else if margin.right <= neededWidth
-      #       @_placement = {x:-1, y:0}
-
       else
         @_placement = {x:0, y:-1}
         console.warn "Invalid popover placement: ", @_config.placement
 
-
-    # if @_config.showArrow
-    #   $(@_topArrow).css "display", if @_placement.y is 1 then "block" else "none"
-    #   $(@_bottomArrow).css "display", if @_placement.y is -1 then "block" else "none"
-    #   $(@_leftArrow).css "display", if @_placement.x is 1 then "block" else "none"
-    #   $(@_rightArrow).css "display", if @_placement.x is -1 then "block" else "none"
-
-    #   verticalArrowMargin = @_mainDiv.offsetHeight / 2 - HGConfig.hivent_info_popover_arrow_height.val / 2
-    #   $(@_leftArrow).css "margin-top", "#{verticalArrowMargin}px"
-    #   $(@_rightArrow).css "margin-top", "#{verticalArrowMargin}px"
-
     unless @_config.fullscreen
-      $(@_mainDiv).offset
-        left: @_position.x + canvasOffset.left +
-              @_placement.x * (HGConfig.hivent_marker_2D_width.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
-              @_placement.x * ((@_width - @_width * @_placement.x) / 2) -
-              Math.abs(@_placement.y) *  @_width / 2
+      if @_mode is "A"
+      # default behavior
+        $(@_mainDiv).offset
+          left: @_position.x + canvasOffset.left +
+                @_placement.x * (HGConfig.hivent_marker_2D_width.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
+                @_placement.x * ((@_width - @_width * @_placement.x) / 2) -
+                Math.abs(@_placement.y) *  @_width / 2
 
-    unless @_config.fullscreen
-      $(@_mainDiv).offset
-        top:  @_position.y + canvasOffset.top +
-              @_placement.y * (HGConfig.hivent_marker_2D_height.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
-              @_placement.y * ((@_mainDiv.offsetHeight - @_mainDiv.offsetHeight * @_placement.y) / 2) -
-              Math.abs(@_placement.x) * @_mainDiv.offsetHeight / 2 - @_popoverYOffset # Offset over marker
+          top:  @_position.y + canvasOffset.top +
+                @_placement.y * (HGConfig.hivent_marker_2D_height.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
+                @_placement.y * ((@_mainDiv.offsetHeight - @_mainDiv.offsetHeight * @_placement.y) / 2) -
+                Math.abs(@_placement.x) * @_mainDiv.offsetHeight / 2 
+
+      if @_mode is "B"
+      # marker: center horizontally and ~ 2/3 vertically; hivent box above marker
+        $(@_mainDiv).offset
+          left: @_screenWidth / 2 - 0.74 * @_width
+          top: @_screenHeight / 2 - 0.73 * @_height   
+
     else
       $(@_mainDiv).offset
-        top:  25 + canvasOffset.top
-
+        top:  5 + canvasOffset.top
 
   # ============================================================================
   _updateCenterPos: ->
@@ -457,4 +366,3 @@ class HG.Popover
   BODY_MAX_WIDTH = 400
   BODY_DEFAULT_HEIGHT = 350
   BODY_MAX_HEIGHT = 400
-
