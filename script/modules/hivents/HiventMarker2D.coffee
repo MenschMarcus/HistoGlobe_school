@@ -161,12 +161,12 @@ class HG.HiventMarker2D extends HG.HiventMarker
     #if window.hgConfig.ABTest.regionLabels=="B"    
     #disabled for better performance
     #marcus you told me to write this function
-    if false
-      if @_marker._icon?
-        if @_map.getZoom()>3
-          @_marker._icon.innerHTML="<div class=\"markerLabel\">#{@_markerLabelLocation}</div>"
-        else
-          @_marker._icon.innerHTML="<div class=\"markerLabel\">#{@_markerLabelEventName}</div>"      
+    
+    if @_marker._icon?
+      if @_map.getZoom()>4
+        @_marker._icon.innerHTML="<div class=\"markerLabel\">#{@_markerLabelLocation}</div>"
+      else
+        @_marker._icon.innerHTML=""      
     0
    # ============================================================================
   _destroy: =>
