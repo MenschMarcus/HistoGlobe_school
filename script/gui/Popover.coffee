@@ -67,8 +67,7 @@ class HG.Popover
     contentBig.style.width = "#{0.33 * @_widthFSBox}px"
     contentBig.style.height = "#{@_heightFSBox}px"
 
-    # =================================================================
-    # generate content for big HiventBox
+    # generate content for big HiventBox ==============================
     bodyBig = document.createElement "div"
     bodyBig.className = "hivent-body-big"
 
@@ -172,7 +171,8 @@ class HG.Popover
     $(@_mainDiv).draggable()
     $(@_mainDiv).fadeIn(1000)
 
-    @_mainDiv.style.height = "180px"
+    @_mainDiv.style.height = "250px"  # #{@_height}"
+
     @_mainDiv.style.background = "#fff"
     @_bodyDiv.style.color = "#000"
     closeDiv.style.color = "#000"
@@ -197,7 +197,9 @@ class HG.Popover
                 @_mainDiv.style.backgroundImage = "url( #{link} )"
                 @_mainDiv.style.backgroundSize = "cover"
                 @_mainDiv.style.backgroundRepeat = "no-repeat"
-                @_mainDiv.style.backgroundPosition = "50% 50%"
+                @_mainDiv.style.backgroundPosition = "center center"
+                #@_mainDiv.style.backgroundPosition = "top left"
+                #@_mainDiv.style.backgroundAttachment = "fixed"
                 @_bodyDiv.className = "guiPopoverBodyV2"
                 @_bodyDiv.style.color = "#fff"
                 closeDiv.style.color = "#D5C900"
@@ -221,8 +223,7 @@ class HG.Popover
       #if @_mainDiv.childNodes[1].className = "guiPopoverBodyBig"
       @notifyAll "onClose"
       @hide()
-      @_mainDiv.removeChild @_bodyDivBig
-      @_mainDiv.appendChild @_bodyDiv
+      @compress()
       @_mainDiv.removeChild compressBox
       @_mainDiv.appendChild expandBox
     , false
@@ -266,12 +267,11 @@ class HG.Popover
 
   # ============================================================================
   hide: =>
-    hideInfo = =>
-      @_mainDiv.style.visibility = "hidden"
-      @_mainDiv.style.width = "#{@_width}px"
-      @_mainDiv.style.height = "#{@_height}px"
+    # hideInfo = =>
+      # @_mainDiv.style.visibility = "hidden"
 
-    window.setTimeout hideInfo, 200
+    # window.setTimeout hideInfo, 200
+    @_mainDiv.style.visibility = "hidden"
     @_mainDiv.style.opacity = 0.0
     @_placement = undefined
 
@@ -335,7 +335,7 @@ class HG.Popover
                 Math.abs(@_placement.x) * @_mainDiv.offsetHeight / 2 
 
       if @_mode is "B"
-      # marker: center horizontally and ~ 2/3 vertically; hivent box above marker
+      # marker: center ~ 2/3 horizontally and ~ 2/3 vertically; hivent box above marker
         $(@_mainDiv).offset
           left: @_screenWidth / 2 - 0.74 * @_width
           top: @_screenHeight / 2 - 0.73 * @_height   
@@ -348,16 +348,16 @@ class HG.Popover
   _updateCenterPos: ->
     parentOffset = $(@_parentDiv).offset()
     @_centerPos =
-      x:@_mainDiv.offsetLeft + @_mainDiv.offsetWidth/2 - parentOffset.left + ARROW_ROOT_OFFSET_X
-      y:@_mainDiv.offsetTop  + @_mainDiv.offsetHeight/2 - parentOffset.top + ARROW_ROOT_OFFSET_Y
+      x:@_mainDiv.offsetLeft + @_mainDiv.offsetWidth/2 - parentOffset.left # + ARROW_ROOT_OFFSET_X
+      y:@_mainDiv.offsetTop  + @_mainDiv.offsetHeight/2 - parentOffset.top # + ARROW_ROOT_OFFSET_Y
 
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #
   ##############################################################################
 
-  ARROW_ROOT_OFFSET_X = 0
-  ARROW_ROOT_OFFSET_Y = 0
+  # ARROW_ROOT_OFFSET_X = 0
+  # ARROW_ROOT_OFFSET_Y = 0
   WINDOW_TO_ANCHOR_OFFSET_X = 0
   WINDOW_TO_ANCHOR_OFFSET_Y = 0
   FULLSCREEN_BOX_TOP_OFFSET = 10
