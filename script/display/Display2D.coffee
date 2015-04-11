@@ -42,18 +42,24 @@ class HG.Display2D extends HG.Display
     @_mapParent
 
   # ============================================================================
-  setCenter: (longLat) ->
-    #Calculate the offset
-    offsetX = @_map.getSize().x*0.10
-    offsetY = @_map.getSize().y*0.25
+  setCenter: (longLat, offset) ->
+    # center marker ~ 2/3 vertically and horizontally
+    if offset? # if offset passed to function
+      # Calculate the offset
+      bounds = @_map.getBounds()
+      bounds_lat = bounds._northEast.lat - bounds._southWest.lat
+      bounds_lng = bounds._northEast.lng - bounds._southWest.lng
 
-    @_map.panTo
-      lon: longLat.x
-      lat: longLat.y
+      target = 
+        lon: parseFloat(longLat.x) + offset.x * bounds_lng
+        lat: parseFloat(longLat.y) + offset.y * bounds_lat
 
-    #Then move the map
-    @_map.panBy(new L.Point(offsetX, -offsetY),
-      animate: false)
+      @_map.panTo target
+
+    else # no offset? -> center marker 
+      @_map.panTo
+        lon: longLat.x
+        lat: longLat.y
 
   # ============================================================================
   zoomToBounds: (minLong, minLat, maxLong, maxLat) ->

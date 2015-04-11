@@ -32,6 +32,7 @@ class HG.Timeline
     @_activeTopic = null
     @_dragged = false
     @topicsloaded = false
+    @_timelineClicked = false
 
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
@@ -121,6 +122,7 @@ class HG.Timeline
       onTouchStart: =>
         @_dragged = false
         @_animationTargetDate = null
+        @_timelineClicked = true
         @_animationSwitch() if @_play
       onTouchMove: =>
         fireCallbacks = ++@_moveDelay % 10 == 0
@@ -130,6 +132,7 @@ class HG.Timeline
         @_updateTopics()
       onTouchEnd: =>
         $(".topic_inner").css({transition: 0.5 + "s"})
+        @_timelineClicked = false
     @_uiElements.tl_wrapper.addEventListener "webkitTransitionEnd", (e) =>
       @_updateNowDate()
       @_updateDateMarkers(false)
@@ -431,6 +434,7 @@ class HG.Timeline
         @_updateLayout()
       @_updateDateMarkers()
       @_updateTopics()
+      @_updateNowDate()
       @notifyAll "onZoom"
     zoomed
 
@@ -532,11 +536,12 @@ class HG.Timeline
 
         #   onclick switch topic
         $(topic.div).on "mouseup", value: topic, (event) =>
-          if @_activeTopic? and event.data.value.id is @_activeTopic.id and !@_dragged
-              window.location.hash = '#categories=noCategory'
-              @_activeTopic = null
-          else if !@_dragged
-            window.location.hash = '#categories=' + event.data.value.id
+          if @_timelineClicked            
+            if @_activeTopic? and event.data.value.id is @_activeTopic.id and !@_dragged
+                window.location.hash = '#categories=noCategory'
+                @_activeTopic = null
+            else if !@_dragged
+              window.location.hash = '#categories=' + event.data.value.id            
         $(topic.div).fadeIn(200)
 
         #   set text in topic bar so that text
@@ -739,16 +744,16 @@ class HG.Timeline
         # use setInterval to zoom in repeatly
         # if zoom should stop call clearInterval(obj)
         repeatObj = setInterval =>
-          if @_activeTopic.endDate > (new Date(@maxVisibleDate().getTime() - (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1)) or
-          @_activeTopic.startDate < (new Date(@minVisibleDate().getTime() + (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1))
+          if @_activeTopic? and (@_activeTopic.endDate > (new Date(@maxVisibleDate().getTime() - (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1)) or
+          @_activeTopic.startDate < (new Date(@minVisibleDate().getTime() + (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1)))
             @_zoom -1
           else
             clearInterval(repeatObj)
         , 50
       else
         repeatObj = setInterval =>
-          if @_activeTopic.endDate < (new Date(@maxVisibleDate().getTime() - (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1)) and
-          @_activeTopic.startDate > (new Date(@minVisibleDate().getTime() + (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1))
+          if @_activeTopic? and (@_activeTopic.endDate < (new Date(@maxVisibleDate().getTime() - (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1)) and
+          @_activeTopic.startDate > (new Date(@minVisibleDate().getTime() + (@maxVisibleDate().getTime() - @minVisibleDate().getTime()) * 0.1)))
             @_zoom 1
           else
             clearInterval(repeatObj)

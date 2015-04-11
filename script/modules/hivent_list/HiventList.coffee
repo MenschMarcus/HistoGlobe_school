@@ -25,7 +25,6 @@ class HG.HiventList
   #   --------------------------------------------------------------------------
   hgInit: (hgInstance) ->
     @_hgInstance = hgInstance
-    #console.log "Timeline Topics", @_hgInstance.timeline.getTopics()
     @_hivent_array = []
     @_hivent_list = document.createElement "div"
     @_hivent_list.className = "hivent-list"
@@ -83,7 +82,6 @@ class HG.HiventList
         display_knopp.addClass "display_off"
         $(@_hivent_list).css({'max-height': ((window.innerHeight - 190 - 53 - 43)) + "px"})
 
-      #console.log @theme
       @notifyAll "onUpdateTheme", @theme
 
     @_hgInstance.onAllModulesLoaded @, () =>
