@@ -42,8 +42,8 @@ $vip_widget_image_height  = 150px
 
 // ------------------ HIVENT OPTIONS -------------------------------------------
 
-$hivent_marker_2D_width               = 34 px;
-$hivent_marker_2D_height              = 50 px;
+$hivent_marker_2D_width               = 27 px;
+$hivent_marker_2D_height              = 40 px;
 
 $hivent_marker_timeline_width         = 14 px
 $hivent_marker_timeline_height        = 21 px

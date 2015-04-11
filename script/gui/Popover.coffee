@@ -31,7 +31,8 @@ class HG.Popover
     @_hiventHandle = @_config.hiventHandle
     @_multimediaController = @_config.hgInstance.multimediaController
     @_multimedia = @_hiventHandle.getHivent().multimedia
-
+    @_hiventHandle.onInActive @, (mousepos) ->      
+      @hide
     # ============================================================================
 
     @_width = BODY_DEFAULT_WIDTH
@@ -292,9 +293,10 @@ class HG.Popover
   hide: =>
     hideInfo = =>
       @_mainDiv.style.visibility = "hidden"
-
+      @_mainDivBig.style.visibility = "hidden"
     window.setTimeout hideInfo, 200
     @_mainDiv.style.opacity = 0.0
+    @_mainDivBig.style.opacity = 0.0
     @_placement = undefined
 
   # ============================================================================
