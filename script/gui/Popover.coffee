@@ -333,29 +333,31 @@ class HG.Popover
         @_placement = {x:0, y:-1}
         console.warn "Invalid popover placement: ", @_config.placement
 
-    unless @_config.fullscreen
-      if @_mode is "A"
+    if @_mode is "A"
       # default behavior
-        $(@_mainDiv).offset
-          left: @_position.x + canvasOffset.left +
-                @_placement.x * (HGConfig.hivent_marker_2D_width.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
-                @_placement.x * ((@_width - @_width * @_placement.x) / 2) -
-                Math.abs(@_placement.y) *  @_width / 2
-
-          top:  @_position.y + canvasOffset.top +
-                @_placement.y * (HGConfig.hivent_marker_2D_height.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
-                @_placement.y * ((@_mainDiv.offsetHeight - @_mainDiv.offsetHeight * @_placement.y) / 2) -
-                Math.abs(@_placement.x) * @_mainDiv.offsetHeight / 2 
-
-      if @_mode is "B"
-      # marker: center ~ 2/3 horizontally and ~ 2/3 vertically; hivent box above marker
-        $(@_mainDiv).offset
-          left: @_screenWidth / 2 - 0.74 * @_width
-          top: @_screenHeight / 2 - 0.73 * @_height   
-
-    else
       $(@_mainDiv).offset
-        top:  5 + canvasOffset.top
+        left: @_position.x + canvasOffset.left +
+              @_placement.x * (HGConfig.hivent_marker_2D_width.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
+              @_placement.x * ((@_width - @_width * @_placement.x) / 2) -
+              Math.abs(@_placement.y) *  @_width / 2
+
+        top:  @_position.y + canvasOffset.top +
+              @_placement.y * (HGConfig.hivent_marker_2D_height.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
+              @_placement.y * ((@_mainDiv.offsetHeight - @_mainDiv.offsetHeight * @_placement.y) / 2) -
+              Math.abs(@_placement.x) * @_mainDiv.offsetHeight / 2 
+
+    if @_mode is "B"
+    # marker: center ~ 2/3 horizontally and ~ 2/3 vertically; hivent box above marker
+      $(@_mainDiv).offset
+        left: @_screenWidth / 2 - 0.74 * @_width
+        top: @_screenHeight / 2 - 0.73 * @_height
+
+    # unless @_config.fullscreen
+    #   ...   
+
+    # else
+    #   $(@_mainDiv).offset
+    #     top:  5 + canvasOffset.top
 
   # ============================================================================
   _updateCenterPos: ->
