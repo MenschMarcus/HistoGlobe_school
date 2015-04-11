@@ -63,7 +63,7 @@ class HG.HiventList
 
     handels=window.hgInstance.hiventController.getHivents()
 
-
+    
     $(@_alliances_option).click () =>
       knopp = $(".toggle_on_off")
       display_knopp = $(".legend_table")
@@ -74,12 +74,14 @@ class HG.HiventList
         knopp.addClass "switch-on"
         display_knopp.removeClass "display_off"
         display_knopp.addClass "display_on"
+        $(@_hivent_list).css({'max-height': ((window.innerHeight - 190 - 53 - 43 - 71)) + "px"})
       else
         @theme = ''
         knopp.removeClass "switch-on"
         knopp.addClass "switch-off"
         display_knopp.removeClass "display_on"
         display_knopp.addClass "display_off"
+        $(@_hivent_list).css({'max-height': ((window.innerHeight - 190 - 53 - 43)) + "px"})
 
       #console.log @theme
       @notifyAll "onUpdateTheme", @theme
@@ -92,9 +94,10 @@ class HG.HiventList
             @props.heigth_options = 0
             @props.boder = 0
           else
-            @props.height_hivent_list = (window.innerHeight - 190 - 53 - 43 - 71)
+            @props.height_hivent_list = (window.innerHeight - 190 - 53 - 43)
             @props.heigth_options = 43 + 71
             @props.boder = 1
+
 
         $(@_hivent_list).css({'max-height': (@props.height_hivent_list) + "px"}) # max height of list with timelin height
         $(@_alliances_option).css({'max-height':(@props.heigth_options) + "px"})
@@ -102,12 +105,10 @@ class HG.HiventList
 
       if @_hgInstance.timeline._config.topics.length > 0
         @_allTopics = @_hgInstance.timeline._config.topics
-        console.log @_allTopics
         @_addHiventList()
       else
         @_hgInstance.timeline.OnTopicsLoaded @, () =>
           @_allTopics = @_hgInstance.timeline._config.topics
-          console.log @_allTopics
           @_addHiventList()
 
       @_hgInstance.hiventInfoAtTag?.onHashChanged @, (key, value) =>
@@ -152,13 +153,13 @@ class HG.HiventList
       if topic.id == @_hgInstance.categoryFilter.getCurrentFilter()[0]
         aktualleCath = topic.name
 
-    headline = '<div>' + 'Aktuelles Thema: ' + aktualleCath + '</div>'
+    headline = '<div>' + aktualleCath + '</div>'
     #<i class="toggle_on_off fa fa-toggle-off fa-4"></i>
     alliances = '<div class="alliances-content"><i class="shield_bipolar fa fa-shield"></i> Millitärbündnisse anzeigen <span class="toggle_on_off switch-off"></span>' +
       '<br><table class="legend_table display_off">
-        <tr><td><div id="nato"></div></td><td> Mitglieder der Nato</td></tr>
-        <tr><td><div id="natooM"></div></td><td> Mitglieder der Nato ohne Millitär</td></tr>
-        <tr><td><div id="warschP"></div></td><td> Mitglieder des Warschauer Pakts</td></tr>
+        <tr><td><div id="nato"></div></td><td> NATO</td></tr>
+        <tr><td><div id="natooM"></div></td><td> NATO (nicht im Millitärbündnis)</td></tr>
+        <tr><td><div id="warschP"></div></td><td> Warschauer Pakt</td></tr>
       </table>
       </div>'
 
@@ -195,9 +196,10 @@ class HG.HiventList
       @props.heigth_options = 0
       @props.border = 0
     else
-      @props.height_hivent_list = (window.innerHeight - 190 - 53 - 43 - 71)
+      @props.height_hivent_list = (window.innerHeight - 190 - 53 - 43)
       @props.heigth_options = 43 + 71
       @props.border = 1
+
 
     $(@_hivent_list).css({'max-height': (@props.height_hivent_list) + "px"}) # max height of list with timelin height
     $(@_alliances_option).css({'max-height':(@props.heigth_options) + "px"})
