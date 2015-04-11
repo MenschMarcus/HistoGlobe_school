@@ -25,7 +25,6 @@ class HG.HiventList
   #   --------------------------------------------------------------------------
   hgInit: (hgInstance) ->
     @_hgInstance = hgInstance
-    #console.log "Timeline Topics", @_hgInstance.timeline.getTopics()
     @_hivent_array = []
     @_hivent_list = document.createElement "div"
     @_hivent_list.className = "hivent-list"
@@ -81,7 +80,6 @@ class HG.HiventList
         display_knopp.removeClass "display_on"
         display_knopp.addClass "display_off"
 
-      #console.log @theme
       @notifyAll "onUpdateTheme", @theme
 
     @_hgInstance.onAllModulesLoaded @, () =>
@@ -102,12 +100,10 @@ class HG.HiventList
 
       if @_hgInstance.timeline._config.topics.length > 0
         @_allTopics = @_hgInstance.timeline._config.topics
-        console.log @_allTopics
         @_addHiventList()
       else
         @_hgInstance.timeline.OnTopicsLoaded @, () =>
           @_allTopics = @_hgInstance.timeline._config.topics
-          console.log @_allTopics
           @_addHiventList()
 
       @_hgInstance.hiventInfoAtTag?.onHashChanged @, (key, value) =>

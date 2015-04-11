@@ -41,8 +41,13 @@ class HG.Popover
     @_width = BODY_DEFAULT_WIDTH
     @_height = BODY_DEFAULT_HEIGHT
 
-    @_widthFSBox = 0.68 * @_config.hgInstance.getMapAreaSize().x
-    @_heightFSBox = 0.81 * @_config.hgInstance.getMapAreaSize().y
+    @_map_size = @_config.hgInstance.getMapAreaSize()
+
+    # @_widthFSBox = 0.68 * @_config.hgInstance.getMapAreaSize().x
+    @_widthFSBox = @_map_size.x - HIVENTLIST_OFFSET #- FULLSCREEN_BOX_LEFT_OFFSET 
+    @_heightFSBox = 0.82 * @_map_size.y
+
+    - FULLSCREEN_BOX_LEFT_OFFSET - 
 
     @_mainDiv = document.createElement "div"
     @_mainDiv.className = "guiPopover"
@@ -107,14 +112,14 @@ class HG.Popover
     closeDiv.innerHTML = "×"
     closeDiv.style.color = "#D5C900"
 
-    expandBox = document.createElement "span"
-    expandBox.className = "expand2FS"
-    expandBox.innerHTML = '<i class="fa fa-expand"></i>'
+    @_expandBox = document.createElement "span"
+    @_expandBox.className = "expand2FS"
+    @_expandBox.innerHTML = '<i class="fa fa-expand"></i>'
     # $(expandBox).tooltip {title: "Box vergrößern", placement: "left", container:"#histoglobe"}
 
-    compressBox = document.createElement "span"
-    compressBox.className = "compress2Normal"
-    compressBox.innerHTML = '<i class="fa fa-compress"></i>'
+    @_compressBox = document.createElement "span"
+    @_compressBox.className = "compress2Normal"
+    @_compressBox.innerHTML = '<i class="fa fa-compress"></i>'
     # $(compressBox).tooltip {title: "Zurück zur normalen Ansicht", placement: "left", container:"#histoglobe"}
 
     # ============================================================================
@@ -198,34 +203,27 @@ class HG.Popover
                 @_mainDiv.style.backgroundSize = "cover"
                 @_mainDiv.style.backgroundRepeat = "no-repeat"
                 @_mainDiv.style.backgroundPosition = "center center"
-                #@_mainDiv.style.backgroundPosition = "top left"
-                #@_mainDiv.style.backgroundAttachment = "fixed"
                 @_bodyDiv.className = "guiPopoverBodyV2"
                 @_bodyDiv.style.color = "#fff"
                 closeDiv.style.color = "#D5C900"
 
-                @_mainDiv.appendChild expandBox
+                @_mainDiv.appendChild @_expandBox
                 @_bodyDivBig.style.color = "#fff"
 
   # ============================================================================
 
-    expandBox.addEventListener 'mouseup', () =>
+    @_expandBox.addEventListener 'mouseup', () =>
       @expand()
-      @_mainDiv.removeChild expandBox
-      @_mainDiv.appendChild compressBox
+      @_mainDiv.replaceChild @_compressBox, @_expandBox
       
-    compressBox.addEventListener 'mouseup', () =>
+    @_compressBox.addEventListener 'mouseup', () =>
       @compress()
-      @_mainDiv.removeChild compressBox
-      @_mainDiv.appendChild expandBox
+      @_mainDiv.replaceChild @_expandBox, @_compressBox
 
     closeDiv.addEventListener 'mouseup', () =>
-      #if @_mainDiv.childNodes[1].className = "guiPopoverBodyBig"
-      @notifyAll "onClose"
       @hide()
-      @compress()
-      @_mainDiv.removeChild compressBox
-      @_mainDiv.appendChild expandBox
+      @close()
+      @notifyAll "onClose"
     , false
 
   # ============================================================================
@@ -233,11 +231,10 @@ class HG.Popover
     @_mainDiv.style.width = "#{@_widthFSBox}px"
     @_mainDiv.style.height = "#{@_heightFSBox}px"
     @_mainDiv.style.top = "#{FULLSCREEN_BOX_TOP_OFFSET}px"
-    @_mainDiv.style.left = "#{FULLSCREEN_BOX_LEFT_OFFSET}px"
+    @_mainDiv.style.left = "#{FULLSCREEN_BOX_LEFT_OFFSET}px"   
 
-    @_mainDiv.removeChild @_bodyDiv
-    @_mainDiv.appendChild @_bodyDivBig
-    
+    @_mainDiv.replaceChild @_bodyDivBig, @_bodyDiv
+
   # ============================================================================
   compress: () ->
     @_mainDiv.style.width = "#{@_width}px"
@@ -246,8 +243,16 @@ class HG.Popover
       left: @_screenWidth / 2 - 0.74 * @_width
       top: @_screenHeight / 2 - 0.73 * @_height
 
-    @_mainDiv.removeChild @_bodyDivBig
-    @_mainDiv.appendChild @_bodyDiv       
+    @_mainDiv.replaceChild @_bodyDiv, @_bodyDivBig      
+
+  # ============================================================================
+  close: () ->
+    if document.contains(@_bodyDivBig)      
+      @_mainDiv.removeChild @_bodyDivBig
+      @_mainDiv.appendChild @_bodyDiv
+      @_mainDiv.style.width = "#{@_width}px"
+      @_mainDiv.style.height = "#{@_height}px"
+      @_mainDiv.replaceChild @_expandBox, @_compressBox
 
   # ============================================================================
   toggle: (position) =>
@@ -274,6 +279,14 @@ class HG.Popover
     @_mainDiv.style.visibility = "hidden"
     @_mainDiv.style.opacity = 0.0
     @_placement = undefined
+
+    if document.contains(@_bodyDivBig)      
+      @_mainDiv.removeChild @_bodyDivBig
+      @_mainDiv.appendChild @_bodyDiv
+      @_mainDiv.style.width = "#{@_width}px"
+      @_mainDiv.style.height = "#{@_height}px"
+      @_mainDiv.replaceChild @_expandBox, @_compressBox
+
 
   # ============================================================================
   updatePosition: (position) ->
@@ -348,20 +361,19 @@ class HG.Popover
   _updateCenterPos: ->
     parentOffset = $(@_parentDiv).offset()
     @_centerPos =
-      x:@_mainDiv.offsetLeft + @_mainDiv.offsetWidth/2 - parentOffset.left # + ARROW_ROOT_OFFSET_X
-      y:@_mainDiv.offsetTop  + @_mainDiv.offsetHeight/2 - parentOffset.top # + ARROW_ROOT_OFFSET_Y
+      x:@_mainDiv.offsetLeft + @_mainDiv.offsetWidth/2 - parentOffset.left
+      y:@_mainDiv.offsetTop  + @_mainDiv.offsetHeight/2 - parentOffset.top
 
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #
   ##############################################################################
 
-  # ARROW_ROOT_OFFSET_X = 0
-  # ARROW_ROOT_OFFSET_Y = 0
   WINDOW_TO_ANCHOR_OFFSET_X = 0
   WINDOW_TO_ANCHOR_OFFSET_Y = 0
   FULLSCREEN_BOX_TOP_OFFSET = 10
   FULLSCREEN_BOX_LEFT_OFFSET = 120
+  HIVENTLIST_OFFSET = 400
   BODY_DEFAULT_WIDTH = 450
   BODY_MAX_WIDTH = 400
   BODY_DEFAULT_HEIGHT = 350

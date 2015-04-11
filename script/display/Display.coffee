@@ -20,10 +20,8 @@ class HG.Display
           @zoomToBounds(mins[0], mins[1], maxs[0], maxs[1])
 
   # ============================================================================
-  focus: (hivent) ->
-    @setCenter
-      x: hivent.long
-      y: hivent.lat
+  focus: (hivent) -> # hivent coords and offset coords
+    @setCenter {x: hivent.long, y: hivent.lat}, {x: 0.105, y: 0.25}
 
   # ============================================================================
   zoomToBounds: (minLong, minLat, maxLong, maxLat) ->
