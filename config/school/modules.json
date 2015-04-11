@@ -54,6 +54,10 @@
   "FullscreenButton": {},
   "HighContrastButton": {},
 
+  "Imprint": {
+    "linkText": "Impressum"
+  },
+
   "CategoryFilter":
   {
     "initial" : "noCategory"
