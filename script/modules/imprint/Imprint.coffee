@@ -23,15 +23,19 @@ class HG.Imprint
       @showBox()
 
     # create imprint
+    @_imprintOverlay = document.createElement "div"
+    @_imprintOverlay.id = "imprint-overlay"
+
     @_imprintBox = document.createElement "div"
     @_imprintBox.id = "imprint-box"
-
     @_imprintBox.innerHTML = " HORST <br/> HORST <br/> HORST <br/> HORST <br/> HORST <br/>"
 
-    $(@_imprintBox).click () =>
+    @_imprintOverlay.appendChild @_imprintBox
+
+    $(@_imprintOverlay).click () =>
       @hideBox()
 
-    $(@_imprintBox).fadeOut 0
+    $(@_imprintOverlay).fadeOut 0
 
 
   # ============================================================================
@@ -40,12 +44,12 @@ class HG.Imprint
 
     parentDiv = hgInstance.getContainer()
     parentDiv.appendChild @_link
-    parentDiv.appendChild @_imprintBox
+    parentDiv.appendChild @_imprintOverlay
 
 
   # ============================================================================
   showBox:() ->
-    $(@_imprintBox).fadeIn()
+    $(@_imprintOverlay).fadeIn()
 
   # ============================================================================
   hideBox:() ->

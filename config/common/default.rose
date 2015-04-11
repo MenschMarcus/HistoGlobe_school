@@ -139,3 +139,6 @@ $timeline_datemarker_color                  = #ffffff
 // ------------------ NOW MARKER OPTIONS -----------------------------------------
 $now_marker_bgcolor       = rgba(19, 31, 41, 0.77)
 $now_marker_bgcolor_hc    = rgba(0, 0, 0, 1)
+
+// ------------------ IMPRINT OPTIONS -----------------------------------------
+$imprint_width            = 300 px
