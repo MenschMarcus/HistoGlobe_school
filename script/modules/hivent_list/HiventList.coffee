@@ -114,6 +114,12 @@ class HG.HiventList
       @_hgInstance.hiventInfoAtTag?.onHashChanged @, (key, value) =>
           if key is "categories"
             @_addHiventList()
+          #console.log key
+
+           # $(".hivent-list").animate({scrollTop: 0 }, slow)
+
+    $(window).resize  =>
+      @_addHiventList()
 
     @_hgInstance.onTopAreaSlide @, (t) =>
       if @_hgInstance.isInMobileMode()
@@ -145,6 +151,7 @@ class HG.HiventList
     #############################################################
 
     aktualleCath = ""
+    aktCatinRead = @_hgInstance.categoryFilter.getCurrentFilter()[0]
     if @_hgInstance.categoryFilter.getCurrentFilter()[0] != "bipolar"
       @theme = ""
       @notifyAll "onUpdateTheme", @theme
@@ -172,7 +179,7 @@ class HG.HiventList
       else
         yearString = hivent.startYear + ' bis ' + hivent.endYear
 
-      hivents += '<a  href="#event=' + hivent.id +
+      hivents += '<a  href="#categories=' + aktCatinRead + '&event=' + hivent.id +
                  '"><li class= "hiventListItem inactive" id='+hivent.id+'><div class="wrap" ><div class="res_name"> ' +
                   hivent.name + '</div><div class="res_location">' + hivent.locationName[0] +
                   '</div><div class="res_year">' + yearString + '</div></div><i class="fa fa-map-marker"></i></li></a>'
@@ -213,9 +220,11 @@ class HG.HiventList
     return @_hivent_list
 
   activateElement: (id) ->     
-    $("#"+id).switchClass("inactive", "active")
+    $("#"+id).switchClass("inactive", "active")    
+
   deactivateElement:(id) ->    
     $("#"+id).switchClass("active", "inactive")
+
 
 
     #=============================================================================
