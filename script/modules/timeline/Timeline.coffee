@@ -60,6 +60,7 @@ class HG.Timeline
   hgInit: (hgInstance) ->
 
     @_hgInstance = hgInstance
+    @_hgInstance.timeline = @
 
     @_config.minYear = @_hgInstance.getMinMaxYear()[0]
     @_config.maxYear = @_hgInstance.getMinMaxYear()[1]
@@ -182,9 +183,6 @@ class HG.Timeline
 
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
-    @_hgInstance.timeline = @
-
-    ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
     # Start the timeline here !!!
     @_uiElements.tl.style.display = "none"
@@ -323,27 +321,32 @@ class HG.Timeline
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
   moveToDate: (date, delay=0, successCallback=undefined) ->
-    if @yearToDate(@_config.minYear).getTime() > date.getTime()
-      @moveToDate @yearToDate(@_config.minYear), delay, successCallback
-    else if @yearToDate(@_config.maxYear).getTime() < date.getTime()
-      @moveToDate @yearToDate(@_config.maxYear), delay, successCallback
-    else
-      dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
-      @_uiElements.tl_wrapper.style.transition =  delay + "s"
-      @_uiElements.tl_wrapper.style.transform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-      @_uiElements.tl_wrapper.style.webkitTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-      @_uiElements.tl_wrapper.style.MozTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-      @_uiElements.tl_wrapper.style.MsTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-      @_uiElements.tl_wrapper.style.oTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
 
-      @_animationTargetDate = date
-      @_now.date = @_cropDateToMinMax date
+    oldDate = @_now.date
+    newDate = date
+    if (Math.abs oldDate.getTime()-newDate.getTime()) > 5000
 
-      # TEST HACK: only fire "onNowChanged" if nowDate really changed a lot
-      # @notifyAll "onNowChanged", @_now.date
-      # @notifyAll "onIntervalChanged", @_getTimeFilter()
+      if @yearToDate(@_config.minYear).getTime() > date.getTime()
+        @moveToDate @yearToDate(@_config.minYear), delay, successCallback
+      else if @yearToDate(@_config.maxYear).getTime() < date.getTime()
+        @moveToDate @yearToDate(@_config.maxYear), delay, successCallback
+      else
+        dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
+        @_uiElements.tl_wrapper.style.transition =  delay + "s"
+        @_uiElements.tl_wrapper.style.transform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+        @_uiElements.tl_wrapper.style.webkitTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+        @_uiElements.tl_wrapper.style.MozTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+        @_uiElements.tl_wrapper.style.MsTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+        @_uiElements.tl_wrapper.style.oTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
 
-      setTimeout(successCallback, delay * 1000) if successCallback?
+        @_animationTargetDate = date
+
+        # TEST HACK: only fire "onNowChanged" if nowDate really changed a lot
+        @_now.date = @_cropDateToMinMax date
+        @notifyAll "onNowChanged", @_now.date
+        @notifyAll "onIntervalChanged", @_getTimeFilter()
+
+        setTimeout(successCallback, delay * 1000) if successCallback?
 
   # animation control
   stopTimeline: ->

@@ -51,6 +51,9 @@ class HG.AreaController
     @_loadLabelsFromJSON conf
     @_loadChangesFromJSON conf
 
+    # HACK: distinguish between first change and all other changes to supress visualisation of transition regions
+    @_firstChange = yes
+
   # ============================================================================
   hgInit: (hgInstance) ->
 
@@ -113,11 +116,12 @@ class HG.AreaController
 
         # fade-in transition region
         hasTransition = no
-        for id in change.transition_regions
-          if id?
-            hasTransition = yes
-            transRegion = @_getAreaById id
-            @notifyAll "onFadeInArea", transRegion, yes
+        if not @_firstChange    # HACK: only for non-first changes
+          for id in change.transition_regions
+            if id?
+              hasTransition = yes
+              transRegion = @_getAreaById id
+              @notifyAll "onFadeInArea", transRegion, yes
 
         # enqueue next change
         timestamp = null  # [0]: timestamp at wich changes shall be executed
