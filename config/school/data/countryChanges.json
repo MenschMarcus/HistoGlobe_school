@@ -1,201 +1,188 @@
 {
-  "content": "label",
+  "content": "label", 
   "features": [
     {
-      "date": 2003,
-      "id": "2003-JUG-to-SRB",
-      "new_areas": [],
+      "date": 2003, 
+      "id": "2003-JUG-to-SRB", 
+      "new_areas": [], 
       "new_labels": [
-        "2003-2006-SRB"
-      ],
-      "old_areas": [],
+        "SRB+MNE"
+      ], 
+      "old_areas": [], 
       "old_labels": [
-        "1992-2003-JUG"
-      ],
-      "transition_regions": [
-      ]
-    },
+        "YUG_SRB"
+      ], 
+      "transition_regions": []
+    }, 
     {
-      "date": 1992,
-      "id": "1992-JUG-splitup",
+      "date": 1992, 
+      "id": "1992-JUG-splitup", 
       "new_areas": [
-        "1992-9999-SVN",
-        "1992-2006-SRB",
-        "1992-9999-HRV",
-        "1992-9999-BIH",
-        "1990-9999-ALB",
-        "1992-9999-MKD"
-      ],
+        "SVN", 
+        "HRV", 
+        "SRB+MNE+KOS", 
+        "BIH", 
+        "ALB", 
+        "MKD"
+      ], 
       "new_labels": [
-        "1992-9999-SVN",
-        "1992-2003-JUG",
-        "1992-9999-HRV",
-        "1992-9999-BIH",
-        "1992-9999-MKD"
-      ],
+        "SVN", 
+        "YUG_SRB", 
+        "HRV", 
+        "BIH", 
+        "MKD"
+      ], 
       "old_areas": [
-        "1954-1992-SFY"
-      ],
+        "SFY"
+      ], 
       "old_labels": [
-        "1945-1992-SFY"
-      ],
-      "transition_regions": [
-      ]
-    },
+        "SFY"
+      ], 
+      "transition_regions": []
+    }, 
     {
-      "date": 1990,
-      "id": "1990-ALB-demo",
-      "new_areas": [],
+      "date": 1990, 
+      "id": "1990-ALB-demo", 
+      "new_areas": [], 
       "new_labels": [
-        "1990-9999-ALB"
-      ],
-      "old_areas": [],
+        "ALB"
+      ], 
+      "old_areas": [], 
       "old_labels": [
-        "1944-1990-VR_ALB"
-      ],
-      "transition_regions": [
-      ]
-    },
+        "VR_ALB"
+      ], 
+      "transition_regions": []
+    }, 
     {
-      "date": 1954,
-      "id": "1954-TRST-end",
+      "date": 1954, 
+      "id": "1954-TRST-end", 
       "new_areas": [
-        "1954-9999-ITA",
-        "1954-1992-SFY"
-      ],
-      "new_labels": [],
+        "ITA", 
+        "SFY"
+      ], 
+      "new_labels": [], 
       "old_areas": [
-        "1947-1954-TRST",
-        "1947-1954-ITA",
-        "1947-1954-SFY"
-      ],
+        "TRST", 
+        "ITA-TRST", 
+        "SFY-TRST"
+      ], 
       "old_labels": [
-        "1947-1954-TRST"
-      ],
-      "transition_regions": [
-      ]
-    },
+        "TRST"
+      ], 
+      "transition_regions": []
+    }, 
     {
-      "date": 1947,
-      "id": "1947-TRST-creation",
+      "date": 1947, 
+      "id": "1947-TRST-creation", 
       "new_areas": [
-        "1947-1954-SFY",
-        "1947-1954-ITA",
-        "1947-1954-TRST"
-      ],
+        "SFY-TRST", 
+        "ITA-TRST", 
+        "TRST"
+      ], 
       "new_labels": [
-        "1947-1954-TRST"
-      ],
+        "TRST"
+      ], 
       "old_areas": [
-        "1918-1947-SFY",
-        "1929-1947-ITA"
-      ],
-      "old_labels": [],
-      "transition_regions": [
-      ]
-    },
+        "SFY-TRST-WestSVN", 
+        "ITA-TRST+DODEC"
+      ], 
+      "old_labels": [], 
+      "transition_regions": []
+    }, 
     {
-      "date": 1945,
-      "id": "1945-SFY-creation",
-      "new_areas": [],
+      "date": 1945, 
+      "id": "1945-SFY-creation", 
+      "new_areas": [], 
       "new_labels": [
-        "1945-1992-SFY"
-      ],
-      "old_areas": [],
+        "SFY"
+      ], 
+      "old_areas": [], 
       "old_labels": [
-        "1918-1945-JUG"
-      ],
-      "transition_regions": [
-      ]
-    },
+        "YUG"
+      ], 
+      "transition_regions": []
+    }, 
     {
-      "date": 1944,
-      "id": "1944-VR_ALB-creation",
+      "date": 1944, 
+      "id": "1944-VR_ALB-creation", 
       "new_areas": [
-        "1944-9999-ALB"
-      ],
+        "ALB"
+      ], 
       "new_labels": [
-        "1944-1990-VR_ALB"
-      ],
-      "old_areas": [],
-      "old_labels": [],
-      "transition_regions": [
-        "TRANS"
-      ]
-    },
+        "VR_ALB"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "transition_regions": []
+    }, 
     {
-      "date": 1929,
-      "id": "1929-VAT-creation",
+      "date": 1929, 
+      "id": "1929-VAT-creation", 
       "new_areas": [
-        "1929-1947-ITA",
-        "1929-9999-VAT"
-      ],
+        "ITA-TRST+DODEC", 
+        "VAT"
+      ], 
       "new_labels": [
-        "1929-9999-VAT"
-      ],
+        "VAT"
+      ], 
       "old_areas": [
-        "1919-1929-ITA"
-      ],
-      "old_labels": [],
-      "transition_regions": [
-      ]
-    },
+        "ITA-TRST+DODEC+VAT"
+      ], 
+      "old_labels": [], 
+      "transition_regions": []
+    }, 
     {
-      "date": 1919,
-      "id": "1919-SouthTyrol-to-ITA",
+      "date": 1919, 
+      "id": "1919-SouthTyrol-to-ITA", 
       "new_areas": [
-        "1919-1929-ITA"
-      ],
-      "new_labels": [],
+        "ITA-TRST+DODEC+VAT"
+      ], 
+      "new_labels": [], 
       "old_areas": [
-        "1866-1919-ITA"
-      ],
-      "old_labels": [],
-      "transition_regions": [
-      ]
-    },
+        "ITA-SouthTyrol+DODEC+VAT"
+      ], 
+      "old_labels": [], 
+      "transition_regions": []
+    }, 
     {
-      "date": 1918,
-      "id": "1918-JUG-creation",
+      "date": 1918, 
+      "id": "1918-JUG-creation", 
       "new_areas": [
-        "1918-1947-SFY"
-      ],
+        "SFY-TRST-WestSVN"
+      ], 
       "new_labels": [
-        "1918-1945-JUG"
-      ],
-      "old_areas": [],
-      "old_labels": [],
-      "transition_regions": [
-      ]
-    },
+        "YUG"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "transition_regions": []
+    }, 
     {
-      "date": 1866,
-      "id": "1866-ITA-creation",
+      "date": 1866, 
+      "id": "1866-ITA-creation", 
       "new_areas": [
-        "1866-1919-ITA"
-      ],
+        "ITA-SouthTyrol+DODEC+VAT"
+      ], 
       "new_labels": [
-        "1866-9999-ITA"
-      ],
-      "old_areas": [],
-      "old_labels": [],
-      "transition_regions": [
-      ]
-    },
+        "ITA"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "transition_regions": []
+    }, 
     {
-      "date": 301,
-      "id": "301-SMR-creation",
+      "date": 301, 
+      "id": "301-SMR-creation", 
       "new_areas": [
-        "301-9999-SMR"
-      ],
+        "SMR"
+      ], 
       "new_labels": [
-        "301-9999-SMR"
-      ],
-      "old_areas": [],
-      "old_labels": [],
-      "transition_regions": [
-      ]
+        "SMR"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "transition_regions": []
     }
-  ],
+  ], 
   "type": "FeatureCollection"
 }

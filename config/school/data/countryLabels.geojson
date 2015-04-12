@@ -11,10 +11,8 @@
       }, 
       "properties": {
         "bounding_box": null, 
-        "end_date": 9999, 
-        "id": "301-9999-SMR", 
-        "name": "San Marino", 
-        "start_date": 301
+        "id": "SMR", 
+        "name": "San Marino"
       }, 
       "type": "Feature"
     }, 
@@ -28,10 +26,8 @@
       }, 
       "properties": {
         "bounding_box": null, 
-        "end_date": 9999, 
-        "id": "1929-9999-VAT", 
-        "name": "Vatikan", 
-        "start_date": 1929
+        "id": "VAT", 
+        "name": "Vatikan"
       }, 
       "type": "Feature"
     }, 
@@ -45,10 +41,8 @@
       }, 
       "properties": {
         "bounding_box": null, 
-        "end_date": 1954, 
-        "id": "1947-1954-TRST", 
-        "name": "Freies Territorium Triest", 
-        "start_date": 1947
+        "id": "TRST", 
+        "name": "Freies Territorium Triest"
       }, 
       "type": "Feature"
     }, 
@@ -62,10 +56,8 @@
       }, 
       "properties": {
         "bounding_box": null, 
-        "end_date": 9999, 
-        "id": "1866-9999-ITA", 
-        "name": "Italien", 
-        "start_date": 1866
+        "id": "ITA", 
+        "name": "Italien"
       }, 
       "type": "Feature"
     }, 
@@ -79,10 +71,8 @@
       }, 
       "properties": {
         "bounding_box": null, 
-        "end_date": 9999, 
-        "id": "1992-9999-SVN", 
-        "name": "Slovenien", 
-        "start_date": 1992
+        "id": "SVN", 
+        "name": "Slovenien"
       }, 
       "type": "Feature"
     }, 
@@ -96,10 +86,8 @@
       }, 
       "properties": {
         "bounding_box": null, 
-        "end_date": 2006, 
-        "id": "1992-2003-JUG", 
-        "name": "Jugoslawien", 
-        "start_date": 2003
+        "id": "YUG_SRB", 
+        "name": "Jugoslawien"
       }, 
       "type": "Feature"
     }, 
@@ -113,10 +101,8 @@
       }, 
       "properties": {
         "bounding_box": null, 
-        "end_date": 2006, 
-        "id": "2003-2006-SRB", 
-        "name": "Serbien und Montenegro", 
-        "start_date": 2003
+        "id": "SRB+MNE", 
+        "name": "Serbien und Montenegro"
       }, 
       "type": "Feature"
     }, 
@@ -130,10 +116,8 @@
       }, 
       "properties": {
         "bounding_box": null, 
-        "end_date": 9999, 
-        "id": "1992-9999-HRV", 
-        "name": "Kroatien", 
-        "start_date": 1992
+        "id": "HRV", 
+        "name": "Kroatien"
       }, 
       "type": "Feature"
     }, 
@@ -147,10 +131,8 @@
       }, 
       "properties": {
         "bounding_box": null, 
-        "end_date": 9999, 
-        "id": "1992-9999-BIH", 
-        "name": "Bosnien und Herzegowina", 
-        "start_date": 1992
+        "id": "BIH", 
+        "name": "Bosnien und Herzegowina"
       }, 
       "type": "Feature"
     }, 
@@ -164,10 +146,8 @@
       }, 
       "properties": {
         "bounding_box": null, 
-        "end_date": 9999, 
-        "id": "1992-9999-MKD", 
-        "name": "Mazedonien", 
-        "start_date": 1992
+        "id": "MKD", 
+        "name": "Mazedonien"
       }, 
       "type": "Feature"
     }, 
@@ -181,10 +161,8 @@
       }, 
       "properties": {
         "bounding_box": null, 
-        "end_date": 1992, 
-        "id": "1945-1992-SFY", 
-        "name": "SFR Jugoslawien", 
-        "start_date": 1945
+        "id": "SFY", 
+        "name": "SFR Jugoslawien"
       }, 
       "type": "Feature"
     }, 
@@ -198,10 +176,8 @@
       }, 
       "properties": {
         "bounding_box": null, 
-        "end_date": 1945, 
-        "id": "1918-1945-JUG", 
-        "name": "Jugoslawien", 
-        "start_date": 1918
+        "id": "YUG", 
+        "name": "Jugoslawien"
       }, 
       "type": "Feature"
     }, 
@@ -215,10 +191,8 @@
       }, 
       "properties": {
         "bounding_box": null, 
-        "end_date": 1990, 
-        "id": "1944-1990-VR_ALB", 
-        "name": "VR Albanien", 
-        "start_date": 1944
+        "id": "VR_ALB", 
+        "name": "VR Albanien"
       }, 
       "type": "Feature"
     }, 
@@ -232,10 +206,8 @@
       }, 
       "properties": {
         "bounding_box": null, 
-        "end_date": 9999, 
-        "id": "1990-9999-ALB", 
-        "name": "Albanien", 
-        "start_date": 1990
+        "id": "ALB", 
+        "name": "Albanien"
       }, 
       "type": "Feature"
     }

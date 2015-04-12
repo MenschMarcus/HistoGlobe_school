@@ -6,7 +6,8 @@ class HG.AreaController
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
-  BIG_JUMP_THRESHOLD = 50  # years
+  DEBUG_COUNTRIES = no
+
 
   # ============================================================================
   constructor: (config) ->
@@ -51,9 +52,6 @@ class HG.AreaController
     @_loadLabelsFromJSON conf
     @_loadChangesFromJSON conf
 
-    # HACK: distinguish between first change and all other changes to supress visualisation of transition regions
-    @_firstChange = yes
-
   # ============================================================================
   hgInit: (hgInstance) ->
 
@@ -80,11 +78,7 @@ class HG.AreaController
       @_doChanges()
     , 1000 # TODO: set back to 50
 
-    # ???
     # hgInstance.onAllModulesLoaded @, () =>
-    #   hgInstance.hivent_list_module?.onUpdateTheme @, (theme) =>
-    #     @_theme = theme
-    #     @_updateAreas @_now
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -116,12 +110,11 @@ class HG.AreaController
 
         # fade-in transition region
         hasTransition = no
-        if not @_firstChange    # HACK: only for non-first changes
-          for id in change.transition_regions
-            if id?
-              hasTransition = yes
-              transRegion = @_getAreaById id
-              @notifyAll "onFadeInArea", transRegion, yes
+        for id in change.transition_regions
+          if id?
+            hasTransition = yes
+            transRegion = @_getAreaById id
+            @notifyAll "onFadeInArea", transRegion, yes
 
         # enqueue next change
         timestamp = null  # [0]: timestamp at wich changes shall be executed
@@ -203,7 +196,7 @@ class HG.AreaController
       for id in change[1]
         area = @_getAreaById id
         if area?
-          # console.log "rem area", area.getId()
+          console.log "rem area", area.getId() if DEBUG_COUNTRIES
           area.setInactive()
           @notifyAll "onRemoveArea", area
 
@@ -211,7 +204,7 @@ class HG.AreaController
       for id in change[2]
         area = @_getAreaById id
         if area?
-          # console.log "add area", area.getId()
+          console.log "add area", area.getId() if DEBUG_COUNTRIES
           area.setActive()
           @notifyAll "onAddArea", area
 
@@ -219,7 +212,7 @@ class HG.AreaController
       for id in change[3]
         label = @_getLabelById id
         if label?
-          # console.log "rem label", label.getName()
+          console.log "rem label", label.getName() if DEBUG_COUNTRIES
           label.setInactive()
           @notifyAll "onRemoveLabel", label
 
@@ -227,7 +220,7 @@ class HG.AreaController
       for id in change[4]
         label = @_getLabelById id
         if label?
-          # console.log "add label", label.getName()
+          console.log "add label", label.getName() if DEBUG_COUNTRIES
           label.setActive()
           @notifyAll "onAddLabel", label
 
@@ -254,9 +247,9 @@ class HG.AreaController
 
               # meta
               areaId    = area.properties.id
-              startDate = new Date area.properties.start_date.toString()
-              endDate   = new Date area.properties.end_date.toString()
-              type      = area.properties.type
+              type      = 'country'
+              # startDate = new Date area.properties.start_date.toString()
+              # endDate   = new Date area.properties.end_date.toString()
 
               # geometry (polygons)
               data = L.GeoJSON.geometryToLayer area
@@ -268,7 +261,7 @@ class HG.AreaController
                   geometry.push layer._latlngs
 
               # create HG area
-              newArea = new HG.Area areaId, geometry, startDate, endDate, type, @_styler
+              newArea = new HG.Area areaId, geometry, type, @_styler
 
               # set initial style
               if @_theme?
@@ -309,17 +302,17 @@ class HG.AreaController
 
               # meta
               labelId   = label.properties.id
-              startDate = new Date label.properties.start_date.toString()
-              endDate   = new Date label.properties.end_date.toString()
               name      = label.properties.name
+              # startDate = new Date label.properties.start_date.toString()
+              # endDate   = new Date label.properties.end_date.toString()
 
               # geometry (point)
               position    = label.geometry.coordinates
-              boundingBox = label.properties.boundingBox
+              # boundingBox = label.properties.boundingBox
 
               # create HG label if it exists
               if position[0]?
-                newLabel = new HG.Label labelId, name, position, boundingBox, startDate, endDate, @_styler
+                newLabel = new HG.Label labelId, name, position, @_styler
 
                 # set initial style
                 if @_theme?

@@ -7,15 +7,15 @@ class HG.Label
   ##############################################################################
 
   # ============================================================================
-  constructor: (id, name, position, boundingBox, startDate, endDate, styler) ->
+  constructor: (id, name, position, styler) ->
 
     # init data
     @_id          = id
     @_name        = name
     @_position    = position
-    @_boundingBox = boundingBox   # of associated area
-    @_startDate   = startDate
-    @_endDate     = endDate
+    # @_boundingBox = boundingBox   # of associated area
+    # @_startDate   = startDate
+    # @_endDate     = endDate
 
     # get all styles
     if styler?
@@ -41,17 +41,17 @@ class HG.Label
   getPos: ->
     @_position
 
-  # ============================================================================
-  getBoundingBox: ->
-    @_boundingBox
+  # # ============================================================================
+  # getBoundingBox: ->
+  #   @_boundingBox
 
-  # ============================================================================
-  getStartDate: ->
-    @_startDate
+  # # ============================================================================
+  # getStartDate: ->
+  #   @_startDate
 
-  # ============================================================================
-  getEndDate: ->
-    @_endDate
+  # # ============================================================================
+  # getEndDate: ->
+  #   @_endDate
 
   # ============================================================================
   isActive: ->

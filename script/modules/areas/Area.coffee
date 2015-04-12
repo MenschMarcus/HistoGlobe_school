@@ -7,13 +7,13 @@ class HG.Area
   ##############################################################################
 
   # ============================================================================
-  constructor: (id, geometry, startDate, endDate, type, styler) ->
+  constructor: (id, geometry, type, styler) ->
 
     # init data
     @_id        = id
     @_geometry  = geometry
-    @_startDate = startDate
-    @_endDate   = endDate
+    # @_startDate = startDate
+    # @_endDate   = endDate
     @_type      = type
 
     @_calcBoundingBox()
@@ -38,12 +38,12 @@ class HG.Area
     @_boundingBox
 
   # ============================================================================
-  getStartDate: ->
-    @_startDate
+  # getStartDate: ->
+  #   @_startDate
 
   # ============================================================================
-  getEndDate: ->
-    @_endDate
+  # getEndDate: ->
+  #   @_endDate
 
   # ============================================================================
   getGeometry: ->
