@@ -23,7 +23,6 @@ class HG.AreaController
     @addCallback "onUpdateAreaStyle"
     @addCallback "onAddLabel"
     @addCallback "onRemoveLabel"
-    @addCallback "onMoveLabel"
     @addCallback "onUpdateLabelStyle"
 
 
@@ -310,6 +309,7 @@ class HG.AreaController
               # meta
               labelId   = label.properties.id
               name      = label.properties.name
+              prio      = label.properties.prio
               # startDate = new Date label.properties.start_date.toString()
               # endDate   = new Date label.properties.end_date.toString()
 
@@ -319,7 +319,7 @@ class HG.AreaController
 
               # create HG label if it exists
               if position[0]?
-                newLabel = new HG.Label labelId, name, position, @_styler
+                newLabel = new HG.Label labelId, name, prio, position, @_styler
 
                 # set initial style
                 if @_theme?

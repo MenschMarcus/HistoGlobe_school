@@ -7,12 +7,13 @@ class HG.Label
   ##############################################################################
 
   # ============================================================================
-  constructor: (id, name, position, styler) ->
+  constructor: (id, name, prio, position, styler) ->
 
     # init data
     @_id          = id
     @_name        = name
     @_position    = position
+    @_priority    = prio
     # @_boundingBox = boundingBox   # of associated area
     # @_startDate   = startDate
     # @_endDate     = endDate
@@ -38,7 +39,11 @@ class HG.Label
     @_name
 
   # ============================================================================
-  getPos: ->
+  getPriority: ->
+    @_priority
+
+  # ============================================================================
+  getPosition: ->
     @_position
 
   # # ============================================================================

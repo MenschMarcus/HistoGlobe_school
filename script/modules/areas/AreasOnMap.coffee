@@ -6,11 +6,23 @@ class HG.AreasOnMap
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
+  NUM_LABEL_PRIOS = 5
+
   # ============================================================================
   constructor: (config) ->
     @_map             = null
     @_areaController  = null
-    @_visibleLabels    = []
+
+    # label handling
+    # 2 arrays of 5 arrays (one for each label priority)
+    # one for all visible, one for all invisible labels
+    @_visibleLabels   = []
+    @_invisibleLabels = []
+    i = 0
+    while i < NUM_LABEL_PRIOS
+      @_visibleLabels.push []
+      @_invisibleLabels.push []
+      ++i
 
     defaultConfig =
       labelVisibilityFactor: 5
@@ -54,9 +66,6 @@ class HG.AreasOnMap
 
       @_areaController.onRemoveLabel @, (label) =>
         @_removeLabel label
-
-      @_areaController.onMoveLabel @, (label) =>
-        @_moveLabel label
 
       @_areaController.onUpdateLabelStyle @, (label) =>
         @_updateLabelStyle label
@@ -153,8 +162,7 @@ class HG.AreasOnMap
       # create invisible label with name and position
       label.myLeafletLabel = new L.Label()
       label.myLeafletLabel.setContent @_addLinebreaks label.getName()
-      label.myLeafletLabel.setOpacity 0
-      label.myLeafletLabel.setLatLng label.getPos()
+      label.myLeafletLabel.setLatLng label.getPosition()
 
       # add label to map
       @_map.showLabel label.myLeafletLabel
@@ -168,11 +176,11 @@ class HG.AreasOnMap
 
       # show if visible label
       # if @_isLabelVisible label
-      @_updateLabelStyle label
+      # @_updateLabelStyle label
       # $(area.myLeafletLabel._container).removeClass("invisible")
-      label.setActive()
+      # label.setActive()
       # update list of visible labels
-      @_visibleLabels.push label
+      # @_visibleLabels.push label
 
   # ============================================================================
   _removeLabel: (label) ->
@@ -188,10 +196,16 @@ class HG.AreasOnMap
       # update list of visible areas
       @_visibleLabels.splice(@_visibleLabels.indexOf(label), 1)
 
+
   # ============================================================================
-  _moveLabel: (label) ->
-    # TODO: animated move?
-    label.myLeafletLabel.setLatLng label.getPos()
+  _showLabel: (label) =>
+    label.myLeafletLabelIsVisible = true
+    $(label.myLeafletLabel._container).removeClass("invisible")
+
+  # ============================================================================
+  _hideLabel: (label) =>
+    label.myLeafletLabelIsVisible = false
+    $(label.myLeafletLabel._container).addClass("invisible")
 
   # ============================================================================
   _updateLabelStyle: (label) ->
@@ -202,15 +216,19 @@ class HG.AreasOnMap
 
   # ============================================================================
   _isLabelVisible: (label) ->
+    # get bounding box of largest polygon of corresponding area
     bb = label.getBoundingBox()
     minPt = [bb[0], bb[1]]
     maxPt = [bb[2], bb[3]]
 
+    # geo coordinates -> 2D map coordinates
     min = @_map.project minPt
     max = @_map.project maxPt
 
     width = label.getName().length * @_config.labelVisibilityFactor  # MAGIC number!
     visible = no
+
+    # magic line of code ?!?
     visible = (max.x - min.x) > width or @_map.getZoom() is @_map.getMaxZoom()
 
   # ============================================================================
@@ -223,6 +241,7 @@ class HG.AreasOnMap
 
   # ============================================================================
   _onHover: (event) =>
+    return
     # @_animate event.target, {"fill": "#{event.target.hgArea.getHighlightStyle().areaColor}"}, 150
     # TODO: for countries with white labels, hovering means the country name is not readable
     # -> how to get the label of the current layer I am hovering? How to change its color?
