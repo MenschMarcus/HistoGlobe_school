@@ -1,11 +1,11 @@
 {
-  "content": "label", 
+  "content": "labels", 
   "features": [
     {
       "geometry": {
         "coordinates": [
-          null, 
-          null
+          43.932247, 
+          12.458205
         ], 
         "type": "Point"
       }, 
@@ -19,8 +19,8 @@
     {
       "geometry": {
         "coordinates": [
-          null, 
-          null
+          41.903505, 
+          12.453188
         ], 
         "type": "Point"
       }, 
@@ -34,8 +34,8 @@
     {
       "geometry": {
         "coordinates": [
-          null, 
-          null
+          45.670675, 
+          13.811636
         ], 
         "type": "Point"
       }, 
@@ -139,8 +139,8 @@
     {
       "geometry": {
         "coordinates": [
-          null, 
-          null
+          41.634246, 
+          21.726779
         ], 
         "type": "Point"
       }, 
@@ -191,7 +191,7 @@
       }, 
       "properties": {
         "bounding_box": null, 
-        "id": "VR_ALB", 
+        "id": "ALB_PR", 
         "name": "VR Albanien"
       }, 
       "type": "Feature"
@@ -208,6 +208,1041 @@
         "bounding_box": null, 
         "id": "ALB", 
         "name": "Albanien"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          54.228061, 
+          -4.531052
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "IMN", 
+        "name": "Isle of Man"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          52.303246, 
+          -1.257045
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "UK", 
+        "name": "Vereinigtes K\u00f6nigreich"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          53.108073, 
+          -7.80867
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "IRL_free", 
+        "name": "Irischer Freistaat"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          53.108073, 
+          -7.80867
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "IRL", 
+        "name": "Irland"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          35.912881, 
+          14.401497
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "MLT", 
+        "name": "Malta"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          51.543421, 
+          11.446213
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "DEUR", 
+        "name": "Deutsches Reich"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          47.807407, 
+          14.519323
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "AUT", 
+        "name": "\u00d6sterreich"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          49.032257, 
+          17.837194
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "CSSR", 
+        "name": "Tschechoslowakei"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          51.543421, 
+          11.446213
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "WEIMREP", 
+        "name": "Weimarer Republik"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          52.685975, 
+          8.478991
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "DEU_UK_occ", 
+        "name": "Britische BZ"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          49.715245, 
+          10.263905
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "DEU_US_occ", 
+        "name": "Amerikanische BZ"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          48.550796, 
+          8.659901
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "DEU_FR_occ", 
+        "name": "Franz\u00f6sische BZ"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          51.844066, 
+          13.157018
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "DEU_CP_occ", 
+        "name": "Sowjetische BZ"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          49.426912, 
+          6.91245
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "SAAR", 
+        "name": "Saarland"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          52.091323, 
+          19.160124
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "POL_PR", 
+        "name": "VR Polen"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          51.844066, 
+          13.157018
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "DDR", 
+        "name": "DDR"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          50.619644, 
+          8.103307
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "BRD", 
+        "name": "BRD"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          47.02681, 
+          14.761166
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "AUT_UK_occ", 
+        "name": "Britische BZ"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          47.9216, 
+          13.404354
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "AUT_US_occ", 
+        "name": "Amerikanische BZ"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          47.202509, 
+          11.020321
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "AUT_FR_occ", 
+        "name": "Franz\u00f6sische BZ"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          48.142002, 
+          15.662045
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "AUT_CP_occ", 
+        "name": "Sowjetische BZ"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          47.172365, 
+          19.264055
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "HUN_REP", 
+        "name": "Ungarische Republik"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          47.172365, 
+          19.264055
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "VR_HUN", 
+        "name": "VR Ungarn"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          49.764781, 
+          15.287004
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "CZE", 
+        "name": "Tschechische Republik"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          48.728811, 
+          19.265416
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "SVK", 
+        "name": "Slowakei"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          47.172365, 
+          19.264055
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "HUN", 
+        "name": "Ungarn"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          52.091323, 
+          19.160124
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "POL", 
+        "name": "Polen"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          51.136552, 
+          10.234393
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "DEU", 
+        "name": "Deutschland"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          40.303388, 
+          -3.884029
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "ESP", 
+        "name": "Spanien"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          40.303388, 
+          -3.884029
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "ESP_REP", 
+        "name": "Spanische Republik"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          40.001089, 
+          -8.058834
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "PRT", 
+        "name": "Portugal"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          40.001089, 
+          -8.058834
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "PRT_KNG", 
+        "name": "K\u00f6nigreich Portugal"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          40.001089, 
+          -8.058834
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "PRT_REP", 
+        "name": "Portugiesische Republik"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          42.543282, 
+          1.553727
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "AND", 
+        "name": "Andorra"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          36.138475, 
+          -5.347937
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "GIB", 
+        "name": "Gibraltar"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          56.102935, 
+          9.060387
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "DNK", 
+        "name": "D\u00e4nemark"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          62.614651, 
+          25.511331
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "FIN", 
+        "name": "Finnland"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          62.006274, 
+          26.924157
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "FIN+Karelia", 
+        "name": "Finnland"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          62.006274, 
+          26.924157
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "FIN+Karelia_Grandduchy", 
+        "name": "Grhzt. Finnland"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          62.140304, 
+          -7.004322
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "FRO", 
+        "name": "F\u00e4roer Inseln"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          68.633867, 
+          -43.125011
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "GRL", 
+        "name": "Gr\u00f6nland"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          64.890271, 
+          -18.613919
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "ISL", 
+        "name": "Island"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          60.603371, 
+          9.126305
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "NOR", 
+        "name": "Norwegen"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          78.582972, 
+          16.02538
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "SVJ", 
+        "name": "Svalbard"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          63.213048, 
+          14.852451
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "SWE", 
+        "name": "Schweden"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          61.212307, 
+          12.64193
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "SWNO", 
+        "name": "Schweden-Norwegen"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          45.900057, 
+          24.74722
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "ROU", 
+        "name": "Rum\u00e4nien"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          45.900057, 
+          24.74722
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "ROU_PR", 
+        "name": "VR Rum\u00e4nien"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          42.765681, 
+          25.153714
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "BGR", 
+        "name": "Bulgarien"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          42.765681, 
+          25.153714
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "BGR_PR", 
+        "name": "VR Bulgarien"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          35.024543, 
+          33.087967
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "CYP", 
+        "name": "Zypern"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          38.972949, 
+          35.401873
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "TUR", 
+        "name": "T\u00fcrkei"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          39.596325, 
+          21.420487
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "GRC", 
+        "name": "Griechenland"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          53.221566, 
+          27.531161
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "BLR", 
+        "name": "Wei\u00dfrussland"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          58.849326, 
+          25.314944
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "EST", 
+        "name": "Estland"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          55.592367, 
+          23.776859
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "LTU", 
+        "name": "Litauen"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          56.970483, 
+          25.864261
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "LVA", 
+        "name": "Lettland"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          47.632673, 
+          28.305184
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "MDA", 
+        "name": "Moldawien"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          55.023999, 
+          44.537997
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "RUS", 
+        "name": "Russland"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          49.178686, 
+          31.557138
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "UKR", 
+        "name": "Ukraine"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          53.93189, 
+          39.510708
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "CCCP", 
+        "name": "Sowjetunion"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          50.632554, 
+          4.84343
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "BEL", 
+        "name": "Belgien"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          46.828223, 
+          8.097867
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "CHE", 
+        "name": "Schweiz"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          46.876563, 
+          2.510119
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "FRA", 
+        "name": "Frankreich"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          47.142998, 
+          9.553556
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "LIE", 
+        "name": "Liechtenstein"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          49.784781, 
+          6.084623
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "LUX", 
+        "name": "Luxemburg"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          43.735674, 
+          7.42489
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "MCO", 
+        "name": "Monaco"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          50.732544, 
+          5.990712
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "MORS", 
+        "name": "Neutral-Moresnet"
+      }, 
+      "type": "Feature"
+    }, 
+    {
+      "geometry": {
+        "coordinates": [
+          52.192792, 
+          5.630933
+        ], 
+        "type": "Point"
+      }, 
+      "properties": {
+        "bounding_box": null, 
+        "id": "NLD", 
+        "name": "Niederlande"
       }, 
       "type": "Feature"
     }

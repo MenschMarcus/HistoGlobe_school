@@ -248,8 +248,9 @@ class HG.AreasOnMap
 
   # ============================================================================
   _addLinebreaks : (name) =>
-    # 1st approach: break at all whitespaces
+    # 1st approach: break at all whitespaces and dashed lines
     name = name.replace /\s/gi, '<br\>'
+    name = name.replace /\-/gi, '-<br\>'
 
     # # find all whitespaces in the name
     # len = name.length

@@ -6,7 +6,8 @@ class HG.AreaController
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
-  DEBUG_COUNTRIES = no
+  DEBUG_AREAS   = no
+  DEBUG_LABELS  = no
 
 
   # ============================================================================
@@ -68,7 +69,7 @@ class HG.AreaController
       if @_areasLoaded and @_labelsLoaded and @_changesLoaded
         oldDate = @_now
         newDate = date
-        @_updateAreas oldDate, newDate
+        @_updateCountries oldDate, newDate
 
         # update now date
         @_now = date
@@ -76,7 +77,7 @@ class HG.AreaController
     # infinite loop that executes all changes in the queue
     mainLoop = setInterval () =>    # => is important to be able to access global variables (compared to ->)
       @_doChanges()
-    , 1000 # TODO: set back to 50
+    , 50
 
     # hgInstance.onAllModulesLoaded @, () =>
 
@@ -88,13 +89,13 @@ class HG.AreaController
   # add all new and remove all old areas to map/globe
   # and emphasize transition areas (areas that move from one country to another)
 
-  _updateAreas: (oldDate, newDate) ->
+  _updateCountries: (oldDate, newDate) ->
 
-    # change direction: forwards (-1) or backwards (1) ?
+    # change direction: forwards (+1) or backwards (-1) ?
     # changes are sorted the other way!
-    changeDir = -1
+    changeDir = 1
     if oldDate > newDate
-      changeDir = 1
+      changeDir = -1
       # swap old and new date, so it can be assumed that always oldDate < newDate
       tempDate = oldDate
       oldDate = newDate
@@ -129,20 +130,20 @@ class HG.AreaController
           timestamp.setMilliseconds timestamp.getMilliseconds() + @_aniTime
 
         for id in change.new_areas
-          newAreas.push id if changeDir is -1
-          oldAreas.push id if changeDir is 1
+          newAreas.push id if changeDir is 1
+          oldAreas.push id if changeDir is -1
 
         for id in change.old_areas
-          oldAreas.push id if changeDir is -1   # timeline moves forward => old areas are old areas
-          newAreas.push id if changeDir is 1    # timeline moves backward => old areas are new areas
+          oldAreas.push id if changeDir is 1   # timeline moves forward => old areas are old areas
+          newAreas.push id if changeDir is -1    # timeline moves backward => old areas are new areas
 
         for id in change.new_labels
-          newLabels.push id if changeDir is -1
-          oldLabels.push id if changeDir is 1
+          newLabels.push id if changeDir is 1
+          oldLabels.push id if changeDir is -1
 
         for id in change.old_labels
-          oldLabels.push id if changeDir is -1
-          newLabels.push id if changeDir is 1
+          oldLabels.push id if changeDir is 1
+          newLabels.push id if changeDir is -1
 
         for id in change.transition_regions
           transRegions.push id
@@ -196,7 +197,7 @@ class HG.AreaController
       for id in change[1]
         area = @_getAreaById id
         if area?
-          console.log "rem area", area.getId() if DEBUG_COUNTRIES
+          console.log "rem area", area.getId() if DEBUG_AREAS
           area.setInactive()
           @notifyAll "onRemoveArea", area
 
@@ -204,7 +205,7 @@ class HG.AreaController
       for id in change[2]
         area = @_getAreaById id
         if area?
-          console.log "add area", area.getId() if DEBUG_COUNTRIES
+          console.log "add area", area.getId() if DEBUG_AREAS
           area.setActive()
           @notifyAll "onAddArea", area
 
@@ -212,7 +213,7 @@ class HG.AreaController
       for id in change[3]
         label = @_getLabelById id
         if label?
-          console.log "rem label", label.getName() if DEBUG_COUNTRIES
+          console.log "rem label", label.getName() if DEBUG_LABELS
           label.setInactive()
           @notifyAll "onRemoveLabel", label
 
@@ -220,7 +221,7 @@ class HG.AreaController
       for id in change[4]
         label = @_getLabelById id
         if label?
-          console.log "add label", label.getName() if DEBUG_COUNTRIES
+          console.log "add label", label.getName() if DEBUG_LABELS
           label.setActive()
           @notifyAll "onAddLabel", label
 
@@ -252,13 +253,19 @@ class HG.AreaController
               # endDate   = new Date area.properties.end_date.toString()
 
               # geometry (polygons)
-              data = L.GeoJSON.geometryToLayer area
               geometry = []
-              if area.geometry.type is "Polygon"
-                geometry.push data._latlngs
-              else if area.geometry.type is "MultiPolygon"
-                for id, layer of data._layers
-                  geometry.push layer._latlngs
+
+              # error handling: empty layer because of non-existing geometry
+              if area.geometry.coordinates.length is 0
+                geometry = [[]]
+
+              else
+                data = L.GeoJSON.geometryToLayer area
+                if area.geometry.type is "Polygon"
+                  geometry.push data._latlngs
+                else if area.geometry.type is "MultiPolygon"
+                  for id, layer of data._layers
+                    geometry.push layer._latlngs
 
               # create HG area
               newArea = new HG.Area areaId, geometry, type, @_styler
