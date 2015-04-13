@@ -200,8 +200,7 @@ class HG.AreasOnMap
   # ============================================================================
   _checkLabelOnAdd: (labelA) ->
     # error handling
-    if not labelA?
-      return false
+    return if not labelA?
 
     # idea: check for each label with higher priority if it collides
     # -> if so: hide
@@ -223,14 +222,14 @@ class HG.AreasOnMap
       # create list of labels that should be hidden to not remove elements from a list currently iterated through
       for labelB in @_visibleLabels[i]
         if @_labelsCollide labelA, labelB
+          # console.log labelA.getName(), "hides", labelB.getName()
           @_hideLabel labelB
       --i
 
   # ============================================================================
   _checkLabelOnRemove: (labelA) ->
     # error handling
-    if not labelA?
-      return false
+    return if not labelA?
 
     # check for all labels with lower priority if they have now space to be shown
     i = labelA.getPriority()
@@ -243,6 +242,7 @@ class HG.AreasOnMap
 
   # ============================================================================
   _updateLabels: (event) =>
+
     # check if zoomed in or out
     zoomedIn = yes
     if @_zoomLevel > @_map.getZoom()
@@ -251,71 +251,61 @@ class HG.AreasOnMap
     @_zoomLevel = @_map.getZoom()
 
     if zoomedIn
+
       # check if any invisible labels have space to be shown now
       iA = NUM_LABEL_PRIOS
       while iA > 0
         for labelA in @_invisibleLabels[iA]
-          # check with every label with same of higher priority if it collides
-          labelCollided = no
-          iB = labelA.getPriority()
-          while iB <= NUM_LABEL_PRIOS
-            for labelB in @_invisibleLabels[iB]
-              if @_labelsCollide labelA, labelB
-                labelCollided = yes
-                break
-            break if labelCollided
-            ++iB
-          if not labelCollided
-            @_showLabel labelA
+          if labelA?
+
+            # check with every label with same of higher priority if it collides
+            labelCollided = no
+            iB = labelA.getPriority()
+            while iB <= NUM_LABEL_PRIOS
+              for labelB in @_invisibleLabels[iB]
+
+                # if label collides with any other label, it can not be added
+                if @_labelsCollide labelA, labelB
+                  labelCollided = yes
+                  break
+              break if labelCollided
+
+              ++iB
+
+            # only if label has not collided with any other, it shall be added
+            if not labelCollided
+              @_showLabel labelA
+
         --iA
-      # check if any visible labels should be invisible now
-      iA = 0
-      while iA <= NUM_LABEL_PRIOS
-        for labelA in @_visibleLabels[iA]
-          # check with every label with same of higher priority if it collides
+
+
+    # for both zooming in and out -> check if label have to be hidden
+    # for each label check downwards if it collides
+    iA = NUM_LABEL_PRIOS
+    while iA > 0
+      for labelA in @_visibleLabels[iA]
+        if labelA?
+
+          # check with every label of lower priority if it collides
           iB = labelA.getPriority()
-          while iB <= NUM_LABEL_PRIOS
+          while iB > 0
             for labelB in @_visibleLabels[iB]
+
+              # if they collide, hide the lower priority label
               if @_labelsCollide labelA, labelB
-                @_hideLabel labelA
-            ++iB
-        ++iA
+                @_hideLabel labelB
 
-
-    else # zoomed out
-      # for each label check upwards if it collides
-      # HORRIBLE ALGORITHM with high complexity O(n^2) ???
-      iA = 0
-      while iA <= NUM_LABEL_PRIOS
-        for labelA in @_visibleLabels[iA]
-          # check with every label with same of higher priority if it collides
-          iB = labelA.getPriority()
-          while iB <= NUM_LABEL_PRIOS
-            for labelB in @_visibleLabels[iB]
-              if @_labelsCollide labelA, labelB
-                @_hideLabel labelA
-            ++iB
-        ++iA
-
-    invis = 0
-    vis = 0
-    i = 1
-    while i <= NUM_LABEL_PRIOS
-      for elem in @_visibleLabels[i]
-        ++vis if elem?
-      for elem in @_invisibleLabels[i]
-        ++invis if elem?
-      ++i
-    console.log vis, invis, vis+invis
+            --iB
+      --iA
 
   # ============================================================================
   _labelsCollide: (labelA, labelB) ->
     # error handling: if one label does not exist -> abort check
-    if not labelA.myLeafletLabel? or not labelB.myLeafletLabel?
+    if not labelA? or not labelB?
       return false
 
     # error handling: if labels are the same -> abort check
-    if not @_areEqual labelA.getName(), labelB.getName()
+    if @_areEqual labelA.getName(), labelB.getName()
       return false
 
     # get center, width and height for both labels
@@ -334,7 +324,7 @@ class HG.AreasOnMap
   # ============================================================================
   _labelCollisionFactor: (prio) ->
     # idea: the lower the priority, the "larger" the label box, the earlier it gets hidden
-    @_config.labelVisibilityFactor * (1 + 1/prio)
+    @_config.labelVisibilityFactor*(1/prio*NUM_LABEL_PRIOS)
 
   # ============================================================================
   _showLabel: (label) =>
@@ -363,25 +353,60 @@ class HG.AreasOnMap
   # ============================================================================
   _addLabelToList: (array, label) =>
     # check if there is an element in the list that is undefined and put label there
-    positionFound = no
-    for elem in array[label.getPriority()]
-      if not elem?
-        elem = label
-        positionFound = yes
-        break
-    console.log "show", label.getName(), positionFound
-    # if no element found, append label to the end of the list
-    if not positionFound
-      array[label.getPriority()].push label
+
+    # IMPORTANT: manipulation of elements in array NOT with "for elem in array"
+    # -> only with direct access in a while loop
+    # problem: label can be twice in an array -> to avoid that, go through whole array first,
+    # memorizie potential position for inserting the label, but only unless the label is not inside yet
+    len = array[label.getPriority()].length
+    i = 0
+    insPos = null
+    foundDuplicate = no
+    while i < len
+
+      # if element in array is null or undefined, it is space for the label to be inserted here
+      if not array[label.getPriority()][i]?
+        insPos = i
+
+      # check if label is already in the array
+      if array[label.getPriority()][i]?
+        labelA = array[label.getPriority()][i].getName()
+        labelB = label.getName()
+        if @_areEqual labelA, labelB
+          foundDuplicate = yes
+      ++i
+
+    # only if label is not in the array yet, it will be added
+    if not foundDuplicate
+      array[label.getPriority()][insPos] = label
+
+      # if empty space in array found, append label to the end
+      if not insPos?
+        array[label.getPriority()].push label
 
   # ============================================================================
   _removeLabelFromList: (array, label) =>
     # check is label is actually in the array
-    positionFound = no
-    for elem in array[label.getPriority()]
-      if @_areEqual elem.getName(), label.getName()
-        elem = undefined
-        break
+
+    # TODO: sometimes labels do not get deleted correctly
+
+    # IMPORTANT: manipulation of elements in array NOT with "for elem in array"
+    # -> only with direct access in a while loop
+    len = array[label.getPriority()].length
+    i = 0
+    while i < len
+
+      # if element in array exists, compare its label name with the input label name
+      if array[label.getPriority()][i]?
+        labelA = array[label.getPriority()][i].getName()
+        labelB = label.getName()
+
+        # "removing" from array = setting it to null
+        if @_areEqual labelA, labelB
+          array[label.getPriority()][i] = null
+          break
+
+      ++i
 
   # ============================================================================
   _updateLabelStyle: (label) ->
@@ -449,6 +474,34 @@ class HG.AreasOnMap
     (str1?="").localeCompare(str2) is 0
 
   ##############################################################################
-  #                             STATIC MEMBERS                                 #
+  #                             DEBUG FUNCTIONS
   ##############################################################################
 
+
+  # ============================================================================
+  _checkArrayStatus: (text) ->
+    invis = 0
+    vis = 0
+    i = 1
+    while i <= NUM_LABEL_PRIOS
+      for elem in @_visibleLabels[i]
+        ++vis if elem?
+      for elem in @_invisibleLabels[i]
+        ++invis if elem?
+      ++i
+    console.log text, vis, invis, vis+invis
+
+  # ============================================================================
+  _checkPrioArray: (prio) ->
+    console.log "VISIBLE"
+    for elem in @_visibleLabels[prio]
+      if elem?
+        console.log "-->", elem.getName()
+      else
+        console.log "--> null"
+    console.log "INVISIBLE"
+    for elem in @_invisibleLabels[prio]
+      if elem?
+        console.log "-->", elem.getName()
+      else
+        console.log "--> null"

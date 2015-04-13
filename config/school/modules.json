@@ -7,7 +7,7 @@
     "nowYear": 1900,
     "minZoom": 1,
     "maxZoom": 7,
-    "startZoom": 5,
+    "startZoom": 4,
     "startLatLong": [50.9869531, 11.3205004],
     "tiles": "config/school/tiles/",
     "tilesHighContrast": "config/school/tiles_ehc/",
@@ -147,8 +147,8 @@
     },
     "highlightStyle":
     {
-      "areaColor":      "#eaeaea",
-      "labelColor":      "#000000"
+      "areaColor":      "#eaeaea"
+,      "labelColor":      "#000000"
     },
     "countryThemeMapping" :
     [
@@ -190,7 +190,7 @@
 
   "AreasOnMap" :
   {
-    "labelVisibilityFactor" : 1.5
+    "labelVisibilityFactor" : 1
   }
 
 }
