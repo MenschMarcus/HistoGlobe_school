@@ -199,6 +199,9 @@ class HG.AreasOnMap
 
   # ============================================================================
   _checkLabelOnAdd: (labelA) ->
+    # error handling
+    if not labelA?
+      return false
 
     # idea: check for each label with higher priority if it collides
     # -> if so: hide
@@ -206,7 +209,6 @@ class HG.AreasOnMap
     while i <= NUM_LABEL_PRIOS
       for labelB in @_visibleLabels[i]
         if @_labelsCollide labelA, labelB
-          # console.log "hide", labelA.getName()
           @_hideLabel labelA
           return
       ++i
@@ -219,33 +221,24 @@ class HG.AreasOnMap
     i = labelA.getPriority()
     while i > 0
       # create list of labels that should be hidden to not remove elements from a list currently iterated through
-      labelsToBeHidden = []
       for labelB in @_visibleLabels[i]
-        if labelB? # why is this test necessary -> seems to be unreasonable
-          if @_labelsCollide labelA, labelB
-            labelsToBeHidden.push labelB
-      # finally hide labels
-      for label in labelsToBeHidden
-        if not @_areEqual labelA.getName(), labelB.getName()
-          # console.log "label", labelA.getName(), "hides label", labelB.getName()
-          @_hideLabel label
+        if @_labelsCollide labelA, labelB
+          @_hideLabel labelB
       --i
 
   # ============================================================================
   _checkLabelOnRemove: (labelA) ->
+    # error handling
+    if not labelA?
+      return false
 
     # check for all labels with lower priority if they have now space to be shown
     i = labelA.getPriority()
     while i > 0
       # create list of labels that should be shown to not add elements to a list currently iterated through
-      labelsToBeShown = []
       for labelB in @_visibleLabels[i]
         if @_labelsCollide labelA, labelB
-          labelsToBeShown.push labelB
-      # finally show labels if they do not collide themselves
-      for label in labelsToBeShown
-        if not @_areEqual labelA.getName(), labelB.getName()
-          @_showLabel label   # caution! this could be a problem, because if more than one label is shown, they might actually collide
+          @_showLabel labelB
       --i
 
   # ============================================================================
@@ -258,34 +251,73 @@ class HG.AreasOnMap
     @_zoomLevel = @_map.getZoom()
 
     if zoomedIn
-      # check if any hidden labels have space to be shown now
-      i = NUM_LABEL_PRIOS
-      while i > 0
-        for label in @_invisibleLabels[i]
-          @_checkLabelOnAdd label if label?
-        --i
+      # check if any invisible labels have space to be shown now
+      iA = NUM_LABEL_PRIOS
+      while iA > 0
+        for labelA in @_invisibleLabels[iA]
+          # check with every label with same of higher priority if it collides
+          labelCollided = no
+          iB = labelA.getPriority()
+          while iB <= NUM_LABEL_PRIOS
+            for labelB in @_invisibleLabels[iB]
+              if @_labelsCollide labelA, labelB
+                labelCollided = yes
+                break
+            break if labelCollided
+            ++iB
+          if not labelCollided
+            @_showLabel labelA
+        --iA
+      # check if any visible labels should be invisible now
+      iA = 0
+      while iA <= NUM_LABEL_PRIOS
+        for labelA in @_visibleLabels[iA]
+          # check with every label with same of higher priority if it collides
+          iB = labelA.getPriority()
+          while iB <= NUM_LABEL_PRIOS
+            for labelB in @_visibleLabels[iB]
+              if @_labelsCollide labelA, labelB
+                @_hideLabel labelA
+            ++iB
+        ++iA
+
 
     else # zoomed out
       # for each label check upwards if it collides
       # HORRIBLE ALGORITHM with high complexity O(n^2) ???
-      i = NUM_LABEL_PRIOS
-      while i > 0
-        for labelA in @_visibleLabels[i]
-          if labelA?
-            j = labelA.getPriority()
-            while j <= NUM_LABEL_PRIOS
-              labelsToBeHidden = []
-              for labelB in @_visibleLabels[j]
-                if labelB?
-                  if @_labelsCollide labelA, labelB
-                    labelsToBeHidden.push labelB
-              for label in labelsToBeHidden
-                @_hideLabel labelB
-              ++j
-        --i
+      iA = 0
+      while iA <= NUM_LABEL_PRIOS
+        for labelA in @_visibleLabels[iA]
+          # check with every label with same of higher priority if it collides
+          iB = labelA.getPriority()
+          while iB <= NUM_LABEL_PRIOS
+            for labelB in @_visibleLabels[iB]
+              if @_labelsCollide labelA, labelB
+                @_hideLabel labelA
+            ++iB
+        ++iA
+
+    invis = 0
+    vis = 0
+    i = 1
+    while i <= NUM_LABEL_PRIOS
+      for elem in @_visibleLabels[i]
+        ++vis if elem?
+      for elem in @_invisibleLabels[i]
+        ++invis if elem?
+      ++i
+    console.log vis, invis, vis+invis
 
   # ============================================================================
   _labelsCollide: (labelA, labelB) ->
+    # error handling: if one label does not exist -> abort check
+    if not labelA.myLeafletLabel? or not labelB.myLeafletLabel?
+      return false
+
+    # error handling: if labels are the same -> abort check
+    if not @_areEqual labelA.getName(), labelB.getName()
+      return false
+
     # get center, width and height for both labels
     posA = @_map.project labelA.getPosition()
     widthA = labelA.myLeafletLabel._container.clientWidth * @_labelCollisionFactor labelA.getPriority()
@@ -304,35 +336,52 @@ class HG.AreasOnMap
     # idea: the lower the priority, the "larger" the label box, the earlier it gets hidden
     @_config.labelVisibilityFactor * (1 + 1/prio)
 
-
   # ============================================================================
   _showLabel: (label) =>
-    label.myLeafletLabelIsVisible = true
-    $(label.myLeafletLabel._container).removeClass("invisible")
+    if label.myLeafletLabel?
+      label.myLeafletLabelIsVisible = true
+      $(label.myLeafletLabel._container).removeClass("invisible")
 
-    # add to visible label list
-    @_visibleLabels[label.getPriority()].push label
+      # add to visible label list
+      @_addLabelToList @_visibleLabels, label
 
-    # remove from invisible label list (if it exists)
-    @_removeLabelFromList @_invisibleLabels, label
+      # remove from invisible label list (if it exists)
+      @_removeLabelFromList @_invisibleLabels, label
 
   # ============================================================================
   _hideLabel: (label) =>
-    label.myLeafletLabelIsVisible = false
-    $(label.myLeafletLabel._container).addClass("invisible")
+    if label.myLeafletLabel?
+      label.myLeafletLabelIsVisible = false
+      $(label.myLeafletLabel._container).addClass("invisible")
 
-    # add to invisible label list
-    @_invisibleLabels[label.getPriority()].push label
+      # add to invisible label list
+      @_addLabelToList @_invisibleLabels, label
 
-    # remove from visible label list (if it exists)
-    @_removeLabelFromList @_visibleLabels, label
+      # remove from visible label list (if it exists)
+      @_removeLabelFromList @_visibleLabels, label
+
+  # ============================================================================
+  _addLabelToList: (array, label) =>
+    # check if there is an element in the list that is undefined and put label there
+    positionFound = no
+    for elem in array[label.getPriority()]
+      if not elem?
+        elem = label
+        positionFound = yes
+        break
+    console.log "show", label.getName(), positionFound
+    # if no element found, append label to the end of the list
+    if not positionFound
+      array[label.getPriority()].push label
 
   # ============================================================================
   _removeLabelFromList: (array, label) =>
-    posInArray = array[label.getPriority()].indexOf(label)
-    if posInArray >= 0
-      array[label.getPriority()].splice(posInArray, 1)
-
+    # check is label is actually in the array
+    positionFound = no
+    for elem in array[label.getPriority()]
+      if @_areEqual elem.getName(), label.getName()
+        elem = undefined
+        break
 
   # ============================================================================
   _updateLabelStyle: (label) ->
