@@ -14,15 +14,16 @@ class HG.AreasOnMap
     @_areaController  = null
 
     # label handling
-    # 2 arrays of 5 arrays (one for each label priority)
+    # 2 arrays of 6 arrays (one for each label priority, 0 is empty and is ignored, so that prio value matched array index)
     # one for all visible, one for all invisible labels
     @_visibleLabels   = []
     @_invisibleLabels = []
     i = 0
-    while i < NUM_LABEL_PRIOS
+    while i <= NUM_LABEL_PRIOS
       @_visibleLabels.push []
       @_invisibleLabels.push []
       ++i
+
 
     defaultConfig =
       labelVisibilityFactor: 5
@@ -38,6 +39,8 @@ class HG.AreasOnMap
     @_aniTime = hgInstance._config.areaAniTime
     @_map = hgInstance.map._map
     @_areaController = hgInstance.areaController
+
+    @_zoomLevel = @_map.getZoom()
 
     # event handling
     if @_areaController
@@ -70,7 +73,7 @@ class HG.AreasOnMap
       @_areaController.onUpdateLabelStyle @, (label) =>
         @_updateLabelStyle label
 
-      @_map.on "zoomend", @_onZoomEnd
+      @_map.on "zoomend", @_updateLabels
 
     else
       console.error "Unable to show areas on Map: AreaController module not detected in HistoGlobe instance!"
@@ -163,6 +166,7 @@ class HG.AreasOnMap
       label.myLeafletLabel = new L.Label()
       label.myLeafletLabel.setContent @_addLinebreaks label.getName()
       label.myLeafletLabel.setLatLng label.getPosition()
+      label.myLeafletLabel.options.className = "invisible"   # makes label invisible onLoad
 
       # add label to map
       @_map.showLabel label.myLeafletLabel
@@ -174,27 +178,131 @@ class HG.AreasOnMap
       ]
       label.myLeafletLabel._updatePosition()
 
+      @_updateLabelStyle label
+
       # show if visible label
-      # if @_isLabelVisible label
-      # @_updateLabelStyle label
-      # $(area.myLeafletLabel._container).removeClass("invisible")
-      # label.setActive()
-      # update list of visible labels
-      # @_visibleLabels.push label
+      @_checkLabelOnAdd label
 
   # ============================================================================
   _removeLabel: (label) ->
     if label.myLeafletLabel?
-      # $(label.myLeafletLabel._container).addClass("invisible")
-      label.myLeafletLabel.setOpacity(0)
-      label.setInactive()
-
       # remove double-link: leaflet label from HG label and HG label from leaflet label
       @_map.removeLayer label.myLeafletLabel
       label.myLeafletLabel = null
 
-      # update list of visible areas
-      @_visibleLabels.splice(@_visibleLabels.indexOf(label), 1)
+      # remove from visible or invisible list
+      @_removeLabelFromList @_visibleLabels, label
+      @_removeLabelFromList @_invisibleLabels, label
+
+      @_checkLabelOnRemove
+
+
+  # ============================================================================
+  _checkLabelOnAdd: (labelA) ->
+
+    # idea: check for each label with higher priority if it collides
+    # -> if so: hide
+    i = labelA.getPriority()+1
+    while i <= NUM_LABEL_PRIOS
+      for labelB in @_visibleLabels[i]
+        if @_labelsCollide labelA, labelB
+          # console.log "hide", labelA.getName()
+          @_hideLabel labelA
+          return
+      ++i
+
+    # -> if it does not collide: show
+    # console.log "show", labelA.getName()
+    @_showLabel labelA
+
+    # and hide all labels with lower priority that collide
+    i = labelA.getPriority()
+    while i > 0
+      # create list of labels that should be hidden to not remove elements from a list currently iterated through
+      labelsToBeHidden = []
+      for labelB in @_visibleLabels[i]
+        if labelB? # why is this test necessary -> seems to be unreasonable
+          if @_labelsCollide labelA, labelB
+            labelsToBeHidden.push labelB
+      # finally hide labels
+      for label in labelsToBeHidden
+        if not @_areEqual labelA.getName(), labelB.getName()
+          # console.log "label", labelA.getName(), "hides label", labelB.getName()
+          @_hideLabel label
+      --i
+
+  # ============================================================================
+  _checkLabelOnRemove: (labelA) ->
+
+    # check for all labels with lower priority if they have now space to be shown
+    i = labelA.getPriority()
+    while i > 0
+      # create list of labels that should be shown to not add elements to a list currently iterated through
+      labelsToBeShown = []
+      for labelB in @_visibleLabels[i]
+        if @_labelsCollide labelA, labelB
+          labelsToBeShown.push labelB
+      # finally show labels if they do not collide themselves
+      for label in labelsToBeShown
+        if not @_areEqual labelA.getName(), labelB.getName()
+          @_showLabel label   # caution! this could be a problem, because if more than one label is shown, they might actually collide
+      --i
+
+  # ============================================================================
+  _updateLabels: (event) =>
+    # check if zoomed in or out
+    zoomedIn = yes
+    if @_zoomLevel > @_map.getZoom()
+      zoomedIn = no
+    # update zoom level
+    @_zoomLevel = @_map.getZoom()
+
+    if zoomedIn
+      # check if any hidden labels have space to be shown now
+      i = NUM_LABEL_PRIOS
+      while i > 0
+        for label in @_invisibleLabels[i]
+          @_checkLabelOnAdd label if label?
+        --i
+
+    else # zoomed out
+      # for each label check upwards if it collides
+      # HORRIBLE ALGORITHM with high complexity O(n^2) ???
+      i = NUM_LABEL_PRIOS
+      while i > 0
+        for labelA in @_visibleLabels[i]
+          if labelA?
+            j = labelA.getPriority()
+            while j <= NUM_LABEL_PRIOS
+              labelsToBeHidden = []
+              for labelB in @_visibleLabels[j]
+                if labelB?
+                  if @_labelsCollide labelA, labelB
+                    labelsToBeHidden.push labelB
+              for label in labelsToBeHidden
+                @_hideLabel labelB
+              ++j
+        --i
+
+  # ============================================================================
+  _labelsCollide: (labelA, labelB) ->
+    # get center, width and height for both labels
+    posA = @_map.project labelA.getPosition()
+    widthA = labelA.myLeafletLabel._container.clientWidth * @_labelCollisionFactor labelA.getPriority()
+    heightA = labelA.myLeafletLabel._container.clientHeight * @_labelCollisionFactor labelA.getPriority()
+    posB = @_map.project labelB.getPosition()
+    widthB = labelB.myLeafletLabel._container.clientWidth * @_labelCollisionFactor labelB.getPriority()
+    heightB = labelB.myLeafletLabel._container.clientHeight * @_labelCollisionFactor labelB.getPriority()
+
+    # On each axis, check to see if the centers of the boxes are close enough that they'll intersect.
+    # If they intersect on both axes, then the boxes intersect. If they don't, then they don't.
+    return  (Math.abs(posA.x - posB.x) * 2 < (widthA + widthB)) and
+            (Math.abs(posA.y - posB.y) * 2 < (heightA + heightB))
+
+  # ============================================================================
+  _labelCollisionFactor: (prio) ->
+    # idea: the lower the priority, the "larger" the label box, the earlier it gets hidden
+    @_config.labelVisibilityFactor * (1 + 1/prio)
 
 
   # ============================================================================
@@ -202,10 +310,29 @@ class HG.AreasOnMap
     label.myLeafletLabelIsVisible = true
     $(label.myLeafletLabel._container).removeClass("invisible")
 
+    # add to visible label list
+    @_visibleLabels[label.getPriority()].push label
+
+    # remove from invisible label list (if it exists)
+    @_removeLabelFromList @_invisibleLabels, label
+
   # ============================================================================
   _hideLabel: (label) =>
     label.myLeafletLabelIsVisible = false
     $(label.myLeafletLabel._container).addClass("invisible")
+
+    # add to invisible label list
+    @_invisibleLabels[label.getPriority()].push label
+
+    # remove from visible label list (if it exists)
+    @_removeLabelFromList @_visibleLabels, label
+
+  # ============================================================================
+  _removeLabelFromList: (array, label) =>
+    posInArray = array[label.getPriority()].indexOf(label)
+    if posInArray >= 0
+      array[label.getPriority()].splice(posInArray, 1)
+
 
   # ============================================================================
   _updateLabelStyle: (label) ->
@@ -213,23 +340,6 @@ class HG.AreasOnMap
     if label.myLeafletLabel?
       label.myLeafletLabel._container.style.color = style.labelColor
       label.myLeafletLabel.setOpacity style.labelOpacity
-
-  # ============================================================================
-  _isLabelVisible: (label) ->
-    # get bounding box of largest polygon of corresponding area
-    bb = label.getBoundingBox()
-    minPt = [bb[0], bb[1]]
-    maxPt = [bb[2], bb[3]]
-
-    # geo coordinates -> 2D map coordinates
-    min = @_map.project minPt
-    max = @_map.project maxPt
-
-    width = label.getName().length * @_config.labelVisibilityFactor  # MAGIC number!
-    visible = no
-
-    # magic line of code ?!?
-    visible = (max.x - min.x) > width or @_map.getZoom() is @_map.getMaxZoom()
 
   # ============================================================================
   _animate: (area, attributes, durartion, finishFunction) ->
@@ -253,17 +363,6 @@ class HG.AreasOnMap
   # ============================================================================
   _onClick: (event) =>
     @_map.fitBounds event.target.getBounds()
-
-  # ============================================================================
-  _onZoomEnd: (event) =>
-    for label in @_visibleLabels
-      # shouldBeVisible = @_isLabelVisible label
-      shouldBeVisible = yes
-
-      if shouldBeVisible and not label.isActive()
-        @_addLabel label
-      else if not shouldBeVisible and label.isActive()
-        @_removeLabel label
 
   # ============================================================================
   _addLinebreaks : (name) =>
@@ -294,6 +393,11 @@ class HG.AreasOnMap
       # backup styling for whatsoever weird browser that can only handle them
       color:        userStyle.borderColor
       opacity:      userStyle.borderOpacity
+
+
+  # ============================================================================
+  _areEqual: (str1, str2) ->
+    (str1?="").localeCompare(str2) is 0
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #

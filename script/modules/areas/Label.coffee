@@ -13,7 +13,7 @@ class HG.Label
     @_id          = id
     @_name        = name
     @_position    = position
-    @_priority    = prio
+    @_priority    = parseInt(prio)
     # @_boundingBox = boundingBox   # of associated area
     # @_startDate   = startDate
     # @_endDate     = endDate
@@ -21,9 +21,6 @@ class HG.Label
     # get all styles
     if styler?
       @_setStyles styler
-
-    # initally each area is inactive and is set active only by AreaController
-    @_active    = false
 
     # initially area has normal theme class
     @_activeThemeClass  = 'normal'
@@ -59,10 +56,6 @@ class HG.Label
   #   @_endDate
 
   # ============================================================================
-  isActive: ->
-    @_active
-
-  # ============================================================================
   getStyle: ->
     @_style
 
@@ -83,14 +76,6 @@ class HG.Label
         # find correct theme class
         outThemeClasses = theme.themeClasses
     outThemeClasses
-
-  # ============================================================================
-  setActive: () ->
-    @_active = yes
-
-  # ============================================================================
-  setInactive: () ->
-    @_active = no
 
   # ============================================================================
   setActiveThemeClass: (activeTheme, activeThemeClass) ->

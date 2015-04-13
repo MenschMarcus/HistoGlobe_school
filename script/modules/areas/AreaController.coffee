@@ -197,7 +197,6 @@ class HG.AreaController
         area = @_getAreaById id
         if area?
           console.log "rem area", area.getId() if DEBUG_AREAS
-          area.setInactive()
           @notifyAll "onRemoveArea", area
 
       # add all new areas
@@ -205,7 +204,6 @@ class HG.AreaController
         area = @_getAreaById id
         if area?
           console.log "add area", area.getId() if DEBUG_AREAS
-          area.setActive()
           @notifyAll "onAddArea", area
 
       # remove all old labels
@@ -213,7 +211,6 @@ class HG.AreaController
         label = @_getLabelById id
         if label?
           console.log "rem label", label.getName() if DEBUG_LABELS
-          label.setInactive()
           @notifyAll "onRemoveLabel", label
 
       # add all new labels
@@ -221,7 +218,6 @@ class HG.AreaController
         label = @_getLabelById id
         if label?
           console.log "add label", label.getName() if DEBUG_LABELS
-          label.setActive()
           @notifyAll "onAddLabel", label
 
       # fade-out transition region

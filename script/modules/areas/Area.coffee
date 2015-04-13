@@ -22,9 +22,6 @@ class HG.Area
     if styler?
       @_setStyles styler
 
-    # initally each area is inactive and is set active only by AreaController
-    @_active    = false
-
     # initially area has normal theme class
     @_activeThemeClass  = 'normal'
     @_prepareStyle null
@@ -54,10 +51,6 @@ class HG.Area
     @_type      # todo: is 'type' really necessary?
 
   # ============================================================================
-  isActive: ->
-    @_active
-
-  # ============================================================================
   getStyle: ->
     @_style
 
@@ -78,14 +71,6 @@ class HG.Area
         # find correct theme class
         outThemeClasses = theme.themeClasses
     outThemeClasses
-
-  # ============================================================================
-  setActive: () ->
-    @_active = yes
-
-  # ============================================================================
-  setInactive: () ->
-    @_active = no
 
   # ============================================================================
   setActiveThemeClass: (activeTheme, activeThemeClass) ->
