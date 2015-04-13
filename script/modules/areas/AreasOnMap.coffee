@@ -25,6 +25,9 @@ class HG.AreasOnMap
       ++i
 
 
+    # highcontrast hack: swap between normal and "_hc" mode
+    @_isHighContrast  = no
+
     defaultConfig =
       labelVisibilityFactor: 5
 
@@ -60,7 +63,8 @@ class HG.AreasOnMap
       @_areaController.onFadeOutArea @, (area) =>
         @_hideArea area, @_aniTime
 
-      @_areaController.onUpdateAreaStyle @, (area) =>
+      @_areaController.onUpdateAreaStyle @, (area, isHC) =>
+        @_isHighContrast = isHC
         @_updateAreaStyle area
 
       # change of labels
@@ -77,6 +81,7 @@ class HG.AreasOnMap
 
     else
       console.error "Unable to show areas on Map: AreaController module not detected in HistoGlobe instance!"
+
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -124,17 +129,14 @@ class HG.AreasOnMap
     if area.myLeafletLayer?
       if not isHighlight
         @_animate area.myLeafletLayer,
-          # TODO: does that work better? translating the whole style 5 times for each item separately seems not intuitive...
           "fill-opacity":   area.getStyle().areaOpacity
           "stroke-opacity": area.getStyle().borderOpacity
         , aniTime
       else
         @_animate area.myLeafletLayer,
-          # TODO: does that work better? translating the whole style 5 times for each item separately seems not intuitive...
           "fill":           "#ff0000"
           "fill-opacity":   1.0
         , aniTime
-
 
   # ============================================================================
   _hideArea: (area, aniTime) ->
@@ -464,10 +466,20 @@ class HG.AreasOnMap
       lineColor:    userStyle.borderColor
       lineOpacity:  userStyle.borderOpacity
       weight:       userStyle.borderWidth
+      labelOpacity: userStyle.labelOpacity
+      labelColor:   userStyle.labelColor
       # backup styling for whatsoever weird browser that can only handle them
       color:        userStyle.borderColor
       opacity:      userStyle.borderOpacity
 
+    # override in highContrast mode
+    if @_isHighContrast
+      options.fillColor   = userStyle.areaColor_hc
+      options.lineColor   = userStyle.borderColor_hc
+      options.color       = userStyle.borderColor_hc
+      options.labelColor  = userStyle.labelColor_hc
+
+    options
 
   # ============================================================================
   _areEqual: (str1, str2) ->

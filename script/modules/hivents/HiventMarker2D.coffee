@@ -14,7 +14,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
 
     #Call Hivent Marker Constructor
     HG.HiventMarker.call @, hiventHandle, map.getPanes()["popupPane"]
-    
+
     #List of Markers
     VISIBLE_MARKERS_2D.push @
 
@@ -28,19 +28,19 @@ class HG.HiventMarker2D extends HG.HiventMarker
 
     @_lat = lat
     @_long = long
-    
+
     #Private Name and Location because constant use
     @_markerLabelLocation=hiventHandle.getHivent().locationName
-     
+
     @_markerLabelEventName=hiventHandle.getHivent().name
 
-    
+
     html="<div class=\"markerLabel\">#{@_markerLabelLocation}</div>"
     iconAnchor=[15,45]
     icon_default    = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_default", iconSize: [34, 50] ,iconAnchor:iconAnchor,html:html}
     icon_higlighted = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_highlighted", iconSize: [34, 50], iconAnchor:iconAnchor, html:html}
     @_marker = new L.Marker [@_lat, @_long], {icon: icon_default}
-    
+
 
     @_marker.myHiventMarker2D = @
 
@@ -61,7 +61,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
     @_marker.on "click", @_onClick
     @_map.on "zoomend", @_updatePosition
     @_map.on "dragend", @_updateMarker
-    
+
     @_map.on "dragend", @_updatePosition
     @_map.on "viewreset", @_updatePosition
     @_map.on "zoomend", @_updateMarker
@@ -70,15 +70,20 @@ class HG.HiventMarker2D extends HG.HiventMarker
         @_display.focus @getHiventHandle().getHivent()
     )
 
-    @getHiventHandle().onActive(@, (mousePos) =>     
+    @getHiventHandle().onActive(@, (mousePos) =>
+      
+      @_marker.setIcon icon_higlighted
       @_map.on "drag", @_updatePosition
     )
 
     @getHiventHandle().onInActive(@, (mousePos) =>
+      
+      @_marker.setIcon icon_default
       @_map.off "drag", @_updatePosition
     )
 
     @getHiventHandle().onLink(@, (mousePos) =>
+      
       @_marker.setIcon icon_higlighted
     )
 
@@ -87,7 +92,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
     )
 
     @getHiventHandle().onAgeChanged @, (age) =>
-      #no more Opacity 
+      #no more Opacity
       #@_marker.setOpacity age
       0
 
@@ -124,15 +129,16 @@ class HG.HiventMarker2D extends HG.HiventMarker
   # ============================================================================
   _onMouseOut: (e) =>
     #@_hiventHandle.regionMarker.unHiglight()
-    @getHiventHandle().unMark @, @_position
-    @getHiventHandle().unLinkAll @_position
+    if !@getHiventHandle()._activated
+      @getHiventHandle().unMark @, @_position
+      @getHiventHandle().unLinkAll @_position
     @_updateMarker()
 
   # ============================================================================
   # _onClick: (e) =>
     # default behavior
     # @getHiventHandle().toggleActive @, @getDisplayPosition()
-    
+
     # marker: center horizontally and ~ 2/3 vertically; hivent box above marker
     # @getHiventHandle().focusAll @, @_position
     # @getHiventHandle().activeAll @, @_position
@@ -155,10 +161,10 @@ class HG.HiventMarker2D extends HG.HiventMarker
   _updatePosition: =>
     @_position = @_map.latLngToLayerPoint @_marker.getLatLng()
     @notifyAll "onPositionChanged", @getDisplayPosition()
-  
+
   _updateMarker: =>
     #should be a way to specify behaviour over config/abtest
-    #if window.hgConfig.ABTest.regionLabels=="B"    
+    #if window.hgConfig.ABTest.regionLabels=="B"
     #disabled for better performance
     #marcus you told me to write this function
     if false
@@ -166,7 +172,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
         if @_map.getZoom()>3
           @_marker._icon.innerHTML="<div class=\"markerLabel\">#{@_markerLabelLocation}</div>"
         else
-          @_marker._icon.innerHTML="<div class=\"markerLabel\">#{@_markerLabelEventName}</div>"      
+          @_marker._icon.innerHTML="<div class=\"markerLabel\">#{@_markerLabelEventName}</div>"
     0
    # ============================================================================
   _destroy: =>

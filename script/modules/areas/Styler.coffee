@@ -11,14 +11,17 @@ class HG.Styler
 
     defaultConfig =
       normalStyle:
-        areaColor:      "#FCFCFC",
-        areaOpacity:    0.75,
-        borderWidth:    1.0,
-        borderColor:    "#BBBBBB",
-        borderOpacity:  1.0,
-        nameSize:       1,
-        nameColor:      "#BBBBBB",
-        nameOpacity:    1.0
+        areaColor:        "#FCFCFC",
+        areaColor_hc:     "#FCFCFC",
+        areaOpacity:      0.75,
+        borderWidth:      1.0,
+        borderColor:      "#BBBBBB",
+        borderColor_hc:   "#BBBBBB",
+        borderOpacity:    1.0,
+        labelSize:        1,
+        labelColor:       "#BBBBBB",
+        labelColor_hc:    "#BBBBBB",
+        labelOpacity:     1.0
 
     @_config = $.extend {}, defaultConfig, config
 
@@ -30,14 +33,17 @@ class HG.Styler
 
     # highlight style:  if not in modules.json, take normal style = no highlight style
     if @_config.highlightStyle?
-      @_config.highlightStyle.areaColor     = @_config.highlightStyle.areaColor ? @_config.normalStyle.areaColor
-      @_config.highlightStyle.areaOpacity   = @_config.highlightStyle.areaOpacity ? @_config.normalStyle.areaOpacity
-      @_config.highlightStyle.borderWidth   = @_config.highlightStyle.borderWidth ? @_config.normalStyle.borderWidth
-      @_config.highlightStyle.borderColor   = @_config.highlightStyle.borderColor ? @_config.normalStyle.borderColor
-      @_config.highlightStyle.borderOpacity = @_config.highlightStyle.borderOpacity ? @_config.normalStyle.borderOpacity
-      @_config.highlightStyle.nameSize      = @_config.highlightStyle.nameSize ? @_config.normalStyle.nameSize
-      @_config.highlightStyle.nameColor     = @_config.highlightStyle.nameColor ? @_config.normalStyle.nameColor
-      @_config.highlightStyle.nameOpacity   = @_config.highlightStyle.nameOpacity ? @_config.normalStyle.nameOpacity
+      @_config.highlightStyle.areaColor       = @_config.highlightStyle.areaColor     ? @_config.normalStyle.areaColor
+      @_config.highlightStyle.areaColor_hc    = @_config.highlightStyle.areaColor_hc  ? @_config.highlightStyle.areaColor
+      @_config.highlightStyle.areaOpacity     = @_config.highlightStyle.areaOpacity   ? @_config.normalStyle.areaOpacity
+      @_config.highlightStyle.borderWidth     = @_config.highlightStyle.borderWidth   ? @_config.normalStyle.borderWidth
+      @_config.highlightStyle.borderColor     = @_config.highlightStyle.borderColor   ? @_config.normalStyle.borderColor
+      @_config.highlightStyle.borderColor_hc  = @_config.highlightStyle.borderColor_hc ? @_config.highlightStyle.borderColor
+      @_config.highlightStyle.borderOpacity   = @_config.highlightStyle.borderOpacity ? @_config.normalStyle.borderOpacity
+      @_config.highlightStyle.labelSize       = @_config.highlightStyle.labelSize     ? @_config.normalStyle.labelSize
+      @_config.highlightStyle.labelColor      = @_config.highlightStyle.labelColor    ? @_config.normalStyle.labelColor
+      @_config.highlightStyle.labelColor_hc   = @_config.highlightStyle.labelColor_hc ? @_config.highlightStyle.labelColor
+      @_config.highlightStyle.labelOpacity    = @_config.highlightStyle.labelOpacity  ? @_config.normalStyle.labelOpacity
     else
       @_config.highlightStyle = @_config.normalStyle
 
@@ -45,14 +51,17 @@ class HG.Styler
     if @_config.themeStyles?
       for themeName, themeClasses of @_config.themeStyles
         for themeClassName, themeClassStyle of themeClasses
-          themeClassStyle.areaColor     = themeClassStyle.areaColor ? @_config.normalStyle.areaColor
-          themeClassStyle.areaOpacity   = themeClassStyle.areaOpacity ? @_config.normalStyle.areaOpacity
-          themeClassStyle.borderWidth   = themeClassStyle.borderWidth ? @_config.normalStyle.borderWidth
-          themeClassStyle.borderColor   = themeClassStyle.borderColor ? @_config.normalStyle.borderColor
-          themeClassStyle.borderOpacity = themeClassStyle.borderOpacity ? @_config.normalStyle.borderOpacity
-          themeClassStyle.nameSize      = themeClassStyle.nameSize ? @_config.normalStyle.nameSize
-          themeClassStyle.nameColor     = themeClassStyle.nameColor ? @_config.normalStyle.nameColor
-          themeClassStyle.nameOpacity   = themeClassStyle.nameOpacity ? @_config.normalStyle.nameOpacity
+          themeClassStyle.areaColor       = themeClassStyle.areaColor     ? @_config.normalStyle.areaColor
+          themeClassStyle.areaColor_hc    = themeClassStyle.areaColor_hc  ? themeClassStyle.areaColor
+          themeClassStyle.areaOpacity     = themeClassStyle.areaOpacity   ? @_config.normalStyle.areaOpacity
+          themeClassStyle.borderWidth     = themeClassStyle.borderWidth   ? @_config.normalStyle.borderWidth
+          themeClassStyle.borderColor     = themeClassStyle.borderColor   ? @_config.normalStyle.borderColor
+          themeClassStyle.borderColor_hc  = themeClassStyle.borderColor_hc ? themeClassStyle.borderColor
+          themeClassStyle.borderOpacity   = themeClassStyle.borderOpacity ? @_config.normalStyle.borderOpacity
+          themeClassStyle.labelSize       = themeClassStyle.labelSize     ? @_config.normalStyle.labelSize
+          themeClassStyle.labelColor      = themeClassStyle.labelColor    ? @_config.normalStyle.labelColor
+          themeClassStyle.labelColor_hc   = themeClassStyle.labelColor_hc ? themeClassStyle.labelColor
+          themeClassStyle.labelOpacity    = themeClassStyle.labelOpacity  ? @_config.normalStyle.labelOpacity
 
     # translate the style from the user point of view to the leaflet point of view
     @_normalStyle     = @_config.normalStyle

@@ -18,8 +18,7 @@ $border_color_dark                  = #000000
 // --------------------- MAP OPTIONS -------------------------------------------
 $map_min_width                      = 300px
 $map_collapsed_width                = 50px
-
-$map_label_size                     = 2.7em
+$map_label_size                     = 1.7em
 
 
 // ------------------ SIDE_BAR OPTIONS -----------------------------------------
@@ -140,3 +139,7 @@ $timeline_datemarker_color                  = #ffffff
 // ------------------ NOW MARKER OPTIONS -----------------------------------------
 $now_marker_bgcolor       = rgba(19, 31, 41, 0.77)
 $now_marker_bgcolor_hc    = rgba(0, 0, 0, 1)
+
+// ------------------ IMPRINT OPTIONS -----------------------------------------
+$imprint_width            = 800 px
+$imprint_height           = 600 px

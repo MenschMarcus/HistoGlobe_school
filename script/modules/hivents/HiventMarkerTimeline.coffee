@@ -64,8 +64,9 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
       @getHiventHandle().linkAll @_position
 
     @_div.onmouseout = (e) =>
-      @getHiventHandle().unMark @, @_position
-      @getHiventHandle().unLinkAll @_position
+      if !@getHiventHandle()._activated
+        @getHiventHandle().unMark @, @_position
+        @getHiventHandle().unLinkAll @_position
 
     @_div.onclick = (e) =>
       e.preventDefault()
@@ -84,6 +85,12 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
       @_div.setAttribute "class", @_classHighlighted
 
     @getHiventHandle().onUnLink @, (mousePos) =>
+      @_div.setAttribute "class", @_classDefault
+
+    @getHiventHandle().onActive @, (mousePos) =>
+      @_div.setAttribute "class", @_classHighlighted
+
+    @getHiventHandle().onInActive @, (mousePos) =>
       @_div.setAttribute "class", @_classDefault
 
     @getHiventHandle().onDestruction @, @_destroy

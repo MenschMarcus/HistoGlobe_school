@@ -1,106 +1,4 @@
 @import "../../style/histoglobe.less";
-.guiPopover
-{
-  box-shadow: 1px 1px 2px 2px rgba(0,0,0,@shadow_intensity);
-
-  .guiPopoverBodyV1, .guiPopoverBodyV2
-  {
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
-    position:absolute;
-    bottom:0;
-    width:100%;
-    //background-color: #fff;
-
-    .guiPopoverContent
-    {
-      font-size: 12pt;
-
-      .hivent-body
-      {
-
-        .guiPopoverTitle
-        {
-          // font-family: 'Libre Baskerville', serif;
-          // font-style: italic;
-          font-size: 20pt;
-          //color: #fff;
-          //background-color: #fff;
-          //border-bottom: @border_width solid #bcb100;
-          //background-image: none;
-        }
-      }
-    }
-
-    h3
-    {
-      // display: none;
-      color: #fff;
-    }
-  }
-
-  .guiPopoverBody
-  {
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
-    color: #fff;
-    position:absolute;
-    bottom:0;
-    width:100%;
-    //background-color: #fff;
-
-    .guiPopoverContent
-    {
-      font-size: 12pt;
-
-      .hivent-body
-      {
-
-        .guiPopoverTitle
-        {
-          // font-family: 'Libre Baskerville', serif;
-          // font-style: italic;
-          font-size: 20pt;
-          color: #fff;
-          //background-color: #fff;
-          //border-bottom: @border_width solid #bcb100;
-          //background-image: none;
-        }
-      }
-    }
-  }
-
-  .guiPopoverBodyV1 {
-    max-height: 180px;
-    color: #000000;
-  }
-
-  .guiPopoverBodyV2 {
-    max-height: 350px;
-    color: #ffffff;
-    background-image: -webkit-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
-    background-image: -moz-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
-    background-image: -ms-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
-    background-image: -o-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
-    background-image: linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
-  }
-
-  // .arrow {
-  //   &.arrow-up {
-  //     border-bottom: @hivent_info_popover_arrow_height solid #fff;
-  //   }
-
-  //   &.arrow-down {
-  //     border-top: @hivent_info_popover_arrow_height solid #fff;
-  //   }
-
-  //   &.arrow-right {
-  //     border-left: @hivent_info_popover_arrow_height solid #fff;
-  //   }
-
-  //   &.arrow-left {
-  //     border-right: @hivent_info_popover_arrow_height solid #fff;
-  //   }
-  // }
-}
 
 .tooltip-inner {
     background-color: #fff;
@@ -148,18 +46,27 @@
 }
 
 
-// country names
+/*** country styling ***/
+// labels
 // class: style/modules/areas/leaflet_labels_override.less
 
 .leaflet-label
 {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
-  font-style: italic !important;
+  //font-style: italic !important;
+  font-size: 1.1em !important;
+  //text-shadow: 0px 0px 5px #ffffff;
   .transition(opacity 0.5s ease-in-out);
 
   &.invisible {
     opacity: 0.0 !important;
   }
+}
+
+.highContrast .leaflet-label
+{
+  // font-size: 1.2em !important;
+  //text-shadow: 0px 0px 7px #ffffff;
 }
 
 .control-buttons {
@@ -176,4 +83,5 @@
     }
   }
 }
+
 

@@ -26,10 +26,10 @@ class HG.AreaController
     @addCallback "onUpdateLabelStyle"
 
 
-    @_timeline  = null
-    @_now       = null
-    @_theme     = null
-    # @_theme     = 'bipolarAlliances'
+    @_timeline        = null
+    @_now             = null
+    @_theme           = ''
+    @_isHighContrast  = no
 
     defaultConfig =
       areaJSONPaths: undefined,
@@ -69,16 +69,31 @@ class HG.AreaController
         oldDate = @_now
         newDate = date
         @_updateCountries oldDate, newDate
-
         # update now date
         @_now = date
+
+    hgInstance.onAllModulesLoaded @, () =>
+      hgInstance.hivent_list_module?.onUpdateTheme @, (theme) =>
+        @_theme = theme
+        # @_updateCountries @_now # TODO: update style
+
+    # toggle highContrast mode
+    hgInstance.highcontrast_button.onEnterHighContrast @, () =>
+      @_isHighContrast = yes
+      for area in @_areas
+        @notifyAll "onUpdateAreaStyle", area, yes
+
+    hgInstance.highcontrast_button.onLeaveHighContrast @, () =>
+      @_isHighContrast = no
+      for area in @_areas
+        @notifyAll "onUpdateAreaStyle", area, no
 
     # infinite loop that executes all changes in the queue
     mainLoop = setInterval () =>    # => is important to be able to access global variables (compared to ->)
       @_doChanges()
-    , 50
+    , 1000 # TODO: change back to 50
 
-    # hgInstance.onAllModulesLoaded @, () =>
+
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -133,8 +148,8 @@ class HG.AreaController
           oldAreas.push id if changeDir is -1
 
         for id in change.old_areas
-          oldAreas.push id if changeDir is 1   # timeline moves forward => old areas are old areas
-          newAreas.push id if changeDir is -1    # timeline moves backward => old areas are new areas
+          oldAreas.push id if changeDir is 1      # timeline moves forward => old areas are old areas
+          newAreas.push id if changeDir is -1     # timeline moves backward => old areas are new areas
 
         for id in change.new_labels
           newLabels.push id if changeDir is 1
@@ -234,7 +249,6 @@ class HG.AreaController
     for file in config.areaJSONPaths
       $.getJSON file, (areas) =>
         numAreasToLoad = areas.features.length  # counter
-
         for area in areas.features
 
           # parse file asynchronously

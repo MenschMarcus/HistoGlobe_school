@@ -12,8 +12,6 @@ class HG.Area
     # init data
     @_id        = id
     @_geometry  = geometry
-    # @_startDate = startDate
-    # @_endDate   = endDate
     @_type      = type
 
     @_calcBoundingBox()
@@ -33,14 +31,6 @@ class HG.Area
   # ============================================================================
   getBoundingBox: ->
     @_boundingBox
-
-  # ============================================================================
-  # getStartDate: ->
-  #   @_startDate
-
-  # ============================================================================
-  # getEndDate: ->
-  #   @_endDate
 
   # ============================================================================
   getGeometry: ->
