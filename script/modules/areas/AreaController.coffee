@@ -75,18 +75,22 @@ class HG.AreaController
     hgInstance.onAllModulesLoaded @, () =>
       hgInstance.hivent_list_module?.onUpdateTheme @, (theme) =>
         @_theme = theme
-        # @_updateCountries @_now # TODO: update style
+        @_updateStyle @_now
 
     # toggle highContrast mode
     hgInstance.highcontrast_button.onEnterHighContrast @, () =>
       @_isHighContrast = yes
       for area in @_areas
         @notifyAll "onUpdateAreaStyle", area, yes
+      for label in @_labels
+        @notifyAll "onUpdateLabelStyle", label, yes
 
     hgInstance.highcontrast_button.onLeaveHighContrast @, () =>
       @_isHighContrast = no
       for area in @_areas
         @notifyAll "onUpdateAreaStyle", area, no
+      for label in @_labels
+        @notifyAll "onUpdateLabelStyle", label, no
 
     # infinite loop that executes all changes in the queue
     mainLoop = setInterval () =>    # => is important to be able to access global variables (compared to ->)
@@ -196,6 +200,11 @@ class HG.AreaController
         enteredChangeRange = yes
       else
         break if enteredChangeRange
+
+  # ============================================================================
+  # updates the style values for areas and labels
+  _updateStyle: () ->
+    return
 
   # ============================================================================
   # find next ready area change and execute it (one at a time)
