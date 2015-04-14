@@ -25,6 +25,8 @@
     <link rel="stylesheet" type="text/css" href="style/third-party/leaflet.css" />
     <link rel="stylesheet" type="text/css" href="style/third-party/leaflet.label.css" />
     <link rel="stylesheet" type="text/css" href="style/third-party/jplayer/blue.monday/jplayer.blue.monday.css" />
+    <link rel="stylesheet" type="text/css" href="style/third-party/jquery.jscrollpane.css" />
+
     <!--[if lte IE 8]>hivent
       <link rel="stylesheet" href="style/third-party/leaflet.ie.css" />
       <link rel="stylesheet" href="style/third-party/MarkerCluster.Default.ie.css" />
