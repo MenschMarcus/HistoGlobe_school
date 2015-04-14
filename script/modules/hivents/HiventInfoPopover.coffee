@@ -14,7 +14,7 @@ class HG.HiventInfoPopover
     @_visible = false
     @_multimediaController = hgInstance.multimediaController
 
-    @_description_length = 300
+    @_description_length = 290
 
     #@_hivent_ID = @_hiventHandle.getHivent().id.substring(2)
     #@_multimedia_ID = @_hiventHandle.getHivent().multimedia.substring(2)
@@ -40,14 +40,15 @@ class HG.HiventInfoPopover
 
     body.appendChild text
 
+    # ============================================================================
 
     locationString = ''
     if hiventIndex? and @_hiventHandle.getHivent().locationName?
       locationString = @_hiventHandle.getHivent().locationName[hiventIndex] + ', '
 
     date = document.createElement "span"
+    date.className = "date"
     date.innerHTML = ' - ' + locationString + @_hiventHandle.getHivent().displayDate
-    text.appendChild date
 
     gotoDate = document.createElement "i"
     gotoDate.className = "fa fa-clock-o"
@@ -56,6 +57,9 @@ class HG.HiventInfoPopover
       @_hgInstance.timeline.moveToDate @_hiventHandle.getHivent().startDate, 0.5
     date.appendChild gotoDate
 
+    text.appendChild date
+
+    # ============================================================================
 
     # if !showArrow
     #   container = window.body

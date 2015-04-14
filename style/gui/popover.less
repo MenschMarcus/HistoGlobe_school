@@ -16,7 +16,7 @@
 
   .guiPopoverBodyV1, .guiPopoverBodyV2 {
   //font: "Helvetica Neue", Arial, Helvetica, sans-serif;
-  font-family: roboto;
+  font-family: @primary_font_face;
   position: absolute;
   padding: @popover_body_padding;
 
@@ -26,11 +26,12 @@
   
     .guiPopoverContent {
       font-size: 12pt;
+      bottom: 10px;
 
       .hivent-body {
 
         .guiPopoverTitle {
-          font-family: roboto;
+          font-family: @primary_font_face;
           font-size: 27px;
           font-weight: 100;
           padding-left: 0;
@@ -45,6 +46,13 @@
           }
         }
       }
+    }
+
+    .info-links {
+      position: absolute;
+      bottom: 5px;
+      font-size: 12px;
+      color: rgb(170, 170, 170);
     }
   }
 
@@ -70,7 +78,7 @@
 
   .guiPopoverBodyBig {
     //font: "Helvetica Neue", Arial, Helvetica, sans-serif;
-    font-family: roboto;
+    font-family: @primary_font_face;
     padding: @popover_body_padding;
     background-image: -webkit-linear-gradient(right, rgba(0,0,0,0), rgb(0,0,0,0));
     background-image: -moz-linear-gradient(right, rgba(0,0,0,0), rgb(0,0,0,0));
@@ -111,6 +119,13 @@
         }
       }
     }
+
+    .info-links-big {
+      position: absolute;
+      bottom: 5px;
+      font-size: 12px;
+      color: rgb(170, 170, 170);
+    }
   }
 
   &.fullscreen {
@@ -141,13 +156,18 @@
 
   .close-button {
     position: absolute;
+    background-color: #000000;
+    background-image: url("/../../data/hivent_icons/close.svg");  
+    background-repeat: no-repeat;
+    background-position: center center;  
+    border-radius: 50%;
     z-index: 5;
-    color: #D5C900;
-    font-size: 35pt;
-    opacity: 0.75;
-    text-shadow: 0 2px 0 #000;
-    top: -8px;
-    right: 10px;
+    
+    width: 30px;
+    height: 30px;
+    opacity: 0.5;
+    top: 8px;
+    right: 8px;
     cursor: pointer;
 
     &:hover {
@@ -155,35 +175,30 @@
     }
   }
 
-  .expand2FS {
+  .expand2FS, .compress2Normal {
     position: absolute;
-    color: #D5C900;
+    background-color: #000000;
+    border-radius: 50%;
     z-index: 5;
-    font-size: 16pt;
-    opacity: 0.75;
+    
+    width: 30px;
+    height: 30px;
+    opacity: 0.5;
     text-shadow: 0 2px 0 #000;
-    bottom: 2px;
-    right: 6px;
+    bottom: 8px;
+    right: 8px;
     cursor: pointer;
 
     &:hover {
       opacity: 1;
     }
-  }
 
-  .compress2Normal {
-    position: absolute;
-    color: #D5C900;
-    z-index: 5;
-    font-size: 16pt;
-    opacity: 0.75;
-    text-shadow: 0 2px 0 #000;
-    bottom: 2px;
-    right: 6px;
-    cursor: pointer;
-
-    &:hover {
-      opacity: 1;
+    i {
+      position: relative;
+      top: 5px;
+      left: 6px;
+      color: #D5C900;
+      font-size: 16pt;
     }
   }
 }
