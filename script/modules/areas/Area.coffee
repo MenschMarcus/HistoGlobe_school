@@ -7,18 +7,35 @@ class HG.Area
   ##############################################################################
 
   # ============================================================================
-  constructor: (id, geometry, type, styler) ->
+  constructor: (id, area, type, styler) ->
 
     # init data
     @_id        = id
-    @_geometry  = geometry
     @_type      = type
-
-    @_calcBoundingBox()
 
     # get all styles
     if styler?
       @_setStyles styler
+
+    # create geometry
+       # geometry (polygons)
+    @_geometry = []
+
+    # error handling: empty layer because of non-existing geometry
+    if area.geometry.coordinates.length is 0
+      @_geometry = [[]]
+
+    else
+      console.log area
+      data = L.GeoJSON.geometryToLayer area
+      if area.geometry.type is "Polygon"
+        @_geometry.push data._latlngs
+      else if area.geometry.type is "MultiPolygon"
+        for id, layer of data._layers
+          @_geometry.push layer._latlngs
+
+    # get bounding box
+    @_calcBoundingBox()
 
     # initially area has normal theme class
     @_activeThemeClass  = 'normal'

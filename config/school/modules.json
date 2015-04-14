@@ -197,7 +197,8 @@
   {
     "areaJSONPaths" : ["config/school/data/countryAreas.geojson"],
     "labelJSONPaths" : ["config/school/data/countryLabels.geojson"],
-    "changeJSONPaths" : ["config/school/data/countryChanges.json"]
+    "changeJSONPaths" : ["config/school/data/countryChanges.json"],
+    "transitionJSONPaths" : ["config/school/data/countryTransitions.geojson"]
   },
 
   "AreasOnMap" :

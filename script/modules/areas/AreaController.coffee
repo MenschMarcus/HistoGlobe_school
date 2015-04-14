@@ -33,13 +33,17 @@ class HG.AreaController
 
     defaultConfig =
       areaJSONPaths: undefined,
+      labelJSONPaths: undefined,
+      changeJSONPaths: undefined,
+      transitionJSONPaths: undefined,
 
     conf = $.extend {}, defaultConfig, config
 
     # area handling
-    @_areas = []    # set of all HG areas (id, geometry, ...)
-    @_labels = []   # set of all HG labels (id, name, position, ...)
-    @_changes = []  # set of all HG areas (id, type, date, old/new areas/labels)
+    @_areas = []        # set of all HG areas (id, geometry, ...)
+    @_labels = []       # set of all HG labels (id, name, position, ...)
+    @_changes = []      # set of all historic changes
+    @_transAreas = []   # set of all transition areas (id, type, geometry)
 
     # main queue, each element describes one area change
     @_changeQueue = new Queue()
@@ -48,9 +52,11 @@ class HG.AreaController
     @_areasLoaded = no
     @_labelsLoaded = no
     @_changesLoaded = no
+    @_transitionsLoaded = yes
     @_loadAreasFromJSON conf
     @_loadLabelsFromJSON conf
     @_loadChangesFromJSON conf
+    @_loadTransitionsFromJSON conf
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -65,7 +71,7 @@ class HG.AreaController
 
     # main activity: what happens if now date changes?
     @_timeline.onNowChanged @, (date) ->
-      if @_areasLoaded and @_labelsLoaded and @_changesLoaded
+      if @_areasLoaded and @_labelsLoaded and @_changesLoaded and @_transitionsLoaded
         oldDate = @_now
         newDate = date
         @_updateCountries oldDate, newDate
@@ -132,8 +138,8 @@ class HG.AreaController
         for id in change.transition_regions
           if id?
             hasTransition = yes
-            transRegion = @_getAreaById id
-            @notifyAll "onFadeInArea", transRegion, yes
+            transArea = @_getAreaById id
+            @notifyAll "onFadeInArea", transArea, yes
 
         # enqueue next change
         timestamp = null  # [0]: timestamp at wich changes shall be executed
@@ -141,7 +147,7 @@ class HG.AreaController
         newAreas = []     # [2]: areas to be added
         oldLabels = []    # [3]: labels to be deleted
         newLabels = []    # [4]: labels to be added
-        transRegions = [] # [5]: regions to be faded out when change is done
+        transAreas = [] # [5]: regions to be faded out when change is done
 
         timestamp = new Date()
         if hasTransition
@@ -164,7 +170,7 @@ class HG.AreaController
           newLabels.push id if changeDir is -1
 
         for id in change.transition_regions
-          transRegions.push id
+          transAreas.push id
 
         # remove duplicates -> all areas/labels that are both in new or old array
         # TODO: O(n²) in the moment -> does that get better?
@@ -195,7 +201,7 @@ class HG.AreaController
           ++iNew
 
         # finally enqueue distinct changes
-        @_changeQueue.enqueue [timestamp, oldAreas, newAreas, oldLabels, newLabels, transRegions]
+        @_changeQueue.enqueue [timestamp, oldAreas, newAreas, oldLabels, newLabels, transAreas]
 
         enteredChangeRange = yes
       else
@@ -246,8 +252,8 @@ class HG.AreaController
 
       # fade-out transition region
       for id in change[5]
-        transRegion = @_getAreaById id
-        @notifyAll "onFadeOutArea", transRegion
+        transArea = @_getAreaById id
+        @notifyAll "onFadeOutArea", transArea
 
 
 
@@ -270,23 +276,8 @@ class HG.AreaController
               # startDate = new Date area.properties.start_date.toString()
               # endDate   = new Date area.properties.end_date.toString()
 
-              # geometry (polygons)
-              geometry = []
-
-              # error handling: empty layer because of non-existing geometry
-              if area.geometry.coordinates.length is 0
-                geometry = [[]]
-
-              else
-                data = L.GeoJSON.geometryToLayer area
-                if area.geometry.type is "Polygon"
-                  geometry.push data._latlngs
-                else if area.geometry.type is "MultiPolygon"
-                  for id, layer of data._layers
-                    geometry.push layer._latlngs
-
               # create HG area
-              newArea = new HG.Area areaId, geometry, type, @_styler
+              newArea = new HG.Area areaId, area, type, @_styler
 
               # set initial style
               if @_theme?
@@ -391,6 +382,53 @@ class HG.AreaController
             , 0 # execute immediately
 
           executeAsync change
+
+
+  # ============================================================================
+  _loadTransitionsFromJSON: (config) ->
+
+    # parse each geojson file
+    for file in config.transitionJSONPaths
+      $.getJSON file, (transitions) =>
+        numTransitionsToLoad = transitions.features.length  # counter
+        for transition in transitions.features
+
+          # parse file asynchronously
+          executeAsync = (transition) =>
+            setTimeout () =>
+
+              # meta
+              transId   = "trans" + transition.properties.id
+              type      = 'transAreas'
+              # startDate = new Date area.properties.start_date.toString()
+              # endDate   = new Date area.properties.end_date.toString()
+
+              # create HG area
+              newArea = new HG.Area transId, transition, type, @_styler
+
+              # set initial style
+              if @_theme?
+                # check if area has a class in this theme
+                nowDate = @_timeline.getNowDate
+                themeClasses = newArea.getThemeClasses @_theme
+                if themeClasses?
+                  for themeClass in themeClasses
+                    if nowDate >= themeClass.startDate and nowDate < themeClass.endDate
+                      newThemeClass = themeClass.className
+                      break
+
+              # fill areas array
+              @_transAreas.push newArea
+
+              # one less area to go
+              numTransitionsToLoad--
+              if numTransitionsToLoad is 0
+                @_transitionsLoaded = yes
+                console.log @_transAreas
+
+            , 0 # execute immediately
+
+          executeAsync transition
 
   # ============================================================================
   # find area/label
