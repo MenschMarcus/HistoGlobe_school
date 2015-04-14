@@ -203,7 +203,7 @@ class HG.HiventsOnMap
 ##global because it makes it easier and its not part of any class
 
 window.organizeLabels=()->
-  console.log "organizing labels"
+  
   #collect the labels
 
   labels=document.getElementsByClassName("markerLabel")
@@ -215,8 +215,7 @@ window.organizeLabels=()->
   #and to make certain assumptions possible
   
   labelsArray=labelsArray.sort (a,b) ->
-    return if a.getBoundingClientRect().left>b.getBoundingClientRect().left then 1 else -1
-  console.log labelsArray
+    return if a.getBoundingClientRect().left>b.getBoundingClientRect().left then 1 else -1  
   #harry your a wizard
   movedLabels=[]
   for labelA in labelsArray
@@ -225,7 +224,7 @@ window.organizeLabels=()->
         boxA=labelA.getBoundingClientRect()
         boxB=labelB.getBoundingClientRect()
         if rectanglesIntersect(boxA, boxB) 
-          console.log labelA, labelB
+          
           turnLeft labelA
           continue
 
