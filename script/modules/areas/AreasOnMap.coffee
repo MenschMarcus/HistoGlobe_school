@@ -7,6 +7,7 @@ class HG.AreasOnMap
   ##############################################################################
 
   NUM_LABEL_PRIOS = 5
+  TRANS_COLOR = '#D5C900'
 
   # ============================================================================
   constructor: (config) ->
@@ -56,6 +57,11 @@ class HG.AreasOnMap
       @_areaController.onRemoveArea @, (area) =>
         @_hideArea area, 0
 
+      @_areaController.onUpdateAreaStyle @, (area, isHC) =>
+        @_isHighContrast = isHC
+        @_updateAreaStyle area
+
+      # transition areas and borders
       @_areaController.onFadeInArea @, (area, isHighlight) =>
         @_addArea area
         @_showArea area, @_aniTime, isHighlight
@@ -63,9 +69,12 @@ class HG.AreasOnMap
       @_areaController.onFadeOutArea @, (area) =>
         @_hideArea area, @_aniTime
 
-      @_areaController.onUpdateAreaStyle @, (area, isHC) =>
-        @_isHighContrast = isHC
-        @_updateAreaStyle area
+      @_areaController.onFadeInBorder @, (border) =>
+        @_addBorder border
+        @_showBorder border, @_aniTime
+
+      @_areaController.onFadeOutBorder @, (border) =>
+        @_hideBorder border, @_aniTime
 
       # change of labels
       @_areaController.onAddLabel @, (label) =>
@@ -86,6 +95,12 @@ class HG.AreasOnMap
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
+
+
+  # ============================================================================
+  # AREAS
+  # ============================================================================
+
 
   # ============================================================================
   # physically adds area to the map, but makes it invisible
@@ -135,7 +150,7 @@ class HG.AreasOnMap
         , aniTime
       else
         @_animate area.myLeafletLayer,
-          "fill":           "#ff0000"
+          "fill":           TRANS_COLOR
           "fill-opacity":   1.0
         , aniTime
 
@@ -160,6 +175,68 @@ class HG.AreasOnMap
         "stroke-opacity": area.getStyle().borderOpacity
         "stroke-width":   area.getStyle().borderWidth
       , 200   # TODO: get from config
+
+
+
+  # ============================================================================
+  # BORDERS
+  # ============================================================================
+
+
+  # ============================================================================
+  # physically adds border to the map, but makes it invisible
+  _addBorder: (border) ->
+    if not border.myLeafletLayer?
+
+      # take style of country but make it invisible
+      options = {}
+      options.color       = TRANS_COLOR
+      options.fillColor   = TRANS_COLOR
+      options.opacity     = 0.0
+      options.fillOpacity = 0.0
+      options.weight      = 2.5
+      options.clickable   = no
+
+      # create layer with loaded geometry and style
+      border.myLeafletLayer = L.multiPolyline border.getGeometry(), options
+
+      # create double-link: leaflet layer knows HG area and HG area knows leaflet layer
+      border.myLeafletLayer.hgArea = border
+      border.myLeafletLayer.addTo @_map
+
+  # ============================================================================
+  # physically removes area from the map
+  _removeBorder: (border) ->
+    if border.myLeafletLayer?
+
+      # remove double-link: leaflet layer from area and area from leaflet layer
+      @_map.removeLayer border.myLeafletLayer
+      border.myLeafletLayer = null
+
+  # ============================================================================
+  # slowly fades in area and allows interaction with it
+  _showBorder: (border, aniTime) ->
+    if border.myLeafletLayer?
+      @_animate border.myLeafletLayer,
+        "fill-opacity":   1.0
+        "stroke-opacity": 1.0
+      , aniTime
+
+  # ============================================================================
+  _hideBorder: (border, aniTime) ->
+    if border.myLeafletLayer?
+      @_animate border.myLeafletLayer,
+        # TODO: does that work better? translating the whole style 5 times for each item separately seems not intuitive...
+        "fill-opacity":   0.0
+        "stroke-opacity": 0.0
+      , aniTime, () =>
+        @_removeBorder border
+
+
+
+  # ============================================================================
+  # LABELS
+  # ============================================================================
 
 
   # ============================================================================
@@ -199,6 +276,29 @@ class HG.AreasOnMap
 
       @_checkLabelOnRemove
 
+  # ============================================================================
+  _showLabel: (label) =>
+    if label.myLeafletLabel?
+      label.myLeafletLabelIsVisible = true
+      $(label.myLeafletLabel._container).removeClass("invisible")
+
+      # add to visible label list
+      @_addLabelToList @_visibleLabels, label
+
+      # remove from invisible label list (if it exists)
+      @_removeLabelFromList @_invisibleLabels, label
+
+  # ============================================================================
+  _hideLabel: (label) =>
+    if label.myLeafletLabel?
+      label.myLeafletLabelIsVisible = false
+      $(label.myLeafletLabel._container).addClass("invisible")
+
+      # add to invisible label list
+      @_addLabelToList @_invisibleLabels, label
+
+      # remove from visible label list (if it exists)
+      @_removeLabelFromList @_visibleLabels, label
 
   # ============================================================================
   _checkLabelOnAdd: (labelA) ->
@@ -330,30 +430,6 @@ class HG.AreasOnMap
     @_config.labelVisibilityFactor*(1/prio*NUM_LABEL_PRIOS)
 
   # ============================================================================
-  _showLabel: (label) =>
-    if label.myLeafletLabel?
-      label.myLeafletLabelIsVisible = true
-      $(label.myLeafletLabel._container).removeClass("invisible")
-
-      # add to visible label list
-      @_addLabelToList @_visibleLabels, label
-
-      # remove from invisible label list (if it exists)
-      @_removeLabelFromList @_invisibleLabels, label
-
-  # ============================================================================
-  _hideLabel: (label) =>
-    if label.myLeafletLabel?
-      label.myLeafletLabelIsVisible = false
-      $(label.myLeafletLabel._container).addClass("invisible")
-
-      # add to invisible label list
-      @_addLabelToList @_invisibleLabels, label
-
-      # remove from visible label list (if it exists)
-      @_removeLabelFromList @_visibleLabels, label
-
-  # ============================================================================
   _addLabelToList: (array, label) =>
     # check if there is an element in the list that is undefined and put label there
 
@@ -417,6 +493,14 @@ class HG.AreasOnMap
     if label.myLeafletLabel?
       label.myLeafletLabel._container.style.color = style.labelColor
       label.myLeafletLabel.setOpacity style.labelOpacity
+
+
+
+
+  # ============================================================================
+  # HELPER
+  # ============================================================================
+
 
   # ============================================================================
   _animate: (area, attributes, durartion, finishFunction) ->

@@ -7,8 +7,9 @@ class HG.AreaController
   ##############################################################################
 
   DEBUG_AREAS   = no
+  DEBUG_BORDERS = no
   DEBUG_LABELS  = no
-
+  TIME_LEAP_THRESHOLD = 20 # years -> how many years so that transition areas are not shown?
 
   # ============================================================================
   constructor: (config) ->
@@ -18,9 +19,11 @@ class HG.AreaController
 
     @addCallback "onAddArea"
     @addCallback "onRemoveArea"
+    @addCallback "onUpdateAreaStyle"
     @addCallback "onFadeInArea"
     @addCallback "onFadeOutArea"
-    @addCallback "onUpdateAreaStyle"
+    @addCallback "onFadeInBorder"
+    @addCallback "onFadeOutBorder"
     @addCallback "onAddLabel"
     @addCallback "onRemoveLabel"
     @addCallback "onUpdateLabelStyle"
@@ -43,7 +46,7 @@ class HG.AreaController
     @_areas = []        # set of all HG areas (id, geometry, ...)
     @_labels = []       # set of all HG labels (id, name, position, ...)
     @_changes = []      # set of all historic changes
-    @_transAreas = []   # set of all transition areas (id, type, geometry)
+    @_transitions = []   # set of all transition areas (id, type, geometry)
 
     # main queue, each element describes one area change
     @_changeQueue = new Queue()
@@ -57,6 +60,10 @@ class HG.AreaController
     @_loadLabelsFromJSON conf
     @_loadChangesFromJSON conf
     @_loadTransitionsFromJSON conf
+
+    # problem: initially aloso transition areas and borders are shown, but that is not desired
+    # -> introduce "initStatus"
+    @_initStatus = yes
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -125,6 +132,8 @@ class HG.AreaController
       oldDate = newDate
       newDate = tempDate
 
+    timeLeap = Math.abs(oldDate.getFullYear() - newDate.getFullYear())
+
     # idea: go through all changes in (reversed) order
     # check if the change date is inside the change range from the old to the new date
     # as soon as one change is inside, all changes will be executed until  one change is outside the range
@@ -133,79 +142,98 @@ class HG.AreaController
     for change in @_changes by changeDir
       if change.date >= oldDate and change.date < newDate
 
-        # fade-in transition region
         hasTransition = no
-        for id in change.transition_regions
-          if id?
+
+        # fade-in transition area and border
+        # but not in the initialisation of the countries
+        # and not if scrolled too far
+        if not @_initStatus and timeLeap < TIME_LEAP_THRESHOLD
+          if change.trans_area?
             hasTransition = yes
-            transArea = @_getAreaById id
+            transArea = @_getTransitionById change.trans_area
             @notifyAll "onFadeInArea", transArea, yes
 
-        # enqueue next change
-        timestamp = null  # [0]: timestamp at wich changes shall be executed
-        oldAreas = []     # [1]: areas to be deleted
-        newAreas = []     # [2]: areas to be added
-        oldLabels = []    # [3]: labels to be deleted
-        newLabels = []    # [4]: labels to be added
-        transAreas = [] # [5]: regions to be faded out when change is done
+          if change.trans_border?
+            hasTransition = yes
+            transBorder = @_getTransitionById change.trans_border
+            @notifyAll "onFadeInBorder", transBorder, yes
 
-        timestamp = new Date()
+        # enqueue new change
+        newChange =
+          {
+            timestamp   : null    # timestamp at wich changes shall be executed
+            oldAreas    : []      # areas to be deleted
+            newAreas    : []      # areas to be added
+            oldLabels   : []      # labels to be deleted
+            newLabels   : []      # labels to be added
+            transArea   : null    # regions to be faded out when change is done
+            transBorder : null    # borders to be faded out when change is done
+          }
+
+        ts = new Date()
         if hasTransition
-          timestamp.setMilliseconds timestamp.getMilliseconds() + @_aniTime
+          ts.setMilliseconds ts.getMilliseconds() + @_aniTime
+        newChange.timestamp = ts
 
         for id in change.new_areas
-          newAreas.push id if changeDir is 1
-          oldAreas.push id if changeDir is -1
+          newChange.newAreas.push id if changeDir is 1
+          newChange.oldAreas.push id if changeDir is -1
 
         for id in change.old_areas
-          oldAreas.push id if changeDir is 1      # timeline moves forward => old areas are old areas
-          newAreas.push id if changeDir is -1     # timeline moves backward => old areas are new areas
+          newChange.oldAreas.push id if changeDir is 1      # timeline moves forward => old areas are old areas
+          newChange.newAreas.push id if changeDir is -1     # timeline moves backward => old areas are new areas
 
         for id in change.new_labels
-          newLabels.push id if changeDir is 1
-          oldLabels.push id if changeDir is -1
+          newChange.newLabels.push id if changeDir is 1
+          newChange.oldLabels.push id if changeDir is -1
 
         for id in change.old_labels
-          oldLabels.push id if changeDir is 1
-          newLabels.push id if changeDir is -1
+          newChange.oldLabels.push id if changeDir is 1
+          newChange.newLabels.push id if changeDir is -1
 
-        for id in change.transition_regions
-          transAreas.push id
+        if change.trans_area?
+          newChange.transArea = change.trans_area
+
+        if change.trans_border?
+          newChange.transBorder = change.trans_border
 
         # remove duplicates -> all areas/labels that are both in new or old array
         # TODO: O(n²) in the moment -> does that get better?
         iNew = 0
         iOld = 0
-        lenNew = newAreas.length
-        lenOld = oldAreas.length
+        lenNew = newChange.newAreas.length
+        lenOld = newChange.oldAreas.length
         while iNew < lenNew
           while iOld < lenOld
-            if newAreas[iNew] == oldAreas[iOld]
-              newAreas[iNew] = null
-              oldAreas[iOld] = null
+            if newChange.newAreas[iNew] == newChange.oldAreas[iOld]
+              newChange.newAreas[iNew] = null
+              newChange.oldAreas[iOld] = null
               break
             ++iOld
           ++iNew
 
         iNew = 0
         iOld = 0
-        lenNew = newLabels.length
-        lenOld = oldLabels.length
+        lenNew = newChange.newLabels.length
+        lenOld = newChange.oldLabels.length
         while iNew < lenNew
           while iOld < lenOld
-            if newLabels[iNew] == oldLabels[iOld]
-              newLabels[iNew] = null
-              oldLabels[iOld] = null
+            if newChange.newLabels[iNew] == newChange.oldLabels[iOld]
+              newChange.newLabels[iNew] = null
+              newChange.oldLabels[iOld] = null
               break
             ++iOld
           ++iNew
 
         # finally enqueue distinct changes
-        @_changeQueue.enqueue [timestamp, oldAreas, newAreas, oldLabels, newLabels, transAreas]
+        @_changeQueue.enqueue newChange
 
         enteredChangeRange = yes
-      else
-        break if enteredChangeRange
+
+      else break if enteredChangeRange
+
+    # show transition areas and borders from now on
+    @_initStatus = no
 
   # ============================================================================
   # updates the style values for areas and labels
@@ -215,45 +243,52 @@ class HG.AreaController
   # ============================================================================
   # find next ready area change and execute it (one at a time)
   _doChanges: () ->
+
     # execute change if it is ready
     while not @_changeQueue.isEmpty()
+
       # check if first element in queue is ready (timestamp is reached)
-      break if @_changeQueue.peek()[0] > new Date()
+      break if @_changeQueue.peek().timestamp > new Date()
 
       change = @_changeQueue.dequeue()
 
       # remove all old areas
-      for id in change[1]
+      for id in change.oldAreas
         area = @_getAreaById id
         if area?
           console.log "rem area", area.getId() if DEBUG_AREAS
           @notifyAll "onRemoveArea", area
 
       # add all new areas
-      for id in change[2]
+      for id in change.newAreas
         area = @_getAreaById id
         if area?
           console.log "add area", area.getId() if DEBUG_AREAS
           @notifyAll "onAddArea", area
 
       # remove all old labels
-      for id in change[3]
+      for id in change.oldLabels
         label = @_getLabelById id
         if label?
           console.log "rem label", label.getName() if DEBUG_LABELS
           @notifyAll "onRemoveLabel", label
 
       # add all new labels
-      for id in change[4]
+      for id in change.newLabels
         label = @_getLabelById id
         if label?
           console.log "add label", label.getName() if DEBUG_LABELS
           @notifyAll "onAddLabel", label
 
-      # fade-out transition region
-      for id in change[5]
-        transArea = @_getAreaById id
-        @notifyAll "onFadeOutArea", transArea
+      # fade-out transition area
+      if change.transArea?
+        console.log "fade out", change.transArea if DEBUG_BORDERS
+        @notifyAll "onFadeOutArea", @_getTransitionById change.transArea
+
+      # fade-out transition border
+      if change.transBorder?
+        console.log "fade out", change.transBorder if DEBUG_BORDERS
+        @notifyAll "onFadeOutBorder", @_getTransitionById change.transBorder
 
 
 
@@ -273,11 +308,12 @@ class HG.AreaController
               # meta
               areaId    = area.properties.id
               type      = 'country'
-              # startDate = new Date area.properties.start_date.toString()
-              # endDate   = new Date area.properties.end_date.toString()
+
+              # get geometry
+              geometry = @_geometryFromGeoJSONToLeaflet area
 
               # create HG area
-              newArea = new HG.Area areaId, area, type, @_styler
+              newArea = new HG.Area areaId, type, geometry, @_styler
 
               # set initial style
               if @_theme?
@@ -316,20 +352,15 @@ class HG.AreaController
           executeAsync = (label) =>
             setTimeout () =>
 
-              # meta
-              labelId   = label.properties.id
-              name      = label.properties.name
-              prio      = label.properties.prio
-              # startDate = new Date label.properties.start_date.toString()
-              # endDate   = new Date label.properties.end_date.toString()
+              # if the label actually exists
+              if label.geometry.coordinates[0]?
 
-              # geometry (point)
-              position    = label.geometry.coordinates
-              # boundingBox = label.properties.boundingBox
+                id          = label.properties.id
+                name        = label.properties.name
+                prio        = label.properties.prio
+                coordinates = label.geometry.coordinates
 
-              # create HG label if it exists
-              if position[0]?
-                newLabel = new HG.Label labelId, name, prio, position, @_styler
+                newLabel = new HG.Label id, name, prio, coordinates, @_styler                        # styler
 
                 # set initial style
                 if @_theme?
@@ -397,38 +428,43 @@ class HG.AreaController
           executeAsync = (transition) =>
             setTimeout () =>
 
-              # meta
-              transId   = "trans" + transition.properties.id
-              type      = 'transAreas'
-              # startDate = new Date area.properties.start_date.toString()
-              # endDate   = new Date area.properties.end_date.toString()
+              id        = transition.properties.id
+              type      = transition.properties.type
+              geometry  = @_geometryFromGeoJSONToLeaflet transition
 
-              # create HG area
-              newArea = new HG.Area transId, transition, type, @_styler
-
-              # set initial style
-              if @_theme?
-                # check if area has a class in this theme
-                nowDate = @_timeline.getNowDate
-                themeClasses = newArea.getThemeClasses @_theme
-                if themeClasses?
-                  for themeClass in themeClasses
-                    if nowDate >= themeClass.startDate and nowDate < themeClass.endDate
-                      newThemeClass = themeClass.className
-                      break
+              # creates new "area", even if transBorder is actually no "area" in a sense
+              newTrans = new HG.Area id, type, geometry, @_styler, 'highlight'
 
               # fill areas array
-              @_transAreas.push newArea
+              @_transitions.push newTrans
 
               # one less area to go
               numTransitionsToLoad--
               if numTransitionsToLoad is 0
                 @_transitionsLoaded = yes
-                console.log @_transAreas
 
             , 0 # execute immediately
 
           executeAsync transition
+
+  # ============================================================================
+  # transform geometry from geojson into leaflet layer
+  _geometryFromGeoJSONToLeaflet: (inGeoJSON) ->
+    geometry = []
+
+    # error handling: empty layer because of non-existing geometry
+    if inGeoJSON.geometry.coordinates.length is 0
+      geometry = [[]]
+
+    else
+      data = L.GeoJSON.geometryToLayer inGeoJSON
+      if inGeoJSON.geometry.type is "Polygon" or inGeoJSON.geometry.type is "LineString"
+        geometry.push data._latlngs
+      else if inGeoJSON.geometry.type is "MultiPolygon" or inGeoJSON.geometry.type is "MultiLineString"
+        for id, layer of data._layers
+          geometry.push layer._latlngs
+
+    geometry
 
   # ============================================================================
   # find area/label
@@ -437,6 +473,13 @@ class HG.AreaController
       for area in @_areas
         if area.getId() is id
           return area
+    undefined
+
+  _getTransitionById: (id) ->
+    if id?
+      for trans in @_transitions
+        if trans.getId() is id
+          return trans
     undefined
 
   _getLabelById: (id) ->
