@@ -202,7 +202,7 @@
 
   "AreasOnMap" :
   {
-    "labelVisibilityFactor" : 2
+    "labelVisibilityFactor" : 1.5
   }
 
 }

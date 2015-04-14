@@ -96,6 +96,7 @@ class HG.AreasOnMap
       options = @_translateAreaStyle area.getStyle()
       options.fillOpacity = 0
       options.lineOpacity = 0
+      options.clickable = no
 
       # create layer with loaded geometry and style
       area.myLeafletLayer = L.multiPolygon area.getGeometry(), options
@@ -115,9 +116,9 @@ class HG.AreasOnMap
     if area.myLeafletLayer?
 
       # disable event handling on the area
-      area.myLeafletLayer.off "click", @_onClick
-      area.myLeafletLayer.off "mouseover", @_onHover
-      area.myLeafletLayer.off "mouseout", @_onUnHover
+      # area.myLeafletLayer.off "click", @_onClick
+      # area.myLeafletLayer.off "mouseover", @_onHover
+      # area.myLeafletLayer.off "mouseout", @_onUnHover
 
       # remove double-link: leaflet layer from area and area from leaflet layer
       @_map.removeLayer area.myLeafletLayer if area.myLeafletLayer?
