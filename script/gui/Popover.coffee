@@ -31,7 +31,6 @@ class HG.Popover
     @_hiventHandle = @_config.hiventHandle
     @_multimediaController = @_config.hgInstance.multimediaController
     @_multimedia = @_hiventHandle.getHivent().multimedia
-
     @_mode = @_hgInstance.abTest.config.hiventMarkerMode
 
     # ============================================================================
@@ -235,7 +234,7 @@ class HG.Popover
     @_expandBox.addEventListener 'mouseup', () =>
       @expand()
       @_mainDiv.replaceChild @_compressBox, @_expandBox
-      
+
     @_compressBox.addEventListener 'mouseup', () =>
       @compress()
       @_mainDiv.replaceChild @_expandBox, @_compressBox
@@ -251,7 +250,7 @@ class HG.Popover
     @_mainDiv.style.width = "#{@_widthFSBox}px"
     @_mainDiv.style.height = "#{@_heightFSBox}px"
     @_mainDiv.style.top = "#{FULLSCREEN_BOX_TOP_OFFSET}px"
-    @_mainDiv.style.left = "#{FULLSCREEN_BOX_LEFT_OFFSET}px"   
+    @_mainDiv.style.left = "#{FULLSCREEN_BOX_LEFT_OFFSET}px"
 
     @_mainDiv.replaceChild @_bodyDivBig, @_bodyDiv
 
@@ -263,11 +262,11 @@ class HG.Popover
       left: @_screenWidth / 2 - 0.74 * @_width
       top: @_screenHeight / 2 - 0.73 * @_height
 
-    @_mainDiv.replaceChild @_bodyDiv, @_bodyDivBig      
+    @_mainDiv.replaceChild @_bodyDiv, @_bodyDivBig
 
   # ============================================================================
   close: () ->
-    if document.contains(@_bodyDivBig)      
+    if document.contains(@_bodyDivBig)
       @_mainDiv.removeChild @_bodyDivBig
       @_mainDiv.appendChild @_bodyDiv
       @_mainDiv.style.width = "#{@_width}px"
@@ -300,7 +299,7 @@ class HG.Popover
     @_mainDiv.style.opacity = 0.0
     @_placement = undefined
 
-    if document.contains(@_bodyDivBig)      
+    if document.contains(@_bodyDivBig)
       @_mainDiv.removeChild @_bodyDivBig
       @_mainDiv.appendChild @_bodyDiv
       @_mainDiv.style.width = "#{@_width}px"
@@ -364,7 +363,7 @@ class HG.Popover
         top:  @_position.y + canvasOffset.top +
               @_placement.y * (HGConfig.hivent_marker_2D_height.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
               @_placement.y * ((@_mainDiv.offsetHeight - @_mainDiv.offsetHeight * @_placement.y) / 2) -
-              Math.abs(@_placement.x) * @_mainDiv.offsetHeight / 2 
+              Math.abs(@_placement.x) * @_mainDiv.offsetHeight / 2
 
     if @_mode is "B"
     # marker: center ~ 2/3 horizontally and ~ 2/3 vertically; hivent box above marker
@@ -373,7 +372,7 @@ class HG.Popover
         top: @_screenHeight / 2 - 0.73 * @_height
 
     # unless @_config.fullscreen
-    #   ...   
+    #   ...
 
     # else
     #   $(@_mainDiv).offset

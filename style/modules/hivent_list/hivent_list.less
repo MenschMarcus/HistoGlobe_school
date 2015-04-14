@@ -1,30 +1,36 @@
 @hg_grey: #575756;  //HistoGlobe dunkelgrau
 @hg_green: #d5c900; //HistoGlobe gelbgrün
-
-.switch-off{
-  background-image: url("../config/school/icons/switch/switch-off.svg");
+ 
+.switch-off, .switch-on{
   width: 30px;
   height: 17px;
   position: absolute;
   top: 12px;
   right: 12px;
+  border-radius: 0px;
+}
+.switch-off {
+  background-image: url("../config/school/icons/switch/switch-off.svg");
 }
 
 .switch-on{
   background-image: url("../config/school/icons/switch/switch-on.svg");
-  width: 30px;
-  height: 17px;
-  position: absolute;
-  top: 12px;
-  right: 12px;
+}
+
+.toggle_on_off {
+  float: right;
+  padding: 4px;
 }
 
 .display_on {
+  max-height: 71px;
   display: block;
 }
 
 .display_off {
-  display: none;
+  max-height: 0px;
+  overflow: hidden;
+  display: block;
 }
 
 .hivent-list-module {
@@ -33,10 +39,10 @@
   background: rgba(255,255,255,0.7);
   bottom: 100px;
   right: 10px;
-  width: 300px;
+  width: 270px;
   box-shadow: 0 0 5px rgba(0,0,0,0.5);
   font-size: 30pt * @widget_font_size_factor;
-  border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
+  //border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
 
   .transition-property(left);
   .transition-duration(@sidebar_aimation_speed);
@@ -51,7 +57,7 @@
     background: #2f3b46;
     color:#fff;
     position: relative;
-    width: 300px;
+    width: 270px;
     height: 43px;
     font-size: 15px;
     padding: 10px;
@@ -66,19 +72,12 @@
     background: #2f3b47;
     color:#fff;
     position: relative;
-    width: 300px;
+    width: 270px;
     font-size: 15px;
     cursor: pointer;
 
     .shield_bipolar {
       padding-right: 8px;
-    }
-
-    .toggle_on_off {
-      float: right;
-      padding: 4px;
-      background-color: #D5C900;
-      border-radius: 50%;
     }
 
     .alliances-content {
@@ -88,6 +87,8 @@
 
     .legend_table {
       margin-left: 22px;
+      .transition-property(max-height);
+      .transition-duration(@sidebar_aimation_speed);
     }
 
     .legend_table td {
@@ -127,8 +128,8 @@
     text-decoration: none;
     text-align: left;
     outline: none;
-    transition: 1s;
-    -webkit-transition: 1s;
+    .transition-property(max-height);
+    .transition-duration(@sidebar_aimation_speed);
 
 
     ul {

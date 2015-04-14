@@ -120,6 +120,7 @@
     <script type="text/javascript" src="build/HiventList.js"></script>
     <script type="text/javascript" src="build/ControlButtonArea.js"></script>
     <script type="text/javascript" src="build/Help.js"></script>
+    <script type="text/javascript" src="build/Imprint.js"></script>
     <script type="text/javascript" src="build/ZoomButtons.js"></script>
     <script type="text/javascript" src="build/FullscreenButton.js"></script>
     <script type="text/javascript" src="build/HighContrastButton.js"></script>
