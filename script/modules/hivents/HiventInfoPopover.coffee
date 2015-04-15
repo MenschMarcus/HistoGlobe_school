@@ -262,6 +262,7 @@ class HG.HiventInfoPopover
     @_popover.hide()
     @_hiventHandle._activated = false
     @_visible = false
+    @_hgInstance.hiventInfoAtTag?.unsetOption("event")
 
   # ============================================================================
   isVisible: =>
@@ -270,9 +271,8 @@ class HG.HiventInfoPopover
   # ============================================================================
   updatePosition: (position) ->
     @_popover.updatePosition
-      #x: position.at(0)
-      #y: position.at(1)
 
   # ============================================================================
   destroy: () ->
     @_popover.destroy()
+
