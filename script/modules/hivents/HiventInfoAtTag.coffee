@@ -11,6 +11,8 @@ class HG.HiventInfoAtTag
     defaultConfig =
       defaultHash: ""
 
+    @_hashEntries = {}
+
     @_config = $.extend {}, defaultConfig, config
 
     if window.location.hash.length is 0
@@ -53,7 +55,6 @@ class HG.HiventInfoAtTag
   # ============================================================================
   unsetOption: (key) ->
     delete @_hashEntries[key]
-
     @_selfUpdate = true
     @_writeHash()
 

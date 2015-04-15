@@ -11,9 +11,10 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
   ##############################################################################
 
   # ============================================================================
-  constructor: (timeline, hiventHandle, parent, posX, rowPosition=0, id) ->
+  constructor: (hgInstance, timeline, hiventHandle, parent, posX, rowPosition=0, id) ->
     HG.HiventMarker.call @, hiventHandle, parent
 
+    @_hgInstance = hgInstance
     @_timeline = timeline
     @_id = id
 
@@ -70,10 +71,7 @@ class HG.HiventMarkerTimeline extends HG.HiventMarker
 
     @_div.onclick = (e) =>
       e.preventDefault()
-      @_timeline.moveToDate @getHiventHandle().getHivent().startDate, 0.5
-      @getHiventHandle().focusAll @_position
-      # @getHiventHandle().active @, @_position
-      @getHiventHandle().activeAll @_position
+      @_hgInstance.hiventInfoAtTag?.setOption 'event', hiventHandle.getHivent().id
 
     @getHiventHandle().onMark @, (mousePos) =>
       @_div.setAttribute "class", @_classHighlighted
