@@ -1,4 +1,4 @@
-.markerLabel, .clusterLabelOnMap {
+.markerLabel{
   position: absolute;
   padding: 0px 2px 0px 2px;
   background-color: rgba(255,255,255,0.7);
@@ -8,17 +8,35 @@
   color: #2579bf;
   font-size: 1.1em;
   line-height: 1.3em;
+  bottom:0px;
 }
 
-.markerLabel {
-  left: 30px;
-  bottom: 0px;
+.left{
+  
+  left: 25px;
+  }
+
+.right{
+  right: 25px;
 }
 
 .clusterLabelOnMap {
-  left: 48px;
-  bottom: 0px;
-  margin-bottom: -37px;
+  position: absolute;
+  left: 36px;
+  top: 0px;
+  margin-bottom: -52px;
+  background-color: rgba(255,255,255,0.7);
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+  white-space: nowrap;
+  color: #2579bf;
+  font-size: 1.1em;
+  line-height: 1.3em;
+
+  & table {
+    line-height: 1em;
+    margin: 1px;
+  }
 }
 
 .highContrast .markerLabel, .highContrast .clusterLabelOnMap {

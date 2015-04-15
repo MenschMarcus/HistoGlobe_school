@@ -35,7 +35,8 @@ class HG.HiventMarker2D extends HG.HiventMarker
     @_markerLabelEventName=hiventHandle.getHivent().name
 
 
-    html="<div class=\"markerLabel\">#{@_markerLabelLocation}</div>"
+    html="<div class=\"markerLabel left\">#{@_markerLabelLocation}</div>"
+    
     iconAnchor=[15,45]
     icon_default    = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_default", iconSize: [34, 50] ,iconAnchor:iconAnchor,html:html}
     icon_higlighted = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_highlighted", iconSize: [34, 50], iconAnchor:iconAnchor, html:html}
@@ -71,24 +72,56 @@ class HG.HiventMarker2D extends HG.HiventMarker
     )
 
     @getHiventHandle().onActive(@, (mousePos) =>
-      
-      @_marker.setIcon icon_higlighted
+      if  @_marker._icon?
+        if @_marker._icon.innerHTML.indexOf("right")>-1
+          @_marker.setIcon icon_higlighted
+          @_marker._icon.innerHTML="<div class=\"markerLabel right\">#{@_markerLabelLocation}</div>"
+        else
+          @_marker.setIcon icon_higlighted          
+      else
+        @_marker.setIcon icon_higlighted
       @_map.on "drag", @_updatePosition
     )
 
     @getHiventHandle().onInActive(@, (mousePos) =>
-      
-      @_marker.setIcon icon_default
+      if  @_marker._icon?
+        if @_marker._icon.innerHTML.indexOf("right")>-1
+          @_marker.setIcon icon_default
+          @_marker._icon.innerHTML="<div class=\"markerLabel right\">#{@_markerLabelLocation}</div>"
+        else
+          @_marker.setIcon icon_default          
+      else
+        @_marker.setIcon icon_default
+
+      @_map.on "drag", @_updatePosition
       @_map.off "drag", @_updatePosition
     )
 
     @getHiventHandle().onLink(@, (mousePos) =>
+      if  @_marker._icon?
+        if @_marker._icon.innerHTML.indexOf("right")>-1
+          @_marker.setIcon icon_higlighted
+          @_marker._icon.innerHTML="<div class=\"markerLabel right\">#{@_markerLabelLocation}</div>"
+        else
+          @_marker.setIcon icon_higlighted          
+      else
+        @_marker.setIcon icon_higlighted
+
+      @_map.on "drag", @_updatePosition
+
       
-      @_marker.setIcon icon_higlighted
     )
 
     @getHiventHandle().onUnLink(@, (mousePos) =>
-      @_marker.setIcon icon_default
+      if  @_marker._icon?
+        if @_marker._icon.innerHTML.indexOf("right")>-1
+          @_marker.setIcon icon_default
+          @_marker._icon.innerHTML="<div class=\"markerLabel right\">#{@_markerLabelLocation}</div>"
+        else
+          @_marker.setIcon icon_default          
+      else
+        @_marker.setIcon icon_higlighted
+     
     )
 
     @getHiventHandle().onAgeChanged @, (age) =>
@@ -124,7 +157,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
 
     @getHiventHandle().mark @, @_position
     @getHiventHandle().linkAll @_position
-    @_updateMarker()
+    #@_updateMarker()
 
   # ============================================================================
   _onMouseOut: (e) =>
@@ -132,7 +165,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
     if !@getHiventHandle()._activated
       @getHiventHandle().unMark @, @_position
       @getHiventHandle().unLinkAll @_position
-    @_updateMarker()
+    #@_updateMarker()
 
   # ============================================================================
   # _onClick: (e) =>
@@ -146,6 +179,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
 
   # AB Test ====================================================================
   _onClick: (e, config) =>
+    '''
     if @_mode is "A"
       # default behavior
       @getHiventHandle().toggleActive @, @getDisplayPosition()
@@ -156,6 +190,10 @@ class HG.HiventMarker2D extends HG.HiventMarker
       @getHiventHandle().focusAll @, @_position
       @getHiventHandle().activeAll @, @_position
       @_updatePosition()
+    '''
+
+    @_hgInstance.hiventInfoAtTag?.setOption "event", @getHiventHandle().getHivent().id
+
 
   # ============================================================================
   _updatePosition: =>
