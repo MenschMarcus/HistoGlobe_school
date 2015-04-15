@@ -9,8 +9,6 @@ MIN_INTERVAL_INDEX = 0      # 0 = 1 Year | 1 = 2 Year | 2 = 5 Years | 3 = 10 Yea
 INTERVAL_SCALE = 0.05       # higher value makes greater intervals between datemarkers
 FADE_ANIMATION_TIME = 200   # fade in time for datemarkers and so
 
-UPDATE_DELAY = 200          # interval in milliseconds between callback calls in transition of timeline
-
 MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
 
 DATE_LOCALE = 'de-DE'
@@ -131,7 +129,7 @@ class HG.Timeline
           @_updateNowDate(true)
           @_updateDateMarkers()
           @_updateTextInTopics()
-        , UPDATE_DELAY    
+        , 50    
         setTimeout =>
           clearInterval(update_iteration_obj)
         , d
