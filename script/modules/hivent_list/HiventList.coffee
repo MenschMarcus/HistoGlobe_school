@@ -101,6 +101,10 @@ class HG.HiventList
         $(@_alliances_option).css({'max-height':(@props.heigth_options) + "px"})
         $(@_alliances_option).css({'border-bottom': (@props.border) + "px"})
 
+        if @_hgInstance.categoryFilter.getCurrentFilter()[0] != "bipolar"
+          console.log @_hgInstance.categoryFilter.getCurrentFilter()[0]
+          $(@_alliances_option).css({'max-height':0 + "px"})
+
       if @_hgInstance.timeline._config.topics.length > 0
         @_allTopics = @_hgInstance.timeline._config.topics
         @_addHiventList()
@@ -111,6 +115,7 @@ class HG.HiventList
 
       @_hgInstance.hiventInfoAtTag?.onHashChanged @, (key, value) =>
           if key is "categories"
+            console.log "HiventInfoAtTag"
             @_addHiventList()
 
       
@@ -161,6 +166,8 @@ class HG.HiventList
     if @_hgInstance.categoryFilter.getCurrentFilter()[0] != "bipolar"
       @theme = ""
       @notifyAll "onUpdateTheme", @theme
+
+    console.log @_hgInstance.categoryFilter.getCurrentFilter()[0]
 
     for topic in @_allTopics
       if topic.id == @_hgInstance.categoryFilter.getCurrentFilter()[0]
@@ -226,9 +233,6 @@ class HG.HiventList
     for hivent in @_hivent_array
       if hivent._activated
         @activateElement hivent.getHivent().id
-
-
-    #$(".hivent-list").jScrollPane()
 
     return @_hivent_list
 

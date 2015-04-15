@@ -13,6 +13,7 @@ class HG.Imprint
     @_link = document.createElement "div"
     @_link.innerHTML = "Impressum &nbsp; &copy; HistoGlobe Gbr " + new Date().getFullYear()
     @_link.id = "imprint-link"
+    @_link.classList.add "no-text-select"
 
     $(@_link).click () =>
       @showBox()
