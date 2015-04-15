@@ -96,7 +96,7 @@ class HG.Styler
     @_highlightStyle
 
   # ============================================================================
-  getThemeStyles: (inCountryId) ->
+  getThemeStyles: (inAreaId) ->
     themeStyles = []
 
     # for all themes
@@ -109,7 +109,7 @@ class HG.Styler
 
       # find if country has a class in this theme
       for country in @_countryThemeMappings
-        if country.countryId == inCountryId
+        if country.areaId == inAreaId
 
           # if so, get the style and the start / end dates for the country for this theme class
           for themeClass in theme.themeClasses
@@ -146,7 +146,7 @@ class HG.Styler
           csvFilePath:    ""
           delimiter:      ","
           indexMapping:
-            countryId:    0
+            areaId:    0
             themeClass:   1
             startDate:    2
             endDate:      3
@@ -168,7 +168,7 @@ class HG.Styler
 
             # final mapping object
             @_countryThemeMappings.push {
-              countryId:  row.country_id
+              areaId:     row.area_id
               themeClass: row.theme_class
               # create date objects from input date strings/numbers
               startDate:  new Date startDate.toString()

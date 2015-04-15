@@ -21,10 +21,8 @@ class HG.Area
     # get bounding box
     # @_calcBoundingBox()
 
-    # initially area has normal theme class unless stated otherwise
-    if themeClass?
-      themeClass = 'normal'
-    @_activeThemeClass  = themeClass
+    # initially area has normal theme class
+    @_activeThemeClass  = 'normal'
 
     @_prepareStyle null
 

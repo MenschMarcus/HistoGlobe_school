@@ -82,13 +82,14 @@ class HG.AreaController
         oldDate = @_now
         newDate = date
         @_updateCountries oldDate, newDate
+        @_updateStyles()  # style changes are separate from area/label changes
         # update now date
         @_now = date
 
     hgInstance.onAllModulesLoaded @, () =>
       hgInstance.hivent_list_module?.onUpdateTheme @, (theme) =>
         @_theme = theme
-        @_updateStyle @_now
+        @_updateStyles()
 
     # toggle highContrast mode
     hgInstance.highcontrast_button.onEnterHighContrast @, () =>
@@ -237,7 +238,26 @@ class HG.AreaController
 
   # ============================================================================
   # updates the style values for areas and labels
-  _updateStyle: () ->
+  _updateStyles: () ->
+
+    for area in @_areas
+      oldThemeClass = area.getActiveThemeClass()
+      newThemeClass = 'normal'    # initially normal class, if not overwritten
+      # if currently a theme active
+      if @_theme?
+        # check if area has a class in this theme
+        themeClasses = area.getThemeClasses @_theme
+        if themeClasses?
+          for themeClass in themeClasses
+            if @_now >= themeClass.startDate and @_now < themeClass.endDate
+              newThemeClass = themeClass.className
+              break
+
+      # check if theme style has changed
+      if (oldThemeClass.localeCompare newThemeClass) != 0   # N.B.! this took so long to find out how to actually compare if two strings are NOT equal in CoffeeScript...
+        area.setActiveThemeClass @_theme, newThemeClass
+        @notifyAll "onUpdateAreaStyle", area, @_isHighContrast
+
     return
 
   # ============================================================================
