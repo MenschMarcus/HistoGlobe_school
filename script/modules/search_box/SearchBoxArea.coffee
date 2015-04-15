@@ -87,10 +87,6 @@ class HG.SearchBoxArea
           window.current_active_element = window.list_items.length - 1
         else
           window.current_active_element--
-      if e.which is 13 # enter
-        e.preventDefault()
-        if @_input_text.length > 0 and window.current_active_element > -1
-          window.location = $("#" + window.list_items[window.current_active_element]).attr("href")
 
       $("#" + window.list_items[window.current_active_element] + " > li").addClass("itemhover_list")
 
@@ -344,10 +340,17 @@ class HG.SearchBoxArea
         @props.active = false
         @notifyAll "onSearchBoxChanged", @props
 
+
     #=============================================================================
     #@notifyAll "onSearchBoxChanged", @props
+    $(input).keyup (e) =>
+      if e.which is 13  #Enter key pressed
+        e.preventDefault()
+
+    $(input).keydown (e) =>
+      if e.which is 13  #Enter key pressed
+        e.preventDefault()
+
     @_container.appendChild box
 
     return box
-
-    #=============================================================================
