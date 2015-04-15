@@ -68,7 +68,7 @@ class HG.Popover
 
     contentBig = document.createElement "div"
     contentBig.className = "guiPopoverContentBig"
-    contentBig.style.width = "#{0.33 * @_widthFSBox}px"
+    contentBig.style.width = "#{0.4 * @_widthFSBox}px"
     contentBig.style.height = "#{@_heightFSBox}px"
 
     # generate content for big HiventBox ==============================
