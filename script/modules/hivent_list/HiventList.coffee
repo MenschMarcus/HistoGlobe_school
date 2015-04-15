@@ -153,6 +153,14 @@ class HG.HiventList
 
           hivent.onInActive @, (mousePos, handle) =>
             @deactivateElement handle.getHivent().id
+          
+          hivent.onLink @, (mousePos, handle) =>
+            @hoverElement handle.getHivent().id
+          
+          hivent.onUnLink @, (mousePos, handle) =>
+            @dehoverElement handle.getHivent().id
+
+
 
     #############################################################
 
@@ -238,8 +246,10 @@ class HG.HiventList
 
   deactivateElement:(id) ->    
     $("#"+id).switchClass("active", "inactive")
+  
   hoverElement:(id) ->
     $("#"+id).switchClass("inactive", "hover")
+  
   dehoverElement:(id) ->
     $("#"+id).switchClass("hover", "inactive")
 

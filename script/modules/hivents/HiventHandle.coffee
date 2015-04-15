@@ -126,31 +126,31 @@ class HG.HiventHandle
 
   # ============================================================================
   linkAll: (mousePixelPosition) ->    
-    window.hgInstance.hivent_list_module.hoverElement(@_hivent.id)
+    #window.hgInstance.hivent_list_module.hoverElement(@_hivent.id)
     unless @_linked
       @_linked = true
-      @notifyAll "onLink", mousePixelPosition
+      @notifyAll "onLink", mousePixelPosition, @
 
   # ============================================================================
   link: (obj, mousePixelPosition) ->    
-    window.hgInstance.hivent_list_module.hoverElement(@_hivent.id)
+    #window.hgInstance.hivent_list_module.hoverElement(@_hivent.id)
     unless @_linked
       @_linked = true
-      @notify "onLink", obj, mousePixelPosition
+      @notify "onLink", obj, mousePixelPosition, @
 
   # ============================================================================
   unLinkAll: (mousePixelPosition) ->
-    window.hgInstance.hivent_list_module.dehoverElement(@_hivent.id)
+    #window.hgInstance.hivent_list_module.dehoverElement(@_hivent.id)
     if @_linked
       @_linked = false
-      @notifyAll "onUnLink", mousePixelPosition
+      @notifyAll "onUnLink", mousePixelPosition, @
 
   # ============================================================================
   unLink: (obj, mousePixelPosition) ->
-    window.hgInstance.hivent_list_module.dehoverElement(@_hivent.id)
+    #window.hgInstance.hivent_list_module.dehoverElement(@_hivent.id)
     if @_linked
       @_linked = false
-      @notify "onUnLink", obj, mousePixelPosition
+      @notify "onUnLink", obj, mousePixelPosition, @
 
   # ============================================================================
   focusAll: (mousePixelPosition) ->
