@@ -486,8 +486,9 @@ class HG.Timeline
       topic.text_element.style.width = (end_pos - min_pos) + "px"
       topic.text_element.style.marginLeft = (min_pos - start_pos) + "px"
 
-    topic.text_element.innerHTML = topic.name
-    topic.text_element.innerHTML = topic.token if @_textCutted topic.text_element
+    if !(end_pos > max_pos and start_pos < min_pos)
+      topic.text_element.innerHTML = topic.name
+      topic.text_element.innerHTML = topic.token if @_textCutted topic.text_element
 
   _updateTextInTopics: () ->
     max_pos   = @dateToPosition(@maxVisibleDate())
