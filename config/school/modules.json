@@ -4,8 +4,8 @@
     "container": "histoglobe",
     "minYear": 1871,
     "maxYear": 1993,
-    "nowYear": 1949,
-    "minZoom": 3,
+    "nowYear": 1900,
+    "minZoom": 1,
     "maxZoom": 7,
     "startZoom": 5,
     "startLatLong": [50.9869531, 11.3205004],
@@ -54,8 +54,6 @@
   "FullscreenButton": {},
   "HighContrastButton": {},
 
-  "Imprint": {},
-
   "CategoryFilter":
   {
     "initial" : "noCategory"
@@ -69,13 +67,10 @@
     "indexMappings": [
       {
         "id"          : 0,
-        "file_type"   : 2,
-        "name"        : 3,
-        "file_name"   : 1,
-        "author"      : 4,
-        "source"      : 5,
-        "link"        : 6,
-        "last_access" : 7
+        "type"        : 2,
+        "description" : 3,
+        "source"      : 4,
+        "link"        : 1
       }
     ]
   },
@@ -141,21 +136,18 @@
     "normalStyle":
     {
       "areaColor":      "#ffffff",
-      "areaColor_hc":   "#ffffff",
       "areaOpacity":    0.75,
       "borderWidth":    1.5,
-      "borderColor":    "#c1c1c1",
-      "borderColor_hc": "#000000",
+      "borderColor":    "#BBBBBB",
       "borderOpacity":  1.0,
-      "labelSize":      2,
-      "labelColor":     "#7f7f7f",
-      "labelColor_hc":  "#050505",
-      "labelOpacity":   1.0
+      "nameSize":       1,
+      "nameColor":      "#bebebe",
+      "nameOpacity":    1.0
     },
     "highlightStyle":
     {
       "areaColor":      "#eaeaea",
-      "areaColor_hc":   "#d8d8d8"
+      "nameColor":      "#000000"
     },
     "countryThemeMapping" :
     [
@@ -171,25 +163,18 @@
         "NATO":
         {
           "areaColor":    "#9ec9d9",
-          "labelColor":   "#2f3b46",
-          "labelColor_hc":  "#000000",
-          "borderColor_hc": "#000000"
+          "nameColor":    "#ffffff"
         },
         "NATO_no_military":
         {
-          "areaColor":    "#dcf3f9",
-          "labelColor":   "#2f3b46",
-          "labelColor_hc":  "#000000",
-          "borderColor_hc": "#000000"
+          "areaColor":    "#C5E4EE",
+          "nameColor":    "#ffffff"
         },
         "WP":
-
         {
           "areaColor":    "#c67e7f",
-          "labelColor":   "#2f3b46",
-          "labelColor_hc": "#05050500000",
-          "borderColor":  "#E6E6E6",
-          "borderColor_hc": "#000000"
+          "nameColor":    "#ffffff",
+          "borderColor":  "#E6E6E6"
         }
       }
     }

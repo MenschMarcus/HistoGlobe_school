@@ -19,14 +19,15 @@
   font-family: @primary_font_face;
   position: absolute;
   padding: @popover_body_padding;
-
-  &.fullscreen {
-    max-height: 60%;
-  }
   
     .guiPopoverContent {
+      position: absolute;
       font-size: 12pt;
-      bottom: 10px;
+      bottom: 30px;
+
+      padding-left: 0px;
+      bottom: 30px;
+      padding-right: 15px;
 
       .hivent-body {
 
@@ -41,8 +42,26 @@
         }
 
         .hivent-content {
+
+          font-size: 10pt;
+          text-align: justify;
+          max-height: 200px;
+          overflow: auto;
+
           span {
             color: rgb(170, 170, 170);
+            text-align: right;
+            margin-top: 0px;
+            font-size: 10pt;
+
+            i {
+              padding-left: 10px;
+              cursor: pointer;
+
+              &:hover {
+                //color: #fff;
+              }
+            }
           }
         }
       }
@@ -56,16 +75,21 @@
     }
   }
 
+  &.fullscreen {
+    max-height: 60%;
+  }
+
+
+
   .guiPopoverBodyV1 {
-    //max-height: 220px;
     color: #000000;
     top: 0;
     padding-top: 40px;
+    max-height: 180px;
   }
 
   .guiPopoverBodyV2 {
-    max-height: 350px;
-    //width: 450px;
+    height: 350px;
     width: 100%;
     bottom: 0;
     color: #ffffff;
@@ -171,7 +195,7 @@
     cursor: pointer;
 
     &:hover {
-      opacity: 1;
+      opacity: 0.75;
     }
   }
 
@@ -190,7 +214,7 @@
     cursor: pointer;
 
     &:hover {
-      opacity: 1;
+      opacity: 0.75;
     }
 
     i {

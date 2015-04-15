@@ -42,7 +42,6 @@ class HG.Popover
 
     @_map_size = @_config.hgInstance.getMapAreaSize()
 
-    # @_widthFSBox = 0.68 * @_config.hgInstance.getMapAreaSize().x
     @_widthFSBox = @_map_size.x - HIVENTLIST_OFFSET #- FULLSCREEN_BOX_LEFT_OFFSET 
     @_heightFSBox = 0.82 * @_map_size.y 
 
@@ -61,17 +60,17 @@ class HG.Popover
     # Big HiventBox ===================================================
     @_bodyDivBig = document.createElement "div"
     @_bodyDivBig.className = "guiPopoverBodyBig"
-    @_bodyDivBig.style.width = "#{0.5 * @_widthFSBox}px"
+    @_bodyDivBig.style.width = "#{0.6 * @_widthFSBox}px"
     @_bodyDivBig.style.height = "#{@_heightFSBox}px"
 
     contentBig = document.createElement "div"
     contentBig.className = "guiPopoverContentBig"
-    contentBig.style.width = "#{0.33 * @_widthFSBox}px"
+    contentBig.style.width = "#{0.4 * @_widthFSBox}px"
     contentBig.style.height = "#{@_heightFSBox}px"
 
     sourceBig = document.createElement "span"
     sourceBig.className = "source-big"
-    sourceBig.innerHTML = 'Quelle: ' + 'Autor: '
+    #sourceBig.innerHTML = 'Quelle: ' + @_imgSource
 
     linkListBig = document.createElement "div"
     linkListBig.className = "info-links-big"
@@ -116,7 +115,7 @@ class HG.Popover
 
     source = document.createElement "span"
     source.className = "source"
-    source.innerHTML = 'Quelle: ' + 'Autor: '
+    #source.innerHTML = 'Quelle: ' + @_imgSource
 
     linkList = document.createElement "div"
     linkList.className = "info-links"
@@ -167,7 +166,6 @@ class HG.Popover
 
     @_mainDiv.appendChild closeDiv
     @_mainDiv.appendChild @_bodyDiv
-    #@_mainDiv.appendChild expandBox
     @_bodyDivBig.appendChild contentBig
 
     @_parentDiv = $(@_config.container)[0]
@@ -205,7 +203,6 @@ class HG.Popover
 
     if @_multimedia != "" and @_multimediaController?
       mmids = @_multimedia.split ","
-      console.log @_multimediaController.link
 
       @_multimediaController.onMultimediaLoaded () =>
 
@@ -217,16 +214,20 @@ class HG.Popover
 
               if mm.type is "WEBIMAGE"
                 link = mm.link
-                #link = mm.link
+                imgSource = mm.source
 
-                @_mainDiv.style.height = "370px"
+                @_mainDiv.style.height = "350px"
                 @_mainDiv.style.backgroundImage = "url( #{link} )"
                 @_mainDiv.style.backgroundSize = "cover"
                 @_mainDiv.style.backgroundRepeat = "no-repeat"
                 @_mainDiv.style.backgroundPosition = "center center"
                 @_bodyDiv.className = "guiPopoverBodyV2"
+                @_bodyDiv.style.height = "250px"
                 @_bodyDiv.style.color = "#fff"
                 #closeDiv.style.color = "#D5C900"
+
+                source.innerHTML = 'Quelle: ' + imgSource
+                sourceBig.innerHTML = 'Quelle: ' + imgSource
 
                 @_mainDiv.appendChild @_expandBox
                 @_bodyDivBig.style.color = "#fff"
