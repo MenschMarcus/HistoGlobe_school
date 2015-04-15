@@ -69,10 +69,13 @@
     "indexMappings": [
       {
         "id"          : 0,
-        "type"        : 2,
-        "description" : 3,
-        "source"      : 4,
-        "link"        : 1
+        "file_type"   : 2,
+        "name"        : 3,
+        "file_name"   : 1,
+        "author"      : 4,
+        "source"      : 5,
+        "link"        : 6,
+        "last_access" : 7
       }
     ]
   },

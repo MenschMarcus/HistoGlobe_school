@@ -74,7 +74,7 @@ class HG.Popover
     sourceBig.innerHTML = 'Quelle: ' + 'Autor: '
 
     linkListBig = document.createElement "div"
-    linkList.className = "info-links-big"
+    linkListBig.className = "info-links-big"
 
     linkListBig.appendChild sourceBig
     @_bodyDivBig.appendChild linkListBig
@@ -205,6 +205,7 @@ class HG.Popover
 
     if @_multimedia != "" and @_multimediaController?
       mmids = @_multimedia.split ","
+      console.log @_multimediaController.link
 
       @_multimediaController.onMultimediaLoaded () =>
 
@@ -216,6 +217,7 @@ class HG.Popover
 
               if mm.type is "WEBIMAGE"
                 link = mm.link
+                #link = mm.link
 
                 @_mainDiv.style.height = "370px"
                 @_mainDiv.style.backgroundImage = "url( #{link} )"

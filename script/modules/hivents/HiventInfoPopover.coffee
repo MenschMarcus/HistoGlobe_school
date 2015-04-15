@@ -14,7 +14,7 @@ class HG.HiventInfoPopover
     @_visible = false
     @_multimediaController = hgInstance.multimediaController
 
-    @_description_length = 290
+    @_description_length = 285
 
     #@_hivent_ID = @_hiventHandle.getHivent().id.substring(2)
     #@_multimedia_ID = @_hiventHandle.getHivent().multimedia.substring(2)
