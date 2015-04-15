@@ -32,7 +32,7 @@ class HG.HiventController
       numHiventsInView: 10
 
     @_config = $.extend {}, defaultConfig, config
-
+    
 
   # ============================================================================
   hgInit: (hgInstance) ->

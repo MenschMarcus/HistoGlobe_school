@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de-de" lang="de-de" dir="ltr">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
 
     <link rel="shortcut icon" href="data/icons/favicon.ico" type="image/x-icon" />
 
@@ -16,7 +16,7 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto:500,400italic,700italic,300,700,500italic,300italic,400' rel='stylesheet' type='text/css'>
 
     <link rel="stylesheet" type="text/css" href="style/third-party/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="style/third-party/font-awesome.min.css" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="style/third-party/idangerous.swiper.css" />
     <link rel="stylesheet" type="text/css" href="style/third-party/idangerous.swiper.scrollbar.css" />
     <link rel="stylesheet" type="text/css" href="style/third-party/colorbox.css" />
@@ -118,12 +118,12 @@
     <script type="text/javascript" src="build/Logo.js"></script>
     <script type="text/javascript" src="build/SearchBoxForm.js"></script>
     <script type="text/javascript" src="build/HiventList.js"></script>
-    <script type="text/javascript" src="build/HiventListController.js"></script>
     <script type="text/javascript" src="build/ControlButtonArea.js"></script>
     <script type="text/javascript" src="build/Help.js"></script>
+    <script type="text/javascript" src="build/Imprint.js"></script>
     <script type="text/javascript" src="build/ZoomButtons.js"></script>
     <script type="text/javascript" src="build/FullscreenButton.js"></script>
-    <script type="text/javascript" src="build/LinkButton.js"></script>
+    <script type="text/javascript" src="build/HighContrastButton.js"></script>
     <script type="text/javascript" src="build/HiventPresenter.js"></script>
     <script type="text/javascript" src="build/HiventsOnMap.js"></script>
     <script type="text/javascript" src="build/HiventsOnGlobe.js"></script>

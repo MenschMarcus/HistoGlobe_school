@@ -1,32 +1,54 @@
 .markerLabel {
-position: fixed;
-left: 25px;
+position: absolute;
 bottom: 0px;
 white-space: nowrap;
 color: #286b7a;
 font-weight: bold;
 z-index: 10000;
-	p{
-		text-shadow: 1px 1px white;
-	}
+padding: 0px 2px 0px 2px;
+background-color: rgba(255,255,255,0.7);
+border-radius: 5px;
+box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
 }
+
+.left{
+  
+  left: 25px;
+  }
+
+.right{
+  right: 25px;
+}
+
 .clusterLabelOnMap{
-position: fixed;
+position: absolute;
 left: 40px;
 white-space: nowrap;
 margin: 3px;
 color: #286b7a;
+ top: 0px;
 font-weight: bold;
 z-index: 10000;
+background-color: rgba(255,255,255,0.7);
+border-radius: 5px;
+box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
 	table{
 		border-collapse: collapse;
- 
+    line-height: 1em;
+    margin: 1px;
 	}
 	td{
 		text-shadow: 1px 1px white;
 		padding-top: 0px;
-    	padding-bottom: 0px;
+    padding-bottom: 0px;
 
 	}
+}
 
+.highContrast .markerLabel, .highContrast .clusterLabelOnMap {
+  font-size: 1.1em;
+  color: #2f3b46;
+  background-color: rgba(255,255,255,0.7);
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
 }

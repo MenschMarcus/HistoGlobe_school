@@ -42,16 +42,24 @@ class HG.Display2D extends HG.Display
     @_mapParent
 
   # ============================================================================
-  setCenter: (longLat) ->
-    #Calculate the offset
-    offsetX = @_map.getSize().x*0.10
-    offsetY = @_map.getSize().y*0.25
+  setCenter: (longLat, offset) ->
+    # center marker ~ 2/3 vertically and horizontally
+    if offset? # if offset passed to function
+      # Calculate the offset
+      bounds = @_map.getBounds()
+      bounds_lat = bounds._northEast.lat - bounds._southWest.lat
+      bounds_lng = bounds._northEast.lng - bounds._southWest.lng
 
-    @_map.panTo [longLat.y, longLat.x]
+      target = 
+        lon: parseFloat(longLat.x) + offset.x * bounds_lng
+        lat: parseFloat(longLat.y) + offset.y * bounds_lat
 
-    #Then move the map
-    @_map.panBy(new L.Point(offsetX, -offsetY), 
-      animate: false)
+      @_map.panTo target
+
+    else # no offset? -> center marker 
+      @_map.panTo
+        lon: longLat.x
+        lat: longLat.y
 
   # ============================================================================
   zoomToBounds: (minLong, minLat, maxLong, maxLat) ->
@@ -100,7 +108,8 @@ class HG.Display2D extends HG.Display
     @_map.setView @_hgInstance._config.startLatLong, @_hgInstance._config.startZoom
     @_map.attributionControl.setPrefix ''
 
-    L.tileLayer(@_hgInstance._config.tiles + '/{z}/{x}/{y}.png').addTo @_map
+    tileLayer = L.tileLayer(@_hgInstance._config.tiles + '/{z}/{x}/{y}.png')
+    tileLayer.addTo @_map
 
     @_hgInstance.onAllModulesLoaded @, () =>
       if @_hgInstance.zoom_buttons?
@@ -109,6 +118,13 @@ class HG.Display2D extends HG.Display
 
         @_hgInstance.zoom_buttons.onZoomOut @, () =>
           @_map.zoomOut()
+
+      if @_hgInstance.highcontrast_button?
+        @_hgInstance.highcontrast_button.onEnterHighContrast @, () =>
+          tileLayer.setUrl @_hgInstance._config.tilesHighContrast + '/{z}/{x}/{y}.png'
+
+        @_hgInstance.highcontrast_button.onLeaveHighContrast @, () =>
+          tileLayer.setUrl @_hgInstance._config.tiles + '/{z}/{x}/{y}.png'
 
     @overlayContainer = @_map.getPanes().mapPane
     @_isRunning = true

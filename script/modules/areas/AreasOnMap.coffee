@@ -12,6 +12,9 @@ class HG.AreasOnMap
     @_areaController  = null
     @_visibleAreas    = []
 
+    # highcontrast hack: swap between normal and "_hc" mode
+    @_isHighContrast  = no
+
     defaultConfig =
       labelVisibilityFactor: 5
 
@@ -32,12 +35,14 @@ class HG.AreasOnMap
       @_areaController.onHideArea @, (area) =>
         @_hideAreaLayer area
 
-      @_areaController.onUpdateAreaStyle @, (area) =>
+      @_areaController.onUpdateAreaStyle @, (area, isHC) =>
+        @_isHighContrast = isHC
         @_updateAreaStyle area
 
       @_map.on "zoomend", @_onZoomEnd
     else
       console.error "Unable to show areas on Map: AreaController module not detected in HistoGlobe instance!"
+
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
@@ -55,23 +60,29 @@ class HG.AreasOnMap
     area.myLeafletLayer = null
     area.myLeafletLayer = L.multiPolygon area.getGeometry(), options
 
-    area.myLeafletLayer.on "mouseover", @_onHover     # TODO: why does hover not work?
-    area.myLeafletLayer.on "mouseout", @_onUnHover
-    area.myLeafletLayer.on "click", @_onClick
+    # hack: disable interaction with countries
+    # area.myLeafletLayer.on "mouseover", @_onHover     # TODO: why does hover not work?
+    # area.myLeafletLayer.on "mouseout", @_onUnHover
+    # area.myLeafletLayer.on "click", @_onClick
 
     area.myLeafletLayer.addTo @_map   # finally puts area on the map
 
+    # create double-link
     area.myLeafletLayer.hgArea = area
 
     # add label if given
     if area.getName()
       area.myLeafletLabel = new L.Label();
-      area.myLeafletLabel.setContent area.getName()
+      area.myLeafletLabel.setContent @_addLinebreaks area.getName()
       area.myLeafletLabel.setLatLng area.getLabelPos()
 
       area.myLeafletLabel.options.className = "invisible"   # makes label invisible onLoad
 
       @_map.showLabel area.myLeafletLabel
+
+      # style
+      area.myLeafletLabel._container.style.color = options.labelColor
+      area.myLeafletLabel._container.style.opacity = options.labelOpacity
 
       # too lazy to change .getLabelDir(), so changed back to original version
       # ---- original version ----
@@ -123,13 +134,16 @@ class HG.AreasOnMap
     newStyle = @_translateStyle area.getStyle()
     if area.myLeafletLayer?
       @_animate area.myLeafletLayer,
+        # TODO: does that work better? translating the whole style 5 times for each item separately seems not intuitive...
         "fill":           (@_translateStyle area.getStyle()).fillColor
         "fill-opacity":   (@_translateStyle area.getStyle()).fillOpacity
         "stroke":         (@_translateStyle area.getStyle()).lineColor
         "stroke-opacity": (@_translateStyle area.getStyle()).lineOpacity
         "stroke-width":   (@_translateStyle area.getStyle()).lineWidth
       , 200
-    # if area.myLeafletLabel?
+    if area.myLeafletLabel?
+      area.myLeafletLabel._container.style.color = newStyle.labelColor
+      area.myLeafletLabel._container.style.opacity = newStyle.labelOpacity
     #   area.myLeafletLabel._container.newStyle.opacity = newStyle.labelOpacity
 
   # ============================================================================
@@ -167,7 +181,9 @@ class HG.AreasOnMap
 
   # ============================================================================
   _onHover: (event) =>
-    @_animate event.target, {"fill": "#{event.target.hgArea.getHighlightStyle().areaColor}"}, 150
+    # @_animate event.target, {"fill": "#{event.target.hgArea.getHighlightStyle().areaColor}"}, 150
+    # TODO: for countries with white labels, hovering means the country name is not readable
+    # -> how to get the label of the current layer I am hovering? How to change its color?
 
   # ============================================================================
   _onUnHover: (event) =>
@@ -188,6 +204,22 @@ class HG.AreasOnMap
       else if not shouldBeVisible and area.myLeafletLabelIsVisible
         @_hideAreaLabel area
 
+  # ============================================================================
+  _addLinebreaks : (name) =>
+    # 1st approach: break at all whitespaces
+    name = name.replace /\s/gi, '<br\>'
+
+    # # find all whitespaces in the name
+    # len = name.length
+    # regEx = /\s/gi  # finds all whitespaces (\s) globally (g) and case-insensitive (i)
+    # posWhite = []
+    # while result = regEx.exec name
+    #   posWhite.push result.index
+    # for posW in posWhite
+
+    # if name.indexOf ' ' isnt -1
+    name
+
 
   # ============================================================================
   # user centered styling (area, border, name) -> leaflet styling options
@@ -199,10 +231,20 @@ class HG.AreasOnMap
       lineColor:    userStyle.borderColor
       lineOpacity:  userStyle.borderOpacity
       weight:       userStyle.borderWidth
-      labelOpacity: userStyle.nameOpacity
+      labelOpacity: userStyle.labelOpacity
+      labelColor:   userStyle.labelColor
       # backup styling for whatsoever weird browser that can only handle them
       color:        userStyle.borderColor
       opacity:      userStyle.borderOpacity
+
+    # override in highContrast mode
+    if @_isHighContrast
+      options.fillColor   = userStyle.areaColor_hc
+      options.lineColor   = userStyle.borderColor_hc
+      options.color       = userStyle.borderColor_hc
+      options.labelColor  = userStyle.labelColor_hc
+
+    options
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #
