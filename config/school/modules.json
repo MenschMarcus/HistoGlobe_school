@@ -167,25 +167,24 @@
       {
         "NATO":
         {
-          "areaColor":    "#9ec9d9",
-          "labelColor":   "#2f3b46",
+          "areaColor":      "#5e97a5",
+          "labelColor":     "#2f3b46",
           "labelColor_hc":  "#000000",
           "borderColor_hc": "#000000"
         },
         "NATO_no_military":
         {
-          "areaColor":    "#dcf3f9",
-          "labelColor":   "#2f3b46",
+          "areaColor":      "#9ec9d9",
+          "labelColor":     "#2f3b46",
           "labelColor_hc":  "#000000",
           "borderColor_hc": "#000000"
         },
         "WP":
-
         {
-          "areaColor":    "#c67e7f",
-          "labelColor":   "#2f3b46",
-          "labelColor_hc": "#05050500000",
-          "borderColor":  "#E6E6E6",
+          "areaColor":      "#c67e7f",
+          "labelColor":     "#2f3b46",
+          "labelColor_hc":  "#050505",
+          "borderColor":    "#E6E6E6",
           "borderColor_hc": "#000000"
         }
       }
