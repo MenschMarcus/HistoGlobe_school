@@ -179,6 +179,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
 
   # AB Test ====================================================================
   _onClick: (e, config) =>
+    '''
     if @_mode is "A"
       # default behavior
       @getHiventHandle().toggleActive @, @getDisplayPosition()
@@ -189,6 +190,10 @@ class HG.HiventMarker2D extends HG.HiventMarker
       @getHiventHandle().focusAll @, @_position
       @getHiventHandle().activeAll @, @_position
       @_updatePosition()
+    '''
+
+    @_hgInstance.hiventInfoAtTag?.setOption "event", @getHiventHandle().getHivent().id
+
 
   # ============================================================================
   _updatePosition: =>

@@ -101,6 +101,10 @@ class HG.HiventList
         $(@_alliances_option).css({'max-height':(@props.heigth_options) + "px"})
         $(@_alliances_option).css({'border-bottom': (@props.border) + "px"})
 
+        if @_hgInstance.categoryFilter.getCurrentFilter()[0] != "bipolar"
+          console.log @_hgInstance.categoryFilter.getCurrentFilter()[0]
+          $(@_alliances_option).css({'max-height':0 + "px"})
+
       if @_hgInstance.timeline._config.topics.length > 0
         @_allTopics = @_hgInstance.timeline._config.topics
         @_addHiventList()
@@ -111,10 +115,10 @@ class HG.HiventList
 
       @_hgInstance.hiventInfoAtTag?.onHashChanged @, (key, value) =>
           if key is "categories"
+            console.log "HiventInfoAtTag"
             @_addHiventList()
-          #console.log key
 
-           # $(".hivent-list").animate({scrollTop: 0 }, slow)
+      
 
     $(window).resize  =>
       @_addHiventList()
@@ -138,13 +142,22 @@ class HG.HiventList
       @_container.removeChild @_hivent_list
       @_container.removeChild @_hivent_headline
 
+      for hivent in @_hivent_array
+        hivent.removeListener "onActive", @
+        hivent.removeListener "onInActive", @
+
     # Hivents ==================================================================
 
     @_hivent_array = []
-    if @_hgInstance.hiventController._hiventHandles?
-      for hivent in @_hgInstance.hiventController._hiventHandles
-        if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
-          @_hivent_array.push hivent._hivent
+    if @_hgInstance.hiventController.getHivents()?
+      for hivent in @_hgInstance.hiventController.getHivents()
+        if @_hgInstance.categoryFilter._categoryFilter[0] == hivent.getHivent().category
+          @_hivent_array.push hivent
+          hivent.onActive @, (mousePos, handle) =>
+            @activateElement handle.getHivent().id
+
+          hivent.onInActive @, (mousePos, handle) =>
+            @deactivateElement handle.getHivent().id
 
     #############################################################
 
@@ -153,6 +166,8 @@ class HG.HiventList
     if @_hgInstance.categoryFilter.getCurrentFilter()[0] != "bipolar"
       @theme = ""
       @notifyAll "onUpdateTheme", @theme
+
+    console.log @_hgInstance.categoryFilter.getCurrentFilter()[0]
 
     for topic in @_allTopics
       if topic.id == @_hgInstance.categoryFilter.getCurrentFilter()[0]
@@ -172,14 +187,14 @@ class HG.HiventList
 
     for hivent in @_hivent_array
       yearString = ''
-      if hivent.startYear == hivent.endYear
-        yearString = hivent.startYear
+      if hivent.getHivent().startYear == hivent.getHivent().endYear
+        yearString = hivent.getHivent().startYear
       else
-        yearString = hivent.startYear + ' bis ' + hivent.endYear
+        yearString = hivent.getHivent().startYear + ' bis ' + hivent.getHivent().endYear
 
-      hivents += '<a  href="#categories=' + aktCatinRead + '&event=' + hivent.id +
-                 '"><li class= "hiventListItem inactive" id='+hivent.id+'><div class="wrap" ><div class="res_name"> ' +
-                  hivent.name + '</div><div class="res_location">' + hivent.locationName[0] +
+      hivents += '<a  href="#categories=' + aktCatinRead + '&event=' + hivent.getHivent().id +
+                 '"><li class= "hiventListItem inactive" id='+hivent.getHivent().id+'><div class="wrap" ><div class="res_name"> ' +
+                  hivent.getHivent().name + '</div><div class="res_location">' + hivent.getHivent().locationName[0] +
                   '</div><div class="res_year">' + yearString + '</div></div><i class="fa fa-map-marker"></i></li></a>'
 
     hivents += '</ul>'
@@ -215,13 +230,20 @@ class HG.HiventList
 
     @notifyAll "onHiventListChanged", @props
 
+    for hivent in @_hivent_array
+      if hivent._activated
+        @activateElement hivent.getHivent().id
+
     return @_hivent_list
 
-  activateElement: (id) ->     
-    $("#"+id).switchClass("inactive", "active")    
+  activateElement: (id) ->    
+    $("#"+id).switchClass("inactive", "active")
+    $(".hivent-list").scrollTo "#"+id, 500
 
   deactivateElement:(id) ->    
     $("#"+id).switchClass("active", "inactive")
+
+
 
 
 
