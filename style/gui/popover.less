@@ -21,13 +21,6 @@
   padding: @popover_body_padding;
   
     .guiPopoverContent {
-      position: absolute;
-      font-size: 12pt;
-      bottom: 30px;
-
-      padding-left: 0px;
-      bottom: 30px;
-      padding-right: 15px;
 
       .hivent-body {
 
@@ -86,6 +79,14 @@
     top: 0;
     padding-top: 40px;
     max-height: 180px;
+
+    .guiPopoverContent {
+      //position: absolute;
+      font-size: 12pt;
+      bottom: 30px;
+
+      padding-left: 0px;
+    }
   }
 
   .guiPopoverBodyV2 {
@@ -98,6 +99,14 @@
     background-image: -ms-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
     background-image: -o-linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
     background-image: linear-gradient(top, rgba(0,0,0,0), rgb(0,0,0,0));
+
+    .guiPopoverContent {
+      position: absolute;
+      font-size: 12pt;
+      bottom: 30px;
+      padding-right: 15px;
+      padding-left: 0px;
+    }
   }
 
   .guiPopoverBodyBig {
