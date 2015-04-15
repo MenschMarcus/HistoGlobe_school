@@ -97,16 +97,12 @@ class HG.AreaController
     hgInstance.highcontrast_button.onEnterHighContrast @, () =>
       @_isHighContrast = yes
       for area in @_areas
-        @notifyAll "onUpdateAreaStyle", area, yes
-      for label in @_labels
-        @notifyAll "onUpdateLabelStyle", label, yes
+        @_updateStyle area
 
     hgInstance.highcontrast_button.onLeaveHighContrast @, () =>
       @_isHighContrast = no
       for area in @_areas
-        @notifyAll "onUpdateAreaStyle", area, no
-      for label in @_labels
-        @notifyAll "onUpdateLabelStyle", label, no
+        @_updateStyle area
 
     # infinite loop that executes all changes in the queue
     mainLoop = setInterval () =>    # => is important to be able to access global variables (compared to ->)
