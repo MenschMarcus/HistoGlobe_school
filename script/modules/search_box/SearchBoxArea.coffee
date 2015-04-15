@@ -106,8 +106,6 @@ class HG.SearchBoxArea
         @_container.style.left = "0px"
 
   # ============================================================================
-  deHighlightAllItems: ->
-    console.log "jiüppi"
 
   addLogo: (config) ->
     @_addLogo config
@@ -279,7 +277,7 @@ class HG.SearchBoxArea
         '<div class="res_location">' + result.locationName[0] + '</div><div class="res_year">' + yearString + '</div></div><i class="fa fa-map-marker"></i></li></a>'
         live_ticker++
 
-      aktualleCath = "none"
+      aktualleCath = ""
     
       for topic in @_allTopics
         if topic.id == @_hgInstance.categoryFilter.getCurrentFilter()[0]
