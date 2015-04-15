@@ -248,10 +248,10 @@ class HG.HiventList
     $("#"+id).switchClass("active", "inactive")
   
   hoverElement:(id) ->
-    $("#"+id).switchClass("inactive", "hover")
+    $("#"+id).switchClass("inactive", "hover",0)
   
   dehoverElement:(id) ->
-    $("#"+id).switchClass("hover", "inactive")
+    $("#"+id).switchClass("hover", "inactive",0)
 
 
 
