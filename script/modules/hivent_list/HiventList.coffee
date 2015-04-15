@@ -228,6 +228,8 @@ class HG.HiventList
         @activateElement hivent.getHivent().id
 
 
+    #$(".hivent-list").jScrollPane()
+
     return @_hivent_list
 
   activateElement: (id) ->    
@@ -236,6 +238,8 @@ class HG.HiventList
 
   deactivateElement:(id) ->    
     $("#"+id).switchClass("active", "inactive")
+
+
 
 
 
