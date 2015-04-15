@@ -55,7 +55,7 @@ class HG.Timeline
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
-  hgInit: (hgInstance) ->    
+  hgInit: (hgInstance) ->
     @_hgInstance = hgInstance
     @_hgInstance.timeline = @
 
@@ -66,9 +66,9 @@ class HG.Timeline
     @_HGContainer = @_hgInstance.getContainer()
 
     @_hgInstance.onAllModulesLoaded @, () =>
-      @_hiventController = @_hgInstance.hiventController      
+      @_hiventController = @_hgInstance.hiventController
       @notifyAll "onNowChanged", @_cropDateToMinMax @_now.date
-      @notifyAll "onIntervalChanged", @_getTimeFilter()     
+      @notifyAll "onIntervalChanged", @_getTimeFilter()
 
       if @_hgInstance.zoom_buttons_timeline
         @_hgInstance.zoom_buttons_timeline.onZoomIn @, () =>
@@ -120,16 +120,16 @@ class HG.Timeline
       onTouchMove: =>
         @_dragged = true
         @_updateNowDate(@_moveDelay++ % 10 == 0)
-        @_updateDateMarkers()   
+        @_updateDateMarkers()
         @_updateTextInTopics()
       onTouchEnd: =>
-        @_timelineClicked = false      
+        @_timelineClicked = false
       onSetWrapperTransition: (s, d) =>
         update_iteration_obj = setInterval =>
           @_updateNowDate(true)
           @_updateDateMarkers()
           @_updateTextInTopics()
-        , 50    
+        , 50
         setTimeout =>
           clearInterval(update_iteration_obj)
         , d
@@ -261,7 +261,7 @@ class HG.Timeline
   _getTimeFilter: ->
     timefilter = []
     if @_activeTopic?
-      timefilter.end = @_activeTopic.endDate    
+      timefilter.end = @_activeTopic.endDate
       timefilter.start = @_activeTopic.startDate
     else
       timefilter.end = @maxVisibleDate()
@@ -318,6 +318,10 @@ class HG.Timeline
     container = document.createElement(type)
     container.id = id
     container.className = className if className?
+
+    # hack to disable text select on timeline
+    container.classList.add "no-text-select"
+
     parentDiv.appendChild container if parentDiv?
     container
 
@@ -386,8 +390,8 @@ class HG.Timeline
       if layout
         @_updateLayout()
       @_updateTopics()
-      @_updateDateMarkers()    
-      @_updateTextInTopics()  
+      @_updateDateMarkers()
+      @_updateTextInTopics()
       @notifyAll "onZoom"
     zoomed
 
@@ -428,9 +432,9 @@ class HG.Timeline
         topic.div = document.createElement("div")
         topic.div.id = "topic" + topic.id
         topic.div.className = "tl_topic tl_topic_row" + topic.row
-        @getCanvas().appendChild topic.div                
-              
-        if topic.subtopics?        
+        @getCanvas().appendChild topic.div
+
+        if topic.subtopics?
           subtopics_element = document.createElement("div")
           subtopics_element.className = "tl_subtopics"
           topic.div.appendChild subtopics_element
@@ -452,14 +456,14 @@ class HG.Timeline
         $(topic.div).on "mouseup", value: topic, (event) =>
           if @_timelineClicked and !@_dragged
             @_hgInstance.hiventInfoAtTag?.setOption 'event', 'noEvent'
-            if @_activeTopic? and event.data.value.id is @_activeTopic.id 
+            if @_activeTopic? and event.data.value.id is @_activeTopic.id
                 @_hgInstance.hiventInfoAtTag?.setOption 'categories', 'noCategory'
                 @_activeTopic = null
             else
-              @_hgInstance.hiventInfoAtTag?.setOption 'categories', event.data.value.id                     
+              @_hgInstance.hiventInfoAtTag?.setOption 'categories', event.data.value.id
 
       topic.div.style.left = start_pos + "px"
-      topic.div.style.width = (end_pos - start_pos) + "px"      
+      topic.div.style.width = (end_pos - start_pos) + "px"
 
       # update position of subtopics
       if topic.subtopics?
@@ -616,7 +620,7 @@ class HG.Timeline
     millisec = diff / 2 + topic_tmp.startDate.getTime()
     middleDate = new Date(millisec)
 
-    # set all topics as default and choosed as highlighted    
+    # set all topics as default and choosed as highlighted
     @_unhighlightTopics()
     topic_tmp.div.className = "tl_topic_highlighted tl_topic_row" + topic_tmp.row
 
