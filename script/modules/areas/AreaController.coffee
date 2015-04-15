@@ -82,14 +82,16 @@ class HG.AreaController
         oldDate = @_now
         newDate = date
         @_updateCountries oldDate, newDate
-        @_updateStyles()  # style changes are separate from area/label changes
+        for area in @_areas
+          @_updateStyle area
         # update now date
         @_now = date
 
     hgInstance.onAllModulesLoaded @, () =>
       hgInstance.hivent_list_module?.onUpdateTheme @, (theme) =>
         @_theme = theme
-        @_updateStyles()
+        for area in @_areas
+          @_updateStyle area
 
     # toggle highContrast mode
     hgInstance.highcontrast_button.onEnterHighContrast @, () =>
@@ -116,6 +118,11 @@ class HG.AreaController
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
+
+  # ============================================================================
+  # DYNAMICS
+  # ============================================================================
+
 
   # ============================================================================
   # add all new and remove all old areas to map/globe
@@ -237,30 +244,6 @@ class HG.AreaController
     @_initStatus = no
 
   # ============================================================================
-  # updates the style values for areas and labels
-  _updateStyles: () ->
-
-    for area in @_areas
-      oldThemeClass = area.getActiveThemeClass()
-      newThemeClass = 'normal'    # initially normal class, if not overwritten
-      # if currently a theme active
-      if @_theme?
-        # check if area has a class in this theme
-        themeClasses = area.getThemeClasses @_theme
-        if themeClasses?
-          for themeClass in themeClasses
-            if @_now >= themeClass.startDate and @_now < themeClass.endDate
-              newThemeClass = themeClass.className
-              break
-
-      # check if theme style has changed
-      if (oldThemeClass.localeCompare newThemeClass) != 0   # N.B.! this took so long to find out how to actually compare if two strings are NOT equal in CoffeeScript...
-        area.setActiveThemeClass @_theme, newThemeClass
-        @notifyAll "onUpdateAreaStyle", area, @_isHighContrast
-
-    return
-
-  # ============================================================================
   # find next ready area change and execute it (one at a time)
   _doChanges: () ->
 
@@ -272,26 +255,23 @@ class HG.AreaController
 
       change = @_changeQueue.dequeue()
 
-      # remove all old areas
-      for id in change.oldAreas
-        area = @_getAreaById id
-        if area?
-          console.log "rem area", area.getId() if DEBUG_AREAS
-          @notifyAll "onRemoveArea", area
-
       # add all new areas
+      # -> update the style before, so it has the correct style in the mmoment it is on the map
       for id in change.newAreas
         area = @_getAreaById id
         if area?
           console.log "add area", area.getId() if DEBUG_AREAS
+          @_updateStyle area
           @notifyAll "onAddArea", area
 
-      # remove all old labels
-      for id in change.oldLabels
-        label = @_getLabelById id
-        if label?
-          console.log "rem label", label.getName() if DEBUG_LABELS
-          @notifyAll "onRemoveLabel", label
+      # remove all old areas
+      # -> update the style before, so it has the correct style in the mmoment it is on the map
+      for id in change.oldAreas
+        area = @_getAreaById id
+        if area?
+          console.log "rem area", area.getId() if DEBUG_AREAS
+          @_updateStyle area
+          @notifyAll "onRemoveArea", area
 
       # add all new labels
       for id in change.newLabels
@@ -299,6 +279,13 @@ class HG.AreaController
         if label?
           console.log "add label", label.getName() if DEBUG_LABELS
           @notifyAll "onAddLabel", label
+
+      # remove all old labels
+      for id in change.oldLabels
+        label = @_getLabelById id
+        if label?
+          console.log "rem label", label.getName() if DEBUG_LABELS
+          @notifyAll "onRemoveLabel", label
 
       # fade-out transition area
       if change.transArea?
@@ -311,6 +298,34 @@ class HG.AreaController
         @notifyAll "onFadeOutBorder", @_getTransitionById change.transBorder
 
 
+  # ============================================================================
+  # updates the style values for one area
+
+  _updateStyle: (area) ->
+    oldThemeClass = area.getActiveThemeClass()
+    newThemeClass = 'normal'    # initially normal class, if not overwritten
+    # if currently a theme active
+    if @_theme?
+      # check if area has a class in this theme
+      themeClasses = area.getThemeClasses @_theme
+      if themeClasses?
+        for themeClass in themeClasses
+          if @_now >= themeClass.startDate and @_now < themeClass.endDate
+            newThemeClass = themeClass.className
+            break
+
+    # check if theme style has changed
+    if (oldThemeClass.localeCompare newThemeClass) != 0   # N.B.! this took so long to find out how to actually compare if two strings are NOT equal in CoffeeScript...
+      area.setActiveThemeClass @_theme, newThemeClass
+      @notifyAll "onUpdateAreaStyle", area, @_isHighContrast
+
+    return
+
+
+
+  # ============================================================================
+  # PREPARATION
+  # ============================================================================
 
   # ============================================================================
   _loadAreasFromJSON: (config) ->

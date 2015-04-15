@@ -25,7 +25,6 @@ class HG.AreasOnMap
       @_invisibleLabels.push []
       ++i
 
-
     # highcontrast hack: swap between normal and "_hc" mode
     @_isHighContrast  = no
 
@@ -52,14 +51,14 @@ class HG.AreasOnMap
       # change of areas
       @_areaController.onAddArea @, (area) =>
         @_addArea area
-        @_showArea area, 0
+        @_showArea area, @_aniTime
 
       @_areaController.onRemoveArea @, (area) =>
-        @_hideArea area, 0
+        @_hideArea area, @_aniTime
 
       @_areaController.onUpdateAreaStyle @, (area, isHC) =>
         @_isHighContrast = isHC
-        @_updateAreaStyle area
+        @_updateAreaStyle area, @_aniTime
 
       # transition areas and borders
       @_areaController.onFadeInArea @, (area, isHighlight) =>
@@ -165,7 +164,7 @@ class HG.AreasOnMap
         @_removeArea area
 
   # ============================================================================
-  _updateAreaStyle: (area) ->
+  _updateAreaStyle: (area, aniTime) ->
     if area.myLeafletLayer?
       @_animate area.myLeafletLayer,
         # TODO: does that work better? translating the whole style 5 times for each item separately seems not intuitive...
@@ -174,7 +173,7 @@ class HG.AreasOnMap
         "stroke":         area.getStyle().borderColor
         "stroke-opacity": area.getStyle().borderOpacity
         "stroke-width":   area.getStyle().borderWidth
-      , 200   # TODO: get from config
+      , aniTime
 
 
 
