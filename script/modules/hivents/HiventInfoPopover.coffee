@@ -256,6 +256,7 @@ class HG.HiventInfoPopover
       x: position.at(0)
       y: position.at(1)
       @_visible = true
+      @_hgInstance.hiventInfoAtTag?.setOption("event", @_hiventHandle._hivent.id)
 
   # ============================================================================
   hide: =>
