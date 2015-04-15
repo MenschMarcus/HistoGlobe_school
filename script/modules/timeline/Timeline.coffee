@@ -175,6 +175,12 @@ class HG.Timeline
       $(@_uiElements.tl).fadeIn()
     )
 
+    # DIRTY HACK: at the end of everything, init now date again
+    setTimeout () =>
+        @_updateNowDate()
+        @moveToDate @yearToDate(@_config.nowYear)
+      , 3000  # happy magic timeout
+
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
   _loadTopicsFromDSV: (callback = undefined) ->
