@@ -61,7 +61,6 @@ class HG.Timeline
   hgInit: (hgInstance) ->
 
     @_hgInstance = hgInstance
-    @_hgInstance.timeline = @
 
     @_config.minYear = @_hgInstance.getMinMaxYear()[0]
     @_config.maxYear = @_hgInstance.getMinMaxYear()[1]
@@ -186,6 +185,9 @@ class HG.Timeline
 
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
+    @_hgInstance.timeline = @
+
+    ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
     # Start the timeline here !!!
     @_uiElements.tl.style.display = "none"
@@ -324,32 +326,26 @@ class HG.Timeline
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
   moveToDate: (date, delay=0, successCallback=undefined) ->
+    if @yearToDate(@_config.minYear).getTime() > date.getTime()
+      @moveToDate @yearToDate(@_config.minYear), delay, successCallback
+    else if @yearToDate(@_config.maxYear).getTime() < date.getTime()
+      @moveToDate @yearToDate(@_config.maxYear), delay, successCallback
+    else
+      dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
+      @_uiElements.tl_wrapper.style.transition =  delay + "s"
+      @_uiElements.tl_wrapper.style.transform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tl_wrapper.style.webkitTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tl_wrapper.style.MozTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tl_wrapper.style.MsTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @_uiElements.tl_wrapper.style.oTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
 
-    oldDate = @_now.date
-    newDate = date
-    if (Math.abs oldDate.getTime()-newDate.getTime()) > 5000
+      @_animationTargetDate = date
+      @_now.date = @_cropDateToMinMax date
 
-      if @yearToDate(@_config.minYear).getTime() > date.getTime()
-        @moveToDate @yearToDate(@_config.minYear), delay, successCallback
-      else if @yearToDate(@_config.maxYear).getTime() < date.getTime()
-        @moveToDate @yearToDate(@_config.maxYear), delay, successCallback
-      else
-        dateDiff = @yearToDate(@_config.minYear).getTime() - date.getTime()
-        @_uiElements.tl_wrapper.style.transition =  delay + "s"
-        @_uiElements.tl_wrapper.style.transform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-        @_uiElements.tl_wrapper.style.webkitTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-        @_uiElements.tl_wrapper.style.MozTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-        @_uiElements.tl_wrapper.style.MsTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
-        @_uiElements.tl_wrapper.style.oTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
+      @notifyAll "onNowChanged", @_now.date
+      @notifyAll "onIntervalChanged", @_getTimeFilter()
 
-        @_animationTargetDate = date
-
-        # TEST HACK: only fire "onNowChanged" if nowDate really changed a lot
-        @_now.date = @_cropDateToMinMax date
-        @notifyAll "onNowChanged", @_now.date
-        @notifyAll "onIntervalChanged", @_getTimeFilter()
-
-        setTimeout(successCallback, delay * 1000) if successCallback?
+      setTimeout(successCallback, delay * 1000) if successCallback?
 
   # animation control
   stopTimeline: ->
@@ -540,12 +536,12 @@ class HG.Timeline
 
         #   onclick switch topic
         $(topic.div).on "mouseup", value: topic, (event) =>
-          if @_timelineClicked            
+          if @_timelineClicked
             if @_activeTopic? and event.data.value.id is @_activeTopic.id and !@_dragged
                 window.location.hash = '#categories=noCategory'
                 @_activeTopic = null
             else if !@_dragged
-              window.location.hash = '#categories=' + event.data.value.id            
+              window.location.hash = '#categories=' + event.data.value.id
         $(topic.div).fadeIn(200)
 
         #   set text in topic bar so that text
