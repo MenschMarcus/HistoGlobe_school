@@ -130,6 +130,7 @@ class HG.HiventsOnMap
       @_map.addLayer @_markerGroup
 
       window.organizeLabels()
+      window.organizeLabels()
       @_map.on( "zoomend" , ->        
         window.organizeLabels()
         )
@@ -192,7 +193,7 @@ class HG.HiventsOnMap
           if  exists==-1          
             locationNames.push locationName
 
-        labelHtml+="<div class=\"clusterLabelOnMap\"><table>"
+        labelHtml+='<div class="clusterLabelOnMap"><table class="markerLabel left">'
         #old version which shows all hivents in cluster
         #for locationName in locationNames
         #  labelHtml+="<tr><td>#{locationName}</td></tr>"
@@ -233,6 +234,7 @@ window.organizeLabels=()->
   #harry your a wizard
   movedLabels=[]
   for labelA in labelsArray
+    console.log labelA
     for labelB in labelsArray
       if !(labelA==labelB)          
         boxA=labelA.getBoundingClientRect()
