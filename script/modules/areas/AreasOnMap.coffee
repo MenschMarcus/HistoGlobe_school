@@ -8,6 +8,7 @@ class HG.AreasOnMap
 
   NUM_LABEL_PRIOS = 5
   TRANS_COLOR = '#D5C900'
+  TRANS_COLOR_HC = '#2f3b64'
 
   # ============================================================================
   constructor: (config) ->
@@ -26,7 +27,7 @@ class HG.AreasOnMap
       ++i
 
     # highcontrast hack: swap between normal and "_hc" mode
-    @_isHighContrast  = no
+    @_inHighContrast  = no
 
     defaultConfig =
       labelVisibilityFactor: 5
@@ -57,7 +58,7 @@ class HG.AreasOnMap
         @_hideArea area, @_aniTime
 
       @_areaController.onUpdateAreaStyle @, (area, isHC) =>
-        @_isHighContrast = isHC
+        @_inHighContrast = isHC
         @_updateAreaStyle area, @_aniTime
 
       # transition areas and borders
@@ -149,7 +150,7 @@ class HG.AreasOnMap
         , aniTime
       else
         @_animate area.myLeafletLayer,
-          "fill":           TRANS_COLOR
+          "fill":           if @_inHighContrast then TRANS_COLOR_HC else TRANS_COLOR
           "fill-opacity":   1.0
         , aniTime
 
@@ -168,13 +169,12 @@ class HG.AreasOnMap
     if area.myLeafletLayer?
       @_animate area.myLeafletLayer,
         # TODO: does that work better? translating the whole style 5 times for each item separately seems not intuitive...
-        "fill":           area.getStyle().areaColor
-        "fill-opacity":   area.getStyle().areaOpacity
-        "stroke":         area.getStyle().borderColor
-        "stroke-opacity": area.getStyle().borderOpacity
-        "stroke-width":   area.getStyle().borderWidth
+        "fill":           (@_translateAreaStyle area.getStyle()).fillColor
+        "fill-opacity":   (@_translateAreaStyle area.getStyle()).fillOpacity
+        "stroke":         (@_translateAreaStyle area.getStyle()).color     # if in doubt: (@_translateAreaStyle area.getStyle()).lineColor
+        "stroke-opacity": (@_translateAreaStyle area.getStyle()).opacity   # if in doubt: (@_translateAreaStyle area.getStyle()).lineOpacity
+        "stroke-width":   (@_translateAreaStyle area.getStyle()).weight
       , aniTime
-
 
 
   # ============================================================================
@@ -189,8 +189,8 @@ class HG.AreasOnMap
 
       # take style of country but make it invisible
       options = {}
-      options.color       = TRANS_COLOR
-      options.fillColor   = TRANS_COLOR
+      options.color       = if @_inHighContrast then TRANS_COLOR_HC else TRANS_COLOR
+      options.fillColor   = if @_inHighContrast then TRANS_COLOR_HC else TRANS_COLOR
       options.opacity     = 0.0
       options.fillOpacity = 0.0
       options.weight      = 2.5
@@ -557,7 +557,7 @@ class HG.AreasOnMap
       opacity:      userStyle.borderOpacity
 
     # override in highContrast mode
-    if @_isHighContrast
+    if @_inHighContrast
       options.fillColor   = userStyle.areaColor_hc
       options.lineColor   = userStyle.borderColor_hc
       options.color       = userStyle.borderColor_hc

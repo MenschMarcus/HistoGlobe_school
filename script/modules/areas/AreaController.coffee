@@ -97,12 +97,12 @@ class HG.AreaController
     hgInstance.highcontrast_button.onEnterHighContrast @, () =>
       @_isHighContrast = yes
       for area in @_areas
-        @_updateStyle area
+        @notifyAll "onUpdateAreaStyle", area, @_isHighContrast
 
     hgInstance.highcontrast_button.onLeaveHighContrast @, () =>
       @_isHighContrast = no
       for area in @_areas
-        @_updateStyle area
+        @notifyAll "onUpdateAreaStyle", area, @_isHighContrast
 
     # infinite loop that executes all changes in the queue
     mainLoop = setInterval () =>    # => is important to be able to access global variables (compared to ->)
@@ -300,6 +300,7 @@ class HG.AreaController
   _updateStyle: (area) ->
     oldThemeClass = area.getActiveThemeClass()
     newThemeClass = 'normal'    # initially normal class, if not overwritten
+
     # if currently a theme active
     if @_theme?
       # check if area has a class in this theme
@@ -310,7 +311,6 @@ class HG.AreaController
             newThemeClass = themeClass.className
             break
 
-    # check if theme style has changed
     if (oldThemeClass.localeCompare newThemeClass) != 0   # N.B.! this took so long to find out how to actually compare if two strings are NOT equal in CoffeeScript...
       area.setActiveThemeClass @_theme, newThemeClass
       @notifyAll "onUpdateAreaStyle", area, @_isHighContrast
