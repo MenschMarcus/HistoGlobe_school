@@ -132,7 +132,6 @@ class HG.AreasOnMap
   # ============================================================================
   _updateAreaStyle: (area) ->
     newStyle = @_translateStyle area.getStyle()
-    console.log newStyle
     if area.myLeafletLayer?
       @_animate area.myLeafletLayer,
         # TODO: does that work better? translating the whole style 5 times for each item separately seems not intuitive...

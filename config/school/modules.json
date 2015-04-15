@@ -136,18 +136,21 @@
     "normalStyle":
     {
       "areaColor":      "#ffffff",
+      "areaColor_hc":   "#ffffff",
       "areaOpacity":    0.75,
-      "borderWidth":    1.5,
-      "borderColor":    "#BBBBBB",
+      "borderWidth":    1.25,
+      "borderColor":    "#c1c1c1",
+      "borderColor_hc": "#000000",
       "borderOpacity":  1.0,
-      "nameSize":       1,
-      "nameColor":      "#bebebe",
-      "nameOpacity":    1.0
+      "labelSize":      2,
+      "labelColor":     "#7f7f7f",
+      "labelColor_hc":  "#050505",
+      "labelOpacity":   1.0
     },
     "highlightStyle":
     {
       "areaColor":      "#eaeaea",
-      "nameColor":      "#000000"
+      "areaColor_hc":   "#d8d8d8"
     },
     "countryThemeMapping" :
     [
@@ -162,29 +165,31 @@
       {
         "NATO":
         {
-          "areaColor":      "#5e97a5",
-          "labelColor":     "#2f3b46",
+          "areaColor":    "#5e97a5",
+          "labelColor":   "#2f3b46",
           "labelColor_hc":  "#000000",
           "borderColor_hc": "#000000"
         },
         "NATO_no_military":
         {
-          "areaColor":      "#9ec9d9",
-          "labelColor":     "#2f3b46",
+          "areaColor":    "#9ec9d9",
+          "labelColor":   "#2f3b46",
           "labelColor_hc":  "#000000",
           "borderColor_hc": "#000000"
         },
         "WP":
+
         {
-          "areaColor":      "#c67e7f",
-          "labelColor":     "#2f3b46",
-          "labelColor_hc":  "#050505",
-          "borderColor":    "#E6E6E6",
+          "areaColor":    "#c67e7f",
+          "labelColor":   "#2f3b46",
+          "labelColor_hc": "#05050500000",
+          "borderColor":  "#E6E6E6",
           "borderColor_hc": "#000000"
         }
       }
     }
   },
+
 
   "AreaController":
   {
