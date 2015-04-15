@@ -176,9 +176,10 @@ class HG.Timeline
     )
 
     # DIRTY HACK: at the end of everything, init now date again
+    # and move the timeline, so the markers on the timeline are initially at the correct position
     setTimeout () =>
         @_updateNowDate()
-        @moveToDate @yearToDate(@_config.nowYear)
+        @moveToDate new Date @_now.date.getTime() + 86400000000  # adds some days
       , 3000  # happy magic timeout
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
