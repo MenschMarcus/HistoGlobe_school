@@ -113,6 +113,11 @@ class HG.HiventList
           if key is "categories"
             @_addHiventList()
 
+      
+
+    $(window).resize  =>
+      @_addHiventList()
+
     @_hgInstance.onTopAreaSlide @, (t) =>
       if @_hgInstance.isInMobileMode()
         @_container.style.left = "#{t*0.5}px"
@@ -132,17 +137,27 @@ class HG.HiventList
       @_container.removeChild @_hivent_list
       @_container.removeChild @_hivent_headline
 
+      for hivent in @_hivent_array
+        hivent.removeListener "onActive", @
+        hivent.removeListener "onInActive", @
+
     # Hivents ==================================================================
 
     @_hivent_array = []
-    if @_hgInstance.hiventController._hiventHandles?
-      for hivent in @_hgInstance.hiventController._hiventHandles
-        if @_hgInstance.categoryFilter._categoryFilter[0] == hivent._hivent.category
-          @_hivent_array.push hivent._hivent
+    if @_hgInstance.hiventController.getHivents()?
+      for hivent in @_hgInstance.hiventController.getHivents()
+        if @_hgInstance.categoryFilter._categoryFilter[0] == hivent.getHivent().category
+          @_hivent_array.push hivent
+          hivent.onActive @, (mousePos, handle) =>
+            @activateElement handle.getHivent().id
+
+          hivent.onInActive @, (mousePos, handle) =>
+            @deactivateElement handle.getHivent().id
 
     #############################################################
 
     aktualleCath = ""
+    aktCatinRead = @_hgInstance.categoryFilter.getCurrentFilter()[0]
     if @_hgInstance.categoryFilter.getCurrentFilter()[0] != "bipolar"
       @theme = ""
       @notifyAll "onUpdateTheme", @theme
@@ -165,14 +180,14 @@ class HG.HiventList
 
     for hivent in @_hivent_array
       yearString = ''
-      if hivent.startYear == hivent.endYear
-        yearString = hivent.startYear
+      if hivent.getHivent().startYear == hivent.getHivent().endYear
+        yearString = hivent.getHivent().startYear
       else
-        yearString = hivent.startYear + ' bis ' + hivent.endYear
+        yearString = hivent.getHivent().startYear + ' bis ' + hivent.getHivent().endYear
 
-      hivents += '<a  href="#event=' + hivent.id +
-                 '"><li class= "hiventListItem inactive" id='+hivent.id+'><div class="wrap" ><div class="res_name"> ' +
-                  hivent.name + '</div><div class="res_location">' + hivent.locationName[0] +
+      hivents += '<a  href="#categories=' + aktCatinRead + '&event=' + hivent.getHivent().id +
+                 '"><li class= "hiventListItem inactive" id='+hivent.getHivent().id+'><div class="wrap" ><div class="res_name"> ' +
+                  hivent.getHivent().name + '</div><div class="res_location">' + hivent.getHivent().locationName[0] +
                   '</div><div class="res_year">' + yearString + '</div></div><i class="fa fa-map-marker"></i></li></a>'
 
     hivents += '</ul>'
@@ -208,12 +223,24 @@ class HG.HiventList
 
     @notifyAll "onHiventListChanged", @props
 
+    for hivent in @_hivent_array
+      if hivent._activated
+        @activateElement hivent.getHivent().id
+
+
+    #$(".hivent-list").jScrollPane()
+
     return @_hivent_list
 
-  activateElement: (id) ->     
+  activateElement: (id) ->    
     $("#"+id).switchClass("inactive", "active")
+    $(".hivent-list").scrollTo "#"+id, 500
+
   deactivateElement:(id) ->    
     $("#"+id).switchClass("active", "inactive")
+
+
+
 
 
     #=============================================================================

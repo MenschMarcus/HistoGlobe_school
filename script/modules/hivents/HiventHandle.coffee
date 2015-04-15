@@ -56,8 +56,7 @@ class HG.HiventHandle
     ACTIVE_HIVENTS.push(@)
     if @regionMarker?
       @regionMarker.makeVisible()
-    window.hgInstance.hivent_list_module.activateElement(@_hivent.id)
-    @notifyAll "onActive", mousePixelPosition
+    @notifyAll "onActive", mousePixelPosition, @
 
   # ============================================================================
   active: (obj, mousePixelPosition) ->    
@@ -65,28 +64,25 @@ class HG.HiventHandle
     ACTIVE_HIVENTS.push @
     if @regionMarker?
       @regionMarker.makeVisible()
-    window.hgInstance.hivent_list_module.activateElement(@_hivent.id)
-    @notify "onActive", obj, mousePixelPosition
+    @notify "onActive", obj, mousePixelPosition, @
 
   # ============================================================================
   inActiveAll: (mousePixelPosition) ->
     @_activated = false
     index = $.inArray(@, ACTIVE_HIVENTS)
     if index >= 0 then delete ACTIVE_HIVENTS[index]
-    window.hgInstance.hivent_list_module.deactivateElement(@_hivent.id)
     if @regionMarker?
       @regionMarker.makeInvisible()
-    @notifyAll "onInActive", mousePixelPosition
+    @notifyAll "onInActive", mousePixelPosition, @
 
   # ============================================================================
   inActive: (obj, mousePixelPosition) ->
     @_activated = false
     index = $.inArray(@, ACTIVE_HIVENTS)
     if index >= 0 then delete ACTIVE_HIVENTS[index]
-    window.hgInstance.hivent_list_module.deactivateElement(@_hivent.id)
     if @regionMarker?
       @regionMarker.makeInvisible()
-    @notify "onInActive", obj, mousePixelPosition
+    @notify "onInActive", obj, mousePixelPosition, @
 
   # ============================================================================
   toggleActiveAll: (mousePixelPosition) ->
