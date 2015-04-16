@@ -69,6 +69,11 @@ class HG.Timeline
       @_hiventController = @_hgInstance.hiventController
       @notifyAll "onNowChanged", @_cropDateToMinMax @_now.date
       @notifyAll "onIntervalChanged", @_getTimeFilter()
+      @_hgInstance.minGUIButton?.onRemoveGUI @, () ->    
+        @_hideCategories()
+
+      @_hgInstance.minGUIButton?.onOpenGUI @, () -> 
+        @_showCategories()
 
       if @_hgInstance.zoom_buttons_timeline
         @_hgInstance.zoom_buttons_timeline.onZoomIn @, () =>
@@ -135,7 +140,7 @@ class HG.Timeline
         , d
 
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
-
+    
     #   ZOOM
     @_uiElements.tl.addEventListener "mousewheel", (e) =>
       e.preventDefault()
@@ -672,3 +677,12 @@ class HG.Timeline
 
   _disableTextSelection : (e) ->  return false
   _enableTextSelection : () ->    return true
+  
+  _hideCategories: () ->
+    console.log "hi"
+    console.log @_parentDiv
+    $('.tl_topic, .tl_topic_highlighted, [class*="hivent_marker_timeline"]').css("visibility","hidden")
+
+  _showCategories: () ->
+    console.log "ho"
+    $('.tl_topic, .tl_topic_highlighted, [class*="hivent_marker_timeline"]').css("visibility","visible")
