@@ -679,10 +679,7 @@ class HG.Timeline
   _enableTextSelection : () ->    return true
   
   _hideCategories: () ->
-    console.log "hi"
-    console.log @_parentDiv
     $('.tl_topic, .tl_topic_highlighted, [class*="hivent_marker_timeline"]').css("visibility","hidden")
 
   _showCategories: () ->
-    console.log "ho"
     $('.tl_topic, .tl_topic_highlighted, [class*="hivent_marker_timeline"]').css("visibility","visible")
