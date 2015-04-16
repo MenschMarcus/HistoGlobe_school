@@ -69,8 +69,10 @@
         "id"          : 0,
         "type"        : 2,
         "description" : 3,
-        "source"      : 4,
-        "link"        : 1
+        "link"        : 1,
+        "author"      : 4,
+        "source"      : 5,
+        "crop"        : 6
       }
     ]
   },

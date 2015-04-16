@@ -22,22 +22,9 @@ class HG.MultimediaController
         type        : 2
         description : 3
         link        : 1
-        source      : 4
-        crop        : 5
-        type        : 6
-        # id          : 0
-        # type        : 1
-        # description : 2
-        # link        : 3
-        # source      : 4
-        # crop        : 5
-        # type        : 6
-
-        # "id"          : 0,
-        # "type"        : 2,
-        # "description" : 3,
-        # "source"      : 4,
-        # "link"        : 1
+        author      : 4
+        source      : 5
+        crop        : 6
       ]
 
     @_config = $.extend {}, defaultConfig, config

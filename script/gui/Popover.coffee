@@ -1,7 +1,7 @@
 window.HG ?= {}
 
 class HG.Popover
- 
+
   ##############################################################################
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
@@ -42,8 +42,8 @@ class HG.Popover
 
     @_map_size = @_config.hgInstance.getMapAreaSize()
 
-    @_widthFSBox = @_map_size.x - HIVENTLIST_OFFSET #- FULLSCREEN_BOX_LEFT_OFFSET 
-    @_heightFSBox = 0.82 * @_map_size.y 
+    @_widthFSBox = @_map_size.x - HIVENTLIST_OFFSET #- FULLSCREEN_BOX_LEFT_OFFSET
+    @_heightFSBox = 0.82 * @_map_size.y
 
     @_mainDiv = document.createElement "div"
     @_mainDiv.className = "guiPopover"
@@ -111,7 +111,7 @@ class HG.Popover
 
     # =================================================================
     @_bodyDiv = document.createElement "div"
-    @_bodyDiv.className = "guiPopoverBodyV1" 
+    @_bodyDiv.className = "guiPopoverBodyV1"
 
     source = document.createElement "span"
     source.className = "source"
@@ -213,6 +213,7 @@ class HG.Popover
             if mm?
 
               if mm.type is "WEBIMAGE"
+                console.log mm
                 link = mm.link
                 imgSource = mm.source
 
