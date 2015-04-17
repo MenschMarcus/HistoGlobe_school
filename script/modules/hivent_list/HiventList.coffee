@@ -119,11 +119,12 @@ class HG.HiventList
             @_addHiventList()
 
       @_hgInstance.minGUIButton?.onRemoveGUI @, () -> 
-        @_container.style.visibility="hidden"
+        $(@_container).fadeTo(500,0, () -> 
+          $(@_container).css("visibility", "hidden") )
 
       @_hgInstance.minGUIButton?.onOpenGUI @, () -> 
-        @_container.style.visibility="visible"
-
+        $(@_container).css("visibility", "visible")
+        $(@_container).fadeTo(500,1)
     $(window).resize  =>
       @_addHiventList()
 
