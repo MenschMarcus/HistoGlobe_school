@@ -683,5 +683,8 @@ class HG.Timeline
       $('.tl_topic, .tl_topic_highlighted ').css("visibility", "hidden") )
     $('[class*="hivent_marker_timeline"]').css("bottom","45px")
   _showCategories: () ->
+    category= @_hgInstance.categoryFilter.getCurrentFilter()    
+    @_hgInstance.categoryFilter.setCategory "noCategory"
+    @_hgInstance.categoryFilter.setCategory category
     $('.tl_topic, .tl_topic_highlighted ').css("visibility", "visible")
     $('.tl_topic, .tl_topic_highlighted').fadeTo(500,1)
