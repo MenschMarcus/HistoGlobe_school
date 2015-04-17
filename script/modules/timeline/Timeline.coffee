@@ -679,7 +679,7 @@ class HG.Timeline
   _enableTextSelection : () ->    return true
   
   _hideCategories: () ->
-    $('.tl_topic, .tl_topic_highlighted ').css("visibility", "hidden")
+    $('.tl_topic, .tl_topic_highlighted ').fadeTo(500,0)
     $('[class*="hivent_marker_timeline"]').css("bottom","45px")
   _showCategories: () ->
-    $('.tl_topic, .tl_topic_highlighted, [class*="hivent_marker_timeline"]').css("visibility","visible")
+    $('.tl_topic, .tl_topic_highlighted').fadeTo(500,1)
