@@ -191,7 +191,8 @@ class HG.Popover
 
   # ============================================================================
 
-    $(@_mainDiv).draggable()
+    $(".guiPopover").draggable()
+
     $(@_mainDiv).fadeIn(1000)
 
     @_mainDiv.style.height = "250px"  # #{@_height}"
@@ -250,20 +251,26 @@ class HG.Popover
 
   # ============================================================================
   expand: () ->
+    @_mainDiv.className = "guiPopoverBig"
+    @_mainDiv.style.pointerEvents = "none"
     @_mainDiv.style.width = "#{@_widthFSBox}px"
     @_mainDiv.style.height = "#{@_heightFSBox}px"
     @_mainDiv.style.top = "#{FULLSCREEN_BOX_TOP_OFFSET}px"
     @_mainDiv.style.left = "#{FULLSCREEN_BOX_LEFT_OFFSET}px"
+    $(@_mainDiv).unbind('drag')
 
     @_mainDiv.replaceChild @_bodyDivBig, @_bodyDiv
 
   # ============================================================================
   compress: () ->
+    @_mainDiv.className = "guiPopover"
+    @_mainDiv.style.pointerEvents = "all"
     @_mainDiv.style.width = "#{@_width}px"
     @_mainDiv.style.height = "#{@_height}px"
     $(@_mainDiv).offset
       left: @_screenWidth / 2 - 0.74 * @_width
       top: @_screenHeight / 2 - 0.73 * @_height
+    $(@_mainDiv).bind('drag')
 
     @_mainDiv.replaceChild @_bodyDiv, @_bodyDivBig
 
@@ -272,6 +279,7 @@ class HG.Popover
     if document.contains(@_bodyDivBig)
       @_mainDiv.removeChild @_bodyDivBig
       @_mainDiv.appendChild @_bodyDiv
+      @_mainDiv.className = "guiPopover"
       @_mainDiv.style.width = "#{@_width}px"
       @_mainDiv.style.height = "#{@_height}px"
       @_mainDiv.replaceChild @_expandBox, @_compressBox
@@ -305,6 +313,7 @@ class HG.Popover
     if document.contains(@_bodyDivBig)
       @_mainDiv.removeChild @_bodyDivBig
       @_mainDiv.appendChild @_bodyDiv
+      @_mainDiv.className = "guiPopover"
       @_mainDiv.style.width = "#{@_width}px"
       @_mainDiv.style.height = "#{@_height}px"
       @_mainDiv.replaceChild @_expandBox, @_compressBox

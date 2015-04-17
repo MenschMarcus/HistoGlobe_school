@@ -4,7 +4,7 @@
 @popover_title_padding: 0px;
 @popover_body_padding: 15px;
 
-.guiPopover {
+.guiPopover, .guiPopoverBig {
   border-radius: @widget_border_radius_top_left @widget_border_radius_top_right @widget_border_radius_bottom_right @widget_border_radius_bottom_left;
   width: @popover_width;
   height: 350px;
@@ -195,6 +195,7 @@
     background-position: center center;  
     border-radius: 50%;
     z-index: 5;
+    pointer-events: all;
     
     width: 30px;
     height: 30px;
@@ -221,6 +222,7 @@
     bottom: 8px;
     right: 8px;
     cursor: pointer;
+    pointer-events: all;
 
     &:hover {
       opacity: 0.75;
@@ -247,6 +249,7 @@
   margin-top: 12px;
   font-weight: bold;
   text-transform: uppercase;
+  pointer-events: all;
 
   &:hover {
     color: #fff;
