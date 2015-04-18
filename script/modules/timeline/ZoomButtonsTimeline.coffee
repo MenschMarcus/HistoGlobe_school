@@ -29,13 +29,13 @@ class HG.ZoomButtonsTimeline
 
         zoom_in =
         icon: "fa-plus"
-        tooltip: "Zeitskala dehnen"
+        tooltip: "Zeitleiste vergrößern"
         callback: () =>
           @notifyAll "onZoomIn"
 
         zoom_out =
         icon: "fa-minus"
-        tooltip: "Zeitskala stauchen"
+        tooltip: "Zeitleiste verkleinern"
         callback: () =>
           @notifyAll "onZoomOut"
 

@@ -1,19 +1,22 @@
 .tooltip-inner {
-    background-color: #fff;
-    border-color: #666;
-    font-size: 14px !important;
-    pointer-events: none;
-    font-family: sans-serif !important;
-    color: #444;
+    position: absolute;
+    top: -9px;
+    margin: 1px;
+    padding: 1px 6px;
     border-radius: 4px;
     border-style: solid;
-    border-width: 4px;font-weight: bold;
-    padding: 1px 6px;
+    border-width: 1px;
+    border-color: #666;
 
-    max-width: 250px;
+    color: #000000;
+    background-color: #fff;
+
+    pointer-events: none;
 }
 
+// outer tooltip (wrapper)
 .tooltip {
+    max-width: 400px;
 
     &.bottom {
         .tooltip-arrow {
