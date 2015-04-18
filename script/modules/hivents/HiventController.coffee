@@ -18,21 +18,21 @@ class HG.HiventController
 
     @addCallback "onHiventAdded"
 
-    @_hiventHandles = []
-    @_handlesNeedSorting = false
+    @_hiventHandles           = []
+    @_handlesNeedSorting      = false
 
-    @_currentTimeFilter = null # {start: <Date>, end: <Date>}
-    @_currentSpaceFilter = null # { min: {lat: <float>, long: <float>},
-                                 #   max: {lat: <float>, long: <float>}}
-    @_currentCategoryFilter = null # [category_a, category_b, ...]
-    @_categoryFilter = null
+    @_currentTimeFilter       = null  # {start: <Date>, end: <Date>}
+    @_currentSpaceFilter      = null  # { min: {lat: <float>, long: <float>},
+                                      #   max: {lat: <float>, long: <float>}}
+    @_currentCategoryFilter   = null  # [category_a, category_b, ...]
+    @_categoryFilter          = null
 
     defaultConfig =
       dsvConfigs: undefined
       numHiventsInView: 10
 
     @_config = $.extend {}, defaultConfig, config
-    
+
 
   # ============================================================================
   hgInit: (hgInstance) ->
