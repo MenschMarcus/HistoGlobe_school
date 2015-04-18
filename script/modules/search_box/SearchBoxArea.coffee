@@ -87,10 +87,6 @@ class HG.SearchBoxArea
           window.current_active_element = window.list_items.length - 1
         else
           window.current_active_element--
-      if e.which is 13 # enter
-        e.preventDefault()
-        if @_input_text.length > 0 and window.current_active_element > -1
-          window.location = $("#" + window.list_items[window.current_active_element]).attr("href")
 
       $("#" + window.list_items[window.current_active_element] + " > li").addClass("itemhover_list")
 
@@ -110,8 +106,6 @@ class HG.SearchBoxArea
         @_container.style.left = "0px"
 
   # ============================================================================
-  deHighlightAllItems: ->
-    console.log "jiüppi"
 
   addLogo: (config) ->
     @_addLogo config
@@ -283,7 +277,7 @@ class HG.SearchBoxArea
         '<div class="res_location">' + result.locationName[0] + '</div><div class="res_year">' + yearString + '</div></div><i class="fa fa-map-marker"></i></li></a>'
         live_ticker++
 
-      aktualleCath = "none"
+      aktualleCath = ""
     
       for topic in @_allTopics
         if topic.id == @_hgInstance.categoryFilter.getCurrentFilter()[0]
@@ -344,10 +338,17 @@ class HG.SearchBoxArea
         @props.active = false
         @notifyAll "onSearchBoxChanged", @props
 
+
     #=============================================================================
     #@notifyAll "onSearchBoxChanged", @props
+    $(input).keyup (e) =>
+      if e.which is 13  #Enter key pressed
+        e.preventDefault()
+
+    $(input).keydown (e) =>
+      if e.which is 13  #Enter key pressed
+        e.preventDefault()
+
     @_container.appendChild box
 
     return box
-
-    #=============================================================================

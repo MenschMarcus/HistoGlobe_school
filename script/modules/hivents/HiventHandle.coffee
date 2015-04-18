@@ -125,7 +125,11 @@ class HG.HiventHandle
       @notify "onUnMark", obj, mousePixelPosition
 
   # ============================================================================
-  linkAll: (mousePixelPosition) ->    
+  linkAll: (mousePixelPosition) ->      
+    if window.LINKED_HIVENT!=0
+      window.LINKED_HIVENT.unLinkAll 0
+    window.LINKED_HIVENT=@
+ 
     #window.hgInstance.hivent_list_module.activateElement(@_hivent.id)
     unless @_linked
       @_linked = true
@@ -133,6 +137,9 @@ class HG.HiventHandle
 
   # ============================================================================
   link: (obj, mousePixelPosition) ->    
+    if window.LINKED_HIVENT.unLink!=0
+      window.LINKED_HIVENT.unLinkAll obj, 0
+    window.LINKED_HIVENT=@
     #window.hgInstance.hivent_list_module.activateElement(@_hivent.id)
     unless @_linked
       @_linked = true
@@ -140,6 +147,7 @@ class HG.HiventHandle
 
   # ============================================================================
   unLinkAll: (mousePixelPosition) ->
+    window.LINKED_HIVENT=0
     #window.hgInstance.hivent_list_module.deactivateElement(@_hivent.id)
     if @_linked
       @_linked = false
@@ -147,6 +155,7 @@ class HG.HiventHandle
 
   # ============================================================================
   unLink: (obj, mousePixelPosition) ->
+    LINKED_HIVENT=0
     #window.hgInstance.hivent_list_module.deactivateElement(@_hivent.id)
     if @_linked
       @_linked = false
@@ -266,3 +275,5 @@ class HG.HiventHandle
 
     ACTIVE_HIVENTS = $.grep ACTIVE_HIVENTS, (value) ->
       return value == handle
+
+  window.LINKED_HIVENT=0

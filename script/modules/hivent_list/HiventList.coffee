@@ -43,26 +43,26 @@ class HG.HiventList
     $(@_hivent_list).on("click", ".hiventListItem",  ->
       id=this.id
       handle=window.hgInstance.hiventController.getHiventHandleById(id)
-      handle.toggleActive(@, 0)        
+      handle.toggleActive(@, 0)
       )
-    $(@_hivent_list).on("mouseenter", ".hiventListItem",  ->      
-      id=this.id      
+    $(@_hivent_list).on("mouseenter", ".hiventListItem",  ->
+      id=this.id
       handle=window.hgInstance.hiventController.getHiventHandleById(id)
       handle.mark @, 0
-      handle.linkAll @, 0          
+      handle.linkAll @, 0
       ).on("mouseleave", ".hiventListItem", ->
         id=this.id
-        
+
         handle=window.hgInstance.hiventController.getHiventHandleById(id)
 
         if !handle._activated
           handle.unMark @, 0
-          handle.unLinkAll @, 0   
+          handle.unLinkAll @, 0
       )
 
     handels=window.hgInstance.hiventController.getHivents()
 
-    
+
     $(@_alliances_option).click () =>
       knopp = $(".toggle_on_off")
       display_knopp = $(".legend_table")
@@ -101,6 +101,10 @@ class HG.HiventList
         $(@_alliances_option).css({'max-height':(@props.heigth_options) + "px"})
         $(@_alliances_option).css({'border-bottom': (@props.border) + "px"})
 
+        if @_hgInstance.categoryFilter.getCurrentFilter()[0] != "bipolar"
+          # console.log @_hgInstance.categoryFilter.getCurrentFilter()[0]
+          $(@_alliances_option).css({'max-height':0 + "px"})
+
       if @_hgInstance.timeline._config.topics.length > 0
         @_allTopics = @_hgInstance.timeline._config.topics
         @_addHiventList()
@@ -111,10 +115,16 @@ class HG.HiventList
 
       @_hgInstance.hiventInfoAtTag?.onHashChanged @, (key, value) =>
           if key is "categories"
+            # console.log "HiventInfoAtTag"
             @_addHiventList()
 
-      
+      @_hgInstance.minGUIButton?.onRemoveGUI @, () -> 
+        $(@_container).fadeTo(500,0, () -> 
+          $(@_container).css("visibility", "hidden") )
 
+      @_hgInstance.minGUIButton?.onOpenGUI @, () -> 
+        $(@_container).css("visibility", "visible")
+        $(@_container).fadeTo(500,1)
     $(window).resize  =>
       @_addHiventList()
 
@@ -161,6 +171,8 @@ class HG.HiventList
     if @_hgInstance.categoryFilter.getCurrentFilter()[0] != "bipolar"
       @theme = ""
       @notifyAll "onUpdateTheme", @theme
+
+    # console.log @_hgInstance.categoryFilter.getCurrentFilter()[0]
 
     for topic in @_allTopics
       if topic.id == @_hgInstance.categoryFilter.getCurrentFilter()[0]
@@ -227,16 +239,13 @@ class HG.HiventList
       if hivent._activated
         @activateElement hivent.getHivent().id
 
-
-    #$(".hivent-list").jScrollPane()
-
     return @_hivent_list
 
-  activateElement: (id) ->    
+  activateElement: (id) ->
     $("#"+id).switchClass("inactive", "active")
     $(".hivent-list").scrollTo "#"+id, 500
 
-  deactivateElement:(id) ->    
+  deactivateElement:(id) ->
     $("#"+id).switchClass("active", "inactive")
 
 

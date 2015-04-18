@@ -4,7 +4,7 @@
     "container": "histoglobe",
     "minYear": 1871,
     "maxYear": 1993,
-    "nowYear": 1949,
+    "nowYear": 1945,
     "minZoom": 3,
     "maxZoom": 7,
     "startZoom": 4,
@@ -54,8 +54,7 @@
   "ZoomButtons": {},
   "FullscreenButton": {},
   "HighContrastButton": {},
-
-  "Imprint": {},
+  "MinLayoutButton": {},
 
   "CategoryFilter":
   {
@@ -72,8 +71,10 @@
         "id"          : 0,
         "type"        : 2,
         "description" : 3,
-        "source"      : 4,
-        "link"        : 1
+        "link"        : 1,
+        "author"      : 4,
+        "source"      : 5,
+        "crop"        : 6
       }
     ]
   },
@@ -130,9 +131,10 @@
   "HiventInfoAtTag" : {},
 
   "SearchBoxArea": {},
-  "Logo": {},
   "SearchBoxForm": {},
   "HiventList": {},
+  "Logo": {},
+  "Imprint": {},
 
   "Styler":
   {
@@ -169,14 +171,14 @@
       {
         "NATO":
         {
-          "areaColor":      "#9ec9d9",
+          "areaColor":      "#5e97a5",
           "labelColor":     "#2f3b46",
           "labelColor_hc":  "#000000",
           "borderColor_hc": "#000000"
         },
         "NATO_no_military":
         {
-          "areaColor":      "#dcf3f9",
+          "areaColor":      "#9ec9d9",
           "labelColor":     "#2f3b46",
           "labelColor_hc":  "#000000",
           "borderColor_hc": "#000000"
@@ -192,6 +194,7 @@
       }
     }
   },
+
 
   "AreaController":
   {
