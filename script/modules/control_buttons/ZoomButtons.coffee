@@ -20,13 +20,13 @@ class HG.ZoomButtons
     if hgInstance.control_button_area?
       zoom_in =
         icon: "fa-plus"
-        tooltip: "Ansicht vergrößern"
+        tooltip: "Karte vergrößern"
         callback: () =>
           @notifyAll "onZoomIn"
 
       zoom_out =
         icon: "fa-minus"
-        tooltip: "Ansicht verkleinern"
+        tooltip: "Karte verkleinern"
         callback: () =>
           @notifyAll "onZoomOut"
 

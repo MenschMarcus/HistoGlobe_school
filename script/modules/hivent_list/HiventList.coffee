@@ -118,8 +118,13 @@ class HG.HiventList
             # console.log "HiventInfoAtTag"
             @_addHiventList()
 
+      @_hgInstance.minGUIButton?.onRemoveGUI @, () -> 
+        $(@_container).fadeTo(500,0, () -> 
+          $(@_container).css("visibility", "hidden") )
 
-
+      @_hgInstance.minGUIButton?.onOpenGUI @, () -> 
+        $(@_container).css("visibility", "visible")
+        $(@_container).fadeTo(500,1)
     $(window).resize  =>
       @_addHiventList()
 

@@ -49,7 +49,7 @@ class HG.FullscreenButton
 
       state_a =
         icon: "fa-expand"
-        tooltip: "Zum Vollbildmodus"
+        tooltip: "Vollbildmodus"
         callback: () =>
 
           elem = document.body
