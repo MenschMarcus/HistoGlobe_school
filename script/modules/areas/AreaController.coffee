@@ -326,6 +326,7 @@ class HG.AreaController
         for id in change.newAreas
           area = @_getAreaById id
           if area?
+            area.setActive()
             @_updateAreaStyle area
             @notifyAll "onAddArea", area
 
@@ -335,6 +336,7 @@ class HG.AreaController
         for id in change.oldAreas
           area = @_getAreaById id
           if area?
+            area.setInactive()
             # @_updateAreaStyle area
             @notifyAll "onRemoveArea", area
 
@@ -343,6 +345,7 @@ class HG.AreaController
         for id in change.newLabels
           label = @_getLabelById id
           if label?
+            label.setActive()
             @_updateLabelStyle label
             @notifyAll "onAddLabel", label
 
@@ -351,6 +354,7 @@ class HG.AreaController
         for id in change.oldLabels
           label = @_getLabelById id
           if label?
+            label.setInactive()
             # @_updateLabelStyle label
             @notifyAll "onRemoveLabel", label
 
@@ -363,10 +367,10 @@ class HG.AreaController
         @notifyAll "onFadeOutBorder", @_getTransitionById change.transBorder
 
       # update style changes
-      if change.updateArea?
+      if change.updateArea? and change.updateArea.isActive()
         @notifyAll "onUpdateAreaStyle", change.updateArea, @_isHighContrast
 
-      if change.updateLabel?
+      if change.updateLabel? and change.updateLabel.isActive()
         @notifyAll "onUpdateLabelStyle", change.updateLabel, @_isHighContrast
 
 

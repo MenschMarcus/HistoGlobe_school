@@ -102,7 +102,6 @@ class HG.AreasOnMap
   # AREAS
   # ============================================================================
 
-
   # ============================================================================
   # physically adds area to the map, but makes it invisible
   _addArea: (area) ->
@@ -125,7 +124,6 @@ class HG.AreasOnMap
       # create double-link: leaflet layer knows HG area and HG area knows leaflet layer
       area.myLeafletLayer.hgArea = area
       area.myLeafletLayer.addTo @_map
-      # console.log "added", area.getId()
 
   # ============================================================================
   # physically removes area from the map
@@ -140,7 +138,6 @@ class HG.AreasOnMap
       # remove double-link: leaflet layer from area and area from leaflet layer
       @_map.removeLayer area.myLeafletLayer if area.myLeafletLayer?
       area.myLeafletLayer = null
-      console.log "DONE! removed", area.getId()
 
   # ============================================================================
   # slowly fades in area and allows interaction with it
@@ -153,7 +150,6 @@ class HG.AreasOnMap
         , aniTime
 
       else
-        # console.log "showArea", area.getId()
         @_animate area.myLeafletLayer,
           "fill":           if @_inHighContrast then TRANS_COLOR_HC else TRANS_COLOR
           "fill-opacity":   1.0
@@ -165,13 +161,11 @@ class HG.AreasOnMap
 
       # problem: transition is applied on each subpolygon of polypolygon, but callback fires after first subpolygon is succesfully animated to
       # solution: count until all subpolygons are ready faded in, then execute callback
-      console.log "hide", area.getId()
       @_animate area.myLeafletLayer,
         # TODO: does that work better? translating the whole style 5 times for each item separately seems not intuitive...
         "fill-opacity":   0
         "stroke-opacity": 0
       , aniTime, () =>
-        console.log "remove", area.getId()
         @_removeArea area
 
   # ============================================================================
@@ -190,7 +184,6 @@ class HG.AreasOnMap
   _updateLabelStyle: (label) ->
     if label.myLeafletLabel?
       newStyle = label.getStyle()
-      # console.log newStyle
       label.myLeafletLabel._container.style.color = newStyle.labelColor
       label.myLeafletLabel._container.style.opacity = newStyle.labelOpacity
 
@@ -198,7 +191,6 @@ class HG.AreasOnMap
   # ============================================================================
   # BORDERS
   # ============================================================================
-
 
   # ============================================================================
   # physically adds border to the map, but makes it invisible

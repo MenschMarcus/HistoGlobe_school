@@ -14,6 +14,7 @@ class HG.Label
     @_name        = name
     @_position    = position
     @_priority    = parseInt(prio)
+    @_active      = no
     # @_boundingBox = boundingBox   # of associated area
 
     # get all styles
@@ -71,6 +72,19 @@ class HG.Label
   setActiveThemeClass: (activeTheme, activeThemeClass) ->
     @_activeThemeClass = activeThemeClass
     @_prepareStyle activeTheme
+
+  # ============================================================================
+  setActive: () ->
+    @_active = yes
+
+  # ============================================================================
+  setInactive: () ->
+    @_active = no
+
+  # ============================================================================
+  isActive: () ->
+    @_active
+
 
 
   ##############################################################################

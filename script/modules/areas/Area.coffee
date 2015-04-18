@@ -13,6 +13,7 @@ class HG.Area
     @_id        = id
     @_type      = type
     @_geometry  = geometry
+    @_active    = no
 
     # get all styles
     if styler?
@@ -67,6 +68,19 @@ class HG.Area
   setActiveThemeClass: (activeTheme, activeThemeClass) ->
     @_activeThemeClass = activeThemeClass
     @_prepareStyle activeTheme
+
+  # ============================================================================
+  setActive: () ->
+    @_active = yes
+
+  # ============================================================================
+  setInactive: () ->
+    @_active = no
+
+  # ============================================================================
+  isActive: () ->
+    @_active
+
 
 
   ##############################################################################
