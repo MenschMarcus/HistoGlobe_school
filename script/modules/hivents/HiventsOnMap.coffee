@@ -19,7 +19,7 @@ class HG.HiventsOnMap
   # ============================================================================
   hgInit: (hgInstance) ->
     @_hgInstance=hgInstance
-    hgInstance.hiventsOnMap = @    
+    hgInstance.hiventsOnMap = @
     # init AB tests
     @_ab = hgInstance.abTest.config
 
@@ -34,7 +34,8 @@ class HG.HiventsOnMap
            margin-left: -#{HGConfig.hivent_marker_2D_width.val/2}px;
            position: absolute !important;
            background-image: url(#{icons[element]}) !important;
-           background-size: cover !important;"
+           background-size: cover !important;
+           z-index: 100;"
         HG.createCSSSelector ".hivent_marker_2D_stack .#{category}",
         "width: #{HGConfig.hivent_marker_2D_width.val}px !important;
          height: #{HGConfig.hivent_marker_2D_height.val}px !important;
@@ -42,7 +43,8 @@ class HG.HiventsOnMap
          margin-left: 5px;
          position: absolute !important;
          background-image: url(#{icons.default}) !important;
-         background-size: cover !important;"
+         background-size: cover !important;
+         z-index: 100;"
 
     @_map = hgInstance.map._map
     @_hiventController = hgInstance.hiventController
@@ -64,9 +66,9 @@ class HG.HiventsOnMap
           for i in [0..depth]
             html += "</div>"
 
-          html+=labelCluster(cluster, @_ab)
-          
-          
+          html+=@labelCluster(cluster, @_ab)
+
+
           new L.DivIcon {className: "hivent_marker_2D_stack", iconAnchor:[17,60], html: html}
 
       # example of AB Test
@@ -74,10 +76,10 @@ class HG.HiventsOnMap
       #   console.log "case A"
       # else
       #   console.log "case B"
-      @_markerGroup.on( "animationend" , ->        
+      @_markerGroup.on( "animationend" , ->
         window.organizeLabels()
         )
-      @_markerGroup.on( "spiderfied" , ->        
+      @_markerGroup.on( "spiderfied" , ->
         window.organizeLabels()
         )
       @_hiventController.getHivents @, (handle) =>
@@ -114,7 +116,7 @@ class HG.HiventsOnMap
                 index = $.inArray(region, @_hiventMarkers)
                 @_hiventMarkers.splice index, 1  if index >= 0
 
-      
+
       @_map.getPanes().overlayPane.addEventListener "mousedown", (event) =>
         @_dragStart = new HG.Vector event.clientX, event.clientY
 
@@ -124,23 +126,24 @@ class HG.HiventsOnMap
         distance.sub @_dragStart
         if distance.length() <= 2
           HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()
-      
+
       @_map.addLayer @_markerGroup
 
       window.organizeLabels()
-      @_map.on( "zoomend" , ->        
+      window.organizeLabels()
+      @_map.on( "zoomend" , ->
         window.organizeLabels()
         )
-      @_map.on( "dragend" , ->        
+      @_map.on( "dragend" , ->
         window.organizeLabels()
         )
-      @_hgInstance.onAllModulesLoaded @, () =>        
-        setTimeout ()->           
-          window.organizeLabels() 
+      @_hgInstance.onAllModulesLoaded @, () =>
+        setTimeout ()->
+          window.organizeLabels()
         , 1250
       @_hgInstance.categoryFilter?.onFilterChanged @, (filter) ->
-        window.organizeLabels() 
-          
+        window.organizeLabels()
+
     else
       console.error "Unable to show hivents on Map: HiventController module not detected in HistoGlobe instance!"
 
@@ -156,18 +159,18 @@ class HG.HiventsOnMap
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
 
-  labelCluster= (cluster, config)->
+  labelCluster: (cluster, config)->
     labelHtml=""
-    #regionLabels indicate if the Location Name, or the Name of the event should be shown 
+    #regionLabels indicate if the Location Name, or the Name of the event should be shown
 
     #Event Names
     if config.regionLabels=="B"
-      if config.hiventClusterLabels=="A" 
-            #Show only one Hivent indicated            
+      if config.hiventClusterLabels=="A"
+            #Show only one Hivent indicated
               firstChild=cluster.getAllChildMarkers()[0].myHiventMarker2D._hiventHandle.getHivent().name
-              
+
               numberOfClusterChilds=cluster.getAllChildMarkers().length
-              
+
               if numberOfClusterChilds > 2
                 labelHtml+="<div class=\"clusterLabelOnMap\"><table>#{firstChild} <br> und #{numberOfClusterChilds-1} weitere Ereignisse</table></div>"
               else
@@ -182,17 +185,29 @@ class HG.HiventsOnMap
     #EventPlace
     if config.regionLabels=="A"
       locationNames=[]
-      for marker in cluster.getAllChildMarkers()   
-        locationName=marker.myHiventMarker2D._hiventHandle.getHivent().locationName[0]        
-        exists=$.inArray(locationName, locationNames)        
-        if  exists==-1          
-          locationNames.push locationName
 
-      labelHtml+="<div class=\"clusterLabelOnMap\"><table>"
+      if @_map.getZoom()>4
+        for marker in cluster.getAllChildMarkers()
+          locationName=marker.myHiventMarker2D._hiventHandle.getHivent().locationName[0]
+          exists=$.inArray(locationName, locationNames)
+          if  exists==-1
+            locationNames.push locationName
 
-      for locationName in locationNames
-        labelHtml+="<tr><td>#{locationName}</td></tr>"
-      labelHtml+"</table></div>"
+        labelHtml+='<div class="clusterLabelOnMap"><table class="markerLabel left">'
+        #old version which shows all hivents in cluster
+        #for locationName in locationNames
+        #  labelHtml+="<tr><td>#{locationName}</td></tr>"
+        #labelHtml+"</table></div>"
+        if locationNames.length>2
+          labelHtml+="<tr><td>#{locationNames[0]}</td></tr>"
+          labelHtml+="<tr><td>#{locationNames[1]}</td></tr>"
+          labelHtml+="<tr><td>And #{locationNames.length-2} more</td></tr>"
+        else
+          for locationName in locationNames
+            labelHtml+="<tr><td>#{locationName}</td></tr>"
+
+      else
+        labelHtml=""
     return labelHtml
 
 
@@ -203,39 +218,38 @@ class HG.HiventsOnMap
 ##global because it makes it easier and its not part of any class
 
 window.organizeLabels=()->
-  
+
   #collect the labels
 
   labels=document.getElementsByClassName("markerLabel")
 
   #getElements returns html collection so we convert it to an array
   labelsArray =Array.prototype.slice.call labels
-  
+
   #sort elements to make it easier understandable
   #and to make certain assumptions possible
-  
+
   labelsArray=labelsArray.sort (a,b) ->
-    return if a.getBoundingClientRect().left>b.getBoundingClientRect().left then 1 else -1  
+    return if a.getBoundingClientRect().left>b.getBoundingClientRect().left then 1 else -1
   #harry your a wizard
   movedLabels=[]
   for labelA in labelsArray
     for labelB in labelsArray
-      if !(labelA==labelB)          
+      if !(labelA==labelB)
         boxA=labelA.getBoundingClientRect()
         boxB=labelB.getBoundingClientRect()
-        if rectanglesIntersect(boxA, boxB) 
-          
+        if rectanglesIntersect(boxA, boxB)
           turnLeft labelA
           continue
 
 
 window.rectanglesIntersect=(rect2, rect1)->
-    return !(rect1.right < rect2.left || 
-            rect1.left > rect2.right || 
-            rect1.bottom < rect2.top || 
+    return !(rect1.right < rect2.left ||
+            rect1.left > rect2.right ||
+            rect1.bottom < rect2.top ||
             rect1.top > rect2.bottom)
-  
-window.turnLeft=(label)->    
-    $(label).switchClass("left","right") 
+
+window.turnLeft=(label)->
+    $(label).switchClass("left","right")
     0
 

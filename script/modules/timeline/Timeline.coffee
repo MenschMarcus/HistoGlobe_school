@@ -69,6 +69,11 @@ class HG.Timeline
       @_hiventController = @_hgInstance.hiventController
       @notifyAll "onNowChanged", @_cropDateToMinMax @_now.date
       @notifyAll "onIntervalChanged", @_getTimeFilter()
+      @_hgInstance.minGUIButton?.onRemoveGUI @, () ->    
+        @_hideCategories()
+
+      @_hgInstance.minGUIButton?.onOpenGUI @, () -> 
+        @_showCategories()
 
       if @_hgInstance.zoom_buttons_timeline
         @_hgInstance.zoom_buttons_timeline.onZoomIn @, () =>
@@ -135,7 +140,7 @@ class HG.Timeline
         , d
 
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
-
+    
     #   ZOOM
     @_uiElements.tl.addEventListener "mousewheel", (e) =>
       e.preventDefault()
@@ -174,6 +179,13 @@ class HG.Timeline
       @topicsloaded = true
       $(@_uiElements.tl).fadeIn()
     )
+
+    # DIRTY HACK: at the end of everything, init now date again
+    # and move the timeline, so the markers on the timeline are initially at the correct position
+    setTimeout () =>
+        @_updateNowDate()
+        @moveToDate new Date @_now.date.getTime() + 15000000000  # adds some days
+      , 3000  # happy magic timeout
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
@@ -665,3 +677,14 @@ class HG.Timeline
 
   _disableTextSelection : (e) ->  return false
   _enableTextSelection : () ->    return true
+  
+  _hideCategories: () ->
+    $('.tl_topic, .tl_topic_highlighted ').fadeTo(500,0, () -> 
+      $('.tl_topic, .tl_topic_highlighted ').css("visibility", "hidden") )
+    $('[class*="hivent_marker_timeline"]').css("bottom","45px")
+  _showCategories: () ->
+    category= @_hgInstance.categoryFilter.getCurrentFilter()    
+    @_hgInstance.categoryFilter.setCategory "noCategory"
+    @_hgInstance.categoryFilter.setCategory category
+    $('.tl_topic, .tl_topic_highlighted ').css("visibility", "visible")
+    $('.tl_topic, .tl_topic_highlighted').fadeTo(500,1)

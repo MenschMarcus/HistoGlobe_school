@@ -37,11 +37,11 @@ class HG.HiventMarker2D extends HG.HiventMarker
 
     html="<div class=\"markerLabel left\">#{@_markerLabelLocation}</div>"
     
+
     iconAnchor=[15,45]
     icon_default    = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_default", iconSize: [34, 50] ,iconAnchor:iconAnchor,html:html}
     icon_higlighted = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_highlighted", iconSize: [34, 50], iconAnchor:iconAnchor, html:html}
     @_marker = new L.Marker [@_lat, @_long], {icon: icon_default}
-
 
     @_marker.myHiventMarker2D = @
 
@@ -205,12 +205,17 @@ class HG.HiventMarker2D extends HG.HiventMarker
     #if window.hgConfig.ABTest.regionLabels=="B"
     #disabled for better performance
     #marcus you told me to write this function
-    if false
-      if @_marker._icon?
-        if @_map.getZoom()>3
-          @_marker._icon.innerHTML="<div class=\"markerLabel\">#{@_markerLabelLocation}</div>"
+                 
+
+    if @_marker._icon?
+      if @_map.getZoom()>4
+        if @_marker._icon.innerHTML.indexOf("right")>-1      
+          @_marker._icon.innerHTML="<div class=\"markerLabel right\">#{@_markerLabelLocation}</div>"
         else
-          @_marker._icon.innerHTML="<div class=\"markerLabel\">#{@_markerLabelEventName}</div>"
+          @_marker._icon.innerHTML="<div class=\"markerLabel left\">#{@_markerLabelLocation}</div>"
+      else
+        @_marker._icon.innerHTML=""      
+
     0
    # ============================================================================
   _destroy: =>
