@@ -499,6 +499,8 @@ class HG.AreasOnMap
   _updateLabelStyle: (label) ->
     style = label.getStyle()
     if label.myLeafletLabel?
+      console.log "label", label.getId(), label.getActiveThemeClass(), label.getStyle()
+      console.log "label", label.myLeafletLabel
       label.myLeafletLabel._container.style.color = style.labelColor
       label.myLeafletLabel.setOpacity style.labelOpacity
 

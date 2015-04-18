@@ -96,6 +96,8 @@ class HG.AreaController
         @_theme = theme
         for area in @_areas
           @_updateAreaStyle area
+        for label in @_labels
+          @_updateLabelStyle label
 
     # toggle highContrast mode
     hgInstance.highcontrast_button.onEnterHighContrast @, () =>

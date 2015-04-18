@@ -147,7 +147,7 @@
       "borderOpacity":  1.0,
       "labelSize":      2,
       "labelColor":     "#7f7f7f",
-      "labelColor_hc":  "#050505",
+      "labelColor_hc":  "#000000",
       "labelOpacity":   1.0
     },
     "highlightStyle":
@@ -185,7 +185,7 @@
         {
           "areaColor":      "#c67e7f",
           "labelColor":     "#2f3b46",
-          "labelColor_hc":  "#050505",
+          "labelColor_hc":  "#000000",
           "borderColor":    "#E6E6E6",
           "borderColor_hc": "#000000"
         }
