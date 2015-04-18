@@ -96,33 +96,65 @@ class HG.Styler
     @_highlightStyle
 
   # ============================================================================
-  getThemeStyles: (inAreaId) ->
+  getAreaThemeStyles: (inAreaId) ->
     themeStyles = []
 
     # for all themes
     for theme in @_themeStyles
-      countryFoundInTheme = no
+      areaFoundInTheme = no
 
       themeStyle = {}
       themeStyle.themeName = theme.themeName
       themeStyle.themeClasses = []
 
       # find if country has a class in this theme
-      for country in @_countryThemeMappings
-        if country.areaId == inAreaId
+      for area in @_areaThemeMappings
+        if area.areaId == inAreaId
 
-          # if so, get the style and the start / end dates for the country for this theme class
+          # if so, get the style and the start / end dates for the area for this theme class
           for themeClass in theme.themeClasses
-            if themeClass.className == country.themeClass
+            if themeClass.className == area.themeClass
               themeStyle.themeClasses.push {
                 className  : themeClass.className
-                startDate  : country.startDate
-                endDate    : country.endDate
+                startDate  : area.startDate
+                endDate    : area.endDate
                 style      : themeClass.classStyle
               }
-              countryFoundInTheme = yes
+              areaFoundInTheme = yes
 
-      if countryFoundInTheme
+      if areaFoundInTheme
+        themeStyles.push themeStyle
+
+    themeStyles
+
+  # ============================================================================
+  getLabelThemeStyles: (inLabelId) ->
+    themeStyles = []
+
+    # for all themes
+    for theme in @_themeStyles
+      labelFoundInTheme = no
+
+      themeStyle = {}
+      themeStyle.themeName = theme.themeName
+      themeStyle.themeClasses = []
+
+      # find if country has a class in this theme
+      for label in @_labelThemeMappings
+        if label.labelId == inLabelId
+
+          # if so, get the style and the start / end dates for the label for this theme class
+          for themeClass in theme.themeClasses
+            if themeClass.className == label.themeClass
+              themeStyle.themeClasses.push {
+                className  : themeClass.className
+                startDate  : label.startDate
+                endDate    : label.endDate
+                style      : themeClass.classStyle
+              }
+              labelFoundInTheme = yes
+
+      if labelFoundInTheme
         themeStyles.push themeStyle
 
     themeStyles
@@ -134,7 +166,8 @@ class HG.Styler
   # ============================================================================
   _loadMappingFromCSV: (config) ->
 
-    @_countryThemeMappings = []
+    @_areaThemeMappings = []
+    @_labelThemeMappings = []
 
     if config.countryThemeMapping?
 
@@ -153,8 +186,8 @@ class HG.Styler
 
         mappingConfig = $.extend {}, defaultConfig, mappingConfig
 
-        # load file
-        $.get mappingConfig.csvFilePath, (data) =>
+        # load area file
+        $.get mappingConfig.csvFilePathAreas, (data) =>
           parseResult = $.parse data
           # load mapping data for each row
           # each row is already an object, not an array! -> no indexMapping needed
@@ -167,8 +200,30 @@ class HG.Styler
             endDate   = row.end_date   ?= 9999
 
             # final mapping object
-            @_countryThemeMappings.push {
+            @_areaThemeMappings.push {
               areaId:     row.area_id
+              themeClass: row.theme_class
+              # create date objects from input date strings/numbers
+              startDate:  new Date startDate.toString()
+              endDate:    new Date endDate.toString()
+            }
+
+        # load label file
+        $.get mappingConfig.csvFilePathLabels, (data) =>
+          parseResult = $.parse data
+          # load mapping data for each row
+          # each row is already an object, not an array! -> no indexMapping needed
+          # N.B: data MUST have these column names, but order can be inpedendent:
+          # country_id, theme_class, start_date, end_date
+          for row in parseResult.results.rows
+
+            # error handling for not given start and end dates
+            startDate = row.start_date ?= 0
+            endDate   = row.end_date   ?= 9999
+
+            # final mapping object
+            @_labelThemeMappings.push {
+              labelId:    row.label_id
               themeClass: row.theme_class
               # create date objects from input date strings/numbers
               startDate:  new Date startDate.toString()

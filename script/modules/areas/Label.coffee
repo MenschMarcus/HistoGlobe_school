@@ -15,8 +15,6 @@ class HG.Label
     @_position    = position
     @_priority    = parseInt(prio)
     # @_boundingBox = boundingBox   # of associated area
-    # @_startDate   = startDate
-    # @_endDate     = endDate
 
     # get all styles
     if styler?
@@ -46,14 +44,6 @@ class HG.Label
   # # ============================================================================
   # getBoundingBox: ->
   #   @_boundingBox
-
-  # # ============================================================================
-  # getStartDate: ->
-  #   @_startDate
-
-  # # ============================================================================
-  # getEndDate: ->
-  #   @_endDate
 
   # ============================================================================
   getStyle: ->
@@ -108,4 +98,4 @@ class HG.Label
     @_highlightStyle  = styler.getHighlightStyle()
 
     # for each theme area has certain style in certain time period
-    @_themeStyles     = styler.getThemeStyles @_id
+    @_themeStyles     = styler.getLabelThemeStyles @_id

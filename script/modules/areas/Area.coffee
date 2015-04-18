@@ -23,7 +23,6 @@ class HG.Area
 
     # initially area has normal theme class
     @_activeThemeClass  = 'normal'
-
     @_prepareStyle null
 
   # ============================================================================
@@ -119,4 +118,4 @@ class HG.Area
     @_highlightStyle  = styler.getHighlightStyle()
 
     # for each theme area has certain style in certain time period
-    @_themeStyles     = styler.getThemeStyles @_id
+    @_themeStyles     = styler.getAreaThemeStyles @_id

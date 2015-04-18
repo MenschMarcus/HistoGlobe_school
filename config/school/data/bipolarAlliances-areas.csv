@@ -1,12 +1,12 @@
 country,area_id,theme_class,start_date,end_date
 Albania,ALB,WP,1955,1968
 Soviet Union,CCCP,WP,1955,1991
-Bulgaria,BGR,WP,1955,1991
+Bulgaria,BGR,WP,1955,1990
 GDR,DDR,WP,1955,1990
-Poland,POL,WP,1955,1991
-Romania,ROU,WP,1955,1991
+Poland,POL,WP,1955,1989
+Romania,ROU,WP,1955,1990
 Czechoslovakia,CSSR,WP,1955,1991
-Hungary,HUN,WP,1955,1991
+Hungary,HUN,WP,1955,1989
 Belgium,BEL,NATO,1949,9999
 Denmark,DNK+GRL,NATO,1949,1979
 Denmark,DNK,NATO,1979,9999

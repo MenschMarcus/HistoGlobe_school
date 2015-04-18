@@ -158,8 +158,9 @@
     "countryThemeMapping" :
     [
       {
-        "theme":        "bipolarAlliances",
-        "csvFilePath":  "config/school/data/alliances.csv"
+        "theme":              "bipolarAlliances",
+        "csvFilePathAreas":   "config/school/data/bipolarAlliances-areas.csv",
+        "csvFilePathLabels":  "config/school/data/bipolarAlliances-labels.csv"
       }
     ],
     "themeStyles":
