@@ -6,9 +6,6 @@ class HG.AreaController
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
-  DEBUG_AREAS   = no
-  DEBUG_BORDERS = no
-  DEBUG_LABELS  = no
   TIME_LEAP_THRESHOLD = 20 # years -> how many years so that transition areas are not shown?
 
   # ============================================================================
@@ -249,62 +246,6 @@ class HG.AreaController
     # show transition areas and borders from now on
     @_initStatus = no
 
-  # ============================================================================
-  # find next ready area change and execute it (one at a time)
-  _doChanges: () ->
-
-    # execute change if it is ready
-    while not @_changeQueue.isEmpty()
-
-      # check if first element in queue is ready (timestamp is reached)
-      break if @_changeQueue.peek().timestamp > new Date()
-
-      change = @_changeQueue.dequeue()
-
-      # add all new areas
-      # -> update the style before, so it has the correct style in the mmoment it is on the map
-      for id in change.newAreas
-        area = @_getAreaById id
-        if area?
-          console.log "add area", area.getId() if DEBUG_AREAS
-          @_updateAreaStyle area
-          @notifyAll "onAddArea", area
-
-      # remove all old areas
-      # -> update the style before, so it has the correct style in the mmoment it is on the map
-      for id in change.oldAreas
-        area = @_getAreaById id
-        if area?
-          console.log "rem area", area.getId() if DEBUG_AREAS
-          @_updateAreaStyle area
-          @notifyAll "onRemoveArea", area
-
-      # add all new labels
-      for id in change.newLabels
-        label = @_getLabelById id
-        if label?
-          console.log "add label", label.getName() if DEBUG_LABELS
-          @_updateLabelStyle label
-          @notifyAll "onAddLabel", label
-
-      # remove all old labels
-      for id in change.oldLabels
-        label = @_getLabelById id
-        if label?
-          console.log "rem label", label.getName() if DEBUG_LABELS
-          @_updateLabelStyle label
-          @notifyAll "onRemoveLabel", label
-
-      # fade-out transition area
-      if change.transArea?
-        console.log "fade out", change.transArea if DEBUG_BORDERS
-        @notifyAll "onFadeOutArea", @_getTransitionById change.transArea
-
-      # fade-out transition border
-      if change.transBorder?
-        console.log "fade out", change.transBorder if DEBUG_BORDERS
-        @notifyAll "onFadeOutBorder", @_getTransitionById change.transBorder
-
 
   # ============================================================================
   # updates the style values for one area
@@ -325,7 +266,14 @@ class HG.AreaController
 
     if (oldThemeClass.localeCompare newThemeClass) != 0   # N.B.! this took so long to find out how to actually compare if two strings are NOT equal in CoffeeScript...
       area.setActiveThemeClass @_theme, newThemeClass
-      @notifyAll "onUpdateAreaStyle", area, @_isHighContrast
+
+      # enqueue change in change queue
+      newChange =
+        {
+          timestamp   : new Date()    # style change will be executed immediately
+          updateArea  : area          # area to be style-changed
+        }
+      @_changeQueue.enqueue newChange
 
     return
 
@@ -348,10 +296,78 @@ class HG.AreaController
 
     if (oldThemeClass.localeCompare newThemeClass) != 0   # N.B.! this took so long to find out how to actually compare if two strings are NOT equal in CoffeeScript...
       label.setActiveThemeClass @_theme, newThemeClass
-      @notifyAll "onUpdateLabelStyle", label, @_isHighContrast
+
+      # enqueue change in change queue
+      newChange =
+        {
+          timestamp   : new Date()    # style change will be executed immediately
+          updateLabel : label          # area to be style-changed
+        }
+      @_changeQueue.enqueue newChange
 
     return
 
+  # ============================================================================
+  # find next ready area change and execute it (one at a time)
+  _doChanges: () ->
+
+    # execute change if it is ready
+    while not @_changeQueue.isEmpty()
+
+      # check if first element in queue is ready (timestamp is reached)
+      break if @_changeQueue.peek().timestamp > new Date()
+
+      # get next change
+      change = @_changeQueue.dequeue()
+
+      # add all new areas
+      # -> update the style before, so it has the correct style in the mmoment it is on the map
+      if change.newAreas?
+        for id in change.newAreas
+          area = @_getAreaById id
+          if area?
+            @_updateAreaStyle area
+            @notifyAll "onAddArea", area
+
+      # remove all old areas
+      # -> update the style before, so it has the correct style in the mmoment it is on the map
+      if change.oldAreas?
+        for id in change.oldAreas
+          area = @_getAreaById id
+          if area?
+            # @_updateAreaStyle area
+            @notifyAll "onRemoveArea", area
+
+      # add all new labels
+      if change.newLabels?
+        for id in change.newLabels
+          label = @_getLabelById id
+          if label?
+            @_updateLabelStyle label
+            @notifyAll "onAddLabel", label
+
+      # remove all old labels
+      if change.oldLabels?
+        for id in change.oldLabels
+          label = @_getLabelById id
+          if label?
+            # @_updateLabelStyle label
+            @notifyAll "onRemoveLabel", label
+
+      # fade-out transition area
+      if change.transArea?
+        @notifyAll "onFadeOutArea", @_getTransitionById change.transArea
+
+      # fade-out transition border
+      if change.transBorder?
+        @notifyAll "onFadeOutBorder", @_getTransitionById change.transBorder
+
+      # update style changes
+      if change.updateArea?
+        @notifyAll "onUpdateAreaStyle", change.updateArea, @_isHighContrast
+
+      if change.updateLabel?
+        @notifyAll "onUpdateLabelStyle", change.updateLabel, @_isHighContrast
 
 
   # ============================================================================
