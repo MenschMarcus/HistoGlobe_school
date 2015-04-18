@@ -83,9 +83,9 @@ class HG.AreasOnMap
       @_areaController.onRemoveLabel @, (label) =>
         @_removeLabel label
 
-      @_areaController.onUpdateLabelStyle @, (label), isHC =>
+      @_areaController.onUpdateLabelStyle @, (label, isHC) =>
         @_inHighContrast = isHC
-        @_updateLabelStyle label, @_aniTime
+        @_updateLabelStyle label
 
       @_map.on "zoomend", @_updateLabels
 
@@ -178,13 +178,12 @@ class HG.AreasOnMap
       , aniTime
 
   # ============================================================================
-  _updateLabelStyle: (label, aniTime) ->
-    if label.myLeafletLayer?
-      @_animate label.myLeafletLayer,
-        # TODO: does that work better? translating the whole style 5 times for each item separately seems not intuitive...
-        "fill":           (@_transLatelabelStyle label.getStyle()).fillColor
-        "fill-opacity":   (@_transLatelabelStyle label.getStyle()).fillOpacity
-      , aniTime
+  _updateLabelStyle: (label) ->
+    if label.myLeafletLabel?
+      newStyle = label.getStyle()
+      console.log newStyle
+      label.myLeafletLabel._container.style.color = newStyle.labelColor
+      label.myLeafletLabel._container.style.opacity = newStyle.labelOpacity
 
 
   # ============================================================================
