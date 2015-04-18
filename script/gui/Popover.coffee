@@ -214,7 +214,6 @@ class HG.Popover
             if mm?
 
               if mm.type is "WEBIMAGE"
-                console.log mm
                 link = mm.link
                 imgSource = mm.source
 

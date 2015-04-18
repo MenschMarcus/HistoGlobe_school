@@ -38,3 +38,5 @@ AREAS
   - Can you see them on the map?
   - Are they filtered correctly by time?
 
+CONSOLE
+  - Are there any console logs?
