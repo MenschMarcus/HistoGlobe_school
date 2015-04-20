@@ -146,6 +146,16 @@ class HG.Popover
     @_compressBox.innerHTML = '<i class="fa fa-compress"></i>'
     # $(compressBox).tooltip {title: "Zurück zur normalen Ansicht", placement: "left", container:"#histoglobe"}
 
+    @_switch2Video = document.createElement "div"
+    @_switch2Video.className = "go2Video"
+    @_switch2Video.innerHTML = '<i class="fa fa-youtube-play"></i>'
+    # $(expandBox).tooltip {title: "Zum Video", placement: "left", container:"#histoglobe"}
+
+    @_switch2Normal = document.createElement "div"
+    @_switch2Normal.className = "back2Normal"
+    @_switch2Normal.innerHTML = '<i class="fa fa-picture-o"></i>'
+    # $(compressBox).tooltip {title: "Zurück zur normalen Ansicht", placement: "left", container:"#histoglobe"}
+
     # ============================================================================
 
     if @_config.fullscreen
@@ -171,6 +181,10 @@ class HG.Popover
 
     @_mainDiv.appendChild closeDiv
     @_mainDiv.appendChild @_bodyDiv
+
+    #@_mainDiv.appendChild @_switch2Video
+    #@_mainDiv.appendChild @_switch2Normal
+
     @_bodyDivBig.appendChild contentBig
 
     @_parentDiv = $(@_config.container)[0]
@@ -206,6 +220,7 @@ class HG.Popover
     @_bodyDiv.style.color = "#000"
 
   # ============================================================================
+  # Create multimedia content
 
     if @_multimedia != "" and @_multimediaController?
       mmids = @_multimedia.split ","
@@ -219,6 +234,7 @@ class HG.Popover
             if mm?
 
               if mm.type is "WEBIMAGE"
+              # set background image and attributes
                 link = mm.link
                 imgSource = mm.source
                 textSource = @_config.hiventHandle.getHivent().link
@@ -240,12 +256,21 @@ class HG.Popover
                 @_mainDiv.appendChild @_expandBox
                 @_bodyDivBig.style.color = "#fff"
 
-              # if mm.type is "VIDEO"   
-              #   videoLink = mm.video  
-              #   videoDiv.innerHTML = "<iframe width='100%' height='350' src='#{videoLink}' frameborder='0'> </iframe>"
-              #   @_mainDiv.removeChild @_bodyDiv
-              #   @_mainDiv.removeChild @_expandBox
-              #   @_mainDiv.appendChild videoDiv
+              if mm.type is "VIDEO"
+                # display video icon with funtionality
+                @_mainDiv.appendChild @_switch2Video
+                videoLink = mm.video # set video
+                
+                if document.contains(@_bodyDivBig)
+                  videoDiv.innerHTML = "<iframe width='100%' height='#{@_heightFSBox}' src='#{videoLink}' frameborder='0'> </iframe>"
+                
+                else
+                  videoDiv.innerHTML = "<iframe width='100%' height='350' src='#{videoLink}' frameborder='0'> </iframe>"
+
+                
+                  
+
+
 
   # ============================================================================
 
@@ -256,6 +281,20 @@ class HG.Popover
     @_compressBox.addEventListener 'mouseup', () =>
       @compress()
       @_mainDiv.replaceChild @_expandBox, @_compressBox
+
+    @_switch2Video.addEventListener 'mouseup', () =>    
+      @_mainDiv.removeChild @_bodyDiv
+      #@_mainDiv.removeChild @_expandBox
+      @_mainDiv.appendChild videoDiv
+      @_mainDiv.removeChild @_switch2Video
+      @_mainDiv.appendChild @_switch2Normal
+
+    @_switch2Normal.addEventListener 'mouseup', () =>
+      @_mainDiv.removeChild videoDiv
+      @_mainDiv.appendChild @_bodyDiv
+      #@_mainDiv.removeChild @_expandBox
+      @_mainDiv.removeChild @_switch2Normal
+      @_mainDiv.appendChild @_switch2Video
 
     closeDiv.addEventListener 'mouseup', () =>
       @hide()

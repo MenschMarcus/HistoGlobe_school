@@ -242,7 +242,7 @@
     width: 30px;
     height: 30px;
     opacity: 0.5;
-    text-shadow: 0 2px 0 #000;
+    //text-shadow: 0 2px 0 #000;
     bottom: 8px;
     right: 8px;
     cursor: pointer;
@@ -256,6 +256,49 @@
       position: relative;
       top: 5px;
       left: 6px;
+      color: #D5C900;
+      font-size: 16pt;
+    }
+  }
+
+  .go2Video, .back2Normal  {
+    position: absolute;
+    background-color: #000000;
+    border-radius: 50%;
+    z-index: 5;
+
+    width: 30px;
+    height: 30px;
+    opacity: 0.5;
+    cursor: pointer;
+    pointer-events: all;
+
+    top: 50%;
+
+    &:hover {
+      opacity: 0.75;
+    }
+  }
+
+  .go2Video {
+    right: 8px;
+
+    i {
+      position: relative;
+      top: 5px;
+      left: 4px;
+      color: #D5C900;
+      font-size: 16pt;
+    }
+  }
+
+  .back2Normal {
+    left: 8px;
+
+    i {
+      position: relative;
+      top: 5px;
+      left: 4px;
       color: #D5C900;
       font-size: 16pt;
     }
