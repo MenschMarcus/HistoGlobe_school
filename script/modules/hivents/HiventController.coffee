@@ -228,6 +228,7 @@ class HG.HiventController
                       @_hiventHandles.push handle
                       @notifyAll "onHiventAdded", handle
                       @_handlesNeedSorting = true
+
               @_filterHivents() # if in doubt, indent
 
         buildHivent dsvConfig

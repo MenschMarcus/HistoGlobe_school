@@ -2,13 +2,13 @@
   "HistoGlobe" :
   {
     "container": "histoglobe",
-    "minYear": 1871,
-    "maxYear": 1993,
-    "nowYear": 1945,
-    "minZoom": 3,
+    "minYear": 1000,
+    "maxYear": 1028,
+    "nowYear": 1001,
+    "minZoom": 2,
     "maxZoom": 7,
-    "startZoom": 4,
-    "startLatLong": [50.9869531, 11.3205004],
+    "startZoom": 3,
+    "startLatLong": [0.00,0.00],
     "tiles": "config/school/tiles/",
     "tilesHighContrast": "config/school/tiles_ehc/",
     "areaAniTime" : 700,
@@ -30,9 +30,9 @@
 
   "Timeline" :
   {
-    "timelineZoom" : 2,
-    "dsvPaths": ["config/school/data/topics.csv"],
-    "rootDirs": ["config/school/data/topics"],
+    "startZoom" : 2,
+    "dsvPaths": ["config/presentation/data/topics.csv"],
+    "rootDirs": ["config/presentation/data/topics"],
     "ignoredLines" : [1],
     "indexMappings": [
       {
@@ -63,8 +63,8 @@
 
   "MultimediaController":
   {
-    "dsvPaths": ["config/school/data/media.csv"],
-    "rootDirs": ["config/school/data/media"],
+    "dsvPaths": ["config/presentation/data/media.csv"],
+    "rootDirs": ["config/presentation/data/media"],
     "ignoredLines" : [1,2,3],
     "indexMappings": [
       {
@@ -84,7 +84,7 @@
     "dsvConfigs":
     [
       {
-        "path":             "config/school/data/hivents.csv",
+        "path":             "config/presentation/data/hivents.csv",
         "ignoredLines" :    [1,2,3],
         "indexMapping" :
         {
@@ -198,10 +198,10 @@
 
   "AreaController":
   {
-    "areaJSONPaths" : ["config/school/data/countryAreas.geojson"],
-    "labelJSONPaths" : ["config/school/data/countryLabels.geojson"],
-    "changeJSONPaths" : ["config/school/data/countryChanges.json"],
-    "transitionJSONPaths" : ["config/school/data/countryTransitions.geojson"]
+    "areaJSONPaths" : [""],
+    "labelJSONPaths" : [""],
+    "changeJSONPaths" : [""],
+    "transitionJSONPaths" : [""]
   },
 
   "AreasOnMap" :

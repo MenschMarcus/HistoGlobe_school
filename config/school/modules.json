@@ -30,9 +30,7 @@
 
   "Timeline" :
   {
-    "minZoom" :   1,
-    "maxZoom" :   3,
-    "startZoom" : 2,
+    "timelineZoom" : 2,
     "dsvPaths": ["config/school/data/topics.csv"],
     "rootDirs": ["config/school/data/topics"],
     "ignoredLines" : [1],
