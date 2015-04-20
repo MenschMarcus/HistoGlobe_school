@@ -221,6 +221,8 @@ class HG.Popover
               if mm.type is "WEBIMAGE"
                 link = mm.link
                 imgSource = mm.source
+                textSource = @_config.hiventHandle.getHivent().link
+                wikiLink = '<a href="' + textSource + '" target="_blank">Link zum Artikel</a>'
 
                 @_mainDiv.style.height = "350px"
                 @_mainDiv.style.backgroundImage = "url( #{link} )"
@@ -232,18 +234,18 @@ class HG.Popover
                 @_bodyDiv.style.color = "#fff"
                 #closeDiv.style.color = "#D5C900"
 
-                source.innerHTML = 'Quelle: ' + imgSource
-                sourceBig.innerHTML = 'Quelle: ' + imgSource
+                source.innerHTML = 'Quelle: ' + imgSource + ' -' + wikiLink
+                sourceBig.innerHTML = 'Quelle: ' + imgSource + ' -' + wikiLink
 
                 @_mainDiv.appendChild @_expandBox
                 @_bodyDivBig.style.color = "#fff"
 
-              if mm.type is "VIDEO"   
-                videoLink = mm.video  
-                videoDiv.innerHTML = "<iframe width='100%' height='350' src='#{videoLink}' frameborder='0'> </iframe>"
-                @_mainDiv.removeChild @_bodyDiv
-                @_mainDiv.removeChild @_expandBox
-                @_mainDiv.appendChild videoDiv
+              # if mm.type is "VIDEO"   
+              #   videoLink = mm.video  
+              #   videoDiv.innerHTML = "<iframe width='100%' height='350' src='#{videoLink}' frameborder='0'> </iframe>"
+              #   @_mainDiv.removeChild @_bodyDiv
+              #   @_mainDiv.removeChild @_expandBox
+              #   @_mainDiv.appendChild videoDiv
 
   # ============================================================================
 
