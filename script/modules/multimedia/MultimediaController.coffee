@@ -96,6 +96,7 @@ class HG.MultimediaController
       "description": description
       "link": @_config.rootDirs[pathIndex] + "/" + link
       "thumbnail": @_config.rootDirs[pathIndex] + "/" + link
+      "video": link
       "source": source
       "crop": crop
       "type": type
@@ -105,8 +106,8 @@ class HG.MultimediaController
     if type is "WEBIMAGE"
       mm.link = link
 
-    if type is "YOUTUBE"
-      mm.link = link
+    if type is "VIDEO"
+      mm.video = link
 
     mm
 

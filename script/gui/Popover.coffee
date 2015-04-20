@@ -57,6 +57,11 @@ class HG.Popover
     else
       @_mainDiv.style.left = "#{WINDOW_TO_ANCHOR_OFFSET_X}px"
 
+    # YouTube div slide ===============================================
+
+    videoDiv = document.createElement "div"
+    videoDiv.className = "guiPopoverVideo"
+
     # Big HiventBox ===================================================
     @_bodyDivBig = document.createElement "div"
     @_bodyDivBig.className = "guiPopoverBodyBig"
@@ -232,6 +237,13 @@ class HG.Popover
 
                 @_mainDiv.appendChild @_expandBox
                 @_bodyDivBig.style.color = "#fff"
+
+              if mm.type is "VIDEO"   
+                videoLink = mm.video  
+                videoDiv.innerHTML = "<iframe width='100%' height='350' src='#{videoLink}' frameborder='0'> </iframe>"
+                @_mainDiv.removeChild @_bodyDiv
+                @_mainDiv.removeChild @_expandBox
+                @_mainDiv.appendChild videoDiv
 
   # ============================================================================
 
