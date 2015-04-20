@@ -19,7 +19,7 @@
   font-family: @primary_font_face;
   position: absolute;
   padding: @popover_body_padding;
-  
+
     .guiPopoverContent {
 
       .hivent-body {
@@ -37,7 +37,7 @@
         .hivent-content {
 
           font-size: 10pt;
-          text-align: justify;
+          text-align: left;
           max-height: 200px;
           overflow: auto;
 
@@ -133,7 +133,7 @@
     &.fullscreen {
       max-height: 60%;
     }
-  
+
     .guiPopoverContentBig {
 
       .hivent-body-big {
@@ -150,6 +150,7 @@
         }
 
         .hivent-content-big {
+          // text-align:justify; // -> no justified text
           span {
             color: rgb(170, 170, 170);
           }
@@ -214,19 +215,18 @@
   .close-button {
     position: absolute;
     background-color: #000000;
-    background-image: url("/../../data/hivent_icons/close.svg");  
+    background-image: url("/../../data/hivent_icons/close.svg");
     background-repeat: no-repeat;
-    background-position: center center;  
+    background-position: center center;
     border-radius: 50%;
     z-index: 5;
-    pointer-events: all;
-    
     width: 30px;
     height: 30px;
     opacity: 0.5;
     top: 8px;
     right: 8px;
     cursor: pointer;
+    pointer-events: all;    // important, so that hivent box can be closed in fullscreen
 
     &:hover {
       opacity: 0.75;
@@ -238,7 +238,7 @@
     background-color: #000000;
     border-radius: 50%;
     z-index: 5;
-    
+
     width: 30px;
     height: 30px;
     opacity: 0.5;
