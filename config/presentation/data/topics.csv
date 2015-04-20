@@ -1,0 +1,23 @@
+Start,Ende,id,subtopic of,Thema,Kürzel,row
+18.01.1871,27.07.1914,imperialismus,,Imperialismus,Imp.,0
+01.01.1881,27.07.1914,kolonAfr,imperialismus,Kolonisierung Afrikas,Kolon. Afrika,0
+28.07.1914,11.11.1918,wk1,,Erster Weltkrieg,1. WK,0
+28.07.1914,12.09.1914,wk1-1,wk1,Bewegungskrieg,,0
+13.09.1914,07.01.1918,wk1-2,wk1,Stellungskrieg,,0
+08.01.1918,11.11.1918,wk1-3,wk1,Kriegsentscheidung,,0
+12.11.1918,31.08.1939,zwischenkrieg,,Zwischenkriegsjahre,Zw.krieg,0
+30.08.1924,24.10.1929,golden20,zwischenkrieg,Goldene Zwanziger,Gold. 20er,0
+25.10.1929,01.01.1936,wirtschaftskrise,zwischenkrieg,Weltwirtschaftskrise,WWK,0
+01.09.1939,08.05.1945,wk2,,Zweiter Weltkrieg,2. WK,0
+01.09.1939,08.09.1941,wk2-1,wk2,Blitzkrieg,,0
+09.09.1941,24.05.1943,wk2-2,wk2,Kriegswende,,0
+24.05.1943,08.05.1945,wk2-3,wk2,Kriegsentscheidung,,0
+09.05.1945,26.12.1991,bipolar,,Bipolare Welt,Bip. Welt,0
+09.05.1945,02.12.1947,kriegsende,bipolar,Kriegsende,,0
+03.12.1947,11.03.1985,kalterKrieg,bipolar,Kalter Krieg vs. Entspannung und Koexistenz,,0
+12.03.1985,26.12.1991,endeOstblock,bipolar,Auflösung des Ostblocks,,0
+18.01.1871,09.11.1918,kaiserreich,,Deutsches Kaiserreich,Kaiserreich,1
+09.11.1918,29.01.1933,weimarRep,,Weimarer Republik,WE Rep.,1
+30.01.1933,08.05.1945,ns,,Nationalsozialismus,NS,1
+07.04.1933,08.05.1945,holocaust,ns,Judenverfolgung,,1
+09.05.1945,21.11.1990,deuTeilung,,Geteiltes Deutschland,BRD/DDR,1
