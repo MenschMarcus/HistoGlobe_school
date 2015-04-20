@@ -26,6 +26,7 @@ class HG.HiventsOnTimeline
 
   # ============================================================================
   hgInit: (hgInstance) ->
+    @_hgInstance = hgInstance
     hgInstance.hiventsOnTimeline = @
     @_timeline = hgInstance.timeline
   
@@ -77,7 +78,7 @@ class HG.HiventsOnTimeline
               rowPosition = @_timeline.getRowFromTopicId(self.getHivent().subTopic)
               id = self.getHivent().subTopic
               #console.log rowPosition + " and " + self.getHivent().subTopic
-            marker = new HG.HiventMarkerTimeline @_timeline, self, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate), rowPosition, id
+            marker = new HG.HiventMarkerTimeline @_hgInstance, @_timeline, self, @_timeline.getCanvas(), @_timeline.dateToPosition(hiventMarkerDate), rowPosition, id
             @_hiventMarkers.push marker
             marker.onDestruction @, ()=>
               index = $.inArray(marker, @_hiventMarkers)
@@ -94,7 +95,7 @@ class HG.HiventsOnTimeline
         handle.onVisiblePast @, show
 
       @_timeline.onNowChanged @, @_updateHiventMarkerPositions
-      @_timeline.onIntervalChanged @, @_updateHiventMarkerPositions
+      #@_timeline.onIntervalChanged @, @_updateHiventMarkerPositions
       @_timeline.onZoom @, () =>
         @_positionsNeedUpdate = true
 

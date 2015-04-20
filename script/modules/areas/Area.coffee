@@ -7,65 +7,32 @@ class HG.Area
   ##############################################################################
 
   # ============================================================================
-  constructor: (id, name, geometry, labelPos, startDate, endDate, type, areaStyler) ->
+  constructor: (id, type, geometry, styler, themeClass) ->
 
-    # HG.mixin @, HG.CallbackContainer
-    # HG.CallbackContainer.call @
-
-    # @addCallback "onShow"
-    # @addCallback "onHide"
-
-    # init necessary area data
+    # init data
     @_id        = id
-    @_name      = name
-    @_geometry  = geometry
-    @_startDate = startDate
-    @_endDate   = endDate
     @_type      = type
+    @_geometry  = geometry
+    @_active    = no
 
-    # init bounding box (needed for manual label position calculation)
-    @_calcBoundingBox()
+    # get all styles
+    if styler?
+      @_setStyles styler
 
-    # get all styles from area styler
-    if areaStyler?
-      @_setStyles areaStyler
-
-    # initally each area is inactive and is set active only by AreaController
-    @_active    = false
+    # get bounding box
+    # @_calcBoundingBox()
 
     # initially area has normal theme class
     @_activeThemeClass  = 'normal'
     @_prepareStyle null
-
-    # set label from manual input or calculate it based on geometry
-    if labelPos?
-      @_labelPos = labelPos
-    else
-      @_labelPos = @_calcLabelPos()
 
   # ============================================================================
   getId: ->
     @_id
 
   # ============================================================================
-  getName: ->
-    @_name
-
-  # ============================================================================
-  getLabelPos: ->
-    @_labelPos
-
-  # ============================================================================
   getBoundingBox: ->
     @_boundingBox
-
-  # ============================================================================
-  getStartDate: ->
-    @_startDate
-
-  # ============================================================================
-  getEndDate: ->
-    @_endDate
 
   # ============================================================================
   getGeometry: ->
@@ -74,10 +41,6 @@ class HG.Area
   # ============================================================================
   getType: ->
     @_type      # todo: is 'type' really necessary?
-
-  # ============================================================================
-  isActive: ->
-    @_active
 
   # ============================================================================
   getStyle: ->
@@ -102,6 +65,11 @@ class HG.Area
     outThemeClasses
 
   # ============================================================================
+  setActiveThemeClass: (activeTheme, activeThemeClass) ->
+    @_activeThemeClass = activeThemeClass
+    @_prepareStyle activeTheme
+
+  # ============================================================================
   setActive: () ->
     @_active = yes
 
@@ -110,9 +78,9 @@ class HG.Area
     @_active = no
 
   # ============================================================================
-  setActiveThemeClass: (activeTheme, activeThemeClass) ->
-    @_activeThemeClass = activeThemeClass
-    @_prepareStyle activeTheme
+  isActive: () ->
+    @_active
+
 
 
   ##############################################################################
@@ -143,21 +111,6 @@ class HG.Area
 
       @_boundingBox = [minLat, minLng, maxLat, maxLng]
 
-
-  # ============================================================================
-  # calculate label position based on largest subpart of the area
-  _calcLabelPos: () ->
-
-    minLat = @_boundingBox[0]
-    minLng = @_boundingBox[1]
-    maxLat = @_boundingBox[2]
-    maxLng = @_boundingBox[3]
-
-    labelLat = (minLat+maxLat)/ 2
-    labelLng = (minLng+maxLng)/ 2
-
-    [labelLat, labelLng]
-
   # ============================================================================
   # idea: prepare style so it can be handed out in O(1)
   _prepareStyle: (inTheme) ->
@@ -174,9 +127,9 @@ class HG.Area
 
   # ============================================================================
   # get all styles from area styler
-  _setStyles: (areaStyler) ->
-    @_normalStyle     = areaStyler.getNormalStyle()
-    @_highlightStyle  = areaStyler.getHighlightStyle()
+  _setStyles: (styler) ->
+    @_normalStyle     = styler.getNormalStyle()
+    @_highlightStyle  = styler.getHighlightStyle()
 
     # for each theme area has certain style in certain time period
-    @_themeStyles     = areaStyler.getThemeStyles @_id
+    @_themeStyles     = styler.getAreaThemeStyles @_id

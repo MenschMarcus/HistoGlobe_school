@@ -42,11 +42,8 @@ class HG.Popover
 
     @_map_size = @_config.hgInstance.getMapAreaSize()
 
-    # @_widthFSBox = 0.68 * @_config.hgInstance.getMapAreaSize().x
     @_widthFSBox = @_map_size.x - HIVENTLIST_OFFSET #- FULLSCREEN_BOX_LEFT_OFFSET
     @_heightFSBox = 0.82 * @_map_size.y
-
-    - FULLSCREEN_BOX_LEFT_OFFSET -
 
     @_mainDiv = document.createElement "div"
     @_mainDiv.className = "guiPopover"
@@ -63,13 +60,23 @@ class HG.Popover
     # Big HiventBox ===================================================
     @_bodyDivBig = document.createElement "div"
     @_bodyDivBig.className = "guiPopoverBodyBig"
-    @_bodyDivBig.style.width = "#{0.5 * @_widthFSBox}px"
+    @_bodyDivBig.style.width = "#{0.6 * @_widthFSBox}px"
     @_bodyDivBig.style.height = "#{@_heightFSBox}px"
 
     contentBig = document.createElement "div"
     contentBig.className = "guiPopoverContentBig"
-    contentBig.style.width = "#{0.33 * @_widthFSBox}px"
+    contentBig.style.width = "#{0.4 * @_widthFSBox}px"
     contentBig.style.height = "#{@_heightFSBox}px"
+
+    sourceBig = document.createElement "span"
+    sourceBig.className = "source-big"
+    #sourceBig.innerHTML = 'Quelle: ' + @_imgSource
+
+    linkListBig = document.createElement "div"
+    linkListBig.className = "info-links-big"
+
+    linkListBig.appendChild sourceBig
+    @_bodyDivBig.appendChild linkListBig
 
     # generate content for big HiventBox ==============================
     bodyBig = document.createElement "div"
@@ -106,17 +113,30 @@ class HG.Popover
     @_bodyDiv = document.createElement "div"
     @_bodyDiv.className = "guiPopoverBodyV1"
 
-    closeDiv = document.createElement "span"
-    closeDiv.className = "close-button"
-    closeDiv.innerHTML = "×"
-    closeDiv.style.color = "#D5C900"
+    source = document.createElement "span"
+    source.className = "source"
+    #source.innerHTML = 'Quelle: ' + @_imgSource
 
-    @_expandBox = document.createElement "span"
+    linkList = document.createElement "div"
+    linkList.className = "info-links"
+
+    linkList.appendChild source
+    @_bodyDiv.appendChild linkList
+
+    closeDiv = document.createElement "div"
+    closeDiv.className = "close-button"
+
+    # closeDiv = document.createElement "span"
+    # closeDiv.className = "close-button"
+    # closeDiv.innerHTML = "×"
+    # closeDiv.style.color = "#D5C900"
+
+    @_expandBox = document.createElement "div"
     @_expandBox.className = "expand2FS"
     @_expandBox.innerHTML = '<i class="fa fa-expand"></i>'
     # $(expandBox).tooltip {title: "Box vergrößern", placement: "left", container:"#histoglobe"}
 
-    @_compressBox = document.createElement "span"
+    @_compressBox = document.createElement "div"
     @_compressBox.className = "compress2Normal"
     @_compressBox.innerHTML = '<i class="fa fa-compress"></i>'
     # $(compressBox).tooltip {title: "Zurück zur normalen Ansicht", placement: "left", container:"#histoglobe"}
@@ -146,7 +166,6 @@ class HG.Popover
 
     @_mainDiv.appendChild closeDiv
     @_mainDiv.appendChild @_bodyDiv
-    #@_mainDiv.appendChild expandBox
     @_bodyDivBig.appendChild contentBig
 
     @_parentDiv = $(@_config.container)[0]
@@ -172,14 +191,14 @@ class HG.Popover
 
   # ============================================================================
 
-    $(@_mainDiv).draggable()
+    $(".guiPopover").draggable()
+
     $(@_mainDiv).fadeIn(1000)
 
     @_mainDiv.style.height = "250px"  # #{@_height}"
 
     @_mainDiv.style.background = "#fff"
     @_bodyDiv.style.color = "#000"
-    closeDiv.style.color = "#000"
 
   # ============================================================================
 
@@ -196,6 +215,7 @@ class HG.Popover
 
               if mm.type is "WEBIMAGE"
                 link = mm.link
+                imgSource = mm.source
 
                 @_mainDiv.style.height = "350px"
                 @_mainDiv.style.backgroundImage = "url( #{link} )"
@@ -203,8 +223,12 @@ class HG.Popover
                 @_mainDiv.style.backgroundRepeat = "no-repeat"
                 @_mainDiv.style.backgroundPosition = "center center"
                 @_bodyDiv.className = "guiPopoverBodyV2"
+                @_bodyDiv.style.height = "250px"
                 @_bodyDiv.style.color = "#fff"
-                closeDiv.style.color = "#D5C900"
+                #closeDiv.style.color = "#D5C900"
+
+                source.innerHTML = 'Quelle: ' + imgSource
+                sourceBig.innerHTML = 'Quelle: ' + imgSource
 
                 @_mainDiv.appendChild @_expandBox
                 @_bodyDivBig.style.color = "#fff"
@@ -227,20 +251,26 @@ class HG.Popover
 
   # ============================================================================
   expand: () ->
+    @_mainDiv.className = "guiPopoverBig"
+    @_mainDiv.style.pointerEvents = "none"
     @_mainDiv.style.width = "#{@_widthFSBox}px"
     @_mainDiv.style.height = "#{@_heightFSBox}px"
     @_mainDiv.style.top = "#{FULLSCREEN_BOX_TOP_OFFSET}px"
     @_mainDiv.style.left = "#{FULLSCREEN_BOX_LEFT_OFFSET}px"
+    $(@_mainDiv).unbind('drag')
 
     @_mainDiv.replaceChild @_bodyDivBig, @_bodyDiv
 
   # ============================================================================
   compress: () ->
+    @_mainDiv.className = "guiPopover"
+    @_mainDiv.style.pointerEvents = "all"
     @_mainDiv.style.width = "#{@_width}px"
     @_mainDiv.style.height = "#{@_height}px"
     $(@_mainDiv).offset
       left: @_screenWidth / 2 - 0.74 * @_width
       top: @_screenHeight / 2 - 0.73 * @_height
+    $(@_mainDiv).bind('drag')
 
     @_mainDiv.replaceChild @_bodyDiv, @_bodyDivBig
 
@@ -249,6 +279,7 @@ class HG.Popover
     if document.contains(@_bodyDivBig)
       @_mainDiv.removeChild @_bodyDivBig
       @_mainDiv.appendChild @_bodyDiv
+      @_mainDiv.className = "guiPopover"
       @_mainDiv.style.width = "#{@_width}px"
       @_mainDiv.style.height = "#{@_height}px"
       @_mainDiv.replaceChild @_expandBox, @_compressBox
@@ -282,6 +313,7 @@ class HG.Popover
     if document.contains(@_bodyDivBig)
       @_mainDiv.removeChild @_bodyDivBig
       @_mainDiv.appendChild @_bodyDiv
+      @_mainDiv.className = "guiPopover"
       @_mainDiv.style.width = "#{@_width}px"
       @_mainDiv.style.height = "#{@_height}px"
       @_mainDiv.replaceChild @_expandBox, @_compressBox

@@ -18,9 +18,6 @@ DATE_OPTIONS = {
   day: '2-digit'
 }
 
-
-
-
 class HG.Timeline
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
@@ -59,8 +56,8 @@ class HG.Timeline
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
   hgInit: (hgInstance) ->
-
     @_hgInstance = hgInstance
+    @_hgInstance.timeline = @
 
     @_config.minYear = @_hgInstance.getMinMaxYear()[0]
     @_config.maxYear = @_hgInstance.getMinMaxYear()[1]
@@ -72,6 +69,11 @@ class HG.Timeline
       @_hiventController = @_hgInstance.hiventController
       @notifyAll "onNowChanged", @_cropDateToMinMax @_now.date
       @notifyAll "onIntervalChanged", @_getTimeFilter()
+      @_hgInstance.minGUIButton?.onRemoveGUI @, () ->
+        @_hideCategories()
+
+      @_hgInstance.minGUIButton?.onOpenGUI @, () ->
+        @_showCategories()
 
       if @_hgInstance.zoom_buttons_timeline
         @_hgInstance.zoom_buttons_timeline.onZoomIn @, () =>
@@ -107,13 +109,10 @@ class HG.Timeline
       marker: @addUIElement "now_marker_arrow_bottom", null, @_HGContainer
       dateField: @addUIElement "now_date_field", null, @_HGContainer
 
-    @_now.dateField.innerHTML = @_now.date.toLocaleDateString DATE_LOCALE, DATE_OPTIONS
-    $(@_now.dateField).fadeIn()
-
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
     # transition of timeline container with swiper.js
-    @_moveDelay = 0
+    #@_moveDelay = 0
     @_timeline_swiper ?= new Swiper '#tl',
       mode:'horizontal'
       freeMode: true
@@ -121,49 +120,24 @@ class HG.Timeline
       scrollContainer: true
       onTouchStart: =>
         @_dragged = false
-        @_animationTargetDate = null
         @_timelineClicked = true
-        @_animationSwitch() if @_play
+        @_moveDelay = 0
       onTouchMove: =>
-        fireCallbacks = ++@_moveDelay % 10 == 0
-        @_dragged = @_moveDelay > 2
-        @_updateNowDate(fireCallbacks)
-        @_updateDateMarkers(false)
-        @_updateTopics()
+        @_dragged = true
+        @_updateNowDate(@_moveDelay++ % 10 == 0)
+        @_updateDateMarkers()
+        @_updateTextInTopics()
       onTouchEnd: =>
-        $(".topic_inner").css({transition: 0.5 + "s"})
         @_timelineClicked = false
-    @_uiElements.tl_wrapper.addEventListener "webkitTransitionEnd", (e) =>
-      @_updateNowDate()
-      @_updateDateMarkers(false)
-      @_updateTopics()
-      @_dragged = false
-      $(".topic_inner").css({transition: 0 + "s"})
-    , false
-    @_uiElements.tl_wrapper.addEventListener "transitionend", (e) =>
-      @_updateNowDate()
-      @_updateDateMarkers(false)
-      @_updateTopics()
-      @_dragged = false
-      $(".topic_inner").css({transition: 0 + "s"})
-    , false
-    @_uiElements.tl_wrapper.addEventListener "oTransitionEnd", (e) =>
-      @_updateNowDate()
-      @_updateDateMarkers(false)
-      @_updateTopics()
-      @_dragged = false
-      $(".topic_inner").css({transition: 0 + "s"})
-    , false
-
-    ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
-
-    # animation for timeline
-    # INFO: to play timeline call @playTimeline()
-    @_play = false
-    @_speed = 1
-    @_stopDate = @yearToDate(@_config.maxYear)
-    @_nextHiventhandle = null
-    setInterval @_animTimeline, 30
+      onSetWrapperTransition: (s, d) =>
+        update_iteration_obj = setInterval =>
+          @_updateNowDate(true)
+          @_updateDateMarkers()
+          @_updateTextInTopics()
+        , 50
+        setTimeout =>
+          clearInterval(update_iteration_obj)
+        , d
 
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
@@ -185,16 +159,13 @@ class HG.Timeline
 
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
-    @_hgInstance.timeline = @
-
-    ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
-
     # Start the timeline here !!!
     @_uiElements.tl.style.display = "none"
     @_loadTopicsFromDSV( =>
       @_updateLayout()
       @_updateDateMarkers()
       @_updateTopics()
+      @_updateTextInTopics()
       @_updateNowDate()
       categoryFilter = @_hgInstance.categoryFilter.getCurrentFilter()
       for topic in @_config.topics
@@ -208,6 +179,13 @@ class HG.Timeline
       @topicsloaded = true
       $(@_uiElements.tl).fadeIn()
     )
+
+    # DIRTY HACK: at the end of everything, init now date again
+    # and move the timeline, so the markers on the timeline are initially at the correct position
+    setTimeout () =>
+        @_updateNowDate()
+        @moveToDate new Date @_now.date.getTime() + 15000000000  # adds some days
+      , 3000  # happy magic timeout
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
@@ -291,14 +269,16 @@ class HG.Timeline
     @_parentDiv
   getCanvas: ->
     @_uiElements.tl_slide
-  getPlayStatus: ->
-    @_play
 
   _getTimeFilter: ->
     timefilter = []
-    timefilter.end = @maxVisibleDate()
+    if @_activeTopic?
+      timefilter.end = @_activeTopic.endDate
+      timefilter.start = @_activeTopic.startDate
+    else
+      timefilter.end = @maxVisibleDate()
+      timefilter.start = @minVisibleDate()
     timefilter.now = @_now.date
-    timefilter.start = @minVisibleDate()
     timefilter
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
@@ -339,7 +319,6 @@ class HG.Timeline
       @_uiElements.tl_wrapper.style.MsTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
       @_uiElements.tl_wrapper.style.oTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
 
-      @_animationTargetDate = date
       @_now.date = @_cropDateToMinMax date
 
       @notifyAll "onNowChanged", @_now.date
@@ -347,24 +326,14 @@ class HG.Timeline
 
       setTimeout(successCallback, delay * 1000) if successCallback?
 
-  # animation control
-  stopTimeline: ->
-    @_play = false
-  playTimeline: ->
-    @_play = true
-  setSpeed: (speed) ->
-    @_speed = speed
-
-  ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
-  ## ## ## ##
-  ## ##           (STATIC) PUBLIC
-
-  # TODO: make static functions
-
   addUIElement: (id, className, parentDiv, type="div") ->
     container = document.createElement(type)
     container.id = id
     container.className = className if className?
+
+    # hack to disable text select on timeline
+    container.classList.add "no-text-select"
+
     parentDiv.appendChild container if parentDiv?
     container
 
@@ -432,28 +401,11 @@ class HG.Timeline
     if zoomed
       if layout
         @_updateLayout()
-      @_updateDateMarkers()
       @_updateTopics()
-      @_updateNowDate()
+      @_updateDateMarkers()
+      @_updateTextInTopics()
       @notifyAll "onZoom"
     zoomed
-
-  _animTimeline: =>
-    if @_play
-      if @_now.date.getFullYear() <= @_config.maxYear
-        toDate = new Date(@_now.date.getTime() + @_speed*@_speed * 5000 * 60 * 60 * 24 * 7)
-        @moveToDate(toDate,0)
-        @_updateNowDate()
-        @_updateTopics()
-        @_updateDateMarkers(zoomed=false)
-      else
-        @_animationSwitch()
-
-  _animationSwitch: =>
-    if @getPlayStatus()
-      @stopTimeline()
-    else
-      @playTimeline()
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
@@ -467,13 +419,8 @@ class HG.Timeline
     @_timeline_swiper.reInit()
 
   _updateNowDate: (fireCallbacks = true) ->
-    if @_animationTargetDate?
-      @_now.date = @_cropDateToMinMax @_animationTargetDate
-      @_animationTargetDate = null
-    else
-      now = new Date(@yearToDate(@_config.minYear).getTime() + (-1) * @_timeline_swiper.getWrapperTranslate("x") * @millisPerPixel())
-      @_now.date = @_cropDateToMinMax now
-
+    @_now.date = @_cropDateToMinMax new Date(@yearToDate(@_config.minYear).getTime() + (-1) * @_timeline_swiper.getWrapperTranslate("x") * @millisPerPixel())
+    @_now.dateField.innerHTML = @_now.date.toLocaleDateString DATE_LOCALE, DATE_OPTIONS
     if fireCallbacks
       @notifyAll "onNowChanged", @_now.date
       @notifyAll "onIntervalChanged", @_getTimeFilter()
@@ -486,80 +433,54 @@ class HG.Timeline
     date
 
   _updateTopics:()->
-
-    # get max visible position
     max_pos   = @dateToPosition(@maxVisibleDate())
     min_pos   = @dateToPosition(@minVisibleDate())
 
-    # update each topic
     for topic in @_config.topics
-
-      # start and end position of topic bar
       end_pos   = @dateToPosition(topic.endDate)
       start_pos = @dateToPosition(topic.startDate)
 
-      # is topic already shown?
       if !topic.div?
-
-        # create topic bar
         topic.div = document.createElement("div")
         topic.div.id = "topic" + topic.id
         topic.div.className = "tl_topic tl_topic_row" + topic.row
-        #topic.div.innerHTML = '<div class="tl_subtopics"></div>' + '<div class="topic_inner" id="topic_inner_' + topic.id + '">' + topic.name + '</div>'
-        topic.div.style.left = start_pos + "px"
-        topic.div.style.width = (end_pos - start_pos) + "px"
-        topic.div.style.display = "none"
         @getCanvas().appendChild topic.div
 
-        # div which keeps subtopics
-        subtopics_element = document.createElement("div")
-        subtopics_element.className = "tl_subtopics"
-        topic.div.appendChild subtopics_element
+        if topic.subtopics?
+          subtopics_element = document.createElement("div")
+          subtopics_element.className = "tl_subtopics"
+          topic.div.appendChild subtopics_element
 
-        # div keeps name of topic
+          for subtopic in topic.subtopics
+            subtopic.div = document.createElement("div")
+            subtopic.div.id = "subtopic" + subtopic.id
+            subtopic.div.className = "tl_subtopic"
+            subtopic.div.innerHTML = subtopic.name
+            $("#topic" + topic.id + " > .tl_subtopics" ).append subtopic.div
+
         topic.text_element = document.createElement("div")
         topic.text_element.id = 'topic_inner_' + topic.id
         topic.text_element.className = "topic_inner"
         topic.text_element.innerHTML = topic.name
         topic.div.appendChild topic.text_element
 
-        # add subtopics
-        if topic.subtopics?
-          for subtopic in topic.subtopics
-            subtopic.div = document.createElement("div")
-            subtopic.div.id = "subtopic" + subtopic.id
-            subtopic.div.className = "tl_subtopic"
-            subtopic.div.innerHTML = subtopic.name
-            subtopic.div.style.left = ((subtopic.startDate.getTime() - topic.startDate.getTime()) / @millisPerPixel()) + "px"
-            subtopic.div.style.width = (@dateToPosition(subtopic.endDate) - @dateToPosition(subtopic.startDate)) + "px"
-            $("#topic" + topic.id + " > .tl_subtopics" ).append subtopic.div
-
         #   onclick switch topic
         $(topic.div).on "mouseup", value: topic, (event) =>
-          if @_timelineClicked            
-            if @_activeTopic? and event.data.value.id is @_activeTopic.id and !@_dragged
-                window.location.hash = '#categories=noCategory'
+          if @_timelineClicked and !@_dragged
+            @_hgInstance.hiventInfoAtTag?.setOption 'event', 'noEvent'
+            if @_activeTopic? and event.data.value.id is @_activeTopic.id
+                @_hgInstance.hiventInfoAtTag?.setOption 'categories', 'noCategory'
                 @_activeTopic = null
-            else if !@_dragged
-              window.location.hash = '#categories=' + event.data.value.id            
-        $(topic.div).fadeIn(200)
+            else
+              @_hgInstance.hiventInfoAtTag?.setOption 'categories', event.data.value.id
+      topic.div.style.left = start_pos + "px"
+      topic.div.style.width = (end_pos - start_pos) + "px"
 
-        #   set text in topic bar so that text
-        #   is always centered in visible part of topic
-        @_scaleTopicText topic, start_pos, end_pos, min_pos, max_pos
-      else
-        topic.div.style.left = start_pos + "px"
-        topic.div.style.width = (end_pos - start_pos) + "px"
-
-        #   set text in topic bar so that text
-        #   is always centered in visible part of topic
-        @_scaleTopicText topic, start_pos, end_pos, min_pos, max_pos
-
-        # update position of subtopics
-        if topic.subtopics?
-          for subtopic in topic.subtopics
-            subtopic.div.style.left = ((subtopic.startDate.getTime() - topic.startDate.getTime()) / @millisPerPixel()) + "px"
-            subtopic.div.style.width = (@dateToPosition(subtopic.endDate) - @dateToPosition(subtopic.startDate)) + "px"
+      # update position of subtopics
+      if topic.subtopics?
+        for subtopic in topic.subtopics
+          subtopic.div.style.left = ((subtopic.startDate.getTime() - topic.startDate.getTime()) / @millisPerPixel()) + "px"
+          subtopic.div.style.width = (@dateToPosition(subtopic.endDate) - @dateToPosition(subtopic.startDate)) + "px"
 
   _textCutted: (element) ->
     $element = $(element)
@@ -580,45 +501,28 @@ class HG.Timeline
       topic.text_element.style.width = (end_pos - min_pos) + "px"
       topic.text_element.style.marginLeft = (min_pos - start_pos) + "px"
 
-    topic.text_element.innerHTML = topic.name
-    topic.text_element.innerHTML = topic.token if @_textCutted topic.text_element
+    if !(end_pos > max_pos and start_pos < min_pos)
+      topic.text_element.innerHTML = topic.name
+      topic.text_element.innerHTML = topic.token if @_textCutted topic.text_element
 
-    #   text_element  = document.getElementById("topic_inner_" + topic.id)
-    #   margin = max_pos - end_pos
-    #   text_element.style.marginLeft = margin + "px"
-    # else if start_pos < min_pos
-    #   text_element  = document.getElementById("topic_inner_" + topic.id)
-    #   margin = min_pos - start_pos
-    #   text_element.style.marginLeft = margin + "px"
+  _updateTextInTopics: () ->
+    max_pos   = @dateToPosition(@maxVisibleDate())
+    min_pos   = @dateToPosition(@minVisibleDate())
 
+    for topic in @_config.topics
+      start_pos = @dateToPosition(topic.startDate)#topic.div.offsetLeft
+      end_pos   = @dateToPosition(topic.endDate)#topic.div.offsetLeft + topic.text_element.offsetWidth
+      @_scaleTopicText topic, start_pos, end_pos, min_pos, max_pos
 
-    #   take short name of topic if name is too long
-    # inner_el.style.maxWidth = "none"
-    # inner_el.innerHTML = topic.name
-    # if inner_el.offsetWidth > (end_pos - start_pos) and topic.token != ""
-    #   inner_el.innerHTML = topic.token
-    # inner_el.style.maxWidth = (end_pos - start_pos - 25) + "px"
-
-    # # align text always to middle of visible part
-    # if end_pos > max_pos and start_pos < min_pos
-    #   margin = min_pos - start_pos + (max_pos - min_pos) / 2 - inner_el.offsetWidth / 2
-    # else if end_pos > max_pos
-    #   margin = (max_pos - start_pos) / 2 - inner_el.offsetWidth / 2
-    #   margin = 0 if margin < 0 or (start_pos + margin + inner_el.offsetWidth) > max_pos
-    # else if start_pos < min_pos
-    #   margin = (end_pos - min_pos) / 2 - inner_el.offsetWidth / 2 + min_pos - start_pos
-    #   margin = min_pos - start_pos if margin < 0 or margin + start_pos < min_pos
-    # else
-    #   margin = ((end_pos - start_pos) / 2) - inner_el.offsetWidth / 2
-    # inner_el.style.marginLeft = margin + "px"
-    false
-
-  _updateDateMarkers: (zoomed=true) ->
+  _updateDateMarkers: ->
 
     interval = @getTimeInterval()
 
     # scale datemarker
     $(".tl_datemarker").css({"max-width": Math.round(interval / @millisPerPixel()) + "px"})
+
+    max_year = @maxVisibleDate().getFullYear()
+    min_year = @minVisibleDate().getFullYear()
 
     # for every year on timeline check if datemarker is needed
     # or can be removed.
@@ -627,8 +531,8 @@ class HG.Timeline
 
       # fits year to interval?
       if year % @millisToYears(interval) == 0 and
-      year >= @minVisibleDate().getFullYear() and
-      year <= @maxVisibleDate().getFullYear()
+      year >= min_year and
+      year <= max_year
 
         # show datemarker
         if !@_uiElements.dateMarkers[i]?
@@ -718,6 +622,7 @@ class HG.Timeline
     for topic in @_config.topics
       topic.div.className = "tl_topic tl_topic_row" + topic.row
     @_moveTopicRows(false)
+    #@_hgInstance.hiventInfoAtTag?.unsetOption 'event'
 
   _switchTopic: (topic_tmp) ->
 
@@ -771,3 +676,14 @@ class HG.Timeline
 
   _disableTextSelection : (e) ->  return false
   _enableTextSelection : () ->    return true
+
+  _hideCategories: () ->
+    $('.tl_topic, .tl_topic_highlighted ').fadeTo(500,0, () ->
+      $('.tl_topic, .tl_topic_highlighted ').css("visibility", "hidden") )
+    $('[class*="hivent_marker_timeline"]').css("bottom","45px")
+  _showCategories: () ->
+    category= @_hgInstance.categoryFilter.getCurrentFilter()
+    @_hgInstance.categoryFilter.setCategory "noCategory"
+    @_hgInstance.categoryFilter.setCategory category
+    $('.tl_topic, .tl_topic_highlighted ').css("visibility", "visible")
+    $('.tl_topic, .tl_topic_highlighted').fadeTo(500,1)

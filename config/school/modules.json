@@ -4,13 +4,14 @@
     "container": "histoglobe",
     "minYear": 1871,
     "maxYear": 1993,
-    "nowYear": 1949,
+    "nowYear": 1945,
     "minZoom": 3,
     "maxZoom": 7,
-    "startZoom": 5,
+    "startZoom": 4,
     "startLatLong": [50.9869531, 11.3205004],
     "tiles": "config/school/tiles/",
     "tilesHighContrast": "config/school/tiles_ehc/",
+    "areaAniTime" : 700,
     "sidebarEnabled": false
   },
 
@@ -53,8 +54,7 @@
   "ZoomButtons": {},
   "FullscreenButton": {},
   "HighContrastButton": {},
-
-  "Imprint": {},
+  "MinLayoutButton": {},
 
   "CategoryFilter":
   {
@@ -71,8 +71,10 @@
         "id"          : 0,
         "type"        : 2,
         "description" : 3,
-        "source"      : 4,
-        "link"        : 1
+        "link"        : 1,
+        "author"      : 4,
+        "source"      : 5,
+        "crop"        : 6
       }
     ]
   },
@@ -129,24 +131,25 @@
   "HiventInfoAtTag" : {},
 
   "SearchBoxArea": {},
-  "Logo": {},
   "SearchBoxForm": {},
   "HiventList": {},
+  "Logo": {},
+  "Imprint": {},
 
-  "AreaStyler":
+  "Styler":
   {
     "normalStyle":
     {
       "areaColor":      "#ffffff",
       "areaColor_hc":   "#ffffff",
       "areaOpacity":    0.75,
-      "borderWidth":    1.5,
+      "borderWidth":    1.25,
       "borderColor":    "#c1c1c1",
       "borderColor_hc": "#000000",
       "borderOpacity":  1.0,
       "labelSize":      2,
       "labelColor":     "#7f7f7f",
-      "labelColor_hc":  "#050505",
+      "labelColor_hc":  "#000000",
       "labelOpacity":   1.0
     },
     "highlightStyle":
@@ -157,8 +160,9 @@
     "countryThemeMapping" :
     [
       {
-        "theme":        "bipolarAlliances",
-        "csvFilePath":  "config/school/data/alliances.csv"
+        "theme":              "bipolarAlliances",
+        "csvFilePathAreas":   "config/school/data/bipolarAlliances-areas.csv",
+        "csvFilePathLabels":  "config/school/data/bipolarAlliances-labels.csv"
       }
     ],
     "themeStyles":
@@ -167,39 +171,42 @@
       {
         "NATO":
         {
-          "areaColor":    "#9ec9d9",
-          "labelColor":   "#2f3b46",
+          "areaColor":      "#5e97a5",
+          "labelColor":     "#2f3b46",
           "labelColor_hc":  "#000000",
           "borderColor_hc": "#000000"
         },
         "NATO_no_military":
         {
-          "areaColor":    "#dcf3f9",
-          "labelColor":   "#2f3b46",
+          "areaColor":      "#9ec9d9",
+          "labelColor":     "#2f3b46",
           "labelColor_hc":  "#000000",
           "borderColor_hc": "#000000"
         },
         "WP":
-
         {
-          "areaColor":    "#c67e7f",
-          "labelColor":   "#2f3b46",
-          "labelColor_hc": "#05050500000",
-          "borderColor":  "#E6E6E6",
+          "areaColor":      "#c67e7f",
+          "labelColor":     "#2f3b46",
+          "labelColor_hc":  "#000000",
+          "borderColor":    "#E6E6E6",
           "borderColor_hc": "#000000"
         }
       }
     }
   },
 
+
   "AreaController":
   {
-    "areaJSONPaths" : ["config/school/data/countries.geojson"]
+    "areaJSONPaths" : ["config/school/data/countryAreas.geojson"],
+    "labelJSONPaths" : ["config/school/data/countryLabels.geojson"],
+    "changeJSONPaths" : ["config/school/data/countryChanges.json"],
+    "transitionJSONPaths" : ["config/school/data/countryTransitions.geojson"]
   },
 
   "AreasOnMap" :
   {
-    "labelVisibilityFactor" : 8
+    "labelVisibilityFactor" : 1.5
   }
 
 }
