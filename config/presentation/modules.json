@@ -25,7 +25,7 @@
     "hiventClusterLabels" :   "A",
     "searchFilter" :          "A",
     "regionLabels" :          "A",
-    "hiventMarkerMode" :      "B"
+    "hiventMarkerMode" :      "A"
   },
 
   "Timeline" :
