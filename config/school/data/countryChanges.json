@@ -2,48 +2,6 @@
   "content": "changes", 
   "features": [
     {
-      "date": 100, 
-      "id": "LIE-init", 
-      "new_areas": [
-        "LIE"
-      ], 
-      "new_labels": [
-        "LIE"
-      ], 
-      "old_areas": [], 
-      "old_labels": [], 
-      "trans_area": null, 
-      "trans_border": null
-    }, 
-    {
-      "date": 100, 
-      "id": "SVJ-init", 
-      "new_areas": [
-        "SVJ"
-      ], 
-      "new_labels": [
-        "SVJ"
-      ], 
-      "old_areas": [], 
-      "old_labels": [], 
-      "trans_area": null, 
-      "trans_border": null
-    }, 
-    {
-      "date": 301, 
-      "id": "SMR-init", 
-      "new_areas": [
-        "SMR"
-      ], 
-      "new_labels": [
-        "SMR"
-      ], 
-      "old_areas": [], 
-      "old_labels": [], 
-      "trans_area": null, 
-      "trans_border": null
-    }, 
-    {
       "date": 1139, 
       "id": "POR-init", 
       "new_areas": [
@@ -79,6 +37,48 @@
       ], 
       "new_labels": [
         "IMN"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1500, 
+      "id": "LIE-init", 
+      "new_areas": [
+        "LIE"
+      ], 
+      "new_labels": [
+        "LIE"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1500, 
+      "id": "SMR-init", 
+      "new_areas": [
+        "SMR"
+      ], 
+      "new_labels": [
+        "SMR"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1500, 
+      "id": "SVJ-init", 
+      "new_areas": [
+        "SVJ"
+      ], 
+      "new_labels": [
+        "SVJ"
       ], 
       "old_areas": [], 
       "old_labels": [], 
@@ -943,7 +943,7 @@
       "id": "1949-HUN-name_change", 
       "new_areas": [], 
       "new_labels": [
-        "VR_HUN"
+        "HUN_PR"
       ], 
       "old_areas": [], 
       "old_labels": [
@@ -1065,7 +1065,7 @@
       ], 
       "old_areas": [], 
       "old_labels": [
-        "VR_HUN"
+        "HUN_PR"
       ], 
       "trans_area": null, 
       "trans_border": null
