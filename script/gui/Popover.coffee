@@ -189,6 +189,11 @@ class HG.Popover
 
     @_bodyDivBig.appendChild contentBig
 
+    # remove gradient if description is empty
+    if descriptionBig is ""
+      @_bodyDivBig.style.display = "none"
+      @_bodyDiv.style.display = "none"
+
     @_parentDiv = $(@_config.container)[0]
     @_parentDiv.appendChild @_mainDiv
 
@@ -338,12 +343,22 @@ class HG.Popover
     @_mainDiv.style.pointerEvents = "all"
     @_mainDiv.style.width = "#{@_width}px"
     @_mainDiv.style.height = "#{@_height}px"
-    $(@_mainDiv).offset
-      left: @_screenWidth / 2 - 0.74 * @_width
-      top: @_screenHeight / 2 - 0.73 * @_height
+
     $(@_mainDiv).bind('drag')
 
     @_mainDiv.replaceChild @_bodyDiv, @_bodyDivBig
+
+    canvasOffset = $(@_parentDiv).offset()
+    $(@_mainDiv).offset
+      left: @_position.x + canvasOffset.left +
+            @_placement.x * (HGConfig.hivent_marker_2D_width.val / 2) +
+            @_placement.x * ((@_width - @_width * @_placement.x) / 2) -
+            Math.abs(@_placement.y) *  @_width / 2
+
+      top:  @_position.y + canvasOffset.top - WINDOW_TO_ANCHOR_OFFSET_Y + 
+            @_placement.y * (HGConfig.hivent_marker_2D_height.val / 2) +
+            @_placement.y * ((@_mainDiv.offsetHeight - @_mainDiv.offsetHeight * @_placement.y) / 2) -
+            Math.abs(@_placement.x) * @_mainDiv.offsetHeight / 2
 
   # ============================================================================
   close: () ->
@@ -460,12 +475,12 @@ class HG.Popover
       # default behavior
       $(@_mainDiv).offset
         left: @_position.x + canvasOffset.left +
-              @_placement.x * (HGConfig.hivent_marker_2D_width.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
+              @_placement.x * (HGConfig.hivent_marker_2D_width.val / 2) +
               @_placement.x * ((@_width - @_width * @_placement.x) / 2) -
               Math.abs(@_placement.y) *  @_width / 2
 
-        top:  @_position.y + canvasOffset.top +
-              @_placement.y * (HGConfig.hivent_marker_2D_height.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
+        top:  @_position.y + canvasOffset.top - WINDOW_TO_ANCHOR_OFFSET_Y + 
+              @_placement.y * (HGConfig.hivent_marker_2D_height.val / 2) +
               @_placement.y * ((@_mainDiv.offsetHeight - @_mainDiv.offsetHeight * @_placement.y) / 2) -
               Math.abs(@_placement.x) * @_mainDiv.offsetHeight / 2
 
@@ -495,7 +510,7 @@ class HG.Popover
   ##############################################################################
 
   WINDOW_TO_ANCHOR_OFFSET_X = 0
-  WINDOW_TO_ANCHOR_OFFSET_Y = 0
+  WINDOW_TO_ANCHOR_OFFSET_Y = 30
   FULLSCREEN_BOX_TOP_OFFSET = 10
   FULLSCREEN_BOX_LEFT_OFFSET = 120
   HIVENTLIST_OFFSET = 400

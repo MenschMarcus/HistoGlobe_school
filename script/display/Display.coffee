@@ -21,7 +21,7 @@ class HG.Display
 
   # ============================================================================
   focus: (hivent) -> # hivent coords and offset coords
-    @setCenter {x: hivent.long, y: hivent.lat}, {x: 0.105, y: 0.25}
+    @setCenter {x: hivent.long, y: hivent.lat}, {x: 0.07, y: 0.2}
 
   # ============================================================================
   zoomToBounds: (minLong, minLat, maxLong, maxLat) ->
