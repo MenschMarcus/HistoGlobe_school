@@ -1,15 +1,15 @@
 Start,Ende,id,subtopic of,Thema,Kürzel,row
-01.01.1000,31.12.1003,intro,,Introduction,,0
-01.01.1004,31.12.1013,impl,,Implementation,,0
-01.01.1004,31.12.1005,countries,impl,Historic Countries,,0
-01.01.1006,31.12.1007,timeline,impl,Timeline,,0
-01.01.1008,31.12.1009,hivents,impl,Hivents,,0
-01.01.1010,31.12.1011,searchbar,impl,Search Bar,,0
-01.01.1012,31.12.1013,hiventlist,impl,Hivent List,,0
-01.01.1014,31.12.1015,product,,Product,,0
-01.01.1016,31.12.1021,study,,Field Study,,0
-01.01.1016,31.12.1018,teacher,study,Teacher,,0
-01.01.1019,31.12.1021,students,study,Students,,0
-01.01.1022,31.12.1026,conclusion,,Conclusion,,0
-01.01.1022,31.12.1024,result,conclusion,Main Results,,0
-01.01.1025,31.12.1026,future,conclusion,Future Work,,0
+01.01.1000,31.12.1009,intro,,Introduction,,0
+01.01.1010,31.12.1019,design,,Design,,0
+01.01.1020,31.12.1069,implementation,,Implementation,,0
+01.01.1020,31.12.1029,countries,implementation,Historic Countries,,0
+01.01.1030,31.12.1039,timeline,implementation,Timeline,,0
+01.01.1040,31.12.1049,hivents,implementation,Hivents,,0
+01.01.1050,31.12.1059,searchbar,implementation,Search Bar,,0
+01.01.1060,31.12.1069,hiventlist,implementation,Hivent List,,0
+01.09.2014,30.04.2015,study,,Field Study,,0
+01.09.2014,31.01.2015,teacher,study,Teacher,,0
+01.02.2015,30.04.2015,students,study,Students,,0
+01.05.2015,31.12.2016,conclusion,,Conclusion,,0
+01.05.2015,31.12.2016,result,conclusion,Main Results,,0
+01.01.2016,31.12.2016,future,conclusion,Future Work,,0

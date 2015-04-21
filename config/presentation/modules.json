@@ -3,7 +3,7 @@
   {
     "container": "histoglobe",
     "minYear": 1000,
-    "maxYear": 1028,
+    "maxYear": 2020,
     "nowYear": 1001,
     "minZoom": 2,
     "maxZoom": 7,
@@ -30,7 +30,7 @@
 
   "Timeline" :
   {
-    "startZoom" : 2,
+    "startZoom" : 10,
     "dsvPaths": ["config/presentation/data/topics.csv"],
     "rootDirs": ["config/presentation/data/topics"],
     "ignoredLines" : [1],
@@ -198,10 +198,10 @@
 
   "AreaController":
   {
-    "areaJSONPaths" : [""],
-    "labelJSONPaths" : [""],
-    "changeJSONPaths" : [""],
-    "transitionJSONPaths" : [""]
+    "areaJSONPaths" : ["config/school/data/countryAreas.geojson"],
+    "labelJSONPaths" : ["config/school/data/countryLabels.geojson"],
+    "changeJSONPaths" : ["config/school/data/countryChanges.json"],
+    "transitionJSONPaths" : ["config/school/data/countryTransitions.geojson"]
   },
 
   "AreasOnMap" :
