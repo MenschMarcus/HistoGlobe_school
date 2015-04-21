@@ -171,7 +171,7 @@ class HG.Popover
     # remove gradient if description is empty
     if descriptionBig is ""
       @_bodyDivBig.style.display = "none"
-      @_config.content.style.display = "none"
+      @_bodyDiv.style.display = "none"
 
     @_parentDiv = $(@_config.container)[0]
     @_parentDiv.appendChild @_mainDiv
