@@ -57,6 +57,13 @@ class HG.Popover
     else
       @_mainDiv.style.left = "#{WINDOW_TO_ANCHOR_OFFSET_X}px"
 
+    # YouTube div slide ===============================================
+    @_videoDiv = document.createElement "div"
+    @_videoDiv.className = "guiPopoverVideo"
+
+    @_videoDivBig = document.createElement "div"
+    @_videoDivBig.className = "guiPopoverVideoBig"
+
     # Big HiventBox ===================================================
     @_bodyDivBig = document.createElement "div"
     @_bodyDivBig.className = "guiPopoverBodyBig"
@@ -141,6 +148,16 @@ class HG.Popover
     @_compressBox.innerHTML = '<i class="fa fa-compress"></i>'
     # $(compressBox).tooltip {title: "Zurück zur normalen Ansicht", placement: "left", container:"#histoglobe"}
 
+    @_switch2Video = document.createElement "div"
+    @_switch2Video.className = "go2Video"
+    @_switch2Video.innerHTML = '<i class="fa fa-youtube-play"></i>'
+    # $(expandBox).tooltip {title: "Zum Video", placement: "left", container:"#histoglobe"}
+
+    @_switch2Normal = document.createElement "div"
+    @_switch2Normal.className = "back2Normal"
+    @_switch2Normal.innerHTML = '<i class="fa fa-picture-o"></i>'
+    # $(compressBox).tooltip {title: "Zurück zur normalen Ansicht", placement: "left", container:"#histoglobe"}
+
     # ============================================================================
 
     if @_config.fullscreen
@@ -166,6 +183,10 @@ class HG.Popover
 
     @_mainDiv.appendChild closeDiv
     @_mainDiv.appendChild @_bodyDiv
+
+    #@_mainDiv.appendChild @_switch2Video
+    #@_mainDiv.appendChild @_switch2Normal
+
     @_bodyDivBig.appendChild contentBig
 
     @_parentDiv = $(@_config.container)[0]
@@ -201,6 +222,7 @@ class HG.Popover
     @_bodyDiv.style.color = "#000"
 
   # ============================================================================
+  # Create multimedia content
 
     if @_multimedia != "" and @_multimediaController?
       mmids = @_multimedia.split ","
@@ -214,8 +236,11 @@ class HG.Popover
             if mm?
 
               if mm.type is "WEBIMAGE"
+              # set background image and attributes
                 link = mm.link
                 imgSource = mm.source
+                textSource = @_config.hiventHandle.getHivent().link
+                wikiLink = '<a href="' + textSource + '" target="_blank">Link zum Artikel</a>'
 
                 @_mainDiv.style.height = "350px"
                 @_mainDiv.style.backgroundImage = "url( #{link} )"
@@ -225,23 +250,69 @@ class HG.Popover
                 @_bodyDiv.className = "guiPopoverBodyV2"
                 @_bodyDiv.style.height = "250px"
                 @_bodyDiv.style.color = "#fff"
-                #closeDiv.style.color = "#D5C900"
 
-                source.innerHTML = 'Quelle: ' + imgSource
-                sourceBig.innerHTML = 'Quelle: ' + imgSource
+                source.innerHTML = 'Quelle: ' + imgSource + ' -' + wikiLink
+                sourceBig.innerHTML = 'Quelle: ' + imgSource + ' -' + wikiLink
 
                 @_mainDiv.appendChild @_expandBox
                 @_bodyDivBig.style.color = "#fff"
 
-  # ============================================================================
+              if mm.type is "VIDEO"
+                # display video icon with funtionality
+                @_mainDiv.appendChild @_switch2Video
+                videoLink = mm.video # set video
 
+                @_videoDiv.innerHTML = "<iframe width='100%' height='#{@_height}' src='#{videoLink}' frameborder='0'> </iframe>"
+                @_videoDivBig.innerHTML = "<iframe width='100%' height='#{@_heightFSBox}' src='#{videoLink}' frameborder='0'> </iframe>"
+
+  # ============================================================================
+    # expand button
     @_expandBox.addEventListener 'mouseup', () =>
-      @expand()
+      @expand() # expand box to big version
       @_mainDiv.replaceChild @_compressBox, @_expandBox
 
+    # compress button
     @_compressBox.addEventListener 'mouseup', () =>
-      @compress()
+      @compress() # switch back to small box version
       @_mainDiv.replaceChild @_expandBox, @_compressBox
+
+    # video button - removes text, background image and shows video
+    @_switch2Video.addEventListener 'mouseup', () =>   
+      # to do: für große Box anpassen 
+      if document.contains(@_bodyDivBig)
+        @_mainDiv.removeChild @_bodyDivBig
+        @_mainDiv.appendChild @_videoDivBig
+        @_mainDiv.style.pointerEvents = "none"
+        @_videoDivBig.style.pointerEvents = "all"
+
+      else 
+        @_mainDiv.removeChild @_bodyDiv
+        @_mainDiv.appendChild @_videoDiv
+
+      if document.contains(@_expandBox)
+        @_mainDiv.removeChild @_expandBox
+
+      if document.contains(@_compressBox)
+        @_mainDiv.removeChild @_compressBox
+
+      @_mainDiv.removeChild @_switch2Video
+      @_mainDiv.appendChild @_switch2Normal
+
+    # image button - removes video and switches back to normal box
+    @_switch2Normal.addEventListener 'mouseup', () =>
+      if document.contains(@_videoDivBig) # if big Hivent-Box is active
+        @_mainDiv.removeChild @_videoDivBig
+        @_mainDiv.appendChild @_bodyDivBig
+        @_mainDiv.appendChild @_compressBox
+
+      else
+        @_mainDiv.removeChild @_videoDiv
+        @_mainDiv.appendChild @_bodyDiv
+        @_mainDiv.appendChild @_expandBox
+      
+      @_mainDiv.removeChild @_switch2Normal
+      @_mainDiv.appendChild @_switch2Video
+      @_mainDiv.style.pointerEvents = "all"
 
     closeDiv.addEventListener 'mouseup', () =>
       @hide()
@@ -279,10 +350,31 @@ class HG.Popover
     if document.contains(@_bodyDivBig)
       @_mainDiv.removeChild @_bodyDivBig
       @_mainDiv.appendChild @_bodyDiv
-      @_mainDiv.className = "guiPopover"
-      @_mainDiv.style.width = "#{@_width}px"
-      @_mainDiv.style.height = "#{@_height}px"
       @_mainDiv.replaceChild @_expandBox, @_compressBox
+
+    if document.contains(@_videoDiv)
+      @_mainDiv.removeChild @_videoDiv
+      @_mainDiv.appendChild @_bodyDiv
+
+      @_mainDiv.removeChild @_switch2Normal
+      @_mainDiv.appendChild @_switch2Video
+      @_mainDiv.appendChild @_expandBox
+
+    if document.contains(@_videoDivBig)
+      @_mainDiv.removeChild @_videoDivBig
+      @_mainDiv.appendChild @_bodyDiv
+
+      @_mainDiv.removeChild @_switch2Normal
+      @_mainDiv.appendChild @_switch2Video
+      @_mainDiv.appendChild @_expandBox
+
+    @_mainDiv.className = "guiPopover"
+    @_mainDiv.style.pointerEvents = "all"
+    @_mainDiv.style.width = "#{@_width}px"
+    @_mainDiv.style.height = "#{@_height}px"
+
+
+
 
   # ============================================================================
   toggle: (position) =>
