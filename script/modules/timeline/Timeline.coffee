@@ -4,7 +4,6 @@ window.HG ?= {}
 ## ## ## ##
 ## ##             STATIC PUBLIC
 
-MAX_ZOOM_LEVEL = 7          # most detailed view of timeline in DAYS
 MIN_INTERVAL_INDEX = 0      # 0 = 1 Year | 1 = 2 Year | 2 = 5 Years | 3 = 10 Years | ...
 INTERVAL_SCALE = 0.05       # higher value makes greater intervals between datemarkers
 FADE_ANIMATION_TIME = 200   # fade in time for datemarkers and so
@@ -40,10 +39,12 @@ class HG.Timeline
     @addCallback "OnTopicsLoaded"
 
     defaultConfig =
-      timelineZoom: 1
       minYear: 1850
       maxYear: 2000
       nowYear: 1925
+      minZoom: 1
+      maxZoom: 7
+      startZoom: 2
       topics: []
       dsvPaths: []
       rootDirs: []
@@ -284,7 +285,7 @@ class HG.Timeline
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
   millisPerPixel: ->
-    mpp = (@yearsToMillis(@_config.maxYear - @_config.minYear) / window.innerWidth) / @_config.timelineZoom
+    mpp = (@yearsToMillis(@_config.maxYear - @_config.minYear) / window.innerWidth) / @_config.startZoom
   minVisibleDate: ->
     d = new Date(@_now.date.getTime() - (@millisPerPixel() * window.innerWidth / 2))
   maxVisibleDate: ->
@@ -390,12 +391,12 @@ class HG.Timeline
   _zoom: (delta, e=null, layout=true) =>
     zoomed = false
     if delta > 0
-      if @millisToDays(@maxVisibleDate().getTime()) - @millisToDays(@minVisibleDate().getTime()) > MAX_ZOOM_LEVEL
-        @_config.timelineZoom *= 1.1
+      if @millisToDays(@maxVisibleDate().getTime()) - @millisToDays(@minVisibleDate().getTime()) > @_config.maxZoom
+        @_config.startZoom *= 1.1
         zoomed = true
     else
-      if @_config.timelineZoom > 1
-        @_config.timelineZoom /= 1.1
+      if @_config.startZoom > @_config.minZoom
+        @_config.startZoom /= 1.1
         zoomed = true
 
     if zoomed

@@ -446,7 +446,7 @@ class HG.AreaController
                 prio        = label.properties.prio
                 coordinates = label.geometry.coordinates
 
-                newLabel = new HG.Label id, name, prio, coordinates, @_styler                        # styler
+                newLabel = new HG.AreaLabel id, name, prio, coordinates, @_styler                        # styler
 
                 # set initial style
                 if @_theme?

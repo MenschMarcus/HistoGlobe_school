@@ -1,6 +1,6 @@
 window.HG ?= {}
 
-class HG.Label
+class HG.AreaLabel
 
   ##############################################################################
   #                            PUBLIC INTERFACE                                #
