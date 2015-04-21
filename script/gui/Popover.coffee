@@ -262,13 +262,8 @@ class HG.Popover
                 @_mainDiv.appendChild @_switch2Video
                 videoLink = mm.video # set video
 
-                @_videoDiv.innerHTML = "<iframe width='100%' height='350' src='#{videoLink}' frameborder='0'> </iframe>"
+                @_videoDiv.innerHTML = "<iframe width='100%' height='#{@_height}' src='#{videoLink}' frameborder='0'> </iframe>"
                 @_videoDivBig.innerHTML = "<iframe width='100%' height='#{@_heightFSBox}' src='#{videoLink}' frameborder='0'> </iframe>"
-
-                
-                  
-
-
 
   # ============================================================================
     # expand button
@@ -287,6 +282,8 @@ class HG.Popover
       if document.contains(@_bodyDivBig)
         @_mainDiv.removeChild @_bodyDivBig
         @_mainDiv.appendChild @_videoDivBig
+        @_mainDiv.style.pointerEvents = "none"
+        @_videoDivBig.style.pointerEvents = "all"
 
       else 
         @_mainDiv.removeChild @_bodyDiv
@@ -315,6 +312,7 @@ class HG.Popover
       
       @_mainDiv.removeChild @_switch2Normal
       @_mainDiv.appendChild @_switch2Video
+      @_mainDiv.style.pointerEvents = "all"
 
     closeDiv.addEventListener 'mouseup', () =>
       @hide()
