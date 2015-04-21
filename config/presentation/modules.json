@@ -198,10 +198,22 @@
 
   "AreaController":
   {
-    "areaJSONPaths" : ["config/school/data/countryAreas.geojson"],
-    "labelJSONPaths" : ["config/school/data/countryLabels.geojson"],
-    "changeJSONPaths" : ["config/school/data/countryChanges.json"],
-    "transitionJSONPaths" : ["config/school/data/countryTransitions.geojson"]
+    "areaJSONPaths" : [
+      "config/school/data/countryAreas.geojson",
+      "config/presentation/data/countryAreas.geojson"
+    ],
+    "labelJSONPaths" : [
+      "config/school/data/countryLabels.geojson",
+      "config/presentation/data/countryLabels.geojson"
+    ],
+    "changeJSONPaths" : [
+      "config/school/data/countryChanges.json",
+      "config/presentation/data/countryChanges.json"
+    ],
+    "transitionJSONPaths" : [
+      "config/school/data/countryTransitions.geojson",
+      "config/presentation/data/countryTransitions.geojson"
+    ]
   },
 
   "AreasOnMap" :

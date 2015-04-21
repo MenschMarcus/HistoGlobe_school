@@ -160,14 +160,16 @@ class HG.AreaController
         # and not if scrolled too far
         if not @_initStatus and timeLeap < TIME_LEAP_THRESHOLD
           if change.trans_area?
-            hasTransition = yes
+            console.log change.trans_area
             transArea = @_getTransitionById change.trans_area
             @notifyAll "onFadeInArea", transArea, yes
+            hasTransition = yes
 
           if change.trans_border?
-            hasTransition = yes
+            console.log change.trans_border
             transBorder = @_getTransitionById change.trans_border
             @notifyAll "onFadeInBorder", transBorder, yes
+            hasTransition = yes
 
         # enqueue new change
         newChange =

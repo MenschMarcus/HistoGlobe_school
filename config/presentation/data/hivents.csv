@@ -9,20 +9,17 @@ Design-3|Old Design 2|Test|32.883|13.188||1014|01|01||||1.1.1014||design||... an
 Design-4|Old Design 3|Test|33.573|-7.590||1016|01|01||||1.1.1016||design||"Also the teachers wanted to show the students what was actually going on in historical events, which we call ""Hivents"". And since images say more than thousand words, we implemented these Hivent Boxes to give the students an impression about what is going on in history"|Design-4|
 Design-5|Old Design 4|Earth|43.740|7.427||1018|01|01||||1.1.1018||design||The user interface of HistoGlobe consists of a map, a timeline with a topic bar, a search bar, a topic overview and control buttons. And our Logo. And that is about it :)|Design-5|
 Design-6|Sun-Simulator|Sun|32.883|13.188||1019|01|01||||1.1.1019||design|||Design-6|
-Dummy-1|Knock, knock.|...|14.058|108.277||1060|01|01||||1.1.1060||implementation|hiventlist|||
-Dummy-2|Who’s there?|...|14.058|108.277||1062|01|01||||1.1.1062||implementation|hiventlist|||
-Dummy-3|very long pause….|...|14.058|108.277||1064|01|01||||1.1.1064||implementation|hiventlist|||
-Dummy-4|Java.|...|14.058|108.277||1066|01|01||||1.1.1066||implementation|hiventlist|||
-Dummy-5|To err is human|...|14.058|108.277||1068|01|01||||1.1.1068||implementation|hiventlist|||
-Implention-3|Categories on Timeline||54.210|18.390||1006|01|01||||1.1.1006||implementation||Old version had  a 1-Dimensional categories Design, which the teachers didn't approve. They told us they need more differenciated approach.|https://drive.google.com/open?id=0B-sb69PX_aCsMVVMQmtuSXBzWTg&authuser=0|
-Implention-4|Categories on Timeline||54.210|18.390||1007|01|01||||1.1.1007||implementation||We decided to use a Design with 2 Main category Bars. The upper shows episodes in german history, whilest the lower describes world history.On activation there are sub-categories showing more special classifications.|https://drive.google.com/open?id=0B-sb69PX_aCsNHZxTTBKMm13WWs&authuser=0|
-||||||||||||||||||
-||||||||||||||||||
-||||||||||||||||||
-||||||||||||||||||
-||||||||||||||||||
-||||||||||||||||||
-||||||||||||||||||
+Dummy-1|That is a fast bugfix|Utopia|51.507|-0.128||1060|01|01||||1.1.1060||implementation|hiventlist|||
+Dummy-2|That should work now|Absurdiastan|50.968|11.333||1062|01|01||||1.1.1062||implementation|hiventlist|||
+Dummy-3|undefined is not a function|Hell|52.520|13.405||1064|01|01||||1.1.1064||implementation|hiventlist|||
+Dummy-4|who is undefined?|Andis Enemy|50.979|11.324||1066|01|01||||1.1.1066||implementation|hiventlist|||
+Dummy-5|cannot read property of NULL|WTF|48.801|2.130||1068|01|01||||1.1.1068||implementation|hiventlist|||
+Implention-3|Categories on Timeline|Weimar|54.210|18.390||1006|01|01||||1.1.1006||implementation||Old version had  a 1-Dimensional categories Design, which the teachers didn't approve. They told us they need more differenciated approach.|https://drive.google.com/open?id=0B-sb69PX_aCsMVVMQmtuSXBzWTg&authuser=0|
+Implention-4|Categories on Timeline|Weimar|54.210|18.390||1007|01|01||||1.1.1007||implementation||We decided to use a Design with 2 Main category Bars. The upper shows episodes in german history, whilest the lower describes world history.On activation there are sub-categories showing more special classifications.|https://drive.google.com/open?id=0B-sb69PX_aCsNHZxTTBKMm13WWs&authuser=0|
+future-3|Future Work|Sun|32.883|13.188||40000|01|01||||1.1.40000||future||Support for media galleries||
+future-2|Future Work|Sun|32.883|13.188||40000|01|01||||1.1.40000||future||mobile version||
+future-1|Future Work|Sun|32.883|13.188||40000|01|01||||1.1.40000||future||Tool to help teachers prepare their lessons.||
+Implention-5|Hivent Marker Label|Shurima|34.320|132.270||1050|01|01||||1.1.1050||implementation||||
 ||||||||||||||||||
 ||||||||||||||||||
 ||||||||||||||||||
