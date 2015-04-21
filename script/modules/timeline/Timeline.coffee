@@ -69,10 +69,10 @@ class HG.Timeline
       @_hiventController = @_hgInstance.hiventController
       @notifyAll "onNowChanged", @_cropDateToMinMax @_now.date
       @notifyAll "onIntervalChanged", @_getTimeFilter()
-      @_hgInstance.minGUIButton?.onRemoveGUI @, () ->    
+      @_hgInstance.minGUIButton?.onRemoveGUI @, () ->
         @_hideCategories()
 
-      @_hgInstance.minGUIButton?.onOpenGUI @, () -> 
+      @_hgInstance.minGUIButton?.onOpenGUI @, () ->
         @_showCategories()
 
       if @_hgInstance.zoom_buttons_timeline
@@ -140,7 +140,7 @@ class HG.Timeline
         , d
 
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
-    
+
     #   ZOOM
     @_uiElements.tl.addEventListener "mousewheel", (e) =>
       e.preventDefault()
@@ -319,7 +319,7 @@ class HG.Timeline
       @_uiElements.tl_wrapper.style.MsTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
       @_uiElements.tl_wrapper.style.oTransform = "translate3d(" + dateDiff / @millisPerPixel() + "px ,0px, 0px)"
 
-      @_now.date = date
+      @_now.date = @_cropDateToMinMax date
 
       @notifyAll "onNowChanged", @_now.date
       @notifyAll "onIntervalChanged", @_getTimeFilter()
@@ -419,7 +419,7 @@ class HG.Timeline
     @_timeline_swiper.reInit()
 
   _updateNowDate: (fireCallbacks = true) ->
-    @_now.date = new Date(@yearToDate(@_config.minYear).getTime() + (-1) * @_timeline_swiper.getWrapperTranslate("x") * @millisPerPixel())
+    @_now.date = @_cropDateToMinMax new Date(@yearToDate(@_config.minYear).getTime() + (-1) * @_timeline_swiper.getWrapperTranslate("x") * @millisPerPixel())
     @_now.dateField.innerHTML = @_now.date.toLocaleDateString DATE_LOCALE, DATE_OPTIONS
     if fireCallbacks
       @notifyAll "onNowChanged", @_now.date
@@ -473,7 +473,6 @@ class HG.Timeline
                 @_activeTopic = null
             else
               @_hgInstance.hiventInfoAtTag?.setOption 'categories', event.data.value.id
-
       topic.div.style.left = start_pos + "px"
       topic.div.style.width = (end_pos - start_pos) + "px"
 
@@ -677,13 +676,13 @@ class HG.Timeline
 
   _disableTextSelection : (e) ->  return false
   _enableTextSelection : () ->    return true
-  
+
   _hideCategories: () ->
-    $('.tl_topic, .tl_topic_highlighted ').fadeTo(500,0, () -> 
+    $('.tl_topic, .tl_topic_highlighted ').fadeTo(500,0, () ->
       $('.tl_topic, .tl_topic_highlighted ').css("visibility", "hidden") )
     $('[class*="hivent_marker_timeline"]').css("bottom","45px")
   _showCategories: () ->
-    category= @_hgInstance.categoryFilter.getCurrentFilter()    
+    category= @_hgInstance.categoryFilter.getCurrentFilter()
     @_hgInstance.categoryFilter.setCategory "noCategory"
     @_hgInstance.categoryFilter.setCategory category
     $('.tl_topic, .tl_topic_highlighted ').css("visibility", "visible")

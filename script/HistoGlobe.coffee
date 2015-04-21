@@ -17,7 +17,6 @@ class HG.HistoGlobe
     @addCallback "onMapAreaSizeChange"
     @addCallback "onMapAreaSizeChangeEnd"
 
-    @timeline = null
     @map = null
     @sidebar = null
 
@@ -48,7 +47,6 @@ class HG.HistoGlobe
       if @_config.sidebarEnabled
         @_createSidebar()
         @_createCollapseButton()
-      #@_createTimeline()
 
       $(window).on 'resize', @_onResize
 
@@ -76,7 +74,12 @@ class HG.HistoGlobe
           load_module moduleName, moduleConfig
 
         window.hgConf=config
+
       @notifyAll "onAllModulesLoaded"
+
+      # hack: initial call of timeline now change
+      # if @timeline?
+      #   @timeline._updateNowDate true
 
       @_updateLayout()
 
@@ -191,12 +194,6 @@ class HG.HistoGlobe
     if i > 2
         d.setDate(res[i - 3])
     d
-
-  _createTimeline: -> 
-    @addModule new HG.Timeline
-      topics:       @_config.topics
-      timelineZoom: @_config.timelineZoom
-      #speedometer:  @_config.nowMarker.speedometer
 
   # ============================================================================
   _collapse: =>
