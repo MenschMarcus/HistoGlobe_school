@@ -8,8 +8,8 @@
 # PROJECT=teaser1_countries
 # PROJECT=teaser2_hivents
 # PROJECT=teaser3_sidebar
-# PROJECT=school
-PROJECT=presentation
+# PROJECT=presentation
+PROJECT=school
 
 if [ ! -d "build" ]; then
     mkdir build

@@ -1,1 +1,1 @@
-<?php $config_path = 'presentation'; ?>
+<?php $config_path = 'school'; ?>
