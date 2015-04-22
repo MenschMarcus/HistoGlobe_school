@@ -254,21 +254,17 @@ class HG.HiventList
 
     return @_hivent_list
 
-  activateElement: (id) ->
-    console.log "activateElement"
+  activateElement: (id) ->    
     $("#"+id).switchClass("inactive", "active")
     $(".hivent-list").scrollTo "#"+id, 500
 
-  deactivateElement:(id) ->
-    console.log "deactivateElement"
+  deactivateElement:(id) ->    
     $("#"+id).switchClass("active", "inactive")
   
-  hoverElement:(id) ->
-    console.log "hoverElement"
+  hoverElement:(id) ->    
     $("#"+id).switchClass("inactive", "hover", 10)
   
   dehoverElement:(id) ->
-    console.log "dehoverElement"
     $("#"+id).switchClass("hover", "inactive", 10)
 
 
