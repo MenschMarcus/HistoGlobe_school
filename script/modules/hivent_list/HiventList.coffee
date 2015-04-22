@@ -152,7 +152,8 @@ class HG.HiventList
       for hivent in @_hivent_array
         hivent.removeListener "onActive", @
         hivent.removeListener "onInActive", @
-
+        hivent.removeListener "onLink", @
+        hivent.removeListener "onUnLink", @
     # Hivents ==================================================================
 
     @_hivent_array = []
@@ -254,17 +255,21 @@ class HG.HiventList
     return @_hivent_list
 
   activateElement: (id) ->
+    console.log "activateElement"
     $("#"+id).switchClass("inactive", "active")
     $(".hivent-list").scrollTo "#"+id, 500
 
   deactivateElement:(id) ->
+    console.log "deactivateElement"
     $("#"+id).switchClass("active", "inactive")
   
   hoverElement:(id) ->
-    $("#"+id).switchClass("inactive", "hover",0)
+    console.log "hoverElement"
+    $("#"+id).switchClass("inactive", "hover", 10)
   
   dehoverElement:(id) ->
-    $("#"+id).switchClass("hover", "inactive",0)
+    console.log "dehoverElement"
+    $("#"+id).switchClass("hover", "inactive", 10)
 
 
 
