@@ -1,34 +1,33 @@
 Medien|||||||
 |||source information||||
 id|file_name|file_type|name|author|source|link|last_access
-Logo|http://school.histoglobe.com/data/png/logo-normal-farbe.png|WEBIMAGE|HistoGlobe Logo|Christiane Schlütter|artografiewerkstatt|http://www.artographie-werkstatt.com/|
-Problem|http://oi62.tinypic.com/vp94lx.jpg|WEBIMAGE|All of us want to use it|ryanlerch|openclipart.com|https://openclipart.org/detail/639/point-to-board|21.04.2015
-Design-1|https://lh5.googleusercontent.com/8lXP6FNI-qu9WHbuut0CU4MXaM5MrWgdecxwRkdkukAtt5LfB16YMto01iM8hELDhs1NCbgKFjpLsgo=w2560-h1362|WEBIMAGE|User Centered Design|Tobias Westphal|Tobias Westphal||
-Design-2|https://lh6.googleusercontent.com/MsHNJ3qC1DJdS-sdu4EOr1XCaDmNky3rAT-CTqJf2l3q0L_zCmrCQgXUqSWc0GdI7gncv5SqUlrgtkg=w2560-h1362|WEBIMAGE|Old Design 1|Tobias Westphal|Tobias Westphal||
-Design-3|https://docs.google.com/file/d/0B-sb69PX_aCsZjJaR1FlT054SEE/edit|WEBIMAGE|Old Design 2|Tobias Westphal|Tobias Westphal||
-Design-4|https://drive.google.com/open?id=0B-sb69PX_aCsaFdheDFRUl9qd1k&authuser=0|WEBIMAGE|Old Design 3|Tobias Westphal|Tobias Westphal||
-Design-5|https://drive.google.com/open?id=0B-sb69PX_aCsSVl2dVhSdnd5b28&authuser=0|WEBIMAGE|Old Design 4|Tobias Westphal|Tobias Westphal||
-Design-6|https://drive.google.com/open?id=0B-sb69PX_aCsbG12LUdFNUJ0V0U&authuser=0|WEBIMAGE|Sun-Simulator|Tobias Westphal|Tobias Westphal||
-FieldStudy-student-1|https://drive.google.com/open?id=0B-sb69PX_aCsbFVqRXNWRGNvNm8&authuser=0|WEBIMAGE|Fragebogen|Tobias Westphal|Tobias Westphal||
-FieldStudy-student-2|https://drive.google.com/open?id=0B-sb69PX_aCsSXZSSlBsTTc2TVE&authuser=0|WEBIMAGE|Zufriedenheit mit HG|Tobias Westphal|Tobias Westphal||
-FieldStudy-student-3|https://drive.google.com/open?id=0B-sb69PX_aCsdGYyY0x3SExCSnc&authuser=0|WEBIMAGE|Tagcloud-positiv|Tobias Westphal|Tobias Westphal||
-FieldStudy-student-4|https://drive.google.com/open?id=0B-sb69PX_aCsSm1OdHBvT2dSNjQ&authuser=0|WEBIMAGE|Zitate-positiv|Tobias Westphal|Tobias Westphal||
-FieldStudy-student-5|https://drive.google.com/open?id=0B-sb69PX_aCscjJnZEc3ZDE2MkU&authuser=0|WEBIMAGE|Tagcloud-negativ|Tobias Westphal|Tobias Westphal||
-FieldStudy-student-6|https://drive.google.com/open?id=0B-sb69PX_aCsOV9MczVreVk4Mnc&authuser=0|WEBIMAGE|Zitate-negativ|Tobias Westphal|Tobias Westphal||
-label-1|https://lh3.googleusercontent.com/Gah88wubtilzOyultY1k_-vgFipAr34P7ACHRxvfAFUcNSqN2KQLnFnsIXWWOBkPvwMUKQ=w1831-h643|WEBIMAGE|||||
-label-2|https://lh5.googleusercontent.com/WYMJDKBRBPWlfGEyzIt8RY6pUwl5E3Uvzjl70vdcQ07xD89VmlfkPS3o5oc0C0vLuWdnag=w1831-h643|WEBIMAGE|||||
-HistoCountries||WEBIMAGE|structure of border changes|Marcus Kossatz|Marcus Kossatz||
+Logo|http://school.histoglobe.com/config/presentation/data/media/logo.png|WEBIMAGE|HistoGlobe Logo|Christiane Schlütter|artografiewerkstatt|http://www.artographie-werkstatt.com/|
+Problem|http://school.histoglobe.com/config/presentation/data/media/everybody.jpg|WEBIMAGE|All of us want to use it|ryanlerch|openclipart.com|https://openclipart.org/detail/639/point-to-board|21.04.2015
+Design-1|http://school.histoglobe.com/config/presentation/data/media/design-1.jpg|WEBIMAGE|User Centered Design|Tobias Westphal|Tobias Westphal||
+Design-2|http://school.histoglobe.com/config/presentation/data/media/design-2.jpg|WEBIMAGE|Old Design 1|Tobias Westphal|Tobias Westphal||
+Design-3|http://school.histoglobe.com/config/presentation/data/media/design-3.jpg|WEBIMAGE|Old Design 2|Tobias Westphal|Tobias Westphal||
+Design-4|http://school.histoglobe.com/config/presentation/data/media/design-4.jpg|WEBIMAGE|Old Design 3|Tobias Westphal|Tobias Westphal||
+Design-5|http://school.histoglobe.com/config/presentation/data/media/design-5.jpg|WEBIMAGE|Old Design 4|Tobias Westphal|Tobias Westphal||
+FieldStudy-students-paper|http://school.histoglobe.com/config/presentation/data/media/study-students-paper.jpg|WEBIMAGE|Fragebogen-Bild|Tobias Westphal|Tobias Westphal||
+FieldStudy-students-graph|http://school.histoglobe.com/config/presentation/data/media/study-students-graph.jpg|WEBIMAGE|Zufriedenheit mit HG|Tobias Westphal|Tobias Westphal||
+FieldStudy-students-tagcloud-pos|http://school.histoglobe.com/config/presentation/data/media/study-students-tagcloud-pos.jpg|WEBIMAGE|Tagcloud-positiv|Tobias Westphal|Tobias Westphal||
+FieldStudy-student-cites-pos|http://school.histoglobe.com/config/presentation/data/media/study-students-cites-pos.jpg|WEBIMAGE|Zitate-positiv|Tobias Westphal|Tobias Westphal||
+FieldStudy-student-tagcloud-neg|http://school.histoglobe.com/config/presentation/data/media/study-students-tagcloud-neg.jpg|WEBIMAGE|Tagcloud-negativ|Tobias Westphal|Tobias Westphal||
+FieldStudy-student-cites-neg|http://school.histoglobe.com/config/presentation/data/media/study-students-cites-neg.jpg|WEBIMAGE|Zitate-negativ|Tobias Westphal|Tobias Westphal||
+label-1|http://webuser.uni-weimar.de/~xemu4478/timeline-1.jpg|WEBIMAGE||Sebastian Köpsel|Sebastian Köpsel||
+label-2|http://webuser.uni-weimar.de/~xemu4478/timeline-2.jpg|WEBIMAGE||Sebastian Köpsel|Sebastian Köpsel||
+HistoCountries|http://school.histoglobe.com/config/presentation/data/media/historic_countries.png|WEBIMAGE|structure of border changes|Marcus Kossatz|Marcus Kossatz||
 |||||||
 |||||||
-timeline-1|https://lh5.googleusercontent.com/7wRwUxqtX0jSac9bheUHzCU6xJlK0DzGA40nnA-d4u6lKoAEAoVEd-NSNJpkYkDC6_yx1Q=w1831-h643|WEBIMAGE|||||
-timeline-2|https://lh3.googleusercontent.com/Dv9nq7-SpBO6r2IZwRndDcbuiMU6bWVO71RSKLHvO10WOcnAbQ2tApwZepV1WXn5wiJjROIVqlh2y5U=w1831-h643|WEBIMAGE|||||
+TopicBar|http://school.histoglobe.com/config/presentation/data/media/topic_bar.jpg|WEBIMAGE||Tobias Westphal|Tobias Westphal||
 |||||||
 |||||||
 box-generation||WEBIMAGE|Hivent-Box Generation|Chris Hornischer|Chris Hornischer||
-box-example|http://commons.wikimedia.org/wiki/File:Countdown_1999_noch_11_Stunden_bis_zum_Jahr_2000_am_Eiffelturm_in_Paris_Foto_1999_Wolfgang_Pehlemann_Wiesbaden.jpg|WEBIMAGE|Hivent-Box Example|Wolfgang Pehlemann|wikipedia||
+box-example-image|http://upload.wikimedia.org/wikipedia/commons/1/10/%D8%AE%D9%85%DB%8C%D9%86%DB%8C_%D8%AF%D8%B1_%D8%A8%D9%87%D8%B4%D8%AA_%D8%B2%D9%87%D8%B1%D8%A7.JPG|WEBIMAGE|Hivent-Box Example|پایگاه اطلاع‌رسانی امام خمینی|wikipedia||
+box-example-video|https://www.youtube.com/embed/iIl70m9mL8Q|VIDEO|Hivent-Box Example|linkswende22|youtube||
 search-process||WEBIMAGE|Search Process|Chris Hornischer|Chris Hornischer||
-|||||||
-|||||||
+conclusion-plus||WEBIMAGE|Conclusion - Positive Aspects|Chris Hornischer|||
+conclusion-minus||WEBIMAGE|Conclusion - Negative Aspects|Chris Hornischer|||
 |||||||
 |||||||
 |||||||
