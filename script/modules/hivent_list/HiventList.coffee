@@ -48,8 +48,10 @@ class HG.HiventList
     $(@_hivent_list).on("mouseenter", ".hiventListItem",  ->
       id=this.id
       handle=window.hgInstance.hiventController.getHiventHandleById(id)
-      handle.mark @, 0
-      handle.linkAll @, 0
+      
+      if !handle._activated
+        handle.mark @, 0
+        handle.linkAll @, 0
       ).on("mouseleave", ".hiventListItem", ->
         id=this.id
 
@@ -165,10 +167,12 @@ class HG.HiventList
             @deactivateElement handle.getHivent().id
           
           hivent.onLink @, (mousePos, handle) =>
-            @hoverElement handle.getHivent().id
+            if !handle._activated
+              @hoverElement handle.getHivent().id
           
           hivent.onUnLink @, (mousePos, handle) =>
-            @dehoverElement handle.getHivent().id
+            if !handle._activated
+              @dehoverElement handle.getHivent().id
 
 
 
