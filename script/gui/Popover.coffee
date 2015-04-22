@@ -267,8 +267,8 @@ class HG.Popover
                 @_mainDiv.appendChild @_switch2Video
                 videoLink = mm.video # set video
 
-                @_videoDiv.innerHTML = "<iframe width='100%' height='#{@_height}' src='#{videoLink}' frameborder='0'> </iframe>"
-                @_videoDivBig.innerHTML = "<iframe width='100%' height='#{@_heightFSBox}' src='#{videoLink}' frameborder='0'> </iframe>"
+                @_videoDiv.innerHTML = "<iframe width='100%' height='#{@_height}' src='#{videoLink}' allowfullscreen frameborder='0'> </iframe>"
+                @_videoDivBig.innerHTML = "<iframe width='100%' height='#{@_heightFSBox}' src='#{videoLink}' allowfullscreen frameborder='0'> </iframe>"
 
   # ============================================================================
     # expand button
@@ -282,15 +282,15 @@ class HG.Popover
       @_mainDiv.replaceChild @_expandBox, @_compressBox
 
     # video button - removes text, background image and shows video
-    @_switch2Video.addEventListener 'mouseup', () =>   
-      # to do: für große Box anpassen 
+    @_switch2Video.addEventListener 'mouseup', () =>
+      # to do: für große Box anpassen
       if document.contains(@_bodyDivBig)
         @_mainDiv.removeChild @_bodyDivBig
         @_mainDiv.appendChild @_videoDivBig
         @_mainDiv.style.pointerEvents = "none"
         @_videoDivBig.style.pointerEvents = "all"
 
-      else 
+      else
         @_mainDiv.removeChild @_bodyDiv
         @_mainDiv.appendChild @_videoDiv
 
@@ -314,7 +314,7 @@ class HG.Popover
         @_mainDiv.removeChild @_videoDiv
         @_mainDiv.appendChild @_bodyDiv
         @_mainDiv.appendChild @_expandBox
-      
+
       @_mainDiv.removeChild @_switch2Normal
       @_mainDiv.appendChild @_switch2Video
       @_mainDiv.style.pointerEvents = "all"
@@ -355,7 +355,7 @@ class HG.Popover
             @_placement.x * ((@_width - @_width * @_placement.x) / 2) -
             Math.abs(@_placement.y) *  @_width / 2
 
-      top:  @_position.y + canvasOffset.top - WINDOW_TO_ANCHOR_OFFSET_Y + 
+      top:  @_position.y + canvasOffset.top - WINDOW_TO_ANCHOR_OFFSET_Y +
             @_placement.y * (HGConfig.hivent_marker_2D_height.val / 2) +
             @_placement.y * ((@_mainDiv.offsetHeight - @_mainDiv.offsetHeight * @_placement.y) / 2) -
             Math.abs(@_placement.x) * @_mainDiv.offsetHeight / 2
@@ -479,7 +479,7 @@ class HG.Popover
               @_placement.x * ((@_width - @_width * @_placement.x) / 2) -
               Math.abs(@_placement.y) *  @_width / 2
 
-        top:  @_position.y + canvasOffset.top - WINDOW_TO_ANCHOR_OFFSET_Y + 
+        top:  @_position.y + canvasOffset.top - WINDOW_TO_ANCHOR_OFFSET_Y +
               @_placement.y * (HGConfig.hivent_marker_2D_height.val / 2) +
               @_placement.y * ((@_mainDiv.offsetHeight - @_mainDiv.offsetHeight * @_placement.y) / 2) -
               Math.abs(@_placement.x) * @_mainDiv.offsetHeight / 2

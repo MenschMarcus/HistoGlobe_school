@@ -17,9 +17,9 @@ HiventMarker-2|Label Positioning - Solution|Map|14.058|108.277||1045|01|01||||||
 HiventBox-2|Hivent-Box Example|Teheran|35.696|35.696||1047|07|01||||1979||implementation|hivents|Die Islamische Revolution war eine vielschichtige Bewegung im Iran, die 1979 (1357 islamischer Zeitrechnung) zur Absetzung von Schah Mohammad Reza Pahlavi und zur Beendigung der Monarchie im Iran führte. Symbolfigur und später Revolutionsführer war Ajatollah Ruhollah Chomeini, der ab 1979 gegen weitere revolutionäre und säkulare Gruppen sein Staatskonzept von der Regentschaft der Geistlichkeit (Velayat-e faqih) zum Teil mit Gewalt durchsetzte und neues Staatsoberhaupt wurde.|box-example-image, box-example-video|http://de.wikipedia.org/wiki/Islamische_Revolution
 Dummy-1|That is a fast bugfix|Utopia|50.000|-120.000||1061|01|01||||0815||implementation|hiventlist||recursion|
 Dummy-2|That should work now|Absurdiastan|50.000|-105.000||1063|01|01||||007||implementation|hiventlist||recursion|
-Dummy-3|undefined is not a function|Hell|50.000|-90.000||1065|01|01||||???||implementation|hiventlist||recursion|
-Dummy-4|who is undefined?|Andis Enemy|50.000|-75.000||1067|01|01||||42||implementation|hiventlist||recursion|
-Dummy-5|cannot read property of NULL|WTF|50.000|-60.000||1069|01|01||||NULL||implementation|hiventlist||recursion|
+Dummy-3|Undefined is not a function|Hell|50.000|-90.000||1065|01|01||||???||implementation|hiventlist||recursion|
+Dummy-4|Who is undefined?|Andis Enemy|50.000|-75.000||1067|01|01||||42||implementation|hiventlist||recursion|
+Dummy-5|Cannot read property of NULL|WTF|50.000|-60.000||1069|01|01||||NULL||implementation|hiventlist||recursion|
 ||||||||||||..||||||
 FieldStudy-school|HistoGlobe @ School|Lobdeburgschule|50.927|11.589||2014|09|15||||||study||Lobdeburgschule in Jena-Lobeda is a public school for all students from grade 1 to 13. A history teacher in grade 12 invited us to conduct a field study in his class to test HistoGlobe directly in schooi. On 17. April 2015 HistoGlobe was first used in a public school and we are very proud to present the results of the field study.|Lobdeburgschule|
 FieldStudy-teacher-1|Explanation: Conferences in WWII|Lobdeburgschule|50.927|11.589||2014|11|01||||In class||study|teacher|The teacher used HistoGlobe to explain the conferences after World War II in Casablanca, Teheran, Jalta and Potsdam. He used the hivent boxes to give students an impression of the conferences and showed them on the map.|Teacher-1|
@@ -38,7 +38,7 @@ conclusion-3|Cooperation with Designer||50.979|11.324||2015|07|15||||very produc
 conclusion-4|Organisation||50.979|11.324||2015|08|15||||very good||conclusion|result|Masterplan, Git Workflow, office|white|
 conclusion-5|Goal of the semester||50.979|11.324||2015|09|15||||accomplished||conclusion|result|totally accomplished|white|
 ||||||||||||||||||
-future-3|Future Work||32.883|13.188||2015|12|15||||too much||conclusion|future|"- Test Usability with students on Friday<br/>
+future-3|Future Work||32.883|13.188||2015|12|15||||> May 2015||conclusion|future|"- Test Usability with students on Friday<br/>
 - Make it easy to use and more versatile - for the teacher and the pupils.<br/>
 - Backend for Hivents and historical countries. <br\>
 - This projekt is work in progress!<br\>
