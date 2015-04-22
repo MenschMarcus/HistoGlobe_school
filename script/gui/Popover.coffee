@@ -42,11 +42,8 @@ class HG.Popover
 
     @_map_size = @_config.hgInstance.getMapAreaSize()
 
-    # @_widthFSBox = 0.68 * @_config.hgInstance.getMapAreaSize().x
     @_widthFSBox = @_map_size.x - HIVENTLIST_OFFSET #- FULLSCREEN_BOX_LEFT_OFFSET
     @_heightFSBox = 0.82 * @_map_size.y
-
-    - FULLSCREEN_BOX_LEFT_OFFSET -
 
     @_mainDiv = document.createElement "div"
     @_mainDiv.className = "guiPopover"
@@ -60,16 +57,33 @@ class HG.Popover
     else
       @_mainDiv.style.left = "#{WINDOW_TO_ANCHOR_OFFSET_X}px"
 
+    # YouTube div slide ===============================================
+    @_videoDiv = document.createElement "div"
+    @_videoDiv.className = "guiPopoverVideo"
+
+    @_videoDivBig = document.createElement "div"
+    @_videoDivBig.className = "guiPopoverVideoBig"
+
     # Big HiventBox ===================================================
     @_bodyDivBig = document.createElement "div"
     @_bodyDivBig.className = "guiPopoverBodyBig"
-    @_bodyDivBig.style.width = "#{0.5 * @_widthFSBox}px"
+    @_bodyDivBig.style.width = "#{0.6 * @_widthFSBox}px"
     @_bodyDivBig.style.height = "#{@_heightFSBox}px"
 
     contentBig = document.createElement "div"
     contentBig.className = "guiPopoverContentBig"
-    contentBig.style.width = "#{0.33 * @_widthFSBox}px"
+    contentBig.style.width = "#{0.4 * @_widthFSBox}px"
     contentBig.style.height = "#{@_heightFSBox}px"
+
+    sourceBig = document.createElement "span"
+    sourceBig.className = "source-big"
+    #sourceBig.innerHTML = 'Quelle: ' + @_imgSource
+
+    linkListBig = document.createElement "div"
+    linkListBig.className = "info-links-big"
+
+    linkListBig.appendChild sourceBig
+    @_bodyDivBig.appendChild linkListBig
 
     # generate content for big HiventBox ==============================
     bodyBig = document.createElement "div"
@@ -106,19 +120,42 @@ class HG.Popover
     @_bodyDiv = document.createElement "div"
     @_bodyDiv.className = "guiPopoverBodyV1"
 
-    closeDiv = document.createElement "span"
-    closeDiv.className = "close-button"
-    closeDiv.innerHTML = "×"
-    closeDiv.style.color = "#D5C900"
+    source = document.createElement "span"
+    source.className = "source"
+    #source.innerHTML = 'Quelle: ' + @_imgSource
 
-    @_expandBox = document.createElement "span"
+    linkList = document.createElement "div"
+    linkList.className = "info-links"
+
+    linkList.appendChild source
+    @_bodyDiv.appendChild linkList
+
+    closeDiv = document.createElement "div"
+    closeDiv.className = "close-button"
+
+    # closeDiv = document.createElement "span"
+    # closeDiv.className = "close-button"
+    # closeDiv.innerHTML = "×"
+    # closeDiv.style.color = "#D5C900"
+
+    @_expandBox = document.createElement "div"
     @_expandBox.className = "expand2FS"
     @_expandBox.innerHTML = '<i class="fa fa-expand"></i>'
     # $(expandBox).tooltip {title: "Box vergrößern", placement: "left", container:"#histoglobe"}
 
-    @_compressBox = document.createElement "span"
+    @_compressBox = document.createElement "div"
     @_compressBox.className = "compress2Normal"
     @_compressBox.innerHTML = '<i class="fa fa-compress"></i>'
+    # $(compressBox).tooltip {title: "Zurück zur normalen Ansicht", placement: "left", container:"#histoglobe"}
+
+    @_switch2Video = document.createElement "div"
+    @_switch2Video.className = "go2Video"
+    @_switch2Video.innerHTML = '<i class="fa fa-youtube-play"></i>'
+    # $(expandBox).tooltip {title: "Zum Video", placement: "left", container:"#histoglobe"}
+
+    @_switch2Normal = document.createElement "div"
+    @_switch2Normal.className = "back2Normal"
+    @_switch2Normal.innerHTML = '<i class="fa fa-picture-o"></i>'
     # $(compressBox).tooltip {title: "Zurück zur normalen Ansicht", placement: "left", container:"#histoglobe"}
 
     # ============================================================================
@@ -146,8 +183,16 @@ class HG.Popover
 
     @_mainDiv.appendChild closeDiv
     @_mainDiv.appendChild @_bodyDiv
-    #@_mainDiv.appendChild expandBox
+
+    #@_mainDiv.appendChild @_switch2Video
+    #@_mainDiv.appendChild @_switch2Normal
+
     @_bodyDivBig.appendChild contentBig
+
+    # remove gradient if description is empty
+    if descriptionBig is ""
+      @_bodyDivBig.style.display = "none"
+      @_bodyDiv.style.display = "none"
 
     @_parentDiv = $(@_config.container)[0]
     @_parentDiv.appendChild @_mainDiv
@@ -172,16 +217,17 @@ class HG.Popover
 
   # ============================================================================
 
-    $(@_mainDiv).draggable()
+    $(".guiPopover").draggable()
+
     $(@_mainDiv).fadeIn(1000)
 
     @_mainDiv.style.height = "250px"  # #{@_height}"
 
     @_mainDiv.style.background = "#fff"
     @_bodyDiv.style.color = "#000"
-    closeDiv.style.color = "#000"
 
   # ============================================================================
+  # Create multimedia content
 
     if @_multimedia != "" and @_multimediaController?
       mmids = @_multimedia.split ","
@@ -195,7 +241,11 @@ class HG.Popover
             if mm?
 
               if mm.type is "WEBIMAGE"
+              # set background image and attributes
                 link = mm.link
+                imgSource = mm.source
+                textSource = @_config.hiventHandle.getHivent().link
+                wikiLink = '<a href="' + textSource + '" target="_blank">Link zum Artikel</a>'
 
                 @_mainDiv.style.height = "350px"
                 @_mainDiv.style.backgroundImage = "url( #{link} )"
@@ -203,21 +253,71 @@ class HG.Popover
                 @_mainDiv.style.backgroundRepeat = "no-repeat"
                 @_mainDiv.style.backgroundPosition = "center center"
                 @_bodyDiv.className = "guiPopoverBodyV2"
+                @_bodyDiv.style.height = "250px"
                 @_bodyDiv.style.color = "#fff"
-                closeDiv.style.color = "#D5C900"
+
+                source.innerHTML = 'Quelle: ' + imgSource + ' -' + wikiLink
+                sourceBig.innerHTML = 'Quelle: ' + imgSource + ' -' + wikiLink
 
                 @_mainDiv.appendChild @_expandBox
                 @_bodyDivBig.style.color = "#fff"
 
-  # ============================================================================
+              if mm.type is "VIDEO"
+                # display video icon with funtionality
+                @_mainDiv.appendChild @_switch2Video
+                videoLink = mm.video # set video
 
+                @_videoDiv.innerHTML = "<iframe width='100%' height='#{@_height}' src='#{videoLink}' frameborder='0'> </iframe>"
+                @_videoDivBig.innerHTML = "<iframe width='100%' height='#{@_heightFSBox}' src='#{videoLink}' frameborder='0'> </iframe>"
+
+  # ============================================================================
+    # expand button
     @_expandBox.addEventListener 'mouseup', () =>
-      @expand()
+      @expand() # expand box to big version
       @_mainDiv.replaceChild @_compressBox, @_expandBox
 
+    # compress button
     @_compressBox.addEventListener 'mouseup', () =>
-      @compress()
+      @compress() # switch back to small box version
       @_mainDiv.replaceChild @_expandBox, @_compressBox
+
+    # video button - removes text, background image and shows video
+    @_switch2Video.addEventListener 'mouseup', () =>   
+      # to do: für große Box anpassen 
+      if document.contains(@_bodyDivBig)
+        @_mainDiv.removeChild @_bodyDivBig
+        @_mainDiv.appendChild @_videoDivBig
+        @_mainDiv.style.pointerEvents = "none"
+        @_videoDivBig.style.pointerEvents = "all"
+
+      else 
+        @_mainDiv.removeChild @_bodyDiv
+        @_mainDiv.appendChild @_videoDiv
+
+      if document.contains(@_expandBox)
+        @_mainDiv.removeChild @_expandBox
+
+      if document.contains(@_compressBox)
+        @_mainDiv.removeChild @_compressBox
+
+      @_mainDiv.removeChild @_switch2Video
+      @_mainDiv.appendChild @_switch2Normal
+
+    # image button - removes video and switches back to normal box
+    @_switch2Normal.addEventListener 'mouseup', () =>
+      if document.contains(@_videoDivBig) # if big Hivent-Box is active
+        @_mainDiv.removeChild @_videoDivBig
+        @_mainDiv.appendChild @_bodyDivBig
+        @_mainDiv.appendChild @_compressBox
+
+      else
+        @_mainDiv.removeChild @_videoDiv
+        @_mainDiv.appendChild @_bodyDiv
+        @_mainDiv.appendChild @_expandBox
+      
+      @_mainDiv.removeChild @_switch2Normal
+      @_mainDiv.appendChild @_switch2Video
+      @_mainDiv.style.pointerEvents = "all"
 
     closeDiv.addEventListener 'mouseup', () =>
       @hide()
@@ -227,31 +327,69 @@ class HG.Popover
 
   # ============================================================================
   expand: () ->
+    @_mainDiv.className = "guiPopoverBig"
+    @_mainDiv.style.pointerEvents = "none"
     @_mainDiv.style.width = "#{@_widthFSBox}px"
     @_mainDiv.style.height = "#{@_heightFSBox}px"
     @_mainDiv.style.top = "#{FULLSCREEN_BOX_TOP_OFFSET}px"
     @_mainDiv.style.left = "#{FULLSCREEN_BOX_LEFT_OFFSET}px"
+    $(@_mainDiv).unbind('drag')
 
     @_mainDiv.replaceChild @_bodyDivBig, @_bodyDiv
 
   # ============================================================================
   compress: () ->
+    @_mainDiv.className = "guiPopover"
+    @_mainDiv.style.pointerEvents = "all"
     @_mainDiv.style.width = "#{@_width}px"
     @_mainDiv.style.height = "#{@_height}px"
-    $(@_mainDiv).offset
-      left: @_screenWidth / 2 - 0.74 * @_width
-      top: @_screenHeight / 2 - 0.73 * @_height
+
+    $(@_mainDiv).bind('drag')
 
     @_mainDiv.replaceChild @_bodyDiv, @_bodyDivBig
+
+    canvasOffset = $(@_parentDiv).offset()
+    $(@_mainDiv).offset
+      left: @_position.x + canvasOffset.left +
+            @_placement.x * (HGConfig.hivent_marker_2D_width.val / 2) +
+            @_placement.x * ((@_width - @_width * @_placement.x) / 2) -
+            Math.abs(@_placement.y) *  @_width / 2
+
+      top:  @_position.y + canvasOffset.top - WINDOW_TO_ANCHOR_OFFSET_Y + 
+            @_placement.y * (HGConfig.hivent_marker_2D_height.val / 2) +
+            @_placement.y * ((@_mainDiv.offsetHeight - @_mainDiv.offsetHeight * @_placement.y) / 2) -
+            Math.abs(@_placement.x) * @_mainDiv.offsetHeight / 2
 
   # ============================================================================
   close: () ->
     if document.contains(@_bodyDivBig)
       @_mainDiv.removeChild @_bodyDivBig
       @_mainDiv.appendChild @_bodyDiv
-      @_mainDiv.style.width = "#{@_width}px"
-      @_mainDiv.style.height = "#{@_height}px"
       @_mainDiv.replaceChild @_expandBox, @_compressBox
+
+    if document.contains(@_videoDiv)
+      @_mainDiv.removeChild @_videoDiv
+      @_mainDiv.appendChild @_bodyDiv
+
+      @_mainDiv.removeChild @_switch2Normal
+      @_mainDiv.appendChild @_switch2Video
+      @_mainDiv.appendChild @_expandBox
+
+    if document.contains(@_videoDivBig)
+      @_mainDiv.removeChild @_videoDivBig
+      @_mainDiv.appendChild @_bodyDiv
+
+      @_mainDiv.removeChild @_switch2Normal
+      @_mainDiv.appendChild @_switch2Video
+      @_mainDiv.appendChild @_expandBox
+
+    @_mainDiv.className = "guiPopover"
+    @_mainDiv.style.pointerEvents = "all"
+    @_mainDiv.style.width = "#{@_width}px"
+    @_mainDiv.style.height = "#{@_height}px"
+
+
+
 
   # ============================================================================
   toggle: (position) =>
@@ -282,6 +420,7 @@ class HG.Popover
     if document.contains(@_bodyDivBig)
       @_mainDiv.removeChild @_bodyDivBig
       @_mainDiv.appendChild @_bodyDiv
+      @_mainDiv.className = "guiPopover"
       @_mainDiv.style.width = "#{@_width}px"
       @_mainDiv.style.height = "#{@_height}px"
       @_mainDiv.replaceChild @_expandBox, @_compressBox
@@ -336,12 +475,12 @@ class HG.Popover
       # default behavior
       $(@_mainDiv).offset
         left: @_position.x + canvasOffset.left +
-              @_placement.x * (HGConfig.hivent_marker_2D_width.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
+              @_placement.x * (HGConfig.hivent_marker_2D_width.val / 2) +
               @_placement.x * ((@_width - @_width * @_placement.x) / 2) -
               Math.abs(@_placement.y) *  @_width / 2
 
-        top:  @_position.y + canvasOffset.top +
-              @_placement.y * (HGConfig.hivent_marker_2D_height.val / 2 + HGConfig.hivent_info_popover_arrow_height.val) +
+        top:  @_position.y + canvasOffset.top - WINDOW_TO_ANCHOR_OFFSET_Y + 
+              @_placement.y * (HGConfig.hivent_marker_2D_height.val / 2) +
               @_placement.y * ((@_mainDiv.offsetHeight - @_mainDiv.offsetHeight * @_placement.y) / 2) -
               Math.abs(@_placement.x) * @_mainDiv.offsetHeight / 2
 
@@ -371,7 +510,7 @@ class HG.Popover
   ##############################################################################
 
   WINDOW_TO_ANCHOR_OFFSET_X = 0
-  WINDOW_TO_ANCHOR_OFFSET_Y = 0
+  WINDOW_TO_ANCHOR_OFFSET_Y = 30
   FULLSCREEN_BOX_TOP_OFFSET = 10
   FULLSCREEN_BOX_LEFT_OFFSET = 120
   HIVENTLIST_OFFSET = 400
