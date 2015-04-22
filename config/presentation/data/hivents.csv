@@ -5,42 +5,45 @@ Intro-1|Welcome to HistoGlobe|Weimar|50.979|11.324||1002|07|01||||WiSe 2014/15||
 Intro-2|Bring History to School|The World|14.058|108.277||1007|07|01||||2020||intro|||Problem|
 ||||||||||||||||||
 Design-1|User Centered Design|Approach|45.623|63.314||1011|01|01||||Oct 14 - Apr 15||design|||Design-1|
-Design-2|First Design||31.768|35.214||1013|01|01||||Summer 2014||design||In the beginning we thought about how we should develop a complex visualisation like this. We came up with the approach of Human Centered Design. We found a school in Jena that wanted to use our software in the classroom. We sat together, planned and the first results were quite different from the design we have today.|Design-2|
+Design-2|First Design|User Interface|31.768|35.214||1013|01|01||||Summer 2014||design||In the beginning we thought about how we should develop a complex visualisation like this. We came up with the approach of Human Centered Design. We found a school in Jena that wanted to use our software in the classroom. We sat together, planned and the first results were quite different from the design we have today.|Design-2|
 Design-3|Topics|User Interface|32.883|13.188||1015|01|01||||Nov 2014||design||We met every 2-3 weeks in Jena and figures out what the most important needs for the teachers are to make use of HistoGlobe in school. The focus was that they teach history in topics|Design-3|
 Design-4|We played around|User Interface|33.573|-7.590||1017|01|01||||Jan 2015||design|||Design-4|
 Design-5|Sunlight simulation|Serious testing|43.740|7.427||1019|01|01||||Apr 2015||design|||Design-5|
 ||||||||||||||||||
 HistoCountries|Historical Changes|Map|52.230|21.012||1029|01|01||||||implementation|countries||HistoCountries|
 Timeline|Topic Bars|Timeline|27.567|2.659||1035|01|01||||||implementation|timeline|The old version only had a timeline, which the teachers did not like so much. They wanted a more differenciated approach and teach hisstory in topics not in time.We decided for a design of topics and subtopics, visualised in in two topic bars above the timeline. The upper bar shows topics in german history, the lower one represents world history.|TopicBar|
-HiventMarker-1|Label Positioning - Problem|Map|34.320|132.270||1042|01|01||||||implementation|hivents|Problem: Overlapping Labels on Map|label-1|
-HiventMarker-2|Label Positioning - Solution|Map|14.058|108.277||1044|01|01||||||implementation|hivents|We had certain requirements: fast, since we want it to run on tablets and old school pcs. Corresponding locations should still be recognizable (obviously). We tried some approaches, until we found it necessary to just remove labels from a certain zoom level. If labels overlap anyway, we swap them to the right side. This is quite fast and works pretty good.|label-2|
-HiventBox-1|Hivent-Box Idea|Hivent Box|48.739.904211|116.407||1046|01|01||||||implementation|hivents||box-generation|
-HiventBox-2|Hivent-Box Example|Teheran|35.696|35.696||1048|01|01||||1979||implementation|hivents|Die Islamische Revolution war eine vielschichtige Bewegung im Iran, die 1979 (1357 islamischer Zeitrechnung) zur Absetzung von Schah Mohammad Reza Pahlavi und zur Beendigung der Monarchie im Iran führte. Symbolfigur und später Revolutionsführer war Ajatollah Ruhollah Chomeini, der ab 1979 gegen weitere revolutionäre und säkulare Gruppen sein Staatskonzept von der Regentschaft der Geistlichkeit (Velayat-e faqih) zum Teil mit Gewalt durchsetzte und neues Staatsoberhaupt wurde.|box-example-image, box-example-video|http://de.wikipedia.org/wiki/Islamische_Revolution
-Searchbar|Search Bar|Sidebar|53.905|27.562||1053|01|01||||||implementation|searchbar||search-process|
-Dummy-1|That is a fast bugfix|Utopia|50.000|-120.000||1061|01|01||||0815||implementation|hiventlist|||
-Dummy-2|That should work now|Absurdiastan|50.000|-105.000||1063|01|01||||007||implementation|hiventlist|||
-Dummy-3|undefined is not a function|Hell|50.000|-90.000||1065|01|01||||???||implementation|hiventlist|                                                                                                                                Wussten Sie das Max Webers IQ deutlich unter 80 liegt?!| |
-Dummy-4|who is undefined?|Andis Enemy|50.000|-75.000||1067|01|01||||42||implementation|hiventlist|||
-Dummy-5|cannot read property of NULL|WTF|50.000|-60.000||1069|01|01||||NULL||implementation|hiventlist|||
+HiventMarker-1|Label Positioning - Problem|Map|34.320|132.270||1042|07|01||||||implementation|hivents|Problem: Overlapping Labels on Map|label-1|
+HiventMarker-2|Label Positioning - Solution|Map|14.058|108.277||1045|01|01||||||implementation|hivents|We had certain requirements: fast, since we want it to run on tablets and old school pcs. Corresponding locations should still be recognizable (obviously). We tried some approaches, until we found it necessary to just remove labels from a certain zoom level. If labels overlap anyway, we swap them to the right side. This is quite fast and works pretty good.|label-2|
+HiventBox-2|Hivent-Box Example|Teheran|35.696|35.696||1047|07|01||||1979||implementation|hivents|Die Islamische Revolution war eine vielschichtige Bewegung im Iran, die 1979 (1357 islamischer Zeitrechnung) zur Absetzung von Schah Mohammad Reza Pahlavi und zur Beendigung der Monarchie im Iran führte. Symbolfigur und später Revolutionsführer war Ajatollah Ruhollah Chomeini, der ab 1979 gegen weitere revolutionäre und säkulare Gruppen sein Staatskonzept von der Regentschaft der Geistlichkeit (Velayat-e faqih) zum Teil mit Gewalt durchsetzte und neues Staatsoberhaupt wurde.|box-example-image, box-example-video|http://de.wikipedia.org/wiki/Islamische_Revolution
+Dummy-1|That is a fast bugfix|Utopia|50.000|-120.000||1061|01|01||||0815||implementation|hiventlist||recursion|
+Dummy-2|That should work now|Absurdiastan|50.000|-105.000||1063|01|01||||007||implementation|hiventlist||recursion|
+Dummy-3|undefined is not a function|Hell|50.000|-90.000||1065|01|01||||???||implementation|hiventlist||recursion|
+Dummy-4|who is undefined?|Andis Enemy|50.000|-75.000||1067|01|01||||42||implementation|hiventlist||recursion|
+Dummy-5|cannot read property of NULL|WTF|50.000|-60.000||1069|01|01||||NULL||implementation|hiventlist||recursion|
 ||||||||||||..||||||
-FieldStudy-school|Usage in School|Lobdeburgschule Jena|50.927|11.589||2014|09|15||||||study||Lobdeburgschule in Jena-Lobeda is a public school for all students from grade 1 to 13. A history teacher in grade 12 invited us to conduct a field study in his class to test HistoGlobe directly in schooi. On 17. April 2015 HistoGlobe was first used in a public school and we are very proud to present the results of the field study.|Lobdeburgschule|
-FieldStudy-teacher-1|Explanation: Conferences in WWII|Lobdeburgschule Jena|50.927|11.589||2014|11|01||||In class||study|teacher|The teacher used HistoGlobe to explain the conferences after World War II in Casablanca, Teheran, Jalta and Potsdam. He used the hivent boxes to give students an impression of the conferences and showed them on the map.|Teacher-1|
-FieldStudy-teacher-2|Explanation: Satellite States|Lobdeburgschule Jena|50.927|11.589||2014|12|01||||In class||study|teacher|"The meaning of the term ""satellite states"" was asked by a student and the teacher used HistoGlobe to show the status of Eastern Europe in 1945 to explain what a Satellite State is using the socialistic republics ""around"" the Soviet Union."|Teacher-2|
-FieldStudy-teacher-sum|Evaluation|Lobdeburgschule Jena|50.927|11.589||2015|01|01||||after class||study|teacher|"<u>The benefits of HistoGlobe</u><br/>- zoom and navigation on the map<br/>- show territorial development<br/>- show the dimensions of the Earth<br/>- explain confederations<br/><br/><u>Problems with the current implementation</u><br/>- current date of visualization not not visible<br/>- not enough space because of the small resultion of the projector<br/>- still need to ""break into"" the system<br/><br/><u>Effect on the students</u><br/>- gives a good overview of a topic<br/>- not enough space, so not features usable for the teacher<br/>&rarr; not particularily well suited as teaching material<br/>&rarr; much better suited as a learning material"||
-FieldStudy-student-0|Questionnaires|Lobdeburgschule Jena|50.927|11.589||2015|02|10||||after class||study|students||FieldStudy-students-paper|
-FieldStudy-student-1|Satisfaction with HistoGlobe|Lobdeburgschule Jena|50.927|11.589||2015|02|30||||after class||study|students||FieldStudy-students-graph|
-FieldStudy-student-2|Positive Impressions|Lobdeburgschule Jena|50.927|11.589||2015|03|10||||after class||study|students||FieldStudy-students-tagcloud-pos|
-FieldStudy-student-3|Positive Cites|Lobdeburgschule Jena|50.927|11.589||2015|03|30||||after class||study|students||FieldStudy-student-cites-pos|
-FieldStudy-student-4|Negative Impressions|Lobdeburgschule Jena|50.927|11.589||2015|04|10||||after class||study|students||FieldStudy-student-tagcloud-neg|
-FieldStudy-student-5|Negative Cites|Lobdeburgschule Jena|50.927|11.589||2015|04|30||||after class||study|students||FieldStudy-student-cites-neg|
+FieldStudy-school|HistoGlobe @ School|Lobdeburgschule|50.927|11.589||2014|09|15||||||study||Lobdeburgschule in Jena-Lobeda is a public school for all students from grade 1 to 13. A history teacher in grade 12 invited us to conduct a field study in his class to test HistoGlobe directly in schooi. On 17. April 2015 HistoGlobe was first used in a public school and we are very proud to present the results of the field study.|Lobdeburgschule|
+FieldStudy-teacher-1|Explanation: Conferences in WWII|Lobdeburgschule|50.927|11.589||2014|11|01||||In class||study|teacher|The teacher used HistoGlobe to explain the conferences after World War II in Casablanca, Teheran, Jalta and Potsdam. He used the hivent boxes to give students an impression of the conferences and showed them on the map.|Teacher-1|
+FieldStudy-teacher-2|Explanation: Satellite States|Lobdeburgschule|50.927|11.589||2014|12|01||||In class||study|teacher|"The meaning of the term ""satellite states"" was asked by a student and the teacher used HistoGlobe to show the status of Eastern Europe in 1945 to explain what a Satellite State is using the socialistic republics ""around"" the Soviet Union."|Teacher-2|
+FieldStudy-teacher-sum|Evaluation|Lobdeburgschule|50.927|11.589||2015|01|01||||after class||study|teacher|"<u>The benefits of HistoGlobe</u><br/>- zoom and navigation on the map<br/>- show territorial development<br/>- show the dimensions of the Earth<br/>- explain confederations<br/><br/><u>Problems with the current implementation</u><br/>- current date of visualization not not visible<br/>- not enough space because of the small resultion of the projector<br/>- still need to ""break into"" the system<br/><br/><u>Effect on the students</u><br/>- gives a good overview of a topic<br/>- not enough space, so not features usable for the teacher<br/>&rarr; not particularily well suited as teaching material<br/>&rarr; much better suited as a learning material"|white|
+FieldStudy-student-0|Questionnaires|Lobdeburgschule|50.927|11.589||2015|02|10||||after class||study|students||FieldStudy-students-paper|
+FieldStudy-student-1|Satisfaction with HistoGlobe|Lobdeburgschule|50.927|11.589||2015|02|30||||after class||study|students||FieldStudy-students-graph|
+FieldStudy-student-2|Positive Impressions|Lobdeburgschule|50.927|11.589||2015|03|10||||after class||study|students||FieldStudy-students-tagcloud-pos|
+FieldStudy-student-3|Positive Cites|Lobdeburgschule|50.927|11.589||2015|03|30||||after class||study|students||FieldStudy-student-cites-pos|
+FieldStudy-student-4|Negative Impressions|Lobdeburgschule|50.927|11.589||2015|04|10||||after class||study|students||FieldStudy-student-tagcloud-neg|
+FieldStudy-student-5|Negative Cites|Lobdeburgschule|50.927|11.589||2015|04|30||||after class||study|students||FieldStudy-student-cites-neg|
 ||||||||||||||||||
-conclusion-1|User Centered Design||50.979|11.324||2015|05|15||||not stringent||conclusion|result|Great approach, ||
-conclusion-2|Target Group||50.979|11.324||2015|06|15||||not enough||conclusion|result|just one teacher, no students have seen it until field study||
-conclusion-3|Cooperation with Designer||50.979|11.324||2015|07|15||||very productive||conclusion|result|"Tobias was a great team member, not just ""designing buttons"" and ""give color values"", but actual concept and organisation, neg: not an acutal cooperation CSM <-> MAD"||
-conclusion-4|Organisation||50.979|11.324||2015|08|15||||very good||conclusion|result|Masterplan, Git Workflow, office||
-conclusion-5|Goal of the semester||50.979|11.324||2015|09|15||||accomplished||conclusion|result|||
+conclusion-1|User Centered Design||50.979|11.324||2015|05|15||||not stringent||conclusion|result|Great approach, |white|
+conclusion-2|Visualisation||50.979|11.324||2015|06|15||||almost accompished||conclusion|result|just one teacher, no students have seen it until field study|white|
+conclusion-3|Cooperation with Designer||50.979|11.324||2015|07|15||||very productive||conclusion|result|"Tobias was a great team member, not just ""designing buttons"" and ""give color values"", but actual concept and organisation, neg: not an acutal cooperation CSM <-> MAD"|white|
+conclusion-4|Organisation||50.979|11.324||2015|08|15||||very good||conclusion|result|Masterplan, Git Workflow, office|white|
+conclusion-5|Goal of the semester||50.979|11.324||2015|09|15||||accomplished||conclusion|result|totally accomplished|white|
 ||||||||||||||||||
-future-3|Future Work||32.883|13.188||2015|12|15||||too much||conclusion|future|- backend for Hivents and historical countries<br/>- backend for teachers to prepare their lessons<br/>- mobile version||
+future-3|Future Work||32.883|13.188||2015|12|15||||too much||conclusion|future|"- Test Usability with students on Friday<br/>
+- Make it easy to use and more versatile - for the teacher and the pupils.<br/>
+- Backend for Hivents and historical countries. <br\>
+- This projekt is work in progress!<br\>
+- Backend for teachers to prepare their lessons easily<br/>
+- Mobile version."|white|
 ||||||||||||||||||
 ||||||||||||||||||
 ||||||||||||||||||
