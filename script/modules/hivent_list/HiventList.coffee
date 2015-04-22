@@ -118,11 +118,11 @@ class HG.HiventList
             # console.log "HiventInfoAtTag"
             @_addHiventList()
 
-      @_hgInstance.minGUIButton?.onRemoveGUI @, () -> 
-        $(@_container).fadeTo(500,0, () -> 
+      @_hgInstance.minGUIButton?.onRemoveGUI @, () ->
+        $(@_container).fadeTo(500,0, () ->
           $(@_container).css("visibility", "hidden") )
 
-      @_hgInstance.minGUIButton?.onOpenGUI @, () -> 
+      @_hgInstance.minGUIButton?.onOpenGUI @, () ->
         $(@_container).css("visibility", "visible")
         $(@_container).fadeTo(500,1)
     $(window).resize  =>
@@ -199,16 +199,16 @@ class HG.HiventList
     hivents = '<ul>'
 
     for hivent in @_hivent_array
-      yearString = ''
-      if hivent.getHivent().startYear == hivent.getHivent().endYear
-        yearString = hivent.getHivent().startYear
-      else
-        yearString = hivent.getHivent().startYear + ' bis ' + hivent.getHivent().endYear
+      dateString = hivent.getHivent().displayDate
+      # if hivent.getHivent().startYear == hivent.getHivent().endYear
+      #   dateString = hivent.getHivent().startYear
+      # else
+      #   dateString = hivent.getHivent().startYear + ' bis ' + hivent.getHivent().endYear
 
       hivents += '<a  href="#categories=' + aktCatinRead + '&event=' + hivent.getHivent().id +
                  '"><li class= "hiventListItem inactive" id='+hivent.getHivent().id+'><div class="wrap" ><div class="res_name"> ' +
                   hivent.getHivent().name + '</div><div class="res_location">' + hivent.getHivent().locationName[0] +
-                  '</div><div class="res_year">' + yearString + '</div></div><i class="fa fa-map-marker"></i></li></a>'
+                  '</div><div class="res_year">' + dateString + '</div></div><i class="fa fa-map-marker"></i></li></a>'
 
     hivents += '</ul>'
     # some stuff to do

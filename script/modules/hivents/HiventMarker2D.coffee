@@ -55,7 +55,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
 
     @_position = new L.Point 0,0
     @_updatePosition()
-
+    
     #Event Listeners
     @_marker.on "mouseover", @_onMouseOver
     @_marker.on "mouseout", @_onMouseOut
@@ -106,7 +106,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
           @_marker.setIcon icon_higlighted          
       else
         @_marker.setIcon icon_higlighted
-
+      
       @_map.on "drag", @_updatePosition
 
       
@@ -118,10 +118,12 @@ class HG.HiventMarker2D extends HG.HiventMarker
           @_marker.setIcon icon_default
           @_marker._icon.innerHTML="<div class=\"markerLabel right\">#{@_markerLabelLocation}</div>"
         else
-          @_marker.setIcon icon_default          
+          @_marker.setIcon icon_default
+        if @_map.getZoom()<=4
+          @_marker._icon.innerHTML=""          
       else
         @_marker.setIcon icon_higlighted
-     
+        
     )
 
     @getHiventHandle().onAgeChanged @, (age) =>

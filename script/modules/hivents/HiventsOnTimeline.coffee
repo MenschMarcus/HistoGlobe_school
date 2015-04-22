@@ -29,7 +29,7 @@ class HG.HiventsOnTimeline
     @_hgInstance = hgInstance
     hgInstance.hiventsOnTimeline = @
     @_timeline = hgInstance.timeline
-  
+
 
     if hgInstance.categoryIconMapping
       for category in hgInstance.categoryIconMapping.getCategories()
@@ -53,8 +53,8 @@ class HG.HiventsOnTimeline
            position: absolute !important;
            background-image: url(#{icons[element]}) !important;
            background-size: cover !important;"
-    
-    @_hiventController = hgInstance.hiventController    
+
+    @_hiventController = hgInstance.hiventController
 
     if @_hiventController
       @_hiventController.getHivents @, (handle) =>

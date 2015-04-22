@@ -1,6 +1,101 @@
 Medien|||||||
 |||source information||||
 id|file_name|file_type|name|author|source|link|last_access
+Logo|http://school.histoglobe.com/config/presentation/data/media/logo.png|WEBIMAGE|HistoGlobe Logo|Christiane Schlütter|artografiewerkstatt|http://www.artographie-werkstatt.com/|
+Problem|http://school.histoglobe.com/config/presentation/data/media/everybody.jpg|WEBIMAGE|All of us want to use it|ryanlerch|openclipart.com|https://openclipart.org/detail/639/point-to-board|21.04.2015
+Design-1|http://school.histoglobe.com/config/presentation/data/media/design-1.jpg|WEBIMAGE|User Centered Design|Tobias Westphal|Tobias Westphal||
+Design-2|http://school.histoglobe.com/config/presentation/data/media/design-2.jpg|WEBIMAGE|Old Design 1|Tobias Westphal|Tobias Westphal||
+Design-3|http://school.histoglobe.com/config/presentation/data/media/design-3.jpg|WEBIMAGE|Old Design 2|Tobias Westphal|Tobias Westphal||
+Design-4|http://school.histoglobe.com/config/presentation/data/media/design-4.jpg|WEBIMAGE|Old Design 3|Tobias Westphal|Tobias Westphal||
+Design-5|http://school.histoglobe.com/config/presentation/data/media/design-5.jpg|WEBIMAGE|Old Design 4|Tobias Westphal|Tobias Westphal||
+FieldStudy-students-paper|http://school.histoglobe.com/config/presentation/data/media/study-students-paper.jpg|WEBIMAGE|Fragebogen-Bild|Tobias Westphal|Tobias Westphal||
+FieldStudy-students-graph|http://school.histoglobe.com/config/presentation/data/media/study-students-graph.jpg|WEBIMAGE|Zufriedenheit mit HG|Tobias Westphal|Tobias Westphal||
+FieldStudy-students-tagcloud-pos|http://school.histoglobe.com/config/presentation/data/media/study-students-tagcloud-pos.jpg|WEBIMAGE|Tagcloud-positiv|Tobias Westphal|Tobias Westphal||
+FieldStudy-student-cites-pos|http://school.histoglobe.com/config/presentation/data/media/study-students-cites-pos.jpg|WEBIMAGE|Zitate-positiv|Tobias Westphal|Tobias Westphal||
+FieldStudy-student-tagcloud-neg|http://school.histoglobe.com/config/presentation/data/media/study-students-tagcloud-neg.jpg|WEBIMAGE|Tagcloud-negativ|Tobias Westphal|Tobias Westphal||
+FieldStudy-student-cites-neg|http://school.histoglobe.com/config/presentation/data/media/study-students-cites-neg.jpg|WEBIMAGE|Zitate-negativ|Tobias Westphal|Tobias Westphal||
+label-1|http://webuser.uni-weimar.de/~xemu4478/timeline-1.jpg|WEBIMAGE||Sebastian Köpsel|Sebastian Köpsel||
+label-2|http://webuser.uni-weimar.de/~xemu4478/timeline-2.jpg|WEBIMAGE||Sebastian Köpsel|Sebastian Köpsel||
+HistoCountries|http://school.histoglobe.com/config/presentation/data/media/historic_countries.png|WEBIMAGE|structure of border changes|Marcus Kossatz|Marcus Kossatz||
+TopicBar|http://school.histoglobe.com/config/presentation/data/media/topic_bar.jpg|WEBIMAGE||Tobias Westphal|Tobias Westphal||
+Lobdeburgschule|http://school.histoglobe.com/config/presentation/data/media/Lobdeburgschule.jpg|WEBIMAGE|||Lobdeburgschule||
+Teacher-1||VIDEO||Tobias Westphal|Tobias Westphal||
+Teacher-2||VIDEO||Tobias Westphal|Tobias Westphal||
+|||||||
+box-generation||WEBIMAGE|Hivent-Box Generation|Chris Hornischer|Chris Hornischer||
+box-example-image|http://upload.wikimedia.org/wikipedia/commons/1/10/%D8%AE%D9%85%DB%8C%D9%86%DB%8C_%D8%AF%D8%B1_%D8%A8%D9%87%D8%B4%D8%AA_%D8%B2%D9%87%D8%B1%D8%A7.JPG|WEBIMAGE|Hivent-Box Example|پایگاه اطلاع‌رسانی امام خمینی|wikipedia||
+box-example-video|https://www.youtube.com/embed/iIl70m9mL8Q|VIDEO|Hivent-Box Example|linkswende22|youtube||
+search-process||WEBIMAGE|Search Process|Chris Hornischer|Chris Hornischer||
+conclusion-plus||WEBIMAGE|Conclusion - Positive Aspects|Chris Hornischer|||
+conclusion-minus||WEBIMAGE|Conclusion - Negative Aspects|Chris Hornischer|||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
 M-1|http://upload.wikimedia.org/wikipedia/commons/2/2b/Friede_von_Frankfurt_1871.jpg|WEBIMAGE|||wikipedia||
 M-2|http://upload.wikimedia.org/wikipedia/commons/8/8b/Berliner_kongress.jpg|WEBIMAGE|||wikipedia||
 M-3|http://upload.wikimedia.org/wikipedia/commons/6/6b/Kongokonferenz.jpg|WEBIMAGE|||wikipedia||
@@ -131,20 +226,20 @@ M-134|http://upload.wikimedia.org/wikipedia/commons/0/01/Bundesarchiv_Bild_183-1
 M-135|http://upload.wikimedia.org/wikipedia/commons/8/88/DBP_1990_1477_Deutsche_Einheit.jpg|WEBIMAGE|Deutsche Einheit||wikipedia|http://commons.wikimedia.org/wiki/File:DBP_1990_1477_Deutsche_Einheit.jpg|12.04.2015
 M-136|http://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/RIAN_archive_359290_Mikhail_Gorbachev.jpg/640px-RIAN_archive_359290_Mikhail_Gorbachev.jpg|WEBIMAGE|Mikhail Gorbachev|Yuryi Abramochkin|wikipedia|http://commons.wikimedia.org/wiki/File:RIAN_archive_359290_Mikhail_Gorbachev.jpg|12.04.2015
 M-137|http://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/%D0%9A%D0%9F%D0%A1%D0%A1.svg/326px-%D0%9A%D0%9F%D0%A1%D0%A1.svg.png|WEBIMAGE|КПСС||wikipedia|http://commons.wikimedia.org/wiki/File:%D0%9A%D0%9F%D0%A1%D0%A1.svg|12.04.2015
-M-138|https://www.youtube.com/embed/9Q6zLw0yIBM|VIDEO|||youtube||12.04.2015
-M-139|https://www.youtube.com/embed/BbIWheaSUA0|VIDEO|||youtube||12.04.2015
-M-140|https://www.youtube.com/embed/sH7qTPqhAWc|VIDEO|||youtube||12.04.2015
-M-141|https://www.youtube.com/embed/LpiTC6SlGFs|VIDEO|||youtube||12.04.2015
-M-142|https://www.youtube.com/embed/VTF3RTB6dnA|VIDEO|||youtube||12.04.2015
-M-143|https://www.youtube.com/embed/e_SJZI-a4DY|VIDEO|||youtube||12.04.2015
-M-144|https://www.youtube.com/embed/vHl6fDXBQek|VIDEO|||youtube||12.04.2015
-M-145|https://www.youtube.com/embed/hOABZ_iIuOg|VIDEO|||youtube||12.04.2015
-M-146|https://www.youtube.com/embed/wzItcv0akA0|VIDEO|||youtube||12.04.2015
-M-147|https://www.youtube.com/embed/unG4Rh9pBgo|VIDEO|||youtube||12.04.2015
-M-148|https://www.youtube.com/embed/MkIsTFhPPlE|VIDEO|||youtube||12.04.2015
-M-149|https://www.youtube.com/embed/51lEkVLg3a4|VIDEO|||youtube||12.04.2015
-M-150|https://www.youtube.com/embed/PHFHfwD6Yho|VIDEO|||youtube||12.04.2015
-M-151|https://www.youtube.com/embed/2OfnZkgcEyg|VIDEO|||youtube||12.04.2015
+M-138|https://www.youtube.com/watch?v=9Q6zLw0yIBM|VIDEO|||youtube||12.04.2015
+M-139|https://www.youtube.com/watch?v=BbIWheaSUA0|VIDEO|||youtube||12.04.2015
+M-140|https://www.youtube.com/watch?v=sH7qTPqhAWc|VIDEO|||youtube||12.04.2015
+M-141|https://www.youtube.com/watch?v=LpiTC6SlGFs|VIDEO|||youtube||12.04.2015
+M-142|https://www.youtube.com/watch?v=VTF3RTB6dnA|VIDEO|||youtube||12.04.2015
+M-143|https://www.youtube.com/watch?v=e_SJZI-a4DY|VIDEO|||youtube||12.04.2015
+M-144|https://www.youtube.com/watch?v=vHl6fDXBQek|VIDEO|||youtube||12.04.2015
+M-145|https://www.youtube.com/watch?v=hOABZ_iIuOg|VIDEO|||youtube||12.04.2015
+M-146|https://www.youtube.com/watch?v=wzItcv0akA0|VIDEO|||youtube||12.04.2015
+M-147|https://www.youtube.com/watch?v=unG4Rh9pBgo|VIDEO|||youtube||12.04.2015
+M-148|https://www.youtube.com/watch?v=MkIsTFhPPlE|VIDEO|||youtube||12.04.2015
+M-149|https://www.youtube.com/watch?v=51lEkVLg3a4|VIDEO|||youtube||12.04.2015
+M-150|https://www.youtube.com/watch?v=PHFHfwD6Yho|VIDEO|||youtube||12.04.2015
+M-151|https://www.youtube.com/watch?v=2OfnZkgcEyg|VIDEO|||youtube||12.04.2015
 M-152|http://upload.wikimedia.org/wikipedia/commons/9/9e/Cuban_crisis_map_missile_range.jpg|WEBIMAGE|Cuban crisis map missile range|CIA|wikipedia|http://commons.wikimedia.org/wiki/File:Cuban_crisis_map_missile_range.jpg|12.04.2015
 M-153|http://upload.wikimedia.org/wikipedia/commons/8/88/CubaSites1962.jpg|WEBIMAGE|Cuba Sites|United States Department of Defense|wikipedia|http://commons.wikimedia.org/wiki/File:CubaSites1962.jpg|12.04.2015
 M-154|http://upload.wikimedia.org/wikipedia/commons/7/70/Cubacrisis_17_Oct_1962.jpg|WEBIMAGE|Cubacrisis|USAF|wikipedia|http://commons.wikimedia.org/wiki/File:Cubacrisis_17_Oct_1962.jpg|12.04.2015
@@ -159,17 +254,17 @@ M-162|http://upload.wikimedia.org/wikipedia/commons/e/eb/Korean_war_1950-1953.gi
 M-163|http://upload.wikimedia.org/wikipedia/commons/5/51/Korean_War_bombing_Wonsan.jpg|WEBIMAGE|Korean War bombing Wonsan|USAF|wikipedia|http://commons.wikimedia.org/wiki/File:Korean_War_bombing_Wonsan.jpg|12.04.2015
 M-164|http://upload.wikimedia.org/wikipedia/commons/8/8e/Matthew_B._Ridgway_in_Korea.jpg|WEBIMAGE|Matthew B. Ridgway in Korea||wikipedia|http://commons.wikimedia.org/wiki/File:Matthew_B._Ridgway_in_Korea.jpg|12.04.2015
 M-165|http://upload.wikimedia.org/wikipedia/commons/a/a5/Possible_PDM_signal_labeled_as_Sputnik_by_NASA.ogg|SOUND|||wikipedia||12.04.2015
-M-166|https://www.youtube.com/embed/gC_k0cIiW7c|VIDEO|||youtube||12.04.2015
-M-167|https://www.youtube.com/embed/yD7J0hR5yYk|VIDEO|||youtube||12.04.2015
-M-168|https://www.youtube.com/embed/cFcZ55L6KrE|VIDEO|||youtube||12.04.2015
-M-169|https://www.youtube.com/embed/pK17o73P6Wc|VIDEO|||youtube||12.04.2015
-M-170|https://www.youtube.com/embed/B6u8JfuYVrU|VIDEO|||youtube||12.04.2015
-M-171|https://www.youtube.com/embed/VdruPBsR69A|VIDEO|||youtube||12.04.2015
-M-172|https://www.youtube.com/embed/LNZUNYqoY0A|VIDEO|||youtube||12.04.2015
-M-173|https://www.youtube.com/embed/qQPvluKOskI|VIDEO|||youtube||12.04.2015
-M-174|https://www.youtube.com/embed/9tj54f-B-9E|VIDEO|||youtube||12.04.2015
-M-175|https://www.youtube.com/embed/yQ80E_Xf_RM|VIDEO|||youtube||12.04.2015
-M-176|https://www.youtube.com/embed/Z7eUyi8eaGE|VIDEO|||youtube||12.04.2015
-M-177|https://www.youtube.com/embed/7HasMELgzsM|VIDEO|||youtube||12.04.2015
+M-166|https://www.youtube.com/watch?v=gC_k0cIiW7c|VIDEO|||youtube||12.04.2015
+M-167|https://www.youtube.com/watch?v=yD7J0hR5yYk|VIDEO|||youtube||12.04.2015
+M-168|https://www.youtube.com/watch?v=cFcZ55L6KrE|VIDEO|||youtube||12.04.2015
+M-169|https://www.youtube.com/watch?v=pK17o73P6Wc|VIDEO|||youtube||12.04.2015
+M-170|https://www.youtube.com/watch?v=B6u8JfuYVrU|VIDEO|||youtube||12.04.2015
+M-171|https://www.youtube.com/watch?v=VdruPBsR69A|VIDEO|||youtube||12.04.2015
+M-172|https://www.youtube.com/watch?v=LNZUNYqoY0A|VIDEO|||youtube||12.04.2015
+M-173|https://www.youtube.com/watch?v=qQPvluKOskI|VIDEO|||youtube||12.04.2015
+M-174|https://www.youtube.com/watch?v=9tj54f-B-9E|VIDEO|||youtube||12.04.2015
+M-175|https://www.youtube.com/watch?v=yQ80E_Xf_RM|VIDEO|||youtube||12.04.2015
+M-176|https://www.youtube.com/watch?v=Z7eUyi8eaGE|VIDEO|||youtube||12.04.2015
+M-177|https://www.youtube.com/watch?v=7HasMELgzsM|VIDEO|||youtube||12.04.2015
 M-178|http://upload.wikimedia.org/wikipedia/commons/0/06/Pershing_II_PC022206C.png|WEBIMAGE|||wikipedia||15.04.2015
 M-179|http://upload.wikimedia.org/wikipedia/commons/d/d6/Carter_Brezhnev_sign_SALT_II.jpg|WEBIMAGE|Carter Brezhnev sign SALT II|Photo Credit: Bill Fitz-Patrick|wikipedia|http://de.wikipedia.org/wiki/Datei:Carter_Brezhnev_sign_SALT_II.jpg|15.04.2015

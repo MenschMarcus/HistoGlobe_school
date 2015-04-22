@@ -160,14 +160,14 @@ class HG.AreaController
         # and not if scrolled too far
         if not @_initStatus and timeLeap < TIME_LEAP_THRESHOLD
           if change.trans_area?
-            hasTransition = yes
             transArea = @_getTransitionById change.trans_area
             @notifyAll "onFadeInArea", transArea, yes
+            hasTransition = yes
 
           if change.trans_border?
-            hasTransition = yes
             transBorder = @_getTransitionById change.trans_border
             @notifyAll "onFadeInBorder", transBorder, yes
+            hasTransition = yes
 
         # enqueue new change
         newChange =
@@ -446,7 +446,7 @@ class HG.AreaController
                 prio        = label.properties.prio
                 coordinates = label.geometry.coordinates
 
-                newLabel = new HG.Label id, name, prio, coordinates, @_styler                        # styler
+                newLabel = new HG.AreaLabel id, name, prio, coordinates, @_styler                        # styler
 
                 # set initial style
                 if @_theme?

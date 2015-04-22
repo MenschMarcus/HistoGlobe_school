@@ -95,7 +95,7 @@
     <script type="text/javascript" src="build/HiventController.js"></script>
     <script type="text/javascript" src="build/ShapeController.js"></script>
     <script type="text/javascript" src="build/Area.js"></script>
-    <script type="text/javascript" src="build/Label.js"></script>
+    <script type="text/javascript" src="build/AreaLabel.js"></script>
     <script type="text/javascript" src="build/AreaController.js"></script>
     <script type="text/javascript" src="build/Styler.js"></script>
     <script type="text/javascript" src="build/AreasOnMap.js"></script>
@@ -128,7 +128,7 @@
     <script type="text/javascript" src="build/ZoomButtons.js"></script>
     <script type="text/javascript" src="build/FullscreenButton.js"></script>
     <script type="text/javascript" src="build/HighContrastButton.js"></script>
-    <script type="text/javascript" src="build/MinLayoutButton.js"></script>    
+    <script type="text/javascript" src="build/MinLayoutButton.js"></script>
     <script type="text/javascript" src="build/HiventPresenter.js"></script>
     <script type="text/javascript" src="build/HiventsOnMap.js"></script>
     <script type="text/javascript" src="build/HiventsOnGlobe.js"></script>

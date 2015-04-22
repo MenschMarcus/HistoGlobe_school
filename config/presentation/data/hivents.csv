@@ -1,71 +1,73 @@
 Historische Ereignisse||||||"=CONCATENATE(RIGHT(L4;4);""-"";RIGHT(LEFT(L4;5);2);""-"";LEFT(L4;2))"||||||||||||
 ||||||||||||||||||
 id|name|location|lat|long|region|startYear|startMonth|startDay|endYear|endMonth|endDay|displayDate|isImp|parent topic|sub topic|description|multimedia|link
-Intro-1|Welcome to HistoGlobe|Weimar|50.979|11.324||1000|01|01||||22.04.2015||intro||HistoGlobe is a web service that visualises historical changes and historical events on a virtual world map and a timeline. HistoGlobe is developed by a group of students at Bauhaus University Weimar and is proud to present to you the status of the project of the winter semester 2014/15. <br/><br/>Project members:<br/>Marcus Kossatz, Tobias Westphal, Max Weber, Chris Hornischer, Sebastian Köpsel<br/><br/>Supervisors:<br/>Patrick Riehmann, Henning Gründl,<br/>Prof. Bernd Fröhlich<br/><br/>With support from:<br/>Simon Schneegans, Felix Lauer, Sascha Dobschal|Logo|
-Intro-2|Bring History to School|School|14.058|108.277||1005|01|01||||1.1.1005||intro|||Problem|
-Design-1|User Centered Design|UCD|45.623|63.314||1010|01|01||||1.1.1010||design|||Design-1|
-Design-2|First Design|Design|31.768|35.214||1012|01|01||||1.1.1012||design||In the beginning we thought about how we should develop a complex visualisation like this. We came up with the approach of Human Centered Design. We found a school in Jena that wanted to use our software in the classroom. We sat together, planned and the first results were quite different from the design we have today.|Design-2|
-Design-3|Topics|Design|32.883|13.188||1014|01|01||||1.1.1014||design||We met every 2-3 weeks in Jena and figures out what the most important needs for the teachers are to make use of HistoGlobe in school. The focus was that they teach history in topics|Design-3|
-Design-4|We played around|Design|33.573|-7.590||1016|01|01||||1.1.1016||design|||Design-4|
-Design-5|Sunlight simulation|Design|43.740|7.427||1018|01|01||||1.1.1018||design|||Design-5|
-Dummy-1|That is a fast bugfix|Utopia|40.713|-74.006||1061|01|01||||1.1.1061||implementation|hiventlist|||
-Dummy-2|That should work now|Absurdiastan|40.713|-75.006||1063|01|01||||1.1.1063||implementation|hiventlist|||
-Dummy-3|undefined is not a function|Hell|40.713|-76.006||1065|01|01||||1.1.1065||implementation|hiventlist|                                                                                                                                Wussten Sie das Max Webers IQ deutlich unter 80 liegt?!| |
-Dummy-4|who is undefined?|Andis Enemy|40.713|-77.006||1066|01|01||||1.1.1066||implementation|hiventlist|||
-Dummy-5|cannot read property of NULL|WTF|40.713|-78.006||1068|01|01||||1.1.1068||implementation|hiventlist|||
-Implention-3|Categories on Timeline|Design 1|54.210|18.390||1025|01|01||||1.1.1025||implementation||Old version had  a 1-Dimensional categories Design, which the teachers didn't approve. They told us they need more differenciated approach.We decided to use a Design with 2 Main category Bars. The upper shows episodes in german history, whilest the lower describes world history.On activation there are sub-categories showing more special classifications.|timeline-1|
+Intro-1|Welcome to HistoGlobe|Weimar|50.979|11.324||1002|07|01||||WiSe 2014/15||intro||HistoGlobe is a web service that visualises historical changes and historical events on a virtual world map and a timeline. HistoGlobe is developed by a group of students at Bauhaus University Weimar and is proud to present to you the status of the project of the winter semester 2014/15. <br/><br/><u>Project members:</u><br/>Marcus Kossatz, Tobias Westphal, Max Weber, Chris Hornischer, Sebastian Köpsel<br/><br/><u>Supervisors:</u><br/>Patrick Riehmann, Henning Gründl,<br/>Prof. Bernd Fröhlich<br/><br/><u>With support of:</u><br/>Simon Schneegans, Felix Lauer, Sascha Dobschal|Logo|
+Intro-2|Bring History to School|The World|14.058|108.277||1007|07|01||||2020||intro|||Problem|
 ||||||||||||||||||
-future-3|Media Galeries|Sun|32.883|13.188||2015|01|07||||7.1.2015||conclusion|future|Support for media galleries||
-future-2|Mobile Version|Sun|32.883|13.188||2015|12|07||||7.12.2015||conclusion|future|mobile version||
-future-1|Tool to create own Lessons|Sun|32.883|13.188||2015|23|07||||7.23.2015||conclusion|future|Tool to help teachers prepare their lessons.||
-Implention-5|Hivent Marker Label|Shurima|34.320|132.270||1025|01|01||||1.1.1025||implementation|hivents|Problem: Overlapping Labels on Map|label-1|
-Implention-6|Hivent Marker Label|Noxus|14.058|108.277||1025|01|01||||1.1.1025||implementation|hivents|We had certain requirements: fast, since we want it to run on tablets and old school pcs. Corresponding locations should still be recognizable (obviously). We tried some approaches, until we found it necessary to just remove labels from a certain zoom level. If labels overlap anyway, we swap them to the right side. This is quite fast and works pretty good.|label-2|
-HistoCountries|Visualization of historical changes of countries|HIstorical Changes|52.230|21.012||1029|01|01||||1.1.1029||implementation|countries||HistoCountries|
+Design-1|User Centered Design|Approach|45.623|63.314||1011|01|01||||Oct 14 - Apr 15||design|||Design-1|
+Design-2|First Design||31.768|35.214||1013|01|01||||Summer 2014||design||In the beginning we thought about how we should develop a complex visualisation like this. We came up with the approach of Human Centered Design. We found a school in Jena that wanted to use our software in the classroom. We sat together, planned and the first results were quite different from the design we have today.|Design-2|
+Design-3|Topics|User Interface|32.883|13.188||1015|01|01||||Nov 2014||design||We met every 2-3 weeks in Jena and figures out what the most important needs for the teachers are to make use of HistoGlobe in school. The focus was that they teach history in topics|Design-3|
+Design-4|We played around|User Interface|33.573|-7.590||1017|01|01||||Jan 2015||design|||Design-4|
+Design-5|Sunlight simulation|Serious testing|43.740|7.427||1019|01|01||||Apr 2015||design|||Design-5|
+||||||||||||||||||
+HistoCountries|Historical Changes|Map|52.230|21.012||1029|01|01||||||implementation|countries||HistoCountries|
+Timeline|Topic Bars|Timeline|27.567|2.659||1035|01|01||||||implementation|timeline|The old version only had a timeline, which the teachers did not like so much. They wanted a more differenciated approach and teach hisstory in topics not in time.We decided for a design of topics and subtopics, visualised in in two topic bars above the timeline. The upper bar shows topics in german history, the lower one represents world history.|TopicBar|
+HiventMarker-1|Label Positioning - Problem|Map|34.320|132.270||1042|01|01||||||implementation|hivents|Problem: Overlapping Labels on Map|label-1|
+HiventMarker-2|Label Positioning - Solution|Map|14.058|108.277||1044|01|01||||||implementation|hivents|We had certain requirements: fast, since we want it to run on tablets and old school pcs. Corresponding locations should still be recognizable (obviously). We tried some approaches, until we found it necessary to just remove labels from a certain zoom level. If labels overlap anyway, we swap them to the right side. This is quite fast and works pretty good.|label-2|
+HiventBox-1|Hivent-Box Idea|Hivent Box|48.739.904211|116.407||1046|01|01||||||implementation|hivents||box-generation|
+HiventBox-2|Hivent-Box Example|Teheran|35.696|35.696||1048|01|01||||1979||implementation|hivents|Die Islamische Revolution war eine vielschichtige Bewegung im Iran, die 1979 (1357 islamischer Zeitrechnung) zur Absetzung von Schah Mohammad Reza Pahlavi und zur Beendigung der Monarchie im Iran führte. Symbolfigur und später Revolutionsführer war Ajatollah Ruhollah Chomeini, der ab 1979 gegen weitere revolutionäre und säkulare Gruppen sein Staatskonzept von der Regentschaft der Geistlichkeit (Velayat-e faqih) zum Teil mit Gewalt durchsetzte und neues Staatsoberhaupt wurde.|box-example-image, box-example-video|http://de.wikipedia.org/wiki/Islamische_Revolution
+Searchbar|Search Bar|Sidebar|53.905|27.562||1053|01|01||||||implementation|searchbar||search-process|
+Dummy-1|That is a fast bugfix|Utopia|50.000|-120.000||1061|01|01||||0815||implementation|hiventlist|||
+Dummy-2|That should work now|Absurdiastan|50.000|-105.000||1063|01|01||||007||implementation|hiventlist|||
+Dummy-3|undefined is not a function|Hell|50.000|-90.000||1065|01|01||||???||implementation|hiventlist|                                                                                                                                Wussten Sie das Max Webers IQ deutlich unter 80 liegt?!| |
+Dummy-4|who is undefined?|Andis Enemy|50.000|-75.000||1067|01|01||||42||implementation|hiventlist|||
+Dummy-5|cannot read property of NULL|WTF|50.000|-60.000||1069|01|01||||NULL||implementation|hiventlist|||
 ||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-Implention-7|Hivent-Box|Stalingrad|48.700|44.517||1041|01|01||||1.1.1041||implementation|hivents||box-generation|
-Implention-8|Hivent-Box|Moskau|55.756|37.617||1044|01|01||||1.1.1044||implementation|hivents|Jahrtausendwende (auch: Millenniumwechsel) bezeichnet allgemein den Wechsel einer Zeitrechnung zu einem neuen Jahrtausend.|box-example|http://de.wikipedia.org/wiki/Jahrtausendwende
-Implention-9|Search Bar|Minsk|53.905|27.562||1053|01|01||||1.1.1053||implementation|searchbar||search-process|
-||||||||||||..||||||
-FieldStudy-student-0|Fragebögen|Jena|40.713|-74.006||2015|02|01||||17.04.2015||study|student||FieldStudy-students-paper|
-FieldStudy-student-1|Zufriedenheit mit HistoGlobe|Jena|40.713|-74.006||2015|02|15||||17.04.2015||study|student||FieldStudy-students-graph|
-FieldStudy-student-2|Positive Eindrücke|Jena|40.713|-74.006||2015|03|01||||17.04.2015||study|student||FieldStudy-students-tagcloud-pos|
-FieldStudy-student-3|Positive Zitate|Jena|40.713|-74.006||2015|03|15||||17.04.2015||study|student||FieldStudy-student-cites-pos|
-FieldStudy-student-4|Negative Eindrücke|Jena|40.713|-74.006||2015|04|01||||17.04.2015||study|student||FieldStudy-student-tagcloud-neg|
-FieldStudy-student-5|Negative Zitate|Jena|40.713|-74.006||2015|04|15||||17.04.2015||study|student||FieldStudy-student-cites-neg|
-||||||||||||..||||||
-||||||||||||..||||||
-conclusion-1|Conclusion - Positive Aspects|Weimar|50.979|11.324||2015|05|15||||15.5.2015||conclusion|result|Test 1|conclusion-plus|
-conclusion-2|Conclusion - Negative Aspects|Weimar|50.979|11.324||2015|06|15||||15.6.2015||conclusion|reuslt|Test 2|conclusion-minus|
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
-||||||||||||..||||||
+FieldStudy-school|Usage in School|Lobdeburgschule Jena|50.927|11.589||2014|09|15||||||study||Lobdeburgschule in Jena-Lobeda is a public school for all students from grade 1 to 13. A history teacher in grade 12 invited us to conduct a field study in his class to test HistoGlobe directly in schooi. On 17. April 2015 HistoGlobe was first used in a public school and we are very proud to present the results of the field study.|Lobdeburgschule|
+FieldStudy-teacher-1|Explanation: Conferences in WWII|Lobdeburgschule Jena|50.927|11.589||2014|11|01||||In class||study|teacher|The teacher used HistoGlobe to explain the conferences after World War II in Casablanca, Teheran, Jalta and Potsdam. He used the hivent boxes to give students an impression of the conferences and showed them on the map.|Teacher-1|
+FieldStudy-teacher-2|Explanation: Satellite States|Lobdeburgschule Jena|50.927|11.589||2014|12|01||||In class||study|teacher|"The meaning of the term ""satellite states"" was asked by a student and the teacher used HistoGlobe to show the status of Eastern Europe in 1945 to explain what a Satellite State is using the socialistic republics ""around"" the Soviet Union."|Teacher-2|
+FieldStudy-teacher-sum|Evaluation|Lobdeburgschule Jena|50.927|11.589||2015|01|01||||after class||study|teacher|"<u>The benefits of HistoGlobe</u><br/>- zoom and navigation on the map<br/>- show territorial development<br/>- show the dimensions of the Earth<br/>- explain confederations<br/><br/><u>Problems with the current implementation</u><br/>- current date of visualization not not visible<br/>- not enough space because of the small resultion of the projector<br/>- still need to ""break into"" the system<br/><br/><u>Effect on the students</u><br/>- gives a good overview of a topic<br/>- not enough space, so not features usable for the teacher<br/>&rarr; not particularily well suited as teaching material<br/>&rarr; much better suited as a learning material"||
+FieldStudy-student-0|Questionnaires|Lobdeburgschule Jena|50.927|11.589||2015|02|10||||after class||study|students||FieldStudy-students-paper|
+FieldStudy-student-1|Satisfaction with HistoGlobe|Lobdeburgschule Jena|50.927|11.589||2015|02|30||||after class||study|students||FieldStudy-students-graph|
+FieldStudy-student-2|Positive Impressions|Lobdeburgschule Jena|50.927|11.589||2015|03|10||||after class||study|students||FieldStudy-students-tagcloud-pos|
+FieldStudy-student-3|Positive Cites|Lobdeburgschule Jena|50.927|11.589||2015|03|30||||after class||study|students||FieldStudy-student-cites-pos|
+FieldStudy-student-4|Negative Impressions|Lobdeburgschule Jena|50.927|11.589||2015|04|10||||after class||study|students||FieldStudy-student-tagcloud-neg|
+FieldStudy-student-5|Negative Cites|Lobdeburgschule Jena|50.927|11.589||2015|04|30||||after class||study|students||FieldStudy-student-cites-neg|
+||||||||||||||||||
+conclusion-1|User Centered Design||50.979|11.324||2015|05|15||||not stringent||conclusion|result|Great approach, ||
+conclusion-2|Target Group||50.979|11.324||2015|06|15||||not enough||conclusion|result|just one teacher, no students have seen it until field study||
+conclusion-3|Cooperation with Designer||50.979|11.324||2015|07|15||||very productive||conclusion|result|"Tobias was a great team member, not just ""designing buttons"" and ""give color values"", but actual concept and organisation, neg: not an acutal cooperation CSM <-> MAD"||
+conclusion-4|Organisation||50.979|11.324||2015|08|15||||very good||conclusion|result|Masterplan, Git Workflow, office||
+conclusion-5|Goal of the semester||50.979|11.324||2015|09|15||||accomplished||conclusion|result|||
+||||||||||||||||||
+future-3|Future Work||32.883|13.188||2015|12|15||||too much||conclusion|future|- backend for Hivents and historical countries<br/>- backend for teachers to prepare their lessons<br/>- mobile version||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
+||||||||||||||||||
 ||||||||||||||||||
 ||||||||||||||||||
 ||||||||||||||||||
