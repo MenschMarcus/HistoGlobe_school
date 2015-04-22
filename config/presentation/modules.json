@@ -3,7 +3,7 @@
   {
     "container": "histoglobe",
     "minYear": 1000,
-    "maxYear": 2020,
+    "maxYear": 2060,
     "nowYear": 1001,
     "minZoom": 2,
     "maxZoom": 7,
