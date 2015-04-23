@@ -185,7 +185,6 @@ class HG.Timeline
     # and move the timeline, so the markers on the timeline are initially at the correct position
     setTimeout () =>
         @_updateNowDate()
-        @moveToDate new Date @_now.date.getTime() + 15000000000  # adds some days
       , 3000  # happy magic timeout
 
   ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
