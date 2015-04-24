@@ -121,7 +121,7 @@ $timeline_topic_highlighted_border_color    = #2f3b46
 $timeline_topic_highlighted_border_color_hc = #000000
 
 $timeline_subtopic_height                   = 25px
-$timeline_subtopic_font_size                = 15px
+$timeline_subtopic_font_size                = 12px
 $timeline_subtopic_bgcolor                  = #bdd7ec
 $timeline_subtopic_bgcolor_hc               = #e1e1e1
 $timeline_subtopic_color                    = #2f3b46
