@@ -1,0 +1,141 @@
+% ---------------------------------------------------------
+% Packages
+% ---------------------------------------------------------
+%\usepackage[ngerman]{babel}
+%\usepackage{tabu}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{amsfonts}			% additional fonts like \mathbb, \mathfrak
+\usepackage{amsmath}
+\usepackage{amssymb}				% additional symbols
+\usepackage{booktabs}			% package provides additional commands to enhance the
+\usepackage{enumitem}
+\usepackage{epsfig}
+\usepackage[T1]{fontenc}		% correct pdf output (correct umlaut charaters)
+\usepackage{framed}
+\usepackage[a4paper,hmargin=3.0cm,vmargin=3.7cm]{geometry}
+\usepackage{graphics}
+\usepackage{pbox}
+\usepackage{graphicx}
+\usepackage{hypernat}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}   	% change to your encoding (e.g. utf8)
+\usepackage{lmodern}					% fonts for pdf-file creation (use Type1 instead of
+% Type3) - only needed, if cmsuper is not installed
+% check the resulting pdf-file: fonts should been embedded, subsetted and of
+% type 1 (NOT type 3!)
+\usepackage{latexsym}
+\usepackage{listings}
+\usepackage[amsthm,framed]{ntheorem}
+\usepackage{psfrag}
+\usepackage{scrhack}
+\usepackage{scrpage2}
+\usepackage{tabularx}
+\usepackage{url}                 % support for urls
+\usepackage{xifthen}
+\usepackage{xspace}
+
+
+% ---------------------------------------------------------
+% Chapters, sections style 
+% ---------------------------------------------------------
+
+% \bibliographystyle{plain}
+\pagestyle{plain}
+\raggedbottom
+
+\numberwithin{equation}{section} 		% amsmath: numbering equations
+\numberwithin{figure}{section} 			% amsmath: numbering equations
+\numberwithin{table}{section} 			% amsmath: numbering equations
+\numberwithin{algorithm}{section} 		% amsmath: numbering equations
+
+\renewcommand{\labelenumii}{\arabic{enumi}.\arabic{enumii}}
+
+%-----------------------------------------------------------------------
+% Theorem style
+%-----------------------------------------------------------------------
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{case}{Case}
+\newtheorem{subcase}{Case}
+\numberwithin{subcase}{case}
+
+% ---------------------------------------------------------
+% Link style
+% ---------------------------------------------------------
+
+\hypersetup{
+	colorlinks = true,
+	citecolor = green,
+	filecolor = black,
+	linkcolor = black,
+	linkbordercolor = {0 1 0},
+	urlcolor = black,
+	bookmarksopen = false,
+	pdfpagemode = UseNone,
+	pdfpagelayout = TwoPageLeft,
+	pdffitwindow = true
+}
+
+% ---------------------------------------------------------
+% Listings style
+% ---------------------------------------------------------
+
+\lstdefinelanguage{L}
+	{morekeywords = {if,then,else,Finalize,return,Initialize,Encrypt,Decrypt,
+	false,true,Tag,Verify,AuxVerify,Extract,and,or,AuxDecrypt,Append,for,do,
+	Encryption,Decryption,loop,end},
+	sensitive = false,
+	morecomment = [l]{//},
+	morecomment = [s]{/*}{*/},
+	morecomment = [s]{(*}{*)},
+	morestring = [b]",
+}
+
+\lstset{
+	mathescape = true,
+	language = Java,
+	basicstyle = \scriptsize,
+	emph = {Finalize,Initialize,Encrypt,Decrypt,Verify,Tag,OPerm},
+  	emphstyle = {\bfseries\underbar},
+  	escapeinside = {@}{@},
+	frame = none,
+	numbers = left, 
+	numbersep = 5pt,
+	numberstyle = \tiny, 
+	stepnumber = 1, 
+	tabsize = 2
+}
+
+% ---------------------------------------------------------
+% Spacings
+% ---------------------------------------------------------
+
+% \linespread{1.0}
+\setlength{\parindent}{0pt} 		% No indented paragraphs, please
+\setlength{\parskip}{0.5ex plus 0.0ex minus 0.0ex} 
+									% Vertical spacing between paragraphs 
+\setlength{\belowcaptionskip}{0mm} 	% No space after figure captions
+\setlength{\tabcolsep}{4pt} 		% A little more horizontal space 
+
+% ---------------------------------------------------------
+% Table of Content Depth
+% ---------------------------------------------------------
+
+\setcounter{tocdepth}{2}
+
+% ---------------------------------------------------------
+% Paths
+% ---------------------------------------------------------
+
+\newcommand{\figurepath}{images}
+\graphicspath{images}
+
+% ---------------------------------------------------------
+% Macros
+% ---------------------------------------------------------
