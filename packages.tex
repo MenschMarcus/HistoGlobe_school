@@ -29,15 +29,17 @@
 \usepackage[amsthm,framed]{ntheorem}
 \usepackage{psfrag}
 \usepackage{scrhack}
-\usepackage{scrpage2}
+% \usepackage{scrpage2} -> caused a warning
 \usepackage{tabularx}
 \usepackage{url}                 % support for urls
 \usepackage{xifthen}
 \usepackage{xspace}
+\usepackage{subfigure}
+\usepackage{graphicx,subfigure}
 
 
 % ---------------------------------------------------------
-% Chapters, sections style 
+% Chapters, sections style
 % ---------------------------------------------------------
 
 % \bibliographystyle{plain}
@@ -105,10 +107,10 @@
   	emphstyle = {\bfseries\underbar},
   	escapeinside = {@}{@},
 	frame = none,
-	numbers = left, 
+	numbers = left,
 	numbersep = 5pt,
-	numberstyle = \tiny, 
-	stepnumber = 1, 
+	numberstyle = \tiny,
+	stepnumber = 1,
 	tabsize = 2
 }
 
@@ -118,10 +120,10 @@
 
 % \linespread{1.0}
 \setlength{\parindent}{0pt} 		% No indented paragraphs, please
-\setlength{\parskip}{0.5ex plus 0.0ex minus 0.0ex} 
-									% Vertical spacing between paragraphs 
+\setlength{\parskip}{0.5ex plus 0.0ex minus 0.0ex}
+									% Vertical spacing between paragraphs
 \setlength{\belowcaptionskip}{0mm} 	% No space after figure captions
-\setlength{\tabcolsep}{4pt} 		% A little more horizontal space 
+\setlength{\tabcolsep}{4pt} 		% A little more horizontal space
 
 % ---------------------------------------------------------
 % Table of Content Depth
