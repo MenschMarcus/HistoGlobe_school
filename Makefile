@@ -2,10 +2,12 @@ CC=pdflatex
 PAPER=documentation
 
 all: $(PAPER)
-	
-$(PAPER): 
+
+$(PAPER):
 	$(CC) $@  &&  $(CC) $@ && $(CC) $@
 
 clean:
-	rm -f *~ *.aux *.bbl *.blg *.dvi *.idx *.ilg *.ind *.loa *.lof *.log *.lot 
+	rm -f *~ *.aux *.bbl *.blg *.dvi *.idx *.ilg *.ind *.loa *.lof *.log *.lot
 	rm -f *.nlo *.out *.thm *.toc texput.log x.log *.bak *.ps
+	rm -f *.fdb_latexmk *.synctex.gz
+
