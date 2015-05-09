@@ -20,11 +20,24 @@ Upon beeng clicked on, it changes its status to active. An active hivent gets fo
 Hivents on the Map were only represented by a marker, which automatically clustered when they are close together.
 The teacher demanded more information, so we attached labels to the hivent markers.
 In the first implementation the hivents name was shown, but we realized this isn't appropriate on a map, so we switched to the location.
-bla
+
+todo: Besser schreiben
 
 If they overlap each other, we implemented an easy algorithm to adjust them. 
 This is done by checking for an overlap, and then moving the left label to the left.
 On high zoom levels the amount of labels was so high the map wasn't readable anymore, so we remove them from a certain zoom level on.
+
+
+\subsubsection{Hivent Regions}
+A lot of historical events took place over a region, such as wars, so we wanted a region representation of hivents on the map.
+We implemented an additional type of map marker to do this.
+We added an additional optianal attriubute to the hivents, containing the polygon representing the region.
+
+todo: Bild
+
+We decided to not show them to the teachers, because the polygons which define the regions are crude, and don't look good.
+
+
 
 % subsection hghghg (end)
 % section section_name (end)
