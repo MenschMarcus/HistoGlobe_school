@@ -35,22 +35,32 @@ Because of the very problematic usability of QuantumGIS and the mass of data tha
 
 of a country are defined in an table consiting of the id, the name, the position (lat, lng) and a priority. Labels are stored separately from the areas to account for independent changes of names and geometries: A country can be renamed and borders can change, but both events do not need to correlate. The list of labels is stored in \texttt{labels.csv}.
 
-The visualization of the labels works with priorities: Each label is represented by a bounding box. According to the label priority, the box increases inversly in size (low priority labels get large bounding boxes). Showing and hiding a label works with the following algorithm:
+\newpage
+The visualization of the labels works with priorities: Each label has a bounding box. According to the label priority, the box increases inversly in size (low priority labels get large bounding boxes). Showing and hiding a label is based on the question if the labels collide, i.e. if their bounding boxes intersect. The algorithm works in the following way:
 
 \begin{itemize}
-  \item if a new label L gets added to the map, it checks if its bounding box intersects with a bounding box of a higher priority label
+  \item If a new label $L_n$ gets added to the map it checks for each shown label $L_S^H$ with a higher priority if it collides with $L_n$
   \begin{itemize}
-    \item if so, the label will stay hidden
-    \item if not, the label will be added to the map \\
-    Now it checks for each same or lower priority label L' if it intersects with L
+    \item If so, $L_n$ will be hidden
+    \item If it does not collide with any $L_S^H$, $L_n$ will be shown. Now it checks for each shown label with the same or lower priority $L_S^L$ if it collides with $L_n$
     \begin{itemize}
-      \item if so, L' gets hidden
+      \item If so, $L_S^L$ gets hidden
     \end{itemize}
   \end{itemize}
-  \item if the user zooms in, the algorithm checks if hidden labels can be shown: it starts all from the highest priority labels and shows them, if they do not intersect with a highest priority label that is already on the map. Then it
-\end{itemize}
+  \item If a label $L_R$ gets removed from the map, it checks with all hidden labels $L_H^L$ of the same and lower priority if they collided with $L_R$
+  \begin{itemize}
+    \item If so, $L_H^L$ gets shown
+  \end{itemize}
+  \item If the user zooms in, the algorithm checks for each hidden label $L_H$ if it can be shown now: it checks for each shown label $L_S^H$ of the same or higher priority if it collides with it
+  \begin{itemize}
+    \item If $L_H$ does not collide with any $L_S^H$, it will be shown
+  \end{itemize}
+  \item If the user zooms in or out, the algorithm checks for each shown label $L_S$ if if collides with any shown label of the same lower priority $L_S^L$
+  \begin{itemize}
+    \item If so, $L_S^L$ will be hidden
+  \end{itemize}
 
-At each zoom or change of countries on the map, the algorithm makes sure that the high priority labels are shown and for each lower priority the label is only shown if its bounding box does not overlap with a higher priority label box.
+\end{itemize}
 
 The problem with this approach is that the label position and priority can not be deducted from the area. Therefore, both have to be set by hand. We are aware that this manual approach is not optimal, but for the scope of that project it is suitable. For the future, a data model should be found in which areas and labels are connected but can still change separately from each other.
 
@@ -60,12 +70,12 @@ The problem with this approach is that the label position and priority can not b
 
 \subsubsection{Historic Changes} % (fold)
 \label{ssub:historic_changes}
-Because of the way areas and labels are organized, an historic change can easily be modelled:
+Because of the way areas and labels are organized, an historic change can easily be modelled, like seen in \ref{tab:changes}.
 
-\begin{table}[H]
+\begin{table}[ht]
 \begin{small}
   \caption{Examples of Historic Changes}
-  \label{tab:tablename}
+  \label{tab:changes}
   \begin{center}
     \begin{tabular}{lllllll}
     \hline
@@ -105,6 +115,7 @@ This event-based data model is maintained like this: if an historic change appea
 
 In order to visualize the data on the client side, the areas, labels and changes have to be preprocessed on the server. Especially the transition areas and borders have to be generated.
 
+\newpage
 \paragraph{Transitions} are the geometric changes in a change event. There is either a transition area, which is the area that changes the membership of a country (e.g. Alsace-Lorraine 1919 from the German Empire to France) or a transition border, that splits two countries (e.g. The border between Czech and Slovak Republic after the dissolution of Czechoslowakia in 1991). These transitions shall be emphasized with an animation in the moment of the historic change so that it is clearly visible to the user what is currently happening. The transitions are generated like this: For each historic change the set of old and new areas are compared to each other and pass the following decision tree:
 
 % Set the overall layout of the tree
@@ -230,13 +241,18 @@ In order to prevent large amounts of changes on the map if the timeline is moved
 \subsubsection{Styling the Countries} % (fold)
 \label{ssub:styling_the_countries}
 
+Each area and each label can have a certain style in a certain \textbf{theme}. An example theme we have implemented is called \textit{Bipolar World} (Figure \ref{fig:biplar_world}) and assigns each country in Europe a membership to the NATO (blue) and the Warsaw Pact (red) based on their dates of joining and leaving the alliance. Moving the timeline can lead to a change of the countries style.
+
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=0.9\textwidth]{graphics/bipolare_welt}
+    \includegraphics[width=0.9\textwidth]{graphics/bipolar_world.png}
   \end{center}
-  \caption{Caption here}
-  \label{fig:figure1}
+  \caption{Countries colored due to their membership in NATO or Warsaw Pact}
+  \label{fig:biplar_world}
 \end{figure}
+
+The style module was designed in a reusable way: for any new theme there have to be firstly \textbf{class}es and their styles defined (e.g. \texttt{class: nato}, \texttt{background-color: blue}). Secondly, areas and the membership to a class have to be stated in a table with \texttt{area\_id}, \texttt{theme\_class}, \texttt{start\_date}, \texttt{end\_date} (e.g. \texttt{ESP, NATO, 1982, 1986}). The same has to be done with labels.
+
 
 % subsubsection styling_the_countries (end)
 
