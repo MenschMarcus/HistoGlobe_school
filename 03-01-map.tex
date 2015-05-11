@@ -1,15 +1,16 @@
 \subsection{Map}
-The map shows the status of the countries on Earth at this certain moment of history set in the timeline -- the \textbf{NowDate}. For this project we used a self-made dataset of historic countries of whole Europe from 1945 until today and from Western, Northern, Southern and Central Europe from 1871 until 1945. We organized the data in a way that we can visualize historic changes of countries on the map. Finally we provided a functionality to style the areas due to a current theme, for example all countries belonging to NATO at the NowDate get a blue background color.
+The map shows the status of the countries on Earth at this certain moment of history set in the timeline -- the \textbf{NowDate}. For this project we used a self-made dataset of historic countries of whole Europe from 1945 until today and from Western, Northern, Southern and Central Europe from 1871 until 1945. We organized the data in a way that we can visualize historic changes of countries on the map. Finally we provided a functionality to style the country areas due to a current theme, for example all countries belonging to NATO get a blue background color.
 
 \subsubsection{Historic Countries} % (fold)
 \label{ssub:historic_countries}
 
 A country consists of an \textbf{area}, represented as a multipolygon geometry and a \textbf{label} with the name of the country and the position of the label.
 
+\newpage
 \paragraph{Areas}
 Everything is based on a dataset of the current countries in Europe from \textit{Natural Earth Data}
 \footnote{1:10m Cultural Vectors | \url{http://www.naturalearthdata.com/downloads/10m-cultural-vectors/}}.
-We extracted only the countries of Europe and loaded them into \textit{QuantumGIS}, an open source GIS software for organizing, analyzing and visualizing areas on Earth. For each historic country we found an historic map online and created the area of the country using the \textit{Vector Geoprocessing Tools} of QuantumGIS. Each area is stored in a single ~ \texttt{area\_id.geojson} ~ file.
+We extracted only the countries of Europe and loaded them into \textit{QuantumGIS}, an open source GIS software for organizing, analyzing and visualizing areas on Earth. For each historic country we found an historic map online and created the area of the country using the \textit{Vector Geoprocessing Tools} of QuantumGIS. Each area is stored in a single \texttt{area\_id.geojson} file.
 
 \begin{figure}[H]
   \begin{center}
@@ -30,12 +31,26 @@ In \ref{fig:qgis} you can see the areas of Germany from 1871 until today, from l
         1949 - 1956 Saarland
 \end{itemize}
 
-Because of the very problematic Usability of QuantumGIS and the mass of data that would have needed to be processed we have not reached the goal to create a data base of all historic countries in Europe from 1871 on, but only from 1945 on, due to the time constraint.
+Because of the very problematic usability of QuantumGIS and the mass of data that would have needed to be processed we have not reached the goal to create a database of all historic countries in Europe from 1871 on, due to the time constraint.
 
-\paragraph{Labels} % (fold)
-\label{par:labels}
+of a country are defined in an table consiting of the id, the name, the position (lat, lng) and a priority. Labels are stored separately from the areas to account for independent changes of names and geometries: A country can be renamed and borders can change, but both events do not need to correlate. The list of labels is stored in \texttt{labels.csv}.
 
-of a country are set in an table consiting of the id, the label name, the label position and a priority of a label. Labels are stored separately from the areas to account for independent changes of names and geometries: A country can be renamed and borders can change, but both events do not need to correlate. The list of labels is stored in a table ~ \texttt{labels.csv}.
+The visualization of the labels works with priorities: Each label is represented by a bounding box. According to the label priority, the box increases inversly in size (low priority labels get large bounding boxes). Showing and hiding a label works with the following algorithm:
+
+\begin{itemize}
+  \item if a new label L gets added to the map, it checks if its bounding box intersects with a bounding box of a higher priority label
+  \begin{itemize}
+    \item if so, the label will stay hidden
+    \item if not, the label will be added to the map \\
+    Now it checks for each same or lower priority label L' if it intersects with L
+    \begin{itemize}
+      \item if so, L' gets hidden
+    \end{itemize}
+  \end{itemize}
+  \item if the user zooms in, the algorithm checks if hidden labels can be shown: it starts all from the highest priority labels and shows them, if they do not intersect with a highest priority label that is already on the map. Then it
+\end{itemize}
+
+At each zoom or change of countries on the map, the algorithm makes sure that the high priority labels are shown and for each lower priority the label is only shown if its bounding box does not overlap with a higher priority label box.
 
 The problem with this approach is that the label position and priority can not be deducted from the area. Therefore, both have to be set by hand. We are aware that this manual approach is not optimal, but for the scope of that project it is suitable. For the future, a data model should be found in which areas and labels are connected but can still change separately from each other.
 
@@ -86,16 +101,14 @@ Because of the way areas and labels are organized, an historic change can easily
 \end{small}
 \end{table}
 
-This event-based data model is maintaines like this: if an historic change appears, it needs to have a date of change, a description of what happened, a set of areas that stop exist and a set that starts to exist from this date in history on -- the same for the labels. Afterwards, the new areas have to be created in \textit{QuantumGIS}, which is most of the work, and new labels have to be defined in the table.
-
-For the future, an editor for storing, managing and analyzing historic changes would be desireable, because the data aqcuisiton part took a large share of the projects time.
+This event-based data model is maintained like this: if an historic change appears, it needs to have a date of change, a description of what happened, a set of areas that stop exist and a set that starts to exist from this date in history on -- the same for the labels. Afterwards, the new areas have to be created in \textit{QuantumGIS}, which is most of the work, and new labels have to be defined in the table.
 
 In order to visualize the data on the client side, the areas, labels and changes have to be preprocessed on the server. Especially the transition areas and borders have to be generated.
 
-\paragraph{Transitions} are the geometric changes in a change event. There is either a transition area, which is the area that changes the membership of a country (e.g. Alsace-Lorraine 1919 from the German Empire to France) or a transition border, that splits two countries (e.g. The border between Czech and Slovak Republic after the dissolution of Czechoslowakia in 1991). These transitions shall be emphasized with an animation in the moment of the historic change so that it is clearly visible to the user what is currently happening. The transitions are generated like this: For each historic change the set of old and new areas are compared to each other and passes the following decision tree:
+\paragraph{Transitions} are the geometric changes in a change event. There is either a transition area, which is the area that changes the membership of a country (e.g. Alsace-Lorraine 1919 from the German Empire to France) or a transition border, that splits two countries (e.g. The border between Czech and Slovak Republic after the dissolution of Czechoslowakia in 1991). These transitions shall be emphasized with an animation in the moment of the historic change so that it is clearly visible to the user what is currently happening. The transitions are generated like this: For each historic change the set of old and new areas are compared to each other and pass the following decision tree:
 
 % Set the overall layout of the tree
-\tikzstyle{level 1}=[level distance=2cm, sibling distance=6cm]
+\tikzstyle{level 1}=[level distance=2cm, sibling distance=7cm]
 \tikzstyle{level 2}=[level distance=2cm, sibling distance=3cm]
 \tikzstyle{level 3}=[level distance=2cm, sibling distance=3cm]
 
@@ -122,7 +135,7 @@ In order to visualize the data on the client side, the areas, labels and changes
       }
       child
       {
-        node[bag] {\textbf{new / old}\\ $\Rightarrow$ ignore}
+        node[bag] {new / old\\ $\Rightarrow$ ignore}
         edge from parent
         node[above] {yes}
       }
@@ -131,7 +144,7 @@ In order to visualize the data on the client side, the areas, labels and changes
     }
     child
     {
-      node[bag] {\textbf{expand\\/shrink} \\ $\Rightarrow$ transition area}
+      node[bag] {expand\\/shrink \\ $\Rightarrow$ \textbf{transition area}}
       edge from parent
       node[above] {yes}
     }
@@ -143,7 +156,7 @@ In order to visualize the data on the client side, the areas, labels and changes
     node[bag] {$\#old=\#new=2$}
     child
     {
-      node[bag] {\textbf{border\\change} \\ $\Rightarrow$ transition area}
+      node[bag] {border\\change \\ $\Rightarrow$ \textbf{transition area}}
       edge from parent
       node[above] {yes}
     }
@@ -152,7 +165,7 @@ In order to visualize the data on the client side, the areas, labels and changes
       node[bag] {$\#old=1$ \\ $\wedge \#new>1$}
       child
       {
-        node[bag] {\textbf{split\\unification} \\ $\Rightarrow$ transition border}
+        node[bag] {split\\unification \\ $\Rightarrow$ \textbf{transition border}}
         edge from parent
         node[above] {yes}
       }
@@ -207,14 +220,23 @@ at runtime of the program can be seen in \ref{fig:historic_changes}. The diagram
   \label{fig:historic_changes}
 \end{figure}
 
-The countries areas, labels and changes are created, preprocessed with the \textit{Python} script and delivered to the server. The client gets the four \textit{json} files and reads the data from there. When the NowDate on the timeline changes, the timeline sends the old date and the new date to Controller that finds out all the changes happened in time period. From each change the transition areas and borders are faded in on the map and the related old and new areas and labels are enqueued as a change event in a \textbf{change queue}. Every 50 milliseconds the queue is processed: for the first change event it checks if the related transitions are fully faded in. If so, the new areas and labels will be added and the old areas and labels deleted from the map. Finally, the transitions will be faded out again.
+The countries areas, labels and changes are created, preprocessed with the \textit{Python} script and delivered to the server. The client gets the four \textit{json} files and reads the data out of them. When the NowDate on the timeline changes, the timeline sends the old date and the new date to the Controller that finds out all the changes happened in that time period. From each change the transition areas and borders are faded in on the map and the related old and new areas and labels are enqueued as a change event in a \textbf{change queue}. Every 50 milliseconds the queue is processed: for the first change event it checks if the related transitions are fully faded in. If so, the new areas and labels will be added and the old areas and labels deleted from the map. Finally, the transitions will be faded out again.
 
-For moving the timeline backwards, the mechanism is the same, it is just that old and new areas and labels are swapped, because the historic change happens now the other way.
+For moving the timeline backwards the mechanism is the same, it is just that old and new areas and labels are swapped, because the historic change happens the other way.
 
-In order to prevent large amounts of changes on the map if the timeline is moved far, a rule-out mechanism is implemented: There is a list of old and new areas and labels for all historic changes in the period between the old and the new date from the timeline. Areas and labels that would be added in one change but deleted in another change are removed from both lists, because they would not contribute to the visualization. With this mechanism it is possible to move the timeline at a high speed there and back and always get a consistent update on the map without irritating the user.
+In order to prevent large amounts of changes on the map if the timeline is moved far, a rule-out mechanism is implemented: There is a list of old and new areas and labels for all historic changes in the period between the old and the new date from the timeline. Areas and labels that would be added in one change but deleted in another one are removed from both lists, because they would not contribute to the current state. With this mechanism it is possible to move the timeline at a high speed there and back and always get a consistent update on the map without irritating the user.
+
 
 \subsubsection{Styling the Countries} % (fold)
 \label{ssub:styling_the_countries}
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=0.9\textwidth]{graphics/bipolare_welt}
+  \end{center}
+  \caption{Caption here}
+  \label{fig:figure1}
+\end{figure}
 
 % subsubsection styling_the_countries (end)
 
