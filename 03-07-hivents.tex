@@ -19,12 +19,13 @@ Upon being clicked on, it changes its status to active. An active hivent gets fo
 \subsubsection{Labels on Map}
 Hivents on the Map were only represented by a marker, which automatically clustered when they are close together.
 The teacher demanded more information, so we attached labels to the hivent markers.
-In the first implementation the hivents name was shown, but we realized this isn't appropriate on a map, so we switched to the location.
-
-todo: Besser schreiben
-
-If they overlap each other, we implemented an easy algorithm to adjust them. 
-This is done by checking for an overlap, and then moving the left label to the left.
+We tried a Leaflet addon, but it didn't match our expectations of modifiability.
+To do labels our own, we used how the markers were implemented in the first space. They are Leaflet DivIcons so they are a div with a background image essentially. To accomplish easily modifiable labels we simply added another div element.
+In the first implementation the hivents name was shown, but we realized this isn't appropriate on a map, so we switched to show the hivents location. With this solution we got easily modifiable small weight labels.
+Overlapping labels are a known problem with some solutions todo:REFS.
+To adjust them to reasonable readability we needed fullfil special requirements.
+We needed an algorithm which was particulary leightweight, since we can't precompute the labels positioning and because we wanted to use HistoGlobe on schoolPCs and mobile devices.
+Our solution is done by checking for an overlap by comparing the divs Bounding Boxes and moving the left label to the left on overlap.
 On high zoom levels the amount of labels was so high the map wasn't readable anymore, so we remove them from a certain zoom level on.
 
 
