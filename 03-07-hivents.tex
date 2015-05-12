@@ -13,7 +13,7 @@ Hivents are represented on several locations in the UI, with the map, the Hivent
 Since usually more than one Hivent is being shown, it's important to signify the representation between one Hivent in different UI-Elements.
 The main interface events to which the feedback occurs are mouse hovering and clicking, which leads to the Hivent being highlighted in all UI-elements.
 
-\begin{figure}[here]
+\begin{figure}[H]
   \begin{center}
     \includegraphics[width=0.8\textwidth]{graphics/activated_hivent.png}
   \end{center}
@@ -35,7 +35,7 @@ We needed an algorithm which was particulary leightweight, since we can't precom
 Our solution is done by checking for an overlap by comparing the divs Bounding Boxes and moving the left label to the left on overlap.
 On high zoom levels the amount of labels was so high the map wasn't readable anymore, so we remove them from a certain zoom level on.
 
-  \begin{figure}[here]
+  \begin{figure}[H]
 \begin{center}
   \includegraphics[width=0.8\textwidth]{graphics/overlapping_labels.png}
   \end{center}
@@ -50,7 +50,7 @@ We implemented an additional type of map marker to do this.
 We added an additional optional attribute to the hivents, containing the polygon representing the region.
 The implementation was done using Leaflets Polygon drawing capabilites.
 
-  \begin{figure}[here]
+  \begin{figure}[H]
 \begin{center}
   \includegraphics[width=0.3\textwidth]{graphics/status2.png}
   \end{center}
