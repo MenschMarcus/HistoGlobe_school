@@ -520,26 +520,10 @@
 	"buffers":
 	[
 		{
-			"file": "03-UI_elements.tex",
-			"settings":
-			{
-				"buffer_size": 1396,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "03-01-map.tex",
 			"settings":
 			{
-				"buffer_size": 10888,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/marcus/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap",
-			"settings":
-			{
-				"buffer_size": 1835,
+				"buffer_size": 13468,
 				"line_ending": "Unix"
 			}
 		},
@@ -550,38 +534,42 @@
 				"buffer_size": 901,
 				"line_ending": "Unix"
 			}
-		},
-		{
-			"file": "packages.tex",
-			"settings":
-			{
-				"buffer_size": 4623,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/marcus/GoogleDrive/HistoShare/HistoGlobe/Daten/Länder/Final/ALL/make_countries.py",
-			"settings":
-			{
-				"buffer_size": 1943,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/marcus/GoogleDrive/HistoShare/HistoGlobe/Daten/Länder/Final/ALL/aux.py",
-			"settings":
-			{
-				"buffer_size": 18466,
-				"line_ending": "Unix"
-			}
 		}
 	],
 	"build_system": "Packages/LaTeXTools/LaTeX.sublime-build",
 	"command_palette":
 	{
-		"height": 125.0,
+		"height": 240.0,
 		"selected_items":
 		[
+			[
+				"itemi",
+				"Snippet: Itemize"
+			],
+			[
+				"item",
+				"Snippet: Itemize"
+			],
+			[
+				"ite",
+				"Snippet: Itemize"
+			],
+			[
+				"figu",
+				"Snippet: figure"
+			],
+			[
+				"figur",
+				"Snippet: figure"
+			],
+			[
+				"fig",
+				"Snippet: figure"
+			],
+			[
+				"para",
+				"Snippet: Paragraph"
+			],
 			[
 				"enum",
 				"Snippet: Enumerate"
@@ -589,10 +577,6 @@
 			[
 				"subsub",
 				"Snippet: Sub Sub Section"
-			],
-			[
-				"fig",
-				"Snippet: figure"
 			],
 			[
 				"parag",
@@ -607,24 +591,12 @@
 				"Snippet: table"
 			],
 			[
-				"itemi",
-				"Snippet: Itemize"
-			],
-			[
 				"list",
 				"Snippet: Listing"
 			],
 			[
-				"para",
-				"Snippet: Paragraph"
-			],
-			[
 				"figure",
 				"Snippet: figure"
-			],
-			[
-				"figur",
-				"Snippet: Figure"
 			],
 			[
 				"pac",
@@ -711,14 +683,6 @@
 				"Snippet: Sub Section"
 			],
 			[
-				"figu",
-				"Snippet: figure"
-			],
-			[
-				"item",
-				"Snippet: Itemize"
-			],
-			[
 				"sunse",
 				"Snippet: Sub Section"
 			],
@@ -777,10 +741,6 @@
 			[
 				"FIG",
 				"Snippet: figure"
-			],
-			[
-				"ite",
-				"Snippet: Itemize"
 			],
 			[
 				"enu",
@@ -941,19 +901,24 @@
 	},
 	"file_history":
 	[
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-UI_elements.tex",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/02-UCD_approach.tex",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/packages.tex",
+		"/home/marcus/GoogleDrive/HistoShare/HistoGlobe/Daten/Länder/Final/ALL/make_countries.py",
+		"/home/marcus/GoogleDrive/HistoShare/HistoGlobe/Daten/Länder/Final/ALL/aux.py",
+		"/home/marcus/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap",
+		"/home/marcus/.config/sublime-text-3/Packages/User/LaTeXTools Preferences.sublime-settings",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/05-conclusion.tex",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-05-hivent_boxes.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/packages.aux",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/04-field-study.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/.gitignore",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/Makefile",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/packages.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-00-UI_elements.tex",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/02-UCD_approach.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/01-introduction.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-06-special_buttons.tex",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-05-hivent_boxes.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-03-search_bar.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-02-timeline_bars.tex",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-UI_elements.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-04-hivent_list.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/00-titelpage.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-01-map.tex",
@@ -1063,12 +1028,7 @@
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/config/eu/style.rose",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/config/fertility/modules.json",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/config/exemplum/modules.json",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/script/modules/category_icon_mapping/CategoryIconMapping.coffee",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/style/timeline/now_marker.less",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/config/teaser1_countries/modules.json",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/config/eu/modules.json",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/script/modules/help/Help.coffee",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/config/fertility/data/fertility.json"
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/script/modules/category_icon_mapping/CategoryIconMapping.coffee"
 	],
 	"find":
 	{
@@ -1079,6 +1039,7 @@
 		"height": 93.0,
 		"where_history":
 		[
+			"",
 			"*.coffee, *.less, *.rose",
 			"*.less, *.rose",
 			"*.coffee, *.less, *.rose",
@@ -1122,6 +1083,18 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"$L_H",
+			"$L_S",
+			"$L_R$",
+			"[h]",
+			"\\item if",
+			"item",
+			"L'",
+			"L\"",
+			"L'",
+			"visualis",
+			"\\textbf{",
+			"fig:multimedia_content_small",
 			"texttt",
 			"\\texttt",
 			"json",
@@ -1237,19 +1210,7 @@
 			"0",
 			"log",
 			"if @_activeTopic?",
-			"Area",
-			"area",
-			"_areas",
-			"area",
-			"onUpdateLabelStyle",
-			"area",
-			"_translatelabelStyle",
-			"Area",
-			"area",
-			"Area",
-			"area",
-			"Area",
-			"area"
+			"Area"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1330,93 +1291,37 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "03-UI_elements.tex",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1396,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/LaTeX/LaTeX.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "03-01-map.tex",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10888,
+						"buffer_size": 13468,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								10760,
-								10760
+								13124,
+								13124
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/LaTeX/LaTeX.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 3889.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/home/marcus/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1835,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								669,
-								669
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"syntax": "Packages/LaTeX/LaTeX.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 235.0,
+						"translation.y": 4417.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -1426,7 +1331,7 @@
 			"sheets":
 			[
 				{
-					"buffer": 3,
+					"buffer": 1,
 					"file": "documentation.tex",
 					"semi_transient": false,
 					"settings":
@@ -1438,8 +1343,8 @@
 						"selection":
 						[
 							[
-								670,
-								670
+								480,
+								480
 							]
 						],
 						"settings":
@@ -1451,93 +1356,6 @@
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "packages.tex",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4623,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1386,
-								1386
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/LaTeX/LaTeX.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 315.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "/home/marcus/GoogleDrive/HistoShare/HistoGlobe/Daten/Länder/Final/ALL/make_countries.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1943,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1481,
-								1481
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage"
-						},
-						"translation.x": -0.0,
-						"translation.y": 289.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "/home/marcus/GoogleDrive/HistoShare/HistoGlobe/Daten/Länder/Final/ALL/aux.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 18466,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								9332,
-								9332
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3613.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
 					"type": "text"
 				}
 			]
@@ -2042,7 +1860,7 @@
 		[
 			[
 				"",
-				"~/Desktop/UbiComp/Assignments/2) Location Based Services/GPS_Tool/gps.sublime-project"
+				"~/Desktop/Tutorium FSB/05) kontextfreie Sprachen/Date-Detector/date_detector.sublime-workspace"
 			]
 		],
 		"width": 380.0

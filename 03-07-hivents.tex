@@ -1,5 +1,6 @@
 \subsection{Hivents} % (fold)
 \label{sec:hivents}
+
 \subsubsection{General} % (fold)
 \label{sub:general}
 Hivents mean "Historical Events", and are the way historical events are defined and presented. They are stored in a database, and have attributes such as name, location, start- and endyear, description and asocciated media.
@@ -8,17 +9,17 @@ They are one of the most important concepts to visualize history in HistoGlobe.
 % subsection general (end)
 \subsubsection{Behavior} % (fold)
 \label{sub:behaviour}
-Hivents are represented on several locations in the UI, with the map, the hivent list and the timeline being the most important ones.
-Since usually more than one hivent is being shown, it's important to signify the representation between one hivent in different UI-Elements.
-The main interface events to which the feedback occurs are mouse hovering and clicking, which leads to the hivent being highlighted in all UI-elements.
+Hivents are represented on several locations in the UI, with the map, the Hivent list and the timeline being the most important ones.
+Since usually more than one Hivent is being shown, it's important to signify the representation between one Hivent in different UI-Elements.
+The main interface events to which the feedback occurs are mouse hovering and clicking, which leads to the Hivent being highlighted in all UI-elements.
 
 todo: Bild
 
-Upon being clicked on, it changes its status to active. An active hivent gets focused in the map, it's marker are highlighted, it gets tagged in the URL bar and the hivent box opens.
+Upon being clicked on, it changes its status to active. An active Hivent gets focused in the map, it's marker are highlighted, it gets tagged in the URL bar and the Hivent box opens.
 
 \subsubsection{Labels on Map}
 Hivents on the Map were only represented by a marker, which automatically clustered when they are close together.
-The teacher demanded more information, so we attached labels to the hivent markers.
+The teacher demanded more information, so we attached labels to the Hivent markers.
 We tried a Leaflet addon, but it didn't match our expectations of modifiability.
 To do labels our own, we used how the markers were implemented in the first space. They are Leaflet DivIcons so they are a div with a background image essentially. To accomplish easily modifiable labels we simply added another div element.
 In the first implementation the hivents name was shown, but we realized this isn't appropriate on a map, so we switched to show the hivents location. With this solution we got easily modifiable small weight labels.
@@ -44,7 +45,7 @@ The implementation was done using Leaflets Polygon drawing capabilites.
   \label{fig:hivent_region_highlight}
   \end{figure}
 
-As seen in \ref{fig:hivent_region_highlight}. 
+As seen in \ref{fig:hivent_region_highlight}.
 
 
 todo: Bild
