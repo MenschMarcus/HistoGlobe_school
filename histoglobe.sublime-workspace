@@ -524,6 +524,10 @@
 		"selected_items":
 		[
 			[
+				"fig",
+				"Snippet: figure"
+			],
+			[
 				"itemi",
 				"Snippet: Itemize"
 			],
@@ -533,10 +537,6 @@
 			],
 			[
 				"figu",
-				"Snippet: figure"
-			],
-			[
-				"fig",
 				"Snippet: figure"
 			],
 			[
@@ -894,24 +894,24 @@
 	},
 	"file_history":
 	[
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-04-hivent_list.tex",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-03-search_bar.tex",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/02-UCD_approach.tex",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-UI_elements.tex",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-01-map.tex",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-07-hivents.tex",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-02-timeline_bars.tex",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-06-special_buttons.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/Makefile",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/00-titelpage.tex",
 		"/home/marcus/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-01-map.tex",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-UI_elements.tex",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-07-hivents.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/05-conclusion.tex",
 		"/home/marcus/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/02-UCD_approach.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/01-introduction.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-05-hivent_boxes.tex",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-04-hivent_list.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/documentation.aux",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/documentation.toc",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-06-special_buttons.tex",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-02-timeline_bars.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/04-field-study.tex",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-03-search_bar.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/packages.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/[no file]",
 		"/home/marcus/Desktop/Tutorium FSB/05) kontextfreie Sprachen/DateDetector/date_detector.py",
@@ -1076,6 +1076,18 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"subsubsection",
+			"user_centered_design",
+			"\\ref",
+			"ref",
+			"\\ref",
+			"textbf",
+			"textsc",
+			"[h]",
+			"newp",
+			"space",
+			"understand",
+			"fig:controll_button_HC",
 			"future",
 			"lightning condit",
 			"test-1",
@@ -1191,19 +1203,7 @@
 			"presentation",
 			"school",
 			"[\"",
-			"maxZoom",
-			"MAX_ZOOM_LEVEL",
-			"MIN_ZOOM_LEVEL",
-			"MAX_ZOOM_LEVEL",
-			"timelineZoom",
-			"MAX_ZOOM_LEVEL",
-			",conclusion,,",
-			"conclusion,,",
-			"conclusion",
-			"MAX_ZOOM_LEVEL",
-			"zoom",
-			"[\"",
-			"Styler"
+			"maxZoom"
 		],
 		"highlight": true,
 		"in_selection": false,

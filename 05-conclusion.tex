@@ -2,10 +2,10 @@
 \label{sec:conclusion}
 
 \paragraph{User Centered Design} % (fold)
-We have implemented a visualization which is usable for the teacher and understandable for the students. We also had valuable feedback throughout the entire development process, which was the basis for the good result of the final field study. We did not strictly follow the ideas of User Centered Design, because we hardly used paper prototypes or think aloud protocols, but implemented most of the design ideas directly to show them to the teacher. Since we threw out some features, there was a waste of time. A big problem of the design approach is that we developed the software based on the ideas of only one teacher, so we can not reason on how applicable our solution is to most schools. We also did not show the visualization to students before the final field study.
+We have implemented a visualization which is usable for the teacher and understandable for the students. We also had valuable feedback throughout the entire development process, which was the basis for the good result of the final field study. We did not strictly follow the ideas of User Centered Design, because we hardly used paper prototypes or think aloud protocols, but implemented most of the design ideas directly to show them to the teacher. Since we threw out some features, there was a waste of time. A problem of the design approach is that we developed the software based on the ideas of only one teacher, so we can not reason on how helpful \HG is to most schools. We also did not show the visualization to students before the final study.
 
 \paragraph{Visualisation} % (fold)
-Our visualization can be navigated via Map and Timeline. Historical events can be found through the Hivent List, the Search Bar, or directly on the Map or the Topic Bars represented as markers with supported linking. We are able to visualize area and border changes and to show themes. Our high contrast and minimum UI mode allows the users to customize their view on HistoGlobe. Therefore we are able to visualize \textit{what}, \textit{where}, \textit{when} and \textit{how} happened. But we are not yet able to show \textit{why} something happened -- the visualization of coherences in history was one main goal of the project which we have not achieved.
+Our visualization can be navigated via a Map and Timeline. Historical events can be found through the Hivent List, the Search Bar, or directly on the Map or the Topic Bars represented as markers with supported linking. We are able to visualize area and border changes and to show themes. Our high contrast and minimum UI mode allows the users to customize their view on HistoGlobe. Therefore we are able to visualize \textit{what}, \textit{where}, \textit{when} and \textit{how} happened. But we are not yet able to show \textit{why} something happened -- the visualization of coherences in history was one main goal of the project which we have not achieved. Another problem was since we developed a solution especially for one teacher, we created the Hivent List, because the teacher wanted it. But actually the element is just a list of Wikipedia articles and if you select an Hivent and open the Box in full screen, you see a nice visualization of that very article. This is just a better visualization of Wikipedia. The students have not used the Timeline and the Map at all, so it remains an open question if this is actually the idea of \HG.
 
 \paragraph{Cooperation with Designer} % (fold)
 In the User Centered Design approach and for the Interface Design we collaborated with a designer from the Media Arts and Design program, Tobias Westphal. The collaboration was very productive and successful for both sides.Together we developed a concept that is visually appealing, easy to use and realizable for the programmers. He created great designs and it it was not for him the meetings with the teacher would have not been so productive. The only negative aspect to name is that this was no common project between Media Art and Design and Computer Science and Media.
@@ -19,20 +19,27 @@ Finally we created a visualization that both teachers and students were able to 
 \subsection{Future Work} % (fold)
 \label{sub:future_work}
 
-\paragraph{Dynamics and animated transitions} % (fold)
+\paragraph{User Centered Design} % (fold)
+The current concept is based on only on the cooperation with one teacher. In order to reason about the usage of \HG as a teaching material we have to talk to more teachers and get their ideas and requirements into the concept. The same applies to the students: While 18 students is already a solid basis, more students from different schools and different background will increase the certainty if \HG is a helpful tool for understanding history. In the next project we would change the User Centered Design focus from teachers to students, because we believe that there is the real potential of \HG, to learn history from anywhere, not just in school.
+
+\paragraph{Frontend: User Interface Elements} % (fold)
+\label{par:concept}
+We have to come up with an idea how to reanimate the original idea of an interplay between the Timeline and the Map and to rethink the Hivent List to not reduce it to a bare list of Wikipedia articles.
+% paragraph concept (end)
+
+\paragraph{Frontend: Dynamics and animated transitions} % (fold)
 \label{sub:dynamics_and_animated_transitions}
 While testing \HG we found out that the students wanted a better visualization of historical connectivity, in the form of  more dynamic display of the data with better respect to the context of historical events. We think one should try to show the flow of history with more detail and animation.
 
 % subsection dynamics_and_animated_transitions (end)
 
-\paragraph{Content Generation Backend} % (fold)
+\paragraph{Backend: Content Generation} % (fold)
 \label{sub:content_generation_backend}
 
-For our studies we used a self generated, wikipedia.org based database, which was sufficient for our first study. Nevertheless it would be great if a teacher or students could compile lessons and homework with a tool. This tool should be able to create, modify and delete Hivents easily, and to add them in arbitrary form to categories.
-Another helpful functionality would be the automatic generation of a Hivent from a given wikipedia article.
+For our studies we used a self generated, wikipedia.org based database, which was sufficient for our first study. Nevertheless it would be great if a teacher or students could compile lessons and homework with a tool. This tool should be able to create, modify and delete Hivents easily, and to add them in arbitrary form to categories. Another helpful functionality would be the automatic generation of an Hivent from a given wikipedia article.
 % subsection content_generation_backend (end)
 
-\paragraph{Country Generation Backend} % (fold)
+\paragraph{Backend: Country Generation} % (fold)
 \label{sub:country_generation_backend}
 For the future, an editor for storing, managing and analyzing historic changes would be desirable, because the data acquisition part took a large share of the projects time. This task includes the improvement of the data model as described in section \ref{sub:map}.
 % subsection country_generation_backend (end)
