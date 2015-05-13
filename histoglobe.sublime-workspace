@@ -517,33 +517,54 @@
 			]
 		]
 	},
-	"buffers":
-	[
-		{
-			"file": "03-01-map.tex",
-			"settings":
-			{
-				"buffer_size": 13468,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "documentation.tex",
-			"settings":
-			{
-				"buffer_size": 901,
-				"line_ending": "Unix"
-			}
-		}
-	],
 	"build_system": "Packages/LaTeXTools/LaTeX.sublime-build",
 	"command_palette":
 	{
-		"height": 240.0,
+		"height": 194.0,
 		"selected_items":
 		[
 			[
+				"figu",
+				"Snippet: figure"
+			],
+			[
 				"itemi",
+				"Snippet: Itemize"
+			],
+			[
+				"fig",
+				"Snippet: figure"
+			],
+			[
+				"itemiz",
+				"Snippet: Itemize"
+			],
+			[
+				"subsub",
+				"Snippet: Sub Sub Section"
+			],
+			[
+				"subse",
+				"Snippet: Sub Section"
+			],
+			[
+				"subs",
+				"Snippet: Sub Section"
+			],
+			[
+				"secti",
+				"Snippet: Section"
+			],
+			[
+				"sec",
+				"Snippet: Section"
+			],
+			[
+				"sect",
+				"Snippet: Section"
+			],
+			[
+				"ite",
 				"Snippet: Itemize"
 			],
 			[
@@ -551,19 +572,15 @@
 				"Snippet: Itemize"
 			],
 			[
-				"ite",
-				"Snippet: Itemize"
+				"itam",
+				"Git: Amend Commit"
 			],
 			[
-				"figu",
-				"Snippet: figure"
+				"enum",
+				"Snippet: Enumerate"
 			],
 			[
 				"figur",
-				"Snippet: figure"
-			],
-			[
-				"fig",
 				"Snippet: figure"
 			],
 			[
@@ -571,20 +588,8 @@
 				"Snippet: Paragraph"
 			],
 			[
-				"enum",
-				"Snippet: Enumerate"
-			],
-			[
-				"subsub",
-				"Snippet: Sub Sub Section"
-			],
-			[
 				"parag",
 				"Snippet: Paragraph"
-			],
-			[
-				"subs",
-				"Snippet: Sub Section"
 			],
 			[
 				"table",
@@ -659,10 +664,6 @@
 				"Convert Case: Title Case"
 			],
 			[
-				"subse",
-				"Snippet: Sub Section"
-			],
-			[
 				"git log",
 				"Git: Log Current File"
 			],
@@ -687,10 +688,6 @@
 				"Snippet: Sub Section"
 			],
 			[
-				"sec",
-				"Snippet: Section"
-			],
-			[
 				"subsubs",
 				"Snippet: Sub Sub Section"
 			],
@@ -709,10 +706,6 @@
 			[
 				"aubs",
 				"View: Toggle Status Bar"
-			],
-			[
-				"sect",
-				"Snippet: Section"
 			],
 			[
 				"tabular",
@@ -901,27 +894,33 @@
 	},
 	"file_history":
 	[
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/00-titelpage.tex",
+		"/home/marcus/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-01-map.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-UI_elements.tex",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-07-hivents.tex",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/05-conclusion.tex",
+		"/home/marcus/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/02-UCD_approach.tex",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/01-introduction.tex",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-05-hivent_boxes.tex",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-04-hivent_list.tex",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/documentation.aux",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/documentation.toc",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-06-special_buttons.tex",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-02-timeline_bars.tex",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/04-field-study.tex",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-03-search_bar.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/packages.tex",
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/[no file]",
+		"/home/marcus/Desktop/Tutorium FSB/05) kontextfreie Sprachen/DateDetector/date_detector.py",
 		"/home/marcus/GoogleDrive/HistoShare/HistoGlobe/Daten/Länder/Final/ALL/make_countries.py",
 		"/home/marcus/GoogleDrive/HistoShare/HistoGlobe/Daten/Länder/Final/ALL/aux.py",
-		"/home/marcus/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap",
 		"/home/marcus/.config/sublime-text-3/Packages/User/LaTeXTools Preferences.sublime-settings",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/05-conclusion.tex",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-05-hivent_boxes.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/packages.aux",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/04-field-study.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/.gitignore",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/Makefile",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-00-UI_elements.tex",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/01-introduction.tex",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-06-special_buttons.tex",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-03-search_bar.tex",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-02-timeline_bars.tex",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-04-hivent_list.tex",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/00-titelpage.tex",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-01-map.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/script/modules/timeline/Timeline.coffee",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/script/modules/gui/Title.coffee",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/style/modules/hivent_list/hivent_list.less",
@@ -1022,13 +1021,7 @@
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/config/exemplum/data/tour.csv",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/config/common/default.rose",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/config/school/imprint.json",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/config/teaser1_countries/style.rose",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/config/fertility/style.rose",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/config/exemplum/style.rose",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/config/eu/style.rose",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/config/fertility/modules.json",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/config/exemplum/modules.json",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/script/modules/category_icon_mapping/CategoryIconMapping.coffee"
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/config/teaser1_countries/style.rose"
 	],
 	"find":
 	{
@@ -1083,6 +1076,21 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"H_{",
+			"result",
+			"Result",
+			"conducting",
+			"Conducting",
+			"tiny",
+			"-- ",
+			"sub:map",
+			"sec:user_interface_elements",
+			"user_centered_design",
+			" hivent ",
+			"timeline_and_topic_bars",
+			" \\textsc{HistoGlobe} ",
+			"marcus",
+			"Marcus",
 			"$L_H",
 			"$L_S",
 			"$L_R$",
@@ -1195,22 +1203,7 @@
 			"Styler",
 			"AreaStyler",
 			"log",
-			"hideArea",
-			"aniMax",
-			"aniCounter",
-			"log",
-			".",
-			"updateArea",
-			"for",
-			"onUpdateAreaStyle",
-			"_updateAreaStyle",
-			"_animate",
-			"durartion",
-			".",
-			"0",
-			"log",
-			"if @_activeTopic?",
-			"Area"
+			"hideArea"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1218,6 +1211,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			" Hivent ",
+			"\\HG",
 			"|wk1|",
 			"|[ [",
 			"\n",
@@ -1288,79 +1283,6 @@
 		"whole_word": false,
 		"wrap": false
 	},
-	"groups":
-	[
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 0,
-					"file": "03-01-map.tex",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 13468,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								13124,
-								13124
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/LaTeX/LaTeX.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 4417.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 1,
-					"file": "documentation.tex",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 901,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								480,
-								480
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/LaTeX/LaTeX.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
-			]
-		}
-	],
 	"incremental_find":
 	{
 		"height": 34.0
@@ -1401,16 +1323,19 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 174.0
+		"height": 176.0
 	},
 	"output.find_results":
 	{
 		"height": 0.0
 	},
-	"project": "histoglobe.sublime-project",
+	"output.git":
+	{
+		"height": 100.0
+	},
 	"replace":
 	{
-		"height": 42.0
+		"height": 64.0
 	},
 	"save_all_on_build": true,
 	"select_file":
