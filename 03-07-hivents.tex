@@ -2,7 +2,7 @@
 \label{sec:hivents}
 \subsubsection{General} % (fold)
 \label{sub:general}
-Hivents mean "Historical Events", and are the way historical events are defined and presented. They are stored in a database, and have attributes such as name, location, start- and endyear, description and asocciated media.
+Hivents mean "Historical Events", and are the way historical events are defined and presented. They are stored in a database, and have attributes such as name, location, start- and end-year, description and associated media.
 They are one of the most important concepts to visualize history in HistoGlobe.
 
 % subsection general (end)
@@ -30,7 +30,7 @@ To do labels our own, we used how the markers were implemented in the first spac
 In the first implementation the hivents name was shown, but we realized this isn't appropriate on a map, so we switched to show the hivents location. With this solution we got easily modifiable small weight labels.
 Overlapping labels are a known problem with some solutions todo:REFS.
 To adjust them to reasonable readability we needed fullfil special requirements.
-We needed an algorithm which was particulary leightweight, since we can't precompute the labels positioning and because we wanted to use HistoGlobe on schoolPCs and mobile devices.
+We needed an algorithm which was particular lightweight, since we can't precompute the labels positioning and because we wanted to use HistoGlobe on schoolPCs and mobile devices.
 Our solution is done by checking for an overlap by comparing the divs Bounding Boxes and moving the left label to the left on overlap.
 On high zoom levels the amount of labels was so high the map wasn't readable anymore, so we remove them from a certain zoom level on.
 
@@ -47,7 +47,7 @@ On high zoom levels the amount of labels was so high the map wasn't readable any
 A lot of historical events took place over a region, such as wars, so we wanted a region representation of hivents on the map.
 We implemented an additional type of map marker to do this.
 We added an additional optional attribute to the hivents, containing the polygon representing the region.
-The implementation was done using Leaflets Polygon drawing capabilites.
+The implementation was done using Leaflets Polygon drawing capabilities.
 
   \begin{figure}[here]
 \begin{center}
@@ -59,11 +59,6 @@ The implementation was done using Leaflets Polygon drawing capabilites.
   \end{figure}
 
 As seen in \ref{fig:hivent_region_highlight}. 
-
-
-todo: Bild
-
-
 
 
 % subsection hghghg (end)
