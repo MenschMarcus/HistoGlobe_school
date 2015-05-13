@@ -12,9 +12,14 @@ One way to retrieve information about historical events is our search bar, which
 \end{figure}
 %\label{par:search}
 
+\paragraph{Search Algorithm}
+\label{par:search_alg}
+The search algorithm uses the underlying data structure to improve the search process. Each Hivent has a title, location, time and e description. We search over all Hivents and if we match we are looking for the next. So each Hivent appears only once in out result list. Out algorithm has a special search structure. At first we are looking in the tile, location and tine data field. Than we are looking in the description of the Hivents and parse for text snippets. All results are sorted in search results of the current epoch and search results of other epochs.
+% paragraph search algorithm (end)
+
 \paragraph{Instant Search} % (fold)
 \label{par:instant_search}
+All possible matches are immediately displayed while the user is typing text. So the search is sent automatically to present the user with real-time results which are displayed as a drop-down list. This often allows the user to stop short of typing the entire word they were looking for.
 % paragraph instant search (end)
-One or more possible matches are immediately displayed while the user is typing text. So the search is sent automatically to present the user with real-time results which are displayed as a drop-down list. This often allows the user to stop short of typing the entire word they were looking for.
 
 % subsection search_bar (end)
