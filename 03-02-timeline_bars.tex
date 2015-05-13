@@ -25,23 +25,23 @@ So our actual implementation of the timeline consists of four layers. The top la
 
 
 \subsubsection{Behaviour}
-The following section describes the individual functionalities of the timeline and topic bars. All elements are linked togehter so if you chainge one element, all other elements are chainged in the same way.
+The following section describes the individual functionalities of the Timeline and topic bars. All elements are linked together so if you change one element, all other elements are chained in the same way.
 
-With the two control buttons on the left side you can \textbf{zoom} the time. We have linited the different displayed zoom levels to four steps and the displayed dates have a fixed distance (1, 2, 5, 10). The date change if they begin to overlap the thresholds of each other. So you can zoom in and out and the timeline is horizontal stretched or compressed.
+With the two control buttons on the left side you can \textbf{zoom} the time. We have limited the different displayed zoom levels to four steps (1, 2, 5, 10). These steps represent the distance of the displayed years. The date change if they begin to overlap the thresholds of each other. So you can zoom in and out and the Timeline is horizontal stretched or compressed.
 
-To change the current date you can \textbf{pull} the timeline. You can also move the timeline by activate a Hivent. Then it is centered in the middle and the NowDate displays the date of the event.
+To change the current date you can \textbf{pull} the Timeline. You can also move the Timeline by activate a Hivent. Then it is centered in the middle and the NowDate displays the date of the event.
 
-One interesting task of the Epoch Bars was to \textbf{adapt} the labels \textbf{to diffent sizes}. In most cases the names of Epochs do not fit in their boxes. Therefore we tryed diffent ways to fix this problem:
+One interesting task of the Epoch Bars was to \textbf{adapt} the labels \textbf{to different sizes}. In most cases the names of Epochs do not fit in their boxes. Therefore we tried different ways to fix this problem:
 
 \begin{itemize}
 	\item write epoch name in two lines (destroys layout)
-	\item dynamic resize of Epoch Bars and no chainge of zoom level (historically incorrect because epochs overlap)
+	\item dynamic resize of Epoch Bars and no change of zoom level (historically incorrect because epochs overlap)
 	\item dynamic resize of Epoch Bars and with adaption of zoom level (short historical epochs with long names destroys layout)
 	\item leave out vowels (some epoch names are unreadable)
 	\item leave out the middle of the word and replace it with ... (some epoch names are unreadable)
 \end{itemize}
 
-Finally, we have used a combunation of two replacement rules:
+Finally, we have used a combination of two replacement rules:
 
 \begin{enumerate}
 	\item replace the entire word with an abbreviation
