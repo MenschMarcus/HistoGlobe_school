@@ -520,16 +520,20 @@
 	"build_system": "Packages/LaTeXTools/LaTeX.sublime-build",
 	"command_palette":
 	{
-		"height": 194.0,
+		"height": 217.0,
 		"selected_items":
 		[
 			[
-				"figu",
-				"Snippet: figure"
-			],
-			[
 				"itemi",
 				"Snippet: Itemize"
+			],
+			[
+				"item",
+				"Snippet: Itemize"
+			],
+			[
+				"figu",
+				"Snippet: figure"
 			],
 			[
 				"fig",
@@ -565,10 +569,6 @@
 			],
 			[
 				"ite",
-				"Snippet: Itemize"
-			],
-			[
-				"item",
 				"Snippet: Itemize"
 			],
 			[
@@ -894,6 +894,7 @@
 	},
 	"file_history":
 	[
+		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/Makefile",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/00-titelpage.tex",
 		"/home/marcus/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-01-map.tex",
@@ -919,7 +920,6 @@
 		"/home/marcus/.config/sublime-text-3/Packages/User/LaTeXTools Preferences.sublime-settings",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/packages.aux",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/.gitignore",
-		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/Makefile",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/03-00-UI_elements.tex",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/script/modules/timeline/Timeline.coffee",
 		"/home/marcus/HistoGlobe/HistoGlobeAtSchool/script/modules/gui/Title.coffee",
@@ -1076,6 +1076,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"future",
+			"lightning condit",
+			"test-1",
 			"H_{",
 			"result",
 			"Result",
@@ -1200,10 +1203,7 @@
 			"MAX_ZOOM_LEVEL",
 			"zoom",
 			"[\"",
-			"Styler",
-			"AreaStyler",
-			"log",
-			"hideArea"
+			"Styler"
 		],
 		"highlight": true,
 		"in_selection": false,

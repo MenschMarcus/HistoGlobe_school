@@ -8,7 +8,6 @@ The map shows the status of the countries on Earth at this certain moment in his
 
 A country consists of an \textbf{area}, represented as a multipolygon geometry, and a \textbf{label} with the name of the country and its position on the map.
 
-\newpage
 \paragraph{Areas}
 Everything is based on a dataset of the current countries in Europe from \textit{Natural Earth Data}
 \footnote{1:10m Cultural Vectors | \url{http://www.naturalearthdata.com/downloads/10m-cultural-vectors/}}.
@@ -37,7 +36,6 @@ Because of the very problematic usability of QuantumGIS and the mass of data tha
 
 \paragraph{Labels} of a country are stored separately from the areas to account for independent changes of names and geometries: A country can be renamed and borders can change, but both events do not need to correlate. The labels are defined in a table \texttt{labels.csv} consisting of the id, the name, the position (lat, lng) and a priority.
 
-\newpage
 The visualization of the labels works with priorities. Each label has a bounding box. According to the label priority, the box increases inversely in size (low priority labels get large bounding boxes). Showing and hiding a label is based on the question if the labels collide, i.e. if their bounding boxes intersect. The algorithm works in the following way:
 
 \begin{itemize}
@@ -116,7 +114,6 @@ Because of the way areas and labels are organized, an historic change can easily
 
 In order to visualize the data on the client side, the areas, labels and changes have to be preprocessed on the server. Especially the transition areas and borders have to be generated.
 
-\newpage
 \paragraph{Transitions} are the geometric changes in a change event. There is either a transition area, which is the area that changes the membership of a country (e.g. Alsace-Lorraine 1919 from the German Empire to France) or a transition border, that splits two countries (e.g. The border between Czech and Slovak Republic after the dissolution of Czechoslowakia in 1991). These transitions shall be emphasized with an animation in the moment of the historic change so that it is clearly visible to the user what is currently happening. The transitions are generated like this: For each historic change the set of old and new areas are compared to each other and pass the following decision tree:
 
 % Set the overall layout of the tree
