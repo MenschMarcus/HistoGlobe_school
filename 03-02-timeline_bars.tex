@@ -2,7 +2,7 @@
 \label{sub:timeline}
 
 \subsubsection{General}
-The Timeline is our interface to control the time in \textsc{HistoGlobe}. It is located at the bottom. In the center on certain moment of history is displayed. With the plus and minus on the left you can zoom in and out. This is done by stretching and compressing the timeline. It is possible to chainge the actual date by pulling the timeline to left or right.
+The Timeline is our interface to control the time in \textsc{HistoGlobe}. It is located at the bottom. In the center on certain moment of history is displayed. With the plus and minus on the left you can zoom in and out. This is done by stretching and compressing the Timeline. It is possible to change the actual date by pulling the Timeline to left or right.
 
 \begin{figure}[H]
 	\centering
@@ -13,7 +13,7 @@ The Timeline is our interface to control the time in \textsc{HistoGlobe}. It is 
 \subsubsection{Structure}
 One requirement of the teacher is to present time in history not linear but in epochs. The advantage is that he can give focus to special subsets of history. In our implementation we have two different types of epoch bars: German history and world history.
 
-So our actual implementation of the timeline consists of four layers. The top layer describes the German history from "Deutsches Kaiserreich" to "Geteiltes Deutschland". The next two layers belong together. They represent the world history from "Imperialismus" to "Bipolare Welt". The upper of these two layers is only shown if one category of the world history is selected. Like in picture ~\ref{fig:Timeline_Elements}. Here "Imperialismus" is active and on top of this layer is the subtopic layer with specific topics. The bottom line is used to show the classification of epoch in time and to show the certain moment of history in the DD.MM.JJJJ format as NowDate.
+So our actual implementation of the Timeline consists of four layers. The top layer describes the German history from "Deutsches Kaiserreich" to "Geteiltes Deutschland". The next two layers belong together. They represent the world history from "Imperialismus" to "Bipolare Welt". The upper of these two layers is only shown if one category of the world history is selected. Like in picture ~\ref{fig:Timeline_Elements}. Here "Imperialismus" is active and on top of this layer is the subtopic layer with specific topics. The bottom line is used to show the classification of epoch in time and to show the certain moment of history in the DD.MM.JJJJ format as NowDate.
 
 \begin{figure}[H]
 	\centering
@@ -24,7 +24,7 @@ So our actual implementation of the timeline consists of four layers. The top la
 
 
 
-\subsubsection{Behaviour}
+\subsubsection{Behavior}
 The following section describes the individual functionalities of the Timeline and topic bars. All elements are linked together so if you change one element, all other elements are chained in the same way.
 
 With the two control buttons on the left side you can \textbf{zoom} the time. We have limited the different displayed zoom levels to four steps (1, 2, 5, 10). These steps represent the distance of the displayed years. The date change if they begin to overlap the thresholds of each other. So you can zoom in and out and the Timeline is horizontal stretched or compressed.
