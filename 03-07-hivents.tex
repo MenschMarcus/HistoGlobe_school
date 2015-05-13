@@ -2,7 +2,7 @@
 \label{sec:hivents}
 \subsubsection{General} % (fold)
 \label{sub:general}
-Hivents mean "Historical Events", and are the way historical events are defined and presented. They are stored in a database, and have attributes such as name, location, start- and end-year, description and associated media.
+Hivents mean ``Historical Events'', and are the way historical events are defined and presented. They are stored in a database, and have attributes such as name, location, start- and endyear, description and asocciated media.
 They are one of the most important concepts to visualize history in HistoGlobe.
 
 % subsection general (end)
@@ -19,22 +19,23 @@ The main interface events to which the feedback occurs are mouse hovering and cl
 
   \caption{Activated Hivent}
   \label{fig:activated_hivent}
-  \end{figure}
-Upon being clicked on, it changes its status to active. An active hivent gets focused in the map, it's marker are highlighted, it gets tagged in the URL bar and the hivent box opens.
+\end{figure}
+
+Upon being clicked on, it changes its status to active. An active Hivent gets focused in the map, it's marker are highlighted, it gets tagged in the URL bar and the Hivent box opens.
 
 \subsubsection{Labels on Map}
 Hivents on the Map were only represented by a marker, which automatically clustered when they are close together.
-The teacher demanded more information, so we attached labels to the hivent markers.
+The teacher demanded more information, so we attached labels to the Hivent markers.
 We tried a Leaflet addon, but it didn't match our expectations of modifiability.
 To do labels our own, we used how the markers were implemented in the first space. They are Leaflet DivIcons so they are a div with a background image essentially. To accomplish easily modifiable labels we simply added another div element.
 In the first implementation the hivents name was shown, but we realized this isn't appropriate on a map, so we switched to show the hivents location. With this solution we got easily modifiable small weight labels.
 Overlapping labels are a known problem with some solutions todo:REFS.
 To adjust them to reasonable readability we needed fullfil special requirements.
-We needed an algorithm which was particular lightweight, since we can't precompute the labels positioning and because we wanted to use HistoGlobe on schoolPCs and mobile devices.
+We needed an algorithm which was particulary leightweight, since we can't precompute the labels positioning and because we wanted to use HistoGlobe on schoolPCs and mobile devices.
 Our solution is done by checking for an overlap by comparing the divs Bounding Boxes and moving the left label to the left on overlap.
 On high zoom levels the amount of labels was so high the map wasn't readable anymore, so we remove them from a certain zoom level on.
 
-  \begin{figure}[here]
+  \begin{figure}[H]
 \begin{center}
   \includegraphics[width=0.8\textwidth]{graphics/overlapping_labels.png}
   \end{center}
@@ -47,9 +48,9 @@ On high zoom levels the amount of labels was so high the map wasn't readable any
 A lot of historical events took place over a region, such as wars, so we wanted a region representation of hivents on the map.
 We implemented an additional type of map marker to do this.
 We added an additional optional attribute to the hivents, containing the polygon representing the region.
-The implementation was done using Leaflets Polygon drawing capabilities.
+The implementation was done using Leaflets Polygon drawing capabilites.
 
-  \begin{figure}[here]
+  \begin{figure}[H]
 \begin{center}
   \includegraphics[width=0.3\textwidth]{graphics/status2.png}
   \end{center}
@@ -59,6 +60,8 @@ The implementation was done using Leaflets Polygon drawing capabilities.
   \end{figure}
 
 As seen in \ref{fig:hivent_region_highlight}. 
+
+
 
 
 % subsection hghghg (end)
