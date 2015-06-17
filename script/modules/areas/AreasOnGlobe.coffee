@@ -7,41 +7,30 @@ class HG.AreasOnGlobe
   ##############################################################################
 
   # ============================================================================
-  constructor: () ->
+  constructor: (config) ->
     @_globe = null
     @_areaController = null
-
-    #@_sceneCountries         = null
     @_sceneCountries          = new THREE.Scene
-
     @_countryLight            = null
-
     @_intersectedMaterials    = []
-
     @_visibleAreas            = []
-
     @_wholeGeometry           = null
     @_wholeMesh               = null
     @_materials               = []
     @_areasToLoad             = 0
     @_allLines                = null
-
     @_dragStartPos            = null
+
+    defaultConfig =
+      hideAreas: false,
+      hideLabels: false
+
+    @_config = $.extend {}, defaultConfig, config
 
 
   # ============================================================================
   hgInit: (hgInstance) ->
     hgInstance.areasOnGlobe = @
-
-
-    # use L.GeometryUtil (third party) here (????)
-    #console.log "test", L.GeometryUtil.closestLayer(hgInstance.map._map,hgInstance.map._map.layers,L.latLng(50.5, 30.5))
-    '''console.log "vorher"
-    console.log hgInstance.map._map
-    for layer of hgInstance.map._map._layers
-      console.log hgInstance.map._map._layers[layer]
-      console.log "test", leafletPip.pointInLayer([50.5, 30.5],hgInstance.map._map._layers[layer],true)'''
-
 
     @_globeCanvas = hgInstance.mapCanvas
 
@@ -76,21 +65,24 @@ class HG.AreasOnGlobe
       @_globe.onZoomEnd @, @_filterLabels
       @_globe.onMove @, @_filterLabels
       @_globe.onMove @, @_updateLabelSizes
+      @_globe.onMove @, @_filterLabels
 
-      @_areasToLoad = @_areaController.getActiveAreas().length
+      '''@_areasToLoad = @_areaController.getActiveAreas().length
       for area in @_areaController.getAllAreas()
-        execute_async = (a) =>
-          setTimeout () =>
+        execute_async = (a) =>'''
 
-            @_loadAreaLayer a
+      for area in @_areaController.getActiveAreas()
 
-            --@_areasToLoad
-            if @_areasToLoad is 0
-              @_finishLoading()
+        if not @_config.hideAreas
+          @_loadAreaLayer area
 
-          , 0
+        if not @_config.hideLabels
+          @_initLabel(area)
+          if @_isLabelVisible area
+            @_showLabel area
 
-        execute_async(area)
+        # add area
+        @_visibleAreas.push area
 
       @_areaController.onShowArea @, (area) =>
         @_showAreaLayer area
@@ -100,9 +92,9 @@ class HG.AreasOnGlobe
 
 
       '''setInterval(@_animate, 100)'''#no hover
-
+      
     else
-      console.error "Unable to show areas on Map: AreaController module not detected in HistoGlobe instance!"
+      console.error "Unable to show areas on globe: AreaController module not detected in HistoGlobe instance!"
 
 
 
@@ -141,10 +133,7 @@ class HG.AreasOnGlobe
         console.log plArea.getBounds()'''
       options = area.getNormalStyle()
 
-      #console.log area.getNormalStyle()
-
-
-      #create flat shape====================================
+      #create flat shape:
       shapeGeometry = null
       mesh = null
       countryShape = null
@@ -193,10 +182,6 @@ class HG.AreasOnGlobe
         # linewidth cant be zero in rendering
 
         unless lineWidth > 0.01
-          '''if area._name is "Russia"
-            console.log "area ", area._name
-            console.log "lineWidth: ",lineWidth'''
-          #console.log area._name
           lineWidth = 1
           opacity = 0
         lineMaterial = new THREE.LineBasicMaterial(
@@ -207,6 +192,7 @@ class HG.AreasOnGlobe
         borderline = new THREE.Line( lineGeometry, lineMaterial)
 
         @_sceneCountries.add borderline if @_isAreaActive(area)
+
         borderLines.push borderline
 
         '''#merge geometry
@@ -217,10 +203,7 @@ class HG.AreasOnGlobe
           THREE.GeometryUtils.merge(@_wholeGeometry, lineGeometry , @_materials.length-1);'''
 
 
-
-
       #operations for the whole country (with all area parts):
-
       lat_distance = Math.abs(Math.abs(bounds.getSouthWest().lat) - Math.abs(bounds.getNorthEast().lat))
       lng_distance = Math.abs(Math.abs(bounds.getSouthWest().lng) - Math.abs(bounds.getNorthEast().lng))
 
@@ -230,42 +213,31 @@ class HG.AreasOnGlobe
       iterations = Math.min(Math.max(0,Math.round(max_dist^2/140)),11)
       #iterations = Math.min(Math.max(0,Math.round(max_dist^3/5500)),11)
 
-      '''if area.getLabel() is "Russia"
-        console.log max_dist,"!!!!!!!!!!!!!!!!!"
-        console.log lat_distance
-        console.log lng_distance
-        console.log "iterations: ",iterations
-      console.log iterations'''
-
       tessellateModifier = new THREE.TessellateModifier(7.5)
-      #for i in [0 .. 6]
+
       for i in [0 .. iterations]
         tessellateModifier.modify shapeGeometry
-
 
       #invisible if not active
       opacity = 0.0
       opacity = materialData.fillOpacity if @_isAreaActive(area)
 
       countryMaterial = new THREE.MeshLambertMaterial
-              #color       : "#5b309f"
               color       : materialData.fillColor
-              #side        : THREE.DoubleSide,
               side        : THREE.BackSide,
-              #side        : THREE.FrontSide,
               opacity     : opacity,#+0.25,
               transparent : true,
               depthWrite  : false,
               wireframe   : false,
 
 
-      #for later onclick purposes
+      #for later onclick purposes:
       shapeGeometry.computeBoundingBox()
       countryMaterial.bb = shapeGeometry.boundingBox
 
       mesh = new THREE.Mesh( shapeGeometry, countryMaterial );
 
-      #gps to cart mapping================================
+      #gps to cart mapping:
       for vertex in mesh.geometry.vertices
         cart_coords = @_globe._latLongToCart(
             x:vertex.x
@@ -274,7 +246,6 @@ class HG.AreasOnGlobe
         vertex.x = cart_coords.x
         vertex.y = cart_coords.y
         vertex.z = cart_coords.z
-
         vertex.id = mesh.id
 
       mesh.geometry.verticesNeedUpdate = true;
@@ -290,35 +261,23 @@ class HG.AreasOnGlobe
       else
         THREE.GeometryUtils.merge(@_wholeGeometry, mesh , @_materials.length-1);
 
-
+      @_sceneCountries.add mesh
 
       area.Material3D = mesh.material
       area.VertexID = mesh.id
       area.onStyleChange @, @_onStyleChange3D
 
-
-      '''@_sceneCountries.add mesh'''
-
       mesh.Label = area.getLabel()
-      '''mesh.Borderlines = borderLines
 
       mesh.Area = area
 
-      area.Mesh3D = mesh'''
+      area.Mesh3D = mesh
       area.Borderlines3D = borderLines
-
-      @_initLabel(area)
-      if @_isLabelVisible area
-        @_showLabel area
-
-      # add area
-      @_visibleAreas.push area
 
   # ============================================================================
   _showAreaLayer: (area) ->
     if area.Material3D
       area.Material3D.opacity = area.getNormalStyle().fillOpacity
-
 
       if area.Borderlines3D
         for line in area.Borderlines3D
@@ -331,16 +290,16 @@ class HG.AreasOnGlobe
 
     area.Material3D.opacity = 0.0
 
-    '''vertices = @_wholeGeometry.vertices
+    vertices = @_wholeGeometry.vertices
     for vertex in vertices
       if vertex.id is area.VertexID
         index = vertices.indexOf(5);
-        vertices.splice(index, 1) if index >= 0'''
+        vertices.splice(index, 1) if index >= 0
 
-    '''if area.Mesh3D? and area.Borderlines3D
+    if area.Mesh3D? and area.Borderlines3D
 
       area.removeListener "onStyleChange", @
-      @_visibleAreas.splice(@_visibleAreas.indexOf(area), 1)'''
+      @_visibleAreas.splice(@_visibleAreas.indexOf(area), 1)
 
     if area.Borderlines3D
       for line in area.Borderlines3D
@@ -352,13 +311,9 @@ class HG.AreasOnGlobe
   # ============================================================================
   _onStyleChange3D: (area) =>
 
-    #@_animate area.myLeafletLayer, {"fill": area.getNormalStyle().fillColor}, 350#animation maybe later!
     if area.Material3D?
-      #newColor = area.getNormalStyle().fillColor
-      #area.Material3D.color.setHex "0x"+newColor[1..]
 
       final_color = @_rgbify area.getNormalStyle().fillColor
-
 
       $({
         colorR:area.Material3D.color.r,
@@ -379,8 +334,6 @@ class HG.AreasOnGlobe
           area.Material3D.color.b = this.colorB
           area.Material3D.opacity = this.opacity
       })
-
-
 
       lineWidth = area.getNormalStyle().lineWidth
       lineOpacity = area.getNormalStyle().lineOpacity
@@ -427,9 +380,7 @@ class HG.AreasOnGlobe
       if area.Label3D
         area.Label3D.material.opacity = area.getNormalStyle().labelOpacity
 
-
-  # ============================================================================
-  #new:(# http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript)
+  #taken from http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
   _rgbify: (colr) ->
 
     colr = colr.replace /#/, ''
@@ -446,7 +397,6 @@ class HG.AreasOnGlobe
         parseInt(colr.slice(4,6), 16)
       ]
     else
-      # just return black
       [0, 0, 0]
 
   # ============================================================================
@@ -462,6 +412,7 @@ class HG.AreasOnGlobe
     area.Label3DIsVisible = false
 
     unless area.Label3D?
+
       text = area.getLabel().split "<"
       text = text[0]
 
@@ -472,7 +423,6 @@ class HG.AreasOnGlobe
       canvas.width = textWidth
       canvas.height = TEXT_HEIGHT
       canvas.className = "leaflet-label"#TODO!!!!!!!
-      #console.log canvas
 
       context = canvas.getContext('2d')
       context.textAlign = 'center'
@@ -558,8 +508,7 @@ class HG.AreasOnGlobe
 
       width = area.Label3D.textWidth
 
-      visible = ((max.x*@_globe._width - min.x*@_globe._width) > width*2.0 or @_globe.getZoom()  is @_globe.getMaxZoom) and
-      @_isAreaActive(area)
+      visible = ((max.x*@_globe._width - min.x*@_globe._width) > width*2.0 or @_globe.getZoom()  is @_globe.getMaxZoom)# and @_isAreaActive(area)
 
 
   # ============================================================================
@@ -591,14 +540,10 @@ class HG.AreasOnGlobe
   # ============================================================================
   _onMouseDown: (event) =>
 
-    offset = 0
-    rightOffset = parseFloat($(@_globeCanvas).css("right").replace('px',''))
-    offset = rightOffset if rightOffset
-
     event.preventDefault()
     clickMouse =
-      x: (event.clientX - @_globe._canvasOffsetX - offset) / @_globe._width * 2 - 1
-      y: (event.clientY - @_globe._canvasOffsetY) / @_globe._myHeight * 2 - 1
+      x: (@_globe._mousePos.x - @_globe._canvasOffsetX) / @_globe._width * 2 - 1
+      y: (@_globe._mousePos.y - @_globe._canvasOffsetY) / @_globe._myHeight * 2 - 1
 
     @_dragStartPos = @_globe._pixelToLatLong(clickMouse)
 
@@ -606,13 +551,9 @@ class HG.AreasOnGlobe
   # ============================================================================
   _onMouseUp: (event) =>
 
-    offset = 0
-    rightOffset = parseFloat($(@_globeCanvas).css("right").replace('px',''))
-    offset = rightOffset if rightOffset
-
     clickMouse =
-      x: (event.clientX - @_globe._canvasOffsetX - offset) / @_globe._width * 2 - 1
-      y: (event.clientY - @_globe._canvasOffsetY) / @_globe._myHeight * 2 - 1
+      x: (@_globe._mousePos.x - @_globe._canvasOffsetX) / @_globe._width * 2 - 1
+      y: (@_globe._mousePos.y - @_globe._canvasOffsetY) / @_globe._myHeight * 2 - 1
 
     clickPos = @_globe._pixelToLatLong(clickMouse)
 
@@ -627,8 +568,6 @@ class HG.AreasOnGlobe
           mat = countryIntersects[0].object.material.materials[index]
           if mat.opacity > 0.1 #dont select invisible countries (????????)
             bb = mat.bb
-            #console.log "bb: ",bb
-            #console.log "bb.center: ",bb.center
             bb_center = bb.center()
             #countryIntersects[0].object.geometry.computeBoundingBox()
             #bb = countryIntersects[0].object.geometry.boundingBox
@@ -665,14 +604,9 @@ class HG.AreasOnGlobe
   # ============================================================================
   _evaluate: () =>
 
-    #offset = 0
-    #rightOffset = parseFloat($(@_globeCanvas).css("right").replace('px',''))
-    #offset = rightOffset if rightOffset
-
     mouseRel =
       x: (@_globe._mousePos.x - @_globe._canvasOffsetX) / @_globe._width * 2 - 1
       y: (@_globe._mousePos.y - @_globe._canvasOffsetY) / @_globe._myHeight * 2 - 1
-
 
     # picking ------------------------------------------------------------------
     vector = new THREE.Vector3 mouseRel.x, -mouseRel.y, 0.5
@@ -683,7 +617,6 @@ class HG.AreasOnGlobe
 
     raycaster.set @_globe._camera.position, vector.sub(@_globe._camera.position).normalize()
 
-    #new:
     countryIntersects = raycaster.intersectObjects @_sceneCountries.children
 
     if countryIntersects.length > 0
@@ -693,7 +626,6 @@ class HG.AreasOnGlobe
 
     for mat in @_intersectedMaterials
       mat.opacity = mat.opacity - 0.2
-      #intersect.material.opacity =  intersect.material.opacity - 0.2 #nicht schön
 
     #hover countries
     for intersect in countryIntersects
@@ -715,8 +647,6 @@ class HG.AreasOnGlobe
     @_intersectedMaterials = []
     # hover intersected countries
     for intersect in countryIntersects
-      #console.log "intersected face: ", intersect.face.materialIndex
-      #console.log "intersected face: ", intersect.object.material.materials[intersect.face.materialIndex]
 
       index = intersect.face.materialIndex
       to_change = intersect.object.material.materials[index]
@@ -745,5 +675,5 @@ class HG.AreasOnGlobe
   TEST_CANVAS.height = 1
   TEST_CONTEXT = TEST_CANVAS.getContext('2d')
   TEST_CONTEXT.textAlign = 'center'
-  TEXT_HEIGHT = 24
+  TEXT_HEIGHT = 12
   TEST_CONTEXT.font = "#{TEXT_HEIGHT}px Lobster"
