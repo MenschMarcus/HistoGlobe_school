@@ -1,0 +1,1241 @@
+{
+  "content": "changes", 
+  "features": [
+    {
+      "date": 1139, 
+      "id": "POR-init", 
+      "new_areas": [
+        "PRT"
+      ], 
+      "new_labels": [
+        "PRT_KNG"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1239, 
+      "id": "AND-init", 
+      "new_areas": [
+        "AND"
+      ], 
+      "new_labels": [
+        "AND"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1405, 
+      "id": "IMN-init", 
+      "new_areas": [
+        "IMN"
+      ], 
+      "new_labels": [
+        "IMN"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1500, 
+      "id": "LIE-init", 
+      "new_areas": [
+        "LIE"
+      ], 
+      "new_labels": [
+        "LIE"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1500, 
+      "id": "SMR-init", 
+      "new_areas": [
+        "SMR"
+      ], 
+      "new_labels": [
+        "SMR"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1500, 
+      "id": "SVJ-init", 
+      "new_areas": [
+        "SVJ"
+      ], 
+      "new_labels": [
+        "SVJ"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1713, 
+      "id": "GIB-init", 
+      "new_areas": [
+        "GIB"
+      ], 
+      "new_labels": [
+        "GIB"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1801, 
+      "id": "UK-init", 
+      "new_areas": [
+        "GBR+IRL+MLT"
+      ], 
+      "new_labels": [
+        "UK"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1813, 
+      "id": "ESP-init", 
+      "new_areas": [
+        "ESP"
+      ], 
+      "new_labels": [
+        "ESP"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1814, 
+      "id": "SWE+NOR-init", 
+      "new_areas": [
+        "SWNO"
+      ], 
+      "new_labels": [
+        "SWNO"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1816, 
+      "id": "MORS-init", 
+      "new_areas": [
+        "MORS"
+      ], 
+      "new_labels": [
+        "MORS"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1826, 
+      "id": "FIN-init", 
+      "new_areas": [
+        "FIN+Karelia_1826-1920"
+      ], 
+      "new_labels": [
+        "FIN+Karelia_Grandduchy"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1831, 
+      "id": "BEL-init", 
+      "new_areas": [
+        "BEL-EupMalm-MORS_1831-1919"
+      ], 
+      "new_labels": [
+        "BEL"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1839, 
+      "id": "LUX-init", 
+      "new_areas": [
+        "LUX"
+      ], 
+      "new_labels": [
+        "LUX"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1860, 
+      "id": "CHE-init", 
+      "new_areas": [
+        "CHE"
+      ], 
+      "new_labels": [
+        "CHE"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1861, 
+      "id": "MCO-init", 
+      "new_areas": [
+        "MCO"
+      ], 
+      "new_labels": [
+        "MCO"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1864, 
+      "id": "DNK-init", 
+      "new_areas": [
+        "DNK-Schleswig+GRL+FRO+ISL"
+      ], 
+      "new_labels": [
+        "DNK"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1866, 
+      "id": "ITA-init", 
+      "new_areas": [
+        "ITA-SouthTyrol+DODEC+VAT"
+      ], 
+      "new_labels": [
+        "ITA"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1867, 
+      "id": "NLD-init", 
+      "new_areas": [
+        "NLD"
+      ], 
+      "new_labels": [
+        "NLD"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1871, 
+      "id": "FRA-init", 
+      "new_areas": [
+        "FRA-Elsass"
+      ], 
+      "new_labels": [
+        "FRA"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1871, 
+      "id": "DEUR-init", 
+      "new_areas": [
+        "DEUR_1871-1919"
+      ], 
+      "new_labels": [
+        "DEUR"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1873, 
+      "id": "1873-ESP-name_change", 
+      "new_areas": [], 
+      "new_labels": [
+        "ESP_REP"
+      ], 
+      "old_areas": [], 
+      "old_labels": [
+        "ESP"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1874, 
+      "id": "1874-ESP_name_change", 
+      "new_areas": [], 
+      "new_labels": [
+        "ESP"
+      ], 
+      "old_areas": [], 
+      "old_labels": [
+        "ESP_REP"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1905, 
+      "id": "1905-SWNO-splitup", 
+      "new_areas": [
+        "SWE", 
+        "NOR-SVJ"
+      ], 
+      "new_labels": [
+        "SWE", 
+        "NOR"
+      ], 
+      "old_areas": [
+        "SWNO"
+      ], 
+      "old_labels": [
+        "SWNO"
+      ], 
+      "trans_area": null, 
+      "trans_border": "trans_0"
+    }, 
+    {
+      "date": 1910, 
+      "id": "1910-PRT-name_change", 
+      "new_areas": [], 
+      "new_labels": [
+        "PRT_REP"
+      ], 
+      "old_areas": [], 
+      "old_labels": [
+        "PRT_KNG"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1917, 
+      "id": "1917-FIN-name_change", 
+      "new_areas": [], 
+      "new_labels": [
+        "FIN+Karelia"
+      ], 
+      "old_areas": [], 
+      "old_labels": [
+        "FIN+Karelia_Grandduchy"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1918, 
+      "id": "1918-ISL-separation", 
+      "new_areas": [
+        "DNK-Schleswig+GRL+FRO", 
+        "ISL"
+      ], 
+      "new_labels": [
+        "ISL"
+      ], 
+      "old_areas": [
+        "DNK-Schleswig+GRL+FRO+ISL"
+      ], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1918, 
+      "id": "CSSR-init", 
+      "new_areas": [
+        "CSSR_1918-1938"
+      ], 
+      "new_labels": [
+        "CSSR"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1918, 
+      "id": "JUG-init", 
+      "new_areas": [
+        "SFY-TRST-WestSVN"
+      ], 
+      "new_labels": [
+        "YUG"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1919, 
+      "id": "1919-SouthTyrol-to-ITA", 
+      "new_areas": [
+        "ITA-TRST+DODEC+VAT"
+      ], 
+      "new_labels": [], 
+      "old_areas": [
+        "ITA-SouthTyrol+DODEC+VAT"
+      ], 
+      "old_labels": [], 
+      "trans_area": "trans_1", 
+      "trans_border": null
+    }, 
+    {
+      "date": 1919, 
+      "id": "1919-DEUR-splitup", 
+      "new_areas": [
+        "DEUR_1919-1945", 
+        "DNK+GRL+FRO", 
+        "FRA", 
+        "BEL"
+      ], 
+      "new_labels": [
+        "WEIMREP"
+      ], 
+      "old_areas": [
+        "DEUR_1871-1919", 
+        "DNK-Schleswig+GRL+FRO", 
+        "FRA-Elsass", 
+        "BEL-EupMalm-MORS_1831-1919"
+      ], 
+      "old_labels": [
+        "DEUR"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1919, 
+      "id": "AUT-init", 
+      "new_areas": [
+        "AUT"
+      ], 
+      "new_labels": [
+        "AUT"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1920, 
+      "id": "1920-FIN-border_change", 
+      "new_areas": [
+        "FIN+Karelia+Petsamo_1920-1940"
+      ], 
+      "new_labels": [], 
+      "old_areas": [
+        "FIN+Karelia_1826-1920"
+      ], 
+      "old_labels": [], 
+      "trans_area": "trans_2", 
+      "trans_border": null
+    }, 
+    {
+      "date": 1922, 
+      "id": "1922-IRL-separation", 
+      "new_areas": [
+        "GBR+NIRL+MLT", 
+        "IRL"
+      ], 
+      "new_labels": [
+        "IRL_free"
+      ], 
+      "old_areas": [
+        "GBR+IRL+MLT"
+      ], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": "trans_3"
+    }, 
+    {
+      "date": 1925, 
+      "id": "1925-NOR+SVJ-union", 
+      "new_areas": [
+        "NOR"
+      ], 
+      "new_labels": [], 
+      "old_areas": [
+        "NOR-SVJ", 
+        "SVJ"
+      ], 
+      "old_labels": [
+        "SVJ"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1926, 
+      "id": "1926-PRT-name_change", 
+      "new_areas": [], 
+      "new_labels": [
+        "PRT"
+      ], 
+      "old_areas": [], 
+      "old_labels": [
+        "PRT_REP"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1926, 
+      "id": "1926-PRT-name_change", 
+      "new_areas": [], 
+      "new_labels": [
+        "PRT"
+      ], 
+      "old_areas": [], 
+      "old_labels": [
+        "PRT_REP"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1929, 
+      "id": "1929-VAT-separation", 
+      "new_areas": [
+        "ITA-TRST+DODEC", 
+        "VAT"
+      ], 
+      "new_labels": [
+        "VAT"
+      ], 
+      "old_areas": [
+        "ITA-TRST+DODEC+VAT"
+      ], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1930, 
+      "id": "ROU-init", 
+      "new_areas": [
+        "ROU_1930-1945"
+      ], 
+      "new_labels": [
+        "ROU"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1931, 
+      "id": "1931-ESP-name_change", 
+      "new_areas": [], 
+      "new_labels": [
+        "ESP_REP"
+      ], 
+      "old_areas": [], 
+      "old_labels": [
+        "ESP"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1933, 
+      "id": "1933-DEUR-name_change", 
+      "new_areas": [], 
+      "new_labels": [
+        "DEUR"
+      ], 
+      "old_areas": [], 
+      "old_labels": [
+        "WEIMREP"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1933, 
+      "id": "1933-PRT-name_change", 
+      "new_areas": [], 
+      "new_labels": [
+        "PRT_REP"
+      ], 
+      "old_areas": [], 
+      "old_labels": [
+        "PRT"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1937, 
+      "id": "1937-IRL-name_change", 
+      "new_areas": [], 
+      "new_labels": [
+        "IRL"
+      ], 
+      "old_areas": [], 
+      "old_labels": [
+        "IRL_free"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1938, 
+      "id": "1938-CSSR-border_change", 
+      "new_areas": [
+        "CSSR"
+      ], 
+      "new_labels": [], 
+      "old_areas": [
+        "CSSR_1918-1938"
+      ], 
+      "old_labels": [], 
+      "trans_area": "trans_4", 
+      "trans_border": null
+    }, 
+    {
+      "date": 1939, 
+      "id": "1939-ESP-name_change", 
+      "new_areas": [], 
+      "new_labels": [
+        "ESP"
+      ], 
+      "old_areas": [], 
+      "old_labels": [
+        "ESP_REP"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1940, 
+      "id": "1940-FIN-border_change", 
+      "new_areas": [
+        "FIN+Petsamo_1940-1944"
+      ], 
+      "new_labels": [
+        "FIN"
+      ], 
+      "old_areas": [
+        "FIN+Karelia+Petsamo_1920-1940"
+      ], 
+      "old_labels": [
+        "FIN+Karelia"
+      ], 
+      "trans_area": "trans_5", 
+      "trans_border": null
+    }, 
+    {
+      "date": 1941, 
+      "id": "BGR-init", 
+      "new_areas": [
+        "BGR_1941-1947"
+      ], 
+      "new_labels": [
+        "BGR"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1944, 
+      "id": "1944-FIN-border_change", 
+      "new_areas": [
+        "FIN+Petsamo_1944-1947"
+      ], 
+      "new_labels": [], 
+      "old_areas": [
+        "FIN+Petsamo_1940-1944"
+      ], 
+      "old_labels": [], 
+      "trans_area": "trans_6", 
+      "trans_border": null
+    }, 
+    {
+      "date": 1944, 
+      "id": "ALB_PR-init", 
+      "new_areas": [
+        "ALB"
+      ], 
+      "new_labels": [
+        "ALB_PR"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1945, 
+      "id": "1945-SFY-creation", 
+      "new_areas": [], 
+      "new_labels": [
+        "SFY"
+      ], 
+      "old_areas": [], 
+      "old_labels": [
+        "YUG"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1945, 
+      "id": "1945-POL-init", 
+      "new_areas": [
+        "POL"
+      ], 
+      "new_labels": [
+        "POL_PR"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1945, 
+      "id": "1945-DEUR-occupation", 
+      "new_areas": [
+        "DEU"
+      ], 
+      "new_labels": [
+        "DEU_occ"
+      ], 
+      "old_areas": [
+        "DEUR_1919-1945"
+      ], 
+      "old_labels": [
+        "DEUR"
+      ], 
+      "trans_area": "trans_7", 
+      "trans_border": null
+    }, 
+    {
+      "date": 1945, 
+      "id": "1945-ROU-UKR-border_change", 
+      "new_areas": [
+        "ROU_1945-1947"
+      ], 
+      "new_labels": [], 
+      "old_areas": [
+        "ROU_1930-1945"
+      ], 
+      "old_labels": [], 
+      "trans_area": "trans_8", 
+      "trans_border": null
+    }, 
+    {
+      "date": 1945, 
+      "id": "CCCP-init", 
+      "new_areas": [
+        "CCCP"
+      ], 
+      "new_labels": [
+        "CCCP"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1945, 
+      "id": "CYP-init", 
+      "new_areas": [
+        "CYP"
+      ], 
+      "new_labels": [
+        "CYP"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1945, 
+      "id": "GRC-init", 
+      "new_areas": [
+        "GRC"
+      ], 
+      "new_labels": [
+        "GRC"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1945, 
+      "id": "TUR-init", 
+      "new_areas": [
+        "TUR"
+      ], 
+      "new_labels": [
+        "TUR"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1946, 
+      "id": "HUN-init", 
+      "new_areas": [
+        "HUN"
+      ], 
+      "new_labels": [
+        "HUN_REP"
+      ], 
+      "old_areas": [], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1947, 
+      "id": "1947-TRST-separation", 
+      "new_areas": [
+        "SFY-TRST", 
+        "ITA-TRST", 
+        "TRST"
+      ], 
+      "new_labels": [
+        "TRST"
+      ], 
+      "old_areas": [
+        "SFY-TRST-WestSVN", 
+        "ITA-TRST+DODEC"
+      ], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1947, 
+      "id": "1947-SAAR-separation", 
+      "new_areas": [
+        "DEU-SAAR", 
+        "SAAR"
+      ], 
+      "new_labels": [
+        "SAAR"
+      ], 
+      "old_areas": [
+        "DEU"
+      ], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": "trans_9"
+    }, 
+    {
+      "date": 1947, 
+      "id": "1947-FIN-border_change", 
+      "new_areas": [
+        "FIN"
+      ], 
+      "new_labels": [], 
+      "old_areas": [
+        "FIN+Petsamo_1944-1947"
+      ], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1947, 
+      "id": "1947-ROU-BGR-border_change", 
+      "new_areas": [
+        "ROU", 
+        "BGR"
+      ], 
+      "new_labels": [
+        "ROU_PR", 
+        "BGR_PR"
+      ], 
+      "old_areas": [
+        "ROU_1945-1947", 
+        "BGR_1941-1947"
+      ], 
+      "old_labels": [
+        "ROU", 
+        "BGR"
+      ], 
+      "trans_area": "trans_10", 
+      "trans_border": null
+    }, 
+    {
+      "date": 1948, 
+      "id": "1948-FRO-separation", 
+      "new_areas": [
+        "DNK+GRL", 
+        "FRO"
+      ], 
+      "new_labels": [
+        "FRO"
+      ], 
+      "old_areas": [
+        "DNK+GRL+FRO"
+      ], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": "trans_11"
+    }, 
+    {
+      "date": 1949, 
+      "id": "1949-HUN-name_change", 
+      "new_areas": [], 
+      "new_labels": [
+        "HUN_PR"
+      ], 
+      "old_areas": [], 
+      "old_labels": [
+        "HUN_REP"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1949, 
+      "id": "1949-BRD-creation", 
+      "new_areas": [
+        "BRD-SAAR", 
+        "DDR"
+      ], 
+      "new_labels": [
+        "BRD", 
+        "DDR"
+      ], 
+      "old_areas": [
+        "DEU-SAAR"
+      ], 
+      "old_labels": [
+        "DEU_occ"
+      ], 
+      "trans_area": null, 
+      "trans_border": "trans_12"
+    }, 
+    {
+      "date": 1954, 
+      "id": "1954-TRST-splitup", 
+      "new_areas": [
+        "ITA", 
+        "SFY"
+      ], 
+      "new_labels": [], 
+      "old_areas": [
+        "TRST", 
+        "ITA-TRST", 
+        "SFY-TRST"
+      ], 
+      "old_labels": [
+        "TRST"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1956, 
+      "id": "1956-SAAR-BRD-union", 
+      "new_areas": [
+        "BRD"
+      ], 
+      "new_labels": [], 
+      "old_areas": [
+        "BRD-SAAR", 
+        "SAAR"
+      ], 
+      "old_labels": [
+        "SAAR"
+      ], 
+      "trans_area": null, 
+      "trans_border": "trans_13"
+    }, 
+    {
+      "date": 1964, 
+      "id": "1964-MLT-separation", 
+      "new_areas": [
+        "GBR+NIRL", 
+        "MLT"
+      ], 
+      "new_labels": [
+        "MLT"
+      ], 
+      "old_areas": [
+        "GBR+NIRL+MLT"
+      ], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": "trans_14"
+    }, 
+    {
+      "date": 1974, 
+      "id": "1974-PRT-name_change", 
+      "new_areas": [], 
+      "new_labels": [
+        "PRT"
+      ], 
+      "old_areas": [], 
+      "old_labels": [
+        "PRT_REP"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1979, 
+      "id": "1979-GRL-separation", 
+      "new_areas": [
+        "DNK", 
+        "GRL"
+      ], 
+      "new_labels": [
+        "GRL"
+      ], 
+      "old_areas": [
+        "DNK+GRL"
+      ], 
+      "old_labels": [], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1989, 
+      "id": "1989-HUN-name_change", 
+      "new_areas": [], 
+      "new_labels": [
+        "HUN"
+      ], 
+      "old_areas": [], 
+      "old_labels": [
+        "HUN_PR"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1989, 
+      "id": "1989-POL-name_change", 
+      "new_areas": [], 
+      "new_labels": [
+        "POL"
+      ], 
+      "old_areas": [], 
+      "old_labels": [
+        "POL_PR"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1990, 
+      "id": "1990-ALB-name_change", 
+      "new_areas": [], 
+      "new_labels": [
+        "ALB"
+      ], 
+      "old_areas": [], 
+      "old_labels": [
+        "ALB_PR"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1990, 
+      "id": "1990-DEU-union", 
+      "new_areas": [
+        "DEU"
+      ], 
+      "new_labels": [
+        "DEU"
+      ], 
+      "old_areas": [
+        "BRD", 
+        "DDR"
+      ], 
+      "old_labels": [
+        "BRD", 
+        "DDR"
+      ], 
+      "trans_area": null, 
+      "trans_border": "trans_15"
+    }, 
+    {
+      "date": 1990, 
+      "id": "1990-ROU-name_change", 
+      "new_areas": [], 
+      "new_labels": [
+        "ROU"
+      ], 
+      "old_areas": [], 
+      "old_labels": [
+        "ROU_PR"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1990, 
+      "id": "1990-BGR-name_change", 
+      "new_areas": [], 
+      "new_labels": [
+        "BGR"
+      ], 
+      "old_areas": [], 
+      "old_labels": [
+        "BGR_PR"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }, 
+    {
+      "date": 1991, 
+      "id": "1991-CCCP_splitup", 
+      "new_areas": [
+        "EST", 
+        "LVA", 
+        "LTU", 
+        "BLR", 
+        "UKR", 
+        "MDA", 
+        "RUS"
+      ], 
+      "new_labels": [
+        "EST", 
+        "LVA", 
+        "LTU", 
+        "BLR", 
+        "UKR", 
+        "MDA", 
+        "RUS"
+      ], 
+      "old_areas": [
+        "CCCP"
+      ], 
+      "old_labels": [
+        "CCCP"
+      ], 
+      "trans_area": null, 
+      "trans_border": "trans_16"
+    }, 
+    {
+      "date": 1992, 
+      "id": "1992-JUG-splitup", 
+      "new_areas": [
+        "SVN", 
+        "HRV", 
+        "SRB+MNE+KSV", 
+        "BIH", 
+        "MKD"
+      ], 
+      "new_labels": [
+        "SVN", 
+        "YUG_SRB", 
+        "HRV", 
+        "BIH", 
+        "MKD"
+      ], 
+      "old_areas": [
+        "SFY"
+      ], 
+      "old_labels": [
+        "SFY"
+      ], 
+      "trans_area": null, 
+      "trans_border": "trans_17"
+    }, 
+    {
+      "date": 1993, 
+      "id": "1993-CSSR-splitup", 
+      "new_areas": [
+        "CZE", 
+        "SVK"
+      ], 
+      "new_labels": [
+        "CZE", 
+        "SVK"
+      ], 
+      "old_areas": [
+        "CSSR"
+      ], 
+      "old_labels": [
+        "CSSR"
+      ], 
+      "trans_area": null, 
+      "trans_border": "trans_18"
+    }, 
+    {
+      "date": 2003, 
+      "id": "2003-JUG-name_change", 
+      "new_areas": [], 
+      "new_labels": [
+        "SRB+MNE"
+      ], 
+      "old_areas": [], 
+      "old_labels": [
+        "YUG_SRB"
+      ], 
+      "trans_area": null, 
+      "trans_border": null
+    }
+  ], 
+  "type": "FeatureCollection"
+}
