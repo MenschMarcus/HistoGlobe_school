@@ -21,6 +21,8 @@ class HG.Globe extends HG.Display
 
     @_globeCanvas = null
 
+    @_tile_path = ""
+
 
   # ============================================================================
   hgInit: (hgInstance) ->
@@ -32,6 +34,7 @@ class HG.Globe extends HG.Display
 
     if hgInstance.browserDetector.webglSupported
       hgInstance.globe = @
+      @_tile_path = hgInstance._config.tiles
       @_globeCanvas = hgInstance.mapCanvas
       @_areaController = hgInstance.areaController
 
@@ -800,7 +803,7 @@ class HG.Globe extends HG.Display
       while dy < 4
         x = tile.x + dx
         y = tile.y + (3 - dy)
-        file = TILE_PATH + tile.z + "/" + x + "/" + y + ".png"
+        file = @_tile_path + tile.z + "/" + x + "/" + y + ".png"
         tex = THREE.ImageUtils.loadTexture(file, new THREE.UVMapping(), ->
           tile.loadedTextureCount++
         )
@@ -910,8 +913,6 @@ class HG.Globe extends HG.Display
 
   # background color
   BACKGROUND = new THREE.Color(0xCCCCCC)
-  #TILE_PATH = "data/tiles/"
-  TILE_PATH = "config/exemplum/data/tiles/"
 
   # radius of the globe
   EARTH_RADIUS = 200
