@@ -140,7 +140,7 @@
   {
     "normalStyle":
     {
-      "areaColor":      "#ffffff",
+      "areaColor":      "#ff0000",
       "areaColor_hc":   "#ffffff",
       "areaOpacity":    0.75,
       "borderWidth":    1.25,
@@ -209,7 +209,9 @@
     "labelVisibilityFactor" : 1.5
   },
 
-  "Globe": {}
+  "Globe": {},
+
+  "AreasOnGlobe" : {}
 
 }
 

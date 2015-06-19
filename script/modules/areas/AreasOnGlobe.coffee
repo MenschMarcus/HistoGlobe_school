@@ -32,12 +32,14 @@ class HG.AreasOnGlobe
   hgInit: (hgInstance) ->
     hgInstance.areasOnGlobe = @
 
+    @_aniTime = hgInstance._config.areaAniTime
+
     @_globeCanvas = hgInstance.mapCanvas
 
     @_globe = hgInstance.globe
 
     if @_globe
-      @_globe.onLoaded @, @_initAreas
+      @_globe.onLoaded @, @_initAll
 
     else
       console.log "Unable to show areas on Map: Globe module not detected in HistoGlobe instance!"
@@ -51,7 +53,7 @@ class HG.AreasOnGlobe
   ##############################################################################
 
   # ============================================================================
-  _initAreas:() ->
+  _initAll:() ->
 
     if @_areaController
 
@@ -62,324 +64,92 @@ class HG.AreasOnGlobe
 
       window.addEventListener   "mouseup",  @_onMouseUp,         false #for country intersections
       window.addEventListener   "mousedown",@_onMouseDown,       false #for country intersections
-      @_globe.onZoomEnd @, @_filterLabels
+      '''@_globe.onZoomEnd @, @_filterLabels
       @_globe.onMove @, @_filterLabels
       @_globe.onMove @, @_updateLabelSizes
-      @_globe.onMove @, @_filterLabels
+      @_globe.onMove @, @_filterLabels'''
 
-      '''@_areasToLoad = @_areaController.getActiveAreas().length
-      for area in @_areaController.getAllAreas()
-        execute_async = (a) =>'''
-
-      for area in @_areaController.getActiveAreas()
-
-        if not @_config.hideAreas
-          @_loadAreaLayer area
-
-        if not @_config.hideLabels
-          @_initLabel(area)
-          if @_isLabelVisible area
-            @_showLabel area
-
-        # add area
+      ## AREA CALLBACKS
+      # change of areas
+      @_areaController.onAddArea @, (area) =>
+        # @_addArea area
+        # @_showArea area, @_aniTime
         @_visibleAreas.push area
+        execute_async = (a) =>
+          setTimeout () =>
+            @_addArea a
+            @_showArea a, @_aniTime
+          , 0
 
-      @_areaController.onShowArea @, (area) =>
-        @_showAreaLayer area
+        execute_async area
 
-      @_areaController.onHideArea @, (area) =>
-        @_hideAreaLayer area
+      @_areaController.onRemoveArea @, (area) =>
+        @_hideArea area, @_aniTime
+
+      @_areaController.onUpdateAreaStyle @, (area, isHC) =>
+        '''@_inHighContrast = isHC'''
+        @_updateAreaStyle area, @_aniTime
+
+      # transition areas and borders
+      @_areaController.onFadeInArea @, (area, isHighlight) =>
+        #@_addArea area
+        #@_showArea area, @_aniTime, isHighlight
+        @_visibleAreas.push area
+        execute_async = (a,ih) =>
+          setTimeout () =>
+            @_addArea a
+            @_showArea a, @_aniTime, ih
+          , 0
+
+        execute_async area,isHighlight
 
 
-      '''setInterval(@_animate, 100)'''#no hover
+      @_areaController.onFadeOutArea @, (area) =>
+        @_hideArea area, @_aniTime
+
+      '''@_areaController.onFadeInBorder @, (border) =>
+        @_addBorder border
+        @_showBorder border, @_aniTime
+
+      @_areaController.onFadeOutBorder @, (border) =>
+        @_hideBorder border, @_aniTime
+
+      # change of labels
+      @_areaController.onAddLabel @, (label) =>
+        @_addLabel label
+
+      @_areaController.onRemoveLabel @, (label) =>
+        @_removeLabel label
+
+      @_areaController.onUpdateLabelStyle @, (label, isHC) =>
+        @_inHighContrast = isHC
+        @_updateLabelStyle label'''
       
     else
       console.error "Unable to show areas on globe: AreaController module not detected in HistoGlobe instance!"
 
 
 
-  # ============================================================================
-  _finishLoading:() =>
+  # '''# ============================================================================
+  # #TODO: performance boost:
+  # _finishLoading:() =>
 
 
-    @_wholeMesh = new THREE.Mesh( @_wholeGeometry, new THREE.MeshFaceMaterial( @_materials ) );
-    @_sceneCountries.add @_wholeMesh
+  #   @_wholeMesh = new THREE.Mesh( @_wholeGeometry, new THREE.MeshFaceMaterial( @_materials ) );
+  #   @_sceneCountries.add @_wholeMesh'''
 
 
-    '''lineMaterial = new THREE.LineBasicMaterial color: 0x646464, linewidth: 2
-    borders = new THREE.Line( @_allLines, lineMaterial, THREE.LinePieces)
+  #   '''lineMaterial = new THREE.LineBasicMaterial color: 0x646464, linewidth: 2
+  #   borders = new THREE.Line( @_allLines, lineMaterial, THREE.LinePieces)
 
-    @_sceneCountries.add borders'''
+  #   @_sceneCountries.add borders'''
 
   # ============================================================================
   _animate:() =>
     if @_globe._isRunning
       @_evaluate()
 
-
   # ============================================================================
-  _loadAreaLayer: (area) ->
-
-      data = area.getData()
-      materialData = area.getNormalStyle()
-
-
-      #adaptive tessellation try
-      '''if area.getLabel() is "Spain"
-        console.log area.getData()
-
-        options = area.getNormalStyle()
-        plArea = L.polyline(data[0],options)
-        console.log plArea.getBounds()'''
-      options = area.getNormalStyle()
-
-      #create flat shape:
-      shapeGeometry = null
-      mesh = null
-      countryShape = null
-      borderLines = []
-      bounds = null
-
-      for array in data
-
-        #calc bounds
-        plArea = L.polyline(array,options)
-        if bounds is null
-          bounds = plArea.getBounds()
-        else
-          bounds.extend(plArea.getBounds())
-
-        PtsArea = []
-
-        for point in array
-          PtsArea.push new THREE.Vector3(point.lng, point.lat,0)
-
-        countryShape = new THREE.Shape PtsArea ;
-
-        #put all country parts in one shape
-        unless shapeGeometry?
-          shapeGeometry = new THREE.ShapeGeometry countryShape
-          shapeGeometry.dynamic = true
-        else
-          #shapeGeometry.addShape countryShape
-          newGeometry = new THREE.ShapeGeometry countryShape
-          THREE.GeometryUtils.merge(shapeGeometry,newGeometry)
-
-        #borderline mapping of single area!!!
-        lineGeometry = new THREE.Geometry
-        for vertex in PtsArea
-          line_coord = @_globe._latLongToCart(
-            x:vertex.x
-            y:vertex.y,
-            @_globe.getGlobeRadius()+0.15)
-          lineGeometry.vertices.push line_coord
-        #close line:
-        lineGeometry.vertices.push lineGeometry.vertices[0]
-
-
-        lineWidth = area.getNormalStyle().lineWidth
-        opacity = area.getNormalStyle().lineOpacity
-        # linewidth cant be zero in rendering
-
-        unless lineWidth > 0.01
-          lineWidth = 1
-          opacity = 0
-        lineMaterial = new THREE.LineBasicMaterial(
-          color: area.getNormalStyle().lineColor,
-          linewidth: lineWidth,
-          transparent: true,
-          opacity: opacity )
-        borderline = new THREE.Line( lineGeometry, lineMaterial)
-
-        @_sceneCountries.add borderline if @_isAreaActive(area)
-
-        borderLines.push borderline
-
-        '''#merge geometry
-        @_materials.push lineMaterial
-        unless @_wholeGeometry
-          @_wholeGeometry = lineGeometry
-        else
-          THREE.GeometryUtils.merge(@_wholeGeometry, lineGeometry , @_materials.length-1);'''
-
-
-      #operations for the whole country (with all area parts):
-      lat_distance = Math.abs(Math.abs(bounds.getSouthWest().lat) - Math.abs(bounds.getNorthEast().lat))
-      lng_distance = Math.abs(Math.abs(bounds.getSouthWest().lng) - Math.abs(bounds.getNorthEast().lng))
-
-      max_dist = Math.max(lat_distance,lng_distance)
-
-      #iterations = Math.min(Math.max(0,Math.round(max_dist/3.5)),11)
-      iterations = Math.min(Math.max(0,Math.round(max_dist^2/140)),11)
-      #iterations = Math.min(Math.max(0,Math.round(max_dist^3/5500)),11)
-
-      tessellateModifier = new THREE.TessellateModifier(7.5)
-
-      for i in [0 .. iterations]
-        tessellateModifier.modify shapeGeometry
-
-      #invisible if not active
-      opacity = 0.0
-      opacity = materialData.fillOpacity if @_isAreaActive(area)
-
-      countryMaterial = new THREE.MeshLambertMaterial
-              color       : materialData.fillColor
-              side        : THREE.BackSide,
-              opacity     : opacity,#+0.25,
-              transparent : true,
-              depthWrite  : false,
-              wireframe   : false,
-
-
-      #for later onclick purposes:
-      shapeGeometry.computeBoundingBox()
-      countryMaterial.bb = shapeGeometry.boundingBox
-
-      mesh = new THREE.Mesh( shapeGeometry, countryMaterial );
-
-      #gps to cart mapping:
-      for vertex in mesh.geometry.vertices
-        cart_coords = @_globe._latLongToCart(
-            x:vertex.x
-            y:vertex.y,
-            @_globe.getGlobeRadius()+0.4)
-        vertex.x = cart_coords.x
-        vertex.y = cart_coords.y
-        vertex.z = cart_coords.z
-        vertex.id = mesh.id
-
-      mesh.geometry.verticesNeedUpdate = true;
-      mesh.geometry.normalsNeedUpdate = true;
-      mesh.geometry.computeVertexNormals();
-      mesh.geometry.computeFaceNormals();
-      mesh.geometry.computeBoundingSphere();
-
-      #merge geometry
-      @_materials.push mesh.material
-      unless @_wholeGeometry
-        @_wholeGeometry = mesh.geometry
-      else
-        THREE.GeometryUtils.merge(@_wholeGeometry, mesh , @_materials.length-1);
-
-      @_sceneCountries.add mesh
-
-      area.Material3D = mesh.material
-      area.VertexID = mesh.id
-      area.onStyleChange @, @_onStyleChange3D
-
-      mesh.Label = area.getLabel()
-
-      mesh.Area = area
-
-      area.Mesh3D = mesh
-      area.Borderlines3D = borderLines
-
-  # ============================================================================
-  _showAreaLayer: (area) ->
-    if area.Material3D
-      area.Material3D.opacity = area.getNormalStyle().fillOpacity
-
-      if area.Borderlines3D
-        for line in area.Borderlines3D
-          @_sceneCountries.add line
-
-      @_showLabel area
-
-  # ============================================================================
-  _hideAreaLayer: (area) ->
-
-    area.Material3D.opacity = 0.0
-
-    vertices = @_wholeGeometry.vertices
-    for vertex in vertices
-      if vertex.id is area.VertexID
-        index = vertices.indexOf(5);
-        vertices.splice(index, 1) if index >= 0
-
-    if area.Mesh3D? and area.Borderlines3D
-
-      area.removeListener "onStyleChange", @
-      @_visibleAreas.splice(@_visibleAreas.indexOf(area), 1)
-
-    if area.Borderlines3D
-      for line in area.Borderlines3D
-        @_sceneCountries.remove line
-
-    @_hideLabel area
-
-
-  # ============================================================================
-  _onStyleChange3D: (area) =>
-
-    if area.Material3D?
-
-      final_color = @_rgbify area.getNormalStyle().fillColor
-
-      $({
-        colorR:area.Material3D.color.r,
-        colorG:area.Material3D.color.g,
-        colorB:area.Material3D.color.b,
-        opacity:area.Material3D.opacity
-
-      }).animate({
-        colorR:         final_color[0]/255,
-        colorG:         final_color[1]/255,
-        colorB:         final_color[2]/255,
-        opacity:        area.getNormalStyle().fillOpacity
-      },{
-        duration: 350,
-        step: ->
-          area.Material3D.color.r = this.colorR
-          area.Material3D.color.g = this.colorG
-          area.Material3D.color.b = this.colorB
-          area.Material3D.opacity = this.opacity
-      })
-
-      lineWidth = area.getNormalStyle().lineWidth
-      lineOpacity = area.getNormalStyle().lineOpacity
-      unless lineWidth > 0.01
-        lineWidth = 1
-        lineOpacity = 0
-
-      if area.Borderlines3D
-        for line in area.Borderlines3D
-
-          final_stroke_color = @_rgbify area.getNormalStyle().lineColor
-
-          line.material.color.r = final_stroke_color[0]/255
-          line.material.color.g = final_stroke_color[1]/255
-          line.material.color.b = final_stroke_color[2]/255
-          line.material.opacity = lineOpacity
-          line.material.linewidth = lineWidth
-
-          #animation is buggy
-          '''$({
-            strokeColorR:line.material.color.r,
-            strokeColorG:line.material.color.g,
-            strokeColorB:line.material.color.b,
-            strokeOpacity:line.material.opacity,
-            strokeWidth:line.material.linewidth
-
-          }).animate({
-            strokeColorR: final_stroke_color[0]/255,
-            strokeColorG: final_stroke_color[1]/255,
-            strokeColorB: final_stroke_color[2]/255,
-            #strokeOpacity: area.getNormalStyle().lineOpacity,
-            strokeOpacity: final_border_opacity,
-            strokeWidth: area.getNormalStyle().lineWidth
-          },{
-            duration: 350,
-            step: ->
-              line.material.color.r = this.strokeColorR
-              line.material.color.g = this.strokeColorG
-              line.material.color.b = this.strokeColorB
-              line.material.opacity = this.strokeOpacity
-              line.material.linewidth = this.strokeWidth
-          })'''
-
-      if area.Label3D
-        area.Label3D.material.opacity = area.getNormalStyle().labelOpacity
-
   #taken from http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
   _rgbify: (colr) ->
 
@@ -400,141 +170,490 @@ class HG.AreasOnGlobe
       [0, 0, 0]
 
   # ============================================================================
-  _isAreaActive: (area) =>
-    index = $.inArray(area, @_areaController.getActiveAreas())
-    if index >= 0
-      return true
-
-    return false
+  # AREAS
+  # ============================================================================
 
   # ============================================================================
-  _initLabel: (area) =>
-    area.Label3DIsVisible = false
+  # physically adds area to the globe, but makes it invisible
+  _addArea: (area) ->
 
-    unless area.Label3D?
+      data = area.getGeometry()
+      materialData = area.getStyle()
 
-      text = area.getLabel().split "<"
-      text = text[0]
+      options = area.getStyle()
 
-      metrics = TEST_CONTEXT.measureText(text);
-      textWidth = metrics.width+1;
+      #create flat shape:
+      shapeGeometry = null
+      mesh = null
+      countryShape = null
+      borderLines = []
+      bounds = null
 
-      canvas = document.createElement('canvas')
-      canvas.width = textWidth
-      canvas.height = TEXT_HEIGHT
-      canvas.className = "leaflet-label"#TODO!!!!!!!
-
-      context = canvas.getContext('2d')
-      context.textAlign = 'center'
-      context.font = "#{TEXT_HEIGHT}px Lobster"
-
-      #context.fillStyle="#FF0000";
-      #context.fillRect(0,0,textWidth,TEXT_HEIGHT);
-      #context.fillStyle="#000000";
-      '''context.shadowColor = "#e6d4bb"
-      context.shadowOffsetX =  2
-      context.shadowOffsetY = -2
-
-      context.fillText(text,textWidth/2,TEXT_HEIGHT*0.75)
-
-      context.shadowOffsetX =  2
-      context.shadowOffsetY = -2
-
-      context.fillText(text,textWidth/2,TEXT_HEIGHT*0.75)
-
-      context.shadowOffsetX = -2
-      context.shadowOffsetY =  2
-
-      context.fillText(text,textWidth/2,TEXT_HEIGHT*0.75)
-
-      context.shadowOffsetX =  2
-      context.shadowOffsetY =  2'''
-
-      context.fillText(text,textWidth/2,TEXT_HEIGHT*0.75)
-
-      texture = new THREE.Texture(canvas)
-      texture.needsUpdate = true
-      material = new THREE.SpriteMaterial({
-        map: texture,
-        transparent:true,
-        opacity: area.getNormalStyle().labelOpacity
-        useScreenCoordinates: false,
-        scaleByViewport: true,
-        sizeAttenuation: false,
-        depthTest: false,
-        affectedByDistance: false
-        })
-
-      sprite = new THREE.Sprite(material)
-      sprite.textWidth = textWidth
-
-      #position calculation
-      textLatLng = area.getLabelLatLng()
-      cart_coords = @_globe._latLongToCart(
-              x:textLatLng[1]
-              y:textLatLng[0],
-              @_globe.getGlobeRadius()+1.0)
-
-      ##@_sceneCountries.add sprite
-      sprite.scale.set(textWidth,TEXT_HEIGHT,1.0)
-      sprite.position.set cart_coords.x,cart_coords.y,cart_coords.z
-
-      sprite.MaxWidth = textWidth
-      sprite.MaxHeight = TEXT_HEIGHT
-
-      area.Label3D = sprite
-
-  # ============================================================================
-  _showLabel: (area) =>
-    area.Label3DIsVisible = true
-    if area.Label3D?
-      @_sceneCountries.add area.Label3D
-    else
-      @_initLabel()
-
-  # ============================================================================
-  _hideLabel: (area) =>
-    area.Label3DIsVisible = false
-
-    if area.Label3D?
-      @_sceneCountries.remove area.Label3D
-
-  # ============================================================================
-  _isLabelVisible: (area) ->
-    if area.Label3D?
-
-      max = @_globe._latLongToPixel new THREE.Vector2(area._maxLatLng[1],area._maxLatLng[0])
-      min = @_globe._latLongToPixel new THREE.Vector2(area._minLatLng[1],area._minLatLng[0])
-
-      width = area.Label3D.textWidth
-
-      visible = ((max.x*@_globe._width - min.x*@_globe._width) > width*2.0 or @_globe.getZoom()  is @_globe.getMaxZoom)# and @_isAreaActive(area)
+      for array in data
 
 
-  # ============================================================================
-  _filterLabels: ->
-    for area in @_visibleAreas
-      shoulBeVisible = @_isLabelVisible area
-
-      if shoulBeVisible and not area.Label3DIsVisible
-        @_showLabel area
-      else if not shoulBeVisible and area.Label3DIsVisible
-        @_hideLabel area
-
-
-  # ============================================================================
-  _updateLabelSizes: ->
-    for area in @_visibleAreas
-      if area.Label3DIsVisible
-        cam_pos = new THREE.Vector3(@_globe._camera.position.x,@_globe._camera.position.y,@_globe._camera.position.z).normalize()
-        label_pos = new THREE.Vector3(area.Label3D.position.x,area.Label3D.position.y,area.Label3D.position.z).normalize()
-        #perspective compensation
-        dot = (cam_pos.dot(label_pos)-0.4)/0.6
-
-        if dot > 0.0
-          area.Label3D.scale.set(area.Label3D.MaxWidth*dot,area.Label3D.MaxHeight*dot,1.0)
+        #calc bounds
+        plArea = L.polyline(array,options)
+        if bounds is null
+          bounds = plArea.getBounds()
         else
-          area.Label3D.scale.set(0.0,0.0,1.0)
+          bounds.extend(plArea.getBounds())
+
+        PtsArea = []
+
+
+        for point in array
+          PtsArea.push new THREE.Vector3(point.lng, point.lat,0)
+
+
+        countryShape = new THREE.Shape PtsArea ;
+
+        #put all country parts in one shape
+        unless shapeGeometry?
+          shapeGeometry = new THREE.ShapeGeometry countryShape
+          shapeGeometry.dynamic = true
+        else
+          #shapeGeometry.addShape countryShape
+          newGeometry = new THREE.ShapeGeometry countryShape
+          THREE.GeometryUtils.merge(shapeGeometry,newGeometry)
+
+
+        #borderline mapping of single area!!!
+        lineGeometry = new THREE.Geometry
+        for vertex in PtsArea
+          line_coord = @_globe._latLongToCart(
+            x:vertex.x
+            y:vertex.y,
+            @_globe.getGlobeRadius()+0.15)
+          lineGeometry.vertices.push line_coord
+        #close line:
+        lineGeometry.vertices.push lineGeometry.vertices[0]
+
+
+        lineWidth = area.getStyle().borderWidth
+        opacity = 0
+        lineMaterial = new THREE.LineBasicMaterial(
+          color: area.getStyle().borderColor,
+          linewidth: lineWidth,
+          transparent: true,
+          opacity: opacity )
+        borderline = new THREE.Line( lineGeometry, lineMaterial)
+
+        borderLines.push borderline
+
+      #operations for the whole country (with all area parts):
+      lat_distance = Math.abs(Math.abs(bounds.getSouthWest().lat) - Math.abs(bounds.getNorthEast().lat))
+      lng_distance = Math.abs(Math.abs(bounds.getSouthWest().lng) - Math.abs(bounds.getNorthEast().lng))
+
+      max_dist = Math.max(lat_distance,lng_distance)
+
+      #iterations = Math.min(Math.max(0,Math.round(max_dist/3.5)),11)
+      iterations = Math.min(Math.max(0,Math.round(max_dist^2/140)),11)
+      #iterations = Math.min(Math.max(0,Math.round(max_dist^3/5500)),11)
+
+      tessellateModifier = new THREE.TessellateModifier(7.5)
+
+
+      for i in [0 .. iterations]
+        tessellateModifier.modify shapeGeometry
+
+      #invisible if not active
+      opacity = 0.0
+      '''opacity = materialData.areaOpacity if @_isAreaActive(area)'''
+
+      countryMaterial = new THREE.MeshLambertMaterial
+              color       : materialData.areaColor
+              side        : THREE.BackSide,
+              opacity     : opacity,
+              transparent : true,
+              depthWrite  : false,
+              wireframe   : false,
+
+
+      #for later onclick purposes:
+      shapeGeometry.computeBoundingBox()
+      countryMaterial.bb = shapeGeometry.boundingBox
+
+
+      mesh = new THREE.Mesh( shapeGeometry, countryMaterial );
+
+      #gps to cart mapping:
+      for vertex in mesh.geometry.vertices
+        cart_coords = @_globe._latLongToCart(
+            x:vertex.x
+            y:vertex.y,
+            @_globe.getGlobeRadius()+0.4)
+        vertex.x = cart_coords.x
+        vertex.y = cart_coords.y
+        vertex.z = cart_coords.z
+        vertex.id = mesh.id
+
+      mesh.geometry.verticesNeedUpdate = true;
+      mesh.geometry.normalsNeedUpdate = true;
+      mesh.geometry.computeVertexNormals();
+      mesh.geometry.computeFaceNormals();
+      mesh.geometry.computeBoundingSphere();
+
+      # if still visible after long processing:
+      if @_visibleAreas.indexOf(area)>=0
+
+        for line in borderLines
+          @_sceneCountries.add line
+
+        #merge geometry
+        # TODO: performance boost
+        '''@_materials.push mesh.material
+        unless @_wholeGeometry
+          @_wholeGeometry = mesh.geometry
+        else
+          THREE.GeometryUtils.merge(@_wholeGeometry, mesh , @_materials.length-1);'''
+        # OR :
+        @_sceneCountries.add mesh
+
+        area.Material3D = mesh.material
+        area.VertexID = mesh.id
+        '''area.onStyleChange @, @_updateAreaStyle'''
+
+        mesh.Area = area
+
+        area.Mesh3D = mesh
+        area.Borderlines3D = borderLines
+
+
+  # ============================================================================
+  # physically removes area from the glpbe
+  _removeArea: (area) ->
+    if area.Mesh3D
+      @_sceneCountries.remove area.Mesh3D
+      area.Mesh3D = null
+    if area.Borderlines3D
+      for line in area.Borderlines3D
+        @_sceneCountries.remove line
+
+  # ============================================================================
+  _showArea: (area, aniTime, isHighlight) ->
+
+    if not isHighlight
+      if area.Material3D
+        area.Material3D.opacity = area.getStyle().areaOpacity
+        # $({
+        #   opacity:area.Material3D.opacity
+        # }).animate({
+        #   opacity:        area.getStyle().areaOpacity
+        # },{
+        #   duration: aniTime,
+        #   step: ->
+        #     area.Material3D.opacity = this.opacity
+        # })
+
+      else
+        console.log "Error: Cant show area!"
+
+      if area.Borderlines3D
+        for line in area.Borderlines3D
+          line.material.opacity = area.getStyle().borderOpacity
+
+    else
+
+      final_color =  @_rgbify TRANS_COLOR
+
+      if area.Material3D
+
+        area.Material3D.color.r = final_color[0]/255
+        area.Material3D.color.g = final_color[1]/255
+        area.Material3D.color.b = final_color[2]/255
+        area.Material3D.opacity = 1.0
+        # $({
+        #   colorR:area.Material3D.color.r,
+        #   colorG:area.Material3D.color.g,
+        #   colorB:area.Material3D.color.b,
+        #   opacity:area.Material3D.opacity
+        # }).animate({
+        #   colorR:         final_color[0]/255,
+        #   colorG:         final_color[1]/255,
+        #   colorB:         final_color[2]/255,
+        #   opacity:        1.0
+        # },{
+        #   duration: aniTime,
+        #   step: ->
+        #     area.Material3D.color.r = this.colorR
+        #     area.Material3D.color.g = this.colorG
+        #     area.Material3D.color.b = this.colorB
+        #     area.Material3D.opacity = this.opacity
+        # })
+      else
+        console.log "Error: Cant show area!"
+
+      if area.Borderlines3D
+        for line in area.Borderlines3D
+          line.material.opacity = 1.0
+
+
+
+  # ============================================================================
+  _hideArea: (area, aniTime) ->
+
+    #area.Material3D.opacity = 0.0 if area.Material3D?
+
+    #TODO: performance boost
+    '''vertices = @_wholeGeometry.vertices
+    for vertex in vertices
+      if vertex.id is area.VertexID
+        index = vertices.indexOf(5);
+        vertices.splice(index, 1) if index >= 0'''
+
+    if area.Material3D?
+
+      '''area.removeListener "onStyleChange", @'''
+      @_visibleAreas.splice(@_visibleAreas.indexOf(area), 1)
+
+      area.Material3D.opacity = 0.0
+      #fade out:
+      # $({
+      #   opacity:area.Material3D.opacity
+      # }).animate({
+      #   opacity:        0.0
+      # },{
+      #   duration: aniTime,
+      #   step: ->
+      #     area.Material3D.opacity = this.opacity
+      # })
+
+    else
+      console.log "Error: Cant hide area!"
+
+    if area.Borderlines3D
+      for line in area.Borderlines3D
+        line.material.opacity = 0.0
+
+    @_removeArea(area)
+
+
+  # ============================================================================
+  _updateAreaStyle: (area, aniTime) =>
+
+    if area.Material3D?
+
+      final_color = @_rgbify area.getStyle().areaColor
+      final_opacity = area.getStyle().areaOpacity
+      
+      # area.Material3D.color.r = final_color[0]/255
+      # area.Material3D.color.g = final_color[1]/255
+      # area.Material3D.color.b = final_color[2]/255
+      # area.Material3D.opacity = final_opacity
+
+      $({
+        colorR:area.Material3D.color.r,
+        colorG:area.Material3D.color.g,
+        colorB:area.Material3D.color.b,
+        opacity:area.Material3D.opacity
+
+      }).animate({
+        colorR:         final_color[0]/255,
+        colorG:         final_color[1]/255,
+        colorB:         final_color[2]/255,
+        opacity:        final_opacity
+      },{
+        #duration: 350,
+        duration: aniTime,
+        step: ->
+          area.Material3D.color.r = this.colorR
+          area.Material3D.color.g = this.colorG
+          area.Material3D.color.b = this.colorB
+          area.Material3D.opacity = this.opacity
+      })
+
+      lineWidth = area.getStyle().borderWidth
+      border_opacity = area.getStyle().borderOpacity
+      unless lineWidth > 0.01
+        lineWidth = 1
+        border_opacity = 0
+
+      if area.Borderlines3D
+        for line in area.Borderlines3D
+
+          final_stroke_color = @_rgbify area.getStyle().borderColor
+
+          line.material.color.r = final_stroke_color[0]/255
+          line.material.color.g = final_stroke_color[1]/255
+          line.material.color.b = final_stroke_color[2]/255
+          line.material.opacity = border_opacity
+          line.material.linewidth = lineWidth
+
+          #animation is buggy
+          # $({
+          #   strokeColorR:line.material.color.r,
+          #   strokeColorG:line.material.color.g,
+          #   strokeColorB:line.material.color.b,
+          #   strokeOpacity:line.material.opacity,
+          #   strokeWidth:line.material.linewidth
+
+          # }).animate({
+          #   strokeColorR: final_stroke_color[0]/255,
+          #   strokeColorG: final_stroke_color[1]/255,
+          #   strokeColorB: final_stroke_color[2]/255,
+          #   #strokeOpacity: area.getStyle().borderOpacity,
+          #   strokeOpacity: border_opacity,
+          #   strokeWidth: area.getStyle().borderWidth
+          # },{
+          #   duration: aniTime,
+          #   step: ->
+          #     line.material.color.r = this.strokeColorR
+          #     line.material.color.g = this.strokeColorG
+          #     line.material.color.b = this.strokeColorB
+          #     line.material.opacity = this.strokeOpacity
+          #     line.material.linewidth = this.strokeWidth
+          # })
+
+
+  # '''# ============================================================================
+  # _isAreaActive: (area) =>
+  #   index = $.inArray(area, @_areaController.getActiveAreas())
+  #   if index >= 0
+  #     return true
+
+  #   return false'''
+
+
+  # # ============================================================================
+  # # BORDERS
+  # # ============================================================================
+
+  # # ============================================================================
+  # # physically adds border to the globe, but makes it invisible
+  # #_addBorder: (border) ->
+
+  # # ============================================================================
+  # # physically removes area from the globe
+  # #_removeBorder: (border) ->
+
+  # # ============================================================================
+  # # slowly fades in area and allows interaction with it
+  # #_showBorder: (border, aniTime) ->
+
+  # # ============================================================================
+  # #_hideBorder: (border, aniTime) ->
+
+
+
+  # '''# ============================================================================
+  # # LABELS
+  # # ============================================================================
+
+
+  # # ============================================================================
+  # _addLabel: (label) =>
+  #   label.Label3DIsVisible = false
+
+  #   unless label.Label3D?
+
+  #     text = label.getLabel().split "<"
+  #     text = text[0]
+
+  #     metrics = TEST_CONTEXT.measureText(text);
+  #     textWidth = metrics.width+1;
+
+  #     canvas = document.createElement('canvas')
+  #     canvas.width = textWidth
+  #     canvas.height = TEXT_HEIGHT
+  #     canvas.className = "leaflet-label"#TODO!!!!!!!
+
+  #     context = canvas.getContext('2d')
+  #     context.textAlign = 'center'
+  #     context.font = "#{TEXT_HEIGHT}px Lobster"
+
+  #     context.fillText(text,textWidth/2,TEXT_HEIGHT*0.75)
+
+  #     texture = new THREE.Texture(canvas)
+  #     texture.needsUpdate = true
+  #     material = new THREE.SpriteMaterial({
+  #       map: texture,
+  #       transparent:true,
+  #       opacity: label.getStyle().labelOpacity
+  #       useScreenCoordinates: false,
+  #       scaleByViewport: true,
+  #       sizeAttenuation: false,
+  #       depthTest: false,
+  #       affectedByDistance: false
+  #       })
+
+  #     sprite = new THREE.Sprite(material)
+  #     sprite.textWidth = textWidth
+
+  #     #position calculation
+  #     textLatLng = label.getLabelLatLng()
+  #     cart_coords = @_globe._latLongToCart(
+  #             x:textLatLng[1]
+  #             y:textLatLng[0],
+  #             @_globe.getGlobeRadius()+1.0)
+
+  #     @_sceneCountries.add sprite
+  #     sprite.scale.set(textWidth,TEXT_HEIGHT,1.0)
+  #     sprite.position.set cart_coords.x,cart_coords.y,cart_coords.z
+
+  #     sprite.MaxWidth = textWidth
+  #     sprite.MaxHeight = TEXT_HEIGHT
+
+  #     label.Label3D = sprite
+
+  # # ============================================================================
+  # #_removeLabel: (label) ->
+
+
+
+  # # ============================================================================
+  # _showLabel: (area) =>
+  #   area.Label3DIsVisible = true
+  #   if area.Label3D?
+  #     @_sceneCountries.add area.Label3D
+  #   else
+  #     @_addLabel()
+
+  # # ============================================================================
+  # _hideLabel: (area) =>
+  #   area.Label3DIsVisible = false
+  #     '''if area.Label3D
+  #       area.Label3D.material.opacity = area.getStyle().labelOpacity'''
+
+  #   if area.Label3D?
+  #     @_sceneCountries.remove area.Label3D
+
+  # # ============================================================================
+  # _isLabelVisible: (area) ->
+  #   if area.Label3D?
+
+  #     max = @_globe._latLongToPixel new THREE.Vector2(area._maxLatLng[1],area._maxLatLng[0])
+  #     min = @_globe._latLongToPixel new THREE.Vector2(area._minLatLng[1],area._minLatLng[0])
+
+  #     width = area.Label3D.textWidth
+
+  #     visible = ((max.x*@_globe._width - min.x*@_globe._width) > width*2.0 or @_globe.getZoom()  is @_globe.getMaxZoom)# and @_isAreaActive(area)
+
+
+  # # ============================================================================
+  # _filterLabels: ->
+  #   for area in @_visibleAreas
+  #     shoulBeVisible = @_isLabelVisible area
+
+  #     if shoulBeVisible and not area.Label3DIsVisible
+  #       @_showLabel area
+  #     else if not shoulBeVisible and area.Label3DIsVisible
+  #       @_hideLabel area
+
+
+  # # ============================================================================
+  # _updateLabelSizes: ->
+  #   for area in @_visibleAreas
+  #     if area.Label3DIsVisible
+  #       cam_pos = new THREE.Vector3(@_globe._camera.position.x,@_globe._camera.position.y,@_globe._camera.position.z).normalize()
+  #       label_pos = new THREE.Vector3(area.Label3D.position.x,area.Label3D.position.y,area.Label3D.position.z).normalize()
+  #       #perspective compensation
+  #       dot = (cam_pos.dot(label_pos)-0.4)/0.6
+
+  #       if dot > 0.0
+  #         area.Label3D.scale.set(area.Label3D.MaxWidth*dot,area.Label3D.MaxHeight*dot,1.0)
+  #       else
+  #         area.Label3D.scale.set(0.0,0.0,1.0)'''
 
 
   # ============================================================================
@@ -668,6 +787,8 @@ class HG.AreasOnGlobe
   ##############################################################################
   #                             STATIC MEMBERS                                 #
   ##############################################################################
+
+  TRANS_COLOR = '#D5C900'
 
   #testCanvas for Sprites
   TEST_CANVAS = document.createElement('canvas')
