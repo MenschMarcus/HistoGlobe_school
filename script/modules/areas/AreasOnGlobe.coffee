@@ -18,7 +18,6 @@ class HG.AreasOnGlobe
     @_wholeMesh               = null
     @_materials               = []
     @_areasToLoad             = 0
-    @_allLines                = null
     @_dragStartPos            = null
 
     defaultConfig =
@@ -70,11 +69,16 @@ class HG.AreasOnGlobe
       @_globe.onMove @, @_filterLabels'''
 
       #load all areas and add them to globe:
-      for area in @_areaController.getAllAreas()
+      all_areas = @_areaController.getAllAreas()
+      @_areasToLoad = all_areas.length
+      for area in all_areas
         execute_async = (a) =>
           setTimeout () =>
+            --@_areasToLoad
             @_addArea a
             @_showArea a if a.isActive()
+            if @_areasToLoad is 0
+              @_finishLoading()
           , 0
 
         execute_async area
@@ -134,19 +138,12 @@ class HG.AreasOnGlobe
 
 
 
-  # '''# ============================================================================
-  # #TODO: performance boost:
-  # _finishLoading:() =>
+  # ============================================================================
+  #TODO: performance boost:
+  _finishLoading:() =>
 
-
-  #   @_wholeMesh = new THREE.Mesh( @_wholeGeometry, new THREE.MeshFaceMaterial( @_materials ) );
-  #   @_sceneCountries.add @_wholeMesh'''
-
-
-  #   '''lineMaterial = new THREE.LineBasicMaterial color: 0x646464, linewidth: 2
-  #   borders = new THREE.Line( @_allLines, lineMaterial, THREE.LinePieces)
-
-  #   @_sceneCountries.add borders'''
+    @_wholeMesh = new THREE.Mesh( @_wholeGeometry, new THREE.MeshFaceMaterial( @_materials ) );
+    @_sceneCountries.add @_wholeMesh
 
   # ============================================================================
   _animate:() =>
@@ -181,7 +178,7 @@ class HG.AreasOnGlobe
   # physically adds area to the globe, but makes it invisible
   _addArea: (area) ->
 
-    if not area.Mesh3D
+    if not (area.Mesh3D or area.VertexID)
 
       data = area.getGeometry()
       materialData = area.getStyle()
@@ -230,7 +227,7 @@ class HG.AreasOnGlobe
           line_coord = @_globe._latLongToCart(
             x:vertex.x
             y:vertex.y,
-            @_globe.getGlobeRadius()+0.15)
+            @_globe.getGlobeRadius()+0.45)
           lineGeometry.vertices.push line_coord
         #close line:
         lineGeometry.vertices.push lineGeometry.vertices[0]
@@ -303,29 +300,37 @@ class HG.AreasOnGlobe
       for line in borderLines
         @_sceneCountries.add line
 
-      #merge geometry
-      # TODO: performance boost
-      '''@_materials.push mesh.material
-      unless @_wholeGeometry
-        @_wholeGeometry = mesh.geometry
+      if @_wholeMesh is null
+        #merge geometry
+        @_materials.push mesh.material
+        unless @_wholeGeometry
+          @_wholeGeometry = mesh.geometry
+        else
+          THREE.GeometryUtils.merge(@_wholeGeometry, mesh , @_materials.length-1);
+        area.VertexID = mesh.id
       else
-        THREE.GeometryUtils.merge(@_wholeGeometry, mesh , @_materials.length-1);'''
-      # OR :
-      @_sceneCountries.add mesh
+        @_sceneCountries.add mesh
+        area.Mesh3D = mesh
 
       area.Material3D = mesh.material
-      area.VertexID = mesh.id
+      
       '''area.onStyleChange @, @_updateAreaStyle'''
 
       mesh.Area = area
 
-      area.Mesh3D = mesh
+      
       area.Borderlines3D = borderLines
 
 
   # ============================================================================
   # physically removes area from the glpbe
   _removeArea: (area) ->
+    if area.VertexID
+      vertices = @_wholeGeometry.vertices
+      for vertex in vertices
+        if vertex.id is area.VertexID
+          index = vertices.indexOf(5);
+          vertices.splice(index, 1) if index >= 0
     if area.Mesh3D
       @_sceneCountries.remove area.Mesh3D
       area.Mesh3D = null
@@ -397,16 +402,6 @@ class HG.AreasOnGlobe
   _hideArea: (area, aniTime) ->
     
     #@_visibleAreas.splice(@_visibleAreas.indexOf(area), 1)
-
-    #area.Material3D.opacity = 0.0 if area.Material3D?
-
-    #TODO: performance boost
-    '''vertices = @_wholeGeometry.vertices
-    for vertex in vertices
-      if vertex.id is area.VertexID
-        index = vertices.indexOf(5);
-        vertices.splice(index, 1) if index >= 0'''
-
 
     if area.Material3D?
 
