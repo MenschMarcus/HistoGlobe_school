@@ -13,7 +13,7 @@ class HG.AreasOnGlobe
     @_sceneCountries          = new THREE.Scene
     @_countryLight            = null
     @_intersectedMaterials    = []
-    @_visibleAreas            = []
+    #@_visibleAreas            = []
     @_wholeGeometry           = null
     @_wholeMesh               = null
     @_materials               = []
@@ -69,16 +69,23 @@ class HG.AreasOnGlobe
       @_globe.onMove @, @_updateLabelSizes
       @_globe.onMove @, @_filterLabels'''
 
-      ## AREA CALLBACKS
-      # change of areas
-      @_areaController.onAddArea @, (area) =>
-        # @_addArea area
-        # @_showArea area, @_aniTime
-        @_visibleAreas.push area
+      #load all areas and add them to globe:
+      for area in @_areaController.getAllAreas()
         execute_async = (a) =>
           setTimeout () =>
             @_addArea a
-            @_showArea a, @_aniTime
+            @_showArea a if a.isActive()
+          , 0
+
+        execute_async area
+
+      ## AREA CALLBACKS
+      # change of areas
+      @_areaController.onAddArea @, (area) =>
+        execute_async = (a) =>
+          setTimeout () =>
+            @_addArea a
+            @_showArea a, @_aniTime if a.isActive()
           , 0
 
         execute_async area
@@ -92,13 +99,10 @@ class HG.AreasOnGlobe
 
       # transition areas and borders
       @_areaController.onFadeInArea @, (area, isHighlight) =>
-        #@_addArea area
-        #@_showArea area, @_aniTime, isHighlight
-        @_visibleAreas.push area
         execute_async = (a,ih) =>
           setTimeout () =>
             @_addArea a
-            @_showArea a, @_aniTime, ih
+            @_showArea a, @_aniTime, ih if a.isActive()
           , 0
 
         execute_async area,isHighlight
@@ -124,7 +128,7 @@ class HG.AreasOnGlobe
       @_areaController.onUpdateLabelStyle @, (label, isHC) =>
         @_inHighContrast = isHC
         @_updateLabelStyle label'''
-      
+
     else
       console.error "Unable to show areas on globe: AreaController module not detected in HistoGlobe instance!"
 
@@ -176,6 +180,8 @@ class HG.AreasOnGlobe
   # ============================================================================
   # physically adds area to the globe, but makes it invisible
   _addArea: (area) ->
+
+    if not area.Mesh3D
 
       data = area.getGeometry()
       materialData = area.getStyle()
@@ -294,30 +300,27 @@ class HG.AreasOnGlobe
       mesh.geometry.computeFaceNormals();
       mesh.geometry.computeBoundingSphere();
 
-      # if still visible after long processing:
-      if @_visibleAreas.indexOf(area)>=0
+      for line in borderLines
+        @_sceneCountries.add line
 
-        for line in borderLines
-          @_sceneCountries.add line
+      #merge geometry
+      # TODO: performance boost
+      '''@_materials.push mesh.material
+      unless @_wholeGeometry
+        @_wholeGeometry = mesh.geometry
+      else
+        THREE.GeometryUtils.merge(@_wholeGeometry, mesh , @_materials.length-1);'''
+      # OR :
+      @_sceneCountries.add mesh
 
-        #merge geometry
-        # TODO: performance boost
-        '''@_materials.push mesh.material
-        unless @_wholeGeometry
-          @_wholeGeometry = mesh.geometry
-        else
-          THREE.GeometryUtils.merge(@_wholeGeometry, mesh , @_materials.length-1);'''
-        # OR :
-        @_sceneCountries.add mesh
+      area.Material3D = mesh.material
+      area.VertexID = mesh.id
+      '''area.onStyleChange @, @_updateAreaStyle'''
 
-        area.Material3D = mesh.material
-        area.VertexID = mesh.id
-        '''area.onStyleChange @, @_updateAreaStyle'''
+      mesh.Area = area
 
-        mesh.Area = area
-
-        area.Mesh3D = mesh
-        area.Borderlines3D = borderLines
+      area.Mesh3D = mesh
+      area.Borderlines3D = borderLines
 
 
   # ============================================================================
@@ -392,6 +395,8 @@ class HG.AreasOnGlobe
 
   # ============================================================================
   _hideArea: (area, aniTime) ->
+    
+    #@_visibleAreas.splice(@_visibleAreas.indexOf(area), 1)
 
     #area.Material3D.opacity = 0.0 if area.Material3D?
 
@@ -402,10 +407,10 @@ class HG.AreasOnGlobe
         index = vertices.indexOf(5);
         vertices.splice(index, 1) if index >= 0'''
 
+
     if area.Material3D?
 
       '''area.removeListener "onStyleChange", @'''
-      @_visibleAreas.splice(@_visibleAreas.indexOf(area), 1)
 
       area.Material3D.opacity = 0.0
       #fade out:
@@ -419,14 +424,11 @@ class HG.AreasOnGlobe
       #     area.Material3D.opacity = this.opacity
       # })
 
-    else
-      console.log "Error: Cant hide area!"
-
     if area.Borderlines3D
       for line in area.Borderlines3D
         line.material.opacity = 0.0
 
-    @_removeArea(area)
+    #@_removeArea(area)
 
 
   # ============================================================================
