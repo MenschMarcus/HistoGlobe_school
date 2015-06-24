@@ -14,6 +14,7 @@ class HG.AreasOnGlobe
     @_countryLight            = null
     @_intersectedMaterials    = []
     #@_visibleAreas            = []
+    @_visibleLabels           = []
     @_wholeGeometry           = null
     @_wholeMesh               = null
     @_materials               = []
@@ -63,10 +64,9 @@ class HG.AreasOnGlobe
 
       window.addEventListener   "mouseup",  @_onMouseUp,         false #for country intersections
       window.addEventListener   "mousedown",@_onMouseDown,       false #for country intersections
-      '''@_globe.onZoomEnd @, @_filterLabels
-      @_globe.onMove @, @_filterLabels
+      #@_globe.onZoomEnd @, @_filterLabels
+      #@_globe.onMove @, @_filterLabels
       @_globe.onMove @, @_updateLabelSizes
-      @_globe.onMove @, @_filterLabels'''
 
       #load all areas and add them to globe:
       all_areas = @_areaController.getAllAreas()
@@ -120,7 +120,7 @@ class HG.AreasOnGlobe
         @_showBorder border, @_aniTime
 
       @_areaController.onFadeOutBorder @, (border) =>
-        @_hideBorder border, @_aniTime
+        @_hideBorder border, @_aniTime'''
 
       # change of labels
       @_areaController.onAddLabel @, (label) =>
@@ -129,9 +129,9 @@ class HG.AreasOnGlobe
       @_areaController.onRemoveLabel @, (label) =>
         @_removeLabel label
 
-      @_areaController.onUpdateLabelStyle @, (label, isHC) =>
-        @_inHighContrast = isHC
-        @_updateLabelStyle label'''
+      # @_areaController.onUpdateLabelStyle @, (label, isHC) =>
+      #   @_inHighContrast = isHC
+      #   @_updateLabelStyle label
 
     else
       console.error "Unable to show areas on globe: AreaController module not detected in HistoGlobe instance!"
@@ -194,7 +194,6 @@ class HG.AreasOnGlobe
 
       for array in data
 
-
         #calc bounds
         plArea = L.polyline(array,options)
         if bounds is null
@@ -204,10 +203,8 @@ class HG.AreasOnGlobe
 
         PtsArea = []
 
-
         for point in array
           PtsArea.push new THREE.Vector3(point.lng, point.lat,0)
-
 
         countryShape = new THREE.Shape PtsArea ;
 
@@ -220,7 +217,6 @@ class HG.AreasOnGlobe
           newGeometry = new THREE.ShapeGeometry countryShape
           THREE.GeometryUtils.merge(shapeGeometry,newGeometry)
 
-
         #borderline mapping of single area!!!
         lineGeometry = new THREE.Geometry
         for vertex in PtsArea
@@ -231,7 +227,6 @@ class HG.AreasOnGlobe
           lineGeometry.vertices.push line_coord
         #close line:
         lineGeometry.vertices.push lineGeometry.vertices[0]
-
 
         lineWidth = area.getStyle().borderWidth
         opacity = 0
@@ -256,7 +251,6 @@ class HG.AreasOnGlobe
 
       tessellateModifier = new THREE.TessellateModifier(7.5)
 
-
       for i in [0 .. iterations]
         tessellateModifier.modify shapeGeometry
 
@@ -277,7 +271,6 @@ class HG.AreasOnGlobe
       shapeGeometry.computeBoundingBox()
       countryMaterial.bb = shapeGeometry.boundingBox
 
-
       mesh = new THREE.Mesh( shapeGeometry, countryMaterial );
 
       #gps to cart mapping:
@@ -297,8 +290,9 @@ class HG.AreasOnGlobe
       mesh.geometry.computeFaceNormals();
       mesh.geometry.computeBoundingSphere();
 
-      for line in borderLines
-        @_sceneCountries.add line
+      # borderlines with opacity 0 still visible
+      # for line in borderLines
+      #   @_sceneCountries.add line
 
       if @_wholeMesh is null
         #merge geometry
@@ -318,7 +312,6 @@ class HG.AreasOnGlobe
 
       mesh.Area = area
 
-      
       area.Borderlines3D = borderLines
 
 
@@ -359,6 +352,7 @@ class HG.AreasOnGlobe
 
       if area.Borderlines3D
         for line in area.Borderlines3D
+          @_sceneCountries.add line
           line.material.opacity = area.getStyle().borderOpacity
 
     else
@@ -394,6 +388,7 @@ class HG.AreasOnGlobe
 
       if area.Borderlines3D
         for line in area.Borderlines3D
+          @_sceneCountries.add line
           line.material.opacity = 1.0
 
 
@@ -422,6 +417,8 @@ class HG.AreasOnGlobe
     if area.Borderlines3D
       for line in area.Borderlines3D
         line.material.opacity = 0.0
+        @_sceneCountries.remove line
+        console.log "remove????????????????????"
 
     #@_removeArea(area)
 
@@ -533,68 +530,75 @@ class HG.AreasOnGlobe
 
 
 
-  # '''# ============================================================================
-  # # LABELS
-  # # ============================================================================
+  # ============================================================================
+  # LABELS
+  # ============================================================================
 
 
-  # # ============================================================================
-  # _addLabel: (label) =>
-  #   label.Label3DIsVisible = false
+  # ============================================================================
+  _addLabel: (label) =>
 
-  #   unless label.Label3D?
+    label.Label3DIsVisible = false
 
-  #     text = label.getLabel().split "<"
-  #     text = text[0]
+    unless label.Label3D?
 
-  #     metrics = TEST_CONTEXT.measureText(text);
-  #     textWidth = metrics.width+1;
+      text = label.getName()
+      metrics = TEST_CONTEXT.measureText(text);
+      textWidth = metrics.width+1;
 
-  #     canvas = document.createElement('canvas')
-  #     canvas.width = textWidth
-  #     canvas.height = TEXT_HEIGHT
-  #     canvas.className = "leaflet-label"#TODO!!!!!!!
+      canvas = document.createElement('canvas')
+      canvas.width = textWidth
+      canvas.height = TEXT_HEIGHT
+      canvas.className = "leaflet-label"#TODO!!!!!!!
 
-  #     context = canvas.getContext('2d')
-  #     context.textAlign = 'center'
-  #     context.font = "#{TEXT_HEIGHT}px Lobster"
+      context = canvas.getContext('2d')
+      context.textAlign = 'center'
+      context.font = "#{TEXT_HEIGHT}px Lobster"
 
-  #     context.fillText(text,textWidth/2,TEXT_HEIGHT*0.75)
+      context.fillText(text,textWidth/2,TEXT_HEIGHT*0.75)
 
-  #     texture = new THREE.Texture(canvas)
-  #     texture.needsUpdate = true
-  #     material = new THREE.SpriteMaterial({
-  #       map: texture,
-  #       transparent:true,
-  #       opacity: label.getStyle().labelOpacity
-  #       useScreenCoordinates: false,
-  #       scaleByViewport: true,
-  #       sizeAttenuation: false,
-  #       depthTest: false,
-  #       affectedByDistance: false
-  #       })
+      texture = new THREE.Texture(canvas)
+      texture.needsUpdate = true
+      material = new THREE.SpriteMaterial({
+        map: texture,
+        transparent:true,
+        labelColor: label.getStyle().labelColor
+        opacity: label.getStyle().labelOpacity
+        useScreenCoordinates: false,
+        scaleByViewport: true,
+        sizeAttenuation: false,
+        depthTest: false,
+        affectedByDistance: false
+        })
 
-  #     sprite = new THREE.Sprite(material)
-  #     sprite.textWidth = textWidth
+      sprite = new THREE.Sprite(material)
+      sprite.textWidth = textWidth
 
-  #     #position calculation
-  #     textLatLng = label.getLabelLatLng()
-  #     cart_coords = @_globe._latLongToCart(
-  #             x:textLatLng[1]
-  #             y:textLatLng[0],
-  #             @_globe.getGlobeRadius()+1.0)
+      #position calculation
+      textLatLng = label.getPosition()
+      cart_coords = @_globe._latLongToCart(
+              x:textLatLng[1]
+              y:textLatLng[0],
+              @_globe.getGlobeRadius()+1.0)
 
-  #     @_sceneCountries.add sprite
-  #     sprite.scale.set(textWidth,TEXT_HEIGHT,1.0)
-  #     sprite.position.set cart_coords.x,cart_coords.y,cart_coords.z
+      @_sceneCountries.add sprite
+      sprite.scale.set(textWidth,TEXT_HEIGHT,1.0)
+      sprite.position.set cart_coords.x,cart_coords.y,cart_coords.z
 
-  #     sprite.MaxWidth = textWidth
-  #     sprite.MaxHeight = TEXT_HEIGHT
+      sprite.MaxWidth = textWidth
+      sprite.MaxHeight = TEXT_HEIGHT
 
-  #     label.Label3D = sprite
+      label.Label3D = sprite
 
-  # # ============================================================================
-  # #_removeLabel: (label) ->
+      @_visibleLabels.push sprite
+
+  # ============================================================================
+  _removeLabel: (label) ->
+
+    if label.Label3D?
+      @_visibleLabels.splice(@_visibleLabels.indexOf(label.Label3D), 1)
+      @_sceneCountries.remove label.Label3D
+      label.Label3D = null
 
 
 
@@ -638,19 +642,18 @@ class HG.AreasOnGlobe
   #       @_hideLabel area
 
 
-  # # ============================================================================
-  # _updateLabelSizes: ->
-  #   for area in @_visibleAreas
-  #     if area.Label3DIsVisible
-  #       cam_pos = new THREE.Vector3(@_globe._camera.position.x,@_globe._camera.position.y,@_globe._camera.position.z).normalize()
-  #       label_pos = new THREE.Vector3(area.Label3D.position.x,area.Label3D.position.y,area.Label3D.position.z).normalize()
-  #       #perspective compensation
-  #       dot = (cam_pos.dot(label_pos)-0.4)/0.6
+  # ============================================================================
+  _updateLabelSizes: ->
+    for label in @_visibleLabels
+      cam_pos = new THREE.Vector3(@_globe._camera.position.x,@_globe._camera.position.y,@_globe._camera.position.z).normalize()
+      label_pos = new THREE.Vector3(label.position.x,label.position.y,label.position.z).normalize()
+      #perspective compensation
+      dot = (cam_pos.dot(label_pos)-0.4)/0.6
 
-  #       if dot > 0.0
-  #         area.Label3D.scale.set(area.Label3D.MaxWidth*dot,area.Label3D.MaxHeight*dot,1.0)
-  #       else
-  #         area.Label3D.scale.set(0.0,0.0,1.0)'''
+      if dot > 0.0
+        label.scale.set(label.MaxWidth*dot,label.MaxHeight*dot,1.0)
+      else
+        label.scale.set(0.0,0.0,1.0)
 
 
   # ============================================================================
