@@ -117,12 +117,12 @@ class HG.AreasOnGlobe
         @_areaController.onFadeOutArea @, (area) =>
           @_hideArea area, @_aniTime
 
-      '''@_areaController.onFadeInBorder @, (border) =>
+      @_areaController.onFadeInBorder @, (border) =>
         @_addBorder border
         @_showBorder border, @_aniTime
 
       @_areaController.onFadeOutBorder @, (border) =>
-        @_hideBorder border, @_aniTime'''
+        @_hideBorder border, @_aniTime
 
       if not @_config.hideLabels
 
@@ -237,7 +237,7 @@ class HG.AreasOnGlobe
           line_coord = @_globe._latLongToCart(
             x:vertex.x
             y:vertex.y,
-            @_globe.getGlobeRadius()+0.45)
+            @_globe.getGlobeRadius()+BORDER_GLOBE_OFFSET)
           lineGeometry.vertices.push line_coord
         #close line:
         lineGeometry.vertices.push lineGeometry.vertices[0]
@@ -292,7 +292,7 @@ class HG.AreasOnGlobe
         cart_coords = @_globe._latLongToCart(
             x:vertex.x
             y:vertex.y,
-            @_globe.getGlobeRadius()+0.4)
+            @_globe.getGlobeRadius()+AREA_GLOBE_OFFSET)
         vertex.x = cart_coords.x
         vertex.y = cart_coords.y
         vertex.z = cart_coords.z
@@ -522,25 +522,68 @@ class HG.AreasOnGlobe
   #   return false'''
 
 
-  # # ============================================================================
-  # # BORDERS
-  # # ============================================================================
+  # ============================================================================
+  # BORDERS
+  # ============================================================================
 
-  # # ============================================================================
-  # # physically adds border to the globe, but makes it invisible
-  # #_addBorder: (border) ->
+  # ============================================================================
+  # physically adds border to the globe, but makes it invisible
+  _addBorder: (border) ->
 
-  # # ============================================================================
-  # # physically removes area from the globe
-  # #_removeBorder: (border) ->
+    if not border.Borderlines3D
 
-  # # ============================================================================
-  # # slowly fades in area and allows interaction with it
-  # #_showBorder: (border, aniTime) ->
+      data = border.getGeometry()
+      borderLines = []
 
-  # # ============================================================================
-  # #_hideBorder: (border, aniTime) ->
+      for array in data
 
+        PtsArea = []
+
+        for point in array
+          PtsArea.push new THREE.Vector3(point.lng, point.lat,0)
+
+        lineGeometry = new THREE.Geometry
+        for vertex in PtsArea
+          line_coord = @_globe._latLongToCart(
+            x:vertex.x
+            y:vertex.y,
+            @_globe.getGlobeRadius()+BORDER_GLOBE_OFFSET)
+          lineGeometry.vertices.push line_coord
+
+        lineWidth = border.getStyle().borderWidth
+        opacity = 0
+        lineMaterial = new THREE.LineBasicMaterial(
+          color: TRANS_COLOR,
+          linewidth: lineWidth,
+          transparent: true,
+          opacity: opacity )
+        borderline = new THREE.Line( lineGeometry, lineMaterial)
+
+        borderLines.push borderline
+
+      border.Borderlines3D = borderLines
+
+  # ============================================================================
+  # physically removes area from the globe
+  _removeBorder: (border) ->
+    if border.Borderlines3D
+      for line in border.Borderlines3D
+        @_sceneCountries.remove line
+
+  # ============================================================================
+  # slowly fades in area and allows interaction with it
+  _showBorder: (border, aniTime) ->
+    if border.Borderlines3D
+      for line in border.Borderlines3D
+        @_sceneCountries.add line
+        line.material.opacity = 1.0 #TODO: animation
+
+  # ============================================================================
+  _hideBorder: (border, aniTime) ->
+    if border.Borderlines3D
+      for line in border.Borderlines3D
+        line.material.opacity = 0.0 #TODO: animation
+    @_removeBorder border
 
 
   # ============================================================================
@@ -802,6 +845,9 @@ class HG.AreasOnGlobe
   ##############################################################################
 
   TRANS_COLOR = '#D5C900'
+
+  AREA_GLOBE_OFFSET = 0.40
+  BORDER_GLOBE_OFFSET = 0.45
 
   #testCanvas for Sprites
   TEST_CANVAS = document.createElement('canvas')
