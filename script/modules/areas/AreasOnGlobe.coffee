@@ -122,6 +122,16 @@ class HG.AreasOnGlobe
       @_areaController.onFadeOutBorder @, (border) =>
         @_hideBorder border, @_aniTime'''
 
+      #load all labels and add them to globe:
+      all_labels = @_areaController.getAllLabels()
+      for label in all_labels
+        execute_async = (l) =>
+          setTimeout () =>
+            @_addLabel l if l.isActive()
+          , 0
+
+        execute_async label
+
       # change of labels
       @_areaController.onAddLabel @, (label) =>
         @_addLabel label
@@ -418,7 +428,6 @@ class HG.AreasOnGlobe
       for line in area.Borderlines3D
         line.material.opacity = 0.0
         @_sceneCountries.remove line
-        console.log "remove????????????????????"
 
     #@_removeArea(area)
 
@@ -538,7 +547,7 @@ class HG.AreasOnGlobe
   # ============================================================================
   _addLabel: (label) =>
 
-    label.Label3DIsVisible = false
+    #label.Label3DIsVisible = false
 
     unless label.Label3D?
 
@@ -549,7 +558,7 @@ class HG.AreasOnGlobe
       canvas = document.createElement('canvas')
       canvas.width = textWidth
       canvas.height = TEXT_HEIGHT
-      canvas.className = "leaflet-label"#TODO!!!!!!!
+      canvas.className = "leaflet-label"
 
       context = canvas.getContext('2d')
       context.textAlign = 'center'
