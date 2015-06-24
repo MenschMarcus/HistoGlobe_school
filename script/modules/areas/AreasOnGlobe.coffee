@@ -68,52 +68,54 @@ class HG.AreasOnGlobe
       #@_globe.onMove @, @_filterLabels
       @_globe.onMove @, @_updateLabelSizes
 
-      #load all areas and add them to globe:
-      all_areas = @_areaController.getAllAreas()
-      @_areasToLoad = all_areas.length
-      for area in all_areas
-        execute_async = (a) =>
-          setTimeout () =>
-            --@_areasToLoad
-            @_addArea a
-            @_showArea a if a.isActive()
-            if @_areasToLoad is 0
-              @_finishLoading()
-          , 0
+      if not @_config.hideAreas
 
-        execute_async area
+        #load all areas and add them to globe:
+        all_areas = @_areaController.getAllAreas()
+        @_areasToLoad = all_areas.length
+        for area in all_areas
+          execute_async = (a) =>
+            setTimeout () =>
+              --@_areasToLoad
+              @_addArea a
+              @_showArea a if a.isActive()
+              if @_areasToLoad is 0
+                @_finishLoading()
+            , 0
 
-      ## AREA CALLBACKS
-      # change of areas
-      @_areaController.onAddArea @, (area) =>
-        execute_async = (a) =>
-          setTimeout () =>
-            @_addArea a
-            @_showArea a, @_aniTime if a.isActive()
-          , 0
+          execute_async area
 
-        execute_async area
+        ## AREA CALLBACKS
+        # change of areas
+        @_areaController.onAddArea @, (area) =>
+          execute_async = (a) =>
+            setTimeout () =>
+              @_addArea a
+              @_showArea a, @_aniTime if a.isActive()
+            , 0
 
-      @_areaController.onRemoveArea @, (area) =>
-        @_hideArea area, @_aniTime
+          execute_async area
 
-      @_areaController.onUpdateAreaStyle @, (area, isHC) =>
-        '''@_inHighContrast = isHC'''
-        @_updateAreaStyle area, @_aniTime
+        @_areaController.onRemoveArea @, (area) =>
+          @_hideArea area, @_aniTime
 
-      # transition areas and borders
-      @_areaController.onFadeInArea @, (area, isHighlight) =>
-        execute_async = (a,ih) =>
-          setTimeout () =>
-            @_addArea a
-            @_showArea a, @_aniTime, ih if a.isActive()
-          , 0
+        @_areaController.onUpdateAreaStyle @, (area, isHC) =>
+          '''@_inHighContrast = isHC'''
+          @_updateAreaStyle area, @_aniTime
 
-        execute_async area,isHighlight
+        # transition areas and borders
+        @_areaController.onFadeInArea @, (area, isHighlight) =>
+          execute_async = (a,ih) =>
+            setTimeout () =>
+              @_addArea a
+              @_showArea a, @_aniTime, ih if a.isActive()
+            , 0
+
+          execute_async area,isHighlight
 
 
-      @_areaController.onFadeOutArea @, (area) =>
-        @_hideArea area, @_aniTime
+        @_areaController.onFadeOutArea @, (area) =>
+          @_hideArea area, @_aniTime
 
       '''@_areaController.onFadeInBorder @, (border) =>
         @_addBorder border
@@ -122,26 +124,28 @@ class HG.AreasOnGlobe
       @_areaController.onFadeOutBorder @, (border) =>
         @_hideBorder border, @_aniTime'''
 
-      #load all labels and add them to globe:
-      all_labels = @_areaController.getAllLabels()
-      for label in all_labels
-        execute_async = (l) =>
-          setTimeout () =>
-            @_addLabel l if l.isActive()
-          , 0
+      if not @_config.hideLabels
 
-        execute_async label
+        #load all labels and add them to globe:
+        all_labels = @_areaController.getAllLabels()
+        for label in all_labels
+          execute_async = (l) =>
+            setTimeout () =>
+              @_addLabel l if l.isActive()
+            , 0
 
-      # change of labels
-      @_areaController.onAddLabel @, (label) =>
-        @_addLabel label
+          execute_async label
 
-      @_areaController.onRemoveLabel @, (label) =>
-        @_removeLabel label
+        # change of labels
+        @_areaController.onAddLabel @, (label) =>
+          @_addLabel label
 
-      # @_areaController.onUpdateLabelStyle @, (label, isHC) =>
-      #   @_inHighContrast = isHC
-      #   @_updateLabelStyle label
+        @_areaController.onRemoveLabel @, (label) =>
+          @_removeLabel label
+
+        # @_areaController.onUpdateLabelStyle @, (label, isHC) =>
+        #   @_inHighContrast = isHC
+        #   @_updateLabelStyle label
 
     else
       console.error "Unable to show areas on globe: AreaController module not detected in HistoGlobe instance!"
