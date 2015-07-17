@@ -1,0 +1,176 @@
+{
+  "HistoGlobe" :
+  {
+    "container": "histoglobe",
+    "minYear": 1740,
+    "maxYear": 1990,
+    "nowYear": 1919,
+    "minZoom": 3,
+    "maxZoom": 7,
+    "startZoom": 4,
+    "startLatLong": [50.9869531, 11.3205004],
+    "tiles": "config/school/tiles/",
+    "tilesHighContrast": "config/school/tiles_ehc/",
+    "areaAniTime" : 700,
+    "sidebarEnabled": false
+  },
+
+  "ABTest" :
+  {
+    "hiventsOnMap" :          "A",
+    "hiventsOnTl" :           "A",
+    "hiventsOnTlLabels" :     "A",
+    "numHiventsOnMap" :       "A",
+    "hiventRegionsOnMap" :    "A",
+    "hiventClusterLabels" :   "A",
+    "searchFilter" :          "A",
+    "regionLabels" :          "A",
+    "hiventMarkerMode" :      "B"
+  },
+
+  "Timeline" :
+  {
+    "timelineZoom" : 2,
+    "dsvPaths": ["config/archistory/data/topics.csv"],
+    "rootDirs": ["config/archistory/data/topics"],
+    "ignoredLines" : [1],
+    "indexMappings": [
+      {
+        "start"       : 0,
+        "end"         : 1,
+        "id"          : 2,
+        "subtopic_of" : 3,
+        "topic"       : 4,
+        "token"       : 5,
+        "row"         : 6
+      }
+    ]
+  },
+
+  "BrowserDetector": {},
+
+  "ZoomButtonsTimeline": {},
+  "ControlButtonArea": {},
+  "ZoomButtons": {},
+  "FullscreenButton": {},
+  "HighContrastButton": {},
+  "MinLayoutButton": {},
+
+  "CategoryFilter":
+  {
+    "initial" : "noCategory"
+  },
+
+  "MultimediaController":
+  {
+    "dsvPaths": ["config/archistory/data/media.csv"],
+    "rootDirs": ["config/archistory/data/media"],
+    "ignoredLines" : [1,2,3],
+    "indexMappings": [
+      {
+        "id"          : 0,
+        "type"        : 2,
+        "description" : 3,
+        "link"        : 1,
+        "author"      : 4,
+        "source"      : 5,
+        "crop"        : 6
+      }
+    ]
+  },
+
+  "HiventController" :
+  {
+    "dsvConfigs":
+    [
+      {
+        "path":             "config/archistory/data/hivents.csv",
+        "ignoredLines" :    [1,2,3],
+        "indexMapping" :
+        {
+          "id"              : 0,
+          "name"            : 1,
+          "startYear"       : 6,
+          "startMonth"      : 7,
+          "startDay"        : 8,
+          "endYear"         : 9,
+          "endMonth"        : 10,
+          "endDay"          : 11,
+          "displayDate"     : 12,
+          "location"        : 2,
+          "lat"             : 3,
+          "long"            : 4,
+          "region"          : 5,
+          "isImp"           : 13,
+          "parentTopic"     : 14,
+          "subTopic"        : 15,
+          "description"     : 16,
+          "multimedia"      : 17
+        }
+      }
+    ],
+    "numHiventsInView" : 9
+  },
+
+  "CategoryIconMapping" :
+  {
+    "default" :
+    {
+      "default" : "config/archistory/icons/marker_hivent-map.svg",
+      "highlighted" : "config/archistory/icons/marker_hivent-map-active.svg"
+    }
+  },
+
+  "HiventsOnMap" : {},
+  "HiventsOnTimeline" : {},
+
+  "HiventTooltips" : {},
+  "HiventInfoPopovers" : {},
+  "HiventPresenter" : {},
+  "HiventInfoAtTag" : {},
+
+  "SearchBoxArea": {},
+  "SearchBoxForm": {},
+  "HiventList": {},
+  "Logo": {},
+  "Imprint": {},
+
+  "Styler":
+  {
+    "normalStyle":
+    {
+      "areaColor":      "#ffffff",
+      "areaColor_hc":   "#ffffff",
+      "areaOpacity":    0.75,
+      "borderWidth":    1.25,
+      "borderColor":    "#c1c1c1",
+      "borderColor_hc": "#000000",
+      "borderOpacity":  1.0,
+      "labelSize":      2,
+      "labelColor":     "#7f7f7f",
+      "labelColor_hc":  "#000000",
+      "labelOpacity":   1.0
+    },
+    "highlightStyle":
+    {
+      "areaColor":      "#eaeaea",
+      "areaColor_hc":   "#d8d8d8"
+    }
+  },
+
+
+  "AreaController":
+  {
+    "areaJSONPaths" : ["config/archistory/data/countryAreas.geojson"],
+    "labelJSONPaths" : ["config/archistory/data/countryLabels.geojson"],
+    "changeJSONPaths" : ["config/archistory/data/countryChanges.json"],
+    "transitionJSONPaths" : ["config/archistory/data/countryTransitions.geojson"]
+  },
+
+  "AreasOnMap" :
+  {
+    "labelVisibilityFactor" : 1.5
+  }
+
+}
+

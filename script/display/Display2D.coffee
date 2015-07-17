@@ -50,13 +50,13 @@ class HG.Display2D extends HG.Display
       bounds_lat = bounds._northEast.lat - bounds._southWest.lat
       bounds_lng = bounds._northEast.lng - bounds._southWest.lng
 
-      target = 
+      target =
         lon: parseFloat(longLat.x) + offset.x * bounds_lng
         lat: parseFloat(longLat.y) + offset.y * bounds_lat
 
       @_map.panTo target
 
-    else # no offset? -> center marker 
+    else # no offset? -> center marker
       @_map.panTo
         lon: longLat.x
         lat: longLat.y
@@ -108,7 +108,9 @@ class HG.Display2D extends HG.Display
     @_map.setView @_hgInstance._config.startLatLong, @_hgInstance._config.startZoom
     @_map.attributionControl.setPrefix ''
 
-    tileLayer = L.tileLayer(@_hgInstance._config.tiles + '/{z}/{x}/{y}.png')
+    # HORRIBLE HACK!
+    tileLayer = L.tileLayer("http://school.histoglobe.com/config/school/tiles/" + '/{z}/{x}/{y}.png')
+    # tileLayer = L.tileLayer(@_hgInstance._config.tiles + '/{z}/{x}/{y}.png')
     tileLayer.addTo @_map
 
     @_hgInstance.onAllModulesLoaded @, () =>

@@ -1,0 +1,14 @@
+Start,Ende,id,subtopic of,Thema,Kürzel,row
+01.01.1770,31.12.1839,klassizismus,,Klassizismus,,0
+01.01.1840,31.12.1894,historismus,,Historismus,,0
+01.01.1850,31.12.1889,vorlaeufer,,Vorläufer der Moderne,,1
+01.01.1890,31.12.1913,fruehe_moderne,,Frühe Moderne,,1
+01.01.1919,31.12.1969,klassische_moderne,,Klassische Moderne,,1
+01.01.1919,31.12.1932,neues_bauen,klassische_moderne,Neues Bauen / Expressionismus,,1
+01.01.1933,31.12.1945,ns,klassische_moderne,NS-Architektur,,1
+01.01.1945,31.12.1949,nachkrieg,klassische_moderne,Nachkriegsarchitektur,,1
+01.01.1953,31.12.1969,brutalismus,klassische_moderne,Brutalismus,,1
+01.01.1970,31.12.1989,postmoderne,,Postmoderne,,1
+01.01.1895,31.12.1904,jugendstil,,Jugendstil,,0
+01.01.1905,31.12.1944,anti,,Heimatschutz- und Gegenbewegungen,,0
+01.01.1970,31.12.1989,hightech,,Hightech-Architektur,,0
