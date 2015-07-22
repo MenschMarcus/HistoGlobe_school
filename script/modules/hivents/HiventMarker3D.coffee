@@ -11,7 +11,7 @@ class HG.HiventMarker3D extends HG.HiventMarker
 
   # ============================================================================
   #constructor: (hiventHandle, display, parent, scene, markerGroup, logos, latlng) ->
-  constructor: (hiventHandle, display, parent, scene, logos) ->
+  constructor: (hiventHandle, display, parent, scene, logos, hgInstance) ->
 
     #HG.mixin @, HG.HiventMarker
 
@@ -24,9 +24,11 @@ class HG.HiventMarker3D extends HG.HiventMarker
 
     @addCallback "onMarkerDestruction"
 
-
+    @_globe = display
+    
     @_scene = scene
 
+    @_hgInstance = hgInstance
 
     @ScreenCoordinates = null
 
@@ -101,15 +103,19 @@ class HG.HiventMarker3D extends HG.HiventMarker
     return @_latlng'''
 
   onclick:(pos) ->
-    @getHiventHandle().toggleActive @,pos
-
+    #@getHiventHandle().toggleActive @,pos
+    @_hgInstance.hiventInfoAtTag?.setOption "event", @_hiventHandle.getHivent().id
 
   # ============================================================================
-  getTooltipPos: ->
-    if @ScreenCoordinates
-      @ScreenCoordinates
-    else
-      console.log "No ScreenCoordinates!"
+  getPosition: ->
+    unless @ScreenCoordinates
+      @ScreenCoordinates = @_globe._getScreenCoordinates(@sprite.position)
+
+    @ScreenCoordinates
+
+  # ============================================================================
+  getDisplayPosition:->
+    return @getPosition()
 
   # ============================================================================
   destroy: ->

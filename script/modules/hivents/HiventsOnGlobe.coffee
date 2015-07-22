@@ -25,8 +25,12 @@ class HG.HiventsOnGlobe
     @_backupZoom              = null
     @_backupCenter            = null
 
+    @_hgInstance              = null
+
   # ============================================================================
   hgInit: (hgInstance) ->
+
+    @_hgInstance = hgInstance
 
     hgInstance.hiventsOnGlobe = @
 
@@ -85,6 +89,7 @@ class HG.HiventsOnGlobe
       console.log @_markerGroup'''
 
       @_hiventController.getHivents @, (handle) =>
+        @_markersLoaded = @_hiventController._hiventsLoaded
         handle.onVisiblePast @, (self) =>
           logos =
             default:@_hiventLogos[handle.getHivent().category]
@@ -92,7 +97,7 @@ class HG.HiventsOnGlobe
 
           '''hivent    = new HG.HiventMarker3D handle, this, HG.Display.CONTAINER, @_sceneInterface, @_markerGroup, logos,
                           L.latLng(handle.getHivent().lat, handle.getHivent().long)'''
-          marker    = new HG.HiventMarker3D(handle, @_globe, HG.Display.CONTAINER, @_sceneInterface, logos)
+          marker    = new HG.HiventMarker3D(handle, @_globe, HG.Display.CONTAINER, @_sceneInterface, logos, @_hgInstance)
           position  =  @_globe._latLongToCart(
             x:handle.getHivent().long
             y:handle.getHivent().lat,
@@ -104,8 +109,18 @@ class HG.HiventsOnGlobe
 
           @_hiventMarkers.push marker
 
-          @_markersLoaded = @_hiventController._hiventsLoaded
           callback marker for callback in @_onMarkerAddedCallbacks
+
+          #HiventRegion NEW
+          @region=self.getHivent().region
+          if @region? and Array.isArray(@region) and @region.length>0
+            region = new HG.HiventMarkerRegion self, hgInstance.map, @_map
+
+            @_hiventMarkers.push region
+            callback region for callback in @_onMarkerAddedCallbacks
+            region.onDestruction @,() =>
+                index = $.inArray(region, @_hiventMarkers)
+                @_hiventMarkers.splice index, 1  if index >= 0
 
           marker.onDestruction @,() =>
             index = $.inArray(marker, @_hiventMarkers)
@@ -218,14 +233,14 @@ class HG.HiventsOnGlobe
 
           if @_globe._mousePos.x > x - (w/2) and @_globe._mousePos.x < x + (w/2) and
           @_globe._mousePos.y > y - (h/2) and @_globe._mousePos.y < y + (h/2)
-            handle = hivent.getHiventHandle()
-            if handle
-              #hivent.getHiventHandle().mark hivent, {x:x, y:y}
-              hivent.getHiventHandle().mark hivent, hivent.getTooltipPos()
-              hivent.getHiventHandle().linkAll {x:x, y:y}
-            tmp_intersects.push hivent
             index = $.inArray(hivent, @_lastIntersected)
             @_lastIntersected.splice index, 1  if index >= 0
+            handle = hivent.getHiventHandle()
+            if handle and index < 0
+              hivent.getHiventHandle().mark hivent, {x:x, y:y}
+              #hivent.getHiventHandle().mark hivent, hivent.getPosition()
+              hivent.getHiventHandle().linkAll {x:x, y:y}
+            tmp_intersects.push hivent
             HG.Display.CONTAINER.style.cursor = "pointer"
 
     for hivent in @_lastIntersected

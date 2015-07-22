@@ -77,7 +77,11 @@ class HG.HiventInfoPopovers
 
     i = 0
     if useMarkerPosition
-      i = handle.getHivent().lat.indexOf marker.getPosition().lat
+      pos = handle.getHivent().lat.indexOf marker.getPosition()
+      if pos isnt null
+        i = pos.lat
+      else
+        console.log "Warning: No position for popover found!"
 
 
     showHiventInfoPopover = () =>

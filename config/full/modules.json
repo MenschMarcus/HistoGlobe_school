@@ -48,6 +48,8 @@
   },
 
   "BrowserDetector": {},
+  
+  "Globe": {},
 
   "ZoomButtonsTimeline": {},
   "ControlButtonArea": {},
@@ -198,7 +200,7 @@
 
   "AreaController":
   {
-    "areaJSONPaths" : ["config/school/data/countryAreas.geojson"],
+    "areaJSONPaths" : ["config/full/data/countryAreas.geojson"],
     "labelJSONPaths" : ["config/school/data/countryLabels.geojson"],
     "changeJSONPaths" : ["config/school/data/countryChanges.json"],
     "transitionJSONPaths" : ["config/school/data/countryTransitions.geojson"]
@@ -209,12 +211,12 @@
     "labelVisibilityFactor" : 1.5
   },
 
-  "Globe": {},
-
   "AreasOnGlobe" : {
     "hideAreas" : false,
     "hideLabels" : false
-  }
+  },
+
+  "HiventsOnGlobe" : {}
 
 }
 
