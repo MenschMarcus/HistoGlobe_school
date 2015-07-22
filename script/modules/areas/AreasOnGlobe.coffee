@@ -131,7 +131,8 @@ class HG.AreasOnGlobe
         for label in all_labels
           execute_async = (l) =>
             setTimeout () =>
-              @_addLabel l if l.isActive()
+              @_addLabel l
+              @_showLabel l if l.isActive()
             , 0
 
           execute_async label
@@ -139,6 +140,7 @@ class HG.AreasOnGlobe
         # change of labels
         @_areaController.onAddLabel @, (label) =>
           @_addLabel label
+          @_showLabel label if label.isActive()
 
         @_areaController.onRemoveLabel @, (label) =>
           @_removeLabel label
@@ -147,17 +149,28 @@ class HG.AreasOnGlobe
         #   @_inHighContrast = isHC
         #   @_updateLabelStyle label
 
+      # HOVER:
+      setInterval(@_animate, 100)
+
     else
       console.error "Unable to show areas on globe: AreaController module not detected in HistoGlobe instance!"
 
 
 
   # ============================================================================
-  #TODO: performance boost:
   _finishLoading:() =>
 
-    @_wholeMesh = new THREE.Mesh( @_wholeGeometry, new THREE.MeshFaceMaterial( @_materials ) );
-    @_sceneCountries.add @_wholeMesh
+    if @_wholeGeometry isnt null
+
+      @_wholeMesh = new THREE.Mesh( @_wholeGeometry, new THREE.MeshFaceMaterial( @_materials ) );
+
+      # @_wholeMesh.geometry.verticesNeedUpdate = true;
+      # @_wholeMesh.geometry.normalsNeedUpdate = true;
+      # @_wholeMesh.geometry.computeVertexNormals();
+      # @_wholeMesh.geometry.computeFaceNormals();
+      # @_wholeMesh.geometry.computeBoundingSphere();
+
+      @_sceneCountries.add @_wholeMesh
 
   # ============================================================================
   _animate:() =>
@@ -328,6 +341,10 @@ class HG.AreasOnGlobe
 
       area.Borderlines3D = borderLines
 
+    else
+
+      @_updateAreaStyle(area,0) if area.isActive()
+
 
   # ============================================================================
   # physically removes area from the glpbe
@@ -444,31 +461,31 @@ class HG.AreasOnGlobe
       final_color = @_rgbify area.getStyle().areaColor
       final_opacity = area.getStyle().areaOpacity
       
-      # area.Material3D.color.r = final_color[0]/255
-      # area.Material3D.color.g = final_color[1]/255
-      # area.Material3D.color.b = final_color[2]/255
-      # area.Material3D.opacity = final_opacity
+      area.Material3D.color.r = final_color[0]/255
+      area.Material3D.color.g = final_color[1]/255
+      area.Material3D.color.b = final_color[2]/255
+      area.Material3D.opacity = final_opacity
 
-      $({
-        colorR:area.Material3D.color.r,
-        colorG:area.Material3D.color.g,
-        colorB:area.Material3D.color.b,
-        opacity:area.Material3D.opacity
+      # $({
+      #   colorR:area.Material3D.color.r,
+      #   colorG:area.Material3D.color.g,
+      #   colorB:area.Material3D.color.b,
+      #   opacity:area.Material3D.opacity
 
-      }).animate({
-        colorR:         final_color[0]/255,
-        colorG:         final_color[1]/255,
-        colorB:         final_color[2]/255,
-        opacity:        final_opacity
-      },{
-        #duration: 350,
-        duration: aniTime,
-        step: ->
-          area.Material3D.color.r = this.colorR
-          area.Material3D.color.g = this.colorG
-          area.Material3D.color.b = this.colorB
-          area.Material3D.opacity = this.opacity
-      })
+      # }).animate({
+      #   colorR:         final_color[0]/255,
+      #   colorG:         final_color[1]/255,
+      #   colorB:         final_color[2]/255,
+      #   opacity:        final_opacity
+      # },{
+      #   #duration: 350,
+      #   duration: aniTime,
+      #   step: ->
+      #     area.Material3D.color.r = this.colorR
+      #     area.Material3D.color.g = this.colorG
+      #     area.Material3D.color.b = this.colorB
+      #     area.Material3D.opacity = this.opacity
+      # })
 
       lineWidth = area.getStyle().borderWidth
       border_opacity = area.getStyle().borderOpacity
@@ -594,8 +611,6 @@ class HG.AreasOnGlobe
   # ============================================================================
   _addLabel: (label) =>
 
-    #label.Label3DIsVisible = false
-
     unless label.Label3D?
 
       text = label.getName()
@@ -637,7 +652,6 @@ class HG.AreasOnGlobe
               y:textLatLng[0],
               @_globe.getGlobeRadius()+1.0)
 
-      @_sceneCountries.add sprite
       sprite.scale.set(textWidth,TEXT_HEIGHT,1.0)
       sprite.position.set cart_coords.x,cart_coords.y,cart_coords.z
 
@@ -650,30 +664,22 @@ class HG.AreasOnGlobe
 
   # ============================================================================
   _removeLabel: (label) ->
-
     if label.Label3D?
-      @_visibleLabels.splice(@_visibleLabels.indexOf(label.Label3D), 1)
       @_sceneCountries.remove label.Label3D
       label.Label3D = null
 
+  # ============================================================================
+  _showLabel: (label) =>
+    if label.Label3D?
+      @_sceneCountries.add label.Label3D
 
+  # ============================================================================
+  _hideLabel: (label) =>
+    if label.Label3D
+      label.Label3D.material.opacity = 0.0
+      @_visibleLabels.splice(@_visibleLabels.indexOf(label.Label3D), 1)
 
-  # # ============================================================================
-  # _showLabel: (area) =>
-  #   area.Label3DIsVisible = true
-  #   if area.Label3D?
-  #     @_sceneCountries.add area.Label3D
-  #   else
-  #     @_addLabel()
-
-  # # ============================================================================
-  # _hideLabel: (area) =>
-  #   area.Label3DIsVisible = false
-  #     '''if area.Label3D
-  #       area.Label3D.material.opacity = area.getStyle().labelOpacity'''
-
-  #   if area.Label3D?
-  #     @_sceneCountries.remove area.Label3D
+    @_removeLabel label
 
   # # ============================================================================
   # _isLabelVisible: (area) ->
@@ -792,7 +798,7 @@ class HG.AreasOnGlobe
 
     raycaster.set @_globe._camera.position, vector.sub(@_globe._camera.position).normalize()
 
-    countryIntersects = raycaster.intersectObjects @_sceneCountries.children
+    countryIntersects = raycaster.intersectObjects(@_sceneCountries.children)
 
     if countryIntersects.length > 0
       HG.Display.CONTAINER.style.cursor = "pointer"
