@@ -21,6 +21,9 @@ class HG.AreasOnGlobe
     @_areasToLoad             = 0
     @_dragStartPos            = null
 
+    # highcontrast hack: swap between normal and "_hc" mode
+    @_inHighContrast  = no
+
     defaultConfig =
       hideAreas: false,
       hideLabels: false
@@ -100,7 +103,7 @@ class HG.AreasOnGlobe
           @_hideArea area, @_aniTime
 
         @_areaController.onUpdateAreaStyle @, (area, isHC) =>
-          '''@_inHighContrast = isHC'''
+          @_inHighContrast = isHC
           @_updateAreaStyle area, @_aniTime
 
         # transition areas and borders
@@ -258,7 +261,7 @@ class HG.AreasOnGlobe
         lineWidth = area.getStyle().borderWidth
         opacity = 0
         lineMaterial = new THREE.LineBasicMaterial(
-          color: area.getStyle().borderColor,
+          color: if @_inHighContrast then area.getStyle().borderColor_hc else area.getStyle().borderColor,
           linewidth: lineWidth,
           transparent: true,
           opacity: opacity )
@@ -285,8 +288,9 @@ class HG.AreasOnGlobe
       opacity = 0.0
       '''opacity = materialData.areaOpacity if @_isAreaActive(area)'''
 
+
       countryMaterial = new THREE.MeshLambertMaterial
-              color       : materialData.areaColor
+              color       : if @_inHighContrast then materialData.areaColor_hc else materialData.areaColor
               side        : THREE.BackSide,
               opacity     : opacity,
               transparent : true,
@@ -343,7 +347,7 @@ class HG.AreasOnGlobe
 
     else
 
-      @_updateAreaStyle(area,0) if area.isActive()
+      @_updateAreaStyle(area,0)
 
 
   # ============================================================================
@@ -458,8 +462,8 @@ class HG.AreasOnGlobe
 
     if area.Material3D?
 
-      final_color = @_rgbify area.getStyle().areaColor
-      final_opacity = area.getStyle().areaOpacity
+      final_color = @_rgbify if @_inHighContrast then area.getStyle().areaColor_hc else area.getStyle().areaColor
+      final_opacity = if area.isActive() then area.getStyle().areaOpacity else 0.0
       
       area.Material3D.color.r = final_color[0]/255
       area.Material3D.color.g = final_color[1]/255
@@ -488,7 +492,7 @@ class HG.AreasOnGlobe
       # })
 
       lineWidth = area.getStyle().borderWidth
-      border_opacity = area.getStyle().borderOpacity
+      border_opacity = if area.isActive() then area.getStyle().borderOpacity else 0.0
       unless lineWidth > 0.01
         lineWidth = 1
         border_opacity = 0
@@ -496,7 +500,7 @@ class HG.AreasOnGlobe
       if area.Borderlines3D
         for line in area.Borderlines3D
 
-          final_stroke_color = @_rgbify area.getStyle().borderColor
+          final_stroke_color = @_rgbify if @_inHighContrast then area.getStyle().borderColor_hc else area.getStyle().borderColor
 
           line.material.color.r = final_stroke_color[0]/255
           line.material.color.g = final_stroke_color[1]/255
