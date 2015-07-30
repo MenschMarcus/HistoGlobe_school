@@ -630,6 +630,25 @@ class HG.AreasOnGlobe
       context.textAlign = 'center'
       context.font = "#{TEXT_HEIGHT}px Lobster"
 
+      context.shadowColor = "#ffffff"
+      context.shadowOffsetX = -TEXT_HEIGHT/10
+      context.shadowOffsetY = -TEXT_HEIGHT/10
+
+      context.fillText(text,textWidth/2,TEXT_HEIGHT*0.75)
+
+      context.shadowOffsetX =  TEXT_HEIGHT/10
+      context.shadowOffsetY = -TEXT_HEIGHT/10
+
+      context.fillText(text,textWidth/2,TEXT_HEIGHT*0.75)
+
+      context.shadowOffsetX = -TEXT_HEIGHT/10
+      context.shadowOffsetY =  TEXT_HEIGHT/10
+
+      context.fillText(text,textWidth/2,TEXT_HEIGHT*0.75)
+
+      context.shadowOffsetX =  TEXT_HEIGHT/10
+      context.shadowOffsetY =  TEXT_HEIGHT/10
+
       context.fillStyle= if @_inHighContrast then label.getStyle().labelColor_hc else label.getStyle().labelColor
       context.fillText(text,textWidth/2,TEXT_HEIGHT*0.75)
 
@@ -872,5 +891,5 @@ class HG.AreasOnGlobe
   TEST_CANVAS.height = 1
   TEST_CONTEXT = TEST_CANVAS.getContext('2d')
   TEST_CONTEXT.textAlign = 'center'
-  TEXT_HEIGHT = 12
+  TEXT_HEIGHT = 14
   TEST_CONTEXT.font = "#{TEXT_HEIGHT}px Lobster"
