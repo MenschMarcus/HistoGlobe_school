@@ -148,9 +148,9 @@ class HG.AreasOnGlobe
         @_areaController.onRemoveLabel @, (label) =>
           @_removeLabel label
 
-        # @_areaController.onUpdateLabelStyle @, (label, isHC) =>
-        #   @_inHighContrast = isHC
-        #   @_updateLabelStyle label
+        @_areaController.onUpdateLabelStyle @, (label, isHC) =>
+          @_inHighContrast = isHC
+          @_updateLabelStyle label
 
       # HOVER:
       setInterval(@_animate, 100)
@@ -630,6 +630,7 @@ class HG.AreasOnGlobe
       context.textAlign = 'center'
       context.font = "#{TEXT_HEIGHT}px Lobster"
 
+      context.fillStyle= if @_inHighContrast then label.getStyle().labelColor_hc else label.getStyle().labelColor
       context.fillText(text,textWidth/2,TEXT_HEIGHT*0.75)
 
       texture = new THREE.Texture(canvas)
@@ -637,7 +638,6 @@ class HG.AreasOnGlobe
       material = new THREE.SpriteMaterial({
         map: texture,
         transparent:true,
-        labelColor: label.getStyle().labelColor
         opacity: label.getStyle().labelOpacity
         useScreenCoordinates: false,
         scaleByViewport: true,
@@ -706,6 +706,13 @@ class HG.AreasOnGlobe
   #       @_showLabel area
   #     else if not shoulBeVisible and area.Label3DIsVisible
   #       @_hideLabel area
+
+
+  # ============================================================================
+  _updateLabelStyle:(label) =>
+    @_hideLabel label
+    @_addLabel label
+    @_showLabel label if label.isActive()
 
 
   # ============================================================================
