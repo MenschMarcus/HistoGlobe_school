@@ -49,6 +49,14 @@ class HG.Globe extends HG.Display
           hgInstance.zoom_buttons.onZoomIn @, @_zoomIn
           hgInstance.zoom_buttons.onZoomOut @, @_zoomOut
 
+        if hgInstance.highcontrast_button?
+          hgInstance.highcontrast_button.onEnterHighContrast @, () =>
+            @_tile_path = hgInstance._config.tilesHighContrast
+
+          hgInstance.highcontrast_button.onLeaveHighContrast @, () =>
+            @_tile_path = hgInstance._config.tiles
+
+
         if hgInstance.control_button_area?
           state_a = {}
           state_b = {}
@@ -341,6 +349,7 @@ class HG.Globe extends HG.Display
         minLatLong: x: minLatLong.x,        y: minLatLong.y
         maxLatLong: x: minLatLong.x + size, y: minLatLong.y + size
         children: null
+        path: ""
 
       unless zoom is CAMERA_MAX_ZOOM
         node.children = []
@@ -696,29 +705,29 @@ class HG.Globe extends HG.Display
     else
       return null
 
-  # ============================================================================
-  #new:
-  _getScreenCoordinates:(position,zoom) ->
+  # # ============================================================================
+  # #new:
+  # _getScreenCoordinates:(position,zoom) ->
 
-    testCamera = new THREE.PerspectiveCamera @_camera
+  #   testCamera = new THREE.PerspectiveCamera @_camera
 
-    fov = (CAMERA_MAX_ZOOM - zoom) /
-          (CAMERA_MAX_ZOOM - CAMERA_MIN_ZOOM) *
-          (CAMERA_MAX_FOV - CAMERA_MIN_FOV) + CAMERA_MIN_FOV
+  #   fov = (CAMERA_MAX_ZOOM - zoom) /
+  #         (CAMERA_MAX_ZOOM - CAMERA_MIN_ZOOM) *
+  #         (CAMERA_MAX_FOV - CAMERA_MIN_FOV) + CAMERA_MIN_FOV
 
-    testCamera.fov = fov
+  #   testCamera.fov = fov
 
-    vector = position.clone()
+  #   vector = position.clone()
 
-    PROJECTOR.projectVector vector, @_camera
+  #   PROJECTOR.projectVector vector, @_camera
 
-    x = ( vector.x * (@_width/2) ) + (@_width/2);
-    y = - ( vector.y * (@_myHeight/2) ) + (@_myHeight/2);
+  #   x = ( vector.x * (@_width/2) ) + (@_width/2);
+  #   y = - ( vector.y * (@_myHeight/2) ) + (@_myHeight/2);
 
-    if x and y
-      return {x:x,y:y}
-    else
-      return null
+  #   if x and y
+  #     return {x:x,y:y}
+  #   else
+  #     return null
 
 
   # ============================================================================
@@ -795,6 +804,7 @@ class HG.Globe extends HG.Display
   # ============================================================================
   _tileLoad: (tile) ->
     tile.textures = []
+    tile.path = @_tile_path
     dx = 0
 
     while dx < 4
@@ -837,7 +847,7 @@ class HG.Globe extends HG.Display
 
       else tile.opacity = 1.0
 
-      @_tileLoad tile unless tile.textures?
+      @_tileLoad tile if tile.textures is null or tile.path isnt @_tile_path
 
       @_globeUniforms.tiles.value    = tile.textures
       @_globeUniforms.opacity.value  = tile.opacity
