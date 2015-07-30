@@ -67,8 +67,8 @@ class HG.AreasOnGlobe
 
       window.addEventListener   "mouseup",  @_onMouseUp,         false #for country intersections
       window.addEventListener   "mousedown",@_onMouseDown,       false #for country intersections
-      #@_globe.onZoomEnd @, @_filterLabels
-      #@_globe.onMove @, @_filterLabels
+      @_globe.onZoomEnd @, @_filterLabels
+      @_globe.onMove @, @_filterLabels
       @_globe.onMove @, @_updateLabelSizes
 
       if not @_config.hideAreas
@@ -658,7 +658,7 @@ class HG.AreasOnGlobe
       material = new THREE.SpriteMaterial({
         map: texture,
         transparent:true,
-        opacity: label.getStyle().labelOpacity
+        opacity: 0.0
         useScreenCoordinates: false,
         scaleByViewport: true,
         sizeAttenuation: false,
@@ -667,7 +667,6 @@ class HG.AreasOnGlobe
         })
 
       sprite = new THREE.Sprite(material)
-      sprite.textWidth = textWidth
 
       #position calculation
       textLatLng = label.getPosition()
@@ -684,60 +683,76 @@ class HG.AreasOnGlobe
 
       label.Label3D = sprite
 
-      @_visibleLabels.push sprite
-
   # ============================================================================
   _removeLabel: (label) ->
+    @_visibleLabels.splice(@_visibleLabels.indexOf(label), 1)
+    label.Label3DIsVisible = false
     if label.Label3D?
       @_sceneCountries.remove label.Label3D
       label.Label3D = null
 
   # ============================================================================
   _showLabel: (label) =>
+    @_visibleLabels.push label
+    label.Label3DIsVisible = true
     if label.Label3D?
+      label.Label3D.material.opacity = label.getStyle().labelOpacity
       @_sceneCountries.add label.Label3D
 
   # ============================================================================
   _hideLabel: (label) =>
+    label.Label3DIsVisible = false
     if label.Label3D
       label.Label3D.material.opacity = 0.0
-      @_visibleLabels.splice(@_visibleLabels.indexOf(label.Label3D), 1)
 
-    @_removeLabel label
+  # ============================================================================
+  _computeScreenBB: (label) =>
+    if label.Label3D?
 
-  # # ============================================================================
-  # _isLabelVisible: (area) ->
-  #   if area.Label3D?
+      pos = @_globe._getScreenCoordinates(label.Label3D.position)
+      width = label.Label3D.MaxWidth
+      height = label.Label3D.MaxHeight
 
-  #     max = @_globe._latLongToPixel new THREE.Vector2(area._maxLatLng[1],area._maxLatLng[0])
-  #     min = @_globe._latLongToPixel new THREE.Vector2(area._minLatLng[1],area._minLatLng[0])
-
-  #     width = area.Label3D.textWidth
-
-  #     visible = ((max.x*@_globe._width - min.x*@_globe._width) > width*2.0 or @_globe.getZoom()  is @_globe.getMaxZoom)# and @_isAreaActive(area)
+      label.BB = new THREE.Box3(new THREE.Vector3( pos.x-(width/2), pos.y-(height/2), 0),new THREE.Vector3( pos.x+(width/2), pos.y+(height/2), 0.1))
 
 
-  # # ============================================================================
-  # _filterLabels: ->
-  #   for area in @_visibleAreas
-  #     shoulBeVisible = @_isLabelVisible area
+  # ============================================================================
+  _isLabelVisible: (label) =>
+    if label.BB?
+      for l in @_visibleLabels
+        if l.Label3DIsVisible and @_visibleLabels.indexOf(label) isnt @_visibleLabels.indexOf(l) and l.BB?
+          if label.BB.isIntersectionBox(l.BB)
+            return false
+      return true
+    return false
 
-  #     if shoulBeVisible and not area.Label3DIsVisible
-  #       @_showLabel area
-  #     else if not shoulBeVisible and area.Label3DIsVisible
-  #       @_hideLabel area
+  # ============================================================================
+  _filterLabels: =>
+    for label in @_visibleLabels
+      @_computeScreenBB label
+    for label in @_visibleLabels
+      if label?
+        shoulBeVisible = @_isLabelVisible label
 
+        if shoulBeVisible and not label.Label3DIsVisible
+          label.Label3DIsVisible = true
+          if label.Label3D
+            label.Label3D.material.opacity = label.getStyle().labelOpacity
+        else if not shoulBeVisible and label.Label3DIsVisible
+          @_hideLabel label
 
   # ============================================================================
   _updateLabelStyle:(label) =>
     @_hideLabel label
+    @_removeLabel label
     @_addLabel label
     @_showLabel label if label.isActive()
 
 
   # ============================================================================
   _updateLabelSizes: ->
-    for label in @_visibleLabels
+    for l in @_visibleLabels
+      label = l.Label3D
       cam_pos = new THREE.Vector3(@_globe._camera.position.x,@_globe._camera.position.y,@_globe._camera.position.z).normalize()
       label_pos = new THREE.Vector3(label.position.x,label.position.y,label.position.z).normalize()
       #perspective compensation
