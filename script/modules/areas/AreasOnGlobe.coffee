@@ -618,39 +618,40 @@ class HG.AreasOnGlobe
     unless label.Label3D?
 
       text = label.getName()
-      metrics = TEST_CONTEXT.measureText(text);
-      textWidth = metrics.width+1;
+      metrics = TEST_CONTEXT.measureText(text)
+      textWidth = metrics.width+(2*(TEXT_HEIGHT/10))
+      textHeight = TEXT_HEIGHT+(2*(TEXT_HEIGHT/10))
 
       canvas = document.createElement('canvas')
       canvas.width = textWidth
-      canvas.height = TEXT_HEIGHT
+      canvas.height = textHeight
       canvas.className = "leaflet-label"
 
       context = canvas.getContext('2d')
       context.textAlign = 'center'
-      context.font = "#{TEXT_HEIGHT}px Lobster"
+      context.font = TEXT_FONT
 
       context.shadowColor = "#ffffff"
       context.shadowOffsetX = -TEXT_HEIGHT/10
       context.shadowOffsetY = -TEXT_HEIGHT/10
 
-      context.fillText(text,textWidth/2,TEXT_HEIGHT*0.75)
+      context.fillText(text,textWidth/2,textHeight*0.75)
 
       context.shadowOffsetX =  TEXT_HEIGHT/10
       context.shadowOffsetY = -TEXT_HEIGHT/10
 
-      context.fillText(text,textWidth/2,TEXT_HEIGHT*0.75)
+      context.fillText(text,textWidth/2,textHeight*0.75)
 
       context.shadowOffsetX = -TEXT_HEIGHT/10
       context.shadowOffsetY =  TEXT_HEIGHT/10
 
-      context.fillText(text,textWidth/2,TEXT_HEIGHT*0.75)
+      context.fillText(text,textWidth/2,textHeight*0.75)
 
       context.shadowOffsetX =  TEXT_HEIGHT/10
       context.shadowOffsetY =  TEXT_HEIGHT/10
 
       context.fillStyle= if @_inHighContrast then label.getStyle().labelColor_hc else label.getStyle().labelColor
-      context.fillText(text,textWidth/2,TEXT_HEIGHT*0.75)
+      context.fillText(text,textWidth/2,textHeight*0.75)
 
       texture = new THREE.Texture(canvas)
       texture.needsUpdate = true
@@ -675,11 +676,11 @@ class HG.AreasOnGlobe
               y:textLatLng[0],
               @_globe.getGlobeRadius()+1.0)
 
-      sprite.scale.set(textWidth,TEXT_HEIGHT,1.0)
+      sprite.scale.set(textWidth,textHeight,1.0)
       sprite.position.set cart_coords.x,cart_coords.y,cart_coords.z
 
       sprite.MaxWidth = textWidth
-      sprite.MaxHeight = TEXT_HEIGHT
+      sprite.MaxHeight = textHeight
 
       label.Label3D = sprite
 
@@ -885,11 +886,13 @@ class HG.AreasOnGlobe
   AREA_GLOBE_OFFSET = 0.40
   BORDER_GLOBE_OFFSET = 0.45
 
+  TEXT_HEIGHT = 14
+  TEXT_FONT = "#{TEXT_HEIGHT}px Lobster"
+
   #testCanvas for Sprites
   TEST_CANVAS = document.createElement('canvas')
   TEST_CANVAS.width = 1
   TEST_CANVAS.height = 1
   TEST_CONTEXT = TEST_CANVAS.getContext('2d')
   TEST_CONTEXT.textAlign = 'center'
-  TEXT_HEIGHT = 14
-  TEST_CONTEXT.font = "#{TEXT_HEIGHT}px Lobster"
+  TEST_CONTEXT.font = TEXT_FONT
