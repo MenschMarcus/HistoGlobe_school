@@ -144,9 +144,13 @@ class HG.AreasOnGlobe
         @_areaController.onAddLabel @, (label) =>
           @_addLabel label
           @_showLabel label if label.isActive()
+          @_filterLabels()
+          @_updateLabelSizes()
 
         @_areaController.onRemoveLabel @, (label) =>
           @_removeLabel label
+          @_filterLabels()
+          @_updateLabelSizes()
 
         @_areaController.onUpdateLabelStyle @, (label, isHC) =>
           @_inHighContrast = isHC
@@ -676,6 +680,7 @@ class HG.AreasOnGlobe
               @_globe.getGlobeRadius()+1.0)
 
       sprite.scale.set(textWidth,textHeight,1.0)
+      sprite.ScaleFac = 1.0
       sprite.position.set cart_coords.x,cart_coords.y,cart_coords.z
 
       sprite.MaxWidth = textWidth
@@ -706,12 +711,12 @@ class HG.AreasOnGlobe
       label.Label3D.material.opacity = 0.0
 
   # ============================================================================
-  _computeScreenBB: (label) =>
+  _computeLabelScreenBB: (label) =>
     if label.Label3D?
 
       pos = @_globe._getScreenCoordinates(label.Label3D.position)
-      width = label.Label3D.MaxWidth
-      height = label.Label3D.MaxHeight
+      width = label.Label3D.MaxWidth * label.Label3D.ScaleFac
+      height = label.Label3D.MaxHeight * label.Label3D.ScaleFac
 
       label.BB = new THREE.Box3(new THREE.Vector3( pos.x-(width/2), pos.y-(height/2), 0),new THREE.Vector3( pos.x+(width/2), pos.y+(height/2), 0.1))
 
@@ -729,7 +734,7 @@ class HG.AreasOnGlobe
   # ============================================================================
   _filterLabels: =>
     for label in @_visibleLabels
-      @_computeScreenBB label
+      @_computeLabelScreenBB label
     for label in @_visibleLabels
       if label?
         shoulBeVisible = @_isLabelVisible label
@@ -760,8 +765,10 @@ class HG.AreasOnGlobe
 
       if dot > 0.0
         label.scale.set(label.MaxWidth*dot,label.MaxHeight*dot,1.0)
+        label.ScaleFac = dot
       else
         label.scale.set(0.0,0.0,1.0)
+        label.ScaleFac = 0.0
 
 
   # ============================================================================
