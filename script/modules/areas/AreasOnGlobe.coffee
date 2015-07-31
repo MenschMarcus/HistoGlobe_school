@@ -690,7 +690,8 @@ class HG.AreasOnGlobe
 
   # ============================================================================
   _removeLabel: (label) ->
-    @_visibleLabels.splice(@_visibleLabels.indexOf(label), 1)
+    index = @_visibleLabels.indexOf(label)
+    @_visibleLabels.splice(index, 1) if index >= 0
     label.Label3DIsVisible = false
     if label.Label3D?
       @_sceneCountries.remove label.Label3D
@@ -756,6 +757,8 @@ class HG.AreasOnGlobe
     @_removeLabel label
     @_addLabel label
     @_showLabel label if label.isActive()
+    @_filterLabels()
+    @_updateLabelSizes()
 
 
   # ============================================================================
@@ -870,7 +873,7 @@ class HG.AreasOnGlobe
       matIndex = intersect.face.materialIndex
       mat = intersect.object.material.materials[matIndex]
 
-      index = $.inArray(mat, @_intersectedMaterials)
+      index = @_intersectedMaterials.indexOf(mat)
       @_intersectedMaterials.splice index, 1  if index >= 0
     # unmark previous countries
 
