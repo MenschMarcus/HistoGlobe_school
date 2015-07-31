@@ -727,7 +727,11 @@ class HG.AreasOnGlobe
       for l in @_visibleLabels
         if l.Label3DIsVisible and @_visibleLabels.indexOf(label) isnt @_visibleLabels.indexOf(l) and l.BB?
           if label.BB.isIntersectionBox(l.BB)
-            return false
+            if l.getPriority() > label.getPriority()
+              return false
+            else
+              @_hideLabel l
+
       return true
     return false
 
