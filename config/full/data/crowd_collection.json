@@ -1,0 +1,281 @@
+[
+	{
+		"nation": "Deutschland",
+		"info": "Heeresgruppe Mackensen",
+		"startLocation": "Neu Sandec",
+		"locations": [
+			{ "lat": 49.37, "lng": 20.42 },
+			{ "lat": 49.46, "lng": 21.28 },
+			{ "lat": 50.10, "lng": 22.41 },
+			{ "lat": 50.14, "lng": 23.38 },
+			{ "lat": 51.14, "lng": 22.34 },
+			{ "lat": 51.48, "lng": 20.29 },
+			{ "lat": 45.45, "lng": 21.14 },
+			{ "lat": 44.40, "lng": 20.56 },
+			{ "lat": 44.10, "lng": 20.55 },
+			{ "lat": 43.19, "lng": 21.54 },
+			{ "lat": 42.00, "lng": 21.26 },
+			{ "lat": 43.50, "lng": 25.39 },
+			{ "lat": 44.26, "lng": 26.60 },
+			{ "lat": 45.47, "lng": 24.80 }
+			],
+		"times": [
+			{ "year": 1915, "month": 4, "day": 22 },
+			{ "year": 1915, "month": 5, "day": 9 },
+			{ "year": 1915, "month": 5, "day": 27 },
+			{ "year": 1915, "month": 6, "day": 30 },
+			{ "year": 1915, "month": 8, "day": 8 },
+			{ "year": 1915, "month": 8, "day": 28 },
+			{ "year": 1915, "month": 9, "day": 18 },
+			{ "year": 1915, "month": 10, "day": 30 },
+			{ "year": 1915, "month": 11, "day": 13 },
+			{ "year": 1915, "month": 12, "day": 19 },
+			{ "year": 1916, "month": 2, "day": 8 },
+			{ "year": 1916, "month": 8, "day": 27 },
+			{ "year": 1916, "month": 12, "day": 18 },
+			{ "year": 1918, "month": 11, "day": 10 }
+			],
+		"sizes": [
+			{ "size": 15000 },
+			{ "size": 15000 },
+			{ "size": 15000 },
+			{ "size": 15000 },
+			{ "size": 15000 },
+			{ "size": 15000 },
+			{ "size": 15000 },
+			{ "size": 15000 },
+			{ "size": 15000 },
+			{ "size": 15000 },
+			{ "size": 21000 },
+			{ "size": 21000 },
+			{ "size": 21000 },
+			{ "size": 21000 }
+			],
+		"endDate": {
+			"year": 1918,
+			"month": 11,
+			"day": 11
+			}
+	},
+	{
+		"nation": "Deutschland",
+		"info": "Heeresgruppe Deutscher Kronprinz / Heeresgruppe B",
+		"startLocation": "Stenay",
+		"locations": [
+			{ "lat": 49.29, "lng": 5.11 },
+			{ "lat": 49.46, "lng": 4.43 },
+			{ "lat": 50.13, "lng": 4.49 },
+			{ "lat": 50.17, "lng": 5.55 }
+			],
+		"times": [
+			{ "year": 1915, "month": 8, "day": 1 },
+			{ "year": 1917, "month": 3, "day": 6 },
+			{ "year": 1918, "month": 11, "day": 5 },
+			{ "year": 1918, "month": 11, "day": 10 }
+			],
+		"sizes": [
+			{ "size": 30000 },
+			{ "size": 28000 },
+			{ "size": 27000 },
+			{ "size": 27000 }
+			],
+		"endDate": {
+			"year": 1918,
+			"month": 11,
+			"day": 11
+			}
+	},
+	{
+		"nation": "Deutschland",
+		"info": "Heeresgruppe Hindenburg",
+		"startLocation": "Lötzen",
+		"locations": [
+			{ "lat": 54.20, "lng": 21.46 },
+			{ "lat": 54.54, "lng": 23.56 }
+			],
+		"times": [
+			{ "year": 1915, "month": 2, "day": 22 },
+			{ "year": 1915, "month": 10, "day": 20 }
+			],
+		"sizes": [
+			{ "size": 10000 },
+			{ "size": 5000 }
+			],
+		"endDate": {
+			"year": 1916,
+			"month": 7,
+			"day": 30
+			}
+	},
+	{
+		"nation": "Deutschland",
+		"info": "Heeresgruppe Linsingen",
+		"startLocation": "Jablon",
+		"locations": [
+			{ "lat": 51.43, "lng": 23.5 },
+			{ "lat": 51.13, "lng": 24.43 },
+			{ "lat": 57.9, "lng": 31.11 },
+			{ "lat": 50.27, "lng": 30.30 }
+			],
+		"times": [
+			{ "year": 1915, "month": 9, "day": 8 },
+			{ "year": 1916, "month": 6, "day": 15 },
+			{ "year": 1916, "month": 10, "day": 25 },
+			{ "year": 1918, "month": 3, "day": 21 }
+			],
+		"sizes": [
+			{ "size": 30000 },
+			{ "size": 28000 },
+			{ "size": 28000 },
+			{ "size": 28000 }
+			],
+		"endDate": {
+			"year": 1918,
+			"month": 3,
+			"day": 31
+			}
+	},
+	{
+		"nation": "Deutschland",
+		"info": "Heeresgruppe Gallwitz / Heeresgruppe Kronprinz Rupprecht von Bayern / Heeresgruppe A",
+		"startLocation": "St. Quentin",
+		"locations": [
+			{ "lat": 49.51, "lng": 3.17 },
+			{ "lat": 50.11, "lng": 3.14 },
+			{ "lat": 50.27, "lng": 3.57 },
+			{ "lat": 50.36, "lng": 3.23 },
+			{ "lat": 50.27, "lng": 3.57 },
+			{ "lat": 50.51, "lng": 4.21 }
+			],
+		"times": [
+			{ "year": 1916, "month": 7, "day": 19 },
+			{ "year": 1916, "month": 8, "day": 28 },
+			{ "year": 1917, "month": 3, "day": 15 },
+			{ "year": 1918, "month": 4, "day": 24 },
+			{ "year": 1918, "month": 9, "day": 2 },
+			{ "year": 1918, "month": 10, "day": 17 }
+			],
+		"sizes": [
+			{ "size": 30000 },
+			{ "size": 30000 },
+			{ "size": 25000 },
+			{ "size": 20000 },
+			{ "size": 20000 },
+			{ "size": 20000 }
+			],
+		"endDate": {
+			"year": 1918,
+			"month": 11,
+			"day": 11
+			}
+	},
+	{
+		"nation": "Deutschland",
+		"info": "Heeresgruppe Eichhorn / Heeresgruppe Eichhorn-Kiew / Heeresgruppe Kiew",
+		"startLocation": "Wilna",
+		"locations": [
+			{ "lat": 54.51, "lng": 25.16 },
+			{ "lat": 50.27, "lng": 30.30 },
+			{ "lat": 56.57, "lng": 24.6 },
+			{ "lat": 52.50, "lng": 23.42 },
+			{ "lat": 52.50, "lng": 23.42 }
+			],
+		"times": [
+			{ "year": 1916, "month": 7, "day": 30 },
+			{ "year": 1918, "month": 3, "day": 5 },
+			{ "year": 1918, "month": 4, "day": 1 },
+			{ "year": 1919, "month": 1, "day": 20 },
+			{ "year": 1919, "month": 2, "day": 3 }
+			],
+		"sizes": [
+			{ "size": 30000 },
+			{ "size": 30000 },
+			{ "size": 30000 },
+			{ "size": 30000 }
+			],
+		"endDate": {
+			"year": 1919,
+			"month": 2,
+			"day": 25
+			}
+	},
+	{
+		"nation": "Deutschland",
+		"info": "Heeresgruppe Herzog Albrecht von Württemberg / Heeresgruppe D",
+		"startLocation": "Straßburg",
+		"locations": [
+			{ "lat": 48.35, "lng": 7.45 }
+			],
+		"times": [
+			{ "year": 1917, "month": 3, "day": 7 }
+			],
+		"sizes": [
+			{ "size": 34000 }
+			],
+		"endDate": {
+			"year": 1918,
+			"month": 11,
+			"day": 11
+			}
+	},
+	{
+		"nation": "Deutschland",
+		"info": "Heeresgruppe Yildrim / Heeresgruppe F",
+		"startLocation": "Konstantinopel",
+		"locations": [
+			{ "lat": 41.10, "lng": 28.58 },
+			{ "lat": 36.13, "lng": 37.10 },
+			{ "lat": 31.47, "lng": 35.13 },
+			{ "lat": 32.42, "lng": 35.18 },
+			{ "lat": 33.30, "lng": 36.17 },
+			{ "lat": 34.00, "lng": 36.12 },
+			{ "lat": 36.13, "lng": 37.10 },
+			{ "lat": 37.00, "lng": 35.19 }
+			],
+		"times": [
+			{ "year": 1917, "month": 7, "day": 20 },
+			{ "year": 1917, "month": 9, "day": 11 },
+			{ "year": 1917, "month": 11, "day": 5 },
+			{ "year": 1917, "month": 12, "day": 14 },
+			{ "year": 1918, "month": 9, "day": 22 },
+			{ "year": 1918, "month": 9, "day": 27 },
+			{ "year": 1918, "month": 10, "day": 6 },
+			{ "year": 1918, "month": 10, "day": 23 }
+			],
+		"sizes": [
+			{ "size": 35000 },
+			{ "size": 32000 },
+			{ "size": 30000 },
+			{ "size": 27000 },
+			{ "size": 20000 },
+			{ "size": 20000 }
+			],
+		"endDate": {
+			"year": 1918,
+			"month": 11,
+			"day": 11
+			}
+	},
+	{
+		"nation": "Deutschland",
+		"info": "Heeresgruppe Boehn",
+		"startLocation": "Le Cateau",
+		"locations": [
+			{ "lat": 50.06, "lng": 3.32 },
+			{ "lat": 50.33, "lng": 1.58 }
+			],
+		"times": [
+			{ "year": 1918, "month": 8, "day": 6 },
+			{ "year": 1918, "month": 9, "day": 20 }
+			],
+		"sizes": [
+			{ "size": 20000 },
+			{ "size": 20000 }
+			],
+		"endDate": {
+			"year": 1918,
+			"month": 10,
+			"day": 8
+			}
+	}
+]

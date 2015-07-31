@@ -1,0 +1,13 @@
+[
+	{
+		"id": "P1",
+		"startHivent": "H54",
+		"endHivent": "H56",
+		"coordsInbetween": "",
+		"category": "Temp",
+		"type": "ARC_PATH",
+		"movingMarker": true,
+		"startMarker": false,
+		"endMarker": false
+	}
+]
