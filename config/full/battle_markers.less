@@ -1,0 +1,27 @@
+@category_battle_icon:     '../config/full/icons/battle_icons/swords.png';
+
+@battle_marker_2D_width: 42px;
+@battle_marker_2D_height: 42px;
+
+.transition (@prop: all, @time: 1s, @ease: linear) {
+    -webkit-transition: @prop @time @ease;
+    -moz-transition: @prop @time @ease;
+    -o-transition: @prop @time @ease;
+    -ms-transition: @prop @time @ease;
+    transition: @prop @time @ease;
+}
+
+.battle_marker_2D (@image) {
+  //width: @battle_marker_2D_width !important;
+  //height: @battle_marker_2D_height !important;
+  margin-top: -@battle_marker_2D_height / 2;
+  margin-left: -@battle_marker_2D_width / 2;
+  position: absolute !important;
+  background-image: url(@image) !important;
+  background-size: cover !important;
+}
+
+.battle_marker_2D_icon {
+  .battle_marker_2D(@category_battle_icon);
+  .transition(opacity);
+}

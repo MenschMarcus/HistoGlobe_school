@@ -1,0 +1,39 @@
+@category_soldier_icon:     '../config/full/icons/crowd_icons/soldier2.png';
+@category_flag_icon:     '../config/full/icons/crowd_icons/ger.png';
+@category_flag2_icon:     '../config/full/icons/crowd_icons/fra.png';
+
+@crowd_marker_2D_width: 42px;
+@crowd_marker_2D_height: 42px;
+
+.transition (@prop: all, @time: 1s, @ease: linear) {
+    -webkit-transition: @prop @time @ease;
+    -moz-transition: @prop @time @ease;
+    -o-transition: @prop @time @ease;
+    -ms-transition: @prop @time @ease;
+    transition: @prop @time @ease;
+}
+
+.crowd_marker_2D (@image) {
+  //width: @crowd_marker_2D_width !important;
+  //height: @crowd_marker_2D_height !important;
+  margin-top: -@crowd_marker_2D_height / 2;
+  margin-left: -@crowd_marker_2D_width / 2;
+  position: absolute !important;
+  background-image: url(@image) !important;
+  background-size: cover !important;
+}
+
+.crowd_marker_2D_soldier {
+  .crowd_marker_2D(@category_soldier_icon);
+  .transition(opacity);
+}
+
+.crowd_marker_2D_flag {
+  .crowd_marker_2D(@category_flag_icon);
+  .transition(opacity);
+}
+
+.crowd_marker_2D_flag2 {
+  .crowd_marker_2D(@category_flag2_icon);
+  .transition(opacity);
+}

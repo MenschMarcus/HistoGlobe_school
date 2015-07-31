@@ -216,7 +216,23 @@
     "hideLabels" : false
   },
 
-  "HiventsOnGlobe" : {}
+  "HiventsOnGlobe" : {},
+
+    "CrowdController" :
+  {
+    "pathToCrowds" : ["config/full/data/crowd_collection.json"]
+  },
+
+  "CrowdsOnMap" : {
+  },
+
+  "BattleController" :
+  {
+    "pathToBattles" : ["config/full/data/battle_collection.json"]
+  },
+
+  "BattlesOnMap" : {
+  }
 
 }
 

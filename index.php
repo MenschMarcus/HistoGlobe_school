@@ -154,6 +154,15 @@
     <script type="text/javascript" src="build/WidgetController.js"></script>
     <script type="text/javascript" src="build/ZoomButtonsTimeline.js"></script>
 
+    <script type="text/javascript" src="build/Crowd.js"></script>
+    <script type="text/javascript" src="build/CrowdMarker2D.js"></script>
+    <script type="text/javascript" src="build/CrowdController.js"></script>
+    <script type="text/javascript" src="build/CrowdsOnMap.js"></script>
+    <script type="text/javascript" src="build/Battle.js"></script>
+    <script type="text/javascript" src="build/BattleMarker2D.js"></script>
+    <script type="text/javascript" src="build/BattleController.js"></script>
+    <script type="text/javascript" src="build/BattlesOnMap.js"></script>
+
     <script type="text/javascript" src="build/HistoGlobe.js"></script>
 
     <!-- init histoglobe -->
