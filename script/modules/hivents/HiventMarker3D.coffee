@@ -89,7 +89,9 @@ class HG.HiventMarker3D extends HG.HiventMarker
       @sprite.material.map = @_hiventTexture
 
     @getHiventHandle().onAgeChanged @, (age) =>
-      @sprite.material.opacity = age
+      #no more Opacity
+      #@sprite.material.opacity = age
+      0
 
 
     @getHiventHandle().onDestruction @, @destroy
