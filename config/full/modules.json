@@ -10,7 +10,7 @@
     "startZoom": 4,
     "startLatLong": [50.9869531, 11.3205004],
     "tiles": "config/full/tiles/",
-    "tilesHighContrast": "config/school/tiles_ehc/",
+    "tilesHighContrast": "config/full/hc/",
     "areaAniTime" : 700,
     "sidebarEnabled": false
   },
@@ -142,7 +142,7 @@
   {
     "normalStyle":
     {
-      "areaColor":      "#ff0000",
+      "areaColor":      "#ffffff",
       "areaColor_hc":   "#ffffff",
       "areaOpacity":    0.75,
       "borderWidth":    1.25,
