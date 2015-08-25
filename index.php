@@ -163,6 +163,11 @@
     <script type="text/javascript" src="build/BattleController.js"></script>
     <script type="text/javascript" src="build/BattlesOnMap.js"></script>
 
+    <script type="text/javascript" src="build/GraphController.js"></script>
+    <script type="text/javascript" src="build/GraphNode.js"></script>
+    <script type="text/javascript" src="build/GraphNodeConnection.js"></script>
+    <script type="text/javascript" src="build/GraphOnGlobe.js"></script>
+
     <script type="text/javascript" src="build/HistoGlobe.js"></script>
 
     <!-- init histoglobe -->

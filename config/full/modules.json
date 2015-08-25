@@ -212,7 +212,7 @@
   },
 
   "AreasOnGlobe" : {
-    "hideAreas" : false,
+    "hideAreas" : true,
     "hideLabels" : false
   },
 
@@ -232,7 +232,13 @@
   },
 
   "BattlesOnMap" : {
-  }
+  },
+
+  "GraphController" : {
+    "countryCodesPath" : "config/full/data/COW_country_codes.csv",
+    "alliancePath" : "config/full/data/alliance_v4.1_by_dyad_yearly.csv"
+  },
+  "GraphOnGlobe" : {}
 
 }
 
