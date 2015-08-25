@@ -374,7 +374,8 @@ class HG.CrowdMarker2D
 
         # line segments:
         for i in [1..@_drawnLocations.length-1]
-          size = @_crowd.getInterpolatedSizes()[i-1]/2400
+          #size = @_crowd.getInterpolatedSizes()[i-1]/2400 # minard line segments
+          size = 2
           tmp_line = new L.polyline [@_drawnLocations[i-1],@_drawnLocations[i]], { color: 'grey', opacity: 1, weight: size, clickable: false }
           tmp_line.addTo @_map
           @_lines.push tmp_line
@@ -387,7 +388,8 @@ class HG.CrowdMarker2D
 
           # line segments:
           if index>0
-            size = @_crowd.getInterpolatedSizes()[index-1]/2400
+            #size = @_crowd.getInterpolatedSizes()[index-1]/2400 # minard line segments
+            size = 2
             tmp_line =  new L.polyline [@_drawnLocations[index-1],@_drawnLocations[index]], { color: 'grey', opacity: 1.0, weight: size, clickable: false }
             tmp_line.addTo @_map
             @_lines.push tmp_line
