@@ -689,21 +689,21 @@ class HG.GraphOnGlobe
       y: (@_globe._mousePos.y - @_globe._canvasOffsetY) / @_globe._myHeight * 2 - 1
 
 
-      ###############
-      # bundle tests:
-      # interactive mouse lense
-      latLongCurr = @_globe._pixelToLatLong mouseRel
-      if latLongCurr isnt null
-        if @_controlPoints.length > 1
-          @_controlPoints.slice(0,4)
+      # ###############
+      # # bundle tests:
+      # # interactive mouse lense
+      # latLongCurr = @_globe._pixelToLatLong mouseRel
+      # if latLongCurr isnt null
+      #   if @_controlPoints.length > 1
+      #     @_controlPoints.slice(0,4)
 
-        updated_point = [latLongCurr.x,-latLongCurr.y,@_controlSize,@_controlFunction]
-        @_controlPoints = updated_point.concat(@_controlPoints)
-        for mat in @_connectionMaterials
-          mat.uniforms.control_points.value.splice(0,4)
-          mat.uniforms.control_points.value = updated_point.concat(mat.uniforms.control_points.value)
-          #mat.uniforms.control_points.value = @_controlPoints
-      ###############
+      #   updated_point = [latLongCurr.x,-latLongCurr.y,@_controlSize,@_controlFunction]
+      #   @_controlPoints = updated_point.concat(@_controlPoints)
+      #   for mat in @_connectionMaterials
+      #     mat.uniforms.control_points.value.splice(0,4)
+      #     mat.uniforms.control_points.value = updated_point.concat(mat.uniforms.control_points.value)
+      #     #mat.uniforms.control_points.value = @_controlPoints
+      # ###############
 
 
       # picking ------------------------------------------------------------------
