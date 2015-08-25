@@ -3,14 +3,14 @@ rem set PROJECT=sdw
 rem set PROJECT=teaser1_countries
 rem set PROJECT=teaser2_hivents
 rem set PROJECT=teaser3_sidebar
-set PROJECT=full
+set PROJECT=school
 
 call "C:\Program Files\nodejs\nodevars.bat"
 
 IF not exist build ( mkdir build )
 
 for /R script\ %%a in (*.coffee) do (
-	call coffee -c -o build "%%a"
+	 start /b /REALTIME call coffee -c -o build "%%a"
 )
 
 rosetta --jsOut "build/default_config.js" ^
