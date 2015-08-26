@@ -57,7 +57,7 @@ class HG.HiventMarker3D extends HG.HiventMarker
 
     @sprite.scale.set(HGConfig.hivent_marker_2D_width.val,HGConfig.hivent_marker_2D_height.val,1.0)
 
-    @_scene.add @sprite
+    #@_scene.add @sprite
 
     #@_latlng = latlng # for clustering purposes only
     #console.log "lat´lng in 3d marker", @_latlng
@@ -104,7 +104,19 @@ class HG.HiventMarker3D extends HG.HiventMarker
   '''getLatLng:() ->#for clustering purposes only
     return @_latlng'''
 
-  onclick:(pos) ->
+  # ============================================================================
+  onMouseOver:(x,y) ->
+    @getHiventHandle().mark @, {x:x, y:y}
+    #@getHiventHandle().mark hivent, getPosition()
+    @getHiventHandle().linkAll {x:x, y:y}
+
+  # ============================================================================
+  onMouseOut:() ->
+    @getHiventHandle().unMark @
+    @getHiventHandle().unLinkAll()
+
+  # ============================================================================
+  onClick:(pos) ->
     #@getHiventHandle().toggleActive @,pos
     @_hgInstance.hiventInfoAtTag?.setOption "event", @_hiventHandle.getHivent().id
 
