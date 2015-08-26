@@ -70,6 +70,10 @@ class HG.Globe extends HG.Display
               $(@getCanvas()).css({opacity: 0.0})
               @start();
               $(@getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
+
+              # find a better place:
+              hgInstance.graph_button.show_button() if hgInstance.graph_button?
+
               return state_b
 
           state_b =
@@ -81,6 +85,10 @@ class HG.Globe extends HG.Display
               $(@getCanvas()).css({opacity: 0.0})
               hgInstance.map.start();
               $(hgInstance.map.getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
+
+              # find a better place:
+              hgInstance.graph_button.hide_button() if hgInstance.graph_button?
+
               return state_a
 
           hgInstance.control_button_area.addButton state_a
@@ -288,6 +296,11 @@ class HG.Globe extends HG.Display
   # ============================================================================
   addSceneToRenderer:(scene) ->
     @_addedScenes.push scene
+
+  # ============================================================================
+  removeSceneFromRenderer:(scene) ->
+    index = @_addedScenes.indexOf(scene);
+    @_addedScenes.splice(index, 1) if index >= 0
 
 
   ##############################################################################

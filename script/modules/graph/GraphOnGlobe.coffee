@@ -30,6 +30,8 @@ class HG.GraphOnGlobe
 
     @_highlightedConnections = []
 
+    @_hgInstance = null
+
 
     # bundle tests:
     @_connectionMaterials = []
@@ -43,6 +45,8 @@ class HG.GraphOnGlobe
   # ============================================================================
   hgInit: (hgInstance) ->
     hgInstance.areasOnGlobe = @
+
+    @_hgInstance = hgInstance
 
     @_globe = hgInstance.globe
 
@@ -72,8 +76,19 @@ class HG.GraphOnGlobe
       @_graphLight.position.set 0, 0, 300
       @_sceneGraphNode.add   @_graphLight
       @_sceneGraphNodeConnection.add   @_graphLight
-      @_globe.addSceneToRenderer(@_sceneGraphNodeConnection)
-      @_globe.addSceneToRenderer(@_sceneGraphNode)
+
+      if @_hgInstance.graph_button?
+        button = @_hgInstance.graph_button
+        button.onShowGraph @, () =>
+          @_globe.addSceneToRenderer(@_sceneGraphNodeConnection)
+          @_globe.addSceneToRenderer(@_sceneGraphNode)
+        button.onHideGraph @, () =>
+          @_globe.removeSceneFromRenderer(@_sceneGraphNodeConnection)
+          @_globe.removeSceneFromRenderer(@_sceneGraphNode)
+
+      else
+        @_globe.addSceneToRenderer(@_sceneGraphNodeConnection)
+        @_globe.addSceneToRenderer(@_sceneGraphNode)
 
       window.addEventListener   "mouseup",  @_onMouseUp,         false #for node intersections
       window.addEventListener   "mousedown",@_onMouseDown,       false #for node intersections

@@ -57,6 +57,7 @@
   "FullscreenButton": {},
   "HighContrastButton": {},
   "MinLayoutButton": {},
+  "GraphButton": {}, 
 
   "CategoryFilter":
   {
