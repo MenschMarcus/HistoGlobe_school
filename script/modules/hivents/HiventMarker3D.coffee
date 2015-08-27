@@ -38,7 +38,6 @@ class HG.HiventMarker3D extends HG.HiventMarker
     #@_hiventTextureHighlight = THREE.ImageUtils.loadTexture(@_getIcon(hiventHandle.getHivent().category+"_highlight"))
     @_hiventTexture = logos.default
     @_hiventTextureHighlight = logos.highlight
-    #console.log hiventHandle.getHivent().category
     hiventMaterial = new THREE.SpriteMaterial({
         map: @_hiventTexture,
         transparent:true,
@@ -56,18 +55,6 @@ class HG.HiventMarker3D extends HG.HiventMarker
     @sprite.MaxHeight = HGConfig.hivent_marker_2D_height.val
 
     @sprite.scale.set(HGConfig.hivent_marker_2D_width.val,HGConfig.hivent_marker_2D_height.val,1.0)
-
-    #@_scene.add @sprite
-
-    #@_latlng = latlng # for clustering purposes only
-    #console.log "lat´lng in 3d marker", @_latlng
-
-
-    #@_markergroup = markerGroup # clustering later!!! (TODO)
-    #@_markergroup.addLayer(@)
-
-
-
 
     @getHiventHandle().onFocus(@, (mousePos) =>
       if display.isRunning()

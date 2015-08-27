@@ -84,10 +84,6 @@ class HG.HiventsOnGlobe
       '''@_hiventLogos.group_new.src = "data/hivent_icons/icon_cluster_default.png"
       @_hiventLogos.group_highlight_new.src = "data/hivent_icons/icon_cluster_highlight.png"'''
 
-
-      '''@_markerGroup = new HG.Marker3DClusterGroup(@,{maxClusterRadius:20})
-      console.log @_markerGroup'''
-
       @_hiventController.getHivents @, (handle) =>
         @_markersLoaded = @_hiventController._hiventsLoaded
         handle.onVisiblePast @, (self) =>
@@ -95,8 +91,6 @@ class HG.HiventsOnGlobe
             default:@_hiventLogos[handle.getHivent().category]
             highlight:@_hiventLogos[handle.getHivent().category+"_highlighted"]
 
-          '''hivent    = new HG.HiventMarker3D handle, this, HG.Display.CONTAINER, @_sceneInterface, @_markerGroup, logos,
-                          L.latLng(handle.getHivent().lat, handle.getHivent().long)'''
           marker    = new HG.HiventMarker3D(handle, @_globe, HG.Display.CONTAINER, @_sceneInterface, logos, @_hgInstance)
           position  =  @_globe._latLongToCart(
             x:handle.getHivent().long
@@ -113,18 +107,14 @@ class HG.HiventsOnGlobe
           unless foundGroup
             for m in @_hiventMarkers
               if m.getHiventHandle().getHivent().lat[0] == handle.getHivent().lat[0] and m.getHiventHandle().getHivent().long[0] == handle.getHivent().long[0]
-                console.log "new group: ", marker, m
                 markerGroup = new HG.HiventMarker3DGroup([marker,m],@_globe, HG.Display.CONTAINER, @_sceneInterface, logos, @_hgInstance)
 
                 markerGroup.onMarkerDestruction @, (marker_group) =>
-                  console.log "delete group"
                   index = @_hiventMarkerGroups.indexOf(marker_group)
                   @_hiventMarkerGroups.splice index,1 if index >= 0
                   @_sceneInterface.remove marker_group.sprite
-                  console.log "indexxxxx", index
                   @_hiventMarkers.push marker_group.getHiventMarkers()[0]
                   @_sceneInterface.add marker_group.getHiventMarkers()[0]
-                  console.log marker_group
                   marker_group.removeListener "onMarkerDestruction", @
                   marker_group.destroy()
 
