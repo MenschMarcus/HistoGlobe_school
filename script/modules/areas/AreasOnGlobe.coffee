@@ -765,17 +765,18 @@ class HG.AreasOnGlobe
   _updateLabelSizes: ->
     for l in @_visibleLabels
       label = l.Label3D
-      cam_pos = new THREE.Vector3(@_globe._camera.position.x,@_globe._camera.position.y,@_globe._camera.position.z).normalize()
-      label_pos = new THREE.Vector3(label.position.x,label.position.y,label.position.z).normalize()
-      #perspective compensation
-      dot = (cam_pos.dot(label_pos)-0.4)/0.6
+      if label
+        cam_pos = new THREE.Vector3(@_globe._camera.position.x,@_globe._camera.position.y,@_globe._camera.position.z).normalize()
+        label_pos = new THREE.Vector3(label.position.x,label.position.y,label.position.z).normalize()
+        #perspective compensation
+        dot = (cam_pos.dot(label_pos)-0.4)/0.6
 
-      if dot > 0.0
-        label.scale.set(label.MaxWidth*dot,label.MaxHeight*dot,1.0)
-        label.ScaleFac = dot
-      else
-        label.scale.set(0.0,0.0,1.0)
-        label.ScaleFac = 0.0
+        if dot > 0.0
+          label.scale.set(label.MaxWidth*dot,label.MaxHeight*dot,1.0)
+          label.ScaleFac = dot
+        else
+          label.scale.set(0.0,0.0,1.0)
+          label.ScaleFac = 0.0
 
 
   # ============================================================================
