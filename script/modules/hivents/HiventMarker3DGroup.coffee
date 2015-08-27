@@ -15,6 +15,7 @@ class HG.HiventMarker3DGroup
     HG.CallbackContainer.call @
 
     @addCallback "onMarkerDestruction"
+    @addCallback "onSplitGroup"
 
     @_globe = display
     
@@ -55,10 +56,6 @@ class HG.HiventMarker3DGroup
     for marker in @_hiventMarkers
 
       if marker
-        marker.getHiventHandle().onFocus(@, (mousePos) =>
-          if display.isRunning()
-            display.focus marker.getHiventHandle().getHivent()
-        )
 
         marker.getHiventHandle().onMark @, (mousePos) =>
           #hiventTexture = THREE.ImageUtils.loadTexture(@_getIcon(hiventHandle.getHivent().category+"_highlight"))
@@ -102,10 +99,8 @@ class HG.HiventMarker3DGroup
 
   # ============================================================================
   onClick:(pos) ->
-    # TODO!!!
-    #@getHiventHandle().toggleActive @,pos
-    #@_hgInstance.hiventInfoAtTag?.setOption "event", @_hiventHandle.getHivent().id
-    0
+    @notifyAll "onSplitGroup", @, @_hiventMarkers
+    @sprite.material.opacity = 0.2
 
   # ============================================================================
   getPosition: ->
@@ -116,15 +111,11 @@ class HG.HiventMarker3DGroup
 
   # ============================================================================
   getGPS: ->
-    return [@_hiventMarkers[0].getHiventHandle().getHivent().lat[0],@_hiventMarkers[0].getHiventHandle().getHivent().long[0]]
+    return [parseFloat(@_hiventMarkers[0].getHiventHandle().getHivent().lat[0]),parseFloat(@_hiventMarkers[0].getHiventHandle().getHivent().long[0])]
 
   # ============================================================================
   addMarker:(marker) ->
     @_hiventMarkers.push(marker)
-    marker.getHiventHandle().onFocus(@, (mousePos) =>
-      if display.isRunning()
-        display.focus marker.getHiventHandle().getHivent()
-    )
 
     marker.getHiventHandle().onMark @, (mousePos) =>
       #hiventTexture = THREE.ImageUtils.loadTexture(@_getIcon(hiventHandle.getHivent().category+"_highlight"))

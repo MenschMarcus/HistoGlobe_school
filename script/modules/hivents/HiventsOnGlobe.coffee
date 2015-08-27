@@ -101,7 +101,7 @@ class HG.HiventsOnGlobe
 
           foundGroup = false
           for group in @_hiventMarkerGroups
-            if group.getGPS()[0] == handle.getHivent().lat and group.getGPS()[1] == handle.getHivent().long
+            if group.getGPS()[0] == parseFloat(handle.getHivent().lat[0]) and group.getGPS()[1] == parseFloat(handle.getHivent().long[0])
               group.addMarker(marker)
               foundGroup = true
           unless foundGroup
@@ -110,6 +110,7 @@ class HG.HiventsOnGlobe
                 markerGroup = new HG.HiventMarker3DGroup([marker,m],@_globe, HG.Display.CONTAINER, @_sceneInterface, logos, @_hgInstance)
 
                 markerGroup.onMarkerDestruction @, (marker_group) =>
+                  #remove group and add last/remaining element to map 
                   index = @_hiventMarkerGroups.indexOf(marker_group)
                   @_hiventMarkerGroups.splice index,1 if index >= 0
                   @_sceneInterface.remove marker_group.sprite
@@ -117,6 +118,34 @@ class HG.HiventsOnGlobe
                   @_sceneInterface.add marker_group.getHiventMarkers()[0]
                   marker_group.removeListener "onMarkerDestruction", @
                   marker_group.destroy()
+
+                markerGroup.onSplitGroup @, (marker_group,children) =>
+
+                  #split group on click
+
+                  gps = marker_group.getGPS()
+
+                  #@_sceneInterface.remove marker_group.sprite
+                  index = @_hiventMarkerGroups.indexOf(marker_group)
+                  @_hiventMarkerGroups.splice index,1 if index >= 0
+
+                  child_count = 0
+                  for marker in children
+                    @_sceneInterface.add marker.sprite
+                    @_hiventMarkers.push marker
+
+                    #star split
+                    new_long = parseFloat(gps[1])+(0.5*Math.sin(2*Math.PI*(child_count/children.length))) #0.5 degree aberration in gps
+                    new_lat = parseFloat(gps[0])+(0.5*Math.cos(2*Math.PI*(child_count/children.length))) #0.5 degree aberration in gps
+
+                    position  =  @_globe._latLongToCart(
+                      x:new_long
+                      y:new_lat,
+                      @_globe.getGlobeRadius()+0.2)
+
+                    marker.sprite.position.set(position.x,position.y,position.z)
+
+                    ++child_count
 
                 markerGroup.sprite.position.set(position.x,position.y,position.z)
                 @_sceneInterface.add(markerGroup.sprite)
