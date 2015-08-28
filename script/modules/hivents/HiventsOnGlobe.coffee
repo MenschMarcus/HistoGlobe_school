@@ -40,6 +40,8 @@ class HG.HiventsOnGlobe
         icons = hgInstance.categoryIconMapping.getIcons(category)
         @_hiventLogos[category] = THREE.ImageUtils.loadTexture(icons["default"])
         @_hiventLogos[category+"_highlighted"] = THREE.ImageUtils.loadTexture(icons["highlighted"])
+        @_hiventLogos["group_default"] = THREE.ImageUtils.loadTexture(icons["group_default"])
+        @_hiventLogos["group_highlighted"] = THREE.ImageUtils.loadTexture(icons["group_highlighted"])
 
     #console.log "@_hiventLogos ",@_hiventLogos
 
@@ -80,16 +82,14 @@ class HG.HiventsOnGlobe
       window.addEventListener   "mouseup",  @_onMouseUp,         false #for hivent intersections
       window.addEventListener   "mousedown",@_onMouseDown,       false #for hivent intersections
 
-
-      '''@_hiventLogos.group_new.src = "data/hivent_icons/icon_cluster_default.png"
-      @_hiventLogos.group_highlight_new.src = "data/hivent_icons/icon_cluster_highlight.png"'''
-
       @_hiventController.getHivents @, (handle) =>
         @_markersLoaded = @_hiventController._hiventsLoaded
         handle.onVisiblePast @, (self) =>
           logos =
             default:@_hiventLogos[handle.getHivent().category]
             highlight:@_hiventLogos[handle.getHivent().category+"_highlighted"]
+            group_default: @_hiventLogos["group_default"]
+            group_highlighted: @_hiventLogos["group_highlighted"]
 
           marker    = new HG.HiventMarker3D(handle, @_globe, HG.Display.CONTAINER, @_sceneInterface, logos, @_hgInstance)
           position  =  @_globe._latLongToCart(

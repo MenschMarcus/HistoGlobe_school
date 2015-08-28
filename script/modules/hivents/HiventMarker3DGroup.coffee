@@ -26,8 +26,8 @@ class HG.HiventMarker3DGroup
 
     @ScreenCoordinates = null
 
-    @_hiventTexture = logos.default
-    @_hiventTextureHighlight = logos.highlight
+    @_hiventTexture = logos.group_default
+    @_hiventTextureHighlight = logos.group_highlighted
     hiventMaterial = new THREE.SpriteMaterial({
         map: @_hiventTexture,
         transparent:true,

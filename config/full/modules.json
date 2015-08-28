@@ -120,7 +120,9 @@
     "default" :
     {
       "default" : "config/school/icons/marker_hivent-map.svg",
-      "highlighted" : "config/school/icons/marker_hivent-map-active.svg"
+      "highlighted" : "config/school/icons/marker_hivent-map-active.svg",
+      "group_default" : "config/school/icons/marker_hivent-cluster-map.svg",
+      "group_highlighted" : "config/school/icons/marker_hivent-cluster-map-active.svg"
     }
   },
 
