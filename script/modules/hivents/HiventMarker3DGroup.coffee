@@ -16,6 +16,7 @@ class HG.HiventMarker3DGroup
 
     @addCallback "onMarkerDestruction"
     @addCallback "onSplitGroup"
+    @addCallback "onCollapseGroup"
 
     @_globe = display
     
@@ -49,6 +50,8 @@ class HG.HiventMarker3DGroup
 
     @_hiventMarkers = hiventMarkers
 
+    @_splitted = false
+
 
   # ============================================================================
   addHiventCallbacks:() ->
@@ -59,17 +62,17 @@ class HG.HiventMarker3DGroup
 
         marker.getHiventHandle().onMark @, (mousePos) =>
           #hiventTexture = THREE.ImageUtils.loadTexture(@_getIcon(hiventHandle.getHivent().category+"_highlight"))
-          @sprite.material.map = @_hiventTextureHighlight
+          @sprite.material.map = @_hiventTextureHighlight unless @_splitted
 
         marker.getHiventHandle().onUnMark @, (mousePos) =>
           #hiventTexture = THREE.ImageUtils.loadTexture(@_getIcon(hiventHandle.getHivent().category))
-          @sprite.material.map = @_hiventTexture
+          @sprite.material.map = @_hiventTexture unless @_splitted
 
         marker.getHiventHandle().onLink @, (mousePos) =>
-          @sprite.material.map = @_hiventTextureHighlight
+          @sprite.material.map = @_hiventTextureHighlight unless @_splitted
 
         marker.getHiventHandle().onUnLink @, (mousePos) =>
-          @sprite.material.map = @_hiventTexture
+          @sprite.material.map = @_hiventTexture unless @_splitted
 
         marker.getHiventHandle().onAgeChanged @, (age) =>
           #no more Opacity
@@ -86,21 +89,33 @@ class HG.HiventMarker3DGroup
 
   # ============================================================================
   onMouseOver:(x,y) ->
-    for marker in @_hiventMarkers
-      marker.getHiventHandle().mark @, {x:x, y:y}
-      #@getHiventHandle().mark hivent, getPosition()
-      marker.getHiventHandle().linkAll {x:x, y:y}
+    unless @_splitted
+      for marker in @_hiventMarkers
+        marker.getHiventHandle().mark @, {x:x, y:y}
+        #@getHiventHandle().mark hivent, getPosition()
+        marker.getHiventHandle().linkAll {x:x, y:y}
 
   # ============================================================================
   onMouseOut:() ->
-    for marker in @_hiventMarkers
-      marker.getHiventHandle().unMark @
-      marker.getHiventHandle().unLinkAll()
+    unless @_splitted
+      for marker in @_hiventMarkers
+        marker.getHiventHandle().unMark @
+        marker.getHiventHandle().unLinkAll()
 
   # ============================================================================
   onClick:(pos) ->
-    @notifyAll "onSplitGroup", @, @_hiventMarkers
-    @sprite.material.opacity = 0.2
+    unless @_splitted
+      @notifyAll "onSplitGroup", @, @_hiventMarkers
+      @_splitted = true
+      @sprite.material.opacity = 0.2
+
+  # ============================================================================
+  onUnClick:() ->
+    if @_splitted
+      @notifyAll "onCollapseGroup", @, @_hiventMarkers
+      @_splitted = false
+      @sprite.material.opacity = 1.0
+
 
   # ============================================================================
   getPosition: ->

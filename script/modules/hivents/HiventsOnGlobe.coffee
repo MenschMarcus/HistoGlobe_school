@@ -122,12 +122,11 @@ class HG.HiventsOnGlobe
                 markerGroup.onSplitGroup @, (marker_group,children) =>
 
                   #split group on click
-
                   gps = marker_group.getGPS()
 
                   #@_sceneInterface.remove marker_group.sprite
-                  index = @_hiventMarkerGroups.indexOf(marker_group)
-                  @_hiventMarkerGroups.splice index,1 if index >= 0
+                  #index = @_hiventMarkerGroups.indexOf(marker_group)
+                  #@_hiventMarkerGroups.splice index,1 if index >= 0
 
                   child_count = 0
                   for marker in children
@@ -146,6 +145,22 @@ class HG.HiventsOnGlobe
                     marker.sprite.position.set(position.x,position.y,position.z)
 
                     ++child_count
+
+
+                  markerGroup.onCollapseGroup @, (marker_group,children) =>
+
+                    gps = marker_group.getGPS()
+                    position  =  @_globe._latLongToCart(
+                      x:new_long
+                      y:new_lat,
+                      @_globe.getGlobeRadius()+0.2)
+                    for marker in children
+                      marker.sprite.position.set(position.x,position.y,position.z)
+                      index = @_hiventMarkerGroups.indexOf(marker)
+                      @_hiventMarkerGroups.splice index,1 if index >= 0
+                      @_sceneInterface.remove marker.sprite
+
+
 
                 markerGroup.sprite.position.set(position.x,position.y,position.z)
                 @_sceneInterface.add(markerGroup.sprite)
@@ -224,6 +239,8 @@ class HG.HiventsOnGlobe
 
     if @_lastIntersected.length is 0
         HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()
+        for group in @_hiventMarkerGroups
+          group.onUnClick()
 
 
   # ============================================================================
