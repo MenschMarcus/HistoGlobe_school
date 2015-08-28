@@ -100,10 +100,12 @@ class HG.HiventsOnGlobe
           marker.sprite.position.set(position.x,position.y,position.z)
 
           foundGroup = false
+          # search for already existing groups
           for group in @_hiventMarkerGroups
             if group.getGPS()[0] == parseFloat(handle.getHivent().lat[0]) and group.getGPS()[1] == parseFloat(handle.getHivent().long[0])
               group.addMarker(marker)
               foundGroup = true
+          # search for marker building a new group
           unless foundGroup
             for m in @_hiventMarkers
               if m.getHiventHandle().getHivent().lat[0] == handle.getHivent().lat[0] and m.getHiventHandle().getHivent().long[0] == handle.getHivent().long[0]
@@ -114,8 +116,11 @@ class HG.HiventsOnGlobe
                   index = @_hiventMarkerGroups.indexOf(marker_group)
                   @_hiventMarkerGroups.splice index,1 if index >= 0
                   @_sceneInterface.remove marker_group.sprite
-                  @_hiventMarkers.push marker_group.getHiventMarkers()[0]
-                  @_sceneInterface.add marker_group.getHiventMarkers()[0]
+
+                  remaining_handle = marker_group.getHiventMarkers()[0].getHiventHandle()
+                  if remaining_handle.isActive()
+                    @_hiventMarkers.push marker_group.getHiventMarkers()[0]
+                    @_sceneInterface.add marker_group.getHiventMarkers()[0]
                   marker_group.removeListener "onMarkerDestruction", @
                   marker_group.destroy()
 
@@ -156,8 +161,8 @@ class HG.HiventsOnGlobe
                       @_globe.getGlobeRadius()+0.2)
                     for marker in children
                       marker.sprite.position.set(position.x,position.y,position.z)
-                      index = @_hiventMarkerGroups.indexOf(marker)
-                      @_hiventMarkerGroups.splice index,1 if index >= 0
+                      index = @_hiventMarkers.indexOf(marker)
+                      @_hiventMarkers.splice index,1 if index >= 0
                       @_sceneInterface.remove marker.sprite
 
 
@@ -172,6 +177,7 @@ class HG.HiventsOnGlobe
 
                 foundGroup = true
                 break
+
           unless foundGroup
             @_sceneInterface.add(marker.sprite)
             @_hiventMarkers.push marker
@@ -190,7 +196,7 @@ class HG.HiventsOnGlobe
           #       @_hiventMarkers.splice index, 1  if index >= 0
 
           marker.onMarkerDestruction @,() =>
-            index = $.inArray(marker, @_hiventMarkers)
+            index = @_hiventMarkers.indexOf(marker)
             @_hiventMarkers.splice index, 1  if index >= 0
 
 

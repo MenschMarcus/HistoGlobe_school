@@ -67,6 +67,10 @@ class HG.HiventHandle
     @notify "onActive", obj, mousePixelPosition, @
 
   # ============================================================================
+  isActive: () -> 
+    @_activated
+
+  # ============================================================================
   inActiveAll: (mousePixelPosition) ->
     @_activated = false
     index = $.inArray(@, ACTIVE_HIVENTS)
