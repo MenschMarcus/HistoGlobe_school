@@ -105,6 +105,10 @@ class HG.HiventMarker3DGroup
   # ============================================================================
   onClick:(pos) ->
     unless @_splitted
+
+      if @_globe.isRunning()
+        @_globe.setCenter {x: @getGPS()[1], y: @getGPS()[0]}
+      
       @notifyAll "onSplitGroup", @, @_hiventMarkers
       @_splitted = true
       @sprite.material.opacity = 0.2
