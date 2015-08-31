@@ -119,6 +119,7 @@ class HG.HiventMarker3DGroup
       @notifyAll "onCollapseGroup", @, @_hiventMarkers
       @_splitted = false
       @sprite.material.opacity = 1.0
+      @sprite.material.map = @_hiventTexture
 
 
   # ============================================================================
