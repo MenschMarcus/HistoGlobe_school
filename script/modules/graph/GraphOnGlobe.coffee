@@ -702,12 +702,13 @@ class HG.GraphOnGlobe
                   c.Mesh3D.material.uniforms.opacity.value = OPACITY_MIN if c.Mesh3D
                   #node.Mesh3D.material.color.setRGB(0, 0, 1) if node.Mesh3D
                   node.Mesh3D.material.opacity = OPACITY_MIN if node.Mesh3D
+
             #@_nodeOfInterest.Mesh3D.material.color.setRGB(1, 0, 0)
             @_nodeOfInterest.Mesh3D.material.opacity = OPACITY_MAX
 
             for hc in @_highlightedConnections 
               @_showGraphNodeConnectionInfo(hc)
-          
+
           @_nodeOfInterest = nodeIntersects[0].object.Node
 
           to_be_removed = [].concat(@_graphController.getActiveGraphNodeConnections())
@@ -715,6 +716,8 @@ class HG.GraphOnGlobe
 
             index = $.inArray(c, to_be_removed)
             to_be_removed.splice index, 1  if index >= 0
+            c.Mesh3D.material.uniforms.max_offset.value = 30.0  if c.Mesh3D
+
 
           @_blockHighlighting = true
 
@@ -802,7 +805,7 @@ class HG.GraphOnGlobe
           if c.isVisible
             #c.Mesh3D.material.color.setRGB(1, 0, 0) if c.Mesh3D
             #c.Mesh3D.material.opacity = OPACITY_MAX if c.Mesh3D
-            c.Mesh3D.material.uniforms.max_offset.value = 30.0  if c.Mesh3D
+            #c.Mesh3D.material.uniforms.max_offset.value = 30.0  if c.Mesh3D
             c.Mesh3D.material.uniforms.opacity.value = OPACITY_MAX if c.Mesh3D
 
             for node in c.getLinkedNodes()
