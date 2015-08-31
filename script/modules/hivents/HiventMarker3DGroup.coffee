@@ -41,8 +41,8 @@ class HG.HiventMarker3DGroup
         })
     @sprite = new THREE.Sprite(hiventMaterial)
 
-    @sprite.MaxWidth = HGConfig.hivent_marker_2D_width.val
-    @sprite.MaxHeight = HGConfig.hivent_marker_2D_height.val
+    @sprite.MaxWidth = HGConfig.hivent_marker_3D_group_width.val
+    @sprite.MaxHeight = HGConfig.hivent_marker_3D_group_height.val
 
     @sprite.scale.set(HGConfig.hivent_marker_2D_width.val,HGConfig.hivent_marker_2D_height.val,1.0)
 

@@ -45,6 +45,9 @@ $vip_widget_image_height  = 150px
 $hivent_marker_2D_width               = 27 px;
 $hivent_marker_2D_height              = 40 px;
 
+$hivent_marker_3D_group_width         = 28 px;
+$hivent_marker_3D_group_height        = 36 px;
+
 $hivent_marker_timeline_width         = 14 px
 $hivent_marker_timeline_height        = 21 px
 $hivent_marker_timeline_min_distance  = 5 px
