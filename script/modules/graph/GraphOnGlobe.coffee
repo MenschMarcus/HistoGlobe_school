@@ -427,6 +427,7 @@ class HG.GraphOnGlobe
     connection.Mesh3D = connectionLine
 
     if isHighlightedConnection
+       @_highlightedConnections.push connection
        @_showGraphNodeConnectionInfo connection
 
   # ============================================================================
@@ -484,28 +485,44 @@ class HG.GraphOnGlobe
 
       unless connection.Label3D
 
-        vertices = connection.Mesh3D.geometry.vertices
-
-        position = vertices[Math.round(vertices.length/(@_highlightedConnections.length+2))]
-
         text = "Alliance Type: "
         for t,v of connection.getInfoForShow()
           text+=t if v
           text+=" " if v
 
-        metrics = TEST_CONTEXT.measureText(text);
-        textWidth = metrics.width+1;
+        metrics = TEST_CONTEXT.measureText(text)
+        textWidth = metrics.width+(2*(TEXT_HEIGHT/10))
+        textHeight = TEXT_HEIGHT+(2*(TEXT_HEIGHT/10))
 
         canvas = document.createElement('canvas')
         canvas.width = textWidth
-        canvas.height = TEXT_HEIGHT
+        canvas.height = textHeight
 
         context = canvas.getContext('2d')
         context.textAlign = 'center'
-        context.font = "#{TEXT_HEIGHT}px Arial"
+        context.font = TEXT_FONT
 
-        context.fillStyle="#FF0000";
-        context.fillText(text,textWidth/2,TEXT_HEIGHT*0.75)
+        context.shadowColor = "#ffffff"
+        context.shadowOffsetX = -TEXT_HEIGHT/10
+        context.shadowOffsetY = -TEXT_HEIGHT/10
+
+        context.fillText(text,textWidth/2,textHeight*0.75)
+
+        context.shadowOffsetX =  TEXT_HEIGHT/10
+        context.shadowOffsetY = -TEXT_HEIGHT/10
+
+        context.fillText(text,textWidth/2,textHeight*0.75)
+
+        context.shadowOffsetX = -TEXT_HEIGHT/10
+        context.shadowOffsetY =  TEXT_HEIGHT/10
+
+        context.fillText(text,textWidth/2,textHeight*0.75)
+
+        context.shadowOffsetX =  TEXT_HEIGHT/10
+        context.shadowOffsetY =  TEXT_HEIGHT/10
+
+        context.fillStyle="#000000";
+        context.fillText(text,textWidth/2,textHeight*0.75)
 
         texture = new THREE.Texture(canvas)
         texture.needsUpdate = true
@@ -523,18 +540,36 @@ class HG.GraphOnGlobe
         sprite.textWidth = textWidth
 
         @_sceneGraphNodeConnection.add sprite
-        sprite.scale.set(textWidth,TEXT_HEIGHT,1.0)
-        sprite.position.set position.x,position.y,position.z
+        sprite.scale.set(textWidth,textHeight,1.0)
+        #sprite.position.set position.x,position.y,position.z
+
+        # position
+        vertices = connection.Mesh3D.geometry.vertices
+        index = @_highlightedConnections.indexOf(connection)
+        position = vertices[Math.round(vertices.length*((index+1.0)/(@_highlightedConnections.length+1.0)))]
+        cart_coords = @_globe._latLongToCart(
+          x:position.y
+          y:position.x,
+          @_globe.getGlobeRadius())
+        sprite.position.set cart_coords.x,cart_coords.y,cart_coords.z
 
         sprite.MaxWidth = textWidth
-        sprite.MaxHeight = TEXT_HEIGHT
+        sprite.MaxHeight = textHeight
 
         connection.Label3D = sprite
       
       else
-         @_sceneGraphNodeConnection.add connection.Label3D
+        @_sceneGraphNodeConnection.add connection.Label3D
+        # update position
+        vertices = connection.Mesh3D.geometry.vertices
+        index = @_highlightedConnections.indexOf(connection)
+        position = vertices[Math.round(vertices.length*((index+1.0)/(@_highlightedConnections.length+1.0)))]
+        cart_coords = @_globe._latLongToCart(
+          x:position.y
+          y:position.x,
+          @_globe.getGlobeRadius())
+        connection.Label3D.position.set cart_coords.x,cart_coords.y,cart_coords.z
 
-      @_highlightedConnections.push connection
 
   # ============================================================================
   #_hideGraphNode: (node) ->
@@ -656,8 +691,7 @@ class HG.GraphOnGlobe
               #info:
               if c.isActive() and c.getLinkedNodes()[0] is @_nodeOfInterest and c.getLinkedNodes()[1] is @_secondNodeOfInterest or
               c.getLinkedNodes()[1] is @_nodeOfInterest and c.getLinkedNodes()[0] is @_secondNodeOfInterest
-
-                @_showGraphNodeConnectionInfo(c)
+                @_highlightedConnections.push c
 
               for node in c.getLinkedNodes()
                 if node isnt @_nodeOfInterest and node isnt @_secondNodeOfInterest
@@ -670,6 +704,9 @@ class HG.GraphOnGlobe
                   node.Mesh3D.material.opacity = OPACITY_MIN if node.Mesh3D
             #@_nodeOfInterest.Mesh3D.material.color.setRGB(1, 0, 0)
             @_nodeOfInterest.Mesh3D.material.opacity = OPACITY_MAX
+
+            for hc in @_highlightedConnections 
+              @_showGraphNodeConnectionInfo(hc)
           
           @_nodeOfInterest = nodeIntersects[0].object.Node
 
@@ -780,13 +817,16 @@ class HG.GraphOnGlobe
   ##############################################################################
   #                             STATIC MEMBERS                                 #
   ##############################################################################
+  TEXT_HEIGHT = 14
+  TEXT_FONT = "#{TEXT_HEIGHT}px Lobster"
+
+  #testCanvas for Sprites
   TEST_CANVAS = document.createElement('canvas')
   TEST_CANVAS.width = 1
   TEST_CANVAS.height = 1
   TEST_CONTEXT = TEST_CANVAS.getContext('2d')
   TEST_CONTEXT.textAlign = 'center'
-  TEXT_HEIGHT = 12
-  TEST_CONTEXT.font = "#{TEXT_HEIGHT}px Arial"
+  TEST_CONTEXT.font = TEXT_FONT
 
   OPACITY_MIN = 0.1
   OPACITY_MAX = 0.6
