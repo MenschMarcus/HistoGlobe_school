@@ -13,6 +13,7 @@ class HG.HiventsOnGlobe
 
     @_hiventController        = null
     @_hiventMarkers           = []
+    @_hiventMarkerGroups      = []
     @_onMarkerAddedCallbacks  = []
 
     @_hiventLogos             = []
@@ -39,6 +40,8 @@ class HG.HiventsOnGlobe
         icons = hgInstance.categoryIconMapping.getIcons(category)
         @_hiventLogos[category] = THREE.ImageUtils.loadTexture(icons["default"])
         @_hiventLogos[category+"_highlighted"] = THREE.ImageUtils.loadTexture(icons["highlighted"])
+        @_hiventLogos["group_default"] = THREE.ImageUtils.loadTexture(icons["group_default"])
+        @_hiventLogos["group_highlighted"] = THREE.ImageUtils.loadTexture(icons["group_highlighted"])
 
     #console.log "@_hiventLogos ",@_hiventLogos
 
@@ -63,7 +66,6 @@ class HG.HiventsOnGlobe
       if @_markersLoaded
         callbackFunc marker for marker in @_hiventMarkers
 
-
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
@@ -80,23 +82,15 @@ class HG.HiventsOnGlobe
       window.addEventListener   "mouseup",  @_onMouseUp,         false #for hivent intersections
       window.addEventListener   "mousedown",@_onMouseDown,       false #for hivent intersections
 
-
-      '''@_hiventLogos.group_new.src = "data/hivent_icons/icon_cluster_default.png"
-      @_hiventLogos.group_highlight_new.src = "data/hivent_icons/icon_cluster_highlight.png"'''
-
-
-      '''@_markerGroup = new HG.Marker3DClusterGroup(@,{maxClusterRadius:20})
-      console.log @_markerGroup'''
-
       @_hiventController.getHivents @, (handle) =>
         @_markersLoaded = @_hiventController._hiventsLoaded
         handle.onVisiblePast @, (self) =>
           logos =
             default:@_hiventLogos[handle.getHivent().category]
             highlight:@_hiventLogos[handle.getHivent().category+"_highlighted"]
+            group_default: @_hiventLogos["group_default"]
+            group_highlighted: @_hiventLogos["group_highlighted"]
 
-          '''hivent    = new HG.HiventMarker3D handle, this, HG.Display.CONTAINER, @_sceneInterface, @_markerGroup, logos,
-                          L.latLng(handle.getHivent().lat, handle.getHivent().long)'''
           marker    = new HG.HiventMarker3D(handle, @_globe, HG.Display.CONTAINER, @_sceneInterface, logos, @_hgInstance)
           position  =  @_globe._latLongToCart(
             x:handle.getHivent().long
@@ -105,25 +99,104 @@ class HG.HiventsOnGlobe
 
           marker.sprite.position.set(position.x,position.y,position.z)
 
-          @_sceneInterface.add marker.sprite
+          foundGroup = false
+          # search for already existing groups
+          for group in @_hiventMarkerGroups
+            if group.getGPS()[0] == parseFloat(handle.getHivent().lat[0]) and group.getGPS()[1] == parseFloat(handle.getHivent().long[0])
+              group.addMarker(marker)
+              foundGroup = true
+          # search for marker building a new group
+          unless foundGroup
+            for m in @_hiventMarkers
+              if m.getHiventHandle().getHivent().lat[0] == handle.getHivent().lat[0] and m.getHiventHandle().getHivent().long[0] == handle.getHivent().long[0]
+                markerGroup = new HG.HiventMarker3DGroup([marker,m],@_globe, HG.Display.CONTAINER, @_sceneInterface, logos, @_hgInstance)
 
-          @_hiventMarkers.push marker
+                markerGroup.onMarkerDestruction @, (marker_group) =>
+                  #remove group and add last/remaining element to map 
+                  index = @_hiventMarkerGroups.indexOf(marker_group)
+                  @_hiventMarkerGroups.splice index,1 if index >= 0
+                  @_sceneInterface.remove marker_group.sprite
+
+                  remaining_handle = marker_group.getHiventMarkers()[0].getHiventHandle()
+                  if remaining_handle.isActive()
+                    @_hiventMarkers.push marker_group.getHiventMarkers()[0]
+                    @_sceneInterface.add marker_group.getHiventMarkers()[0]
+                  marker_group.removeListener "onMarkerDestruction", @
+                  marker_group.destroy()
+
+                markerGroup.onSplitGroup @, (marker_group,children) =>
+
+                  #split group on click
+                  gps = marker_group.getGPS()
+
+                  #@_sceneInterface.remove marker_group.sprite
+                  #index = @_hiventMarkerGroups.indexOf(marker_group)
+                  #@_hiventMarkerGroups.splice index,1 if index >= 0
+
+                  child_count = 0
+                  for marker in children
+                    @_sceneInterface.add marker.sprite
+                    @_hiventMarkers.push marker
+
+                    #star split
+                    new_long = parseFloat(gps[1])+(0.5*Math.sin(2*Math.PI*(child_count/children.length))) #0.5 degree aberration in gps
+                    new_lat = parseFloat(gps[0])+(0.5*Math.cos(2*Math.PI*(child_count/children.length))) #0.5 degree aberration in gps
+
+                    position  =  @_globe._latLongToCart(
+                      x:new_long
+                      y:new_lat,
+                      @_globe.getGlobeRadius()+0.2)
+
+                    marker.sprite.position.set(position.x,position.y,position.z)
+
+                    ++child_count
+
+
+                  markerGroup.onCollapseGroup @, (marker_group,children) =>
+
+                    gps = marker_group.getGPS()
+                    position  =  @_globe._latLongToCart(
+                      x:new_long
+                      y:new_lat,
+                      @_globe.getGlobeRadius()+0.2)
+                    for marker in children
+                      marker.sprite.position.set(position.x,position.y,position.z)
+                      index = @_hiventMarkers.indexOf(marker)
+                      @_hiventMarkers.splice index,1 if index >= 0
+                      @_sceneInterface.remove marker.sprite
+
+
+
+                markerGroup.sprite.position.set(position.x,position.y,position.z)
+                @_sceneInterface.add(markerGroup.sprite)
+                @_hiventMarkerGroups.push markerGroup
+                @_sceneInterface.remove(m.sprite)
+                index = @_hiventMarkers.indexOf(m)
+                @_hiventMarkers.splice index,1 if index >=0
+                markerGroup.addHiventCallbacks()
+
+                foundGroup = true
+                break
+
+          unless foundGroup
+            @_sceneInterface.add(marker.sprite)
+            @_hiventMarkers.push marker
 
           callback marker for callback in @_onMarkerAddedCallbacks
 
-          #HiventRegion NEW
-          @region=self.getHivent().region
-          if @region? and Array.isArray(@region) and @region.length>0
-            region = new HG.HiventMarkerRegion self, hgInstance.map, @_map
+          # #HiventRegion NEW
+          # @region=self.getHivent().region
+          # if @region? and Array.isArray(@region) and @region.length>0
+          #   region = new HG.HiventMarkerRegion self, hgInstance.map, @_map
 
-            @_hiventMarkers.push region
-            callback region for callback in @_onMarkerAddedCallbacks
-            region.onDestruction @,() =>
-                index = $.inArray(region, @_hiventMarkers)
-                @_hiventMarkers.splice index, 1  if index >= 0
+          #   @_hiventMarkers.push region
+          #   callback region for callback in @_onMarkerAddedCallbacks
+          #   region.onDestruction @,() =>
+          #       index = $.inArray(region, @_hiventMarkers)
+          #       @_hiventMarkers.splice index, 1  if index >= 0
 
-          marker.onDestruction @,() =>
-            index = $.inArray(marker, @_hiventMarkers)
+          marker.onMarkerDestruction @,() =>
+            index = @_hiventMarkers.indexOf(marker)
             @_hiventMarkers.splice index, 1  if index >= 0
 
 
@@ -152,16 +225,16 @@ class HG.HiventsOnGlobe
   # ============================================================================
   _updateHiventSizes:->
     #for hivent in @_markerGroup.getVisibleHivents()
-    for hivent in @_hiventMarkers
-        cam_pos = new THREE.Vector3(@_globe._camera.position.x,@_globe._camera.position.y,@_globe._camera.position.z).normalize()
-        hivent_pos = new THREE.Vector3(hivent.sprite.position.x,hivent.sprite.position.y,hivent.sprite.position.z).normalize()
-        #perspective compensation
-        dot = (cam_pos.dot(hivent_pos)-0.4)/0.6
+    for hivent in @_hiventMarkers.concat(@_hiventMarkerGroups)
+      cam_pos = new THREE.Vector3(@_globe._camera.position.x,@_globe._camera.position.y,@_globe._camera.position.z).normalize()
+      hivent_pos = new THREE.Vector3(hivent.sprite.position.x,hivent.sprite.position.y,hivent.sprite.position.z).normalize()
+      #perspective compensation
+      dot = (cam_pos.dot(hivent_pos)-0.4)/0.6
 
-        if dot > 0.0
-          hivent.sprite.scale.set(hivent.sprite.MaxWidth*dot,hivent.sprite.MaxHeight*dot,1.0)
-        else
-          hivent.sprite.scale.set(0.0,0.0,1.0)
+      if dot > 0.0
+        hivent.sprite.scale.set(hivent.sprite.MaxWidth*dot,hivent.sprite.MaxHeight*dot,1.0)
+      else
+        hivent.sprite.scale.set(0.0,0.0,1.0)
 
   # ============================================================================
   _onMouseDown: (event) =>
@@ -172,6 +245,8 @@ class HG.HiventsOnGlobe
 
     if @_lastIntersected.length is 0
         HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()
+        for group in @_hiventMarkerGroups
+          group.onUnClick()
 
 
   # ============================================================================
@@ -185,7 +260,7 @@ class HG.HiventsOnGlobe
           y: @_globe._mousePos.y - @_globe._canvasOffsetY
 
         #hivent.getHiventHandle().active pos
-        hivent.onclick(pos)
+        hivent.onClick(pos)
 
       #freeze globe because of area intersection etc
       @_globe._targetFOV = @_backupFOV
@@ -217,7 +292,7 @@ class HG.HiventsOnGlobe
 
     tmp_intersects = []
     #for hivent in @_markerGroup.getVisibleHivents()
-    for hivent in @_hiventMarkers
+    for hivent in @_hiventMarkers.concat(@_hiventMarkerGroups)
 
       if hivent.sprite.visible and hivent.sprite.scale.x isnt 0.0 and hivent.sprite.scale.y isnt 0.0
 
@@ -235,19 +310,15 @@ class HG.HiventsOnGlobe
           @_globe._mousePos.y > y - (h/2) and @_globe._mousePos.y < y + (h/2)
             index = $.inArray(hivent, @_lastIntersected)
             @_lastIntersected.splice index, 1  if index >= 0
-            handle = hivent.getHiventHandle()
-            if handle and index < 0
-              hivent.getHiventHandle().mark hivent, {x:x, y:y}
-              #hivent.getHiventHandle().mark hivent, hivent.getPosition()
-              hivent.getHiventHandle().linkAll {x:x, y:y}
+            if index < 0
+              hivent.onMouseOver(x,y)
+
             tmp_intersects.push hivent
             HG.Display.CONTAINER.style.cursor = "pointer"
 
     for hivent in @_lastIntersected
-      handle = hivent.getHiventHandle()
-      if handle
-        handle.unMark hivent
-        handle.unLinkAll()
+      hivent.onMouseOut()
+        
 
     if tmp_intersects.length is 0
       HG.Display.CONTAINER.style.cursor = "auto"
