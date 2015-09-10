@@ -184,10 +184,6 @@ class HG.GraphOnGlobe
   # ============================================================================
   _showGraphNodeConnection: (connection) ->
 
-    '''connection_color = connection.getColor()
-    connectionColorR = connection_color.r
-    connectionColorG = connection_color.g
-    connectionColorB = connection_color.b'''
     connectionOpacity = OPACITY_MIN
 
     showConnection = true
@@ -199,20 +195,15 @@ class HG.GraphOnGlobe
       linkedNodes = connection.getLinkedNodes()
       if linkedNodes[0] is @_nodeOfInterest and linkedNodes[1] is @_secondNodeOfInterest or
       linkedNodes[1] is @_nodeOfInterest and linkedNodes[0] is @_secondNodeOfInterest
-        '''connectionColorR = 1
-        connectionColorG = 0
-        connectionColorB = 0'''
+
         connectionOpacity = OPACITY_MAX
-        #linkedNodes[0].Mesh3D.material.color.setRGB(1, 0, 0)
         linkedNodes[0].Mesh3D.material.opacity = OPACITY_MAX
-        #linkedNodes[1].Mesh3D.material.color.setRGB(1, 0, 0)
         linkedNodes[1].Mesh3D.material.opacity = OPACITY_MAX
 
         isHighlightedConnection = true
 
       else
         showConnection = false
-
 
     else
 
@@ -221,13 +212,8 @@ class HG.GraphOnGlobe
         if(linkedNodes[0] isnt @_nodeOfInterest and linkedNodes[1] isnt @_nodeOfInterest)
            showConnection = false
         else
-          '''connectionColorR = 1
-          connectionColorG = 0
-          connectionColorB = 0'''
           connectionOpacity = OPACITY_MAX
-          #linkedNodes[0].Mesh3D.material.color.setRGB(1, 0, 0)
           linkedNodes[0].Mesh3D.material.opacity = OPACITY_MAX
-          #linkedNodes[1].Mesh3D.material.color.setRGB(1, 0, 0)
           linkedNodes[1].Mesh3D.material.opacity = OPACITY_MAX
 
     latlngA = connection.startPoint
@@ -257,76 +243,6 @@ class HG.GraphOnGlobe
     while(startPosLat < latlngB[0]-(1.1*alphaLat) or startPosLat > latlngB[0] + (1.1*alphaLat) or
     startPosLng < latlngB[1]-(1.1*alphaLng) or startPosLng > latlngB[1] + (1.1*alphaLng) )
       
-      ##########################################################################
-      #bundles:
-      '''!!!point_of_interest = new THREE.Vector2(49.22298,-56.47461)
-      #point_of_interest = new THREE.Vector2(25.50712,-89.89014)
-      point = new THREE.Vector2(startPosLat , startPosLng)
-      #dir = new THREE.Vector2(-36.47461 - startPosLat , 49.22298 - startPosLng)
-      dir = point_of_interest.sub(point)
-          
-      dist = dir.length()
-
-      dir = dir.normalize()
-
-      lineStart = new THREE.Vector2(latlngA[0],latlngA[1])
-      lineEnd = new THREE.Vector2(latlngB[0],latlngB[1])
-
-      dist_start = new THREE.Vector2(49.22298,-56.47461).sub(lineStart)
-      dist_start = dist_start.length()
-      dist_end = new THREE.Vector2(49.22298,-56.47461).sub(lineEnd)
-      dist_end = dist_end.length()'''
-      '''dist_range = Math.min(dist_start,dist_end)
-      dist_point = 0.0
-      if dist_start < dist_end
-        dist_point = new THREE.Vector2(lineStart- point).length()
-
-      else
-        dist_point = new THREE.Vector2(lineEnd- point).length()
-
-      factor = dist_point/dist_range
-      factor = (1.0-factor)'''
-
-      '''!!!bundle_offset_lat = 0.0
-      bundle_offset_lng = 0.0
-
-      reach = 20.0
-      #strength = reach/4.0
-      strength = reach/2.0
-      #strength = reach/Math.PI
-      power = 2.0 # locality of ease in (early vs. late influence)
-      
-      if dist <= reach and dist_start > reach and dist_end > reach
-        
-        #x_value = (dist/reach)
-        x_value = 1-(dist/reach)'''
-
-      '''if x_value <= 0.5
-        #if x_value >= 0.25
-          bundle_offset_lat = Math.sin(x_value*Math.PI)*dir.x*strength
-          bundle_offset_lng = Math.sin(x_value*Math.PI)*dir.y*strength
-          #bundle_offset_lat = Math.sin((x_value+0.5)*Math.PI*(2/3))*dir.x*strength
-          #bundle_offset_lng = Math.sin((x_value+0.5)*Math.PI*(2/3))*dir.y*strength
-        else
-          bundle_offset_lat = Math.pow(Math.sin(x_value*Math.PI),power)*dir.x*strength
-          bundle_offset_lng = Math.pow(Math.sin(x_value*Math.PI),power)*dir.y*strength
-          #bundle_offset_lat = Math.pow(Math.sin(x_value*Math.PI*2),power)*dir.x*strength
-          #bundle_offset_lng = Math.pow(Math.sin(x_value*Math.PI*2),power)*dir.y*strength'''
-
-      '''bundle_offset_lat = Math.pow(x_value,power)*-1*dir.x*strength
-        bundle_offset_lng = Math.pow(x_value,power)*-1*dir.y*strength'''
-
-      '''!!!bundle_offset_lat = Math.pow(Math.sin(x_value*Math.PI*0.5),power)*-1*dir.x*strength
-        bundle_offset_lng = Math.pow(Math.sin(x_value*Math.PI*0.5),power)*-1*dir.y*strength'''
-
-
-      ##########################################################################
-
-      '''line_coord = @_globe._latLongToCart(
-              x:startPosLng + bundle_offset_lng
-              y:startPosLat + bundle_offset_lat
-              @_globe.getGlobeRadius()+2)
-      lineGeometry.vertices.push line_coord'''
       # forward coordinate transformation to shader:
       lineGeometry.vertices.push new THREE.Vector3(startPosLat, startPosLng, 1.0)
 
@@ -337,38 +253,6 @@ class HG.GraphOnGlobe
       if startPosLng < -180.0
         startPosLng = 180.0 - (startPosLng+180.0)
 
-
-    '''lineMaterial = new THREE.LineBasicMaterial color: 0xeeeeee, linewidth: 2, opacity:0.2, transparent:true
-    #lineMaterial.color.setRGB(connectionColorR,connectionColorG,connectionColorB)
-    c_color = connection.getColor()
-    lineMaterial.color.setRGB(c_color.r,c_color.g,c_color.b)
-    lineMaterial.opacity = connectionOpacity'''
-
-    ##################################################
-    '''shader = SHADERS.arc
-
-    uniforms      = THREE.UniformsUtils.clone shader.uniforms
-    uniforms.opacity.value  = connectionOpacity
-    uniforms.max_offset.value = 30.0
-
-    line_center = lineGeometry.vertices[Math.round(lineGeometry.vertices.length/2)]
-    uniforms.line_center.value = line_center
-    uniforms.line_begin.value = lineGeometry.vertices[0]
-    uniforms.line_end.value = lineGeometry.vertices[lineGeometry.vertices.length-1]
-
-    lineMaterial = new THREE.ShaderMaterial(
-      vertexShader:   shader.vertexShader
-      fragmentShader: shader.fragmentShader
-      uniforms:       uniforms
-      transparent:    true
-    )'''
-
-    #lineMaterial.opacity = 1.0
-    #lineMaterial.uniforms.opacity.value = lineMaterial.opacity
-    #lineMaterial.opacity = 0.0
-
-    ############################################
-    ##################################################
     shader = SHADERS.bundle
 
     uniforms      = THREE.UniformsUtils.clone shader.uniforms
@@ -411,11 +295,9 @@ class HG.GraphOnGlobe
         personalPoints.unshift(lng)
         personalPoints.unshift(lat)
 
-    #lineMaterial.uniforms.control_points.value = @_controlPoints
     lineMaterial.uniforms.control_points.value = personalPoints
 
     @_connectionMaterials.push(lineMaterial)
-    ############################################
   
     connectionLine = new THREE.Line( lineGeometry, lineMaterial)
     if showConnection
@@ -436,34 +318,24 @@ class HG.GraphOnGlobe
     connection.isVisible = false
     if @_secondNodeOfInterest
       linkedNodes = connection.getLinkedNodes()
-      #linkedNodes[0].Mesh3D.material.color.setRGB(0, 0, 1)
       linkedNodes[0].Mesh3D.material.opacity = OPACITY_MIN
-      #linkedNodes[1].Mesh3D.material.color.setRGB(0, 0, 1)
       linkedNodes[1].Mesh3D.material.color.opacity = OPACITY_MIN
 
-      #@_nodeOfInterest.Mesh3D.material.color.setRGB(1, 0, 0)
       @_nodeOfInterest.Mesh3D.material.opacity = OPACITY_MAX
-      #@_secondNodeOfInterest.Mesh3D.material.color.setRGB(1, 0, 0)
       @_secondNodeOfInterest.Mesh3D.material.opacity = OPACITY_MAX
     else
       if @_nodeOfInterest
         linkedNodes = connection.getLinkedNodes()
         if linkedNodes[0] is @_nodeOfInterest
-          #linkedNodes[1].Mesh3D.material.color.setRGB(0, 0, 1)
           linkedNodes[1].Mesh3D.material.opacity = OPACITY_MIN
           for c in linkedNodes[1].getConnections()
             if c.isVisible
-              #found another active connection in this node
-              #linkedNodes[1].Mesh3D.material.color.setRGB(1, 0, 0)
               linkedNodes[1].Mesh3D.material.opacity = OPACITY_MAX
               break
         if linkedNodes[1] is @_nodeOfInterest
-          #linkedNodes[0].Mesh3D.material.color.setRGB(0, 0, 1)
           linkedNodes[0].Mesh3D.material.opacity = OPACITY_MIN
           for c in linkedNodes[0].getConnections()
             if c.isVisible
-              #found another active connection in this node
-              #linkedNodes[0].Mesh3D.material.color.setRGB(1, 0, 0)
               linkedNodes[0].Mesh3D.material.opacity = OPACITY_MAX
               break
 
@@ -696,14 +568,10 @@ class HG.GraphOnGlobe
               for node in c.getLinkedNodes()
                 if node isnt @_nodeOfInterest and node isnt @_secondNodeOfInterest
                   #c_color = c.getColor()
-                  #c.Mesh3D.material.color.setRGB(c_color.r, c_color.g, c_color.b) if c.Mesh3D
-                  #c.Mesh3D.material.opacity = OPACITY_MIN if c.Mesh3D
                   c.Mesh3D.material.uniforms.max_offset.value = 0.0 if c.Mesh3D
                   c.Mesh3D.material.uniforms.opacity.value = OPACITY_MIN if c.Mesh3D
-                  #node.Mesh3D.material.color.setRGB(0, 0, 1) if node.Mesh3D
                   node.Mesh3D.material.opacity = OPACITY_MIN if node.Mesh3D
 
-            #@_nodeOfInterest.Mesh3D.material.color.setRGB(1, 0, 0)
             @_nodeOfInterest.Mesh3D.material.opacity = OPACITY_MAX
 
             for hc in @_highlightedConnections 
@@ -781,15 +649,10 @@ class HG.GraphOnGlobe
       for intersect in @_intersectedNodes
 
         for c in intersect.Node.getConnections()
-          #c_color = c.getColor()
-          #c.Mesh3D.material.color.setRGB(c_color.r, c_color.g, c_color.b) if c.Mesh3D
-          #c.Mesh3D.material.opacity =  OPACITY_MIN if c.Mesh3D
           c.Mesh3D.material.uniforms.max_offset.value = 0.0  if c.Mesh3D
           c.Mesh3D.material.uniforms.opacity.value =  OPACITY_MIN if c.Mesh3D
           for node in c.getLinkedNodes()
-            #node.Mesh3D.material.color.setRGB(0, 0, 1) if node.Mesh3D
             node.Mesh3D.material.opacity = OPACITY_MIN if node.Mesh3D
-        #intersect.Node.Mesh3D.material.color.setRGB(0, 0, 1)
         intersect.Node.Mesh3D.material.opacity = OPACITY_MIN
 
       #hover countries
@@ -803,16 +666,11 @@ class HG.GraphOnGlobe
 
         for c in intersect.object.Node.getConnections()
           if c.isVisible
-            #c.Mesh3D.material.color.setRGB(1, 0, 0) if c.Mesh3D
-            #c.Mesh3D.material.opacity = OPACITY_MAX if c.Mesh3D
-            #c.Mesh3D.material.uniforms.max_offset.value = 30.0  if c.Mesh3D
             c.Mesh3D.material.uniforms.opacity.value = OPACITY_MAX if c.Mesh3D
 
             for node in c.getLinkedNodes()
-              #node.Mesh3D.material.color.setRGB(1, 0, 0) if node.Mesh3D
               node.Mesh3D.material.opacity = OPACITY_MAX if node.Mesh3D
 
-        #intersect.object.material.color.setRGB(1, 0, 0)
         intersect.object.material.opacity = OPACITY_MAX
       
         @_intersectedNodes.push intersect.object
