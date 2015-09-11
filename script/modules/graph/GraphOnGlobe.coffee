@@ -221,8 +221,8 @@ class HG.GraphOnGlobe
 
     lineGeometry = new THREE.Geometry
 
-    startPosLat = latlngA[0]
-    startPosLng = latlngA[1]
+    currentPosLat = latlngA[0]
+    currentPosLng = latlngA[1]
 
     # equidistant interpolation:
     # location range
@@ -240,18 +240,20 @@ class HG.GraphOnGlobe
 
     alphaLat = Math.abs(stepLat)
     alphaLng = Math.abs(stepLng)
-    while(startPosLat < latlngB[0]-(1.1*alphaLat) or startPosLat > latlngB[0] + (1.1*alphaLat) or
-    startPosLng < latlngB[1]-(1.1*alphaLng) or startPosLng > latlngB[1] + (1.1*alphaLng) )
+    while(currentPosLat < latlngB[0]-(1.1*alphaLat) or currentPosLat > latlngB[0] + (1.1*alphaLat) or
+    currentPosLng < latlngB[1]-(1.1*alphaLng) or currentPosLng > latlngB[1] + (1.1*alphaLng) )
       
       # forward coordinate transformation to shader:
-      lineGeometry.vertices.push new THREE.Vector3(startPosLat, startPosLng, 1.0)
+      lineGeometry.vertices.push new THREE.Vector3(currentPosLat, currentPosLng, 1.0)
 
-      startPosLat+= stepLat
-      startPosLng+= stepLng
-      if startPosLng > 180.0 
-        startPosLng = -180.0 + (startPosLng-180.0)
-      if startPosLng < -180.0
-        startPosLng = 180.0 - (startPosLng+180.0)
+      currentPosLat+= stepLat
+      currentPosLng+= stepLng
+      if currentPosLng > 180.0 
+        currentPosLng = -180.0 + (currentPosLng-180.0)
+      if currentPosLng < -180.0
+        currentPosLng = 180.0 - (currentPosLng+180.0)
+
+
 
     shader = SHADERS.bundle
 
@@ -265,6 +267,24 @@ class HG.GraphOnGlobe
     uniforms.max_offset.value = 0.0
     line_center = lineGeometry.vertices[Math.round(lineGeometry.vertices.length/2)]
     uniforms.line_center.value = line_center
+
+    # connection group offset:
+    dir = new THREE.Vector3 uniforms.line_end.value.x, uniforms.line_end.value.y, uniforms.line_end.value.z
+    dir = dir.sub(uniforms.line_begin.value).normalize()
+    linked_nodes = connection.getLinkedNodes()
+    connection_group = linked_nodes[0].getConnectionsWithNode(linked_nodes[1])
+    index = connection_group.indexOf(connection)
+    center_index = Math.round(lineGeometry.vertices.length/2)
+    for i in [0..lineGeometry.vertices.length-1]
+
+      offset = 1 - Math.pow((Math.abs(center_index-i)/center_index),2)
+      offset*= 0.1 # a tenth of a gps degree offset   
+      vertex = lineGeometry.vertices[i]
+      
+      # offset in orthogonal direction to connection:
+      vertex.x += offset*index*dir.y
+      vertex.y += offset*index*-dir.x
+
 
     lineMaterial = new THREE.ShaderMaterial(
       vertexShader:   shader.vertexShader

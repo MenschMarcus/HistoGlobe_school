@@ -66,6 +66,16 @@ class HG.GraphNode
   getConnections:()->
     return @_connections
 
+  # ============================================================================
+  getConnectionsWithNode:(node)->
+    connections_with_node = []
+    for c in @_connections
+      linked_nodes = c.getLinkedNodes()
+      if linked_nodes[0] is node or linked_nodes[1] is node
+        connections_with_node.push c
+    return connections_with_node
+
+
 
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
