@@ -38,7 +38,7 @@ class HG.GraphOnGlobe
     @_controlPoints = []
     @_controlPoints.push(191.0) # pivot element
     @_controlSize = 20.0
-    @_controlFunction = 0.0 # sine
+    @_controlFunction = 0.0 # 0 = sine; 1 = square power
 
 
 
@@ -102,21 +102,26 @@ class HG.GraphOnGlobe
       @_graphController.onHideGraphNodeConnection @, (c) =>
         @_hideGraphNodeConnection c
 
-      nodelist = @_graphController.getActiveGraphNodes()
-      for key,value of nodelist
-        @_showGraphNode value
+      nodelist = @_graphController.getAllGraphNodes()
+      for key,node of nodelist
+        #@_showGraphNode node
+        node.onShow @, (node) =>
+          @_showGraphNode node
+        node.onHide @, (node) =>
+          @_hideGraphNode node
+
 
       conlist = @_graphController.getActiveGraphNodeConnections()
       for c in conlist
         @_showGraphNodeConnection c
 
-      @_graphController.onShowGraphNode @, (node) =>
-        @_showGraphNode node
+      #@_graphController.onShowGraphNode @, (node) =>
+      #  @_showGraphNode node
 
       setInterval(@_animate, 100)
 
-      @_graphController.onHideGraphNode @, (node) =>
-        @_hideGraphNode node
+      #@_graphController.onHideGraphNode @, (node) =>
+      #  @_hideGraphNode node
 
 
     else
@@ -180,6 +185,23 @@ class HG.GraphOnGlobe
     node.onRadiusChange @, (node) =>
         @_onGraphNodeChanged node
 
+
+  # ============================================================================
+  _hideGraphNode: (node) ->
+    @_sceneGraphNode.remove node.Mesh3D
+    index = @_visibleNodes.indexOf(node)
+    @_visibleNodes.splice(index, 1) if index >= 0
+    @_removeControlPoint(node._position[1],node._position[0])
+
+  # ============================================================================
+  _onGraphNodeChanged: (node) =>
+
+    index = @_visibleNodes.indexOf(node)
+    if node.Mesh3D.Radius isnt node._radius and index >= 0
+      old_color = node.Mesh3D.material.color
+      @_hideGraphNode node
+      @_showGraphNode node
+      node.Mesh3D.material.color=old_color
   
   # ============================================================================
   _showGraphNodeConnection: (connection) ->
@@ -235,8 +257,8 @@ class HG.GraphOnGlobe
     dir = new THREE.Vector2 lat_diff,lng_diff
     dir.normalize()
 
-    stepLat = dir.x*0.05
-    stepLng = dir.y*0.05
+    stepLat = dir.x*0.005
+    stepLng = dir.y*0.005
 
     alphaLat = Math.abs(stepLat)
     alphaLng = Math.abs(stepLng)
@@ -462,13 +484,6 @@ class HG.GraphOnGlobe
           @_globe.getGlobeRadius())
         connection.Label3D.position.set cart_coords.x,cart_coords.y,cart_coords.z
 
-
-  # ============================================================================
-  #_hideGraphNode: (node) ->
-
-  # ============================================================================
-  #_onNodeChange: (node) =>
-
   # ============================================================================
   _addControlPoint: (functionID,size,lng,lat) =>
 
@@ -476,7 +491,7 @@ class HG.GraphOnGlobe
     for i in [0 .. @_controlPoints.length-1] by 4
       if @_controlPoints[i] is lat and @_controlPoints[i+1] is lng
         @_controlPoints.splice(i, 4);
-        break
+        #break
 
     # interactive point:
     interactive_point = null
@@ -496,7 +511,7 @@ class HG.GraphOnGlobe
       lng > mat.minLng-BUNDLE_TOLERANCE)
 
         mat.uniforms.control_points.value.splice(0,4) if mat.uniforms.control_points.value.length >= 4
-        # remove potential old one
+        # search for old one
         found_old = false
         for i in [0 .. mat.uniforms.control_points.value.length-1] by 4
           if mat.uniforms.control_points.value[i] is lat and mat.uniforms.control_points.value[i+1] is lng
@@ -512,7 +527,19 @@ class HG.GraphOnGlobe
     if interactive_point != null
       @_controlPoints = interactive_point.concat(@_controlPoints)
 
-        
+    
+  # ============================================================================
+  _removeControlPoint: (lng,lat) =>
+
+    for i in [0 .. @_controlPoints.length-1] by 4
+      if @_controlPoints[i] is lat and @_controlPoints[i+1] is lng
+        @_controlPoints.splice(i, 4);
+        #break
+    for mat in @_connectionMaterials
+      for i in [0 .. mat.uniforms.control_points.value.length-1] by 4
+          if mat.uniforms.control_points.value[i] is lat and mat.uniforms.control_points.value[i+1] is lng
+            mat.uniforms.control_points.value.splice(i, 4);
+
 
   # ============================================================================
   #bundle tests
@@ -613,14 +640,6 @@ class HG.GraphOnGlobe
             @_sceneGraphNodeConnection.remove c.Mesh3D if c.Mesh3D
             c.isVisible = false
 
-  # ============================================================================
-  _onGraphNodeChanged: (node) =>
-
-    if node.Mesh3D.Radius isnt node._radius
-      old_color = node.Mesh3D.material.color
-      @_sceneGraphNode.remove node.Mesh3D
-      @_showGraphNode node
-      node.Mesh3D.material.color=old_color
 
   # ============================================================================
   _evaluate: () =>
@@ -712,7 +731,7 @@ class HG.GraphOnGlobe
   OPACITY_MIN = 0.1
   OPACITY_MAX = 0.6
 
-  BUNDLE_TOLERANCE = 2.0 # degree
+  BUNDLE_TOLERANCE = 20.0 # degree
 
   # shaders for the graph node connections
   SHADERS =
@@ -862,7 +881,7 @@ class HG.GraphOnGlobe
                   //float strength = reach/3.14159265358979323846264;
                   float power = 2.0;
                    
-                  if(distStart > reach && distEnd > reach){
+                  if(distStart > reach*0.75 && distEnd > reach*0.75){
                      
                       float x_value = 1.0-(dist/reach);
 

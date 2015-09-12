@@ -21,7 +21,7 @@ class HG.GraphNode
 
     @_initMembers()
 
-    @_radius = 0.4
+    @_radius = 0.2
     @_position = latlng
 
   # ============================================================================
@@ -34,20 +34,10 @@ class HG.GraphNode
     @_radius = @_radius-0.05
     @notifyAll "onRadiusChange", @
 
-  # ============================================================================
-  setDate: (newDate) ->
+  # # ============================================================================
+  # setDate: (newDate) ->
 
-    @_now = newDate
-
-    new_active = @_isActive()
-
-    if new_active and not @_active
-      @notifyAll "onShow", @
-
-    if not new_active and @_active
-      @notifyAll "onHide", @
-
-    @_active = new_active
+  #   @_now = newDate
 
   # ============================================================================
   isActive:()->
@@ -55,12 +45,18 @@ class HG.GraphNode
 
   # ============================================================================
   addConnection:(connection)->
+    if @_connections.length is 0
+      @notifyAll "onShow", @
+      @_active = true
     @_connections.push connection
 
   # ============================================================================
   removeConnection:(connection)->
     index = $.inArray(connection, @_connections)
     @_connections.splice index, 1  if index >= 0
+    if @_connections.length is 0
+      @notifyAll "onHide", @
+      @_active = false
 
   # ============================================================================
   getConnections:()->
@@ -81,10 +77,6 @@ class HG.GraphNode
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
 
-  # ============================================================================
-  _initData: (data) ->
-
-
 
   # ============================================================================
   _initMembers: ->
@@ -95,23 +87,3 @@ class HG.GraphNode
     @_active = false
 
     @_connections = []
-
-
-  # ============================================================================
-  _isActive: () =>
-
-    '''if not @_start[@_state]? and not @_end[@_state]?
-      return true
-
-    if @_start[@_state]? and @_end[@_state]?
-      return @_start[@_state] < @_now and @_now < @_end[@_state]
-
-    if @_start[@_state]? and @_start[@_state] < @_now
-      return true
-
-    if @_end[@_state]? and @_end[@_state] > @_now
-      return true
-
-    false'''
-
-    true

@@ -41,19 +41,20 @@ class HG.GraphController
 
     @_timeline.onNowChanged @, (date) ->
       @_now = date
-      '''for node in @_nodes
-        node.setDate date'''
+      # for key,node of @_nodes
+      #   node.setDate date
       for c in @_connections
         c.setDate date
 
       for c in @_connections
-        # draw changes asynchronously
-        execute_async = (c) =>
-          setTimeout () =>
-            c.drawChanges()
-          , 0
+        #draw changes asynchronously
+        # execute_async = (c) =>
+        #  setTimeout () =>
+        #    c.drawChanges()
+        #  , 0
 
-        execute_async c
+        # execute_async c
+        c.drawChanges()
 
 
     @_areaController = hgInstance.areaController
@@ -197,7 +198,7 @@ class HG.GraphController
     )
 
   # ============================================================================
-  getActiveGraphNodes:()->
+  getAllGraphNodes:()->
     return @_nodes
 
   # ============================================================================
