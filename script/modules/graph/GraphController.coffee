@@ -202,6 +202,14 @@ class HG.GraphController
     return @_nodes
 
   # ============================================================================
+  getActiveGraphNodes:()->
+    result = []
+    for key,n of @_nodes
+      if n.isActive()
+        result.push n
+    return result
+
+  # ============================================================================
   getActiveGraphNodeConnections:()->
     result = []
     for c in @_connections

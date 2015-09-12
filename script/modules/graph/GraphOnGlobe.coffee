@@ -104,25 +104,27 @@ class HG.GraphOnGlobe
 
       nodelist = @_graphController.getAllGraphNodes()
       for key,node of nodelist
-        #@_showGraphNode node
         node.onShow @, (node) =>
           @_showGraphNode node
         node.onHide @, (node) =>
           @_hideGraphNode node
 
-
+      
       conlist = @_graphController.getActiveGraphNodeConnections()
       for c in conlist
         @_showGraphNodeConnection c
 
+      node_list = @_graphController.getActiveGraphNodes()
+      for n in node_list
+        @_showGraphNode(n)
+        
       #@_graphController.onShowGraphNode @, (node) =>
       #  @_showGraphNode node
-
-      setInterval(@_animate, 100)
 
       #@_graphController.onHideGraphNode @, (node) =>
       #  @_hideGraphNode node
 
+      setInterval(@_animate, 100)
 
     else
       console.error "Unable to show graph on globe: GraphController module not detected in HistoGlobe instance!"
