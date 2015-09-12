@@ -48,13 +48,13 @@ class HG.GraphController
 
       for c in @_connections
         #draw changes asynchronously
-        # execute_async = (c) =>
-        #  setTimeout () =>
-        #    c.drawChanges()
-        #  , 0
+        execute_async = (c) =>
+         setTimeout () =>
+           c.drawChanges()
+         , 0
 
-        # execute_async c
-        c.drawChanges()
+        execute_async c  # async
+        #c.drawChanges() #  sync
 
 
     @_areaController = hgInstance.areaController

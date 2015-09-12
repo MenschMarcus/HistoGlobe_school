@@ -32,8 +32,7 @@ class HG.GraphNodeConnection
 
     @isInfoVisible = false
 
-    @_futureInsertion = false
-    @_futureDeletion = false
+    @_actionQueue = [] # 1 = future insertion; 0 = future deletion
 
   # ============================================================================
   setDate: (newDate) ->
@@ -43,49 +42,30 @@ class HG.GraphNodeConnection
     new_active = @_isActive()
 
     if new_active and not @_active
-      
-      if @_futureDeletion and @_futureInsertion
-        @_futureDeletion = false
-      @_futureInsertion = true
 
+      @_actionQueue.push 1
 
     if not new_active and @_active
 
-      if @_futureInsertion and @_futureDeletion
-        @_futureInsertion = false
-      @_futureDeletion = true
+      @_actionQueue.push 0
 
     @_active = new_active
 
   # ============================================================================
   drawChanges: () ->
 
-    if @_futureInsertion and not @_futureDeletion
-
-      for node in @linkedNodes
-        node.addConnection(@)
-        node.increaseRadius()
-
-      @notifyAll "onShow", @
-
-      @_futureInsertion = false
-
-    if @_futureDeletion and not @_futureInsertion
-
-      for node in @linkedNodes
-        node.removeConnection(@)
-        node.decreaseRadius()
-
-      @notifyAll "onHide", @
-
-      @_futureDeletion = false
-
-    if @_futureInsertion and @_futureDeletion
-
-      # do nothing
-      @_futureInsertion = false
-      @_futureInsertion = false
-
+    while @_actionQueue.length isnt 0
+      action = @_actionQueue.shift()
+      if action is 1
+        for node in @linkedNodes
+          node.addConnection(@)
+          node.increaseRadius()
+        @notifyAll "onShow", @
+      if action is 0
+        for node in @linkedNodes
+          node.removeConnection(@)
+          node.decreaseRadius()
+        @notifyAll "onHide", @
 
   # ============================================================================
   isActive:()->
