@@ -465,10 +465,11 @@ class HG.GraphOnGlobe
         # position
         vertices = connection.Mesh3D.geometry.vertices
         index = @_highlightedConnections.indexOf(connection)
-        position = vertices[Math.round(vertices.length*((index+1.0)/(@_highlightedConnections.length+1.0)))]
+        #position = vertices[Math.round(vertices.length*((index+1.0)/(@_highlightedConnections.length+1.0)))]
+        position = vertices[Math.round(vertices.length/2)]
         cart_coords = @_globe._latLongToCart(
           x:position.y
-          y:position.x,
+          y:position.x-(index*1.0),# list of infos with 1.0 gps degree distance
           @_globe.getGlobeRadius())
         sprite.position.set cart_coords.x,cart_coords.y,cart_coords.z
 
@@ -482,10 +483,11 @@ class HG.GraphOnGlobe
         # update position
         vertices = connection.Mesh3D.geometry.vertices
         index = @_highlightedConnections.indexOf(connection)
-        position = vertices[Math.round(vertices.length*((index+1.0)/(@_highlightedConnections.length+1.0)))]
+        #position = vertices[Math.round(vertices.length*((index+1.0)/(@_highlightedConnections.length+1.0)))]
+        position = vertices[Math.round(vertices.length/2)]
         cart_coords = @_globe._latLongToCart(
           x:position.y
-          y:position.x,
+          y:position.x-(index*1.0),# list of infos with 1.0 gps degree distance
           @_globe.getGlobeRadius())
         connection.Label3D.position.set cart_coords.x,cart_coords.y,cart_coords.z
 
