@@ -310,6 +310,8 @@ class HG.GraphOnGlobe
       transparent:    true
     )
 
+    uniforms.color.value = connection.getColor()
+
     #reduce number of potential/nearest control points:
     personalPoints = []
     personalPoints.push(191.0) # pivot element
@@ -814,6 +816,10 @@ class HG.GraphOnGlobe
     bundle:
       uniforms:
 
+        color:
+          type: "v3"
+          value: null
+
         control_points:
           type: "fv1"
           value: []
@@ -848,6 +854,8 @@ class HG.GraphOnGlobe
 
       vertexShader: '''
 
+        uniform vec3 color;
+
         uniform float control_points[1000];
         uniform float control_size;
         uniform vec3 line_begin;
@@ -864,6 +872,8 @@ class HG.GraphOnGlobe
 
 
         void main() {
+
+          vColor = color;
 
           vec2 gps_point = vec2(position.y,position.x);
 

@@ -92,35 +92,30 @@ class HG.GraphNodeConnection
     ret_color = {r:0,g:0,b:0}
 
     if @_info.defense
-      ret_color.r=0.2
-      ret_color.g=0.2
-      ret_color.b=1
+      ret_color.r+=0.5
+      ret_color.g+=0
+      ret_color.b+=0
       ++count
-      #return color={r:0,g:0.26274509803921568627450980392157,b:0.34117647058823529411764705882353}
     if @_info.neutrality
-      ret_color.r=1
-      ret_color.g=1
-      ret_color.b=0.2
+      ret_color.r+=0.5
+      ret_color.g+=0.5
+      ret_color.b+=0
       ++count
-      #return color={r:0.65882352941176470588235294117647,g:0.23921568627450980392156862745098,b:0.27450980392156862745098039215686}
     if @_info.nonaggression
-      ret_color.r=0.2
-      ret_color.g=1
-      ret_color.b=0.2
+      ret_color.r+=0
+      ret_color.g+=0.5
+      ret_color.b+=0
       ++count
-      #return color={r:0.08627450980392156862745098039216,g:0.28235294117647058823529411764706,b:0.34901960784313725490196078431373}
     if @_info.entente
-      ret_color.r=0.2
-      ret_color.g=0.2
-      ret_color.b=1
+      ret_color.r+=0
+      ret_color.g+=0
+      ret_color.b+=0.5
       ++count
-      #return color={r:0.18039215686274509803921568627451,g:0.26666666666666666666666666666667,b:0.36862745098039215686274509803922}
-    #return color={r:0,g:0,b:0}
     if count is not 0
       ret_color.r = ret_color.r/count
       ret_color.g = ret_color.g/count
       ret_color.b = ret_color.b/count
-    return ret_color
+    return new THREE.Vector3(ret_color.r, ret_color.g, ret_color.b)
 
   # ============================================================================
   _isActive: () =>
