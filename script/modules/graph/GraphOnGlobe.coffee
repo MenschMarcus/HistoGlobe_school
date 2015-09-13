@@ -208,7 +208,8 @@ class HG.GraphOnGlobe
   # ============================================================================
   _showGraphNodeConnection: (connection) ->
 
-    connectionOpacity = OPACITY_MIN
+    #connectionOpacity = OPACITY_MIN
+    connectionOpacity = connection.getDuration()/(1000*60*60*24*365*100)
 
     showConnection = true
 
@@ -623,7 +624,8 @@ class HG.GraphOnGlobe
                 if node isnt @_nodeOfInterest and node isnt @_secondNodeOfInterest
                   #c_color = c.getColor()
                   c.Mesh3D.material.uniforms.max_offset.value = 0.0 if c.Mesh3D
-                  c.Mesh3D.material.uniforms.opacity.value = OPACITY_MIN if c.Mesh3D
+                  #c.Mesh3D.material.uniforms.opacity.value = OPACITY_MIN if c.Mesh3D
+                  c.Mesh3D.material.uniforms.opacity.value = c.getDuration()/(1000*60*60*24*365*100) if c.Mesh3D
                   node.Mesh3D.material.opacity = OPACITY_MIN if node.Mesh3D
 
             @_nodeOfInterest.Mesh3D.material.opacity = OPACITY_MAX
@@ -695,7 +697,8 @@ class HG.GraphOnGlobe
 
         for c in intersect.Node.getConnections()
           c.Mesh3D.material.uniforms.max_offset.value = 0.0  if c.Mesh3D
-          c.Mesh3D.material.uniforms.opacity.value =  OPACITY_MIN if c.Mesh3D
+          #c.Mesh3D.material.uniforms.opacity.value =  OPACITY_MIN if c.Mesh3D
+          c.Mesh3D.material.uniforms.opacity.value =  c.getDuration()/(1000*60*60*24*365*100) if c.Mesh3D
           for node in c.getLinkedNodes()
             node.Mesh3D.material.opacity = OPACITY_MIN if node.Mesh3D
         intersect.Node.Mesh3D.material.opacity = OPACITY_MIN
