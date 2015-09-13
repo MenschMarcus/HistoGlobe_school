@@ -397,8 +397,6 @@ class HG.GraphOnGlobe
         c.Mesh3D.material.uniforms.group_offset.value = index
         ++index
 
-
-
   # ============================================================================
   _showGraphNodeConnectionInfo: (connection) ->
 
@@ -640,8 +638,7 @@ class HG.GraphOnGlobe
 
             index = $.inArray(c, to_be_removed)
             to_be_removed.splice index, 1  if index >= 0
-            c.Mesh3D.material.uniforms.max_offset.value = 30.0  if c.Mesh3D
-
+            c.Mesh3D.material.uniforms.max_offset.value = c.getDuration()/(1000*60*60*24*365) if c.Mesh3D
 
           @_blockHighlighting = true
 
