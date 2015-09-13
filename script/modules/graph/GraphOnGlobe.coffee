@@ -293,21 +293,14 @@ class HG.GraphOnGlobe
     uniforms.line_center.value = line_center
 
     # connection group offset:
-    dir = new THREE.Vector3 uniforms.line_end.value.x, uniforms.line_end.value.y, uniforms.line_end.value.z
-    dir = dir.sub(uniforms.line_begin.value).normalize()
     linked_nodes = connection.getLinkedNodes()
     connection_group = linked_nodes[0].getConnectionsWithNode(linked_nodes[1])
-    index = connection_group.indexOf(connection)
-    center_index = Math.round(lineGeometry.vertices.length/2)
-    for i in [0..lineGeometry.vertices.length-1]
-
-      offset = 1 - Math.pow((Math.abs(center_index-i)/center_index),2)
-      offset*= 0.1 # a tenth of a gps degree offset   
-      vertex = lineGeometry.vertices[i]
-      
-      # offset in orthogonal direction to connection:
-      vertex.x += offset*index*dir.y
-      vertex.y += offset*index*-dir.x
+    index = 0
+    for c in connection_group
+      if c is connection
+        uniforms.group_offset.value = index
+        break
+      ++index if c.Mesh3D isnt null
 
 
     lineMaterial = new THREE.ShaderMaterial(
@@ -392,6 +385,16 @@ class HG.GraphOnGlobe
     for c in @_highlightedConnections
       if c is connection
         @_sceneGraphNodeConnection.remove c.Label3D
+
+    # update connection group offset:
+    linked_nodes = connection.getLinkedNodes()
+    connection_group = linked_nodes[0].getConnectionsWithNode(linked_nodes[1])
+    index = 0
+    for c in connection_group
+      if c.Mesh3D isnt null
+        c.Mesh3D.material.uniforms.group_offset.value = index
+        ++index
+
 
 
   # ============================================================================
@@ -829,6 +832,10 @@ class HG.GraphOnGlobe
           type: "v3"
           value: null
 
+        group_offset:
+          type: "f"
+          value: 0.0
+
         max_offset:
           type: "f"
           value: 0.0
@@ -844,6 +851,9 @@ class HG.GraphOnGlobe
         uniform vec3 line_begin;
         uniform vec3 line_end;
 
+        //group:
+        uniform float group_offset;
+
         //arc:
         uniform float max_offset;
         uniform vec3 line_center;
@@ -858,7 +868,7 @@ class HG.GraphOnGlobe
           if (max_offset == 0.0){
 
             float bundle_offset_lat = 0.0;
-            float bundle_offset_lng = 0.0;
+            float bundle_offset_lng = 0.0;            
 
             for(int i = 0 ; i < 1000; i+=4){
 
@@ -907,6 +917,19 @@ class HG.GraphOnGlobe
             gps_point.y += bundle_offset_lng;
           }
 
+
+          //group offset
+          float dist1 = abs(length(position-line_begin));
+          float dist2 = abs(length(line_center-line_begin));
+          vec3 ortho_dir = line_end - line_begin;
+          ortho_dir = normalize(ortho_dir);
+          float offset = 1.0 - pow((abs(dist2-dist1)/dist2),2.0);
+          offset*= 0.1; // a tenth of a gps degree offset
+          // offset in orthogonal direction to connection:
+          gps_point.y += offset*group_offset*ortho_dir.y;
+          gps_point.x += offset*group_offset*-ortho_dir.x;
+
+
           float x = 200.0 * cos(gps_point.y * 3.14159265358979323846264 / 180.0) * cos(-gps_point.x * 3.14159265358979323846264 / 180.0);
           float y = 200.0 * sin(gps_point.y * 3.14159265358979323846264 / 180.0);
           float z = 200.0 * cos(gps_point.y * 3.14159265358979323846264 / 180.0) * sin(-gps_point.x * 3.14159265358979323846264 / 180.0);
@@ -929,17 +952,17 @@ class HG.GraphOnGlobe
           vec3 line_end_xyz = vec3(x_end,y_end,z_end);
           vec3 position_xyz = vec3(x,y,z);
           
-          float dist1 = abs(length(line_center_xyz-position_xyz));
-          float dist_begin = abs(length(line_center_xyz-line_begin_xyz));
-          float dist_end = abs(length(line_center_xyz-line_end_xyz));
-          float dist2 = max(dist_begin,dist_end);
+          float dist1_xyz = abs(length(line_center_xyz-position_xyz));
+          float dist_begin_xyz = abs(length(line_center_xyz-line_begin_xyz));
+          float dist_end_xyz = abs(length(line_center_xyz-line_end_xyz));
+          float dist2_xyz = max(dist_begin_xyz,dist_end_xyz);
           if(abs(length(line_begin_xyz-position_xyz)) < abs(length(line_end_xyz-position_xyz))){
-            dist2 = dist_begin;
+            dist2_xyz = dist_begin_xyz;
           }
           else{
-            dist2 =dist_end;
+            dist2_xyz =dist_end_xyz;
           }
-          float factor = dist1/dist2;
+          float factor = dist1_xyz/dist2_xyz;
           vec3 out_dir = -1.0 * normalize(vec3(0.0,0.0,0.0)-vec3(x,y,z));
 
           gl_Position = projectionMatrix * modelViewMatrix * vec4(vec3(x,y,z) + ((1.0-pow(factor,2.0)) * max_offset * out_dir), 1.0);
