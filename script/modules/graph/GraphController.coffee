@@ -208,5 +208,7 @@ class HG.GraphController
         csvvalue=line.split("|")
         #id = csvvalue[0].replace(/\s+/g, '')
         latlng = csvvalue[2].split(",")
-        @_countryCodes[csvvalue[1]] = [parseFloat(latlng[0]),parseFloat(latlng[1])]
+        @_countryCodes[csvvalue[1]] = 
+          lat: parseFloat(latlng[0])
+          lng: parseFloat(latlng[1])
     )

@@ -22,17 +22,19 @@ class HG.GraphNode
     @_initMembers()
 
     @_radius = 0.2
-    @_position = latlng
+    @_position = [latlng.lat,latlng.lng]
 
   # ============================================================================
   increaseRadius: ->
-    @_radius = @_radius+0.05
-    @notifyAll "onRadiusChange", @
+    if @_active
+      @_radius = @_radius+0.05
+      @notifyAll "onRadiusChange", @
 
   # ============================================================================
   decreaseRadius: ->
-    @_radius = @_radius-0.05
-    @notifyAll "onRadiusChange", @
+    if @_active
+      @_radius = @_radius-0.05
+      @notifyAll "onRadiusChange", @
 
   # # ============================================================================
   # setDate: (newDate) ->

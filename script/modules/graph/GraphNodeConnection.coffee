@@ -14,9 +14,9 @@ class HG.GraphNodeConnection
     @addCallback "onShow"
     @addCallback "onHide"
 
-    @startPoint = latlngA
+    @startPoint = [latlngA.lat,latlngA.lng]
 
-    @endPoint = latlngB
+    @endPoint = [latlngB.lat,latlngB.lng]
 
     @_startTime = startTime
 
@@ -54,14 +54,21 @@ class HG.GraphNodeConnection
   # ============================================================================
   drawChanges: () ->
 
-    while @_actionQueue.length isnt 0
+    final_action = null
+    final_action = 0 if @_actionQueue.length > 0
+
+    while @_actionQueue.length > 0
       action = @_actionQueue.shift()
-      if action is 1
+      final_action *= action if action is 0
+      final_action += action if action is 1
+
+    if final_action isnt null
+      if final_action > 0
         for node in @linkedNodes
           node.addConnection(@)
           node.increaseRadius()
         @notifyAll "onShow", @
-      if action is 0
+      if final_action is 0
         for node in @linkedNodes
           node.removeConnection(@)
           node.decreaseRadius()
