@@ -238,7 +238,7 @@
   },
 
   "GraphController" : {
-    "countryCodesPath" : "config/full/data/COW_country_codes.csv",
+    "countryCodesPath" : "config/full/data/graph_node_positions.csv",
     "alliancePath" : "config/full/data/alliance_v4.1_by_dyad_yearly.csv"
   },
   "GraphOnGlobe" : {}

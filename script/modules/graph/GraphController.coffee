@@ -105,40 +105,20 @@ class HG.GraphController
 
           latlngA = null
           latlngB = null
-          LabelA = null
-          LabelB = null
           IdA = null
           IdB = null
+          oldA = false
+          oldB = false
 
-          countryID = @_countryCodes[csvvalue[1]]
+          if @_nodes[csvvalue[1]]?
+            oldA = true
+          latlngA = @_countryCodes[csvvalue[1]]
+          IdA = csvvalue[1]
 
-          unless @_nodes[countryID]?
-
-            for label in @_visibleLabels
-              if label.getId() is countryID
-                latlngA = label.getPosition()
-                LabelA = label
-                IdA = label.getId()
-                break
-              #console.log "Could not find corresponding position in visible labels: ",countryID
-          else
-             latlngA = @_nodes[countryID]._position
-             IdA = countryID
-
-          countryID2 = @_countryCodes[csvvalue[3]]
-
-          unless @_nodes[countryID2]?
-
-            for label in @_visibleLabels
-              if label.getId() is countryID2
-                latlngB = label.getPosition()
-                LabelB = label
-                IdB = label.getId()
-                break
-              #console.log "Could not find corresponding position in visible labels: ",countryID2
-          else
-             latlngB = @_nodes[countryID2]._position
-             IdB = countryID2
+          if @_nodes[csvvalue[3]]?
+            oldB = true
+          latlngB = @_countryCodes[csvvalue[3]]
+          IdB = csvvalue[3]
 
           #both found:
           if latlngA isnt null and latlngB isnt null
@@ -167,11 +147,11 @@ class HG.GraphController
               @_connections.push newConnection 
 
               #nodes:
-              if LabelA isnt null
+              unless oldA
                 newNode = new HG.GraphNode latlngA
                 newNode.addConnection newConnection#TO REMOVE
                 newConnection.addLinkedNode newNode
-                @_nodes[LabelA.getId()] = newNode
+                @_nodes[IdA] = newNode
 
               else
                 @_nodes[IdA].increaseRadius()
@@ -179,11 +159,11 @@ class HG.GraphController
                 newConnection.addLinkedNode @_nodes[IdA]
 
               #nodes:
-              if LabelB isnt null
+              unless oldB
                 newNode = new HG.GraphNode latlngB
                 newNode.addConnection newConnection
                 newConnection.addLinkedNode newNode
-                @_nodes[LabelB.getId()] = newNode
+                @_nodes[IdB] = newNode
               else
                 @_nodes[IdB].increaseRadius()
                 @_nodes[IdB].addConnection newConnection#TO REMOVE
@@ -222,13 +202,11 @@ class HG.GraphController
 
     $.get(path, (data) =>
 
-      csvval=data.split(";")
-
-      #remove first entry:
-      csvval.shift()
+      csvval=data.split("\n")
 
       for line in csvval
-        csvvalue=line.split(",")
-        id = csvvalue[0].replace(/\s+/g, '')
-        @_countryCodes[csvvalue[1]] = id
+        csvvalue=line.split("|")
+        #id = csvvalue[0].replace(/\s+/g, '')
+        latlng = csvvalue[2].split(",")
+        @_countryCodes[csvvalue[1]] = [parseFloat(latlng[0]),parseFloat(latlng[1])]
     )
