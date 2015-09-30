@@ -260,14 +260,13 @@ class HG.GraphOnGlobe
     dir = new THREE.Vector2 lat_diff,lng_diff
     dir.normalize()
 
-    stepLat = dir.x*0.1
-    stepLng = dir.y*0.1
+    stepLat = dir.x*CONNECTION_STEP_SIZE
+    stepLng = dir.y*CONNECTION_STEP_SIZE
 
-    counter = 0
     alphaLat = Math.abs(stepLat)
     alphaLng = Math.abs(stepLng)
-    while(currentPosLat < latlngB[0]-(1.1*alphaLat) or currentPosLat > latlngB[0] + (1.1*alphaLat) or
-    currentPosLng < latlngB[1]-(1.1*alphaLng) or currentPosLng > latlngB[1] + (1.1*alphaLng) )
+    while(not((currentPosLat<(latlngB[0]+alphaLat) and currentPosLat>(latlngB[0]-alphaLat)) or 
+              (currentPosLng<(latlngB[1]+alphaLng) and currentPosLng>(latlngB[1]-alphaLng))))
       
       # forward coordinate transformation to shader:
       lineGeometry.vertices.push new THREE.Vector3(currentPosLat, currentPosLng, 1.0)
@@ -278,16 +277,6 @@ class HG.GraphOnGlobe
         currentPosLng = -180.0 + (currentPosLng-180.0)
       if currentPosLng < -180.0
         currentPosLng = 180.0 - (currentPosLng+180.0)
-
-      # TODO:
-      # (quickfix)
-      counter+=1
-      if counter > 1800
-        console.log latlngA
-        console.log latlngB
-        console.log "have to break!!!!!"
-        break
-
 
     shader = SHADERS.bundle
 
@@ -750,6 +739,7 @@ class HG.GraphOnGlobe
   OPACITY_MAX = 0.6
 
   BUNDLE_TOLERANCE = 20.0 # degree
+  CONNECTION_STEP_SIZE = 0.1 # degree
 
   # shaders for the graph node connections
   SHADERS =
