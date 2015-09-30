@@ -260,9 +260,10 @@ class HG.GraphOnGlobe
     dir = new THREE.Vector2 lat_diff,lng_diff
     dir.normalize()
 
-    stepLat = dir.x*0.005
-    stepLng = dir.y*0.005
+    stepLat = dir.x*0.1
+    stepLng = dir.y*0.1
 
+    counter = 0
     alphaLat = Math.abs(stepLat)
     alphaLng = Math.abs(stepLng)
     while(currentPosLat < latlngB[0]-(1.1*alphaLat) or currentPosLat > latlngB[0] + (1.1*alphaLat) or
@@ -278,6 +279,14 @@ class HG.GraphOnGlobe
       if currentPosLng < -180.0
         currentPosLng = 180.0 - (currentPosLng+180.0)
 
+      # TODO:
+      # (quickfix)
+      counter+=1
+      if counter > 1800
+        console.log latlngA
+        console.log latlngB
+        console.log "have to break!!!!!"
+        break
 
 
     shader = SHADERS.bundle
