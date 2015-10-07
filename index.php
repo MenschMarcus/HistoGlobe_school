@@ -183,6 +183,9 @@
 
   </head>
   <body>
+
+  <h1>Hello World</h1>
+
     <!-- display warning if no javascript is available -->
     <noscript>
       <div class="container">
