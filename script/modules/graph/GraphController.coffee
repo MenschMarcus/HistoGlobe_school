@@ -46,15 +46,19 @@ class HG.GraphController
       for c in @_connections
         c.setDate date
 
+      nr_connections = @_connections.length
       for c in @_connections
         #draw changes asynchronously
         execute_async = (c) =>
          setTimeout () =>
            c.drawChanges()
+           --nr_connections
+           if nr_connections is 0 # performance: after all connections updated their nodes
+              for key,node of @_nodes
+                node.drawChanges()
          , 0
 
         execute_async c  # async
-        #c.drawChanges() #  sync
 
 
     @_areaController = hgInstance.areaController

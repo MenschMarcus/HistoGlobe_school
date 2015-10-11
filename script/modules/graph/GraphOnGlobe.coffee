@@ -540,11 +540,17 @@ class HG.GraphOnGlobe
     for i in [0 .. @_controlPoints.length-1] by 4
       if @_controlPoints[i] is lat and @_controlPoints[i+1] is lng
         @_controlPoints.splice(i, 4);
-        #break
+        break
+
     for mat in @_connectionMaterials
-      for i in [0 .. mat.uniforms.control_points.value.length-1] by 4
-          if mat.uniforms.control_points.value[i] is lat and mat.uniforms.control_points.value[i+1] is lng
-            mat.uniforms.control_points.value.splice(i, 4);
+      if(lat < mat.maxLat+BUNDLE_TOLERANCE and
+      lat > mat.minLat-BUNDLE_TOLERANCE and
+      lng < mat.maxLng+BUNDLE_TOLERANCE and
+      lng > mat.minLng-BUNDLE_TOLERANCE)
+
+        for i in [0 .. mat.uniforms.control_points.value.length-1] by 4
+            if mat.uniforms.control_points.value[i] is lat and mat.uniforms.control_points.value[i+1] is lng
+              mat.uniforms.control_points.value.splice(i, 4);
 
 
   # ============================================================================

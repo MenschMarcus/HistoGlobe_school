@@ -7,7 +7,6 @@ class HG.GraphNode
   ##############################################################################
 
   # ============================================================================
-  #constructor: (data, indicator) ->
   constructor: (latlng) ->
 
     HG.mixin @, HG.CallbackContainer
@@ -24,16 +23,26 @@ class HG.GraphNode
     @_radius = 0.2
     @_position = [latlng.lat,latlng.lng]
 
+    @_radius_changed = false
+
   # ============================================================================
   increaseRadius: ->
     if @_active
-      @_radius = @_radius+0.05
-      @notifyAll "onRadiusChange", @
+      @_radius = @_radius+0.02
+      @_radius_changed = true
+      #@notifyAll "onRadiusChange", @
 
   # ============================================================================
   decreaseRadius: ->
     if @_active
-      @_radius = @_radius-0.05
+      @_radius = @_radius-0.02
+      @_radius_changed = true
+      #@notifyAll "onRadiusChange", @
+
+  # ============================================================================
+  drawChanges: ->
+    if @_radius_changed and @_active
+      @_radius_changed = false
       @notifyAll "onRadiusChange", @
 
   # # ============================================================================
