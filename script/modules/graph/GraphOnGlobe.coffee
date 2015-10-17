@@ -318,7 +318,7 @@ class HG.GraphOnGlobe
     lineMaterial.minLat = Math.min(lineGeometry.vertices[0].x,lineGeometry.vertices[lineGeometry.vertices.length-1].x)
     lineMaterial.maxLng = Math.max(lineGeometry.vertices[0].y,lineGeometry.vertices[lineGeometry.vertices.length-1].y)
     lineMaterial.minLng = Math.min(lineGeometry.vertices[0].y,lineGeometry.vertices[lineGeometry.vertices.length-1].y)
-    for i in [0..@_controlPoints.length] by 4
+    for i in [0..@_controlPoints.length] by CONTROL_POINT_BUFFER_LAYOUT_LENGTH
       lat = @_controlPoints[i]
       lng = @_controlPoints[i+1]
       size = @_controlPoints[i+2]
@@ -494,15 +494,15 @@ class HG.GraphOnGlobe
   _addControlPoint: (functionID,size,lng,lat) =>
 
     # remove potential old one
-    for i in [0 .. @_controlPoints.length-1] by 4
+    for i in [0 .. @_controlPoints.length-1] by CONTROL_POINT_BUFFER_LAYOUT_LENGTH
       if @_controlPoints[i] is lat and @_controlPoints[i+1] is lng
-        @_controlPoints.splice(i, 4);
+        @_controlPoints.splice(i, CONTROL_POINT_BUFFER_LAYOUT_LENGTH);
         #break
 
     # interactive point:
     interactive_point = null
-    if @_controlPoints.length >= 4
-      interactive_point = @_controlPoints.splice(0,4)
+    if @_controlPoints.length >= CONTROL_POINT_BUFFER_LAYOUT_LENGTH
+      interactive_point = @_controlPoints.splice(0,CONTROL_POINT_BUFFER_LAYOUT_LENGTH)
 
     #new point
     new_point = [lat,lng,size,functionID]
@@ -516,15 +516,15 @@ class HG.GraphOnGlobe
       lng < mat.maxLng+BUNDLE_TOLERANCE and
       lng > mat.minLng-BUNDLE_TOLERANCE)
 
-        mat.uniforms.control_points.value.splice(0,4) if mat.uniforms.control_points.value.length >= 4
+        mat.uniforms.control_points.value.splice(0,CONTROL_POINT_BUFFER_LAYOUT_LENGTH) if mat.uniforms.control_points.value.length >= CONTROL_POINT_BUFFER_LAYOUT_LENGTH
         # search for old one
         found_old = false
-        for i in [0 .. mat.uniforms.control_points.value.length-1] by 4
+        for i in [0 .. mat.uniforms.control_points.value.length-1] by CONTROL_POINT_BUFFER_LAYOUT_LENGTH
           if mat.uniforms.control_points.value[i] is lat and mat.uniforms.control_points.value[i+1] is lng
             mat.uniforms.control_points.value[i+2] = size
             mat.uniforms.control_points.value[i+3] = functionID
             found_old = true
-            #mat.uniforms.control_points.value.splice(i, 4);
+            #mat.uniforms.control_points.value.splice(i, CONTROL_POINT_BUFFER_LAYOUT_LENGTH);
             break
         mat.uniforms.control_points.value = new_point.concat(mat.uniforms.control_points.value) if not found_old
         mat.uniforms.control_points.value = interactive_point.concat(mat.uniforms.control_points.value) if interactive_point isnt null
@@ -537,9 +537,9 @@ class HG.GraphOnGlobe
   # ============================================================================
   _removeControlPoint: (lng,lat) =>
 
-    for i in [0 .. @_controlPoints.length-1] by 4
+    for i in [0 .. @_controlPoints.length-1] by CONTROL_POINT_BUFFER_LAYOUT_LENGTH
       if @_controlPoints[i] is lat and @_controlPoints[i+1] is lng
-        @_controlPoints.splice(i, 4);
+        @_controlPoints.splice(i, CONTROL_POINT_BUFFER_LAYOUT_LENGTH);
         break
 
     for mat in @_connectionMaterials
@@ -548,9 +548,9 @@ class HG.GraphOnGlobe
       lng < mat.maxLng+BUNDLE_TOLERANCE and
       lng > mat.minLng-BUNDLE_TOLERANCE)
 
-        for i in [0 .. mat.uniforms.control_points.value.length-1] by 4
+        for i in [0 .. mat.uniforms.control_points.value.length-1] by CONTROL_POINT_BUFFER_LAYOUT_LENGTH
             if mat.uniforms.control_points.value[i] is lat and mat.uniforms.control_points.value[i+1] is lng
-              mat.uniforms.control_points.value.splice(i, 4);
+              mat.uniforms.control_points.value.splice(i, CONTROL_POINT_BUFFER_LAYOUT_LENGTH);
 
 
   # ============================================================================
@@ -669,12 +669,12 @@ class HG.GraphOnGlobe
       # latLongCurr = @_globe._pixelToLatLong mouseRel
       # if latLongCurr isnt null
       #   if @_controlPoints.length > 1
-      #     @_controlPoints.slice(0,4)
+      #     @_controlPoints.slice(0,CONTROL_POINT_BUFFER_LAYOUT_LENGTH)
 
       #   updated_point = [latLongCurr.x,-latLongCurr.y,@_controlSize,@_controlFunction]
       #   @_controlPoints = updated_point.concat(@_controlPoints)
       #   for mat in @_connectionMaterials
-      #     mat.uniforms.control_points.value.splice(0,4)
+      #     mat.uniforms.control_points.value.splice(0,CONTROL_POINT_BUFFER_LAYOUT_LENGTH)
       #     mat.uniforms.control_points.value = updated_point.concat(mat.uniforms.control_points.value)
       #     #mat.uniforms.control_points.value = @_controlPoints
       # ###############
@@ -744,8 +744,15 @@ class HG.GraphOnGlobe
   OPACITY_MIN = 0.1
   OPACITY_MAX = 0.6
 
-  BUNDLE_TOLERANCE = 20.0 # degree
+  BUNDLE_TOLERANCE = 10.0 # degree
   CONNECTION_STEP_SIZE = 0.1 # degree
+
+  # control_points BUFFER_LAYOUT:
+  # n:    lat
+  # n+1:  lng
+  # n+2:  size
+  # n+3:  functionID
+  CONTROL_POINT_BUFFER_LAYOUT_LENGTH = 4
 
   # shaders for the graph node connections
   SHADERS =
@@ -829,10 +836,6 @@ class HG.GraphOnGlobe
           type: "fv1"
           value: []
 
-        control_size:
-          type: "f"
-          value: 20.0
-
         opacity:
           type: "f"
           value: 0.0
@@ -862,7 +865,6 @@ class HG.GraphOnGlobe
         uniform vec3 color;
 
         uniform float control_points[1000];
-        uniform float control_size;
         uniform vec3 line_begin;
         uniform vec3 line_end;
 
