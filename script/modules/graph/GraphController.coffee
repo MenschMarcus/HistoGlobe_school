@@ -113,16 +113,20 @@ class HG.GraphController
           IdB = null
           oldA = false
           oldB = false
+          nameA = null
+          nameB = null
 
           if @_nodes[csvvalue[1]]?
             oldA = true
           latlngA = @_countryCodes[csvvalue[1]]
           IdA = csvvalue[1]
+          nameA = csvvalue[2].replace('"', '').replace('"', '')
 
           if @_nodes[csvvalue[3]]?
             oldB = true
           latlngB = @_countryCodes[csvvalue[3]]
           IdB = csvvalue[3]
+          nameB = csvvalue[4].replace('"', '').replace('"', '')
 
           #both found:
           if latlngA isnt null and latlngB isnt null
@@ -131,8 +135,8 @@ class HG.GraphController
             yearEnd = csvvalue[10]
 
             #just one pair per alliance
-            unless IdA is lastCountryA and IdB is lastCountryB and
-            yearBegin is lastYearBegin and yearEnd is lastYearEnd
+            unless IdA is lastCountryA and IdB is lastCountryB and yearEnd is lastYearEnd
+            #yearBegin is lastYearBegin and yearEnd is lastYearEnd
 
               #connection:
               startTime = new Date(yearBegin, csvvalue[6]-1, csvvalue[5])
@@ -152,7 +156,7 @@ class HG.GraphController
 
               #nodes:
               unless oldA
-                newNode = new HG.GraphNode latlngA
+                newNode = new HG.GraphNode nameA,latlngA
                 newNode.addConnection newConnection#TO REMOVE
                 newConnection.addLinkedNode newNode
                 @_nodes[IdA] = newNode
@@ -164,7 +168,7 @@ class HG.GraphController
 
               #nodes:
               unless oldB
-                newNode = new HG.GraphNode latlngB
+                newNode = new HG.GraphNode nameB,latlngB
                 newNode.addConnection newConnection
                 newConnection.addLinkedNode newNode
                 @_nodes[IdB] = newNode

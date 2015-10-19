@@ -40,6 +40,19 @@ class HG.GraphOnGlobe
     @_controlSize = 20.0
     @_controlFunction = 0.0 # 0 = sine; 1 = square power
 
+    #info tag
+    @_infoTag = document.createElement "div"
+    @_infoTag.className = "leaflet-label"
+
+    @_infoTag.style.position = "absolute"
+    @_infoTag.style.top = "0px"
+    @_infoTag.innerHTML = "Hello World"
+    @_infoTag.style.visibility = "hidden"
+    @_infoTag.style.background = "#fff"
+    @_infoTag.style.borderColor = "grey";
+    @_infoTag.style.borderWidth = "thin";
+    document.body.appendChild(@_infoTag);
+
 
 
   # ============================================================================
@@ -707,6 +720,9 @@ class HG.GraphOnGlobe
             node.Mesh3D.material.opacity = OPACITY_MIN if node.Mesh3D
         intersect.Node.Mesh3D.material.opacity = OPACITY_MIN
 
+      if nodeIntersects.length is 0
+        @_infoTag.style.visibility = "hidden"
+
       #hover countries
       for intersect in nodeIntersects 
         index = $.inArray(intersect.object, @_intersectedNodes)
@@ -715,6 +731,14 @@ class HG.GraphOnGlobe
       @_intersectedNodes = []
       # hover intersected countries
       for intersect in nodeIntersects
+
+        name = intersect.object.Node.getName()
+        x = @_globe._mousePos.x - @_globe._canvasOffsetX + 10;
+        y = @_globe._mousePos.y - @_globe._canvasOffsetY + 10;
+        @_infoTag.style.visibility = "visible"
+        @_infoTag.style.top = "#{y}px"
+        @_infoTag.style.left = "#{x}px"
+        @_infoTag.innerHTML = "#{name}"
 
         for c in intersect.object.Node.getConnections()
           if c.isVisible
@@ -726,6 +750,41 @@ class HG.GraphOnGlobe
         intersect.object.material.opacity = OPACITY_MAX
       
         @_intersectedNodes.push intersect.object
+
+    else
+
+      mouseRel =
+        x: (@_globe._mousePos.x - @_globe._canvasOffsetX) / @_globe._width * 2 - 1
+        y: (@_globe._mousePos.y - @_globe._canvasOffsetY) / @_globe._myHeight * 2 - 1
+      # picking ------------------------------------------------------------------
+      vector = new THREE.Vector3 mouseRel.x, -mouseRel.y, 0.5
+      projector = @_globe.getProjector()
+      projector.unprojectVector vector, @_globe._camera
+
+      raycaster = @_globe.getRaycaster()
+
+      raycaster.set @_globe._camera.position, vector.sub(@_globe._camera.position).normalize()
+
+      nodeIntersects = raycaster.intersectObjects @_sceneGraphNode.children
+
+      if nodeIntersects.length > 0
+        HG.Display.CONTAINER.style.cursor = "pointer"
+      else
+        HG.Display.CONTAINER.style.cursor = "auto"
+      @_infoTag.style.visibility = "hidden"
+
+      if nodeIntersects.length is 0
+        @_infoTag.style.visibility = "hidden"
+        
+      for intersect in nodeIntersects
+
+        name = intersect.object.Node.getName()
+        x = @_globe._mousePos.x - @_globe._canvasOffsetX + 10;
+        y = @_globe._mousePos.y - @_globe._canvasOffsetY + 10;
+        @_infoTag.style.visibility = "visible"
+        @_infoTag.style.top = "#{y}px"
+        @_infoTag.style.left = "#{x}px"
+        @_infoTag.innerHTML = "#{name}"
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #

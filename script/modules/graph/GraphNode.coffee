@@ -7,7 +7,7 @@ class HG.GraphNode
   ##############################################################################
 
   # ============================================================================
-  constructor: (latlng) ->
+  constructor: (name,latlng) ->
 
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
@@ -20,10 +20,8 @@ class HG.GraphNode
 
     @_initMembers()
 
-    @_radius = 0.2
+    @_name = name
     @_position = [latlng.lat,latlng.lng]
-
-    @_radius_changed = false
 
   # ============================================================================
   increaseRadius: ->
@@ -44,6 +42,10 @@ class HG.GraphNode
     if @_radius_changed and @_active
       @_radius_changed = false
       @notifyAll "onRadiusChange", @
+
+  # ============================================================================
+  getName: ->
+    return @_name
 
   # # ============================================================================
   # setDate: (newDate) ->
@@ -91,6 +93,9 @@ class HG.GraphNode
 
   # ============================================================================
   _initMembers: ->
+
+    @_radius = 0.2
+    @_radius_changed = false
 
     @_color = "#D2CDC3"
 
