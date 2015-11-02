@@ -480,7 +480,12 @@ class HG.GraphOnGlobe
         context.shadowOffsetX =  TEXT_HEIGHT/10
         context.shadowOffsetY =  TEXT_HEIGHT/10
 
-        context.fillStyle="#000000";
+        rgb_color = connection.getColor()
+        three_color = new THREE.Color();
+        three_color.setRGB(rgb_color.x,rgb_color.y,rgb_color.z)
+        hex = three_color.getHexString()
+        #context.fillStyle="#000000";
+        context.fillStyle= "##{hex}";
         context.fillText(text,textWidth/2,textHeight*0.75)
 
         texture = new THREE.Texture(canvas)
