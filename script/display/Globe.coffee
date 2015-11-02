@@ -900,19 +900,23 @@ class HG.Globe extends HG.Display
 
   # ============================================================================
   _normalizedLatLongToNormalizedMercatus: (latLong) ->
-    return new THREE.Vector2(latLong.x, 0.0) if latLong.y is 0.0
-    return new THREE.Vector2(latLong.x, 1.0) if latLong.y is 1.0
+    #return new THREE.Vector2(latLong.x, 0.0) if latLong.y is 0.0
+    #return new THREE.Vector2(latLong.x, 1.0) if latLong.y is 1.0
+
+    # new THREE.Vector2(latLong.x,
+    #                   Math.log(Math.tan(latLong.y * 0.5 * Math.PI)) /
+    #                           (Math.PI * 2.0) + 0.5)
 
     new THREE.Vector2(latLong.x,
-                      Math.log(Math.tan(latLong.y * 0.5 * Math.PI)) /
-                              (Math.PI * 2.0) + 0.5)
+                      Math.log(Math.tan((0.25*Math.PI) + (0.5*latLong.y))))
 
   # ============================================================================
   _normalizedMercatusToNormalizedLatLong: (mercatus) ->
-    return new THREE.Vector2(mercatus.x, 0.0) if mercatus.y is 0.0
-    return new THREE.Vector2(mercatus.x, 1.0) if mercatus.y is 1.0
+    #return new THREE.Vector2(mercatus.x, 0.0) if mercatus.y is 0.0
+    #return new THREE.Vector2(mercatus.x, 1.0) if mercatus.y is 1.0
 
-    new THREE.Vector2(mercatus.x, 2.0 / Math.PI * Math.atan(Math.exp(2 * Math.PI * (mercatus.y - 0.5))))
+    #new THREE.Vector2(mercatus.x, 2.0 / Math.PI * Math.atan(Math.exp(2 * Math.PI * (mercatus.y - 0.5))))
+    new THREE.Vector2(mercatus.x, 2.0 * Math.atan(Math.exp(mercatus.y))-(0.5*Math.PI))
 
   # ============================================================================
   _normalizeLatLong: (latLong) ->

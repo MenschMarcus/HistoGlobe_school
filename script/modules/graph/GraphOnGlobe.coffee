@@ -173,7 +173,7 @@ class HG.GraphOnGlobe
     for vertex in mesh.geometry.vertices
       cart_coords = @_globe._latLongToCart(
           x:vertex.x + node._position[1]
-          y:vertex.y + node._position[0],
+          y: (2.0 * Math.atan(Math.exp(vertex.y)))-(0.5*Math.PI) + node._position[0],
           @_globe.getGlobeRadius()+random_height_offset) #remove z fighting
       vertex.x = cart_coords.x
       vertex.y = cart_coords.y
@@ -196,6 +196,11 @@ class HG.GraphOnGlobe
 
     #add control point displacing edges:
     @_addControlPoint(@_controlFunction,radius*3.0,node._position[1],node._position[0])
+    # latLong =
+    #   x: node._position[0]
+    #   y: node._position[1]
+    # mercator = @_globe._normalizedLatLongToNormalizedMercatus(@_globe._normalizeLatLong(latLong))
+    # @_addControlPoint(@_controlFunction,radius*3.0,mercator.y,mercator.x)
 
     node.onRadiusChange @, (node) =>
         @_onGraphNodeChanged node
@@ -254,20 +259,32 @@ class HG.GraphOnGlobe
           linkedNodes[0].Mesh3D.material.opacity = OPACITY_MAX
           linkedNodes[1].Mesh3D.material.opacity = OPACITY_MAX
 
-    latlngA = connection.startPoint
-    latlngB = connection.endPoint
+    latLongA =
+      x: connection.startPoint[0]
+      y: connection.startPoint[1]
+
+    latLongB =
+      x: connection.endPoint[0]
+      y: connection.endPoint[1]
+
+
+    # mercatorA = @_globe._normalizedLatLongToNormalizedMercatus(@_globe._normalizeLatLong(latLongA))
+    # mercatorB = @_globe._normalizedLatLongToNormalizedMercatus(@_globe._normalizeLatLong(latLongB))
 
     lineGeometry = new THREE.Geometry
 
-    currentPosLat = latlngA[0]
-    currentPosLng = latlngA[1]
+    currentPosLat = latLongA.x
+    currentPosLng = latLongA.y
+
 
     # equidistant interpolation:
     # location range
-    lat_diff = latlngB[0]-latlngA[0]
-    lng_diff = latlngB[1]-latlngA[1]
+    lat_diff = latLongB.x-latLongA.x
+    lng_diff = latLongB.y-latLongA.y
+
     if Math.abs(lng_diff)>180
-      lng_diff =(360 - Math.abs(latlngA[1]) - Math.abs(latlngB[1]))/-1
+      lng_diff =(360 - Math.abs(latLongA[1]) - Math.abs(latLongB[1]))/-1
+
 
     # location interpolation direction
     dir = new THREE.Vector2 lat_diff,lng_diff
@@ -278,18 +295,29 @@ class HG.GraphOnGlobe
 
     alphaLat = Math.abs(stepLat)
     alphaLng = Math.abs(stepLng)
-    while(not((currentPosLat<(latlngB[0]+alphaLat) and currentPosLat>(latlngB[0]-alphaLat)) or 
-              (currentPosLng<(latlngB[1]+alphaLng) and currentPosLng>(latlngB[1]-alphaLng))))
+    #counter = 0
+    while(not((currentPosLat<(latLongB.x+alphaLat) and currentPosLat>(latLongB.x-alphaLat)) or 
+              (currentPosLng<(latLongB.y+alphaLng) and currentPosLng>(latLongB.y-alphaLng))))
       
       # forward coordinate transformation to shader:
-      lineGeometry.vertices.push new THREE.Vector3(currentPosLat, currentPosLng, 1.0)
+      
+      # mercator =
+      #   x: currentPosLat
+      #   y: currentPosLng
+      # latlong = mercator
+      # lineGeometry.vertices.push new THREE.Vector3(latlong.x,latlong.y, 1.0)
+      lineGeometry.vertices.push new THREE.Vector3(currentPosLat,currentPosLng, 1.0)
 
       currentPosLat+= stepLat
       currentPosLng+= stepLng
+
       if currentPosLng > 180.0 
-        currentPosLng = -180.0 + (currentPosLng-180.0)
+       currentPosLng = -180.0 + (currentPosLng-180.0)
       if currentPosLng < -180.0
-        currentPosLng = 180.0 - (currentPosLng+180.0)
+       currentPosLng = 180.0 - (currentPosLng+180.0)
+
+      #break if counter > 100
+      #++counter
 
     shader = SHADERS.bundle
 
@@ -327,10 +355,10 @@ class HG.GraphOnGlobe
     #reduce number of potential/nearest control points:
     personalPoints = []
     personalPoints.push(191.0) # pivot element
-    lineMaterial.maxLat = Math.max(lineGeometry.vertices[0].x,lineGeometry.vertices[lineGeometry.vertices.length-1].x)
-    lineMaterial.minLat = Math.min(lineGeometry.vertices[0].x,lineGeometry.vertices[lineGeometry.vertices.length-1].x)
-    lineMaterial.maxLng = Math.max(lineGeometry.vertices[0].y,lineGeometry.vertices[lineGeometry.vertices.length-1].y)
-    lineMaterial.minLng = Math.min(lineGeometry.vertices[0].y,lineGeometry.vertices[lineGeometry.vertices.length-1].y)
+    lineMaterial.maxLat = Math.max(latLongA.x,latLongB.x)
+    lineMaterial.minLat = Math.min(latLongA.x,latLongB.x)
+    lineMaterial.maxLng = Math.max(latLongA.y,latLongB.y)
+    lineMaterial.minLng = Math.min(latLongA.y,latLongB.y)
     for i in [0..@_controlPoints.length] by CONTROL_POINT_BUFFER_LAYOUT_LENGTH
       lat = @_controlPoints[i]
       lng = @_controlPoints[i+1]
@@ -560,7 +588,6 @@ class HG.GraphOnGlobe
       lat > mat.minLat-BUNDLE_TOLERANCE and
       lng < mat.maxLng+BUNDLE_TOLERANCE and
       lng > mat.minLng-BUNDLE_TOLERANCE)
-
         for i in [0 .. mat.uniforms.control_points.value.length-1] by CONTROL_POINT_BUFFER_LAYOUT_LENGTH
             if mat.uniforms.control_points.value[i] is lat and mat.uniforms.control_points.value[i+1] is lng
               mat.uniforms.control_points.value.splice(i, CONTROL_POINT_BUFFER_LAYOUT_LENGTH);
@@ -815,74 +842,32 @@ class HG.GraphOnGlobe
 
   # shaders for the graph node connections
   SHADERS =
-    arc:
-      uniforms:
+    # arc:
+    #   uniforms:
 
-        max_offset:
-          type: "f"
-          value: 0.0
+    #     max_offset:
+    #       type: "f"
+    #       value: 0.0
 
-        line_center:
-          type: "v3"
-          value: null
+    #     line_center:
+    #       type: "v3"
+    #       value: null
 
-        line_begin:
-          type: "v3"
-          value: null
+    #     line_begin:
+    #       type: "v3"
+    #       value: null
 
-        line_end:
-          type: "v3"
-          value: null  
+    #     line_end:
+    #       type: "v3"
+    #       value: null  
 
-        opacity:
-          type: "f"
-          value: 0.0
+    #     opacity:
+    #       type: "f"
+    #       value: 0.0
 
-      vertexShader: '''
-        uniform float max_offset;
-        uniform vec3 line_center;
-        uniform vec3 line_begin;
-        uniform vec3 line_end;
+    #   vertexShader: ''
 
-        varying vec3 vColor;
-
-        void main() {
-          float dist1 = abs(length(line_center-position));
-          float dist_begin = abs(length(line_center-line_begin));
-          float dist_end = abs(length(line_center-line_end));
-          float dist2 = max(dist_begin,dist_end);
-          
-          if(abs(length(line_begin-position)) < abs(length(line_end-position))){
-            dist2 = dist_begin;
-          }
-          else{
-            dist2 =dist_end;
-          }
-
-          float factor = dist1/dist2;
-
-          vec3 out_dir = -1.0 * normalize(vec3(0.0,0.0,0.0)-position);
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position + ((1.0-pow(factor,2.0)) * max_offset * out_dir), 1.0);
-
-          if(dist1 <= dist2){
-            vColor = vec3(0.0,1.0,0.0);
-          }
-          else{
-            vColor = vec3(1.0,0.0,0.0);
-          }
-        }
-      '''
-
-      fragmentShader: '''
-        uniform float opacity;
-
-        varying vec3 vColor;
-
-        void main() {
-          gl_FragColor     = vec4( 0.0,0.0,0.0, opacity );
-          //gl_FragColor     = vec4( vColor.xyz, opacity );
-        }
-      '''
+    #   fragmentShader: ''
 
     bundle:
       uniforms:
@@ -919,142 +904,19 @@ class HG.GraphOnGlobe
           type: "v3"
           value: null
 
-      vertexShader: '''
+      vertexShader: ''
 
-        uniform vec3 color;
+      fragmentShader: ''
 
-        uniform float control_points[1000];
-        uniform vec3 line_begin;
-        uniform vec3 line_end;
+  bundle_vs_request = new XMLHttpRequest()
+  bundle_vs_request.open('GET', 'script/modules/graph/bundle.vs')
+  bundle_vs_request.onreadystatechange = () =>
+    SHADERS.bundle.vertexShader =  bundle_vs_request.responseText
+  bundle_vs_request.send()
 
-        //group:
-        uniform float group_offset;
+  bundle_fs_request = new XMLHttpRequest()
+  bundle_fs_request.open('GET', 'script/modules/graph/bundle.fs')
+  bundle_fs_request.onreadystatechange = () =>
+    SHADERS.bundle.fragmentShader = bundle_fs_request.responseText
+  bundle_fs_request.send()
 
-        //arc:
-        uniform float max_offset;
-        uniform vec3 line_center;
-
-        varying vec3 vColor;
-
-
-        void main() {
-
-          vColor = color;
-
-          vec2 gps_point = vec2(position.y,position.x);
-
-          if (max_offset == 0.0){
-
-            float bundle_offset_lat = 0.0;
-            float bundle_offset_lng = 0.0;            
-
-            for(int i = 0 ; i < 1000; i+=4){
-
-              if(control_points[i]<190.0){
-
-                vec2 point_of_interest = vec2(control_points[i+1],control_points[i]);
-                //vec2 gps_point = vec2(position.x,position.y);
-                vec2 dir = point_of_interest - gps_point;
-                float dist = length(dir);
-                float reach = control_points[i+2];
-
-                if(dist <= reach){ 
-
-                  dir = normalize(dir);
-
-                  vec2 distStart_vec = point_of_interest - vec2(line_begin.y,line_begin.x);
-                  float distStart = length(distStart_vec);
-                  vec2 distEnd_vec = point_of_interest - vec2(line_end.y,line_end.x);
-                  float distEnd = length(distEnd_vec);
-
-                  float strength = reach/2.0;
-                  //float strength = reach/3.14159265358979323846264;
-                  float power = 2.0;
-                   
-                  if(distStart > reach*0.75 && distEnd > reach*0.75){
-                     
-                      float x_value = 1.0-(dist/reach);
-
-                      if(control_points[i+3] == 0.0){
-                        bundle_offset_lat += pow(sin(x_value*3.14159265358979323846264*0.5),power)*-1.0*dir.x*strength;
-                        bundle_offset_lng += pow(sin(x_value*3.14159265358979323846264*0.5),power)*-1.0*dir.y*strength;
-                      }
-                      else{
-                        bundle_offset_lat += pow(x_value,power)*-1.0*dir.x*strength;
-                        bundle_offset_lng += pow(x_value,power)*-1.0*dir.y*strength;
-                      }
-                  }
-                }
-              }
-              else{
-                break;
-              }
-            }
-
-            gps_point.x += bundle_offset_lat;
-            gps_point.y += bundle_offset_lng;
-          }
-
-
-          //group offset
-          float dist1 = abs(length(position-line_begin));
-          float dist2 = abs(length(line_center-line_begin));
-          vec3 ortho_dir = line_end - line_begin;
-          ortho_dir = normalize(ortho_dir);
-          float offset = 1.0 - pow((abs(dist2-dist1)/dist2),2.0);
-          offset*= 0.1; // a tenth of a gps degree offset
-          // offset in orthogonal direction to connection:
-          gps_point.y += offset*group_offset*ortho_dir.y;
-          gps_point.x += offset*group_offset*-ortho_dir.x;
-
-
-          float x = 200.0 * cos(gps_point.y * 3.14159265358979323846264 / 180.0) * cos(-gps_point.x * 3.14159265358979323846264 / 180.0);
-          float y = 200.0 * sin(gps_point.y * 3.14159265358979323846264 / 180.0);
-          float z = 200.0 * cos(gps_point.y * 3.14159265358979323846264 / 180.0) * sin(-gps_point.x * 3.14159265358979323846264 / 180.0);
-
-          //gl_Position = projectionMatrix * modelViewMatrix * vec4(x,y,z,1.0);
-
-          //arc:
-          float x_center = 200.0 * cos(line_center.x * 3.14159265358979323846264 / 180.0) * cos(-line_center.y * 3.14159265358979323846264 / 180.0);
-          float y_center = 200.0 * sin(line_center.x * 3.14159265358979323846264 / 180.0);
-          float z_center = 200.0 * cos(line_center.x * 3.14159265358979323846264 / 180.0) * sin(-line_center.y * 3.14159265358979323846264 / 180.0);
-          float x_begin = 200.0 * cos(line_begin.x * 3.14159265358979323846264 / 180.0) * cos(-line_begin.y * 3.14159265358979323846264 / 180.0);
-          float y_begin = 200.0 * sin(line_begin.x * 3.14159265358979323846264 / 180.0);
-          float z_begin = 200.0 * cos(line_begin.x * 3.14159265358979323846264 / 180.0) * sin(-line_begin.y * 3.14159265358979323846264 / 180.0);
-          float x_end = 200.0 * cos(line_end.x * 3.14159265358979323846264 / 180.0) * cos(-line_end.y * 3.14159265358979323846264 / 180.0);
-          float y_end = 200.0 * sin(line_end.x * 3.14159265358979323846264 / 180.0);
-          float z_end = 200.0 * cos(line_end.x * 3.14159265358979323846264 / 180.0) * sin(-line_end.y * 3.14159265358979323846264 / 180.0);
-
-          vec3 line_center_xyz = vec3(x_center,y_center,z_center);
-          vec3 line_begin_xyz = vec3(x_begin,y_begin,z_begin);
-          vec3 line_end_xyz = vec3(x_end,y_end,z_end);
-          vec3 position_xyz = vec3(x,y,z);
-          
-          float dist1_xyz = abs(length(line_center_xyz-position_xyz));
-          float dist_begin_xyz = abs(length(line_center_xyz-line_begin_xyz));
-          float dist_end_xyz = abs(length(line_center_xyz-line_end_xyz));
-          float dist2_xyz = max(dist_begin_xyz,dist_end_xyz);
-          if(abs(length(line_begin_xyz-position_xyz)) < abs(length(line_end_xyz-position_xyz))){
-            dist2_xyz = dist_begin_xyz;
-          }
-          else{
-            dist2_xyz =dist_end_xyz;
-          }
-          float factor = dist1_xyz/dist2_xyz;
-          vec3 out_dir = -1.0 * normalize(vec3(0.0,0.0,0.0)-vec3(x,y,z));
-
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(vec3(x,y,z) + ((1.0-pow(factor,2.0)) * max_offset * out_dir), 1.0);
-
-        }
-      '''
-
-      fragmentShader: '''
-        uniform float opacity;
-
-        varying vec3 vColor;
-
-        void main() {
-          //gl_FragColor     = vec4( 0.0,0.0,0.0, opacity );
-          gl_FragColor     = vec4( vColor.xyz, opacity );
-        }
-      '''
