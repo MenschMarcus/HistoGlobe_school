@@ -283,7 +283,7 @@ class HG.GraphOnGlobe
     lng_diff = latLongB.y-latLongA.y
 
     if Math.abs(lng_diff)>180
-      lng_diff =(360 - Math.abs(latLongA[1]) - Math.abs(latLongB[1]))/-1
+      lng_diff =(360 - Math.abs(latLongA.y) - Math.abs(latLongB.y))/-1
 
 
     # location interpolation direction
@@ -312,9 +312,9 @@ class HG.GraphOnGlobe
       currentPosLng+= stepLng
 
       if currentPosLng > 180.0 
-       currentPosLng = -180.0 + (currentPosLng-180.0)
+        currentPosLng = -180.0 + (currentPosLng-180.0)
       if currentPosLng < -180.0
-       currentPosLng = 180.0 - (currentPosLng+180.0)
+        currentPosLng = 180.0 - (currentPosLng+180.0)
 
       #break if counter > 100
       #++counter
