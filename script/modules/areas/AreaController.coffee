@@ -24,6 +24,7 @@ class HG.AreaController
     @addCallback "onAddLabel"
     @addCallback "onRemoveLabel"
     @addCallback "onUpdateLabelStyle"
+    @addCallback "onLabelsLoaded"
 
 
     @_timeline        = null
@@ -472,6 +473,7 @@ class HG.AreaController
               numLabelsToLoad--
               if numLabelsToLoad is 0
                 @_labelsLoaded = yes
+                @notifyAll "onLabelsLoaded"
 
             , 0 # execute immediately
 

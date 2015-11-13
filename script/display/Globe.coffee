@@ -70,6 +70,10 @@ class HG.Globe extends HG.Display
               $(@getCanvas()).css({opacity: 0.0})
               @start();
               $(@getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
+
+              # find a better place:
+              hgInstance.graph_button.show_button() if hgInstance.graph_button?
+
               return state_b
 
           state_b =
@@ -81,6 +85,10 @@ class HG.Globe extends HG.Display
               $(@getCanvas()).css({opacity: 0.0})
               hgInstance.map.start();
               $(hgInstance.map.getCanvas()).animate({opacity: 1.0}, 1000, 'linear')
+
+              # find a better place:
+              hgInstance.graph_button.hide_button() if hgInstance.graph_button?
+
               return state_a
 
           hgInstance.control_button_area.addButton state_a
@@ -288,6 +296,11 @@ class HG.Globe extends HG.Display
   # ============================================================================
   addSceneToRenderer:(scene) ->
     @_addedScenes.push scene
+
+  # ============================================================================
+  removeSceneFromRenderer:(scene) ->
+    index = @_addedScenes.indexOf(scene);
+    @_addedScenes.splice(index, 1) if index >= 0
 
 
   ##############################################################################
@@ -887,19 +900,23 @@ class HG.Globe extends HG.Display
 
   # ============================================================================
   _normalizedLatLongToNormalizedMercatus: (latLong) ->
-    return new THREE.Vector2(latLong.x, 0.0) if latLong.y is 0.0
-    return new THREE.Vector2(latLong.x, 1.0) if latLong.y is 1.0
+    #return new THREE.Vector2(latLong.x, 0.0) if latLong.y is 0.0
+    #return new THREE.Vector2(latLong.x, 1.0) if latLong.y is 1.0
+
+    # new THREE.Vector2(latLong.x,
+    #                   Math.log(Math.tan(latLong.y * 0.5 * Math.PI)) /
+    #                           (Math.PI * 2.0) + 0.5)
 
     new THREE.Vector2(latLong.x,
-                      Math.log(Math.tan(latLong.y * 0.5 * Math.PI)) /
-                              (Math.PI * 2.0) + 0.5)
+                      Math.log(Math.tan((0.25*Math.PI) + (0.5*latLong.y))))
 
   # ============================================================================
   _normalizedMercatusToNormalizedLatLong: (mercatus) ->
-    return new THREE.Vector2(mercatus.x, 0.0) if mercatus.y is 0.0
-    return new THREE.Vector2(mercatus.x, 1.0) if mercatus.y is 1.0
+    #return new THREE.Vector2(mercatus.x, 0.0) if mercatus.y is 0.0
+    #return new THREE.Vector2(mercatus.x, 1.0) if mercatus.y is 1.0
 
-    new THREE.Vector2(mercatus.x, 2.0 / Math.PI * Math.atan(Math.exp(2 * Math.PI * (mercatus.y - 0.5))))
+    #new THREE.Vector2(mercatus.x, 2.0 / Math.PI * Math.atan(Math.exp(2 * Math.PI * (mercatus.y - 0.5))))
+    new THREE.Vector2(mercatus.x, 2.0 * Math.atan(Math.exp(mercatus.y))-(0.5*Math.PI))
 
   # ============================================================================
   _normalizeLatLong: (latLong) ->
