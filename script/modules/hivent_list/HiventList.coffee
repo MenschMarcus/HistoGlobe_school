@@ -48,7 +48,7 @@ class HG.HiventList
     $(@_hivent_list).on("mouseenter", ".hiventListItem",  ->
       id=this.id
       handle=window.hgInstance.hiventController.getHiventHandleById(id)
-      
+
       if !handle._activated
         handle.mark @, 0
         handle.linkAll @, 0
@@ -166,11 +166,11 @@ class HG.HiventList
 
           hivent.onInActive @, (mousePos, handle) =>
             @deactivateElement handle.getHivent().id
-          
+
           hivent.onLink @, (mousePos, handle) =>
             if !handle._activated
               @hoverElement handle.getHivent().id
-          
+
           hivent.onUnLink @, (mousePos, handle) =>
             if !handle._activated
               @dehoverElement handle.getHivent().id
@@ -193,11 +193,11 @@ class HG.HiventList
 
     headline = '<div>' + aktualleCath + '</div>'
     #<i class="toggle_on_off fa fa-toggle-off fa-4"></i>
-    alliances = '<div class="alliances-content"><i class="shield_bipolar fa fa-shield"></i> Millitärbündnisse anzeigen <span class="toggle_on_off switch-off"></span>' +
+    alliances = '<div class="alliances-content"><i class="shield_bipolar fa fa-shield"></i>Show Alliances<span class="toggle_on_off switch-off"></span>' +
       '<br><table class="legend_table display_off">
         <tr><td><div id="nato"></div></td><td> NATO</td></tr>
-        <tr><td><div id="natooM"></div></td><td> NATO (nicht im Millitärbündnis)</td></tr>
-        <tr><td><div id="warschP"></div></td><td> Warschauer Pakt</td></tr>
+        <tr><td><div id="natooM"></div></td><td> NATO (not in military alliance)</td></tr>
+        <tr><td><div id="warschP"></div></td><td> Warsaw Pact</td></tr>
       </table>
       </div>'
 
@@ -254,16 +254,16 @@ class HG.HiventList
 
     return @_hivent_list
 
-  activateElement: (id) ->    
+  activateElement: (id) ->
     $("#"+id).switchClass("inactive", "active")
     $(".hivent-list").scrollTo "#"+id, 500
 
-  deactivateElement:(id) ->    
+  deactivateElement:(id) ->
     $("#"+id).switchClass("active", "inactive")
-  
-  hoverElement:(id) ->    
+
+  hoverElement:(id) ->
     $("#"+id).switchClass("inactive", "hover", 10)
-  
+
   dehoverElement:(id) ->
     $("#"+id).switchClass("hover", "inactive", 10)
 

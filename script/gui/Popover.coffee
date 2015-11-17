@@ -77,7 +77,7 @@ class HG.Popover
 
     sourceBig = document.createElement "span"
     sourceBig.className = "source-big"
-    #sourceBig.innerHTML = 'Quelle: ' + @_imgSource
+    #sourceBig.innerHTML = 'Source: ' + @_imgSource
 
     linkListBig = document.createElement "div"
     linkListBig.className = "info-links-big"
@@ -122,7 +122,7 @@ class HG.Popover
 
     source = document.createElement "span"
     source.className = "source"
-    #source.innerHTML = 'Quelle: ' + @_imgSource
+    #source.innerHTML = 'Source: ' + @_imgSource
 
     linkList = document.createElement "div"
     linkList.className = "info-links"
@@ -245,7 +245,7 @@ class HG.Popover
                 link = mm.link
                 imgSource = mm.source
                 textSource = @_config.hiventHandle.getHivent().link
-                wikiLink = '<a href="' + textSource + '" target="_blank">Link zum Artikel</a>'
+                wikiLink = '<a href="' + textSource + '" target="_blank">Link to Wikipedia Article</a>'
 
                 @_mainDiv.style.height = "350px"
                 @_mainDiv.style.backgroundImage = "url( #{link} )"
@@ -256,8 +256,8 @@ class HG.Popover
                 @_bodyDiv.style.height = "250px"
                 @_bodyDiv.style.color = "#fff"
 
-                source.innerHTML = 'Quelle: ' + imgSource + ' -' + wikiLink
-                sourceBig.innerHTML = 'Quelle: ' + imgSource + ' -' + wikiLink
+                source.innerHTML = 'Source: ' + imgSource + ' -' + wikiLink
+                sourceBig.innerHTML = 'Source: ' + imgSource + ' -' + wikiLink
 
                 @_mainDiv.appendChild @_expandBox
                 @_bodyDivBig.style.color = "#fff"
