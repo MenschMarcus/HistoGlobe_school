@@ -1,6 +1,6 @@
 uniform vec3 color;
 
-uniform float control_points[1000];
+uniform float control_points[200];
 uniform vec3 line_begin;
 uniform vec3 line_end;
 
@@ -46,7 +46,8 @@ void main() {
     float bundle_offset_lat = 0.0;
     float bundle_offset_lng = 0.0;            
 
-    for(int i = 0 ; i < 1000; i+=4){
+    //for(int i = 0 ; i < 270; i+=4){
+    for(int i = 0 ; i < 200; i+=3){
 
       if(control_points[i]<190.0){
 
@@ -77,7 +78,8 @@ void main() {
              
               float x_value = 1.0-(dist/reach);
 
-              if(control_points[i+3] == 0.0){
+              //if(control_points[i+3] == 0.0){
+              if(true){
                 bundle_offset_lat += pow(sin(x_value*3.14159265358979323846264*0.5),power)*-1.0*dir.x*strength;
                 bundle_offset_lng += pow(sin(x_value*3.14159265358979323846264*0.5),power)*-1.0*dir.y*strength;
               }
