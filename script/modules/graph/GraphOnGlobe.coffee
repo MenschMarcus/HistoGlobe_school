@@ -1,5 +1,7 @@
 window.HG ?= {}
 
+
+
 class HG.GraphOnGlobe
 
   ##############################################################################
@@ -43,7 +45,6 @@ class HG.GraphOnGlobe
     #info tag
     @_infoTag = document.createElement "div"
     @_infoTag.className = "leaflet-label"
-
     @_infoTag.style.position = "absolute"
     @_infoTag.style.top = "0px"
     @_infoTag.innerHTML = "Hello World"
@@ -52,6 +53,36 @@ class HG.GraphOnGlobe
     @_infoTag.style.borderColor = "grey";
     @_infoTag.style.borderWidth = "thin";
     document.body.appendChild(@_infoTag);
+
+
+    @_infoWindow = document.createElement "div"
+    @_infoWindow.className = "leaflet-label"
+    @_infoWindow.style.position = "absolute"
+    @_infoWindow.style.top = "0px"
+    #@_infoWindow.innerHTML = ""
+    @_infoWindow.style.visibility = "visible"
+    @_infoWindow.style.background = "#fff"
+    @_infoWindow.style.borderColor = "grey";
+    @_infoWindow.style.borderWidth = "thin";
+
+    # test = () ->
+    #   alert('...')
+    
+    # anchor = document.createElement "a"
+
+    # anchor.innerHTML="test"
+    # # #anchor.id="anchor"
+    # # #console.log anchor
+    # # #document.getElementsByClassName("anchor").onclick = () ->
+    # anchor.onclick = () ->
+    #   console.log "tst..."
+      
+    # # anchor.setAttribute 'href', '#'
+    # # anchor.setAttribute 'onclick', () ->
+    # #   alert('----------')
+    # # #console.log anchor
+    # @_infoWindow.appendChild(anchor)
+    # document.body.appendChild(@_infoWindow);
 
 
 
@@ -427,6 +458,8 @@ class HG.GraphOnGlobe
     for c in @_highlightedConnections
       if c is connection
         @_sceneGraphNodeConnection.remove c.Label3D
+    @_infoWindow.style.visibility = "hidden"
+    @_infoWindow.innerHTML = ""
 
     # update connection group offset:
     linked_nodes = connection.getLinkedNodes()
@@ -439,6 +472,18 @@ class HG.GraphOnGlobe
 
   # ============================================================================
   _showGraphNodeConnectionInfo: (connection) ->
+
+    #name = intersect.object.Node.getName()
+    #x = @_globe._mousePos.x - @_globe._canvasOffsetX + 10;
+    #y = @_globe._mousePos.y - @_globe._canvasOffsetY + 10;
+    @_infoWindow.style.visibility = "visible"
+    #@_infoTag.style.top = "#{y}px"
+    #@_infoTag.style.left = "#{x}px"
+    text = "Alliance Type: "
+    for t,v of connection.getInfoForShow()
+      text+=t if v
+      text+=" " if v
+    @_infoWindow.innerHTML = @_infoWindow.innerHTML + "#{text}<br>"
 
     if connection.Mesh3D
 
@@ -651,6 +696,8 @@ class HG.GraphOnGlobe
 
           for c in @_highlightedConnections
             @_sceneGraphNodeConnection.remove c.Label3D
+          @_infoWindow.style.visibility = "hidden"
+          @_infoWindow.innerHTML = ""
           @_highlightedConnections = []
 
           @_evaluate()
