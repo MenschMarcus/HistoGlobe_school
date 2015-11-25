@@ -1,5 +1,10 @@
 window.HG ?= {}
 
+# ==============================================================================
+# Dynamically adds new css selector named by the value of "selector" with the
+# properties defined in "stye" to the document's style.
+# This is mainly used for dynamically adding classes for different Hivent icons.
+# ==============================================================================
 HG.createCSSSelector = (selector, style) ->
 
   unless document.styleSheets

@@ -1,5 +1,9 @@
 window.HG ?= {}
 
+# ==============================================================================
+# Hivent is used as a simple data transfer object and stores all information
+# belonging to a specific historical event.
+# ==============================================================================
 class HG.Hivent
 
   ##############################################################################

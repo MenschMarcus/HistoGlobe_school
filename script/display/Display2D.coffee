@@ -1,5 +1,8 @@
 window.HG ?= {}
 
+# ==============================================================================
+# Class for displaying a 2D Map using leaflet. Derived from Display base class.
+# ==============================================================================
 class HG.Display2D extends HG.Display
 
   ##############################################################################
@@ -10,6 +13,8 @@ class HG.Display2D extends HG.Display
   constructor: () ->
     HG.Display.call @
 
+  # ============================================================================
+  # Inits associated data.
   # ============================================================================
   hgInit: (hgInstance) ->
     super hgInstance
@@ -23,24 +28,34 @@ class HG.Display2D extends HG.Display
     # @_initLabels()
 
   # ============================================================================
+  # Activates the 2D Display-
+  # ============================================================================
   start: ->
     unless @_isRunning
       @_isRunning = true
       @_mapParent.style.display = "block"
 
   # ============================================================================
+  # Deactivates the 2D Display-
+  # ============================================================================
   stop: ->
     @_isRunning = false
     @_mapParent.style.display = "none"
 
   # ============================================================================
+  # Returns whether the display is active or not.
+  # ============================================================================
   isRunning: ->
     @_isRunning
 
   # ============================================================================
+  # Returns the DOM element associated with the display.
+  # ============================================================================
   getCanvas: ->
     @_mapParent
 
+  # ============================================================================
+  # Implementation of setting the center of the current display.
   # ============================================================================
   setCenter: (longLat, offset) ->
     # center marker ~ 2/3 vertically and horizontally
@@ -50,17 +65,19 @@ class HG.Display2D extends HG.Display
       bounds_lat = bounds._northEast.lat - bounds._southWest.lat
       bounds_lng = bounds._northEast.lng - bounds._southWest.lng
 
-      target = 
+      target =
         lon: parseFloat(longLat.x) + offset.x * bounds_lng
         lat: parseFloat(longLat.y) + offset.y * bounds_lat
 
       @_map.panTo target
 
-    else # no offset? -> center marker 
+    else # no offset? -> center marker
       @_map.panTo
         lon: longLat.x
         lat: longLat.y
 
+  # ============================================================================
+  # Implementation of zooming to a specifig area.
   # ============================================================================
   zoomToBounds: (minLong, minLat, maxLong, maxLat) ->
     @_map.fitBounds [
@@ -69,9 +86,13 @@ class HG.Display2D extends HG.Display
     ]
 
   # ============================================================================
+  # Returns the coordinates of the current center of the display.
+  # ============================================================================
   getCenter: () ->
     [@_map.getCenter().long, @_map.getCenter().lat]
 
+  # ============================================================================
+  # Resize the display.
   # ============================================================================
   resize: (width, height) ->
     @_mapParent.style.width = width + "px"
@@ -88,6 +109,8 @@ class HG.Display2D extends HG.Display
     @_mapParent = null
     @_isRunning = false
 
+  # ============================================================================
+  # Sets up leaflet
   # ============================================================================
   _initCanvas: ->
     @_mapParent = document.createElement "div"
