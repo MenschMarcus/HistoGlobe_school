@@ -1,1 +1,1 @@
-<?php $config_path = 'full'; ?>
+<?php $config_path = 'school'; ?>

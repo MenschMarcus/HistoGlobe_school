@@ -1,15 +1,19 @@
-#include Hivent.coffee
-#include HiventHandle.coffee
-#include HiventDatabaseInterface.coffee
-
 window.HG ?= {}
 
+# ==============================================================================
+# HiventController is used to load Hivent data from files and store them into
+# buffers. Additionally, this class provides functionality to filter and access
+# Hivents.
+# ==============================================================================
 class HG.HiventController
 
   ##############################################################################
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
+  # ============================================================================
+  # Constructor
+  # Initializes members and stores the given configuration named "config".
   # ============================================================================
   constructor: (config) ->
 
@@ -35,14 +39,18 @@ class HG.HiventController
 
 
   # ============================================================================
+  # Issues configuration depending on the current HistoGlobe instance.
+  # ============================================================================
   hgInit: (hgInstance) ->
     @_hgInstance = hgInstance
 
     # init AB tests
     @_ab = hgInstance.abTest.config
 
+    # Register HiventController at the current HistoGlobe instance.
     @_hgInstance.hiventController = @
 
+    # Register listeners to update filters or react on updated filters.
     @_hgInstance.timeline.onIntervalChanged @, (timeFilter) =>
       @setTimeFilter timeFilter
 
@@ -60,6 +68,11 @@ class HG.HiventController
     # @loadHiventsFromDatabase()
 
   # ============================================================================
+  # Returns all stored HiventHandles.
+  # Additionally, if "object" and "callbackFunc" are specified, "callbackFunc"
+  # is registered to be called for every Hivent loaded in the future and called
+  # for every Hivent that has been loaded already.
+  # ============================================================================
   getHivents: (object, callbackFunc) ->
     if object? and callbackFunc?
       @onHiventAdded object, callbackFunc
@@ -70,11 +83,19 @@ class HG.HiventController
     @_hiventHandles
 
   # ============================================================================
+  # Sets the current time filter to the value of "timeFilter". The passed value
+  # has to be an object of format {start: <Date>, end: <Date>}
+  # ============================================================================
   setTimeFilter: (timeFilter) ->
     @_currentTimeFilter = timeFilter
     @_filterHivents();
 
   # ============================================================================
+  # Sets the current space filter to the value of "spaceFilter". The passed
+  # value has to be an object of format
+  # { min: {lat: <float>, long: <float>},
+  #   max: {lat: <float>, long: <float>}}
+  # ===========================================================================
   setSpaceFilter: (spaceFilter) ->
     @_currentSpaceFilter = spaceFilter
     @_filterHivents()
@@ -85,6 +106,9 @@ class HG.HiventController
     @_filterHivents()'''
 
   # ============================================================================
+  # Returns a HiventHandle by the specified "hiventId". Every Hivent has to be
+  # assigned a unique ID to avoid unexpected behaviour.
+  # ============================================================================
   getHiventHandleById: (hiventId) ->
     for handle in @_hiventHandles
       if handle.getHivent().id is hiventId
@@ -93,11 +117,17 @@ class HG.HiventController
     return null
 
   # ============================================================================
+  # Returns a HiventHandle by the specified index of the internal array.
+  # ============================================================================
   getHiventHandleByIndex: (handleIndex) ->
     return @_hiventHandles[handleIndex]
 
   # ============================================================================
-
+  # Get the next HiventHandle.
+  # Next in this case means the chronologically closest Hivent after the date
+  # specified by the passed Date object "now". "ignoredIds" can be specified
+  # to exclude specific HiventHandles from being selected.
+  # ============================================================================
   getNextHiventHandle: (now, ignoredIds=[]) ->
     result = null
     distance = -1
@@ -112,6 +142,11 @@ class HG.HiventController
           result = handle
     return result
 
+  # ============================================================================
+  # Get the next HiventHandle.
+  # Next in this case means the chronologically closest Hivent prior to the date
+  # specified by the passed Date object "now". "ignoredIds" can be specified
+  # to exclude specific HiventHandles from being selected.
   # ============================================================================
   getPreviousHiventHandle: (now, ignoredIds=[]) ->
     result = null
@@ -181,13 +216,21 @@ class HG.HiventController
   #     )
 
   # ============================================================================
+  # Loads Hivent data from all delimiter seperated files specified in
+  # HiventController's config. For each loaded Hivent, a HiventHandle is created
+  # and pushed into the internal array @_hiventHandles.
+  # ============================================================================
   loadHiventsFromDSV: () ->
     if @_config.dsvConfigs?
+
+      # Loop over all files occuring in the configuration
       for dsvConfig in @_config.dsvConfigs
         defaultConfig =
           path: ""
           delimiter: "|"
           ignoredLines: [] # line indices starting at 1
+          # indexMapping specifies at which column the respective attribute can
+          # be found.
           indexMapping:
             id          : 0
             name        : 1
@@ -204,10 +247,12 @@ class HG.HiventController
 
         dsvConfig = $.extend {}, defaultConfig, dsvConfig
 
+        # Configuration for parsing dsv files.
         parse_config =
           delimiter: dsvConfig.delimiter
           header: false
 
+        # Auxiliary function to encapsulate loading from dsv files.
         buildHivent = (config) =>
           # ---------------------------------------------------
           # async: false bremst den Hivent Controller aus, bis die config.path (data) geladen sind
@@ -216,9 +261,14 @@ class HG.HiventController
           });
           # kann aber auch raus ... zur Not
           # ---------------------------------------------------
+
+          # Asynchronously read the file.
           $.get config.path,
             (data) =>
+              # If the file has been loaded successfully, parse it.
               parseResult = $.parse data, parse_config
+
+              # HiventBuilder is started for each line containing Hivent data.
               builder = new HG.HiventBuilder config, @_hgInstance.multimediaController
               for result, i in parseResult.results
                 unless i+1 in config.ignoredLines
@@ -237,6 +287,8 @@ class HG.HiventController
 
 
   # ============================================================================
+  # Blends in all visible Hivents.
+  # ============================================================================
   showVisibleHivents: ->
     for handle in @_hiventHandles
 
@@ -249,6 +301,8 @@ class HG.HiventController
 
   ############################# MAIN FUNCTIONS #################################
 
+  # ============================================================================
+  # Filters all HiventHandles according to all current filters
   # ============================================================================
   _filterHivents: ->
     if @_handlesNeedSorting
@@ -276,7 +330,6 @@ class HG.HiventController
       # 2 --> visibleFuture
 
       # filter by category
-
       if @_currentCategoryFilter?
         noCategoryFilter = @_currentCategoryFilter.length is 0
         defaultCategory = hivent.category is "default"
