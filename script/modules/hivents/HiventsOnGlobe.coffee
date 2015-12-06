@@ -77,8 +77,6 @@ class HG.HiventsOnGlobe
       @_globe.addSceneToRenderer(@_sceneInterface)
 
       @_globe.onMove @, @_updateHiventSizes
-      @_globe.onMove @, @_deactivateAllHivents
-      @_globe.onZoom @, @_deactivateAllHivents
       window.addEventListener   "mouseup",  @_onMouseUp,         false #for hivent intersections
       window.addEventListener   "mousedown",@_onMouseDown,       false #for hivent intersections
 
