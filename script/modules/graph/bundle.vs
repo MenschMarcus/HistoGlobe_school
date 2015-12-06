@@ -1,6 +1,6 @@
 uniform vec3 color;
 
-uniform float control_points[200];
+uniform float control_points[300];
 uniform vec3 line_begin;
 uniform vec3 line_end;
 
@@ -47,7 +47,7 @@ void main() {
     float bundle_offset_lng = 0.0;            
 
     //for(int i = 0 ; i < 270; i+=4){
-    for(int i = 0 ; i < 200; i+=3){
+    for(int i = 0 ; i < 300; i+=3){
 
       if(control_points[i]<190.0){
 

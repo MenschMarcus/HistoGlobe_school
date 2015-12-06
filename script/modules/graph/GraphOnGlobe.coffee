@@ -39,7 +39,7 @@ class HG.GraphOnGlobe
     @_connectionMaterials = []
     @_controlPoints = []
     @_controlPoints.push(191.0) # pivot element
-    @_controlSize = 20.0
+    @_controlSize = 0.0#20.0
     @_controlFunction = 0.0 # 0 = sine; 1 = square power
 
     #info tag
@@ -629,7 +629,7 @@ class HG.GraphOnGlobe
             break
         if not found_old
           mat.uniforms.control_points.value = new_point.concat(mat.uniforms.control_points.value)
-          if mat.uniforms.control_points.value.length > 200
+          if mat.uniforms.control_points.value.length > 300
             # console.log "maxLat: ",mat.maxLat
             # console.log "minLat: ",mat.minLat
             # console.log "maxLng: ",mat.maxLng
@@ -779,21 +779,22 @@ class HG.GraphOnGlobe
       y: (@_globe._mousePos.y - @_globe._canvasOffsetY) / @_globe._myHeight * 2 - 1
 
 
-      # ###############
-      # # bundle tests:
-      # # interactive mouse lense
-      # latLongCurr = @_globe._pixelToLatLong mouseRel
-      # if latLongCurr isnt null
-      #   if @_controlPoints.length > 1
-      #     @_controlPoints.slice(0,CONTROL_POINT_BUFFER_LAYOUT_LENGTH)
+      ###############
+      # bundle tests:
+      # interactive mouse lense
+      latLongCurr = @_globe._pixelToLatLong mouseRel
+      if latLongCurr isnt null
+        if @_controlPoints.length > 1
+          @_controlPoints.slice(0,CONTROL_POINT_BUFFER_LAYOUT_LENGTH)
 
-      #   updated_point = [latLongCurr.x,-latLongCurr.y,@_controlSize,@_controlFunction]
-      #   @_controlPoints = updated_point.concat(@_controlPoints)
-      #   for mat in @_connectionMaterials
-      #     mat.uniforms.control_points.value.splice(0,CONTROL_POINT_BUFFER_LAYOUT_LENGTH)
-      #     mat.uniforms.control_points.value = updated_point.concat(mat.uniforms.control_points.value)
-      #     #mat.uniforms.control_points.value = @_controlPoints
-      # ###############
+        updated_point = [latLongCurr.x,-latLongCurr.y,@_controlSize]
+        # updated_point = [latLongCurr.x,-latLongCurr.y,@_controlSize,@_controlFunction]
+        @_controlPoints = updated_point.concat(@_controlPoints)
+        for mat in @_connectionMaterials
+          mat.uniforms.control_points.value.splice(0,CONTROL_POINT_BUFFER_LAYOUT_LENGTH)
+          mat.uniforms.control_points.value = updated_point.concat(mat.uniforms.control_points.value)
+          #mat.uniforms.control_points.value = @_controlPoints
+      ###############
 
 
       # picking ------------------------------------------------------------------
@@ -906,8 +907,10 @@ class HG.GraphOnGlobe
   OPACITY_MIN = 0.1
   OPACITY_MAX = 0.6
 
-  BUNDLE_TOLERANCE = 2.0 # degree
+  BUNDLE_TOLERANCE = 10.0 # degree
   CONNECTION_STEP_SIZE = 0.05 # degree
+  #high quality:
+  #CONNECTION_STEP_SIZE = 0.005 # degree
 
   # control_points BUFFER_LAYOUT:
   # n:    lat
