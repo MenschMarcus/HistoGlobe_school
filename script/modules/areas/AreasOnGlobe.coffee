@@ -20,6 +20,7 @@ class HG.AreasOnGlobe
     @_materials               = []
     @_areasToLoad             = 0
     @_dragStartPos            = null
+    @_intersected             = false
 
     # highcontrast hack: swap between normal and "_hc" mode
     @_inHighContrast  = no
@@ -863,8 +864,10 @@ class HG.AreasOnGlobe
 
     if countryIntersects.length > 0
       HG.Display.CONTAINER.style.cursor = "pointer"
+      @_intersected = true
     else
-      HG.Display.CONTAINER.style.cursor = "auto"
+      HG.Display.CONTAINER.style.cursor = "auto" if @_intersected
+      @_intersected = false
 
     for mat in @_intersectedMaterials
       mat.opacity = mat.opacity - 0.2

@@ -34,6 +34,8 @@ class HG.GraphOnGlobe
 
     @_hgInstance = null
 
+    @_intersected            = false
+
 
     # bundle tests:
     @_connectionMaterials = []
@@ -780,7 +782,6 @@ class HG.GraphOnGlobe
 
 
       ###############
-      # bundle tests:
       # interactive mouse lense
       latLongCurr = @_globe._pixelToLatLong mouseRel
       if latLongCurr isnt null
@@ -796,9 +797,6 @@ class HG.GraphOnGlobe
           #mat.uniforms.control_points.value = @_controlPoints
       ###############
 
-
-      # picking ------------------------------------------------------------------
-      # test for mark and highlight hivents
       vector = new THREE.Vector3 mouseRel.x, -mouseRel.y, 0.5
       projector = @_globe.getProjector()
       projector.unprojectVector vector, @_globe._camera
@@ -811,8 +809,9 @@ class HG.GraphOnGlobe
 
       if nodeIntersects.length > 0
         HG.Display.CONTAINER.style.cursor = "pointer"
+        @_intersected = true
       else
-        HG.Display.CONTAINER.style.cursor = "auto"
+        HG.Display.CONTAINER.style.cursor = "auto" if @_intersected 
 
       for intersect in @_intersectedNodes
 
@@ -827,13 +826,11 @@ class HG.GraphOnGlobe
       if nodeIntersects.length is 0
         @_infoTag.style.visibility = "hidden"
 
-      #hover countries
       for intersect in nodeIntersects 
         index = $.inArray(intersect.object, @_intersectedNodes)
         @_intersectedNodes.splice index, 1  if index >= 0
 
       @_intersectedNodes = []
-      # hover intersected countries
       for intersect in nodeIntersects
 
         name = intersect.object.Node.getName()
@@ -873,8 +870,10 @@ class HG.GraphOnGlobe
 
       if nodeIntersects.length > 0
         HG.Display.CONTAINER.style.cursor = "pointer"
+        @_intersected = true
       else
-        HG.Display.CONTAINER.style.cursor = "auto"
+        HG.Display.CONTAINER.style.cursor = "auto" if @_intersected
+        @_intersected = false
       @_infoTag.style.visibility = "hidden"
 
       if nodeIntersects.length is 0
