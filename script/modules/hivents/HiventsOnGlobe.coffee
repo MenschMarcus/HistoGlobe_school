@@ -28,6 +28,8 @@ class HG.HiventsOnGlobe
 
     @_hgInstance              = null
 
+    @_intersected             = false
+
   # ============================================================================
   hgInit: (hgInstance) ->
 
@@ -313,13 +315,15 @@ class HG.HiventsOnGlobe
 
             tmp_intersects.push hivent
             HG.Display.CONTAINER.style.cursor = "pointer"
+            @_intersected = true
 
     for hivent in @_lastIntersected
       hivent.onMouseOut()
         
 
     if tmp_intersects.length is 0
-      HG.Display.CONTAINER.style.cursor = "auto"
+      HG.Display.CONTAINER.style.cursor = "auto" if @_intersected
+      @_intersected = false
     @_lastIntersected = tmp_intersects
 
 

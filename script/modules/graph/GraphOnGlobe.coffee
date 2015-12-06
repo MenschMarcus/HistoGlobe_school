@@ -811,7 +811,8 @@ class HG.GraphOnGlobe
         HG.Display.CONTAINER.style.cursor = "pointer"
         @_intersected = true
       else
-        HG.Display.CONTAINER.style.cursor = "auto" if @_intersected 
+        HG.Display.CONTAINER.style.cursor = "auto" if @_intersected
+        @_intersected = false
 
       for intersect in @_intersectedNodes
 
