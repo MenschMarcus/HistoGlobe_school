@@ -1,5 +1,7 @@
 window.HG ?= {}
 
+
+
 class HG.GraphOnGlobe
 
   ##############################################################################
@@ -37,13 +39,12 @@ class HG.GraphOnGlobe
     @_connectionMaterials = []
     @_controlPoints = []
     @_controlPoints.push(191.0) # pivot element
-    @_controlSize = 20.0
+    @_controlSize = 0.0#20.0
     @_controlFunction = 0.0 # 0 = sine; 1 = square power
 
     #info tag
     @_infoTag = document.createElement "div"
     @_infoTag.className = "leaflet-label"
-
     @_infoTag.style.position = "absolute"
     @_infoTag.style.top = "0px"
     @_infoTag.innerHTML = "Hello World"
@@ -52,6 +53,36 @@ class HG.GraphOnGlobe
     @_infoTag.style.borderColor = "grey";
     @_infoTag.style.borderWidth = "thin";
     document.body.appendChild(@_infoTag);
+
+
+    @_infoWindow = document.createElement "div"
+    @_infoWindow.className = "leaflet-label"
+    @_infoWindow.style.position = "absolute"
+    @_infoWindow.style.top = "0px"
+    #@_infoWindow.innerHTML = ""
+    @_infoWindow.style.visibility = "visible"
+    @_infoWindow.style.background = "#fff"
+    @_infoWindow.style.borderColor = "grey";
+    @_infoWindow.style.borderWidth = "thin";
+
+    # test = () ->
+    #   alert('...')
+    
+    # anchor = document.createElement "a"
+
+    # anchor.innerHTML="test"
+    # # #anchor.id="anchor"
+    # # #console.log anchor
+    # # #document.getElementsByClassName("anchor").onclick = () ->
+    # anchor.onclick = () ->
+    #   console.log "tst..."
+      
+    # # anchor.setAttribute 'href', '#'
+    # # anchor.setAttribute 'onclick', () ->
+    # #   alert('----------')
+    # # #console.log anchor
+    # @_infoWindow.appendChild(anchor)
+    # document.body.appendChild(@_infoWindow);
 
 
 
@@ -195,7 +226,8 @@ class HG.GraphOnGlobe
     @_visibleNodes.push node
 
     #add control point displacing edges:
-    @_addControlPoint(@_controlFunction,radius*3.0,node._position[1],node._position[0])
+    #@_addControlPoint(@_controlFunction,radius*3.0,node._position[1],node._position[0])
+    @_addControlPoint(radius*3.0,node._position[1],node._position[0])
     # latLong =
     #   x: node._position[0]
     #   y: node._position[1]
@@ -359,20 +391,24 @@ class HG.GraphOnGlobe
     lineMaterial.minLat = Math.min(latLongA.x,latLongB.x)
     lineMaterial.maxLng = Math.max(latLongA.y,latLongB.y)
     lineMaterial.minLng = Math.min(latLongA.y,latLongB.y)
-    for i in [0..@_controlPoints.length] by CONTROL_POINT_BUFFER_LAYOUT_LENGTH
-      lat = @_controlPoints[i]
-      lng = @_controlPoints[i+1]
-      size = @_controlPoints[i+2]
-      func = @_controlPoints[i+3]
 
-      if(lat < lineMaterial.maxLat+BUNDLE_TOLERANCE and
-      lat > lineMaterial.minLat-BUNDLE_TOLERANCE and
-      lng < lineMaterial.maxLng+BUNDLE_TOLERANCE and
-      lng > lineMaterial.minLng-BUNDLE_TOLERANCE)
-        personalPoints.unshift(func)
-        personalPoints.unshift(size)
-        personalPoints.unshift(lng)
-        personalPoints.unshift(lat)
+    dist_lng = Math.abs((lineMaterial.maxLng+BUNDLE_TOLERANCE)-(lineMaterial.minLng-BUNDLE_TOLERANCE))
+    if dist_lng > 180 # quickhack
+
+      for i in [0..@_controlPoints.length] by CONTROL_POINT_BUFFER_LAYOUT_LENGTH
+        lat = @_controlPoints[i]
+        lng = @_controlPoints[i+1]
+        size = @_controlPoints[i+2]
+        #func = @_controlPoints[i+3]
+
+        if(lat < lineMaterial.maxLat+BUNDLE_TOLERANCE and
+        lat > lineMaterial.minLat-BUNDLE_TOLERANCE and
+        lng < lineMaterial.maxLng+BUNDLE_TOLERANCE and
+        lng > lineMaterial.minLng-BUNDLE_TOLERANCE)
+          #personalPoints.unshift(func)
+          personalPoints.unshift(size)
+          personalPoints.unshift(lng)
+          personalPoints.unshift(lat)
 
     lineMaterial.uniforms.control_points.value = personalPoints
 
@@ -427,6 +463,8 @@ class HG.GraphOnGlobe
     for c in @_highlightedConnections
       if c is connection
         @_sceneGraphNodeConnection.remove c.Label3D
+    @_infoWindow.style.visibility = "hidden"
+    @_infoWindow.innerHTML = ""
 
     # update connection group offset:
     linked_nodes = connection.getLinkedNodes()
@@ -439,6 +477,18 @@ class HG.GraphOnGlobe
 
   # ============================================================================
   _showGraphNodeConnectionInfo: (connection) ->
+
+    #name = intersect.object.Node.getName()
+    #x = @_globe._mousePos.x - @_globe._canvasOffsetX + 10;
+    #y = @_globe._mousePos.y - @_globe._canvasOffsetY + 10;
+    @_infoWindow.style.visibility = "visible"
+    #@_infoTag.style.top = "#{y}px"
+    #@_infoTag.style.left = "#{x}px"
+    text = "Alliance Type: "
+    for t,v of connection.getInfoForShow()
+      text+=t if v
+      text+=" " if v
+    @_infoWindow.innerHTML = @_infoWindow.innerHTML + "#{text}<br>"
 
     if connection.Mesh3D
 
@@ -537,7 +587,8 @@ class HG.GraphOnGlobe
         connection.Label3D.position.set cart_coords.x,cart_coords.y,cart_coords.z
 
   # ============================================================================
-  _addControlPoint: (functionID,size,lng,lat) =>
+  #_addControlPoint: (functionID,size,lng,lat) =>
+  _addControlPoint: (size,lng,lat) =>
 
     # remove potential old one
     for i in [0 .. @_controlPoints.length-1] by CONTROL_POINT_BUFFER_LAYOUT_LENGTH
@@ -551,13 +602,17 @@ class HG.GraphOnGlobe
       interactive_point = @_controlPoints.splice(0,CONTROL_POINT_BUFFER_LAYOUT_LENGTH)
 
     #new point
-    new_point = [lat,lng,size,functionID]
+    #new_point = [lat,lng,size,functionID]
+    new_point = [lat,lng,size]
     @_controlPoints = new_point.concat(@_controlPoints)
 
     # individual cp lists of connections
     for mat in @_connectionMaterials
 
-      if(lat < mat.maxLat+BUNDLE_TOLERANCE and
+      dist_lng = Math.abs((mat.maxLng+BUNDLE_TOLERANCE)-(mat.minLng-BUNDLE_TOLERANCE))
+
+      if( dist_lng < 180.0 and # quickhack
+      lat < mat.maxLat+BUNDLE_TOLERANCE and
       lat > mat.minLat-BUNDLE_TOLERANCE and
       lng < mat.maxLng+BUNDLE_TOLERANCE and
       lng > mat.minLng-BUNDLE_TOLERANCE)
@@ -568,11 +623,20 @@ class HG.GraphOnGlobe
         for i in [0 .. mat.uniforms.control_points.value.length-1] by CONTROL_POINT_BUFFER_LAYOUT_LENGTH
           if mat.uniforms.control_points.value[i] is lat and mat.uniforms.control_points.value[i+1] is lng
             mat.uniforms.control_points.value[i+2] = size
-            mat.uniforms.control_points.value[i+3] = functionID
+            #mat.uniforms.control_points.value[i+3] = functionID
             found_old = true
             #mat.uniforms.control_points.value.splice(i, CONTROL_POINT_BUFFER_LAYOUT_LENGTH);
             break
-        mat.uniforms.control_points.value = new_point.concat(mat.uniforms.control_points.value) if not found_old
+        if not found_old
+          mat.uniforms.control_points.value = new_point.concat(mat.uniforms.control_points.value)
+          if mat.uniforms.control_points.value.length > 300
+            # console.log "maxLat: ",mat.maxLat
+            # console.log "minLat: ",mat.minLat
+            # console.log "maxLng: ",mat.maxLng
+            # console.log "minLng: ",mat.minLng
+            console.log "Warning! Control point number in line material too high!: ", (mat.uniforms.control_points.value.length-1)/CONTROL_POINT_BUFFER_LAYOUT_LENGTH
+            # console.log mat.uniforms.control_points.value
+
         mat.uniforms.control_points.value = interactive_point.concat(mat.uniforms.control_points.value) if interactive_point isnt null
 
     # interactive point:
@@ -589,7 +653,11 @@ class HG.GraphOnGlobe
         break
 
     for mat in @_connectionMaterials
-      if(lat < mat.maxLat+BUNDLE_TOLERANCE and
+
+      dist_lng = Math.abs((mat.maxLng+BUNDLE_TOLERANCE)-(mat.minLng-BUNDLE_TOLERANCE))
+
+      if( dist_lng < 180.0 and # quickhack
+      lat < mat.maxLat+BUNDLE_TOLERANCE and
       lat > mat.minLat-BUNDLE_TOLERANCE and
       lng < mat.maxLng+BUNDLE_TOLERANCE and
       lng > mat.minLng-BUNDLE_TOLERANCE)
@@ -606,7 +674,8 @@ class HG.GraphOnGlobe
     if key.keyCode is 189 # -
       @_controlSize -= 1
     if key.keyCode is 13 # ENTER
-      @_addControlPoint(@_controlPoints[3],@_controlPoints[2],@_controlPoints[1],@_controlPoints[0])
+      #@_addControlPoint(@_controlPoints[3],@_controlPoints[2],@_controlPoints[1],@_controlPoints[0])
+      @_addControlPoint(@_controlPoints[2],@_controlPoints[1],@_controlPoints[0])
     if key.keyCode is 70 # F
       @_controlFunction += 1.0
       @_controlFunction = @_controlFunction % 2
@@ -651,6 +720,8 @@ class HG.GraphOnGlobe
 
           for c in @_highlightedConnections
             @_sceneGraphNodeConnection.remove c.Label3D
+          @_infoWindow.style.visibility = "hidden"
+          @_infoWindow.innerHTML = ""
           @_highlightedConnections = []
 
           @_evaluate()
@@ -708,21 +779,22 @@ class HG.GraphOnGlobe
       y: (@_globe._mousePos.y - @_globe._canvasOffsetY) / @_globe._myHeight * 2 - 1
 
 
-      # ###############
-      # # bundle tests:
-      # # interactive mouse lense
-      # latLongCurr = @_globe._pixelToLatLong mouseRel
-      # if latLongCurr isnt null
-      #   if @_controlPoints.length > 1
-      #     @_controlPoints.slice(0,CONTROL_POINT_BUFFER_LAYOUT_LENGTH)
+      ###############
+      # bundle tests:
+      # interactive mouse lense
+      latLongCurr = @_globe._pixelToLatLong mouseRel
+      if latLongCurr isnt null
+        if @_controlPoints.length > 1
+          @_controlPoints.slice(0,CONTROL_POINT_BUFFER_LAYOUT_LENGTH)
 
-      #   updated_point = [latLongCurr.x,-latLongCurr.y,@_controlSize,@_controlFunction]
-      #   @_controlPoints = updated_point.concat(@_controlPoints)
-      #   for mat in @_connectionMaterials
-      #     mat.uniforms.control_points.value.splice(0,CONTROL_POINT_BUFFER_LAYOUT_LENGTH)
-      #     mat.uniforms.control_points.value = updated_point.concat(mat.uniforms.control_points.value)
-      #     #mat.uniforms.control_points.value = @_controlPoints
-      # ###############
+        updated_point = [latLongCurr.x,-latLongCurr.y,@_controlSize]
+        # updated_point = [latLongCurr.x,-latLongCurr.y,@_controlSize,@_controlFunction]
+        @_controlPoints = updated_point.concat(@_controlPoints)
+        for mat in @_connectionMaterials
+          mat.uniforms.control_points.value.splice(0,CONTROL_POINT_BUFFER_LAYOUT_LENGTH)
+          mat.uniforms.control_points.value = updated_point.concat(mat.uniforms.control_points.value)
+          #mat.uniforms.control_points.value = @_controlPoints
+      ###############
 
 
       # picking ------------------------------------------------------------------
@@ -836,14 +908,16 @@ class HG.GraphOnGlobe
   OPACITY_MAX = 0.6
 
   BUNDLE_TOLERANCE = 10.0 # degree
-  CONNECTION_STEP_SIZE = 0.1 # degree
+  CONNECTION_STEP_SIZE = 0.05 # degree
+  #high quality:
+  #CONNECTION_STEP_SIZE = 0.005 # degree
 
   # control_points BUFFER_LAYOUT:
   # n:    lat
   # n+1:  lng
   # n+2:  size
-  # n+3:  functionID
-  CONTROL_POINT_BUFFER_LAYOUT_LENGTH = 4
+  # n+3:  functionID // disabled
+  CONTROL_POINT_BUFFER_LAYOUT_LENGTH = 3
 
   # shaders for the graph node connections
   SHADERS =
