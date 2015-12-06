@@ -216,7 +216,7 @@
 
   "AreasOnGlobe" : {
     "hideAreas" : true,
-    "hideLabels" : false
+    "hideLabels" : true
   },
 
   "HiventsOnGlobe" : {},

@@ -120,12 +120,12 @@ class HG.AreasOnGlobe
         @_areaController.onFadeOutArea @, (area) =>
           @_hideArea area, @_aniTime
 
-      @_areaController.onFadeInBorder @, (border) =>
-        @_addBorder border
-        @_showBorder border, @_aniTime
+        @_areaController.onFadeInBorder @, (border) =>
+          @_addBorder border
+          @_showBorder border, @_aniTime
 
-      @_areaController.onFadeOutBorder @, (border) =>
-        @_hideBorder border, @_aniTime
+        @_areaController.onFadeOutBorder @, (border) =>
+          @_hideBorder border, @_aniTime
 
       if not @_config.hideLabels
 
