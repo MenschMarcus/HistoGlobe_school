@@ -36,6 +36,8 @@ class HG.GraphOnGlobe
 
     @_intersected            = false
 
+    @_hidden                 = true
+
 
     # bundle tests:
     @_connectionMaterials = []
@@ -128,9 +130,11 @@ class HG.GraphOnGlobe
         button.onShowGraph @, () =>
           @_globe.addSceneToRenderer(@_sceneGraphNodeConnection)
           @_globe.addSceneToRenderer(@_sceneGraphNode)
+          @_hidden = false
         button.onHideGraph @, () =>
           @_globe.removeSceneFromRenderer(@_sceneGraphNodeConnection)
           @_globe.removeSceneFromRenderer(@_sceneGraphNode)
+          @_hidden = true
 
       else
         @_globe.addSceneToRenderer(@_sceneGraphNodeConnection)
@@ -177,7 +181,7 @@ class HG.GraphOnGlobe
 
   # ============================================================================
   _animate:() =>
-    if @_globe._isRunning
+    if @_globe._isRunning and not @_hidden
       @_evaluate()
 
   # ============================================================================
