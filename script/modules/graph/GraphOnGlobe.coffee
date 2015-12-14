@@ -61,33 +61,16 @@ class HG.GraphOnGlobe
 
     @_infoWindow = document.createElement "div"
     @_infoWindow.className = "leaflet-label"
+    @_infoWindow.style.pointerEvents= "all"
     @_infoWindow.style.position = "absolute"
-    @_infoWindow.style.top = "0px"
-    #@_infoWindow.innerHTML = ""
-    @_infoWindow.style.visibility = "visible"
+    @_infoWindow.id = "GraphNodeConnectionInfo"
+    @_infoWindow.style.visibility = "hidden"
     @_infoWindow.style.background = "#fff"
     @_infoWindow.style.borderColor = "grey";
     @_infoWindow.style.borderWidth = "thin";
+    @_infoWindow.position = new THREE.Vector3(0.0,0.0,0.0)
 
-    # test = () ->
-    #   alert('...')
-    
-    # anchor = document.createElement "a"
-
-    # anchor.innerHTML="test"
-    # # #anchor.id="anchor"
-    # # #console.log anchor
-    # # #document.getElementsByClassName("anchor").onclick = () ->
-    # anchor.onclick = () ->
-    #   console.log "tst..."
-      
-    # # anchor.setAttribute 'href', '#'
-    # # anchor.setAttribute 'onclick', () ->
-    # #   alert('----------')
-    # # #console.log anchor
-    # @_infoWindow.appendChild(anchor)
-    # document.body.appendChild(@_infoWindow);
-
+    document.body.appendChild(@_infoWindow);
 
 
   # ============================================================================
@@ -101,7 +84,6 @@ class HG.GraphOnGlobe
     @_globeCanvas = hgInstance.mapCanvas
 
     @_graphController = hgInstance.graphController
-
 
     if @_globe
       @_globe.onLoaded @, @_initGraph
@@ -174,7 +156,9 @@ class HG.GraphOnGlobe
       #@_graphController.onHideGraphNode @, (node) =>
       #  @_hideGraphNode node
 
-      setInterval(@_animate, 100)
+      #setInterval(@_animate, 100)
+      # for better hardware:
+      setInterval(@_animate, 0)
 
     else
       console.error "Unable to show graph on globe: GraphController module not detected in HistoGlobe instance!"
@@ -269,7 +253,8 @@ class HG.GraphOnGlobe
 
     showConnection = true
 
-    isHighlightedConnection = false
+    isHighlightedConnectionType1 = false
+    isHighlightedConnectionType2 = false
 
     if @_secondNodeOfInterest
 
@@ -281,7 +266,8 @@ class HG.GraphOnGlobe
         linkedNodes[0].Mesh3D.material.opacity = OPACITY_MAX
         linkedNodes[1].Mesh3D.material.opacity = OPACITY_MAX
 
-        isHighlightedConnection = true
+        isHighlightedConnectionType1 = true
+        isHighlightedConnectionType2 = true
 
       else
         showConnection = false
@@ -296,6 +282,8 @@ class HG.GraphOnGlobe
           connectionOpacity = OPACITY_MAX
           linkedNodes[0].Mesh3D.material.opacity = OPACITY_MAX
           linkedNodes[1].Mesh3D.material.opacity = OPACITY_MAX
+          isHighlightedConnectionType1 = true
+
 
     latLongA =
       x: connection.startPoint[0]
@@ -366,7 +354,10 @@ class HG.GraphOnGlobe
     uniforms.line_end.value = lineGeometry.vertices[lineGeometry.vertices.length-1]
 
     # arc:
-    uniforms.max_offset.value = 0.0
+    unless isHighlightedConnectionType1
+      uniforms.max_offset.value = 0.0
+    else
+      uniforms.max_offset.value = connection.getDuration()/(1000*60*60*24*365)
     line_center = lineGeometry.vertices[Math.round(lineGeometry.vertices.length/2)]
     uniforms.line_center.value = line_center
 
@@ -429,7 +420,7 @@ class HG.GraphOnGlobe
 
     connection.Mesh3D = connectionLine
 
-    if isHighlightedConnection
+    if isHighlightedConnectionType2
        @_highlightedConnections.push connection
        @_showGraphNodeConnectionInfo connection
 
@@ -469,8 +460,6 @@ class HG.GraphOnGlobe
     for c in @_highlightedConnections
       if c is connection
         @_sceneGraphNodeConnection.remove c.Label3D
-    @_infoWindow.style.visibility = "hidden"
-    @_infoWindow.innerHTML = ""
 
     # update connection group offset:
     linked_nodes = connection.getLinkedNodes()
@@ -481,116 +470,143 @@ class HG.GraphOnGlobe
         c.Mesh3D.material.uniforms.group_offset.value = index
         ++index
 
+    if connection.anchor and @_infoWindow.hasChildNodes() and @_infoWindow.contains(connection.anchor)
+      @_infoWindow.removeChild(connection.anchor)
+      connection.anchor = null
+
   # ============================================================================
   _showGraphNodeConnectionInfo: (connection) ->
 
-    #name = intersect.object.Node.getName()
-    #x = @_globe._mousePos.x - @_globe._canvasOffsetX + 10;
-    #y = @_globe._mousePos.y - @_globe._canvasOffsetY + 10;
-    @_infoWindow.style.visibility = "visible"
-    #@_infoTag.style.top = "#{y}px"
-    #@_infoTag.style.left = "#{x}px"
-    text = "Alliance Type: "
-    for t,v of connection.getInfoForShow()
-      text+=t if v
-      text+=" " if v
-    @_infoWindow.innerHTML = @_infoWindow.innerHTML + "#{text}<br>"
-
     if connection.Mesh3D
 
-      unless connection.Label3D
+      vertices = connection.Mesh3D.geometry.vertices
+      position_gps = vertices[Math.round(vertices.length/2)]
+      cart_coords = @_globe._latLongToCart(
+        x:position_gps.y
+        y:position_gps.x,# list of infos with 1.0 gps degree distance
+        @_globe.getGlobeRadius())
+      @_infoWindow.position = cart_coords;
 
-        text = "Alliance Type: "
-        for t,v of connection.getInfoForShow()
-          text+=t if v
-          text+=" " if v
+      @_infoWindow.style.visibility = "visible"
+      text = "Alliance Type: "
+      for t,v of connection.getInfoForShow()
+        text+=t if v
+        text+=" " if v
 
-        metrics = TEST_CONTEXT.measureText(text)
-        textWidth = metrics.width+(2*(TEXT_HEIGHT/10))
-        textHeight = TEXT_HEIGHT+(2*(TEXT_HEIGHT/10))
+      anchor = document.createElement "a"
+      anchor.innerHTML= text + "<br>"
+      rgb_color = connection.getColor()
+      three_color = new THREE.Color();
+      three_color.setRGB(rgb_color.x,rgb_color.y,rgb_color.z)
+      hex = three_color.getHexString()
+      anchor.style.color = "##{hex}"
 
-        canvas = document.createElement('canvas')
-        canvas.width = textWidth
-        canvas.height = textHeight
+      @_infoWindow.appendChild(anchor)
+      anchor.onclick = () =>
+        @_hgInstance.hiventInfoAtTag?.setOption 'categories', 'bipolar'
+        @_hgInstance.hiventInfoAtTag?.setOption "event", "H-71"
 
-        context = canvas.getContext('2d')
-        context.textAlign = 'center'
-        context.font = TEXT_FONT
+        @_infoWindow.style.visibility = "hidden"
+        while @_infoWindow.hasChildNodes()
+          @_infoWindow.removeChild(@_infoWindow.lastChild);
 
-        context.shadowColor = "#ffffff"
-        context.shadowOffsetX = -TEXT_HEIGHT/10
-        context.shadowOffsetY = -TEXT_HEIGHT/10
+      connection.anchor = anchor;
 
-        context.fillText(text,textWidth/2,textHeight*0.75)
 
-        context.shadowOffsetX =  TEXT_HEIGHT/10
-        context.shadowOffsetY = -TEXT_HEIGHT/10
 
-        context.fillText(text,textWidth/2,textHeight*0.75)
+      # unless connection.Label3D
 
-        context.shadowOffsetX = -TEXT_HEIGHT/10
-        context.shadowOffsetY =  TEXT_HEIGHT/10
+      #   text = "Alliance Type: "
+      #   for t,v of connection.getInfoForShow()
+      #     text+=t if v
+      #     text+=" " if v
 
-        context.fillText(text,textWidth/2,textHeight*0.75)
+      #   metrics = TEST_CONTEXT.measureText(text)
+      #   textWidth = metrics.width+(2*(TEXT_HEIGHT/10))
+      #   textHeight = TEXT_HEIGHT+(2*(TEXT_HEIGHT/10))
 
-        context.shadowOffsetX =  TEXT_HEIGHT/10
-        context.shadowOffsetY =  TEXT_HEIGHT/10
+      #   canvas = document.createElement('canvas')
+      #   canvas.width = textWidth
+      #   canvas.height = textHeight
 
-        rgb_color = connection.getColor()
-        three_color = new THREE.Color();
-        three_color.setRGB(rgb_color.x,rgb_color.y,rgb_color.z)
-        hex = three_color.getHexString()
-        #context.fillStyle="#000000";
-        context.fillStyle= "##{hex}";
-        context.fillText(text,textWidth/2,textHeight*0.75)
+      #   context = canvas.getContext('2d')
+      #   context.textAlign = 'center'
+      #   context.font = TEXT_FONT
 
-        texture = new THREE.Texture(canvas)
-        texture.needsUpdate = true
-        material = new THREE.SpriteMaterial({
-          map: texture,
-          transparent:false,
-          useScreenCoordinates: false,
-          scaleByViewport: true,
-          sizeAttenuation: false,
-          depthTest: false,
-          affectedByDistance: false
-          })
+      #   context.shadowColor = "#ffffff"
+      #   context.shadowOffsetX = -TEXT_HEIGHT/10
+      #   context.shadowOffsetY = -TEXT_HEIGHT/10
 
-        sprite = new THREE.Sprite(material)
-        sprite.textWidth = textWidth
+      #   context.fillText(text,textWidth/2,textHeight*0.75)
 
-        @_sceneGraphNodeConnection.add sprite
-        sprite.scale.set(textWidth,textHeight,1.0)
-        #sprite.position.set position.x,position.y,position.z
+      #   context.shadowOffsetX =  TEXT_HEIGHT/10
+      #   context.shadowOffsetY = -TEXT_HEIGHT/10
 
-        # position
-        vertices = connection.Mesh3D.geometry.vertices
-        index = @_highlightedConnections.indexOf(connection)
-        #position = vertices[Math.round(vertices.length*((index+1.0)/(@_highlightedConnections.length+1.0)))]
-        position = vertices[Math.round(vertices.length/2)]
-        cart_coords = @_globe._latLongToCart(
-          x:position.y
-          y:position.x-(index*1.0),# list of infos with 1.0 gps degree distance
-          @_globe.getGlobeRadius())
-        sprite.position.set cart_coords.x,cart_coords.y,cart_coords.z
+      #   context.fillText(text,textWidth/2,textHeight*0.75)
 
-        sprite.MaxWidth = textWidth
-        sprite.MaxHeight = textHeight
+      #   context.shadowOffsetX = -TEXT_HEIGHT/10
+      #   context.shadowOffsetY =  TEXT_HEIGHT/10
 
-        connection.Label3D = sprite
+      #   context.fillText(text,textWidth/2,textHeight*0.75)
+
+      #   context.shadowOffsetX =  TEXT_HEIGHT/10
+      #   context.shadowOffsetY =  TEXT_HEIGHT/10
+
+      #   rgb_color = connection.getColor()
+      #   three_color = new THREE.Color();
+      #   three_color.setRGB(rgb_color.x,rgb_color.y,rgb_color.z)
+      #   hex = three_color.getHexString()
+      #   #context.fillStyle="#000000";
+      #   context.fillStyle= "##{hex}";
+      #   context.fillText(text,textWidth/2,textHeight*0.75)
+
+      #   texture = new THREE.Texture(canvas)
+      #   texture.needsUpdate = true
+      #   material = new THREE.SpriteMaterial({
+      #     map: texture,
+      #     transparent:false,
+      #     useScreenCoordinates: false,
+      #     scaleByViewport: true,
+      #     sizeAttenuation: false,
+      #     depthTest: false,
+      #     affectedByDistance: false
+      #     })
+
+      #   sprite = new THREE.Sprite(material)
+      #   sprite.textWidth = textWidth
+
+      #   @_sceneGraphNodeConnection.add sprite
+      #   sprite.scale.set(textWidth,textHeight,1.0)
+      #   #sprite.position.set position.x,position.y,position.z
+
+      #   # position
+      #   vertices = connection.Mesh3D.geometry.vertices
+      #   index = @_highlightedConnections.indexOf(connection)
+      #   #position = vertices[Math.round(vertices.length*((index+1.0)/(@_highlightedConnections.length+1.0)))]
+      #   position = vertices[Math.round(vertices.length/2)]
+      #   cart_coords = @_globe._latLongToCart(
+      #     x:position.y
+      #     y:position.x-(index*1.0),# list of infos with 1.0 gps degree distance
+      #     @_globe.getGlobeRadius())
+      #   sprite.position.set cart_coords.x,cart_coords.y,cart_coords.z
+
+      #   sprite.MaxWidth = textWidth
+      #   sprite.MaxHeight = textHeight
+
+      #   connection.Label3D = sprite
       
-      else
-        @_sceneGraphNodeConnection.add connection.Label3D
-        # update position
-        vertices = connection.Mesh3D.geometry.vertices
-        index = @_highlightedConnections.indexOf(connection)
-        #position = vertices[Math.round(vertices.length*((index+1.0)/(@_highlightedConnections.length+1.0)))]
-        position = vertices[Math.round(vertices.length/2)]
-        cart_coords = @_globe._latLongToCart(
-          x:position.y
-          y:position.x-(index*1.0),# list of infos with 1.0 gps degree distance
-          @_globe.getGlobeRadius())
-        connection.Label3D.position.set cart_coords.x,cart_coords.y,cart_coords.z
+      # else
+      #   @_sceneGraphNodeConnection.add connection.Label3D
+      #   # update position
+      #   vertices = connection.Mesh3D.geometry.vertices
+      #   index = @_highlightedConnections.indexOf(connection)
+      #   #position = vertices[Math.round(vertices.length*((index+1.0)/(@_highlightedConnections.length+1.0)))]
+      #   position = vertices[Math.round(vertices.length/2)]
+      #   cart_coords = @_globe._latLongToCart(
+      #     x:position.y
+      #     y:position.x-(index*1.0),# list of infos with 1.0 gps degree distance
+      #     @_globe.getGlobeRadius())
+      #   connection.Label3D.position.set cart_coords.x,cart_coords.y,cart_coords.z
 
   # ============================================================================
   #_addControlPoint: (functionID,size,lng,lat) =>
@@ -726,9 +742,15 @@ class HG.GraphOnGlobe
 
           for c in @_highlightedConnections
             @_sceneGraphNodeConnection.remove c.Label3D
-          @_infoWindow.style.visibility = "hidden"
-          @_infoWindow.innerHTML = ""
+
           @_highlightedConnections = []
+
+          #hide GraphNodeConnectionInfoWindow
+          setTimeout ()=>
+            @_infoWindow.style.visibility = "hidden"
+            while @_infoWindow.hasChildNodes()
+              @_infoWindow.removeChild(@_infoWindow.lastChild);
+          , 10
 
           @_evaluate()
         
@@ -756,6 +778,7 @@ class HG.GraphOnGlobe
 
             @_nodeOfInterest.Mesh3D.material.opacity = OPACITY_MAX
 
+            @_infoWindow.style.visibility = "visible"
             for hc in @_highlightedConnections 
               @_showGraphNodeConnectionInfo(hc)
 
@@ -893,6 +916,12 @@ class HG.GraphOnGlobe
         @_infoTag.style.top = "#{y}px"
         @_infoTag.style.left = "#{x}px"
         @_infoTag.innerHTML = "#{name}"
+
+
+      # update infor window of highlighted connections
+      screenCoordinates = @_globe._getScreenCoordinates(@_infoWindow.position)
+      @_infoWindow.style.top = "#{screenCoordinates.y}px"
+      @_infoWindow.style.left = "#{screenCoordinates.x}px"
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #
