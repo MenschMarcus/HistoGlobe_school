@@ -1,6 +1,9 @@
-#include Hivent.coffee
-
 window.HG ?= {}
+
+# ==============================================================================
+# HiventBuilder is a simple class to encapsulate reading Hivent data from an
+# array according to a given index mapping.
+# ==============================================================================
 
 class HG.HiventBuilder
 

@@ -1,5 +1,8 @@
 window.HG ?= {}
 
+# ==============================================================================
+# Module to create HiventMarker2Ds for a Leaflet map.
+# ==============================================================================
 class HG.HiventsOnMap
 
   ##############################################################################
@@ -23,6 +26,7 @@ class HG.HiventsOnMap
     # init AB tests
     @_ab = hgInstance.abTest.config
 
+    # Assign css classes to the HiventMarkers according to their category
     if hgInstance.categoryIconMapping
       for category in hgInstance.categoryIconMapping.getCategories()
         icons = hgInstance.categoryIconMapping.getIcons(category)
@@ -82,6 +86,8 @@ class HG.HiventsOnMap
       @_markerGroup.on( "spiderfied" , ->
         window.organizeLabels()
         )
+
+      # Get all HiventHandles and add a HiventMarker for each of them.
       @_hiventController.getHivents @, (handle) =>
         @_markersLoaded = @_hiventController._hiventsLoaded
 

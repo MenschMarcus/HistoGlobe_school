@@ -1,5 +1,9 @@
 window.HG ?= {}
 
+# ==============================================================================
+# This is HistoGlobe's central class. It initiates module loading and can be
+# used to store/gather information on the current state of the application.
+# ==============================================================================
 class HG.HistoGlobe
 
   ##############################################################################
@@ -7,11 +11,17 @@ class HG.HistoGlobe
   ##############################################################################
 
   # ============================================================================
+  # Class constructor
+  # A module configuration file located at "pathToJson" is parsed and evaluated,
+  # i.e., all specified modules are constructed and initialized.
+  # ============================================================================
   constructor: (pathToJson) ->
 
     HG.mixin @, HG.CallbackContainer
     HG.CallbackContainer.call @
 
+    # Callback specification
+    # Any object may listen for notifictations on any of the below signals.
     @addCallback "onTopAreaSlide"
     @addCallback "onAllModulesLoaded"
     @addCallback "onMapAreaSizeChange"
@@ -36,14 +46,24 @@ class HG.HistoGlobe
       sidebarEnabled: "true"
       tiles: 'data/tiles/'
 
+    # Asynchronous loading of a file containing module information located at
+    # "pathToJson". Result is stored in the "config" object and passed to the
+    # specified callback function.
     $.getJSON(pathToJson, (config) =>
+
+      # Config of the central HistoGlobe instance is loaded. $.extend is used to
+      # combine the default and the actual config. Thus, all attributes
+      # specified in "defaultConfig" are stored in "@_config" and either being
+      # overridden by the loaded config or kept as default.
       hgConf = config["HistoGlobe"]
       @_config = $.extend {}, defaultConfig, hgConf
       @_config.container =  document.getElementById @_config.container
 
+      # GUI creation
       @_createTopArea()
 
       @_createMap()
+
       if @_config.sidebarEnabled
         @_createSidebar()
         @_createCollapseButton()
@@ -52,19 +72,26 @@ class HG.HistoGlobe
 
       @_collapsed = true
 
+      # Auxiliary function for module loading. Tries to create an object by the
+      # name of "moduleName", passing "moduleConfig" to the object's constructor.
+      # If the creation was successful, "hgInit" is called on the new module.
       load_module = (moduleName, moduleConfig) =>
         defaultConf =
           enabled : true
 
         moduleConfig = $.extend {}, defaultConf, moduleConfig
 
+        # Check if there exists a module by the specified name. To ensure custom
+        # modules are found one must add them to the HG scope
         if window["HG"][moduleName]?
+          # Only load modules which are enabled
           if moduleConfig.enabled
             newMod = new window["HG"][moduleName] moduleConfig
             @addModule newMod
         else
           console.error "The module #{moduleName} is not part of the HG namespace!"
 
+      # Load all modules specified in the configuration file.
       for moduleName, moduleConfig of config
         '''if moduleName is "Widgets"
           for widget in moduleConfig
@@ -75,6 +102,7 @@ class HG.HistoGlobe
 
         window.hgConf=config
 
+      # After all modules are loaded, notify whoever is interested
       @notifyAll "onAllModulesLoaded"
 
       # hack: initial call of timeline now change
@@ -92,13 +120,21 @@ class HG.HistoGlobe
 
 
   # ============================================================================
+  # Calls "hgInit" on the object "module". A reference to the HistoGlobe
+  # instance. Thus, modules may interact with and/or save a reference to the
+  # HistoGlobe instance within hgInit.
+  # ============================================================================
   addModule: (module) ->
     module.hgInit @
 
   # ============================================================================
+  # Checks whether or not the application is running in mobile mode.
+  # ============================================================================
   isInMobileMode: =>
     window.innerWidth < HGConfig.sidebar_width.val + HGConfig.map_min_width.val
 
+  # ============================================================================
+  # Returns the effective size of the map area.
   # ============================================================================
   getMapAreaSize: () ->
     if @_collapsed
@@ -111,12 +147,17 @@ class HG.HistoGlobe
         y: $(@_top_area).outerHeight()
 
   # ============================================================================
+  # Returns the DOM element containing all HistoGLobe visuals
+  # ============================================================================
   getContainer: () ->
     @_config.container
 
   # ============================================================================
+  # Getter for information on time boundaries/the visualization's start year.
+  # ============================================================================
   getMinMaxYear: () ->
     [@_config.minYear, @_config.maxYear]
+
   getStartYear: () ->
     @_config.nowYear
 
@@ -168,6 +209,8 @@ class HG.HistoGlobe
     $(@_collapse_button).click @_collapse
     $(@_collapse_area_left).click @_collapse
 
+  # ============================================================================
+  # Creates 2D Map. For more information, please see Display2D.coffe.
   # ============================================================================
   _createMap: ->
     @_map_area = @_createElement @_top_area_wrapper, "div", "map-area"

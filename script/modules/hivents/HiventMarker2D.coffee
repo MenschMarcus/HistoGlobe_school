@@ -1,8 +1,9 @@
-#include Mixin.coffee
-#include HiventMarker.coffee
-
 window.HG ?= {}
 
+# ==============================================================================
+# HiventMarker2D encapsulates members and functionality to represent a Hivent
+# on a Leaflet map.
+# ==============================================================================
 class HG.HiventMarker2D extends HG.HiventMarker
 
   ##############################################################################
@@ -10,12 +11,15 @@ class HG.HiventMarker2D extends HG.HiventMarker
   ##############################################################################
 
   # ============================================================================
+  # Constructor
+  # Inits members and adds a new Leaflet marker to the map.
+  # ============================================================================
   constructor: (hiventHandle, lat, long, display, map, markerGroup, locationName, hgInstance) ->
 
-    #Call Hivent Marker Constructor
+    #Call HiventMarker Constructor
     HG.HiventMarker.call @, hiventHandle, map.getPanes()["popupPane"]
 
-    #List of Markers
+    #List of all HiventMarker2Ds
     VISIBLE_MARKERS_2D.push @
 
     @_hgInstance = hgInstance
@@ -36,11 +40,13 @@ class HG.HiventMarker2D extends HG.HiventMarker
 
 
     html="<div class=\"markerLabel left\">#{@_markerLabelLocation}</div>"
-    
+
 
     iconAnchor=[15,45]
     icon_default    = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_default", iconSize: [34, 50] ,iconAnchor:iconAnchor,html:html}
     icon_higlighted = new L.DivIcon {className: "hivent_marker_2D_#{hiventHandle.getHivent().category}_highlighted", iconSize: [34, 50], iconAnchor:iconAnchor, html:html}
+
+    # Create Leaflet marker
     @_marker = new L.Marker [@_lat, @_long], {icon: icon_default}
 
     @_marker.myHiventMarker2D = @
@@ -55,8 +61,8 @@ class HG.HiventMarker2D extends HG.HiventMarker
 
     @_position = new L.Point 0,0
     @_updatePosition()
-    
-    #Event Listeners
+
+    #Event listeners
     @_marker.on "mouseover", @_onMouseOver
     @_marker.on "mouseout", @_onMouseOut
     @_marker.on "click", @_onClick
@@ -66,18 +72,22 @@ class HG.HiventMarker2D extends HG.HiventMarker
     @_map.on "dragend", @_updatePosition
     @_map.on "viewreset", @_updatePosition
     @_map.on "zoomend", @_updateMarker
+
+
+    # Center the map if associated HiventHandle is focussed
     @getHiventHandle().onFocus(@, (mousePos) =>
       if @_display.isRunning()
         @_display.focus @getHiventHandle().getHivent()
     )
 
+    # Highlight the HiventMarker2D if associated HiventHandle is active
     @getHiventHandle().onActive(@, (mousePos) =>
       if  @_marker._icon?
         if @_marker._icon.innerHTML.indexOf("right")>-1
           @_marker.setIcon icon_higlighted
           @_marker._icon.innerHTML="<div class=\"markerLabel right\">#{@_markerLabelLocation}</div>"
         else
-          @_marker.setIcon icon_higlighted          
+          @_marker.setIcon icon_higlighted
       else
         @_marker.setIcon icon_higlighted
       @_map.on "drag", @_updatePosition
@@ -89,7 +99,7 @@ class HG.HiventMarker2D extends HG.HiventMarker
           @_marker.setIcon icon_default
           @_marker._icon.innerHTML="<div class=\"markerLabel right\">#{@_markerLabelLocation}</div>"
         else
-          @_marker.setIcon icon_default          
+          @_marker.setIcon icon_default
       else
         @_marker.setIcon icon_default
 
@@ -103,13 +113,13 @@ class HG.HiventMarker2D extends HG.HiventMarker
           @_marker.setIcon icon_higlighted
           @_marker._icon.innerHTML="<div class=\"markerLabel right\">#{@_markerLabelLocation}</div>"
         else
-          @_marker.setIcon icon_higlighted          
+          @_marker.setIcon icon_higlighted
       else
         @_marker.setIcon icon_higlighted
-      
+
       @_map.on "drag", @_updatePosition
 
-      
+
     )
 
     @getHiventHandle().onUnLink(@, (mousePos) =>
@@ -119,11 +129,11 @@ class HG.HiventMarker2D extends HG.HiventMarker
           @_marker._icon.innerHTML="<div class=\"markerLabel right\">#{@_markerLabelLocation}</div>"
         else
           @_marker.setIcon icon_default
-        if @_map.getZoom()<=4
-          @_marker._icon.innerHTML=""          
+        if @_map.getZoom() <= 4
+          @_marker._icon.innerHTML = ''
       else
         @_marker.setIcon icon_higlighted
-        
+
     )
 
     @getHiventHandle().onAgeChanged @, (age) =>
@@ -138,12 +148,16 @@ class HG.HiventMarker2D extends HG.HiventMarker
     @addCallback "onMarkerDestruction"
 
   # ============================================================================
+  # Returns the HiventMarker2D's postion in lat and long
+  # ============================================================================
   getPosition: ->
     {
       lat: @_lat
       long: @_long
     }
 
+  # ============================================================================
+  # Returns the HiventMarker2D's position in pixel coordinates
   # ============================================================================
   getDisplayPosition: ->
     #console.log  $(@_map._container).offset()
@@ -206,17 +220,15 @@ class HG.HiventMarker2D extends HG.HiventMarker
     #should be a way to specify behaviour over config/abtest
     #if window.hgConfig.ABTest.regionLabels=="B"
     #disabled for better performance
-    #marcus you told me to write this function
-                 
 
     if @_marker._icon?
       if @_map.getZoom()>4
-        if @_marker._icon.innerHTML.indexOf("right")>-1      
-          @_marker._icon.innerHTML="<div class=\"markerLabel right\">#{@_markerLabelLocation}</div>"
+        if @_marker._icon.innerHTML.indexOf("right")>-1
+          @_marker._icon.innerHTML = "<div class=\"markerLabel right\">#{@_markerLabelLocation}</div>"
         else
-          @_marker._icon.innerHTML="<div class=\"markerLabel left\">#{@_markerLabelLocation}</div>"
+          @_marker._icon.innerHTML = "<div class=\"markerLabel left\">#{@_markerLabelLocation}</div>"
       else
-        @_marker._icon.innerHTML=""      
+        @_marker._icon.innerHTML = ""
 
     0
    # ============================================================================

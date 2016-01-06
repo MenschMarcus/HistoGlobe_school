@@ -1,13 +1,18 @@
-#include HiventHandle.coffee
-
 window.HG ?= {}
 
+# ==============================================================================
+# Base class for Hivent markers. HiventMarker provides basic functionality
+# and interfaces.
+# ==============================================================================
 class HG.HiventMarker
- 
+
   ##############################################################################
   #                            PUBLIC INTERFACE                                #
   ##############################################################################
 
+  # ============================================================================
+  # Constructor
+  # Initializes members and adds callbacks for state changes.
   # ============================================================================
   constructor: (hiventHandle, parentDiv) ->
 
@@ -24,6 +29,9 @@ class HG.HiventMarker
   hgInit: (hgInstance) ->
     @_hgInstance = hgInstance
 
+  # ============================================================================
+  # Returns the associated HiventHandle. Multiple HiventMarkers may share the
+  # same HiventHandle.
   # ============================================================================
   getHiventHandle: ->
     @_hiventHandle
