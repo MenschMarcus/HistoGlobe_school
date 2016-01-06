@@ -9,8 +9,8 @@
     "maxZoom": 7,
     "startZoom": 4,
     "startLatLong": [50.9869531, 11.3205004],
-    "tiles": "config/full/tiles/",
-    "tilesHighContrast": "config/full/hc/",
+    "tiles": "config/full/tiles/tiles/",
+    "tilesHighContrast": "config/full/tiles_high_contrast/",
     "areaAniTime" : 700,
     "sidebarEnabled": false
   },
@@ -48,7 +48,7 @@
   },
 
   "BrowserDetector": {},
-  
+
   "Globe": {},
 
   "ZoomButtonsTimeline": {},
@@ -57,7 +57,7 @@
   "FullscreenButton": {},
   "HighContrastButton": {},
   "MinLayoutButton": {},
-  "GraphButton": {}, 
+  "GraphButton": {},
 
   "CategoryFilter":
   {

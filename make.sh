@@ -9,7 +9,8 @@
 # PROJECT=teaser2_hivents
 # PROJECT=teaser3_sidebar
 # PROJECT=presentation
-PROJECT=school
+# PROJECT=school
+PROJECT=full
 
 if [ ! -d "build" ]; then
     mkdir build
