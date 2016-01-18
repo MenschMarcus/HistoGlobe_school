@@ -112,7 +112,7 @@ class HG.HiventsOnGlobe
                 markerGroup = new HG.HiventMarker3DGroup([marker,m],@_globe, HG.Display.CONTAINER, @_sceneInterface, logos, @_hgInstance)
 
                 markerGroup.onMarkerDestruction @, (marker_group) =>
-                  #remove group and add last/remaining element to map 
+                  #remove group and add last/remaining element to map
                   index = @_hiventMarkerGroups.indexOf(marker_group)
                   @_hiventMarkerGroups.splice index,1 if index >= 0
                   @_sceneInterface.remove marker_group.sprite
@@ -243,10 +243,10 @@ class HG.HiventsOnGlobe
     @_backupZoom = @_globe._currentZoom
     @_backupCenter = @_globe._targetCameraPos
 
-    if @_lastIntersected.length is 0
-        HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()
-        for group in @_hiventMarkerGroups
-          group.onUnClick()
+    # if @_lastIntersected.length is 0
+    #     HG.HiventHandle.DEACTIVATE_ALL_HIVENTS()
+    #     for group in @_hiventMarkerGroups
+    #       group.onUnClick()
 
 
   # ============================================================================
@@ -319,7 +319,7 @@ class HG.HiventsOnGlobe
 
     for hivent in @_lastIntersected
       hivent.onMouseOut()
-        
+
 
     if tmp_intersects.length is 0
       HG.Display.CONTAINER.style.cursor = "auto" if @_intersected

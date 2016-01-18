@@ -152,7 +152,7 @@ class HG.GraphController
                 @notifyAll "onHideGraphNodeConnection",connection
               newConnection.setDate @_now
 
-              @_connections.push newConnection 
+              @_connections.push newConnection
 
               #nodes:
               unless oldA
@@ -215,8 +215,10 @@ class HG.GraphController
       for line in csvval
         csvvalue=line.split("|")
         #id = csvvalue[0].replace(/\s+/g, '')
-        latlng = csvvalue[2].split(",")
-        @_countryCodes[csvvalue[1]] = 
-          lat: parseFloat(latlng[0])
-          lng: parseFloat(latlng[1])
+        # latlng = csvvalue[2].split(",")
+        @_countryCodes[csvvalue[1]] =
+          # lat: parseFloat(latlng[0])
+          # lng: parseFloat(latlng[1])
+          lat: parseFloat(csvvalue[2])
+          lng: parseFloat(csvvalue[3])
     )

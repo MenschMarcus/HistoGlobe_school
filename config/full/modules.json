@@ -215,7 +215,7 @@
   },
 
   "AreasOnGlobe" : {
-    "hideAreas" : false,
+    "hideAreas" : true,
     "hideLabels" : false
   },
 
