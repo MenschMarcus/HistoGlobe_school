@@ -63,7 +63,7 @@ class HG.Globe extends HG.Display
 
           state_a =
             icon: "fa-globe"
-            tooltip: "Zur 3D-Ansicht wechseln"
+            tooltip: "switch to 3D Globe"
             callback: () =>
               $(hgInstance.map.getCanvas()).animate({opacity: 0.0}, 1000, 'linear')
               hgInstance.map.stop()
@@ -78,7 +78,7 @@ class HG.Globe extends HG.Display
 
           state_b =
             icon: "fa-calendar"
-            tooltip: "Zur 2D-Ansicht zurückkehren"
+            tooltip: "switch to 2D Map"
             callback: () =>
               $(@getCanvas()).animate({opacity: 0.0}, 1000, 'linear')
               @stop()

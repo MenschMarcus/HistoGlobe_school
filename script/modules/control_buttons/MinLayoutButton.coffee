@@ -42,7 +42,7 @@ class HG.MinLayoutButton
 
       state_a =
         icon: "fa-sort-desc"
-        tooltip: "Oberfläche vereinfachen"
+        tooltip: "simplify interface"
         callback: () =>
           $(hgInstance._config.container).addClass 'minGUI'
           @notifyAll "onRemoveGUI"
@@ -50,7 +50,7 @@ class HG.MinLayoutButton
 
       state_b =
         icon: "fa-sort-asc"
-        tooltip: "Mehr Optionen anzeigen"
+        tooltip: "show all options of the interface"
         callback: () =>
           $(hgInstance._config.container).removeClass 'minGUI'
           @notifyAll "onOpenGUI"

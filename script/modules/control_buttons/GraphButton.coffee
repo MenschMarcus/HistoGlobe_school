@@ -27,14 +27,14 @@ class HG.GraphButton
 
       state_a =
         icon: "fa-share-alt"
-        tooltip: "Allianzen zeigen"
+        tooltip: "show alliances"
         callback: () =>
           @notifyAll "onShowGraph"
           return state_b
 
       state_b =
         icon: "fa-share-alt"
-        tooltip: "Allianzen ausblenden"
+        tooltip: "hide alliances"
         callback: () =>
           @notifyAll "onHideGraph"
           return state_a

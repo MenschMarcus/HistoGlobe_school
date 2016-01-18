@@ -49,7 +49,7 @@ class HG.FullscreenButton
 
       state_a =
         icon: "fa-expand"
-        tooltip: "Vollbildmodus"
+        tooltip: "fullscreen"
         callback: () =>
 
           elem = document.body
@@ -68,7 +68,7 @@ class HG.FullscreenButton
 
       state_b =
         icon: "fa-compress"
-        tooltip: "Vollbildmodus verlassen"
+        tooltip: "leave fullscreen"
         callback: () =>
           elem = document.body
           if (elem.requestFullscreen)
