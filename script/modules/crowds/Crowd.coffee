@@ -7,10 +7,11 @@ class HG.Crowd
   ##############################################################################
 
   # ============================================================================
-  constructor: (fillColor, nation, info, startLocation, locations, times, sizes, endTime, date) ->
-  	
+  constructor: (fillColor, nation, party, info, startLocation, locations, times, sizes, endTime, date) ->
+
     @_fillColor = fillColor
     @_nation = nation
+    @_party = party
     @_info = info
     @_startLocation = startLocation
     @_locations = locations
@@ -85,7 +86,7 @@ class HG.Crowd
 
   # ============================================================================
   getLocation: ->
-    
+
     now = @_date.getTime()
     if now >= @_times[@_times.length-1].getTime() and now <= @_endTime.getTime()
       long = @_locations[@_times.length-1].lng
@@ -99,7 +100,7 @@ class HG.Crowd
     else
       @_visitedLocations.push location
     location
-    
+
 
   # ============================================================================
   getVisitedLocations: ->
@@ -113,9 +114,13 @@ class HG.Crowd
   getOptions: ->
   	@_geojsonMarkerOptions
 
-	# ============================================================================
+  # ============================================================================
   getNation: ->
-  	@_nation
+    @_nation
+
+	# ============================================================================
+  getParty: ->
+  	@_party
 
   # ============================================================================
   getInfo: ->
@@ -183,7 +188,7 @@ class HG.Crowd
     while index < @_times.length-1
       if @_times[index].getTime() <= @_date.getTime() and @_date.getTime() < @_times[index+1].getTime()
 
-        if Math.abs(@_times[index].getTime() - @_date.getTime()) <= Math.abs(@_times[index+1].getTime() - @_date.getTime()) 
+        if Math.abs(@_times[index].getTime() - @_date.getTime()) <= Math.abs(@_times[index+1].getTime() - @_date.getTime())
           return index
         else
           return index + 1
@@ -247,7 +252,7 @@ class HG.Crowd
 
           # if stepped location in front of destination
           if Math.abs(Math.sqrt(Math.pow(@_locations[i].lat-tmp_location.lat,2)+Math.pow(@_locations[i].lng-tmp_location.lng,2)))<diff
-            
+
             # linearly interpolated time
             cur_diff = Math.abs(Math.sqrt(Math.pow(@_locations[i+1].lat-tmp_location.lat,2)+Math.pow(@_locations[i+1].lng-tmp_location.lng,2)))
             delta = Math.abs(cur_diff/diff)
@@ -258,7 +263,7 @@ class HG.Crowd
             @_interpolatedLocations.push new_location
             @_timesForInterpolatedLocations.push tmp_time
             @_interpolatedSizes.push @_sizes[i]
-          
+
           else
             break
 
@@ -266,7 +271,7 @@ class HG.Crowd
         @_interpolatedLocations.push @_locations[i+1]
         @_timesForInterpolatedLocations.push @_times[i+1]
         @_interpolatedSizes.push @_sizes[i+1]
-    
+
     else if @_locations.length==1 and @_locations.length is @_times.length
       @_interpolatedLocations.push @_locations[0]
       @_timesForInterpolatedLocations.push @_times[0]

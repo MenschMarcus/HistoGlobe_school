@@ -68,7 +68,7 @@ class HG.CrowdMarker2D
 
               @_circle.setStyle({opacity:@_circle.options.opacity/1.5, fillOpacity:@_circle.options.fillOpacity/1.5})
               @_startCircle.setStyle({opacity:@_startCircle.options.opacity/1.5, fillOpacity:@_startCircle.options.fillOpacity/1.5})
-              setTimeout -> 
+              setTimeout ->
                 fadeOut(opacity/1.5)
               ,50
             else @_fadingOut = false
@@ -97,7 +97,7 @@ class HG.CrowdMarker2D
       # crowd visible
       @_currentLocation = @_crowd.getLocation()
       @_setActualSizes()
-      
+
       if @_onMap is false
 
         @_flag = new L.Marker @_currentLocation, {
@@ -156,8 +156,8 @@ class HG.CrowdMarker2D
 
         @_translateCrowd @_currentLocation
         #@_icon.bindPopup @_getInfo()
-        
-  
+
+
   ##############################################################################
   #                            PRIVATE INTERFACE                               #
   ##############################################################################
@@ -192,7 +192,7 @@ class HG.CrowdMarker2D
       next_time = @_crowd.getTimesForLocations()[index+dir]
       if next_time*dir < goal_time*dir
         @_timeline.moveToDate(next_time)
-        setTimeout -> 
+        setTimeout ->
           goToNextLocation(goal_time,dir)
         ,50
       else
@@ -226,7 +226,7 @@ class HG.CrowdMarker2D
     location_ids.push(cur_index)
     if cur_index < locations.length-1
       location_ids.push(cur_index+1)
-    
+
     min_dist = 999999
     nearestLocationID = null
     cur_latlng = @_icon._latlng
@@ -234,7 +234,7 @@ class HG.CrowdMarker2D
     for i in location_ids
       candidatePos = locations[i]
       dist = Math.sqrt(Math.pow(cur_latlng.lat-candidatePos.lat,2) + Math.pow(cur_latlng.lng-candidatePos.lng,2))
-      
+
       if dist < min_dist
         min_dist = dist
         nearestLocationID = i
@@ -249,13 +249,13 @@ class HG.CrowdMarker2D
   # ============================================================================
   _initMarker: ->
 
-    if @_crowd.getNation() == "Deutschland"
+    if @_crowd.getParty() == "A"
       @_currentFlag = new L.DivIcon {
-        className: "crowd_marker_2D_flag"
+        className: "crowd_marker_2D_flagA"
       }
-    if @_crowd.getNation() == "Frankreich"
+    if @_crowd.getParty() == "B"
       @_currentFlag = new L.DivIcon {
-        className: "crowd_marker_2D_flag2"
+        className: "crowd_marker_2D_flagB"
       }
 
     @_currentIcon = new L.DivIcon {
@@ -361,10 +361,10 @@ class HG.CrowdMarker2D
     if @_drawnLocations.length < 2
       @_removeLine()
       index = 0
-      while index < times.length and times[index].getTime() <= date.getTime() 
+      while index < times.length and times[index].getTime() <= date.getTime()
         if locations[index] not in @_drawnLocations
           @_drawnLocations.push locations[index]
-        index++    
+        index++
 
     if @_drawnLocations.length >= 2
       if not @_lineDrawn
@@ -379,7 +379,7 @@ class HG.CrowdMarker2D
           tmp_line = new L.polyline [@_drawnLocations[i-1],@_drawnLocations[i]], { color: 'grey', opacity: 1, weight: size, clickable: false }
           tmp_line.addTo @_map
           @_lines.push tmp_line
-        
+
       index = 0
       while index < times.length and times[index].getTime() <= date.getTime()
         if locations[index] not in @_drawnLocations
@@ -408,7 +408,7 @@ class HG.CrowdMarker2D
 
   # ============================================================================
   _translateCrowd: (location) ->
-    
+
     @_flag.setIcon @_currentFlag
     @_icon.setIcon @_currentIcon
     @_flag.setLatLng location

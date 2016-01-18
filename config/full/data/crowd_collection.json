@@ -1,6 +1,7 @@
 [
 	{
 		"nation": "Deutschland",
+		"party": "A",
 		"info": "Heeresgruppe Mackensen",
 		"startLocation": "Neu Sandec",
 		"locations": [
@@ -59,6 +60,7 @@
 	},
 	{
 		"nation": "Deutschland",
+		"party": "B",
 		"info": "Heeresgruppe Deutscher Kronprinz / Heeresgruppe B",
 		"startLocation": "Stenay",
 		"locations": [
@@ -87,6 +89,7 @@
 	},
 	{
 		"nation": "Deutschland",
+		"party": "A",
 		"info": "Heeresgruppe Hindenburg",
 		"startLocation": "Lötzen",
 		"locations": [
@@ -109,6 +112,7 @@
 	},
 	{
 		"nation": "Deutschland",
+		"party": "B",
 		"info": "Heeresgruppe Linsingen",
 		"startLocation": "Jablon",
 		"locations": [
@@ -137,6 +141,7 @@
 	},
 	{
 		"nation": "Deutschland",
+		"party": "A",
 		"info": "Heeresgruppe Gallwitz / Heeresgruppe Kronprinz Rupprecht von Bayern / Heeresgruppe A",
 		"startLocation": "St. Quentin",
 		"locations": [
@@ -171,6 +176,7 @@
 	},
 	{
 		"nation": "Deutschland",
+		"party": "A",
 		"info": "Heeresgruppe Eichhorn / Heeresgruppe Eichhorn-Kiew / Heeresgruppe Kiew",
 		"startLocation": "Wilna",
 		"locations": [
@@ -201,6 +207,7 @@
 	},
 	{
 		"nation": "Deutschland",
+		"party": "A",
 		"info": "Heeresgruppe Herzog Albrecht von Württemberg / Heeresgruppe D",
 		"startLocation": "Straßburg",
 		"locations": [
@@ -220,6 +227,7 @@
 	},
 	{
 		"nation": "Deutschland",
+		"party": "A",
 		"info": "Heeresgruppe Yildrim / Heeresgruppe F",
 		"startLocation": "Konstantinopel",
 		"locations": [
@@ -258,6 +266,7 @@
 	},
 	{
 		"nation": "Deutschland",
+		"party": "A",
 		"info": "Heeresgruppe Boehn",
 		"startLocation": "Le Cateau",
 		"locations": [

@@ -93,7 +93,7 @@ class HG.CrowdController
         for s in c.sizes
           sizes.push s.size
         endDate = new Date(c.endDate.year,c.endDate.month-1,c.endDate.day)
-        crowd = new HG.Crowd "#0087ff", c.nation, c.info, c.startLocation, locations, times, sizes, endDate, @_nowDate
+        crowd = new HG.Crowd "#0087ff", c.nation, c.party, c.info, c.startLocation, locations, times, sizes, endDate, @_nowDate
         @_crowds.push crowd
 
       @_crowdsChanged = true
