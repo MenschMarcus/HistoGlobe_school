@@ -133,10 +133,11 @@ class HG.CrowdController
     @_filteredCrowds = []
 
     for crowd in @_crowds
-    	isInTime = false
-    	unless @_currentTimeFilter == null
-    		isInTime = not (crowd.getStartTime().getTime() > @_currentTimeFilter.end.getTime()) and
-                   not (crowd.getEndTime().getTime() < @_currentTimeFilter.start.getTime())
+      isInTime = true
+    	# isInTime = false
+    	# unless @_currentTimeFilter == null
+    	# 	isInTime = not (crowd.getStartTime().getTime() > @_currentTimeFilter.end.getTime()) and
+     #               not (crowd.getEndTime().getTime() < @_currentTimeFilter.start.getTime())
 
       isInSpace = true
       ###unless @_currentSpaceFilter == null
