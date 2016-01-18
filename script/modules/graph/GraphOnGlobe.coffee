@@ -1,5 +1,7 @@
 window.HG ?= {}
 
+
+
 class HG.GraphOnGlobe
 
   ##############################################################################
@@ -32,18 +34,21 @@ class HG.GraphOnGlobe
 
     @_hgInstance = null
 
+    @_intersected            = false
+
+    @_hidden                 = true
+
 
     # bundle tests:
     @_connectionMaterials = []
     @_controlPoints = []
     @_controlPoints.push(191.0) # pivot element
-    @_controlSize = 20.0
+    @_controlSize = 0.0#20.0
     @_controlFunction = 0.0 # 0 = sine; 1 = square power
 
     #info tag
     @_infoTag = document.createElement "div"
     @_infoTag.className = "leaflet-label"
-
     @_infoTag.style.position = "absolute"
     @_infoTag.style.top = "0px"
     @_infoTag.innerHTML = "Hello World"
@@ -53,6 +58,19 @@ class HG.GraphOnGlobe
     @_infoTag.style.borderWidth = "thin";
     document.body.appendChild(@_infoTag);
 
+
+    @_infoWindow = document.createElement "div"
+    @_infoWindow.className = "leaflet-label"
+    @_infoWindow.style.pointerEvents= "all"
+    @_infoWindow.style.position = "absolute"
+    @_infoWindow.id = "GraphNodeConnectionInfo"
+    @_infoWindow.style.visibility = "hidden"
+    @_infoWindow.style.background = "#fff"
+    @_infoWindow.style.borderColor = "grey";
+    @_infoWindow.style.borderWidth = "thin";
+    @_infoWindow.position = new THREE.Vector3(0.0,0.0,0.0)
+
+    document.body.appendChild(@_infoWindow);
 
 
   # ============================================================================
@@ -66,7 +84,6 @@ class HG.GraphOnGlobe
     @_globeCanvas = hgInstance.mapCanvas
 
     @_graphController = hgInstance.graphController
-
 
     if @_globe
       @_globe.onLoaded @, @_initGraph
@@ -95,9 +112,11 @@ class HG.GraphOnGlobe
         button.onShowGraph @, () =>
           @_globe.addSceneToRenderer(@_sceneGraphNodeConnection)
           @_globe.addSceneToRenderer(@_sceneGraphNode)
+          @_hidden = false
         button.onHideGraph @, () =>
           @_globe.removeSceneFromRenderer(@_sceneGraphNodeConnection)
           @_globe.removeSceneFromRenderer(@_sceneGraphNode)
+          @_hidden = true
 
       else
         @_globe.addSceneToRenderer(@_sceneGraphNodeConnection)
@@ -137,14 +156,16 @@ class HG.GraphOnGlobe
       #@_graphController.onHideGraphNode @, (node) =>
       #  @_hideGraphNode node
 
-      setInterval(@_animate, 100)
+      #setInterval(@_animate, 100)
+      # for better hardware:
+      setInterval(@_animate, 0)
 
     else
       console.error "Unable to show graph on globe: GraphController module not detected in HistoGlobe instance!"
 
   # ============================================================================
   _animate:() =>
-    if @_globe._isRunning
+    if @_globe._isRunning and not @_hidden
       @_evaluate()
 
   # ============================================================================
@@ -195,7 +216,8 @@ class HG.GraphOnGlobe
     @_visibleNodes.push node
 
     #add control point displacing edges:
-    @_addControlPoint(@_controlFunction,radius*3.0,node._position[1],node._position[0])
+    #@_addControlPoint(@_controlFunction,radius*3.0,node._position[1],node._position[0])
+    @_addControlPoint(radius*3.0,node._position[1],node._position[0])
     # latLong =
     #   x: node._position[0]
     #   y: node._position[1]
@@ -231,7 +253,8 @@ class HG.GraphOnGlobe
 
     showConnection = true
 
-    isHighlightedConnection = false
+    isHighlightedConnectionType1 = false
+    isHighlightedConnectionType2 = false
 
     if @_secondNodeOfInterest
 
@@ -243,7 +266,8 @@ class HG.GraphOnGlobe
         linkedNodes[0].Mesh3D.material.opacity = OPACITY_MAX
         linkedNodes[1].Mesh3D.material.opacity = OPACITY_MAX
 
-        isHighlightedConnection = true
+        isHighlightedConnectionType1 = true
+        isHighlightedConnectionType2 = true
 
       else
         showConnection = false
@@ -258,6 +282,8 @@ class HG.GraphOnGlobe
           connectionOpacity = OPACITY_MAX
           linkedNodes[0].Mesh3D.material.opacity = OPACITY_MAX
           linkedNodes[1].Mesh3D.material.opacity = OPACITY_MAX
+          isHighlightedConnectionType1 = true
+
 
     latLongA =
       x: connection.startPoint[0]
@@ -328,7 +354,10 @@ class HG.GraphOnGlobe
     uniforms.line_end.value = lineGeometry.vertices[lineGeometry.vertices.length-1]
 
     # arc:
-    uniforms.max_offset.value = 0.0
+    unless isHighlightedConnectionType1
+      uniforms.max_offset.value = 0.0
+    else
+      uniforms.max_offset.value = connection.getDuration()/(1000*60*60*24*365)
     line_center = lineGeometry.vertices[Math.round(lineGeometry.vertices.length/2)]
     uniforms.line_center.value = line_center
 
@@ -359,20 +388,24 @@ class HG.GraphOnGlobe
     lineMaterial.minLat = Math.min(latLongA.x,latLongB.x)
     lineMaterial.maxLng = Math.max(latLongA.y,latLongB.y)
     lineMaterial.minLng = Math.min(latLongA.y,latLongB.y)
-    for i in [0..@_controlPoints.length] by CONTROL_POINT_BUFFER_LAYOUT_LENGTH
-      lat = @_controlPoints[i]
-      lng = @_controlPoints[i+1]
-      size = @_controlPoints[i+2]
-      func = @_controlPoints[i+3]
 
-      if(lat < lineMaterial.maxLat+BUNDLE_TOLERANCE and
-      lat > lineMaterial.minLat-BUNDLE_TOLERANCE and
-      lng < lineMaterial.maxLng+BUNDLE_TOLERANCE and
-      lng > lineMaterial.minLng-BUNDLE_TOLERANCE)
-        personalPoints.unshift(func)
-        personalPoints.unshift(size)
-        personalPoints.unshift(lng)
-        personalPoints.unshift(lat)
+    dist_lng = Math.abs((lineMaterial.maxLng+BUNDLE_TOLERANCE)-(lineMaterial.minLng-BUNDLE_TOLERANCE))
+    if dist_lng > 180 # quickhack
+
+      for i in [0..@_controlPoints.length] by CONTROL_POINT_BUFFER_LAYOUT_LENGTH
+        lat = @_controlPoints[i]
+        lng = @_controlPoints[i+1]
+        size = @_controlPoints[i+2]
+        #func = @_controlPoints[i+3]
+
+        if(lat < lineMaterial.maxLat+BUNDLE_TOLERANCE and
+        lat > lineMaterial.minLat-BUNDLE_TOLERANCE and
+        lng < lineMaterial.maxLng+BUNDLE_TOLERANCE and
+        lng > lineMaterial.minLng-BUNDLE_TOLERANCE)
+          #personalPoints.unshift(func)
+          personalPoints.unshift(size)
+          personalPoints.unshift(lng)
+          personalPoints.unshift(lat)
 
     lineMaterial.uniforms.control_points.value = personalPoints
 
@@ -387,7 +420,7 @@ class HG.GraphOnGlobe
 
     connection.Mesh3D = connectionLine
 
-    if isHighlightedConnection
+    if isHighlightedConnectionType2
        @_highlightedConnections.push connection
        @_showGraphNodeConnectionInfo connection
 
@@ -437,107 +470,147 @@ class HG.GraphOnGlobe
         c.Mesh3D.material.uniforms.group_offset.value = index
         ++index
 
+    if connection.anchor and @_infoWindow.hasChildNodes() and @_infoWindow.contains(connection.anchor)
+      @_infoWindow.removeChild(connection.anchor)
+      connection.anchor = null
+
   # ============================================================================
   _showGraphNodeConnectionInfo: (connection) ->
 
     if connection.Mesh3D
 
-      unless connection.Label3D
+      vertices = connection.Mesh3D.geometry.vertices
+      position_gps = vertices[Math.round(vertices.length/2)]
+      cart_coords = @_globe._latLongToCart(
+        x:position_gps.y
+        y:position_gps.x,# list of infos with 1.0 gps degree distance
+        @_globe.getGlobeRadius())
+      @_infoWindow.position = cart_coords;
 
-        text = "Alliance Type: "
-        for t,v of connection.getInfoForShow()
-          text+=t if v
-          text+=" " if v
+      @_infoWindow.style.visibility = "visible"
+      text = "Alliance Type: "
+      for t,v of connection.getInfoForShow()
+        text+=t if v
+        text+=" " if v
 
-        metrics = TEST_CONTEXT.measureText(text)
-        textWidth = metrics.width+(2*(TEXT_HEIGHT/10))
-        textHeight = TEXT_HEIGHT+(2*(TEXT_HEIGHT/10))
+      anchor = document.createElement "a"
+      anchor.innerHTML= text + "<br>"
+      rgb_color = connection.getColor()
+      three_color = new THREE.Color();
+      three_color.setRGB(rgb_color.x,rgb_color.y,rgb_color.z)
+      hex = three_color.getHexString()
+      anchor.style.color = "##{hex}"
 
-        canvas = document.createElement('canvas')
-        canvas.width = textWidth
-        canvas.height = textHeight
+      @_infoWindow.appendChild(anchor)
+      anchor.onclick = () =>
+        @_hgInstance.hiventInfoAtTag?.setOption 'categories', 'bipolar'
+        @_hgInstance.hiventInfoAtTag?.setOption "event", "H-71"
 
-        context = canvas.getContext('2d')
-        context.textAlign = 'center'
-        context.font = TEXT_FONT
+        @_infoWindow.style.visibility = "hidden"
+        while @_infoWindow.hasChildNodes()
+          @_infoWindow.removeChild(@_infoWindow.lastChild);
 
-        context.shadowColor = "#ffffff"
-        context.shadowOffsetX = -TEXT_HEIGHT/10
-        context.shadowOffsetY = -TEXT_HEIGHT/10
+      connection.anchor = anchor;
 
-        context.fillText(text,textWidth/2,textHeight*0.75)
 
-        context.shadowOffsetX =  TEXT_HEIGHT/10
-        context.shadowOffsetY = -TEXT_HEIGHT/10
 
-        context.fillText(text,textWidth/2,textHeight*0.75)
+      # unless connection.Label3D
 
-        context.shadowOffsetX = -TEXT_HEIGHT/10
-        context.shadowOffsetY =  TEXT_HEIGHT/10
+      #   text = "Alliance Type: "
+      #   for t,v of connection.getInfoForShow()
+      #     text+=t if v
+      #     text+=" " if v
 
-        context.fillText(text,textWidth/2,textHeight*0.75)
+      #   metrics = TEST_CONTEXT.measureText(text)
+      #   textWidth = metrics.width+(2*(TEXT_HEIGHT/10))
+      #   textHeight = TEXT_HEIGHT+(2*(TEXT_HEIGHT/10))
 
-        context.shadowOffsetX =  TEXT_HEIGHT/10
-        context.shadowOffsetY =  TEXT_HEIGHT/10
+      #   canvas = document.createElement('canvas')
+      #   canvas.width = textWidth
+      #   canvas.height = textHeight
 
-        rgb_color = connection.getColor()
-        three_color = new THREE.Color();
-        three_color.setRGB(rgb_color.x,rgb_color.y,rgb_color.z)
-        hex = three_color.getHexString()
-        #context.fillStyle="#000000";
-        context.fillStyle= "##{hex}";
-        context.fillText(text,textWidth/2,textHeight*0.75)
+      #   context = canvas.getContext('2d')
+      #   context.textAlign = 'center'
+      #   context.font = TEXT_FONT
 
-        texture = new THREE.Texture(canvas)
-        texture.needsUpdate = true
-        material = new THREE.SpriteMaterial({
-          map: texture,
-          transparent:false,
-          useScreenCoordinates: false,
-          scaleByViewport: true,
-          sizeAttenuation: false,
-          depthTest: false,
-          affectedByDistance: false
-          })
+      #   context.shadowColor = "#ffffff"
+      #   context.shadowOffsetX = -TEXT_HEIGHT/10
+      #   context.shadowOffsetY = -TEXT_HEIGHT/10
 
-        sprite = new THREE.Sprite(material)
-        sprite.textWidth = textWidth
+      #   context.fillText(text,textWidth/2,textHeight*0.75)
 
-        @_sceneGraphNodeConnection.add sprite
-        sprite.scale.set(textWidth,textHeight,1.0)
-        #sprite.position.set position.x,position.y,position.z
+      #   context.shadowOffsetX =  TEXT_HEIGHT/10
+      #   context.shadowOffsetY = -TEXT_HEIGHT/10
 
-        # position
-        vertices = connection.Mesh3D.geometry.vertices
-        index = @_highlightedConnections.indexOf(connection)
-        #position = vertices[Math.round(vertices.length*((index+1.0)/(@_highlightedConnections.length+1.0)))]
-        position = vertices[Math.round(vertices.length/2)]
-        cart_coords = @_globe._latLongToCart(
-          x:position.y
-          y:position.x-(index*1.0),# list of infos with 1.0 gps degree distance
-          @_globe.getGlobeRadius())
-        sprite.position.set cart_coords.x,cart_coords.y,cart_coords.z
+      #   context.fillText(text,textWidth/2,textHeight*0.75)
 
-        sprite.MaxWidth = textWidth
-        sprite.MaxHeight = textHeight
+      #   context.shadowOffsetX = -TEXT_HEIGHT/10
+      #   context.shadowOffsetY =  TEXT_HEIGHT/10
 
-        connection.Label3D = sprite
+      #   context.fillText(text,textWidth/2,textHeight*0.75)
+
+      #   context.shadowOffsetX =  TEXT_HEIGHT/10
+      #   context.shadowOffsetY =  TEXT_HEIGHT/10
+
+      #   rgb_color = connection.getColor()
+      #   three_color = new THREE.Color();
+      #   three_color.setRGB(rgb_color.x,rgb_color.y,rgb_color.z)
+      #   hex = three_color.getHexString()
+      #   #context.fillStyle="#000000";
+      #   context.fillStyle= "##{hex}";
+      #   context.fillText(text,textWidth/2,textHeight*0.75)
+
+      #   texture = new THREE.Texture(canvas)
+      #   texture.needsUpdate = true
+      #   material = new THREE.SpriteMaterial({
+      #     map: texture,
+      #     transparent:false,
+      #     useScreenCoordinates: false,
+      #     scaleByViewport: true,
+      #     sizeAttenuation: false,
+      #     depthTest: false,
+      #     affectedByDistance: false
+      #     })
+
+      #   sprite = new THREE.Sprite(material)
+      #   sprite.textWidth = textWidth
+
+      #   @_sceneGraphNodeConnection.add sprite
+      #   sprite.scale.set(textWidth,textHeight,1.0)
+      #   #sprite.position.set position.x,position.y,position.z
+
+      #   # position
+      #   vertices = connection.Mesh3D.geometry.vertices
+      #   index = @_highlightedConnections.indexOf(connection)
+      #   #position = vertices[Math.round(vertices.length*((index+1.0)/(@_highlightedConnections.length+1.0)))]
+      #   position = vertices[Math.round(vertices.length/2)]
+      #   cart_coords = @_globe._latLongToCart(
+      #     x:position.y
+      #     y:position.x-(index*1.0),# list of infos with 1.0 gps degree distance
+      #     @_globe.getGlobeRadius())
+      #   sprite.position.set cart_coords.x,cart_coords.y,cart_coords.z
+
+      #   sprite.MaxWidth = textWidth
+      #   sprite.MaxHeight = textHeight
+
+      #   connection.Label3D = sprite
       
-      else
-        @_sceneGraphNodeConnection.add connection.Label3D
-        # update position
-        vertices = connection.Mesh3D.geometry.vertices
-        index = @_highlightedConnections.indexOf(connection)
-        #position = vertices[Math.round(vertices.length*((index+1.0)/(@_highlightedConnections.length+1.0)))]
-        position = vertices[Math.round(vertices.length/2)]
-        cart_coords = @_globe._latLongToCart(
-          x:position.y
-          y:position.x-(index*1.0),# list of infos with 1.0 gps degree distance
-          @_globe.getGlobeRadius())
-        connection.Label3D.position.set cart_coords.x,cart_coords.y,cart_coords.z
+      # else
+      #   @_sceneGraphNodeConnection.add connection.Label3D
+      #   # update position
+      #   vertices = connection.Mesh3D.geometry.vertices
+      #   index = @_highlightedConnections.indexOf(connection)
+      #   #position = vertices[Math.round(vertices.length*((index+1.0)/(@_highlightedConnections.length+1.0)))]
+      #   position = vertices[Math.round(vertices.length/2)]
+      #   cart_coords = @_globe._latLongToCart(
+      #     x:position.y
+      #     y:position.x-(index*1.0),# list of infos with 1.0 gps degree distance
+      #     @_globe.getGlobeRadius())
+      #   connection.Label3D.position.set cart_coords.x,cart_coords.y,cart_coords.z
 
   # ============================================================================
-  _addControlPoint: (functionID,size,lng,lat) =>
+  #_addControlPoint: (functionID,size,lng,lat) =>
+  _addControlPoint: (size,lng,lat) =>
 
     # remove potential old one
     for i in [0 .. @_controlPoints.length-1] by CONTROL_POINT_BUFFER_LAYOUT_LENGTH
@@ -551,13 +624,17 @@ class HG.GraphOnGlobe
       interactive_point = @_controlPoints.splice(0,CONTROL_POINT_BUFFER_LAYOUT_LENGTH)
 
     #new point
-    new_point = [lat,lng,size,functionID]
+    #new_point = [lat,lng,size,functionID]
+    new_point = [lat,lng,size]
     @_controlPoints = new_point.concat(@_controlPoints)
 
     # individual cp lists of connections
     for mat in @_connectionMaterials
 
-      if(lat < mat.maxLat+BUNDLE_TOLERANCE and
+      dist_lng = Math.abs((mat.maxLng+BUNDLE_TOLERANCE)-(mat.minLng-BUNDLE_TOLERANCE))
+
+      if( dist_lng < 180.0 and # quickhack
+      lat < mat.maxLat+BUNDLE_TOLERANCE and
       lat > mat.minLat-BUNDLE_TOLERANCE and
       lng < mat.maxLng+BUNDLE_TOLERANCE and
       lng > mat.minLng-BUNDLE_TOLERANCE)
@@ -568,11 +645,20 @@ class HG.GraphOnGlobe
         for i in [0 .. mat.uniforms.control_points.value.length-1] by CONTROL_POINT_BUFFER_LAYOUT_LENGTH
           if mat.uniforms.control_points.value[i] is lat and mat.uniforms.control_points.value[i+1] is lng
             mat.uniforms.control_points.value[i+2] = size
-            mat.uniforms.control_points.value[i+3] = functionID
+            #mat.uniforms.control_points.value[i+3] = functionID
             found_old = true
             #mat.uniforms.control_points.value.splice(i, CONTROL_POINT_BUFFER_LAYOUT_LENGTH);
             break
-        mat.uniforms.control_points.value = new_point.concat(mat.uniforms.control_points.value) if not found_old
+        if not found_old
+          mat.uniforms.control_points.value = new_point.concat(mat.uniforms.control_points.value)
+          if mat.uniforms.control_points.value.length > 300
+            # console.log "maxLat: ",mat.maxLat
+            # console.log "minLat: ",mat.minLat
+            # console.log "maxLng: ",mat.maxLng
+            # console.log "minLng: ",mat.minLng
+            console.log "Warning! Control point number in line material too high!: ", (mat.uniforms.control_points.value.length-1)/CONTROL_POINT_BUFFER_LAYOUT_LENGTH
+            # console.log mat.uniforms.control_points.value
+
         mat.uniforms.control_points.value = interactive_point.concat(mat.uniforms.control_points.value) if interactive_point isnt null
 
     # interactive point:
@@ -589,7 +675,11 @@ class HG.GraphOnGlobe
         break
 
     for mat in @_connectionMaterials
-      if(lat < mat.maxLat+BUNDLE_TOLERANCE and
+
+      dist_lng = Math.abs((mat.maxLng+BUNDLE_TOLERANCE)-(mat.minLng-BUNDLE_TOLERANCE))
+
+      if( dist_lng < 180.0 and # quickhack
+      lat < mat.maxLat+BUNDLE_TOLERANCE and
       lat > mat.minLat-BUNDLE_TOLERANCE and
       lng < mat.maxLng+BUNDLE_TOLERANCE and
       lng > mat.minLng-BUNDLE_TOLERANCE)
@@ -606,7 +696,8 @@ class HG.GraphOnGlobe
     if key.keyCode is 189 # -
       @_controlSize -= 1
     if key.keyCode is 13 # ENTER
-      @_addControlPoint(@_controlPoints[3],@_controlPoints[2],@_controlPoints[1],@_controlPoints[0])
+      #@_addControlPoint(@_controlPoints[3],@_controlPoints[2],@_controlPoints[1],@_controlPoints[0])
+      @_addControlPoint(@_controlPoints[2],@_controlPoints[1],@_controlPoints[0])
     if key.keyCode is 70 # F
       @_controlFunction += 1.0
       @_controlFunction = @_controlFunction % 2
@@ -651,7 +742,15 @@ class HG.GraphOnGlobe
 
           for c in @_highlightedConnections
             @_sceneGraphNodeConnection.remove c.Label3D
+
           @_highlightedConnections = []
+
+          #hide GraphNodeConnectionInfoWindow
+          setTimeout ()=>
+            @_infoWindow.style.visibility = "hidden"
+            while @_infoWindow.hasChildNodes()
+              @_infoWindow.removeChild(@_infoWindow.lastChild);
+          , 10
 
           @_evaluate()
         
@@ -679,6 +778,7 @@ class HG.GraphOnGlobe
 
             @_nodeOfInterest.Mesh3D.material.opacity = OPACITY_MAX
 
+            @_infoWindow.style.visibility = "visible"
             for hc in @_highlightedConnections 
               @_showGraphNodeConnectionInfo(hc)
 
@@ -708,25 +808,22 @@ class HG.GraphOnGlobe
       y: (@_globe._mousePos.y - @_globe._canvasOffsetY) / @_globe._myHeight * 2 - 1
 
 
-      # ###############
-      # # bundle tests:
-      # # interactive mouse lense
-      # latLongCurr = @_globe._pixelToLatLong mouseRel
-      # if latLongCurr isnt null
-      #   if @_controlPoints.length > 1
-      #     @_controlPoints.slice(0,CONTROL_POINT_BUFFER_LAYOUT_LENGTH)
+      ###############
+      # interactive mouse lense
+      latLongCurr = @_globe._pixelToLatLong mouseRel
+      if latLongCurr isnt null
+        if @_controlPoints.length > 1
+          @_controlPoints.slice(0,CONTROL_POINT_BUFFER_LAYOUT_LENGTH)
 
-      #   updated_point = [latLongCurr.x,-latLongCurr.y,@_controlSize,@_controlFunction]
-      #   @_controlPoints = updated_point.concat(@_controlPoints)
-      #   for mat in @_connectionMaterials
-      #     mat.uniforms.control_points.value.splice(0,CONTROL_POINT_BUFFER_LAYOUT_LENGTH)
-      #     mat.uniforms.control_points.value = updated_point.concat(mat.uniforms.control_points.value)
-      #     #mat.uniforms.control_points.value = @_controlPoints
-      # ###############
+        updated_point = [latLongCurr.x,-latLongCurr.y,@_controlSize]
+        # updated_point = [latLongCurr.x,-latLongCurr.y,@_controlSize,@_controlFunction]
+        @_controlPoints = updated_point.concat(@_controlPoints)
+        for mat in @_connectionMaterials
+          mat.uniforms.control_points.value.splice(0,CONTROL_POINT_BUFFER_LAYOUT_LENGTH)
+          mat.uniforms.control_points.value = updated_point.concat(mat.uniforms.control_points.value)
+          #mat.uniforms.control_points.value = @_controlPoints
+      ###############
 
-
-      # picking ------------------------------------------------------------------
-      # test for mark and highlight hivents
       vector = new THREE.Vector3 mouseRel.x, -mouseRel.y, 0.5
       projector = @_globe.getProjector()
       projector.unprojectVector vector, @_globe._camera
@@ -739,8 +836,10 @@ class HG.GraphOnGlobe
 
       if nodeIntersects.length > 0
         HG.Display.CONTAINER.style.cursor = "pointer"
+        @_intersected = true
       else
-        HG.Display.CONTAINER.style.cursor = "auto"
+        HG.Display.CONTAINER.style.cursor = "auto" if @_intersected
+        @_intersected = false
 
       for intersect in @_intersectedNodes
 
@@ -755,13 +854,11 @@ class HG.GraphOnGlobe
       if nodeIntersects.length is 0
         @_infoTag.style.visibility = "hidden"
 
-      #hover countries
       for intersect in nodeIntersects 
         index = $.inArray(intersect.object, @_intersectedNodes)
         @_intersectedNodes.splice index, 1  if index >= 0
 
       @_intersectedNodes = []
-      # hover intersected countries
       for intersect in nodeIntersects
 
         name = intersect.object.Node.getName()
@@ -801,8 +898,10 @@ class HG.GraphOnGlobe
 
       if nodeIntersects.length > 0
         HG.Display.CONTAINER.style.cursor = "pointer"
+        @_intersected = true
       else
-        HG.Display.CONTAINER.style.cursor = "auto"
+        HG.Display.CONTAINER.style.cursor = "auto" if @_intersected
+        @_intersected = false
       @_infoTag.style.visibility = "hidden"
 
       if nodeIntersects.length is 0
@@ -817,6 +916,12 @@ class HG.GraphOnGlobe
         @_infoTag.style.top = "#{y}px"
         @_infoTag.style.left = "#{x}px"
         @_infoTag.innerHTML = "#{name}"
+
+
+      # update infor window of highlighted connections
+      screenCoordinates = @_globe._getScreenCoordinates(@_infoWindow.position)
+      @_infoWindow.style.top = "#{screenCoordinates.y}px"
+      @_infoWindow.style.left = "#{screenCoordinates.x}px"
 
   ##############################################################################
   #                             STATIC MEMBERS                                 #
@@ -836,14 +941,16 @@ class HG.GraphOnGlobe
   OPACITY_MAX = 0.6
 
   BUNDLE_TOLERANCE = 10.0 # degree
-  CONNECTION_STEP_SIZE = 0.1 # degree
+  CONNECTION_STEP_SIZE = 0.05 # degree
+  #high quality:
+  #CONNECTION_STEP_SIZE = 0.005 # degree
 
   # control_points BUFFER_LAYOUT:
   # n:    lat
   # n+1:  lng
   # n+2:  size
-  # n+3:  functionID
-  CONTROL_POINT_BUFFER_LAYOUT_LENGTH = 4
+  # n+3:  functionID // disabled
+  CONTROL_POINT_BUFFER_LAYOUT_LENGTH = 3
 
   # shaders for the graph node connections
   SHADERS =

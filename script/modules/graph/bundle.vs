@@ -1,6 +1,6 @@
 uniform vec3 color;
 
-uniform float control_points[1000];
+uniform float control_points[300];
 uniform vec3 line_begin;
 uniform vec3 line_end;
 
@@ -46,13 +46,14 @@ void main() {
     float bundle_offset_lat = 0.0;
     float bundle_offset_lng = 0.0;            
 
-    for(int i = 0 ; i < 1000; i+=4){
+    //for(int i = 0 ; i < 270; i+=4){
+    for(int i = 0 ; i < 300; i+=3){
 
       if(control_points[i]<190.0){
 
         vec2 point_of_interest = vec2(control_points[i],control_points[i+1]);
-        //vec2 dir = point_of_interest - gps_point.xy;
-        vec2 dir = point_of_interest - position.xy;
+        vec2 dir = point_of_interest - gps_point.xy;
+        //vec2 dir = point_of_interest - position.xy;
         float dist = length(dir);
         float reach = control_points[i+2];
 
@@ -71,15 +72,19 @@ void main() {
           //float strength = reach/3.14159265358979323846264;
           float power = 2.0;
            
-          if(distStart > reach*0.75 && distEnd > reach*0.75){
+          if(distStart > reach*0.8 && distEnd > reach*0.8){
 
               //vColor = vec3(0.0,0.5,0.0);
              
               float x_value = 1.0-(dist/reach);
 
-              if(control_points[i+3] == 0.0){
+              //if(control_points[i+3] == 0.0){
+              if(true){
                 bundle_offset_lat += pow(sin(x_value*3.14159265358979323846264*0.5),power)*-1.0*dir.x*strength;
                 bundle_offset_lng += pow(sin(x_value*3.14159265358979323846264*0.5),power)*-1.0*dir.y*strength;
+
+                // gps_point.x += pow(sin(x_value*3.14159265358979323846264*0.5),power)*-1.0*dir.x*strength;
+                // gps_point.y += pow(sin(x_value*3.14159265358979323846264*0.5),power)*-1.0*dir.y*strength;
               }
               else{
                 bundle_offset_lat += pow(x_value,power)*-1.0*dir.x*strength;

@@ -20,6 +20,7 @@ class HG.AreasOnGlobe
     @_materials               = []
     @_areasToLoad             = 0
     @_dragStartPos            = null
+    @_intersected             = false
 
     # highcontrast hack: swap between normal and "_hc" mode
     @_inHighContrast  = no
@@ -120,12 +121,12 @@ class HG.AreasOnGlobe
         @_areaController.onFadeOutArea @, (area) =>
           @_hideArea area, @_aniTime
 
-      @_areaController.onFadeInBorder @, (border) =>
-        @_addBorder border
-        @_showBorder border, @_aniTime
+        @_areaController.onFadeInBorder @, (border) =>
+          @_addBorder border
+          @_showBorder border, @_aniTime
 
-      @_areaController.onFadeOutBorder @, (border) =>
-        @_hideBorder border, @_aniTime
+        @_areaController.onFadeOutBorder @, (border) =>
+          @_hideBorder border, @_aniTime
 
       if not @_config.hideLabels
 
@@ -863,8 +864,10 @@ class HG.AreasOnGlobe
 
     if countryIntersects.length > 0
       HG.Display.CONTAINER.style.cursor = "pointer"
+      @_intersected = true
     else
-      HG.Display.CONTAINER.style.cursor = "auto"
+      HG.Display.CONTAINER.style.cursor = "auto" if @_intersected
+      @_intersected = false
 
     for mat in @_intersectedMaterials
       mat.opacity = mat.opacity - 0.2
