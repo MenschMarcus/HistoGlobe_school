@@ -4,13 +4,13 @@
     "container": "histoglobe",
     "minYear": 1871,
     "maxYear": 1993,
-    "nowYear": 1945,
+    "nowYear": 1975,
     "minZoom": 3,
     "maxZoom": 7,
     "startZoom": 4,
     "startLatLong": [50.9869531, 11.3205004],
     "tiles": "config/full/tiles/tiles/",
-    "tilesHighContrast": "config/full/tiles_high_contrast/",
+    "tilesHighContrast": "config/full/tiles/tiles_high_contrast/",
     "areaAniTime" : 700,
     "sidebarEnabled": false
   },
@@ -215,7 +215,7 @@
   },
 
   "AreasOnGlobe" : {
-    "hideAreas" : true,
+    "hideAreas" : false,
     "hideLabels" : false
   },
 
