@@ -31,8 +31,8 @@
   "Timeline" :
   {
     "timelineZoom" : 2,
-    "dsvPaths": ["config/school/data/topics.csv"],
-    "rootDirs": ["config/school/data/topics"],
+    "dsvPaths": ["config/full/data/topics.csv"],
+    "rootDirs": ["config/full/data/topics"],
     "ignoredLines" : [1],
     "indexMappings": [
       {
@@ -66,8 +66,8 @@
 
   "MultimediaController":
   {
-    "dsvPaths": ["config/school/data/media.csv"],
-    "rootDirs": ["config/school/data/media"],
+    "dsvPaths": ["config/full/data/media.csv"],
+    "rootDirs": ["config/full/data/media"],
     "ignoredLines" : [1,2,3],
     "indexMappings": [
       {
@@ -87,7 +87,7 @@
     "dsvConfigs":
     [
       {
-        "path":             "config/school/data/hivents.csv",
+        "path":             "config/full/data/hivents.csv",
         "ignoredLines" :    [1,2,3],
         "indexMapping" :
         {
@@ -120,10 +120,10 @@
   {
     "default" :
     {
-      "default" : "config/school/icons/marker_hivent-map.svg",
-      "highlighted" : "config/school/icons/marker_hivent-map-active.svg",
-      "group_default" : "config/school/icons/marker_hivent-cluster-map.svg",
-      "group_highlighted" : "config/school/icons/marker_hivent-cluster-map-active.svg"
+      "default" : "config/full/icons/marker_hivent-map.svg",
+      "highlighted" : "config/full/icons/marker_hivent-map-active.svg",
+      "group_default" : "config/full/icons/marker_hivent-cluster-map.svg",
+      "group_highlighted" : "config/full/icons/marker_hivent-cluster-map-active.svg"
     }
   },
 
@@ -166,8 +166,8 @@
     [
       {
         "theme":              "bipolarAlliances",
-        "csvFilePathAreas":   "config/school/data/bipolarAlliances-areas.csv",
-        "csvFilePathLabels":  "config/school/data/bipolarAlliances-labels.csv"
+        "csvFilePathAreas":   "config/full/data/bipolarAlliances-areas.csv",
+        "csvFilePathLabels":  "config/full/data/bipolarAlliances-labels.csv"
       }
     ],
     "themeStyles":
@@ -211,7 +211,7 @@
 
   "AreasOnMap" :
   {
-    "labelVisibilityFactor" : 1.5
+    "labelVisibilityFactor" : 1.2
   },
 
   "AreasOnGlobe" : {
