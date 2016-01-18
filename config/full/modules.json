@@ -204,9 +204,9 @@
   "AreaController":
   {
     "areaJSONPaths" : ["config/full/data/countryAreas.geojson"],
-    "labelJSONPaths" : ["config/school/data/countryLabels.geojson"],
-    "changeJSONPaths" : ["config/school/data/countryChanges.json"],
-    "transitionJSONPaths" : ["config/school/data/countryTransitions.geojson"]
+    "labelJSONPaths" : ["config/full/data/countryLabels.geojson"],
+    "changeJSONPaths" : ["config/full/data/countryChanges.json"],
+    "transitionJSONPaths" : ["config/full/data/countryTransitions.geojson"]
   },
 
   "AreasOnMap" :
@@ -221,7 +221,7 @@
 
   "HiventsOnGlobe" : {},
 
-    "CrowdController" :
+  "CrowdController" :
   {
     "pathToCrowds" : ["config/full/data/crowd_collection.json"]
   },
