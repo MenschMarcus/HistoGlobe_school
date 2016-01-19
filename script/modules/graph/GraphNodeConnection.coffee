@@ -45,10 +45,18 @@ class HG.GraphNodeConnection
 
       @_actionQueue.push 1
 
+      # #new:
+      # for node in @linkedNodes
+      #   node.increaseRadius()
+
     if not new_active and @_active
 
       @_actionQueue.push 0
 
+      # #new:
+      # for node in @linkedNodes
+      #   node.decreaseRadius()
+        
     @_active = new_active
 
   # ============================================================================
@@ -62,7 +70,7 @@ class HG.GraphNodeConnection
       # final_action *= action if action is 0
       # final_action += action if action is 1
 
-      # do changes adhoc:
+      # do changes adhoc (old):
       if action > 0
         for node in @linkedNodes
           node.addConnection(@)
@@ -73,6 +81,18 @@ class HG.GraphNodeConnection
           node.removeConnection(@)
           node.decreaseRadius()
         @notifyAll "onHide", @
+
+      # do changes adhoc:
+      # if action > 0
+      #   for node in @linkedNodes
+      #     node.addConnection(@)
+          
+      #   @notifyAll "onShow", @
+      # if action is 0
+      #   for node in @linkedNodes
+      #     node.removeConnection(@)
+
+      #   @notifyAll "onHide", @
 
     # if final_action isnt null
     #   if final_action > 0

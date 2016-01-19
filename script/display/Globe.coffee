@@ -950,7 +950,7 @@ class HG.Globe extends HG.Display
   # camera parameters
   CAMERA_DISTANCE = 500
   CAMERA_MAX_ZOOM = 7
-  CAMERA_MIN_ZOOM = 0
+  CAMERA_MIN_ZOOM = 2
   CAMERA_MAX_FOV = 60
   CAMERA_MIN_FOV = 8
   CAMERA_MAX_LONG = 80
