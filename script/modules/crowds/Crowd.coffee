@@ -168,7 +168,6 @@ class HG.Crowd
 
     if @_timesForInterpolatedLocations[0].getTime() > @_date.getTime()
       return 0
-
     while index < @_timesForInterpolatedLocations.length-1
       if @_timesForInterpolatedLocations[index].getTime() <= @_date.getTime() and @_date.getTime() < @_timesForInterpolatedLocations[index+1].getTime()
         return index
@@ -182,6 +181,8 @@ class HG.Crowd
   # ============================================================================
   _getIndex: ->
     index = 0
+    if @_times[0].getTime() > @_date.getTime()
+      return 0
     while index < @_times.length-1
       if @_times[index].getTime() <= @_date.getTime() and @_date.getTime() < @_times[index+1].getTime()
         return index
@@ -191,6 +192,10 @@ class HG.Crowd
   # ============================================================================
   _getNearestIndex: ->
     index = 0
+
+    if @_times[0].getTime() > @_date.getTime()
+      return 0
+
     while index < @_times.length-1
       if @_times[index].getTime() <= @_date.getTime() and @_date.getTime() < @_times[index+1].getTime()
 
@@ -204,6 +209,8 @@ class HG.Crowd
   # ============================================================================
   _getIndexForInterpolated: ->
     index = 0
+    if @_timesForInterpolatedLocations[0].getTime() > @_date.getTime()
+      return 0
     while index < @_timesForInterpolatedLocations.length-1
       if @_timesForInterpolatedLocations[index].getTime() <= @_date.getTime() and @_date.getTime() < @_timesForInterpolatedLocations[index+1].getTime()
         return index

@@ -174,6 +174,11 @@ class HG.CrowdMarker2D
     #else
     #  @_circle.setStyle {fillColor: 'red', color: 'red'}
     #  @_isActive = true
+
+    index = @_crowd._getNearestIndex()
+    goal_time = @_crowd.getTimesForRealLocations()[index]
+    @_timeline.moveToDate(goal_time)
+
     @_drawGhostPolyline()
 
     @_drawGhostCircles()
@@ -425,13 +430,20 @@ class HG.CrowdMarker2D
   # ============================================================================
   _translateCrowd: (location) ->
 
+    # @_crowd.getRadius() ? @_circle.setRadius @_crowd.getRadius()
+    size = @_crowd.getPercentageSize() * MAX_ICON_SIZE
+    @_circle.setRadius size
+    actualSize = new L.Point(size*1.5, size*1.5)
+    actualSize2 = new L.Point(size*2, size*2)
+    @_currentFlag.options.iconSize = actualSize2
+    @_currentIcon.options.iconSize = actualSize
+
     @_flag.setIcon @_currentFlag
     @_icon.setIcon @_currentIcon
     @_flag.setLatLng location
     @_icon.setLatLng location
     @_circle.setLatLng location
-    # @_crowd.getRadius() ? @_circle.setRadius @_crowd.getRadius()
-    @_circle.setRadius @_crowd.getPercentageSize() * MAX_ICON_SIZE
+
     #visitedLocations = @_crowd.getVisitedLocations()
     #actualLocation = visitedLocations[visitedLocations.length-1]
     #if actualLocation not in @_visitedLocationsDrawn
