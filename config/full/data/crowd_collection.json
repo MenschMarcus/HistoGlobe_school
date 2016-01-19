@@ -5,18 +5,81 @@
 		"info": "North Korea, Soviet Union and Chinese forces",
 		"startLocation": "North",
 		"locations": [
-			{ "lat": 39.71864, "lng": 126.7 }
+			{ "lat": 39.71864, "lng": 125.58935 },
+			{ "lat": 38.83715, "lng": 125.68703 }
 		],
 		"times": [
-			{ "year": 1950, "month": 6, "day": 25 }
+			{ "year": 1950, "month": 11, "day": 24 },
+			{ "year": 1950, "month": 12, "day": 5 }
 		],
 		"sizes": [
+			{ "size": 1600 },
 			{ "size": 1600 }
 		],
 		"endDate": {
-			"year": 1953,
-			"month": 7,
-			"day": 27
+			"year": 1950,
+			"month": 12,
+			"day": 15
+		}
+	},
+	{
+		"nation": "North Korea",
+		"party": "A",
+		"info": "North Korea, Soviet Union and Chinese forces",
+		"startLocation": "North",
+		"locations": [
+			{ "lat": 39.76024, "lng": 126.12156 },
+			{ "lat": 38.93616, "lng": 125.80296 },
+			{ "lat": 37.93819, "lng": 126.58779 }
+
+		],
+		"times": [
+			{ "year": 1950, "month": 11, "day": 24 },
+			{ "year": 1950, "month": 12, "day": 5 },
+			{ "year": 1950, "month": 12, "day": 15 }
+
+		],
+		"sizes": [
+			{ "size": 1600 },
+			{ "size": 1600 },
+			{ "size": 1600 }
+
+		],
+		"endDate": {
+			"year": 1950,
+			"month": 12,
+			"day": 15
+		}
+	},
+	{
+		"nation": "North Korea",
+		"party": "A",
+		"info": "North Korea, Soviet Union and Chinese forces",
+		"startLocation": "North",
+		"locations": [
+			{ "lat": 39.81933, "lng": 126.56376 },
+			{ "lat": 38.93294, "lng": 126.57486 },
+			{ "lat": 38.10565, "lng": 127.70805 }
+
+		],
+		"times": [
+			{ "year": 1950, "month": 11, "day": 24 },
+			{ "year": 1950, "month": 12, "day": 5 },
+			{ "year": 1950, "month": 12, "day": 15 }
+
+
+		],
+		"sizes": [
+			{ "size": 1600 },
+			{ "size": 1600 },
+			{ "size": 1600 }
+
+
+		],
+		"endDate": {
+			"year": 1950,
+			"month": 12,
+			"day": 15
 		}
 	},
 	{
@@ -44,8 +107,8 @@
 		],
 		"endDate": {
 			"year": 1950,
-			"month": 9,
-			"day": 26
+			"month": 12,
+			"day": 15
 		}
 	},
 	{
@@ -88,8 +151,8 @@
 		],
 		"endDate": {
 			"year": 1950,
-			"month": 10,
-			"day": 23
+			"month": 12,
+			"day": 15
 		}
 	},
 	{
@@ -135,8 +198,8 @@
 		],
 		"endDate": {
 			"year": 1950,
-			"month": 10,
-			"day": 23
+			"month": 12,
+			"day": 15
 		}
 	},
 	{
@@ -173,8 +236,8 @@
 		],
 		"endDate": {
 			"year": 1950,
-			"month": 10,
-			"day": 23
+			"month": 12,
+			"day": 15
 		}
 	}
 ]
