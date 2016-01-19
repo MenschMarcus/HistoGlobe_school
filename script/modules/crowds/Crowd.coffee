@@ -215,7 +215,7 @@ class HG.Crowd
       @_timesForInterpolatedLocations.push time
       time = new Date (time.getTime() + 15*24*60*60*1000)'''
 
-    # interpolate by location steps (0.5 degree)
+    # interpolate by location steps (0.09 degree)
     if @_locations.length>=2 and @_locations.length is @_times.length
 
       # push starting point
@@ -247,8 +247,8 @@ class HG.Crowd
         while true
 
           # stepwise interpolated location
-          tmp_location.lat += dir.x*0.5
-          tmp_location.lng += dir.y*0.5
+          tmp_location.lat += dir.x*0.09
+          tmp_location.lng += dir.y*0.09
 
           # if stepped location in front of destination
           if Math.abs(Math.sqrt(Math.pow(@_locations[i].lat-tmp_location.lat,2)+Math.pow(@_locations[i].lng-tmp_location.lng,2)))<diff

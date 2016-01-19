@@ -154,7 +154,7 @@ class HG.CrowdMarker2D
           @_circle.setStyle({opacity:0.5, fillOpacity:0.2})
           @_startCircle.setStyle({opacity:0.5, fillOpacity:0.2})
 
-        @_translateCrowd @_currentLocation
+      @_translateCrowd @_currentLocation
         #@_icon.bindPopup @_getInfo()
 
 
@@ -353,58 +353,60 @@ class HG.CrowdMarker2D
 
   # ============================================================================
   _drawPolyline: ->
+    # locations = @_crowd.getLocations()
     locations = @_crowd.getLocations()
     times = @_crowd.getTimesForLocations()
-    drawnLocations = 0
+    # drawnLocations = 0
+    @_drawnLocations = []
     date = @_crowd.getDate()
 
-    if @_drawnLocations.length < 2
-      @_removeLine()
-      index = 0
-      while index < times.length and times[index].getTime() <= date.getTime()
-        if locations[index] not in @_drawnLocations
-          @_drawnLocations.push locations[index]
-        index++
+    #if @_drawnLocations.length < 2
+    @_removeLine()
+    index = 0
+    while index < times.length and times[index].getTime() <= date.getTime()
+      #if locations[index] not in @_drawnLocations
+      @_drawnLocations.push locations[index]
+      index++
 
     if @_drawnLocations.length >= 2
-      if not @_lineDrawn
-        @_line = new L.polyline @_drawnLocations, { color: 'grey', opacity: 1, weight: 2, clickable: false }
-        @_line.addTo @_map
-        @_lineDrawn = true
+      #if not @_lineDrawn
+      @_line = new L.polyline @_drawnLocations, { color: 'grey', opacity: 1, weight: 2, clickable: false }
+      @_line.addTo @_map
+      @_lineDrawn = true
 
         # line segments:
-        for i in [1..@_drawnLocations.length-1]
-          #size = @_crowd.getInterpolatedSizes()[i-1]/2400 # minard line segments
-          size = 2
-          tmp_line = new L.polyline [@_drawnLocations[i-1],@_drawnLocations[i]], { color: 'grey', opacity: 1, weight: size, clickable: false }
-          tmp_line.addTo @_map
-          @_lines.push tmp_line
+        # for i in [1..@_drawnLocations.length-1]
+        #   #size = @_crowd.getInterpolatedSizes()[i-1]/2400 # minard line segments
+        #   size = 2
+        #   tmp_line = new L.polyline [@_drawnLocations[i-1],@_drawnLocations[i]], { color: 'grey', opacity: 1, weight: size, clickable: false }
+        #   tmp_line.addTo @_map
+        #   @_lines.push tmp_line
 
-      index = 0
-      while index < times.length and times[index].getTime() <= date.getTime()
-        if locations[index] not in @_drawnLocations
-          @_line.addLatLng locations[index]
-          @_drawnLocations.push locations[index]
+      # index = 0
+      # while index < times.length and times[index].getTime() <= date.getTime()
+      #   if locations[index] not in @_drawnLocations
+      #     @_line.addLatLng locations[index]
+      #     @_drawnLocations.push locations[index]
 
           # line segments:
-          if index>0
-            #size = @_crowd.getInterpolatedSizes()[index-1]/2400 # minard line segments
-            size = 2
-            tmp_line =  new L.polyline [@_drawnLocations[index-1],@_drawnLocations[index]], { color: 'grey', opacity: 1.0, weight: size, clickable: false }
-            tmp_line.addTo @_map
-            @_lines.push tmp_line
+          # if index>0
+          #   #size = @_crowd.getInterpolatedSizes()[index-1]/2400 # minard line segments
+          #   size = 2
+          #   tmp_line =  new L.polyline [@_drawnLocations[index-1],@_drawnLocations[index]], { color: 'grey', opacity: 1.0, weight: size, clickable: false }
+          #   tmp_line.addTo @_map
+          #   @_lines.push tmp_line
 
-        index++
+        # index++
 
-      if index < @_drawnLocations.length
-        @_line.spliceLatLngs(index, @_drawnLocations.length-index)
+      # if index < @_drawnLocations.length
+      #   @_line.spliceLatLngs(index, @_drawnLocations.length-index)
 
         # line segments:
-        for i in [index-1 .. @_lines.length-1]
-          @_map.removeLayer @_lines[i] if @_lines[i]?
-        @_lines.splice(index-1, @_lines.length-index+1)
+        # for i in [index-1 .. @_lines.length-1]
+        #   @_map.removeLayer @_lines[i] if @_lines[i]?
+        # @_lines.splice(index-1, @_lines.length-index+1)
 
-        @_drawnLocations.splice(index, @_drawnLocations.length-index)
+        # @_drawnLocations.splice(index, @_drawnLocations.length-index)
 
   # ============================================================================
   _translateCrowd: (location) ->
@@ -415,11 +417,11 @@ class HG.CrowdMarker2D
     @_icon.setLatLng location
     @_circle.setLatLng location
     @_crowd.getRadius() ? @_circle.setRadius @_crowd.getRadius()
-    visitedLocations = @_crowd.getVisitedLocations()
-    actualLocation = visitedLocations[visitedLocations.length-1]
-    if actualLocation not in @_visitedLocationsDrawn
+    #visitedLocations = @_crowd.getVisitedLocations()
+    #actualLocation = visitedLocations[visitedLocations.length-1]
+    #if actualLocation not in @_visitedLocationsDrawn
       #@_line.addLatLng actualLocation
-      @_visitedLocationsDrawn.push actualLocation
+      #@_visitedLocationsDrawn.push actualLocation
 
     @_drawPolyline()
 
