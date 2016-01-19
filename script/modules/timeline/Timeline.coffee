@@ -7,6 +7,7 @@ window.HG ?= {}
 MIN_INTERVAL_INDEX = 0      # 0 = 1 Year | 1 = 2 Year | 2 = 5 Years | 3 = 10 Years | ...
 INTERVAL_SCALE = 0.05       # higher value makes greater intervals between datemarkers
 FADE_ANIMATION_TIME = 200   # fade in time for datemarkers and so
+ZOOM_FACTOR = 1.25          # factor by which zooming in and out scales the timeline (1.0 = no zoom, good value: 1.25)
 
 MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
 
@@ -78,9 +79,9 @@ class HG.Timeline
 
       if @_hgInstance.zoom_buttons_timeline
         @_hgInstance.zoom_buttons_timeline.onZoomIn @, () =>
-          @_zoom(1)
+          @_zoom 1
         @_hgInstance.zoom_buttons_timeline.onZoomOut @, () =>
-          @_zoom(-1)
+          @_zoom -1
 
       # show or hide topic
       @_hgInstance.categoryFilter?.onFilterChanged @, (categoryFilter) =>
@@ -145,10 +146,10 @@ class HG.Timeline
     #   ZOOM
     @_uiElements.tl.addEventListener "mousewheel", (e) =>
       e.preventDefault()
-      @_zoom(e.wheelDelta, e)
+      @_zoom e.wheelDelta, e
     @_uiElements.tl.addEventListener "DOMMouseScroll", (e) =>
       e.preventDefault()
-      @_zoom(-e.detail, e)
+      @_zoom -e.detail, e
 
     ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
 
@@ -391,11 +392,11 @@ class HG.Timeline
     zoomed = false
     if delta > 0
       if @millisToDays(@maxVisibleDate().getTime()) - @millisToDays(@minVisibleDate().getTime()) > @_config.maxZoom
-        @_config.startZoom *= 1.1
+        @_config.startZoom *= ZOOM_FACTOR
         zoomed = true
     else
       if @_config.startZoom > @_config.minZoom
-        @_config.startZoom /= 1.1
+        @_config.startZoom /= ZOOM_FACTOR
         zoomed = true
 
     if zoomed
