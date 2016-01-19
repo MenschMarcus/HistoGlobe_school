@@ -54,7 +54,7 @@ class HG.CrowdMarker2D
 
     # crowd not visible
     if @_crowd.getStartTime().getTime() > @_crowd.getDate().getTime() || @_crowd.getEndTime().getTime() < @_crowd.getDate().getTime()
-      if @_onMap
+      if @_onMap and not @_fadingOut
 
         fadeOut = (opacity) =>
           @_fadingOut = true
@@ -128,6 +128,7 @@ class HG.CrowdMarker2D
         @_startCircle.addTo @_map
         @_startCircle.bindPopup @_getStartInfo()
 
+        @_map.removeLayer @_circle if @_circle?
         @_circle = new L.circleMarker @_currentLocation, {
           color: 'grey',
           # radius: @_crowd.getRadius()

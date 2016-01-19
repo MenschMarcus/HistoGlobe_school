@@ -46,7 +46,7 @@ class HG.CrowdController
     @_nowDate = date
     for crowd in @_crowds
     	crowd.setDate @_nowDate
-    @_filterCrowds()
+    #@_filterCrowds()
 
   # ============================================================================
   periodChanged: (timeFilter) ->

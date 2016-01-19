@@ -165,6 +165,10 @@ class HG.Crowd
   # ============================================================================
   getInterpolatedTimeIndex: ->
     index = 0
+
+    if @_timesForInterpolatedLocations[0].getTime() > @_date.getTime()
+      return 0
+
     while index < @_timesForInterpolatedLocations.length-1
       if @_timesForInterpolatedLocations[index].getTime() <= @_date.getTime() and @_date.getTime() < @_timesForInterpolatedLocations[index+1].getTime()
         return index
