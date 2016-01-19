@@ -5,15 +5,12 @@
 		"info": "North Korea, Soviet Union and Chinese forces",
 		"startLocation": "North",
 		"locations": [
-			{ "lat": 38.00, "lng": 126.7 },
-			{ "lat": 39.00, "lng": 126.7 }
+			{ "lat": 39.71864, "lng": 126.7 }
 		],
 		"times": [
-			{ "year": 1950, "month": 6, "day": 25 },
-			{ "year": 1950, "month": 6, "day": 30 }
+			{ "year": 1950, "month": 6, "day": 25 }
 		],
 		"sizes": [
-			{ "size": 1600 },
 			{ "size": 1600 }
 		],
 		"endDate": {
@@ -28,21 +25,156 @@
 		"info": "South Korea, USA and United Nations forces",
 		"startLocation": "South",
 		"locations": [
-			{ "lat": 34.1621854, "lng": 129.0488333 },
-			{ "lat": 35.1621854, "lng": 129.0488333 }
+			{ "lat": 35.90511, "lng": 128.52081 },
+			{ "lat": 36.35187, "lng": 128.24478 },
+			{ "lat": 36.64691, "lng": 127.30246 },
+			{ "lat": 36.99211, "lng": 127.11295 }
 		],
 		"times": [
-			{ "year": 1950, "month": 6, "day": 25 },
-			{ "year": 1950, "month": 6, "day": 30 }
+			{ "year": 1950, "month": 9, "day": 15 },
+			{ "year": 1950, "month": 9, "day": 23 },
+			{ "year": 1950, "month": 9, "day": 25 },
+			{ "year": 1950, "month": 9, "day": 26 }
 		],
 		"sizes": [
+			{ "size": 970 },
+			{ "size": 970 },
 			{ "size": 970 },
 			{ "size": 970 }
 		],
 		"endDate": {
-			"year": 1953,
-			"month": 7,
-			"day": 27
+			"year": 1950,
+			"month": 9,
+			"day": 26
+		}
+	},
+	{
+		"nation": "South Korea",
+		"party": "B",
+		"info": "South Korea, USA and United Nations forces",
+		"startLocation": "South",
+		"locations": [
+			{ "lat": 36.01375, "lng": 128.71955 },
+			{ "lat": 36.32292, "lng": 128.54669 },
+			{ "lat": 36.56816, "lng": 128.17590 },
+			{ "lat": 37.75995, "lng": 128.19080 },
+			{ "lat": 38.13374, "lng": 127.76298 },
+			{ "lat": 39.12829, "lng": 127.38558 },
+			{ "lat": 39.42739, "lng": 126.40474 },
+			{ "lat": 39.42527, "lng": 125.92958 },
+			{ "lat": 40.17242, "lng": 126.27731 }
+		],
+		"times": [
+			{ "year": 1950, "month": 9, "day": 15 },
+			{ "year": 1950, "month": 9, "day": 23 },
+			{ "year": 1950, "month": 9, "day": 26 },
+			{ "year": 1950, "month": 10, "day": 1 },
+			{ "year": 1950, "month": 10, "day": 7 },
+			{ "year": 1950, "month": 10, "day": 14 },
+			{ "year": 1950, "month": 10, "day": 20 },
+			{ "year": 1950, "month": 10, "day": 21 },
+			{ "year": 1950, "month": 10, "day": 23 }
+		],
+		"sizes": [
+			{ "size": 970 },
+			{ "size": 970 },
+			{ "size": 970 },
+			{ "size": 970 },
+			{ "size": 970 },
+			{ "size": 970 },
+			{ "size": 970 },
+			{ "size": 970 },
+			{ "size": 970 }
+		],
+		"endDate": {
+			"year": 1950,
+			"month": 10,
+			"day": 23
+		}
+	},
+	{
+		"nation": "South Korea",
+		"party": "B",
+		"info": "South Korea, USA and United Nations forces",
+		"startLocation": "South",
+		"locations": [
+			{ "lat": 36.01902, "lng": 129.34348 },
+			{ "lat": 36.24972, "lng": 129.29953 },
+			{ "lat": 36.55225, "lng": 129.37980 },
+			{ "lat": 36.89567, "lng": 129.36607 },
+			{ "lat": 37.27800, "lng": 129.13948 },
+			{ "lat": 37.72251, "lng": 128.85246 },
+			{ "lat": 37.95677, "lng": 128.72750 },
+			{ "lat": 38.93553, "lng": 127.88003 },
+			{ "lat": 39.15385, "lng": 127.44600 },
+			{ "lat": 39.39938, "lng": 127.37857 }
+		],
+		"times": [
+			{ "year": 1950, "month": 9, "day": 15 },
+			{ "year": 1950, "month": 9, "day": 23 },
+			{ "year": 1950, "month": 9, "day": 26 },
+			{ "year": 1950, "month": 9, "day": 27 },
+			{ "year": 1950, "month": 9, "day": 29 },
+			{ "year": 1950, "month": 9, "day": 30 },
+			{ "year": 1950, "month": 10, "day": 1 },
+			{ "year": 1950, "month": 10, "day": 7 },
+			{ "year": 1950, "month": 10, "day": 11 },
+			{ "year": 1950, "month": 10, "day": 14 }
+		],
+		"sizes": [
+			{ "size": 970 },
+			{ "size": 970 },
+			{ "size": 970 },
+			{ "size": 970 },
+			{ "size": 970 },
+			{ "size": 970 },
+			{ "size": 970 },
+			{ "size": 970 },
+			{ "size": 970 },
+			{ "size": 970 }
+		],
+		"endDate": {
+			"year": 1950,
+			"month": 10,
+			"day": 23
+		}
+	},
+	{
+		"nation": "South Korea",
+		"party": "B",
+		"info": "South Korea, USA and United Nations forces",
+		"startLocation": "South",
+		"locations": [
+			{ "lat": 37.45626, "lng": 126.70521 },
+			{ "lat": 37.56654, "lng": 126.97797 },
+			{ "lat": 37.93511, "lng": 126.86806 },
+			{ "lat": 38.50692, "lng": 126.53297 },
+			{ "lat": 39.03922, "lng": 125.76252 },
+			{ "lat": 39.59388, "lng": 125.60308 }
+
+		],
+		"times": [
+			{ "year": 1950, "month": 9, "day": 15 },
+			{ "year": 1950, "month": 9, "day": 26 },
+			{ "year": 1950, "month": 10, "day": 7 },
+			{ "year": 1950, "month": 10, "day": 14 },
+			{ "year": 1950, "month": 10, "day": 20 },
+			{ "year": 1950, "month": 10, "day": 23 }
+
+		],
+		"sizes": [
+			{ "size": 970 },
+			{ "size": 970 },
+			{ "size": 970 },
+			{ "size": 970 },
+			{ "size": 970 },
+			{ "size": 970 }
+
+		],
+		"endDate": {
+			"year": 1950,
+			"month": 10,
+			"day": 23
 		}
 	}
 ]
