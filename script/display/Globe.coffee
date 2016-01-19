@@ -602,8 +602,6 @@ class HG.Globe extends HG.Display
                         (CAMERA_MAX_ZOOM - CAMERA_MIN_ZOOM) *
                         (CAMERA_MAX_FOV - CAMERA_MIN_FOV) + CAMERA_MIN_FOV
 
-
-
   # ============================================================================
   _zoomOut: ->
     #@_targetFOV = Math.max(CAMERA_MIN_FOV,--@_currentFOV)
@@ -615,8 +613,6 @@ class HG.Globe extends HG.Display
     #@_targetFOV = Math.min(CAMERA_MAX_FOV,++@_currentFOV)
     @_currentZoom = Math.min(CAMERA_MAX_ZOOM,++@_currentZoom)
     @_zoom()
-
-
 
 
   ############################ EVENT FUNCTIONS #################################
@@ -753,8 +749,8 @@ class HG.Globe extends HG.Display
   # ============================================================================
   _isTileVisible: (minNormalizedLatLong, maxNormalizedLatLong) ->
     if @_isFrontFacingTile(minNormalizedLatLong, maxNormalizedLatLong)
-      min = @_normalizedMercatusToNormalizedLatLong(minNormalizedLatLong)
-      max = @_normalizedMercatusToNormalizedLatLong(maxNormalizedLatLong)
+      min = @_normalizedMercatusToNormalizedLatLongOld(minNormalizedLatLong)
+      max = @_normalizedMercatusToNormalizedLatLongOld(maxNormalizedLatLong)
       a = @_latLongToPixel(@_unNormalizeLatLong(
         x: min.x
         y: min.y
@@ -919,6 +915,13 @@ class HG.Globe extends HG.Display
     new THREE.Vector2(mercatus.x, 2.0 * Math.atan(Math.exp(mercatus.y))-(0.5*Math.PI))
 
   # ============================================================================
+  _normalizedMercatusToNormalizedLatLongOld: (mercatus) ->
+    return new THREE.Vector2(mercatus.x, 0.0) if mercatus.y is 0.0
+    return new THREE.Vector2(mercatus.x, 1.0) if mercatus.y is 1.0
+
+    new THREE.Vector2(mercatus.x, 2.0 / Math.PI * Math.atan(Math.exp(2 * Math.PI * (mercatus.y - 0.5))))
+
+  # ============================================================================
   _normalizeLatLong: (latLong) ->
     new THREE.Vector2(latLong.x / 360.0 + 0.5, latLong.y / 180.0 + 0.5)
 
@@ -946,8 +949,8 @@ class HG.Globe extends HG.Display
 
   # camera parameters
   CAMERA_DISTANCE = 500
-  CAMERA_MAX_ZOOM = 6
-  CAMERA_MIN_ZOOM = 3
+  CAMERA_MAX_ZOOM = 7
+  CAMERA_MIN_ZOOM = 0
   CAMERA_MAX_FOV = 60
   CAMERA_MIN_FOV = 8
   CAMERA_MAX_LONG = 80
