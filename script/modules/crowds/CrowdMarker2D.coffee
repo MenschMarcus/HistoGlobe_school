@@ -41,6 +41,7 @@ class HG.CrowdMarker2D
     @_icon.on "mousedown", @_onMouseDown
     @_icon.on "dragend", @_onMouseUp
     #@_icon.on "click", @_onMouseUp
+    @_icon.on "mouseout", @_onMouseOut
     @_icon.options.draggable = true
 
   # ============================================================================
@@ -121,14 +122,16 @@ class HG.CrowdMarker2D
 
         @_startCircle = new L.circleMarker @_crowd.getLocations()[0], {
           color: 'grey',
-          radius: @_crowd.getRadius(0)
+          # radius: @_crowd.getRadius(0)
+          radius: @_crowd.getPercentageSize(0) * MAX_ICON_SIZE
         }
         @_startCircle.addTo @_map
         @_startCircle.bindPopup @_getStartInfo()
 
         @_circle = new L.circleMarker @_currentLocation, {
           color: 'grey',
-          radius: @_crowd.getRadius()
+          # radius: @_crowd.getRadius()
+          radius: @_crowd.getPercentageSize() * MAX_ICON_SIZE
         }
         @_circle.addTo @_map
         #@_circleDrawn = true
@@ -177,6 +180,11 @@ class HG.CrowdMarker2D
     @_icon.on "drag", @_onMouseMove
 
   # ============================================================================
+  _onMouseOut: (e) =>
+    @_removeGhostPolyline()
+    @_removeGhostCircles()
+
+  # ============================================================================
   _onMouseUp: (e) =>
 
     @_icon.off "drag", @_onMouseMove
@@ -201,6 +209,7 @@ class HG.CrowdMarker2D
         @_icon.on "dragend", @_onMouseUp
         @_removeGhostPolyline()
         @_removeGhostCircles()
+        @_icon.on "mouseout", @_onMouseOut
 
     if goal_time <= @_timeline.getNowDate()
       goToNextLocation(goal_time,-1)
@@ -208,8 +217,11 @@ class HG.CrowdMarker2D
       goToNextLocation(goal_time,+1)
 
 
+
   # ============================================================================
   _onMouseMove: (e) =>
+
+    @_icon.off "mouseout", @_onMouseOut
 
     location_ids = []
     locations = @_crowd.getLocations()
@@ -268,7 +280,8 @@ class HG.CrowdMarker2D
     for i in [0...@_crowd.getRealLocations().length]
       @_ghostCircles.push new L.circleMarker @_crowd.getRealLocations()[i], {
                             color: 'grey',
-                            radius: @_crowd.getRadius(i),
+                            # radius: @_crowd.getRadius(i),
+                            radius: @_crowd.getPercentageSize(i) * MAX_ICON_SIZE,
                             dashArray:"1, 5"
                           }
 
@@ -416,7 +429,8 @@ class HG.CrowdMarker2D
     @_flag.setLatLng location
     @_icon.setLatLng location
     @_circle.setLatLng location
-    @_crowd.getRadius() ? @_circle.setRadius @_crowd.getRadius()
+    # @_crowd.getRadius() ? @_circle.setRadius @_crowd.getRadius()
+    @_circle.setRadius @_crowd.getPercentageSize() * MAX_ICON_SIZE
     #visitedLocations = @_crowd.getVisitedLocations()
     #actualLocation = visitedLocations[visitedLocations.length-1]
     #if actualLocation not in @_visitedLocationsDrawn
@@ -431,4 +445,4 @@ class HG.CrowdMarker2D
 
   CROWDS_ON_MAP = []
   MIN_ICON_SIZE = 50
-  MAX_ICON_SIZE = 250   # arbitrary value !?!
+  MAX_ICON_SIZE = 300   # arbitrary value !?!

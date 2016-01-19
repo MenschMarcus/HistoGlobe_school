@@ -57,8 +57,10 @@ class HG.Crowd
     5
 
   # ============================================================================
-  getPercentageSize: ->
-    @_percentageSizes[@_getIndex()]
+  getPercentageSize: (index=-1) ->
+    if index is -1
+      index = @_getIndex()
+    @_percentageSizes[index]
 
   # ============================================================================
   setPercentageSize: (index, size) ->
