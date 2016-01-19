@@ -430,5 +430,5 @@ class HG.CrowdMarker2D
   ##############################################################################
 
   CROWDS_ON_MAP = []
-  MIN_ICON_SIZE = 20
-  MAX_ICON_SIZE = 120   # arbitrary value !?!
+  MIN_ICON_SIZE = 50
+  MAX_ICON_SIZE = 250   # arbitrary value !?!
